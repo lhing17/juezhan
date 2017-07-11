@@ -1,53 +1,71 @@
 /*
  * 七星落长空 XXXX 释放七次星落，对范围内随机敌人造成伤害（以及特效）
  * 主动武功
- * 伤害系数：w1=7.2, w2=8.9
+ * 伤害系数：w1=20, w2=20
  * 伤害搭配：
- *		+乾坤大挪移 A07W 伤害+80%
- *		+一阳指 A06P 几率中毒
- *		+九阴真经·摧心掌 A0D3 几率中毒
- *		+九阴真经·九阴白骨爪 A07N 几率使中毒的单位中毒加深
- *		+双手互搏 A07U 对中毒/深度中毒的单位+150%的伤害
- *		+九阴真经·内功 A07S 对深度中毒的单位+200%的伤害
+ *		+乾坤大挪移 A07W 伤害+60%
+ *		+葵花宝典 A07T 伤害+100%
+ *		+吸星大法 A07R 几率封穴或混乱
+ *		+斗转星移 A07Q 随机范围减半
+ *		+擒龙控鹤 A03V 随机范围减半
  */
  // 触发器条件
  function IsQiXingLuo takes nothing returns boolean
 	return GetSpellAbilityId()=='XXXX'
  endfunction
+ 
+ function QiXingLuo_Condition takes nothing returns boolean
+	return DamageFilter(GetTriggerUnit(), GetFilterUnit())
+ endfunction
+ 
  /*
   * 触发器动作
   *
   * 可替换参数：
-  * 范围
-  * 升重速度
-  * w1 w2
-  * 特效字符串
+  * 范围 800
+  * 升重速度 200
+  * w1=20 w2=20
+  * 特效字符串 Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
   * 
   * 可选搭配：
-  * 增加伤害
-  * 增加BUFF
-  * 减小随机的范围
+  * 增加伤害 乾坤大挪移+60% 葵花宝典+100% 
+  * 增加BUFF 吸星大法+封穴或混乱
+  * 减小随机的范围 斗转A07Q+范围减半 擒龙控鹤A03V+范围减半
   */
  function QiXingLuoChangKong takes nothing returns nothing
 	local group g = null
 	local location loc = null
 	local integer i = 0
+	local real shanghai = 0.
 	local unit u = GetTriggerUnit()
 	local unit ut = null
-	local real shxishu = 1
-	call WuGongShengChong(GetTriggerUnit(), 'XXXX', 200)
-	call GroupEnumUnitsInRangeOfLoc(g,loc,700,function QiXingLuo_Condition)
+	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07W', 0.6) + DamageCoefficientByAbility(GetTriggerUnit(),'A07T', 1) // 乾坤大挪移+60% 葵花宝典+100%
+	local real range = 800
+	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07Q')>=1) then // +斗转星移
+		set range = range / 2
+	endif
+	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A03V')>=1) then // +擒龙控鹤
+		set range = range / 2
+	endif
+	call WuGongShengChong(GetTriggerUnit(), 'XXXX', 200) //武功升重
+	call GroupEnumUnitsInRangeOfLoc(g, loc, range, function QiXingLuo_Condition)
 	loop
 		exitwhen i >= 7
 		set ut = GroupPickRandomUnit(g)
 		//添加特效
-		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",GetTriggerUnit(),"Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile.mdl"))
+		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",GetTriggerUnit(),"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
 		//u对ut造成伤害
-		set shanghai=ShangHaiGongShi(u,ut,80,90,shxishu,'XXXX')
+		set shanghai=ShangHaiGongShi(u,ut,20,20,shxishu,'XXXX')
 		call WuGongShangHai(u,ut,shanghai)
+		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +吸星大法
+			if (GetRandomInt(0, 100)<=50) then
+				call WanBuff(u, ut, 4) //混乱
+			else
+				call WanBuff(u, ut, 11) //封穴
+			endif
+		endif
 		set i = i + 1
 	endloop
-	//武功升重
 	
 	call RemoveLocation(loc)
 	set g = null
@@ -61,7 +79,7 @@
 /*
  * 泰山触发器总函数
  */
-function Taishan_Trigger takes nothing returns nothing
+function TaiShan_Trigger takes nothing returns nothing
 	/*
 	 * 七星落长空触发器
 	 */

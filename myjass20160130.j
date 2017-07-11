@@ -5,6 +5,7 @@
 #include "test/KeyInput.j"
 #include "TaoHuaDao.j"
 
+// 包含门派库
 #include "denomination/ShaoLin.j"
 #include "denomination/GaiBang.j"
 #include "denomination/XueDao.j"
@@ -16,7 +17,15 @@
 #include "denomination/JiangHuWuGong.j"
 #include "denomination/JueShiWuGong.j"
 #include "denomination/JiangHuNeiGong.j"
+#include "denomination/HengShan.j"
+#include "denomination/HengShan2.j"
+#include "denomination/LingJiuGong.j"
+#include "denomination/MuRongJia.j"
+#include "denomination/VIPMingJiao.j"
+#include "denomination/ShenLong.j"
+#include "denomination/QuanZhen.j"
 #include "denomination/TieZhang.j"
+#include "denomination/TaiShan.j"
 
 #include "monster_come/monster_come.j"
 #include "zhangmen_skill/zhangmen_skill.j"

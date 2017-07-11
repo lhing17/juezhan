@@ -2820,7 +2820,12 @@ function createTimerDialog takes timer t, string title returns timerdialog
 endfunction
 
 /*
- * 马甲在敌方单位所在处释放技能
+ * 马甲在目标单位所在处对单位释放技能
+ * @param owner 马甲所有者的英雄
+ * @param unitId 马甲单位id
+ * @param abilityId 马甲技能id
+ * @param orderId 马甲技能对应的命令ID
+ * @param target 马甲技能的施放目标
  */
 function maJiaUseAbilityAtEnemysLoc takes unit owner, integer unitId,  integer abilityId, integer orderId, unit target, real lifeTime returns nothing
 	local location loc = GetUnitLoc(target)

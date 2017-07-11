@@ -1,5 +1,5 @@
 /*
- * 七星落长空 XXXX 释放七次星落，对范围内随机敌人造成伤害（以及特效）
+ * 七星落长空 A08A 释放七次星落，对范围内随机敌人造成伤害（以及特效）
  * 主动武功
  * 伤害系数：w1=20, w2=20
  * 伤害搭配：
@@ -11,7 +11,7 @@
  */
  // 触发器条件
  function IsQiXingLuo takes nothing returns boolean
-	return GetSpellAbilityId()=='XXXX'
+	return GetSpellAbilityId()=='A08A'
  endfunction
  
  function QiXingLuo_Condition takes nothing returns boolean
@@ -33,11 +33,11 @@
   * 减小随机的范围 斗转A07Q+范围减半 擒龙控鹤A03V+范围减半
   */
  function QiXingLuoChangKong takes nothing returns nothing
-	local group g = null
-	local location loc = null
+	local group g = CreateGroup()
 	local integer i = 0
 	local real shanghai = 0.
 	local unit u = GetTriggerUnit()
+	local location loc = GetUnitLoc(u)
 	local unit ut = null
 	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07W', 0.6) + DamageCoefficientByAbility(GetTriggerUnit(),'A07T', 1) // 乾坤大挪移+60% 葵花宝典+100%
 	local real range = 800
@@ -47,15 +47,16 @@
 	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A03V')>=1) then // +擒龙控鹤
 		set range = range / 2
 	endif
-	call WuGongShengChong(GetTriggerUnit(), 'XXXX', 200) //武功升重
+	call WuGongShengChong(GetTriggerUnit(), 'A08A', 200) //武功升重
 	call GroupEnumUnitsInRangeOfLoc(g, loc, range, function QiXingLuo_Condition)
 	loop
 		exitwhen i >= 7
 		set ut = GroupPickRandomUnit(g)
 		//添加特效
-		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",GetTriggerUnit(),"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
+		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
+		call PolledWait(0.2)
 		//u对ut造成伤害
-		set shanghai=ShangHaiGongShi(u,ut,20,20,shxishu,'XXXX')
+		set shanghai=ShangHaiGongShi(u,ut,20,20,shxishu,'A08A')
 		call WuGongShangHai(u,ut,shanghai)
 		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +吸星大法
 			if (GetRandomInt(0, 100)<=50) then
@@ -66,7 +67,6 @@
 		endif
 		set i = i + 1
 	endloop
-	
 	call RemoveLocation(loc)
 	set g = null
 	set loc = null
@@ -74,8 +74,15 @@
 	set ut = null
  endfunction
 
+function IsDaiZongRuHe takes nothing returns boolean
+	return GetSpellAbilityId()=='XXXX'
+endfunction
 
-
+function DaiZongRuHe takes nothing returns nothing
+	// 马甲对英雄施放雷击
+	// 另一马甲对英雄施放增益技能，英雄获得BUFF
+	// 英雄暴击倍数增加，1秒触发1次的定时器，如果英雄失去BUFF，则失去暴击倍数
+endfunction
 /*
  * 泰山触发器总函数
  */
@@ -87,6 +94,12 @@ function TaiShan_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function IsQiXingLuo))
     call TriggerAddAction(t,function QiXingLuoChangKong)
-	
+	/*
+	 * 岱宗如何触发器
+	 */
+	set trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsDaiZongRuHe))
+	call TriggerAddAction(t, function DaiZongRuHe)
 	set t = null
 endfunction

@@ -130,8 +130,45 @@ function DaiZongRuHe takes nothing returns nothing
 endfunction
 
 
+/*
+ * 岱宗如何 YYYY 攻击有小概率在短时间内大幅增加攻速
+ * 被动武功
+ * 武功搭配：
+ *		+乾坤大挪移 A07W 伤害+60%
+ *		+葵花宝典 A07T 伤害+100%
+ *		+吸星大法 A07R 几率封穴或混乱
+ *		+斗转星移 A07Q 随机范围减半
+ *		+擒龙控鹤 A03V 随机范围减半
+ */
+// 触发器条件
+function IsShiBaPan takes nothing returns boolean
 
+endfunction
 
+// 触发器动作
+function ShiBaPan takes nothing returns nothing
+
+endfunction
+
+// 触发器条件
+function IsWuDaFu takes nothing returns boolean
+
+endfunction
+
+// 触发器动作
+function WuDaFuJian takes nothing returns nothing
+
+endfunction
+
+// 触发器条件
+function IsKuaiHuoSan takes nothing returns boolean
+
+endfunction
+
+// 触发器动作
+function KuaiHuoSanJian takes nothing returns nothing
+
+endfunction
 /*
  * 泰山触发器总函数
  */
@@ -150,6 +187,26 @@ function TaiShan_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t, Condition(function IsDaiZongRuHe))
 	call TriggerAddAction(t, function DaiZongRuHe)
-	
+	/*
+	 * 泰山十八盘触发器
+	 */
+	set t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t, Condition(function IsShiBaPan))
+	call TriggerAddAction(t, function ShiBaPan)
+	/*
+	 * 五大夫剑触发器
+	 */
+	set t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t, Condition(function IsWuDaFu))
+	call TriggerAddAction(t, function WuDaFuJian)
+	/*
+	 * 快活三剑触发器
+	 */
+	set t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t, Condition(function IsKuaiHuoSan))
+	call TriggerAddAction(t, function KuaiHuoSanJian)
 	set t = null
 endfunction

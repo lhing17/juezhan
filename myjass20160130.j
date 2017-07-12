@@ -2178,7 +2178,7 @@ function RenWuShuXing takes nothing returns nothing
 	call ClearTextMessagesBJ(ov(p))
 	call DisplayTextToPlayer(p,0,0,"|cFFFF0000人物属性：")
 	call DisplayTextToPlayer(p,0,0,"|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF暴击率 ：   "+(I2S(R2I((udg_baojilv[i]*100.)))+"%")))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF暴击率 ：   "+(I2S(IMinBJ(R2I((udg_baojilv[i]*100.)), 100))+"%")))
 	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF暴击伤害 ：   "+(I2S(R2I((udg_baojishanghai[i]*100.)))+"%")))
 	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF武功伤害加成 ：   "+(I2S(R2I((udg_shanghaijiacheng[i]*100.)))+"%")))
 	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF伤害吸收 ：   "+(I2S(IMinBJ(R2I((udg_shanghaixishou[i]*100.)),80))+"%")))

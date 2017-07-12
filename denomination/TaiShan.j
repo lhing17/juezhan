@@ -1,4 +1,13 @@
 /*
+ * @version：决战江湖1.53
+ * @author: zei_kale
+ * @date:2017.7.12
+ *
+ * 泰山门派武功：七星落长空、岱宗如何、泰山十八盘、五大夫剑、快活三剑
+ */
+
+
+/*
  * 七星落长空 A08A 释放七次星落，对范围内随机敌人造成伤害（以及特效）
  * 主动武功
  * 伤害系数：w1=20, w2=20
@@ -75,63 +84,73 @@
  endfunction
 
 /*
- * 岱宗如何 XXXX 施放后数秒内大幅提升暴击倍数
+ * 岱宗如何 A08B 施放后数秒内大幅提升暴击倍数（50*武功重数）
  * 主动武功
- * 伤害系数：w1=20, w2=20
  * 伤害搭配：
- *		+乾坤大挪移 A07W 伤害+60%
- *		+葵花宝典 A07T 伤害+100%
- *		+吸星大法 A07R 几率封穴或混乱
- *		+斗转星移 A07Q 随机范围减半
- *		+擒龙控鹤 A03V 随机范围减半
+ *		+葵花宝典 A07T 暴击伤害额外+20%
+ *		+双手互搏 A07U 暴击伤害额外+20%
+ *		+小无相功 A083 对所有友方英雄施放岱宗如何
  */
  // 触发器条件
 function IsDaiZongRuHe takes nothing returns boolean
-	return GetSpellAbilityId()=='XXXX'
+	return GetSpellAbilityId()=='A08B'
 endfunction
 
+// 移除岱宗如何的BUFF
 function removeDaiZongBuff takes nothing returns nothing
 	local timer t = GetExpiredTimer()
 	local unit u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
-	if (not(UnitHasBuffBJ(u, 'BUFF'))) then
-		//减少暴击倍数
-		
-		//停止计时器
-		call clearTimer(t)
-	endif
+	local real extraHit = LoadReal(YDHT, GetHandleId(t), 1)
+	local integer i = LoadInteger(YDHT, GetHandleId(t), 2)
+	// call BJDebugMsg("t:"+I2S(GetHandleId(t))+", i:"+I2S(i))
+	//减少暴击倍数
+	set udg_baojishanghai[i] = udg_baojishanghai[i] - extraHit
+	//停止计时器
+	call clearTimer(t)
 	set t = null
+endfunction
+
+function issueTargerDaiZong takes unit u, integer i, timer t, real extraHit returns nothing
+	// 马甲对英雄施放雷击
+	call maJiaUseAbilityAtEnemysLoc(u, 'e01F',  'A08C', $D0097, u, 3)
+	// 另一马甲对英雄施放增益技能，英雄获得BUFF
+	call maJiaUseAbilityAtEnemysLoc(u, 'e000',  'A08D', $D0062, u, 3)
+	// 英雄暴击倍数增加
+	set udg_baojishanghai[i] = udg_baojishanghai[i] + extraHit
+	// 1秒触发1次的定时器，如果英雄失去BUFF，则失去暴击倍数
+	call SaveUnitHandle(YDHT, GetHandleId(t), 0, u)
+	call SaveReal(YDHT, GetHandleId(t), 1, extraHit)
+	call SaveInteger(YDHT, GetHandleId(t), 2, i)
+	call TimerStart(t, 10, false, function removeDaiZongBuff)
 endfunction
  /*
   * 触发器动作
   *
   * 可替换参数：
-  * 范围 800
-  * 升重速度 200
-  * w1=20 w2=20
-  * 特效字符串 Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
+  * 升重速度 100
   * 
   * 可选搭配：
-  * 增加伤害 乾坤大挪移+60% 葵花宝典+100% 
-  * 增加BUFF 吸星大法+封穴或混乱
-  * 减小随机的范围 斗转A07Q+范围减半 擒龙控鹤A03V+范围减半
+  * 增加伤害 葵花宝典 A07T 双手互搏 A07U 每级暴击伤害额外+20% 
+  * 群体BUFF 小无相功 A083 对所有友方英雄施放岱宗如何
   */
 function DaiZongRuHe takes nothing returns nothing
-	local timer t = CreateTimer()
-	// 马甲对英雄施放雷击
-	call maJiaUseAbilityAtEnemysLoc(GetTriggerUnit(), 'SOCK',  'THUN', $AAAAAA, GetTriggerUnit(), 3)
-	// 另一马甲对英雄施放增益技能，英雄获得BUFF
-	call maJiaUseAbilityAtEnemysLoc(GetTriggerUnit(), 'SOCK',  'WILD', $BBBBBB, GetTriggerUnit(), 3)
-	// 英雄暴击倍数增加
-	
-	// 1秒触发1次的定时器，如果英雄失去BUFF，则失去暴击倍数
-	call SaveUnitHandle(YDHT, GetHandleId(t), 0, GetTriggerUnit())
-	call TimerStart(t, 1, true, function removeDaiZongBuff)
-	set t = null
+	local integer i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
+	local real extraHit = (0.5 + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07T') + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07U')) * GetUnitAbilityLevel(GetTriggerUnit(), 'A08B')
+	call WuGongShengChong(GetTriggerUnit(), 'A08B', 100) //武功升重
+	if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then // 小无相功
+		call issueTargerDaiZong(udg_hero[1], 1, CreateTimer(), extraHit)
+		call issueTargerDaiZong(udg_hero[2], 2, CreateTimer(), extraHit)
+		call issueTargerDaiZong(udg_hero[3], 3, CreateTimer(), extraHit)
+		call issueTargerDaiZong(udg_hero[4], 4, CreateTimer(), extraHit)
+		call issueTargerDaiZong(udg_hero[5], 5, CreateTimer(), extraHit)
+	else
+		call issueTargerDaiZong(GetTriggerUnit(), i, CreateTimer(), extraHit)
+	endif
 endfunction
 
 
 /*
- * 岱宗如何 YYYY 攻击有小概率在短时间内大幅增加攻速
+ * 泰山十八盘 YYYY 攻击有小概率在短时间内大幅增加攻速
  * 被动武功
  * 武功搭配：
  *		+乾坤大挪移 A07W 伤害+60%
@@ -142,7 +161,7 @@ endfunction
  */
 // 触发器条件
 function IsShiBaPan takes nothing returns boolean
-
+	return true
 endfunction
 
 // 触发器动作
@@ -152,17 +171,17 @@ endfunction
 
 // 触发器条件
 function IsWuDaFu takes nothing returns boolean
-
+	return true
 endfunction
 
 // 触发器动作
 function WuDaFuJian takes nothing returns nothing
-
+	
 endfunction
 
 // 触发器条件
 function IsKuaiHuoSan takes nothing returns boolean
-
+	return true
 endfunction
 
 // 触发器动作

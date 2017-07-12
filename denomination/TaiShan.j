@@ -74,15 +74,64 @@
 	set ut = null
  endfunction
 
+/*
+ * 岱宗如何 XXXX 施放后数秒内大幅提升暴击倍数
+ * 主动武功
+ * 伤害系数：w1=20, w2=20
+ * 伤害搭配：
+ *		+乾坤大挪移 A07W 伤害+60%
+ *		+葵花宝典 A07T 伤害+100%
+ *		+吸星大法 A07R 几率封穴或混乱
+ *		+斗转星移 A07Q 随机范围减半
+ *		+擒龙控鹤 A03V 随机范围减半
+ */
+ // 触发器条件
 function IsDaiZongRuHe takes nothing returns boolean
 	return GetSpellAbilityId()=='XXXX'
 endfunction
 
-function DaiZongRuHe takes nothing returns nothing
-	// 马甲对英雄施放雷击
-	// 另一马甲对英雄施放增益技能，英雄获得BUFF
-	// 英雄暴击倍数增加，1秒触发1次的定时器，如果英雄失去BUFF，则失去暴击倍数
+function removeDaiZongBuff takes nothing returns nothing
+	local timer t = GetExpiredTimer()
+	local unit u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
+	if (not(UnitHasBuffBJ(u, 'BUFF'))) then
+		//减少暴击倍数
+		
+		//停止计时器
+		call clearTimer(t)
+	endif
+	set t = null
 endfunction
+ /*
+  * 触发器动作
+  *
+  * 可替换参数：
+  * 范围 800
+  * 升重速度 200
+  * w1=20 w2=20
+  * 特效字符串 Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
+  * 
+  * 可选搭配：
+  * 增加伤害 乾坤大挪移+60% 葵花宝典+100% 
+  * 增加BUFF 吸星大法+封穴或混乱
+  * 减小随机的范围 斗转A07Q+范围减半 擒龙控鹤A03V+范围减半
+  */
+function DaiZongRuHe takes nothing returns nothing
+	local timer t = CreateTimer()
+	// 马甲对英雄施放雷击
+	call maJiaUseAbilityAtEnemysLoc(GetTriggerUnit(), 'SOCK',  'THUN', $AAAAAA, GetTriggerUnit(), 3)
+	// 另一马甲对英雄施放增益技能，英雄获得BUFF
+	call maJiaUseAbilityAtEnemysLoc(GetTriggerUnit(), 'SOCK',  'WILD', $BBBBBB, GetTriggerUnit(), 3)
+	// 英雄暴击倍数增加
+	
+	// 1秒触发1次的定时器，如果英雄失去BUFF，则失去暴击倍数
+	call SaveUnitHandle(YDHT, GetHandleId(t), 0, GetTriggerUnit())
+	call TimerStart(t, 1, true, function removeDaiZongBuff)
+	set t = null
+endfunction
+
+
+
+
 /*
  * 泰山触发器总函数
  */
@@ -97,9 +146,10 @@ function TaiShan_Trigger takes nothing returns nothing
 	/*
 	 * 岱宗如何触发器
 	 */
-	set trigger t = CreateTrigger()
+	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t, Condition(function IsDaiZongRuHe))
 	call TriggerAddAction(t, function DaiZongRuHe)
+	
 	set t = null
 endfunction

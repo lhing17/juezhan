@@ -2839,6 +2839,26 @@ function maJiaUseAbilityAtEnemysLoc takes unit owner, integer unitId,  integer a
 endfunction
 
 /*
+ * 马甲在目标单位所在处对单位释放技能
+ * @param owner 马甲所有者的英雄
+ * @param unitId 马甲单位id
+ * @param abilityId 马甲技能id
+ * @param orderId 马甲技能对应的命令ID
+ * @param target 马甲技能的施放目标
+ */
+function maJiaUseLeveldAbilityAtTargetLoc takes unit owner, integer unitId,  integer abilityId, integer ablilityLevel, integer orderId, unit target, real lifeTime returns nothing
+	local location loc = GetUnitLoc(target)
+	call CreateNUnitsAtLoc(1, unitId, GetOwningPlayer(owner),loc,bj_UNIT_FACING)
+    call ShowUnitHide(bj_lastCreatedUnit)
+	call UnitAddAbility(bj_lastCreatedUnit, abilityId)
+	call SetUnitAbilityLevel(bj_lastCreatedUnit, abilityId, ablilityLevel)
+	call IssueTargetOrderById(bj_lastCreatedUnit,orderId, target)
+	call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',lifeTime)
+	call RemoveLocation(loc)
+	set loc = null
+endfunction
+
+/*
  * 被动技能判断条件
  */
 function PassiveWuGongCondition takes unit attacker, unit attacked, integer abilityId returns boolean

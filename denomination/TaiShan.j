@@ -110,7 +110,8 @@ function removeDaiZongBuff takes nothing returns nothing
 	set t = null
 endfunction
 
-function issueTargerDaiZong takes unit u, integer i, timer t, real extraHit returns nothing
+// 向目标施放岱宗如何
+function issueTargetDaiZong takes unit u, integer i, timer t, real extraHit returns nothing
 	// 马甲对英雄施放雷击
 	call maJiaUseAbilityAtEnemysLoc(u, 'e01F',  'A08C', $D0097, u, 3)
 	// 另一马甲对英雄施放增益技能，英雄获得BUFF
@@ -138,35 +139,53 @@ function DaiZongRuHe takes nothing returns nothing
 	local real extraHit = (0.5 + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07T') + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07U')) * GetUnitAbilityLevel(GetTriggerUnit(), 'A08B')
 	call WuGongShengChong(GetTriggerUnit(), 'A08B', 100) //武功升重
 	if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then // 小无相功
-		call issueTargerDaiZong(udg_hero[1], 1, CreateTimer(), extraHit)
-		call issueTargerDaiZong(udg_hero[2], 2, CreateTimer(), extraHit)
-		call issueTargerDaiZong(udg_hero[3], 3, CreateTimer(), extraHit)
-		call issueTargerDaiZong(udg_hero[4], 4, CreateTimer(), extraHit)
-		call issueTargerDaiZong(udg_hero[5], 5, CreateTimer(), extraHit)
+		call issueTargetDaiZong(udg_hero[1], 1, CreateTimer(), extraHit)
+		call issueTargetDaiZong(udg_hero[2], 2, CreateTimer(), extraHit)
+		call issueTargetDaiZong(udg_hero[3], 3, CreateTimer(), extraHit)
+		call issueTargetDaiZong(udg_hero[4], 4, CreateTimer(), extraHit)
+		call issueTargetDaiZong(udg_hero[5], 5, CreateTimer(), extraHit)
 	else
-		call issueTargerDaiZong(GetTriggerUnit(), i, CreateTimer(), extraHit)
+		call issueTargetDaiZong(GetTriggerUnit(), i, CreateTimer(), extraHit)
 	endif
 endfunction
 
 
 /*
- * 泰山十八盘 YYYY 攻击有小概率在短时间内大幅增加攻速
+ * 泰山十八盘 A08E 攻击有小概率在短时间内大幅增加攻速
  * 被动武功
  * 武功搭配：
- *		+乾坤大挪移 A07W 伤害+60%
- *		+葵花宝典 A07T 伤害+100%
- *		+吸星大法 A07R 几率封穴或混乱
- *		+斗转星移 A07Q 随机范围减半
- *		+擒龙控鹤 A03V 随机范围减半
+ *		武功等级：触发概率
+ *		+葵花宝典 A07T 狂暴持续时间+1s
+ *		+吸星大法 A07R 狂暴持续时间+1s
+ *		+乾坤大挪移 A07W 狂暴持续时间+1s
+ *		+上面三种武功 攻速增幅翻倍
+ *		+小无相功 A083 所有友方英雄触发泰山十八盘
  */
 // 触发器条件
 function IsShiBaPan takes nothing returns boolean
-	return true
+	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08E')
 endfunction
 
 // 触发器动作
 function ShiBaPan takes nothing returns nothing
-
+	local unit u = GetAttacker()
+	local unit ut = GetTriggerUnit()
+	local integer i = 1 + GetPlayerId(GetOwningPlayer(u))
+	local integer abilityLevel = IMinBJ(1 + GetUnitAbilityLevel(u, 'A07T') + GetUnitAbilityLevel(u, 'A07R') + GetUnitAbilityLevel(u, 'A07W'), 4)
+	if (GetRandomInt(1, 100) <= 5 + GetUnitAbilityLevel(u, 'A08F') + fuyuan[i] / 5 and not(UnitHasBuffBJ(u, 'B01L'))) then
+		call WuGongShengChong(u, 'A08E', 700)
+		if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then
+			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[1], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[1], 3)
+			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[2], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[2], 3)
+			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[3], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[3], 3)
+			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[4], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[4], 3)
+			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[5], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[5], 3)
+		else
+			call maJiaUseLeveldAbilityAtTargetLoc(u, 'e000',  'A08F', abilityLevel, $D0085, u, 3)
+		endif
+	endif
+	set u = null
+	set ut = null
 endfunction
 
 // 触发器条件

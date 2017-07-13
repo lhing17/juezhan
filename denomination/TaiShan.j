@@ -151,7 +151,7 @@ endfunction
 
 
 /*
- * 泰山十八盘 A08E 攻击有小概率在短时间内大幅增加攻速
+ * 泰山十八盘 A08E 攻击有小概率在短时间内大幅增加攻速 测试通过
  * 被动武功
  * 武功搭配：
  *		武功等级：触发概率
@@ -188,14 +188,69 @@ function ShiBaPan takes nothing returns nothing
 	set ut = null
 endfunction
 
+/*
+ * 五大夫剑 A08G
+ * 被动武功
+ * 伤害系数：w1=20, w2=20
+ * 伤害搭配：
+ *		+化功大法 A07P 伤害+100%
+ *		+葵花宝典 A07T 伤害+100%
+ *		+倚天剑 I00B 伤害+300%
+ *		+双手互搏 A07U 五大夫剑分别几率造成混乱、昏迷、流血、中毒、破防
+ */
 // 触发器条件
 function IsWuDaFu takes nothing returns boolean
-	return true
+	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08G')
+endfunction
+
+function WuDaFuJianDamageFilter takes nothing returns boolean
+	return DamageFilter(GetAttacker(), GetFilterUnit())
+endfunction
+
+function WuDaFuJian_Action takes nothing returns nothing
+	local unit u = GetAttacker()
+	local unit ut = GetEnumUnit()
+	local string modelName1 = "Abilities\\Spells\\Other\\Tornado\\TornadoElementalSmall.mdl" //风
+	local string modelName2 = "Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl" //火
+	local string modelName3 = "Abilities\\Spells\\Other\\Monsoon\\MonsoonBoltTarget.mdl" //雷
+	local string modelName4 = "Abilities\\Spells\\NightElf\\EntanglingRoots\\EntanglingRootsTarget.mdl" //木
+	local string modelName5 = "Abilities\\Spells\\Human\\Blizzard\\BlizzardTarget.mdl" //冰
+	local real shxishu = 1 + DamageCoefficientByAbility(u, 'A07P', 1.0) + DamageCoefficientByAbility(u, 'A07T', 1.0) + DamageCoefficientByItem(u, 'I00B', 3.0)
+	local integer i = GetRandomInt(0, 100)
+	if (i <= 20) then
+		call PassiveWuGongEffectAndDamage(u, ut, modelName1, 10, 50, shxishu, 'A08G')
+		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
+			call WanBuff(u, ut, 4)
+		endif
+	elseif (i<= 40) then
+		call PassiveWuGongEffectAndDamage(u, ut, modelName2, 20, 40, shxishu, 'A08G')
+		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
+			call WanBuff(u, ut, 5)
+		endif
+	elseif (i<= 60) then
+		call PassiveWuGongEffectAndDamage(u, ut, modelName3, 30, 30, shxishu, 'A08G')
+		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
+			call WanBuff(u, ut, 3)
+		endif
+	elseif (i<= 80) then
+		call PassiveWuGongEffectAndDamage(u, ut, modelName4, 40, 20, shxishu, 'A08G')
+		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
+			call WanBuff(u, ut, 13)
+		endif
+	else
+		call PassiveWuGongEffectAndDamage(u, ut, modelName5, 50, 10, shxishu, 'A08G')
+		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
+			call WanBuff(u, ut, 9)
+		endif
+	endif
+		
+	set u = null
+	set ut = null
 endfunction
 
 // 触发器动作
 function WuDaFuJian takes nothing returns nothing
-	
+	call PassiveWuGongAction(GetAttacker(), GetTriggerUnit(), 15, 700, Condition(function WuDaFuJianDamageFilter), function WuDaFuJian_Action, 'A08G', 500)
 endfunction
 
 // 触发器条件

@@ -2861,8 +2861,8 @@ endfunction
 /*
  * 被动技能判断条件
  */
-function PassiveWuGongCondition takes unit attacker, unit attacked, integer abilityId returns boolean
-	return GetUnitAbilityLevel(attacker, abilityId)>=1 and IsUnitEnemy(attacked, GetOwningPlayer(attacker))
+function PassiveWuGongCondition takes unit playerControllingUnit, unit enemy, integer abilityId returns boolean
+	return GetUnitAbilityLevel(playerControllingUnit, abilityId)>=1 and IsUnitEnemy(enemy, GetOwningPlayer(playerControllingUnit))
 endfunction
 
 /*
@@ -2870,12 +2870,12 @@ endfunction
  * @param filter 筛选伤害周围单位的条件，通常为活着、敌人
  * @param callback 对筛选出的单位进行伤害的函数，包括物效
  */
-function PassiveWuGongAction takes unit attacker, unit attacked, real possibility, real range, boolexpr filter, code callback, integer abilityId, real upgradeSpeed returns nothing
-	local location loc = GetUnitLoc(attacker)
-	local integer i = 1 + GetPlayerId(GetOwningPlayer(attacker))
+function PassiveWuGongAction takes unit playerControllingUnit, unit enemy, real possibility, real range, boolexpr filter, code callback, integer abilityId, real upgradeSpeed returns nothing
+	local location loc = GetUnitLoc(playerControllingUnit)
+	local integer i = 1 + GetPlayerId(GetOwningPlayer(playerControllingUnit))
 	if (GetRandomInt(1, 100)<=fuyuan[i]/5+possibility) then
 		call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(range,loc,filter),callback)
-		call WuGongShengChong(attacker, abilityId, upgradeSpeed)
+		call WuGongShengChong(playerControllingUnit, abilityId, upgradeSpeed)
 	endif
 	call RemoveLocation(loc)
 	set loc = null

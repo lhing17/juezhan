@@ -8,7 +8,7 @@
 
 
 /*
- * 七星落长空 A08A 释放七次星落，对范围内随机敌人造成伤害（以及特效）
+ * 七星落长空 A08A 释放七次星落，对范围内随机敌人造成伤害（以及特效）伤害递增20%
  * 主动武功
  * 伤害系数：w1=20, w2=20
  * 伤害搭配：
@@ -65,7 +65,7 @@
 		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
 		call PolledWait(0.2)
 		//u对ut造成伤害
-		set shanghai=ShangHaiGongShi(u,ut,20,20,shxishu,'A08A')
+		set shanghai=ShangHaiGongShi(u,ut,20*(0.8+i*0.2),20*(0.8+i*0.2),shxishu,'A08A')
 		call WuGongShangHai(u,ut,shanghai)
 		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +吸星大法
 			if (GetRandomInt(0, 100)<=50) then

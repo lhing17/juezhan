@@ -1,5 +1,6 @@
 
 #include "library/common_func.j"
+#include "library/UniMissileSystem.j"
 
 #include "test/najitest.j"
 #include "test/KeyInput.j"

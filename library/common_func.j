@@ -2090,11 +2090,21 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	else
 		set attack = 750*(w1+w2)*(1.+GetUnitAbilityLevel(u,id))*shxishu
 	endif
-	set target_def = 1/(1+0.1*GetUnitLevel(uc))
+	
+	
+	if uc == null then
+		set target_def = 0.5
+	else
+		set target_def = 1/(1+0.1*GetUnitLevel(uc))
+	endif
 	//set critical = udg_baojishanghai[1+GetPlayerId(GetOwningPlayer(u))]
-	set dodge = RMinBJ(I2R(GetUnitLevel(uc)) / 4, 95.)
-	if UnitHasBuffBJ(uc, 'Bslo') then
-		set dodge = 0.
+	if uc == null then
+		set dodge = 25
+	else
+		set dodge = RMinBJ(I2R(GetUnitLevel(uc)) / 4, 95.)
+		if UnitHasBuffBJ(uc, 'Bslo') then
+			set dodge = 0.
+		endif
 	endif
 	set random = GetRandomReal(0.95, 0.95+I2R(udg_xinggeB[i])/20)
 	set basic_damage = attack * target_def * random

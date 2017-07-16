@@ -255,12 +255,45 @@ endfunction
 
 // 触发器条件
 function IsKuaiHuoSan takes nothing returns boolean
-	return true
+	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08H')
 endfunction
 
 // 触发器动作
 function KuaiHuoSanJian takes nothing returns nothing
-
+	local unit caster = GetAttacker() //发射者
+	local real angle = 270 //角度
+	local unit missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //弹幕单位
+	local real originspeed = 900 //初始速度
+	local real maxspeed = 900 //最大速度
+	local real accel = 56 //加速度
+	local real distance = 2000 //距离
+	local real arc = 0.1 //弧度
+	local real range = 300 //伤害范围
+	local real damage = 100 //伤害
+	local location loc = GetUnitLoc(caster) //目标点
+	local unit target = null //目标单位
+	local real height = 100 //初始高度
+	local real hp = 400 //弹幕耐久度
+	local string Effect = "war3mapImported\\dk.mdl" //弹幕特效
+	local boolean gravity = false //是否考虑重力
+	local integer i = 1 + GetPlayerId(GetOwningPlayer(caster))
+	local integer j = 0
+	local real shxishu = 1 // 伤害系数
+	set damage = ShangHaiGongShi(caster,ut,0.8,0.8,shxishu,'A08H')
+	if (GetRandomInt(0, 100) <= 15 + fuyuan[i]) then
+		call WuGongShengChong(caster, 'A08H', 700)
+		loop
+			exitwhen j >= 3
+			set angle = GetRandomReal(0, 360)
+			call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
+			set j = j + 1
+		endloop
+	elseif
+	call RemoveLocation(loc)
+	set caster = null
+	set missile = null
+	set target = null
+	set loc = null
 endfunction
 /*
  * 泰山触发器总函数

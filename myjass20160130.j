@@ -1421,7 +1421,7 @@ function Zw takes nothing returns nothing
 	call AddSpecialEffectTargetUnitBJ("overhead",Bt,"Objects\\RandomObject\\RandomObject.mdl")
 	call AddSpecialEffectTargetUnitBJ("overhead",gg_unit_N007_0055,"Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 	call CreateTextTagUnitBJ("点我加门派后可离开此地",Rs,.0,15.,100.,100.,.0,50.)
-	call CreateTextTagLocBJ("决战江湖1.52名人榜",GetRectCenter(uh),100.,$A,100,100,.0,50.)
+	call CreateTextTagLocBJ("决战江湖1.53名人榜",GetRectCenter(uh),100.,$A,100,100,.0,50.)
 	set v7[1]=GetRectCenter(Ie)
 	set v7[2]=GetRectCenter(le)
 	set v7[3]=GetRectCenter(Je)
@@ -1464,7 +1464,7 @@ function Zw takes nothing returns nothing
 	call CreateTimerDialogBJ(bj_lastStartedTimer,"邪教进攻倒计时：")
 	call TimerDialogDisplay(bj_lastCreatedTimerDialog,true)
 	set z7[3]=bj_lastCreatedTimerDialog
-	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30,"|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖1.52|r")
+	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30,"|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖1.53|r")
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30,"|cfffff000游戏初期您可以完成难度为一星到二星的任务来提升角色的能力，游戏前期金钱较匮乏，可以在守家积分商店使用积分兑换金钱，关于游戏的各个系统，请查看F9任务面板，欢迎前往游戏专区论坛jzjhbbs.uuu9.com查看游戏攻略以及提出您的宝贵意见|R")
 	call YDWEPolledWaitNull(40.)
 	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30,"|cfffff000由于制作和测试时间紧张，如遇游戏里有BUG或不舒适的体验给你带来不愉快，尽情谅解，欢迎前往游戏专区论坛jzjhbbs.uuu9.com提出您的宝贵意见。游戏中的特殊玩法，请到NPC随风而逝de风处查看，在基地右侧|R")
@@ -2473,7 +2473,7 @@ function PlayerReviveE takes nothing returns nothing
 endfunction
 //F9显示
 function Qx takes nothing returns nothing
-	call CreateQuestBJ(0,"|cFFFF00001.52版本更新内容","|cff00ff00新增元素|n|r|cffffff00开放新门派|r：神龙教（男女角色基础武功不同）|n|cffffff00增加团队副本|r：挑战青龙圣兽|cff00ff00|n平衡性调整|n|r|cffffff00副职调整|r：丫鬟升级到郡主后携带武器和衣服数量不限。鉴定大师升级调整为10分，练气师由每级内力+10改为随机加成，大师条件由100改为80级。寻宝师双倍掉落概率改为30%。|n|cffffff00专属调整|r：各门派专属伤害加成全面下调。|n|cffffff00伤害公式调整|r：武功伤害需考虑护甲。|n|cffffff00属性丹调整|r：基础丹由+2变为+1，易筋洗髓丹由+2~4变为+1~3，脱胎换骨丹由+5各-1变为+6各-1。|n|cffffff00门派调整|r：个别门派伤害和升重速度平衡|n|cffffff00其他细节调整|r|cff00ff00|nBUG修复|n|r|cffffff00自由门派：|r出门可以随机到绝武和绝内了。","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFFFF00001.53版本更新内容","|cff00ff00新增元素|n|r|cffffff00开放新门派|r：神龙教（男女角色基础武功不同）|n|cffffff00增加团队副本|r：挑战青龙圣兽|cff00ff00|n平衡性调整|n|r|cffffff00副职调整|r：丫鬟升级到郡主后携带武器和衣服数量不限。鉴定大师升级调整为10分，练气师由每级内力+10改为随机加成，大师条件由100改为80级。寻宝师双倍掉落概率改为30%。|n|cffffff00专属调整|r：各门派专属伤害加成全面下调。|n|cffffff00伤害公式调整|r：武功伤害需考虑护甲。|n|cffffff00属性丹调整|r：基础丹由+2变为+1，易筋洗髓丹由+2~4变为+1~3，脱胎换骨丹由+5各-1变为+6各-1。|n|cffffff00门派调整|r：个别门派伤害和升重速度平衡|n|cffffff00其他细节调整|r|cff00ff00|nBUG修复|n|r|cffffff00自由门派：|r出门可以随机到绝武和绝内了。","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	call CreateQuestBJ(0,"|cFFFF0000人物属性","招式伤害：影响人物的所有武功的威力，中后期影响较大\n内力：加成武功伤害百分比，中后期影响较大\n真实伤害：造成不受内力影响的实际伤害，前期影响较大\n绝学领悟力：影响绝学的发挥效果和威力\n根骨：影响任务和武功学习条件，同时提高技能暴击力\n悟性：影响任务和武功学习条件，同时决定技能升级的概率\n经脉：影响任务和武功学习条件，同时提高法力回复速度\n福缘：影响任务和武功学习条件，同时提高被动武学触发概率\n胆魄：影响任务和武功学习条件，同时提高杀怪回复能力\n医术：影响任务和武功学习条件，同时提高自然生命回复速度","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	call CreateQuestBJ(0,"|cFFFF6600人物武功","门派武功：加入门派后每个英雄都会有3个武功，分别在3、8、15级时自动领悟\n门派心法：每个门派都有两种心法，可以在完成历练2后二选其一修习\n江湖武功：分为武功和心法两大类，需要通过使用武功秘籍获得\n绝学和绝内：后期厉害的大招，也需要通过使用武功秘籍获得\n绝阵：开放部分门派绝阵，请到聚贤庄寻找","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	call CreateQuestBJ(0,"|cFF00FF00游戏指令","按键Esc：|cFFCCFF33查看人物属性|r\n输入“sj”：|cFFCCFF33恢复视角|r\n输入“bl”：|cFFCCFF33查看伴侣属性|r\n输入“jy”：|cFFCCFF33将剑意转化为性格属性|r\n输入“up”：|cFFCCFF33非特殊事件模式下提高难度（只能提不能降）|r\n输入“fb”：|cFFCCFF33查询副本重置时间|r\n输入“yx”：|cFFCCFF33查询宝宝携带草药的总药性|r\n游戏开始2分钟内输入“sw”：|cFFCCFF33试玩模式|r\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
@@ -2709,7 +2709,7 @@ function Victory takes nothing returns nothing
     	call YDWE_PreloadSL_Save( Player(i-1), "JueZhan", "JiangHu"+I2S(i), 1 )
 		set i = i + 1
 	endloop
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.52的游戏总评分："+(I2S(ae)+"分（通关）")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.53的游戏总评分："+(I2S(ae)+"分（通关）")))
 	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2恭喜你们通关，游戏将在2分钟后结束\n游戏专区论坛：jzjhbbs.uuu9.com\n游戏交流QQ群：159030768 369925013\n关注武侠，让决战江湖走得更远，期待你的参与，详情请在专区论坛查询")
 	set de=true
 	call SaveReal(YDHT,id*cx,-$5E9EB4B3,40.)
@@ -2724,7 +2724,7 @@ function Victory takes nothing returns nothing
 	call TimerStart(ky,.04,true,function IsVictory)
 	call YDWEPolledWaitNull(60.)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.52的游戏总评分："+(I2S(ae)+"分（通关）")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.53的游戏总评分："+(I2S(ae)+"分（通关）")))
 	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2恭喜你们通关，游戏将在1分钟后结束\n游戏专区论坛：jzjhbbs.uuu9.com\n游戏交流QQ群：159030768 369925013\n关注武侠，让决战江湖走得更远，期待你的参与，详情请在专区论坛查询")
 	call YDWEPolledWaitNull(60.)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
@@ -2739,7 +2739,7 @@ endfunction
 //失败动作
 function Lose takes nothing returns nothing
 	local integer i=0
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.52的游戏总评分："+(I2S(ae)+"分（战败）")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2决战江湖1.53的游戏总评分："+(I2S(ae)+"分（战败）")))
 	set i = 1
 	loop
 		exitwhen i >= 6

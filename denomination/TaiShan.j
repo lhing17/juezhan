@@ -173,7 +173,7 @@ function ShiBaPan takes nothing returns nothing
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(u))
 	local integer abilityLevel = IMinBJ(1 + GetUnitAbilityLevel(u, 'A07T') + GetUnitAbilityLevel(u, 'A07R') + GetUnitAbilityLevel(u, 'A07W'), 4)
 	if (GetRandomInt(1, 100) <= 5 + GetUnitAbilityLevel(u, 'A08F') + fuyuan[i] / 5 and not(UnitHasBuffBJ(u, 'B01L'))) then
-		call WuGongShengChong(u, 'A08E', 700)
+		call WuGongShengChong(u, 'A08E', 600)
 		if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[1], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[1], 3)
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[2], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[2], 3)
@@ -283,7 +283,7 @@ function KuaiHuoSanJian takes nothing returns nothing
 	local real damage = 0 //伤害
 	local location loc = GetUnitLoc(caster) //目标点
 	local unit target = null //目标单位
-	local real height = 100 //初始高度
+	local real height = 50 //初始高度
 	local real hp = 400 //弹幕耐久度
 	local string Effect = "war3mapImported\\dk.mdl" //弹幕特效
 	local boolean gravity = false //是否考虑重力
@@ -300,7 +300,7 @@ function KuaiHuoSanJian takes nothing returns nothing
 	if (GetUnitAbilityLevel(caster, 'A083') >= 1) then
 		set jmax = jmax + 6
 	endif
-	set damage = ShangHaiGongShi(caster, null, 1.6, 1.6, shxishu, 'A08H')
+	set damage = ShangHaiGongShi(caster, null, 3.2, 3.2, shxishu, 'A08H')
 	if (GetRandomInt(0, 100) <= 15 + fuyuan[i]) then
 		call WuGongShengChong(caster, 'A08H', 700 - GetUnitAbilityLevel(caster, 'A03V') * 350)
 		loop
@@ -310,7 +310,7 @@ function KuaiHuoSanJian takes nothing returns nothing
 			call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 			set j = j + 1
 		endloop
-		call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
+		//call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 	endif
 	// 排泄
 	call RemoveLocation(loc)

@@ -5226,7 +5226,7 @@ function HeroLevel takes nothing returns nothing
 		set Z8[i]=true
 		set d8[i]=1
 		loop
-			exitwhen d8[i]>20
+			exitwhen d8[i]>20 //门派数
 			if (udg_runamen[i]==d8[i]) then
 				//if d8[i]==11 then
 				//	if GetRandomInt(1,100)<=99 then

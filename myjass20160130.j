@@ -1722,8 +1722,14 @@ function TiaoZhanShiBai_Action takes nothing returns nothing
 	set u=null
 	set p=null
 endfunction
+// 加入门派的itemid
 function ox takes nothing returns boolean
-	return(((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and((GetItemTypeId(GetManipulatedItem())==1227894833)or(GetItemTypeId(GetManipulatedItem())==1227894834)or(GetItemTypeId(GetManipulatedItem())==1227894835)or(GetItemTypeId(GetManipulatedItem())==1227894836)or(GetItemTypeId(GetManipulatedItem())==1227894837)or(GetItemTypeId(GetManipulatedItem())==1227894838)or(GetItemTypeId(GetManipulatedItem())==1227894839)or(GetItemTypeId(GetManipulatedItem())==1227894840)or(GetItemTypeId(GetManipulatedItem())==1227894841)or (GetItemTypeId(GetManipulatedItem())=='I09E') or(GetItemTypeId(GetManipulatedItem())==1227894849))or (GetItemTypeId(GetManipulatedItem())=='I09N') or (GetItemTypeId(GetManipulatedItem())=='I0A2')  or (GetItemTypeId(GetManipulatedItem())=='I0CK')))
+	return ((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and((GetItemTypeId(GetManipulatedItem())==1227894833)or(GetItemTypeId(GetManipulatedItem())==1227894834)  \
+		or(GetItemTypeId(GetManipulatedItem())==1227894835)or(GetItemTypeId(GetManipulatedItem())==1227894836)or(GetItemTypeId(GetManipulatedItem())==1227894837) 	 	\
+		or(GetItemTypeId(GetManipulatedItem())==1227894838)or(GetItemTypeId(GetManipulatedItem())==1227894839)or(GetItemTypeId(GetManipulatedItem())==1227894840)	 	\
+		or(GetItemTypeId(GetManipulatedItem())==1227894841)or (GetItemTypeId(GetManipulatedItem())=='I09E') or(GetItemTypeId(GetManipulatedItem())==1227894849)		 	\
+		or (GetItemTypeId(GetManipulatedItem())=='I09N') or (GetItemTypeId(GetManipulatedItem())=='I0A2')  or (GetItemTypeId(GetManipulatedItem())=='I0CK')				\
+		or (GetItemTypeId(GetManipulatedItem())=='I0CX')))
 endfunction
 function JiaRuMenPai takes nothing returns nothing
 	local unit u=GetTriggerUnit()
@@ -2132,7 +2138,35 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call RemoveLocation(Q4)
 	    	call UnitAddItemByIdSwapped(1227896394,u)
 	    endif
-
+	 elseif((GetItemTypeId(GetManipulatedItem())=='I0CX'))then
+	     if (GetUnitTypeId(u)!='O003') then
+	    	set udg_runamen[i]=18
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933恭喜加入〓泰山派〓，请在NPC郭靖处选择副职|r")
+	    	call SetPlayerName(p,"〓泰山派〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
+	    	call UnitAddAbility(u,'A05R')
+	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
+        	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
+	    	if udg_vip[i]<2 and udg_elevenvip[i]<1 then
+				call UnitAddAbility(u,'A040')
+				call UnitAddAbility(u,'A041')
+				call UnitAddAbility(u,'A042')
+			endif
+	    	set I7[(((i-1)*20)+8)]='A05R'
+	    	call UnitRemoveAbility(u,'Avul')
+	    	set Q4=GetRandomLocInRect(He)
+	    	call SetUnitPositionLoc(u,Q4)
+	    	call PanCameraToTimedLocForPlayer(p,Q4,0)
+	    	call CreateNUnitsAtLoc(1,'nvul',p,Q4,bj_UNIT_FACING)
+	    	set P4[i]=bj_lastCreatedUnit
+			set gengu[i] = gengu[i] + 3
+	    	set wuxing[i] = wuxing[i] + 1
+	    	set yishu[i] = yishu[i] + 1
+	    	call RemoveLocation(Q4)
+	    	call UnitAddItemByIdSwapped(1227896394,u)
+	    else
+	        call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000你的角色不能加入该门派")
+		endif
 	endif
 	set p=null
 	set u=null
@@ -5139,6 +5173,12 @@ function MenPaiWuGong takes nothing returns nothing
 	set Y7[17]='A04X'
 	set Q8[17]='A057'
 	set P8[17]='A059'
+	set udg_menpainame[18]="华山派"
+	set X7[18]='A08A'
+	set Z7[18]='A08B'
+	set Y7[18]='A08E'
+	set Q8[18]='A08G'
+	set P8[18]='A08H'
 endfunction
 //英雄达到某等级
 function Ja takes nothing returns boolean

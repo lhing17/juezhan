@@ -3,7 +3,7 @@
  * @author: zei_kale
  * @date:2017.7.12
  *
- * 泰山门派武功：七星落长空、岱宗如何、泰山十八盘、五大夫剑、快活三剑
+ * 泰山门派武功：七星落长空A08A、岱宗如何A08B、泰山十八盘A08E、五大夫剑A08G、快活三剑A08H
  */
 
 
@@ -253,6 +253,17 @@ function WuDaFuJian takes nothing returns nothing
 	call PassiveWuGongAction(GetAttacker(), GetTriggerUnit(), 15, 700, Condition(function WuDaFuJianDamageFilter), function WuDaFuJian_Action, 'A08G', 500)
 endfunction
 
+/*
+ * 快活三剑 A08H
+ * 被动武功
+ * 伤害系数：w1=1.6, w2=1.6
+ * 伤害搭配：
+ *		+吸星大法 A07R 伤害+100%
+ *		+葵花宝典 A07T 伤害范围+200
+ *		+双手互搏 A07U 剑数量+2
+ *		+小无相功 A083 剑数量+6
+ *		+擒龙控鹤 A03V 加快升重速度
+ */
 // 触发器条件
 function IsKuaiHuoSan takes nothing returns boolean
 	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08H')
@@ -262,14 +273,14 @@ endfunction
 function KuaiHuoSanJian takes nothing returns nothing
 	local unit caster = GetAttacker() //发射者
 	local real angle = 270 //角度
-	local unit missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //弹幕单位
-	local real originspeed = 900 //初始速度
-	local real maxspeed = 900 //最大速度
+	local unit missile = null
+	local real originspeed = 500 //初始速度
+	local real maxspeed = 800 //最大速度
 	local real accel = 56 //加速度
 	local real distance = 2000 //距离
-	local real arc = 0.1 //弧度
+	local real arc = 0 //弧度
 	local real range = 300 //伤害范围
-	local real damage = 100 //伤害
+	local real damage = 0 //伤害
 	local location loc = GetUnitLoc(caster) //目标点
 	local unit target = null //目标单位
 	local real height = 100 //初始高度
@@ -278,17 +289,30 @@ function KuaiHuoSanJian takes nothing returns nothing
 	local boolean gravity = false //是否考虑重力
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(caster))
 	local integer j = 0
-	local real shxishu = 1 // 伤害系数
-	set damage = ShangHaiGongShi(caster,ut,0.8,0.8,shxishu,'A08H')
+	local integer jmax = 3
+	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07R', 1) // 伤害系数
+	if (GetUnitAbilityLevel(caster, 'A07T') >= 1) then
+		set range = range + 200
+	endif
+	if (GetUnitAbilityLevel(caster, 'A07U') >= 1) then
+		set jmax = jmax + 2
+	endif
+	if (GetUnitAbilityLevel(caster, 'A083') >= 1) then
+		set jmax = jmax + 6
+	endif
+	set damage = ShangHaiGongShi(caster, null, 1.6, 1.6, shxishu, 'A08H')
 	if (GetRandomInt(0, 100) <= 15 + fuyuan[i]) then
-		call WuGongShengChong(caster, 'A08H', 700)
+		call WuGongShengChong(caster, 'A08H', 700 - GetUnitAbilityLevel(caster, 'A03V') * 350)
 		loop
-			exitwhen j >= 3
-			set angle = GetRandomReal(0, 360)
+			exitwhen j >= jmax
+			set angle = GetUnitFacing(caster) + 360 / jmax * j
+			set missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //弹幕单位
 			call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 			set j = j + 1
 		endloop
-	elseif
+		call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
+	endif
+	// 排泄
 	call RemoveLocation(loc)
 	set caster = null
 	set missile = null

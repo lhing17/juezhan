@@ -2466,6 +2466,14 @@ function WuGongShengChong takes unit u, integer id, real r returns nothing
             call SetPlayerName(p,"〓灵鹫宫主〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
             set udg_zhangmen[i]=true
             set udg_whichzhangmen[i]=12
+		elseif GetUnitAbilityLevel(u,'A08A')>=6 and GetUnitAbilityLevel(u,'A08B')>=6  and GetUnitAbilityLevel(u,'A08E')>=6 and (GetUnitAbilityLevel(u,'A08G')>=6 or GetUnitAbilityLevel(u,'A08H')>=6) then
+            call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff66ff00恭喜玩家"+I2S(i)+"获得了称号：泰山掌门")
+            call ModifyHeroStat(0,u,0,320)
+            call ModifyHeroStat(1,u,0,220)
+            call ModifyHeroStat(2,u,0,120)
+            call SetPlayerName(p,"〓泰山掌门〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+            set udg_zhangmen[i]=true
+            set udg_whichzhangmen[i]=24
         elseif GetUnitAbilityLevel(u,'A02K')>=6 and GetUnitAbilityLevel(u,'A0CC')>=6  and GetUnitAbilityLevel(u,'A02M')>=6 and (GetUnitAbilityLevel(u,'A02R')>=6 or GetUnitAbilityLevel(u,'A02V')>=6) then
             call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff66ff00恭喜玩家"+I2S(i)+"获得了称号：慕容龙城")
             call ModifyHeroStat(0,u,0,100)

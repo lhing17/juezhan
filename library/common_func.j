@@ -1535,7 +1535,6 @@ function WuDi takes unit u returns nothing
 	call SetUnitInvulnerable( u, true )
 	call TimerStart(t,0,false,function WuDiQingChu)
 	set t = null
-	set u = null
 endfunction
 //==================VIP码系统开始==================//
 function CunVIP takes integer num, string s1, string s2 returns nothing

@@ -484,3 +484,51 @@ call RemoveLocation(LoadLocationHandle(YDHT,id*cx,-$72C3E060))
 call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //--------星宿结束--------//
+function XingXiu_Trigger takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function p3))
+	call TriggerAddAction(t,function s3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function u3))
+	call TriggerAddAction(t,function v3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function x3))
+	call TriggerAddAction(t,function y3)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function A3))
+	call TriggerAddAction(t,function a3)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function b3))
+	call TriggerAddAction(t,function C3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(t,Condition(function D3))
+	call TriggerAddAction(t,function E3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function G3))
+	call TriggerAddAction(t,function I3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(t,Condition(function J3))
+	call TriggerAddAction(t,function MM3)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	call TriggerAddCondition(t,Condition(function IsShenDingSanYin))
+	call TriggerAddAction(t,function ShenDingSanYin)
+	set t = null
+endfunction
+

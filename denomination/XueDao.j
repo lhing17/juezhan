@@ -504,10 +504,31 @@ function XueDao_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function IsXueDaoJing))
 	call TriggerAddAction(t,function XueDaoJing)
+	
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t,Condition(function XueDaoJing_Condition))
 	call TriggerAddAction(t,function XueDaoJing_Action2)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function IsXueZhan))
+	call TriggerAddAction(t,function XueZhanDao)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsXueDao))
+	call TriggerAddAction(t,function XueDaoDao)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsXueMo))
+	call TriggerAddAction(t,function XueMoDao)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsFoMie))
+	call TriggerAddAction(t,function FoMieWanJieGong)
 	set t=null
 endfunction
 //--------血刀结束--------//

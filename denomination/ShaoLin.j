@@ -417,3 +417,54 @@ function Sc takes nothing returns nothing
 	set uc=null
 endfunction
 //--------少林结束--------//
+function ShaoLin_Trigger takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsWeiTuo))
+	call TriggerAddAction(t,function WeiTuoGun)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function qc))
+	call TriggerAddAction(t,function ucFunc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function wc))
+	call TriggerAddAction(t,function xc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function zc))
+	call TriggerAddAction(t,function Bc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function Cc))
+	call TriggerAddAction(t,function cc)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function Ec))
+	call TriggerAddAction(t,function Hc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(t,Condition(function lc))
+	call TriggerAddAction(t,function Jc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function Lc))
+	call TriggerAddAction(t,function Mc)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function Oc))
+	call TriggerAddAction(t,function Pc)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function Rc))
+	call TriggerAddAction(t,function Sc)
+endfunction

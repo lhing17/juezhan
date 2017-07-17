@@ -396,3 +396,42 @@ function EMeiJiuYang takes nothing returns nothing
     set g=null
 endfunction
 //--------峨眉结束--------//
+function EMei_Trigger takes nothing returns nothing
+	/*
+	 * 四象掌触发器
+	 */
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsSiXiang))
+	call TriggerAddAction(t,function SiXiangZhang)
+	/*
+	 * 佛光普照触发器
+	 */
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function IsFoGuang))
+	call TriggerAddAction(t,function FoGuangZhang)
+	/*
+	 * 峨眉九阳功触发器
+	 */
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function IsEMeiJiuYang))
+	call TriggerAddAction(t,function EMeiJiuYang)
+	/*
+	 * 金顶绵掌触发器
+	 */
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsJinDing))
+	call TriggerAddAction(t,function JinDingZhang)
+	/*
+	 * 灭绝剑法触发器
+	 */
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsMieJue))
+	call TriggerAddAction(t, function MieJueJian)
+	
+	set t = null
+endfunction

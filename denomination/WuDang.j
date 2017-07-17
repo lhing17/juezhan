@@ -358,3 +358,80 @@ function ND takes nothing returns nothing
 	call UnitDamageTarget(GetTriggerUnit(),GetEventDamageSource(),(GetEventDamage()*10.),true,false,ATTACK_TYPE_MELEE,DAMAGE_TYPE_MAGIC,WEAPON_TYPE_WHOKNOWS)
 endfunction
 //--------武当结束--------//
+
+function WuDang_Trigger takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsRouYun))
+	call TriggerAddAction(t,function RouYunZhang)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function Xc))
+	call TriggerAddAction(t,function Yc)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function dD))
+	call TriggerAddAction(t,function eD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function gD))
+	call TriggerAddAction(t,function jD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function mD))
+	call TriggerAddAction(t,function oD)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function IsChunYangHuo))
+	call TriggerAddAction(t,function ChunYangHuo)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function qD))
+	call TriggerAddAction(t,function rD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function tD))
+	call TriggerAddAction(t,function wD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function yD))
+	call TriggerAddAction(t,function zD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function aD))
+	call TriggerAddAction(t,function BD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function CD))
+	call TriggerAddAction(t,function cD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function ED))
+	call TriggerAddAction(t,function FD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function HD))
+	call TriggerAddAction(t,function ID)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function JD))
+	call TriggerAddAction(t,function KD)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function MD))
+	call TriggerAddAction(t,function ND)
+endfunction

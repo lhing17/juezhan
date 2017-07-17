@@ -679,3 +679,34 @@ function cE takes nothing returns nothing
 	set loc = null
 endfunction
 //--------华山结束--------//
+function HuaShan_Trigger takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function PD))
+	call TriggerAddAction(t,function QD)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function SD))
+	call TriggerAddAction(t,function TD)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function VD))
+	call TriggerAddAction(t,function WD)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function YD))
+	call TriggerAddAction(t,function ZD)
+
+	set t = CreateTrigger(  )
+    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+    call TriggerAddCondition( t, Condition( function Trig_arc_Conditions ) )
+    call TriggerAddAction( t, function Trig_arc_Actions )
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function BE))
+	call TriggerAddAction(t,function cE)
+endfunction

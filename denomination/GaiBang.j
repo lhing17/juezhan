@@ -423,3 +423,30 @@ function FengMoGun takes nothing returns nothing
 	set uc=null
 endfunction
 //--------丐帮结束--------//
+function GaiBang_Trigger takes nothing returns nothing
+
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsTaiZu))
+	call TriggerAddAction(t,function TaiZuQuan)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsTieBuShan))
+	call TriggerAddAction(t,function TieBuShan)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsFengMo))
+	call TriggerAddAction(t,function FengMoGun)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsGaiBang))
+	call TriggerAddAction(t, function GaiBangXinFa)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsYeCha))
+	call TriggerAddAction(t, function YeChaGun)
+endfunction

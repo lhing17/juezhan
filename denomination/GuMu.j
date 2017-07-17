@@ -433,3 +433,41 @@ function nn3 takes nothing returns nothing
 	call UnitDamageTarget(GetTriggerUnit(),GetEventDamageSource(),(GetEventDamage()*10.),true,false,ATTACK_TYPE_MELEE,DAMAGE_TYPE_NORMAL,WEAPON_TYPE_WHOKNOWS)
 endfunction
 //--------古墓结束--------//
+function GuMu_Trigger takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function EE))
+	call TriggerAddAction(t,function FE)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function HE))
+	call TriggerAddAction(t,function LE)
+	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function NE))
+	call TriggerAddAction(t,function OE)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function QE))
+	call TriggerAddAction(t,function TE)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function VE))
+	call TriggerAddAction(t,function WE)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function YE))
+	call TriggerAddAction(t,function ZE)
+	
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t,Condition(function e3))
+	call TriggerAddAction(t,function j3)
+	
+	set t = null
+endfunction

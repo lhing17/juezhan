@@ -2804,30 +2804,6 @@ function WanBuff takes unit u, unit ut, integer buffnum returns nothing
 	call WanBuff_1(buffnum, 14, u, 'A074', $D022F, ut, "深度中毒")
 endfunction
 
-//万能装备系统
-function Cun takes integer id,string name,string s11,real i11,string s12,real i12,string s13,real i13,string s14,real i14 returns nothing
-	local item it=CreateItem(id,0,0)
-	local integer hp=R2I(GetWidgetLife(it))
-	local integer lv=0
-	if HaveSavedInteger(YDHT,id,id)==false then
-		call SaveInteger(YDHT,id,id,id)
-	endif
-	if StringLength(s11)>0 and i11>0 then
-		call SaveReal(YDHT,id,StringHash(s11),i11)
-	endif
-	if StringLength(s12)>0 and i12>0 then
-		call SaveReal(YDHT,id,StringHash(s12),i12)
-	endif
-	if StringLength(s13)>0 and i13>0 then
-		call SaveReal(YDHT,id,StringHash(s13),i13)
-	endif
-	if StringLength(s14)>0 and i14>0 then
-		call SaveReal(YDHT,id,StringHash(s14),i14)
-	endif
-	call SaveReal(YDHT, id, StringHash("升级概率"), 100.)
-	call RemoveItem(it)
-	set it=null
-endfunction
 
 //封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog takes timer t, string title returns timerdialog

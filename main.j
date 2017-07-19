@@ -45,6 +45,10 @@
 #include "systems/ElixirSystem.j"
 
 #include "InitialSave.j"
+
+#include "game_logic/GameDetail.j"
+#include "game_logic/Vip.j"
+
 globals
 	item yd_NullTempItem
 	//group yd_NullTempGroup
@@ -1635,28 +1639,7 @@ endfunction
 function kx takes nothing returns boolean
 	return((GetTriggerUnit()==Rs)and(udg_runamen[(1+GetPlayerId(GetTriggerPlayer()))]==0))
 endfunction
-//点击后显示爆率
-function ShowBaoLv takes nothing returns nothing
-	if (GetUnitTypeId(GetTriggerUnit())=='nbdw') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[2])+"|CFF00FFCC%精钢剑"+I2S(udg_baolv[3])+"|CFF00FFCC%精钢护腕"+I2S(udg_baolv[4])+"|CFF00FFCC%破军帽"+I2S(udg_baolv[5])+"|CFF00FFCC%破军鞋")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='nqb3') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[1])+"|CFF00FFCC%锁喉枪")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='ndrw') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[6])+"|CFF00FFCC%七星扇"+I2S(udg_baolv[7])+"|CFF00FFCC%七星锦服"+I2S(udg_baolv[8])+"|CFF00FFCC%七星戒指")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='nrzb') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[9])+"|CFF00FFCC%追月手"+I2S(udg_baolv[10])+"|CFF00FFCC%云海链"+I2S(udg_baolv[11])+"|CFF00FFCC%烈火衣"+I2S(udg_baolv[12])+"|CFF00FFCC%霓云手套")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='nfpu') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[13])+"|CFF00FFCC%影岗护符"+I2S(udg_baolv[14])+"|CFF00FFCC%饮血枪"+I2S(udg_baolv[15])+"|CFF00FFCC%乾坤丹")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='ngh2') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[16])+"|CFF00FFCC%云灭护符"+I2S(udg_baolv[17])+"|CFF00FFCC%抗魔护符")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='nfsp') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[18])+"|CFF00FFCC%神行鞋"+I2S(udg_baolv[19])+"|CFF00FFCC%重生链")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='nmgd') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[20])+"|CFF00FFCC%晶玉扇"+I2S(udg_baolv[21])+"|CFF00FFCC%软猬甲")
-	elseif (GetUnitTypeId(GetTriggerUnit())=='uktn') then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"|CFF00FFCC"+I2S(udg_baolv[21])+"|CFF00FFCC%倚天剑"+I2S(udg_baolv[23])+"|CFF00FFCC%屠龙刀"+I2S(udg_baolv[24])+"|CFF00FFCC%龙鳞剑")
-	endif
-endfunction
+
 function MenPai takes nothing returns nothing
 	if((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O002'))then
 		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"当前可加入以下门派：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教|r\n")
@@ -2179,41 +2162,7 @@ function JiaRuMenPai takes nothing returns nothing
 	set p=null
 	set u=null
 endfunction
-function rx takes nothing returns boolean
-	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and((GetIssuedOrderId()==$D0012)or(GetIssuedOrderId()==$D0016)))
-endfunction
-//用移动模拟攻击、巡逻模拟移动 对地面
-function sx takes nothing returns nothing
-	set udg_loc1=GetOrderPointLoc()
-	if((GetIssuedOrderId()==$D0012))then
-		call IssuePointOrderByIdLoc(GetOrderedUnit(),$D000F,udg_loc1)
-	else
-		if((GetIssuedOrderId()==$D0016))then
-			call IssuePointOrderByIdLoc(GetOrderedUnit(),$D0012,udg_loc1)
-		endif
-	endif
-	call RemoveLocation(udg_loc1)
-endfunction
-//右键点击己方单位
-function uuxx takes nothing returns boolean
-	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(IsPlayerAlly(GetOwningPlayer(GetOrderedUnit()),GetOwningPlayer(GetOrderTargetUnit())))and(GetIssuedOrderId()==$D0003))
-endfunction
-function vvxx takes nothing returns nothing
-	set udg_loc1=GetUnitLoc(GetOrderTargetUnit())
-	call IssuePointOrderByIdLoc(GetOrderedUnit(),$D0003,udg_loc1)
-	call RemoveLocation(udg_loc1)
-endfunction
-//用移动模拟攻击 对点
-function xx takes nothing returns boolean
-	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(GetIssuedOrderId()==$D0012))
-endfunction
-function yx takes nothing returns nothing
-	call IssueTargetOrderById(GetOrderedUnit(),$D000F,GetOrderTargetUnit())
-endfunction
-//优化速度加快
-function Ax takes nothing returns nothing
-	call Cheat("DooConV")
-endfunction
+
 //ESC查看人物属性
 function RenWuShuXing takes nothing returns nothing
 	local player p=GetTriggerPlayer()
@@ -2528,13 +2477,7 @@ function Qx takes nothing returns nothing
 	call CreateQuestBJ(2,"|cFF0000FF游戏网站","17玩吧：|cFFCCFF33www.17wanba.cc|r\n专区论坛：|cFFCCFF33jzjhbbs.uuu9.com|r\n游戏作者：|cFFCCFF33云杨 Zei_kale|r\n游戏QQ群：|cFFCCFF33159030768, 369925013\n\n关注武侠，支持作者，详情请在网站和论坛查询","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 endfunction
 
-//友方单位A基地
-function Ux takes nothing returns boolean
-	return((GetTriggerUnit()==udg_ZhengPaiWL)and(IsUnitAlly(GetAttacker(),Player(5))))
-endfunction
-function Vx takes nothing returns nothing
-	call IssueImmediateOrderById(GetAttacker(),$D0004)
-endfunction
+
 //玩家离开
 function Xx takes nothing returns nothing
 	set bj_forLoopBIndex=1
@@ -4848,12 +4791,7 @@ function ea takes nothing returns nothing
 	set shoujiajf[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]=shoujiajf[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]+10
 	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF00FF4C守家积分+10")
 endfunction
-function ga takes nothing returns nothing
-	call IssuePointOrderByIdLoc(GetEnumUnit(),$D000F,v7[4])
-endfunction
-function ha takes nothing returns nothing
-	call ForGroupBJ(w7,function ga)
-endfunction
+
 function ja takes nothing returns boolean
 	return((IsUnitInGroup(GetTriggerUnit(),w7)))
 endfunction
@@ -4900,7 +4838,7 @@ function Aa takes nothing returns nothing
 	call SetUnitPosition(GetTriggerUnit(), 3730, -4690)
 	call PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()),3730, -4690,0)
 endfunction
-//切换物品
+//切换背包
 function Ba takes nothing returns boolean
 	return((GetSpellAbilityId()==1093677134))
 endfunction
@@ -4939,6 +4877,7 @@ function Da takes nothing returns nothing
 	call AddSpecialEffectTargetUnitBJ("overhead",GetTriggerUnit(),"Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl")
 	call DestroyEffect(bj_lastCreatedEffect)
 endfunction
+//切换物品
 function IsQieHuanItem takes nothing returns boolean
 	return((GetSpellAbilityId()=='A00M')and(he[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==false))
 endfunction
@@ -8624,36 +8563,7 @@ function MuRongNeiGong takes nothing returns nothing
 	set p = null
 endfunction
 
-function ZS takes nothing returns boolean
-	return Rd[1]
-endfunction
-function d5 takes nothing returns nothing
-	call RenWuFail(1)
-endfunction
-function f5 takes nothing returns boolean
-	return Rd[2]
-endfunction
-function g5 takes nothing returns nothing
-	call RenWuFail(2)
-endfunction
-function i5 takes nothing returns boolean
-	return Rd[3]
-endfunction
-function j5 takes nothing returns nothing
-	call RenWuFail(3)
-endfunction
-function m5 takes nothing returns boolean
-	return Rd[4]
-endfunction
-function nn5 takes nothing returns nothing
-	call RenWuFail(4)
-endfunction
-function p5 takes nothing returns boolean
-	return Rd[5]
-endfunction
-function q5 takes nothing returns nothing
-	call RenWuFail(5)
-endfunction
+
 //古董价格
 function s5 takes nothing returns nothing
 	set gudong[1]=1227896115
@@ -9403,175 +9313,7 @@ function NT takes nothing returns nothing
 	set u = null
 	set loc = null
 endfunction
-function NewSave takes player p returns nothing
-	call YDWE_PreloadSL_Set( p, "ID", 1, StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) )
-	call YDWE_PreloadSL_Set( p, "高V", 2, 100 )
-	call YDWE_PreloadSL_Set( p, "VIP", 3, 100 )
-	call YDWE_PreloadSL_Set( p, "11VIP", 4, 100 )
-	call YDWE_PreloadSL_Set( p, "换VIP", 5, 100 )
-	call YDWE_PreloadSL_Set( p, "青龙", 6, 100 )
-	call YDWE_PreloadSL_Set( p, "招式伤害", 7, 0 )
-	call YDWE_PreloadSL_Set( p, "内力", 8, 0 )
-	call YDWE_PreloadSL_Set( p, "真实伤害", 9, 0 )
-	call YDWE_PreloadSL_Set( p, "暴击伤害", 10, 0 )
-	call YDWE_PreloadSL_Set( p, "绝学领悟", 11, 0 )
-	call YDWE_PreloadSL_Set( p, "根骨", 12, 0 )
-	call YDWE_PreloadSL_Set( p, "胆魄", 13, 0 )
-	call YDWE_PreloadSL_Set( p, "医术", 14, 0 )
-	call YDWE_PreloadSL_Set( p, "经脉", 15, 0 )
-	call YDWE_PreloadSL_Set( p, "悟性", 16, 0 )
-	call YDWE_PreloadSL_Set( p, "福缘", 17, 0 )
-	call YDWE_PreloadSL_Set( p, "杀人数", 18, 0 )
-	call YDWE_PreloadSL_Save( p, "JueZhan", "VIP", SAV_NUM)
-	call DisplayTextToPlayer(p, 0, 0, "|CFFff9933创建新存档")
-endfunction
-globals
-	constant integer SAV_NUM = 18
-endglobals
-function Trig_______VIPActions takes nothing returns nothing
-    local player p = null
-    local integer  i = 1
-    loop
-        exitwhen i > 6
-        //call BJDebugMsg(I2S(i))
-        set p = Player(i-1)
-        call YDWE_PreloadSL_Load( p, "JueZhan", "VIP", SAV_NUM  )
-        //call BJDebugMsg(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2))
-        //call BJDebugMsg(I2S(StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2))))
-        //call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "ID", 1)))
-        if ((bj_lastLoadPreloadSLResult == true)) then
-        	if YDWE_PreloadSL_Get(p, "ID", 1) == StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "高V", 2)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "VIP", 3)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "11VIP", 4)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "换VIP", 5)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "青龙", 6)))
-        	    if YDWE_PreloadSL_Get(p, "VIP", 3) == 120 then
-        	        set udg_vip[i] = 1
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色兰馨和门派明教|r")
-        	    endif
-        	    if YDWE_PreloadSL_Get(p, "11VIP", 4) == 120 then
-        	        set udg_elevenvip[i] = 1
-        	        set wugongshu[i] = 11
-        	        call UnitRemoveAbility(udg_hero[i],'A040')
-        	        call UnitRemoveAbility(udg_hero[i],'A041')
-        	        call UnitRemoveAbility(udg_hero[i],'A042')
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了11格武功|r")
-        	    endif
-        	    if YDWE_PreloadSL_Get(p, "换VIP", 5) == 120 then
-        	        set udg_changevip[i] = 1
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色瑾轩|r")
-        	    endif
-        	    if YDWE_PreloadSL_Get(p, "高V", 2) == 120 then
-        	        set udg_vip[i] = 2
-        	        set wugongshu[i] = 11
-        	        call UnitRemoveAbility(udg_hero[i],'A040')
-        	        call UnitRemoveAbility(udg_hero[i],'A041')
-        	        call UnitRemoveAbility(udg_hero[i],'A042')
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933感谢玩家"+GetPlayerName(p)+"对决战江湖的杰出贡献|r")
-        	    endif
-        	endif
-        //else
-        //	call NewSave(p)
-    	endif
 
-        set i = i + 1
-    endloop
-endfunction
-//VIP码计算
-function Qskc_GetL takes player pl,string str,integer hashs, integer which_number returns boolean
-	local string OOl1= SubStringBJ(str,1,10)
-	local string O01l= SubStringBJ(str,11,163)
-	local string I1l1= SubStringBJ(str,164,218)
-	local string Ill1= SubStringBJ(str,219,245)
-	local integer OOll= StringLength(O01l)
-	local integer Il0O = StringHash(LoadStr(YDHT, GetHandleId(pl), GetHandleId(pl)*2))
-	local integer OO11= 0
-	local integer OO1l= 0
-	local integer O0O0= 0
-	local integer OO0O= 0
-	local integer O0ll= 0
-	local integer O011 = 0
-	local integer O1lO = 0
-	local integer Ol1O = 0
-	local integer lO01 = 0
-	local integer lI0O = 0
-	local integer l0O1 = 0
-	local integer O0l1 = IAbsBJ(Il0O)
-	loop
-		exitwhen O011 >= which_number
-		set O0l1 =IAbsBJ(StringHash(I2S(O0l1)))
-		set OO1l =IAbsBJ(StringHash(I2S(O0l1)))
-		set O0O0 =IAbsBJ(StringHash(I2S(O0l1)))
-		set O011 = O011 + 1
-		set OO0O = OO0O + 1
-		set O1lO = O1lO + 1
-	endloop
-	if O0l1 < $3B9ACA00 then
-		set Ol1O = O0l1 + $1A4CCA00
-		set O0l1 = O0l1 + $3B9ACA00
-		set lO01 = O0l1 + $3C6BAB00
-	endif
-		set O0ll=StringHash(O01l)
-		set lI0O=O0ll + StringHash(I2S(O0l1))
-		set O0ll=O0ll + StringHash(I2S(OOll))
-		set l0O1=O0ll + StringHash(I2S(OOll))
-	loop
-		exitwhen OO11 >= OOll
-		set O0ll=O0ll + StringHash(SubString(O01l, OO11, OO11 + 1))
-		set OO11 = OO11 + 1
-	endloop
-	return O0ll==hashs and I2S(O0l1)==OOl1
-endfunction
-function activationCode takes nothing returns nothing
-    // 1号
-    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-1418175828,4))) then
-        if ((udg_vip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "恭喜 " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r解锁了角色兰馨和门派明教" ) ) )
-            set udg_vip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
-        else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "你已经解锁了角色兰馨和门派明教，不能重复解锁" ) )
-        endif
-    else
-    endif
-    // 2号
-    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),366685871,5))) then
-        if ((udg_elevenvip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "恭喜 " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r解锁了11格武功" ) ) )
-            set udg_elevenvip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
-            set wugongshu[GetConvertedPlayerId(GetTriggerPlayer())] = 11
-        	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A040')
-        	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A041')
-        	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A042')
-        else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "你已经解锁了11格武功，不能重复解锁" ) )
-        endif
-    else
-    endif
-    // 3号
-    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),141150855,6))) then
-        if ((udg_changevip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "恭喜 " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r解锁了角色瑾轩" ) ) )
-            set udg_changevip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
-        else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "你已经解锁了角色瑾轩，不能重复解锁" ) )
-        endif
-    else
-    endif
-endfunction
-
-//===========================================================================
-function initActivationCode takes nothing returns nothing
-    local trigger t = CreateTrigger()
-	local integer i = 0
-	loop
-		exitwhen i > 6
-		call TriggerRegisterPlayerChatEvent(t,Player(i),"",true)
-		set i = i + 1
-	endloop
-	call TriggerAddAction(t,function activationCode)
-	set t = null
-endfunction
 
 /*
  * 门派触发器
@@ -10077,9 +9819,11 @@ function main1 takes nothing returns nothing
 	set i=i+1
 	endloop
 	set Fe=CreateGroup()
+	//刚进入地图
 	set lh=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(lh,.1)
 	call TriggerAddAction(lh,function Zw)
+	//选择英雄
 	set Jh=CreateTrigger()
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(0),true)
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(1),true)
@@ -10088,6 +9832,7 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(4),true)
 	call TriggerAddCondition(Jh,Condition(function fx))
 	call TriggerAddAction(Jh,function SelectHero)
+	//查看当前可加入门派
 	set Lh=CreateTrigger()
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(0),true)
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(1),true)
@@ -10096,19 +9841,12 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(4),true)
 	call TriggerAddCondition(Lh,Condition(function kx))
 	call TriggerAddAction(Lh,function MenPai)
-	set Lh=CreateTrigger()
-	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(0),true)
-	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(1),true)
-	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(2),true)
-	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(3),true)
-	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(4),true)
-	call TriggerAddAction(Lh,function ShowBaoLv)
+	// 加入门派
 	set Mh=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Mh,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Mh,Condition(function ox))
 	call TriggerAddAction(Mh,function JiaRuMenPai)
-	
-	
+	// 伤害测试
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(t,Condition(function IsCeShiShangHai))
@@ -10117,32 +9855,21 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterUnitEvent(t, gg_unit_N00I_0116, EVENT_UNIT_DAMAGED)
 	call TriggerAddCondition(t, Condition(function IsCalcShangHai))
 	call TriggerAddAction(t, function CalcShangHai)
+	// 自由门派
 	set Mh=CreateTrigger()
 	call TriggerRegisterLeaveRectSimple(Mh,udg_xuanmenpai)
 	call TriggerAddCondition(Mh,Condition(function WuMenPai_Condition))
 	call TriggerAddAction(Mh,function WuMenPai_Action)
+	// 离开挑战区挑战失败
 	set t=CreateTrigger()
 	call TriggerRegisterLeaveRectSimple(t,udg_tiaozhanqu)
 	call TriggerAddCondition(t,Condition(function TiaoZhanShiBai))
 	call TriggerAddAction(t,function TiaoZhanShiBai_Action)
-	set Nh=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Nh,EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
-	call TriggerAddCondition(Nh,Condition(function rx))
-	call TriggerAddAction(Nh,function sx)
-	set Oh=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Oh,EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-	call TriggerAddCondition(Oh,Condition(function uuxx))
-	call TriggerAddAction(Oh,function vvxx)
-	set Ph=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Ph,EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-	call TriggerAddCondition(Ph,Condition(function xx))
-	call TriggerAddAction(Ph,function yx)
-	set t = CreateTrigger()
-    call TriggerRegisterTimerEventSingle( t, 2.00 )
-    call TriggerAddAction(t, function Trig_______VIPActions)
+	// TODO 没找到
 	set Qh=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Qh,.0)
 	call TriggerAddAction(Qh,function Ax)
+	// 按ESC查看人物属性
 	set Rh=CreateTrigger()
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(0))
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(1))
@@ -10150,14 +9877,17 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(3))
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(4))
 	call TriggerAddAction(Rh,function RenWuShuXing)
+	// up提升游戏难度
 	set Sh=CreateTrigger()
 	call TriggerRegisterPlayerChatEvent(Sh,Player(0),"up",false)
 	call TriggerAddCondition(Sh,Condition(function GameNanDu_Condition))
 	call TriggerAddAction(Sh,function GameNanDu)
+	// 玩家英雄阵亡
 	set Th=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Th,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Th,Condition(function Ex))
 	call TriggerAddAction(Th,function PlayerDeath)
+	// 玩家英雄复活
 	set Uh=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(Uh,udg_revivetimer[1])
 	call TriggerAddAction(Uh,function PlayerReviveA)
@@ -10173,13 +9903,11 @@ function main1 takes nothing returns nothing
 	set Yh=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(Yh,udg_revivetimer[5])
 	call TriggerAddAction(Yh,function PlayerReviveE)
+	// 生成F9信息
 	set Zh=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Zh,5)
 	call TriggerAddAction(Zh,function Qx)
-	set ei=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ei,EVENT_PLAYER_UNIT_ATTACKED)
-	call TriggerAddCondition(ei,Condition(function Ux))
-	call TriggerAddAction(ei,function Vx)
+	// 玩家离开游戏
 	set fi=CreateTrigger()
 	call TriggerRegisterPlayerEventLeave(fi,Player(0))
 	call TriggerRegisterPlayerEventLeave(fi,Player(1))
@@ -10187,153 +9915,146 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterPlayerEventLeave(fi,Player(3))
 	call TriggerRegisterPlayerEventLeave(fi,Player(4))
 	call TriggerAddAction(fi,function PlayerLeave)
+	// 杀进攻怪及练功房怪
 	set gi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(gi,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(gi,Condition(function ey))
 	call TriggerAddAction(gi,function KillGuai)
+	// 击杀最终BOSS游戏胜利
 	set hi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(hi,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(hi,Condition(function hy))
 	call TriggerAddAction(hi,function Victory)
+	// 老家灭了游戏失败
 	set ii=CreateTrigger()
 	call TriggerRegisterUnitEvent(ii,udg_ZhengPaiWL,EVENT_UNIT_DEATH)
 	call TriggerAddAction(ii,function Lose)
+	// 购买老家无敌
 	set ji=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ji,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ji,Condition(function BuyJiDiWuDi))
 	call TriggerAddAction(ji,function JiDiWuDi)
+	// 首次显示系统窗口信息
 	set ki=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(ki,10.)
 	call TriggerAddAction(ki,function SystemWindow)
+	// 刷新系统窗口信息
 	set mi=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(mi,4.)
 	call TriggerAddAction(mi,function uuyy)
+	// 计算玩家最大伤害
 	set ni=CreateTrigger()
 	call YDWESyStemAnyUnitDamagedRegistTrigger(ni)
 	call TriggerAddCondition(ni,Condition(function wy))
 	call TriggerAddAction(ni,function SetMaxDamage)
+	// 开启试玩模式
 	set oi=CreateTrigger()
 	call TriggerRegisterPlayerChatEvent(oi,Player(0),"sw",true)
 	call TriggerAddCondition(oi,Condition(function BeforeAttack))
 	call TriggerAddAction(oi,function SetShiWan)
+	// 购买城防
 	set pi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(pi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(pi,Condition(function BuyChengFang))
 	call TriggerAddAction(pi,function ShengChengFang)
+	// 购买高级城防
 	set ri=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ri,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ri,Condition(function BuyGaoChengFang))
 	call TriggerAddAction(ri,function ShengGaoChengFang)
+	// 积分换物品
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(si,Condition(function BuyKuanDong))
 	call TriggerAddAction(si,function KuanDongHua)
+	// 声望换物品
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(si,Condition(function BuyKuanDong_1))
 	call TriggerAddAction(si,function KuanDongHua_1)
+	// FIXME 使用武学精要（目前有BUG）
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(si,Condition(function IsWuXueJingYao))
 	call TriggerAddAction(si,function WuXueJingYao)
+	//鸟拿东西显示附加属性
 	set zi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(zi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(zi,Condition(function Zy))
 	call TriggerAddAction(zi,function dz)
+	//英雄拿东西显示附加属性
 	set Ai=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ai,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Ai,Condition(function fz))
 	call TriggerAddAction(Ai,function gz)
+	//英雄放下东西显示失去附加属性
 	set ai=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ai,EVENT_PLAYER_UNIT_DROP_ITEM)
 	call TriggerAddCondition(ai,Condition(function iz))
 	call TriggerAddAction(ai,function jz)
+	//英雄穿上装备
 	set Bi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Bi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Bi,Condition(function mz))
 	call TriggerAddAction(Bi,function nz)
+	//英雄脱下装备
 	set bi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(bi,EVENT_PLAYER_UNIT_DROP_ITEM)
 	call TriggerAddCondition(bi,Condition(function pz))
 	call TriggerAddAction(bi,function qz)
-
-	//set Ci=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Ci,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	//call TriggerAddCondition(Ci,Condition(function sz))
-	//call TriggerAddAction(Ci,function tz)
-	//set ci=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(ci,EVENT_PLAYER_UNIT_DROP_ITEM)
-	//call TriggerAddCondition(ci,Condition(function vz))
-	//call TriggerAddAction(ci,function wz)
-	//set Di=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Di,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	//call TriggerAddCondition(Di,Condition(function yz))
-	//call TriggerAddAction(Di,function zz)
-	//set Ei=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Ei,EVENT_PLAYER_UNIT_DROP_ITEM)
-	//call TriggerAddCondition(Ei,Condition(function az))
-	//call TriggerAddAction(Ei,function Bz)
-	//set Fi=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Fi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	//call TriggerAddCondition(Fi,Condition(function Cz))
-	//call TriggerAddAction(Fi,function cz)
-	//set Gi=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Gi,EVENT_PLAYER_UNIT_DROP_ITEM)
-	//call TriggerAddCondition(Gi,Condition(function Ez))
-	//call TriggerAddAction(Gi,function Fz)
-	//set Hi=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Hi,EVENT_PLAYER_UNIT_ATTACKED)
-	//call TriggerAddCondition(Hi,Condition(function UnitHaveJueZhanBa))
-	//call TriggerAddAction(Hi,function JueZhanBaXiaoGuo)
-	//set Ii=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(Ii,EVENT_PLAYER_UNIT_ATTACKED)
-	//call TriggerAddCondition(Ii,Condition(function UnitHaveJiangHuZhong))
-	//call TriggerAddAction(Ii,function JiangHuZhongXiaoGuo)
+	//只能穿一件衣服或武器的判断
 	set li=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(li,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(li,Condition(function Mz))
 	call TriggerAddAction(li,function ItemChongFu)
+	//集齐套装
 	set Ji=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ji,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Ji,Condition(function Pz))
 	call TriggerAddAction(Ji,function Qz)
+	//失去套装
 	set Ki=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ki,EVENT_PLAYER_UNIT_DROP_ITEM)
 	call TriggerAddCondition(Ki,Condition(function Sz))
 	call TriggerAddAction(Ki,function Tz)
+	//镇妖升级
 	set Li=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Li,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Li,Condition(function Vz))
 	call TriggerAddAction(Li,function Wz)
-	//set t=CreateTrigger()
-	//call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	//call TriggerAddCondition(t,Condition(function IsKillYang))
-	//call TriggerAddAction(t,function KillYang)
+	//镶嵌宝石系统
 	set Pi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Pi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Pi,Condition(function kA))
 	call TriggerAddAction(Pi,function mA)
+	//将地图上初始所有单位加入单位组
 	set Vi=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Vi,2.)
 	call TriggerAddAction(Vi,function cA)
+	//怪物死后重新刷怪
 	set Wi=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(Wi,Player(12),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(Wi,Player(15),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddAction(Wi,function EA)
+	//刷进攻怪
 	set Xi=CreateTrigger()
 	call TriggerAddCondition(Xi,Condition(function GA))
 	call TriggerAddAction(Xi,function HA)
+	//刷正面的进攻怪
 	set Yi=CreateTrigger()
 	call DisableTrigger(Yi)
 	call TriggerRegisterTimerEventPeriodic(Yi,3.)
 	call TriggerAddAction(Yi,function lA)
+	//刷背面的进攻怪
 	set Zi=CreateTrigger()
 	call DisableTrigger(Zi)
 	call TriggerRegisterTimerEventPeriodic(Zi,2.)
 	call TriggerAddAction(Zi,function KA)
+	// 刷名门
 	set dj=CreateTrigger()
 	call TriggerAddCondition(dj,Condition(function MA))
 	call TriggerAddAction(dj,function NA)
+	// 时间到刷怪
 	set ej=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(ej,A7[1])
 	call TriggerAddAction(ej,function PA)
@@ -10347,70 +10068,84 @@ function main1 takes nothing returns nothing
 	call TriggerAddAction(hj,function VA)
 	set ij=CreateTrigger()
 	call TriggerAddAction(ij,function XA)
+	// 停怪
 	set jj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(jj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(jj,Condition(function ZA))
 	call TriggerAddAction(jj,function ea)
-	set kj=CreateTrigger()
-	call TriggerRegisterTimerEventPeriodic(kj,5.)
-	call TriggerAddAction(kj,function ha)
+	// 将死亡单位从单位组移除
 	set mj=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(mj,Player(6),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(mj,Condition(function ja))
 	call TriggerAddAction(mj,function ka)
+	// 练功房刷怪
 	set nj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(nj,6.)
 	call TriggerAddAction(nj,function qa)
+	// 进入练功房
 	set oj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(oj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(oj,Condition(function sa))
 	call TriggerAddAction(oj,function ua)
+	// 进入练功房
 	set pj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(pj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(pj,Condition(function wa))
 	call TriggerAddAction(pj,function xa)
+	// 进入练功房
 	set qj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(qj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(qj,Condition(function za))
 	call TriggerAddAction(qj,function Aa)
+	// 切换背包
 	set rj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(rj,EVENT_PLAYER_UNIT_SPELL_CAST)
 	call TriggerAddCondition(rj,Condition(function Ba))
 	call TriggerAddAction(rj,function ba)
+	// 鸟的贩卖技能
 	set sj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(sj,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(sj,Condition(function ca))
 	call TriggerAddAction(sj,function Da)
+	// 轻功系统
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function Trig_ttConditions))
 	call TriggerAddAction(t,function Trig_ttActions)
+	// 切换物品
 	set tj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(tj,EVENT_PLAYER_UNIT_SPELL_CAST)
 	call TriggerAddCondition(tj,Condition(function IsQieHuanItem))
 	call TriggerAddAction(tj,function QieHuanItem)
+	// 初始化门派武功
 	set uj=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(uj,.15)
 	call TriggerAddAction(uj,function MenPaiWuGong)
+	// 英雄达到某等级
 	set vj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(vj,EVENT_PLAYER_HERO_LEVEL)
 	call TriggerAddCondition(vj,Condition(function Ja))
 	call TriggerAddAction(vj,function HeroLevel)
+	// 杀怪回血
 	set wj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(wj,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(wj,Condition(function Ma))
 	call TriggerAddAction(wj,function KillGuaiJiaXie)
+	// 每秒回血回蓝
 	set xj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(xj,1.)
 	call TriggerAddAction(xj,function YiShuHuiXie)
+	// 攻击回复（伤害回复）
 	set yj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(yj,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(yj,Condition(function Ra))
 	call TriggerAddAction(yj,function Sa)
+	// 伤害吸收
 	set zj=CreateTrigger()
 	call YDWESyStemAnyUnitDamagedRegistTrigger(zj)
 	call TriggerAddCondition(zj,Condition(function Ua))
 	call TriggerAddAction(zj,function Va)
+	// 杀怪加声望
 	set Aj=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(Aj,Player(6),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(Aj,Player(7),EVENT_PLAYER_UNIT_DEATH)
@@ -10420,13 +10155,16 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterPlayerUnitEventSimple(aj,Player(12),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(aj,Condition(function dB))
 	call TriggerAddAction(aj,function eB)
+	// 遗忘武功
 	set Bj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Bj,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(Bj,Condition(function YiWangJiNeng))
 	call TriggerAddAction(Bj,function ForgetAbility)
+	// 为合成的物品补属性
 	set t=CreateTrigger()
 	call YDWESyStemItemCombineRegistTrigger( t )
     call TriggerAddAction(t, function WuPinHeCheng)
+	// 选择遗忘的武功
 	set bj=CreateTrigger()
 	call TriggerRegisterDialogEvent(bj,K7[1])
 	call TriggerRegisterDialogEvent(bj,K7[2])
@@ -10434,10 +10172,12 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterDialogEvent(bj,K7[4])
 	call TriggerRegisterDialogEvent(bj,K7[5])
 	call TriggerAddAction(bj,function jB)
+	// 传送至桃花岛
 	set Cj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Cj,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(Cj,Condition(function mB))
 	call TriggerAddAction(Cj,function nB)
+	// 学习武功
 	set cj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(cj,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(cj,Condition(function IsWuGongBook))
@@ -10588,173 +10328,7 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(Jn,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Jn,Condition(function TI))
 	call TriggerAddAction(Jn,function UI)
-	set Kn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Kn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Kn,Condition(function WI))
-	call TriggerAddAction(Kn,function XI)
-	set Ln=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Ln,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Ln,Condition(function ZI))
-	call TriggerAddAction(Ln,function dl)
-	set Mn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Mn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Mn,Condition(function fl))
-	call TriggerAddAction(Mn,function gl)
-	set Nn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Nn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Nn,Condition(function il))
-	call TriggerAddAction(Nn,function jl)
-	set Tn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Tn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Tn,Condition(function al))
-	call TriggerAddAction(Tn,function Bl)
-	set Un=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Un,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Un,Condition(function cl))
-	call TriggerAddAction(Un,function KillTangWenLiang)
-	set Vn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Vn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Vn,Condition(function Fl))
-	call TriggerAddAction(Vn,function Gl)
-	set Wn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Wn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Wn,Condition(function Il))
-	call TriggerAddAction(Wn,function ll)
-	set Xn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Xn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Xn,Condition(function Kl))
-	call TriggerAddAction(Xn,function Ll)
-	set Yn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Yn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Yn,Condition(function Nl))
-	call TriggerAddAction(Yn,function Ol)
-	set Zn=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Zn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Zn,Condition(function Ql))
-	call TriggerAddAction(Zn,function Rl)
-	set do=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(do,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(do,Condition(function Tl))
-	call TriggerAddAction(do,function Ul)
-	set eo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(eo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(eo,Condition(function Wl))
-	call TriggerAddAction(eo,function Xl)
-	set fo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(fo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(fo,Condition(function Zl))
-	call TriggerAddAction(fo,function dd1)
-	set go=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(go,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(go,Condition(function f1))
-	call TriggerAddAction(go,function g1)
-	set ho=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ho,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ho,Condition(function i1))
-	call TriggerAddAction(ho,function j1)
-	set io=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(io,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(io,Condition(function m1))
-	call TriggerAddAction(io,function nn1)
-	set jo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(jo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(jo,Condition(function p1))
-	call TriggerAddAction(jo,function q1)
-	set ko=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ko,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ko,Condition(function t1))
-	call TriggerAddAction(ko,function u1)
-	set mo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(mo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(mo,Condition(function ww1))
-	call TriggerAddAction(mo,function z1)
-	set no=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(no,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(no,Condition(function a1))
-	call TriggerAddAction(no,function B1)
-	set oo=CreateTrigger()
-	call TriggerRegisterTimerEventPeriodic(oo,500.)
-	call TriggerAddAction(oo,function C1)
-	set po=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(po,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(po,Condition(function D1))
-	call TriggerAddAction(po,function E1)
-	set qo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(qo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(qo,Condition(function G1))
-	call TriggerAddAction(qo,function H1)
-	set ro=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ro,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ro,Condition(function l1))
-	call TriggerAddAction(ro,function J1)
-	set so=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(so,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(so,Condition(function L1))
-	call TriggerAddAction(so,function MM1)
-	set to=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(to,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(to,Condition(function O1))
-	call TriggerAddAction(to,function P1)
-	set uo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(uo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(uo,Condition(function R1))
-	call TriggerAddAction(uo,function S1)
-	set vo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(vo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(vo,Condition(function U1))
-	call TriggerAddAction(vo,function V1)
-	set wo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(wo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(wo,Condition(function X1))
-	call TriggerAddAction(wo,function Y1)
-	set xo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(xo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(xo,Condition(function dJ))
-	call TriggerAddAction(xo,function eJ)
-	set yo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(yo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(yo,Condition(function gJ))
-	call TriggerAddAction(yo,function hJ)
-	set zo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(zo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(zo,Condition(function jJ))
-	call TriggerAddAction(zo,function kJ)
-	set Ao=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Ao,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Ao,Condition(function nJ))
-	call TriggerAddAction(Ao,function oJ)
-	set ao=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ao,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ao,Condition(function qJ))
-	call TriggerAddAction(ao,function rJ)
-	set Bo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Bo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Bo,Condition(function tJ))
-	call TriggerAddAction(Bo,function uJ)
-	set bo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(bo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(bo,Condition(function wJ))
-	call TriggerAddAction(bo,function xJ)
-	set Co=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Co,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Co,Condition(function zJ))
-	call TriggerAddAction(Co,function AJ)
-	set co=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(co,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(co,Condition(function BJ))
-	call TriggerAddAction(co,function bJ)
-	set Do=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Do,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Do,Condition(function cJ))
-	call TriggerAddAction(Do,function DJ)
-	set Do=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Do,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Do,Condition(function IsAiRen))
-	call TriggerAddAction(Do,function KillAiRen)
-	set Eo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Eo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Eo,Condition(function FJ))
-	call TriggerAddAction(Eo,function GJ)
+	
 	set Fo=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Fo,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Fo,Condition(function IJ))
@@ -10829,10 +10403,7 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(Vo,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Vo,Condition(function HK))
 	call TriggerAddAction(Vo,function IK)
-	set Wo=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Wo,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Wo,Condition(function JK))
-	call TriggerAddAction(Wo,function KK)
+	
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t,Condition(function JiuYin_Condition))
@@ -10896,204 +10467,7 @@ function main1 takes nothing returns nothing
 	call TriggerAddRect(qp,Ye)
 	call TriggerAddCondition(qp,Condition(function DL))
 	call TriggerAddAction(qp,function EL)
-	set sp=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(sp,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(sp,Condition(function IL))
-	call TriggerAddAction(sp,function lL)
-	set tp=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(tp,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(tp,Condition(function KL))
-	call TriggerAddAction(tp,function LL)
-	set vp=CreateTrigger()
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(0),true)
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(1),true)
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(2),true)
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(3),true)
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(4),true)
-	call TriggerRegisterPlayerSelectionEventBJ(vp,Player(5),true)
-
-	call TriggerAddCondition(vp,Condition(function NL))
-	call TriggerAddAction(vp,function OL)
-	set wp=CreateTrigger()
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(0),0,3)
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(1),0,3)
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(2),0,3)
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(3),0,3)
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(4),0,3)
-	call TriggerRegisterPlayerKeyEventBJ(wp,Player(5),0,3)
-
-	call TriggerAddCondition(wp,Condition(function QL))
-	call TriggerAddAction(wp,function RL)
-	set xp=CreateTrigger()
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(0),0,0)
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(1),0,0)
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(2),0,0)
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(3),0,0)
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(4),0,0)
-	call TriggerRegisterPlayerKeyEventBJ(xp,Player(5),0,0)
-
-	call TriggerAddCondition(xp,Condition(function TL))
-	call TriggerAddAction(xp,function UL)
-	set yp=CreateTrigger()
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(0),0,1)
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(1),0,1)
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(2),0,1)
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(3),0,1)
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(4),0,1)
-	call TriggerRegisterPlayerKeyEventBJ(yp,Player(5),0,1)
-
-	call TriggerAddCondition(yp,Condition(function WL))
-	call TriggerAddAction(yp,function XL)
-	set zp=CreateTrigger()
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(0),0,2)
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(1),0,2)
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(2),0,2)
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(3),0,2)
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(4),0,2)
-	call TriggerRegisterPlayerKeyEventBJ(zp,Player(5),0,2)
-
-	call TriggerAddCondition(zp,Condition(function ZL))
-	call TriggerAddAction(zp,function dM)
-	set ap=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(ap,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ap,Condition(function iM))
-	call TriggerAddAction(ap,function jM)
-	set Bp=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Bp,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Bp,Condition(function mM))
-	call TriggerAddAction(Bp,function nM)
-	set bp=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(bp,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(bp,Condition(function pM))
-	call TriggerAddAction(bp,function qM)
-	set Cp=CreateTrigger()
-	call TriggerAddRect(Cp,Ff)
-	call TriggerAddCondition(Cp,Condition(function sM))
-	call TriggerAddAction(Cp,function tM)
-	set cp=CreateTrigger()
-	call TriggerAddRect(cp,Hf)
-	call TriggerAddCondition(cp,Condition(function vM))
-	call TriggerAddAction(cp,function wM)
-	set Dp=CreateTrigger()
-	call TriggerAddRect(Dp,lf)
-	call TriggerAddCondition(Dp,Condition(function yM))
-	call TriggerAddAction(Dp,function zM)
-	set Ep=CreateTrigger()
-	call TriggerAddRect(Ep,Kf)
-	call TriggerAddCondition(Ep,Condition(function aM))
-	call TriggerAddAction(Ep,function BM)
-	set Fp=CreateTrigger()
-	call TriggerAddRect(Fp,Of)
-	call TriggerAddCondition(Fp,Condition(function CM))
-	call TriggerAddAction(Fp,function cM)
-	set Gp=CreateTrigger()
-	call TriggerAddRect(Gp,Qf)
-	call TriggerAddCondition(Gp,Condition(function EM))
-	call TriggerAddAction(Gp,function FM)
-	set Hp=CreateTrigger()
-	call TriggerAddRect(Hp,Tf)
-	call TriggerAddCondition(Hp,Condition(function HM))
-	call TriggerAddAction(Hp,function IM)
-	set Ip=CreateTrigger()
-	call TriggerAddRect(Ip,Vf)
-	call TriggerAddCondition(Ip,Condition(function JM))
-	call TriggerAddAction(Ip,function KM)
-	set Jp=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(Jp,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Jp,Condition(function PM))
-	call TriggerAddAction(Jp,function QM)
-	set Kp=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Kp,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Kp,Condition(function SM))
-	call TriggerAddAction(Kp,function TM)
-	set Lp=CreateTrigger()
-	call TriggerAddRect(Lp,eg)
-	call TriggerAddCondition(Lp,Condition(function VM))
-	call TriggerAddAction(Lp,function WM)
-	set Mp=CreateTrigger()
-	call TriggerAddRect(Mp,gg)
-	call TriggerAddCondition(Mp,Condition(function YM))
-	call TriggerAddAction(Mp,function ZM)
-	set Np=CreateTrigger()
-	call TriggerAddRect(Np,ig)
-	call TriggerAddCondition(Np,Condition(function eN))
-	call TriggerAddAction(Np,function fN)
-	set Op=CreateTrigger()
-	call TriggerAddRect(Op,jg)
-	call TriggerAddCondition(Op,Condition(function hN))
-	call TriggerAddAction(Op,function iN)
-	set Pp=CreateTrigger()
-	call TriggerAddRect(Pp,ng)
-	call TriggerAddCondition(Pp,Condition(function kN))
-	call TriggerAddAction(Pp,function mN)
-	set Qp=CreateTrigger()
-	call TriggerAddRect(Qp,pg)
-	call TriggerAddCondition(Qp,Condition(function oN))
-	call TriggerAddAction(Qp,function pN)
-	set Rp=CreateTrigger()
-	call TriggerAddRect(Rp,qg)
-	call TriggerAddCondition(Rp,Condition(function rN))
-	call TriggerAddAction(Rp,function sN)
-	set Sp=CreateTrigger()
-	call TriggerAddRect(Sp,sg)
-	call TriggerAddCondition(Sp,Condition(function uN))
-	call TriggerAddAction(Sp,function vN)
-	set Tp=CreateTrigger()
-	call TriggerAddRect(Tp,ug)
-	call TriggerAddCondition(Tp,Condition(function xN))
-	call TriggerAddAction(Tp,function yN)
-	set Up=CreateTrigger()
-	call TriggerAddRect(Up,wg)
-	call TriggerAddCondition(Up,Condition(function AN))
-	call TriggerAddAction(Up,function aN)
-	set Vp=CreateTrigger()
-	call TriggerAddRect(Vp,xg)
-	call TriggerAddCondition(Vp,Condition(function bN))
-	call TriggerAddAction(Vp,function CN)
-	set Wp=CreateTrigger()
-	call TriggerAddRect(Wp,yg)
-	call TriggerAddCondition(Wp,Condition(function DN))
-	call TriggerAddAction(Wp,function EN)
-	set Xp=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Xp,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Xp,Condition(function GN))
-	call TriggerAddAction(Xp,function IN)
-	set Zp=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(Zp,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Zp,Condition(function MN))
-	call TriggerAddAction(Zp,function NN)
-	set dq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(dq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(dq,Condition(function PN))
-	call TriggerAddAction(dq,function QN)
-	set eq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(eq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(eq,Condition(function SN))
-	call TriggerAddAction(eq,function TN)
-	set fq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(fq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(fq,Condition(function VN))
-	call TriggerAddAction(fq,function WN)
-	set gq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(gq,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(gq,Condition(function YN))
-	call TriggerAddAction(gq,function ZN)
-	set hq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(hq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(hq,Condition(function eO))
-	call TriggerAddAction(hq,function fO)
-	set jq=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(jq,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(jq,Condition(function kO))
-	call TriggerAddAction(jq,function mO)
-	set kq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(kq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(kq,Condition(function oO))
-	call TriggerAddAction(kq,function pO)
-	set mq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(mq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(mq,Condition(function rO))
-	call TriggerAddAction(mq,function sO)
+	
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(t,Condition(function IsTaoHua))
@@ -11121,9 +10495,6 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t,Condition(function IsKongMing))
 	call TriggerAddAction(t,function KongMingQuan)
-	//set t=CreateTrigger()
-	//call TriggerRegisterDialogEvent(t,chuansong)
-	//call TriggerAddAction(t,function YiZhanChuanZou)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function IsBiHai))
@@ -11143,30 +10514,7 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t,Condition(function ChouXie_Condition))
 	call TriggerAddAction(t,function ChouXie_Action)
-	set oq=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(oq,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(oq,Condition(function xO))
-	call TriggerAddAction(oq,function yO)
-	set pq=CreateTrigger()
-	call TriggerAddRect(pq,gh)
-	call TriggerAddCondition(pq,Condition(function AO))
-	call TriggerAddAction(pq,function aO)
-	set qq=CreateTrigger()
-	call TriggerAddRect(qq,fh)
-	call TriggerAddCondition(qq,Condition(function bO))
-	call TriggerAddAction(qq,function CO)
-	set rq=CreateTrigger()
-	call TriggerAddRect(rq,jh)
-	call TriggerAddCondition(rq,Condition(function DO))
-	call TriggerAddAction(rq,function EO)
-	set sq=CreateTrigger()
-	call TriggerAddRect(sq,udg_liuqiu)
-	call TriggerAddCondition(sq,Condition(function GO))
-	call TriggerAddAction(sq,function HO)
-	set tq=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(tq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(tq,Condition(function lO))
-	call TriggerAddAction(tq,function JO)
+	
 	set uq=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(uq,.2)
 	call TriggerAddAction(uq,function LO)
@@ -11348,22 +10696,7 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(yr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(yr,Condition(function UQ))
 	call TriggerAddAction(yr,function VQ)
-	set zr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(zr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(zr,Condition(function XQ))
-	call TriggerAddAction(zr,function YQ)
-	set Ar=CreateTrigger()
-	call TriggerRegisterPlayerUnitEventSimple(Ar,Player(12),EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Ar,Condition(function dR))
-	call TriggerAddAction(Ar,function eR)
-	set ar=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ar,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(ar,Condition(function gR))
-	call TriggerAddAction(ar,function jR)
-	set Br=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Br,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Br,Condition(function mR))
-	call TriggerAddAction(Br,function nR)
+	
 	set br=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(br,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(br,Condition(function pR))
@@ -11372,148 +10705,8 @@ function main1 takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(br,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(br,Condition(function IsMuRongNeiGong))
 	call TriggerAddAction(br,function MuRongNeiGong)
-	set Cr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Cr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Cr,Condition(function sR))
-	call TriggerAddAction(Cr,function tR)
-	set cr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(cr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(cr,Condition(function vR))
-	call TriggerAddAction(cr,function wR)
-	set Dr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Dr,f9[1])
-	call TriggerAddAction(Dr,function yR)
-	set Er=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Er,f9[2])
-	call TriggerAddAction(Er,function AR)
-	set Fr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Fr,f9[3])
-	call TriggerAddAction(Fr,function BR)
-	set Gr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Gr,f9[4])
-	call TriggerAddAction(Gr,function CR)
-	set Hr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Hr,f9[5])
-	call TriggerAddAction(Hr,function DR)
-	set Ir=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Ir,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Ir,Condition(function FR))
-	call TriggerAddAction(Ir,function GR)
-	set lr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(lr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(lr,Condition(function IR))
-	call TriggerAddAction(lr,function lR)
-	set Jr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Jr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Jr,Condition(function KR))
-	call TriggerAddAction(Jr,function LR)
-	set Kr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Kr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Kr,Condition(function NR))
-	call TriggerAddAction(Kr,function OR)
-	set Lr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Lr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Lr,Condition(function QR))
-	call TriggerAddAction(Lr,function RR)
-	set Mr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Mr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Mr,Condition(function TR))
-	call TriggerAddAction(Mr,function UR)
-	set Nr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Nr,Z9[1])
-	call TriggerAddAction(Nr,function WR)
-	set Pr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Pr,Z9[2])
-	call TriggerAddAction(Pr,function YR)
-	set Qr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Qr,Z9[3])
-	call TriggerAddAction(Qr,function dS)
-	set Rr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Rr,Z9[4])
-	call TriggerAddAction(Rr,function fS)
-	set Sr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Sr,Z9[5])
-	call TriggerAddAction(Sr,function hS)
-	set Tr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Tr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Tr,Condition(function jS))
-	call TriggerAddAction(Tr,function kS)
-	set Ur=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Ur,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Ur,Condition(function nS))
-	call TriggerAddAction(Ur,function oS)
-	set Vr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Vr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Vr,Condition(function qS))
-	call TriggerAddAction(Vr,function rS)
-	set Wr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Wr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Wr,Condition(function tS))
-	call TriggerAddAction(Wr,function uS)
-	set Xr=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(Xr,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Xr,Condition(function wS))
-	call TriggerAddAction(Xr,function xS)
-	set Yr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Yr,fd[1])
-	call TriggerAddCondition(Yr,Condition(function zS))
-	call TriggerAddAction(Yr,function AS)
-	set Zr=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(Zr,fd[2])
-	call TriggerAddCondition(Zr,Condition(function BS))
-	call TriggerAddAction(Zr,function bS)
-	set ds=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(ds,fd[3])
-	call TriggerAddCondition(ds,Condition(function cS))
-	call TriggerAddAction(ds,function DS)
-	set es=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(es,fd[4])
-	call TriggerAddCondition(es,Condition(function FS))
-	call TriggerAddAction(es,function GS)
-	set fs=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(fs,fd[5])
-	call TriggerAddCondition(fs,Condition(function IS))
-	call TriggerAddAction(fs,function lS)
-	set gs=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(gs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(gs,Condition(function KS))
-	call TriggerAddAction(gs,function LS)
-	set hs=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(hs,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(hs,Condition(function NS))
-	call TriggerAddAction(hs,function OS)
-	set is=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(is,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(is,Condition(function QS))
-	call TriggerAddAction(is,function RS)
-	set js=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(js,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(js,Condition(function TS))
-	call TriggerAddAction(js,function US)
-	set ks=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ks,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(ks,Condition(function WS))
-	call TriggerAddAction(ks,function XS)
-	set ms=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(ms,fd[1])
-	call TriggerAddCondition(ms,Condition(function ZS))
-	call TriggerAddAction(ms,function d5)
-	set ns=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(ns,fd[2])
-	call TriggerAddCondition(ns,Condition(function f5))
-	call TriggerAddAction(ns,function g5)
-	set os=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(os,fd[3])
-	call TriggerAddCondition(os,Condition(function i5))
-	call TriggerAddAction(os,function j5)
-	set ps=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(ps,fd[4])
-	call TriggerAddCondition(ps,Condition(function m5))
-	call TriggerAddAction(ps,function nn5)
-	set qs=CreateTrigger()
-	call TriggerRegisterTimerExpireEvent(qs,fd[5])
-	call TriggerAddCondition(qs,Condition(function p5))
-	call TriggerAddAction(qs,function q5)
+	
+	
 	set rs=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(rs,.5)
 	call TriggerAddAction(rs,function s5)
@@ -11630,31 +10823,7 @@ function main1 takes nothing returns nothing
 	set t=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(t,3000.)
 	call TriggerAddAction(t,function LingJiuGongJinGong)
-	//特殊事件：潇湘子和尹克西到藏经阁盗取九阳神功经书
-	set t = CreateTrigger()
-	call TriggerRegisterTimerEventSingle(t, GetRandomInt(60, 1800))
-	//call TriggerRegisterTimerEventSingle(t, 10)
-	call TriggerAddAction(t, function stealJiuYang)
-	//击杀潇湘子和尹克西，获得奇武，事件结束
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillStealer))
-	call TriggerAddAction(t,function killStealer)
-	//击杀觉远大师和张君宝，获得奇武，事件结束
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillSeeker))
-	call TriggerAddAction(t,function killSeeker)
-	//击杀白猿，获得伴侣白猿
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillBaiYuan))
-	call TriggerAddAction(t,function killBaiYuan)
-	//击杀曾阿牛，获得九阳残卷
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillANiu))
-	call TriggerAddAction(t,function killANiu)
+	
 	set Gs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Gs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Gs,Condition(function qT))
@@ -11676,8 +10845,8 @@ function main1 takes nothing returns nothing
 	call TriggerAddCondition(Jt,Condition(function MT))
 	call TriggerAddAction(Jt,function NT)
 	
-	
-	call initActivationCode() //激活码
+	call GameDetail_trigger() // 游戏细节处理
+	call VIP_trigger() // VIP系统
 	call InitShopWeapon()
 	call InitTrig_ZhangMenSkill()
 	
@@ -11685,7 +10854,10 @@ function main1 takes nothing returns nothing
     call ZiZhi_Trigger()
     call ZhenFa_Trigger()
     call QiWu_Trigger()
-
+	
+	call Instances_Trigger() //副本和任务系统
+	call Experiences_Trigger() //历练系统
+	
 	call KeyInputSystem() //键盘输入系统
 	call SmeltingWeaponSystem()//决战江湖1.4之大辽金匠
 	call MonsterCome() //决战江湖1.52之圣兽来了

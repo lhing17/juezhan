@@ -146,3 +146,29 @@ function HongQiGong_Action takes nothing returns nothing
 	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFFFCC00洪七公已中毒，现正在某处疗伤")
 endfunction
 //------桃花岛系统结束------//
+
+function TaoHuaDao_Trigger takes nothing returns nothing
+	local trigger t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	call TriggerAddCondition(t,Condition(function IsTaoHua))
+	call TriggerAddAction(t,function TaoHuaDao)
+	set t=CreateTrigger()
+	call TriggerRegisterTimerEventPeriodic(t,2400.)
+	call TriggerAddAction(t,function TaoHuaDaoKaiFang)
+	set t=CreateTrigger()
+	call TriggerRegisterPlayerUnitEventSimple(t,Player(12),EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddAction(t,function TaoHuaGun)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function TaoHua_Condition))
+	call TriggerAddAction(t,function TaoHua_Action)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function OuYangFeng_Condition))
+	call TriggerAddAction(t,function OuYangFeng_Action)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function HongQiGong_Condition))
+	call TriggerAddAction(t,function HongQiGong_Action)
+	set t = null
+endfunction

@@ -53,7 +53,7 @@ function ha takes nothing returns nothing
 	call ForGroupBJ(w7,function ga)
 endfunction
 
-function GameDetail_trigger takes nothing returns nothing
+function GameDetail_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
 	//用移动模拟攻击、巡逻模拟移动 对地面
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
@@ -76,5 +76,9 @@ function GameDetail_trigger takes nothing returns nothing
 	set kj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(kj,5.)
 	call TriggerAddAction(kj,function ha)
+	// 游戏优化
+	set Qh=CreateTrigger()
+	call TriggerRegisterTimerEventSingle(Qh,.0)
+	call TriggerAddAction(Qh,function Ax)
 	set t = null
 endfunction

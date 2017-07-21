@@ -469,5 +469,9 @@ function GuMu_Trigger takes nothing returns nothing
 	call TriggerAddCondition(t,Condition(function e3))
 	call TriggerAddAction(t,function j3)
 	
+	set t=CreateTrigger()
+	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	call TriggerAddCondition(t,Condition(function m3))
+	call TriggerAddAction(t,function nn3)
 	set t = null
 endfunction

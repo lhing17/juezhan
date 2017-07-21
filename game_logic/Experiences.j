@@ -1521,7 +1521,7 @@ function q5 takes nothing returns nothing
 endfunction
 
 function Experiences_Trigger takes nothing returns nothing
-	local trigger t = null
+	local trigger t = CreateTrigger()
 	
 	set zr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(zr,EVENT_PLAYER_UNIT_PICKUP_ITEM)

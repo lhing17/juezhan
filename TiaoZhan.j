@@ -1,4 +1,4 @@
-library TiaoZhan initializer init
+
 	globals
 		integer array tiaozhanduixiang
 		integer array menpaiwuqi
@@ -15,7 +15,7 @@ library TiaoZhan initializer init
 		unit udg_tiaozhanguai=null
 
 	endglobals
-	private function IsTiaoZhan takes nothing returns boolean
+	function IsTiaoZhan takes nothing returns boolean
 		local player p=GetOwningPlayer(GetTriggerUnit())
 		local integer i=1+GetPlayerId(p)
 		if GetItemTypeId(GetManipulatedItem())=='I09O' and (IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) then
@@ -23,7 +23,7 @@ library TiaoZhan initializer init
 		endif
         return	false
 	endfunction
-    private function TiaoZhan takes nothing returns nothing
+    function TiaoZhan takes nothing returns nothing
         local unit u=GetTriggerUnit()
         local player p=GetOwningPlayer(u)
         local integer i=1+GetPlayerId(p)
@@ -54,7 +54,7 @@ library TiaoZhan initializer init
         set u=null
         set p=null
     endfunction
-    private function TiaoZhan_Action takes nothing returns nothing
+    function TiaoZhan_Action takes nothing returns nothing
         local location loc=Location(12156,-12021)
         local player p=GetTriggerPlayer()
         local unit u=udg_hero[1+GetPlayerId(p)]
@@ -96,10 +96,10 @@ library TiaoZhan initializer init
         set u=null
         set p=null
     endfunction
-    private function DiaoLuo takes nothing returns boolean
+    function DiaoLuo takes nothing returns boolean
     	return IsUnitEnemy(GetTriggerUnit(),GetOwningPlayer(GetKillingUnit())) and (GetUnitTypeId(GetTriggerUnit())=='n005' or GetUnitTypeId(GetTriggerUnit())=='o01W' or GetUnitTypeId(GetTriggerUnit())=='o01V' or GetUnitTypeId(GetTriggerUnit())=='n006' or GetUnitTypeId(GetTriggerUnit())=='o024')
     endfunction
-    private function DiaoLuo_Action takes nothing returns nothing
+    function DiaoLuo_Action takes nothing returns nothing
         local location loc = GetUnitLoc(GetTriggerUnit())
         local integer i = 0
     	if GetUnitTypeId(GetTriggerUnit())=='n005' then
@@ -137,7 +137,27 @@ library TiaoZhan initializer init
         call RemoveLocation(loc)
         set loc=null
     endfunction
-    private function init takes nothing returns nothing
+	//离开挑战区域挑战失败
+	function TiaoZhanShiBai takes nothing returns boolean
+		return IsUnitType(GetLeavingUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetLeavingUnit()))==MAP_CONTROL_USER and  udg_tiaozhanguai!=null
+	endfunction
+	function TiaoZhanShiBai_Action takes nothing returns nothing
+		local unit u=GetLeavingUnit()
+		local player p=GetOwningPlayer(u)
+		local integer i=1+GetPlayerId(p)
+		call DisplayTimedTextToPlayer(p,0,0,15,"|cFFFFFF00离开区域，挑战失败")
+		if GetUnitTypeId(udg_tiaozhanguai)=='n005' then
+			set udg_tiaodugu[i]=true
+		endif
+		if GetUnitTypeId(udg_tiaozhanguai)=='o01W' then
+			set udg_tiaoxuedao[i]=true
+		endif
+		call RemoveUnit(udg_tiaozhanguai)
+		set udg_tiaozhanguai=null
+		set u=null
+		set p=null
+	endfunction
+    function TiaoZhan_Trigger takes nothing returns nothing
         local trigger t=CreateTrigger()
         local integer i=0
         set i = 1
@@ -158,38 +178,11 @@ library TiaoZhan initializer init
         call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
         call TriggerAddCondition(t,function DiaoLuo)
         call TriggerAddAction(t,function DiaoLuo_Action)
-
-
-        //峨眉挑战灭绝师太得倚天剑
-        //set tiaozhanduixiang[1]='o00W'
-        //set menpaiwuqi[1]='I00B'
-        //丐帮挑战洪七公得打狗棒
-        //set tiaozhanduixiang[2]='nwnr'
-        //set menpaiwuqi[2]='I097'
-        //全真挑战周伯通
-        //set tiaozhanduixiang[3]='o00Y'
-        //set menpaiwuqi[3]='I098'
-        //血刀挑战血刀老祖得血刀
-        //set tiaozhanduixiang[4]='o01U'
-        //set menpaiwuqi[4]='I09A'
-        //古墓挑战林朝英得淑女剑
-        //set tiaozhanduixiang[5]='ndqs'
-        //set menpaiwuqi[5]=''
-        //少林挑战觉远大师
-        //set tiaozhanduixiang[6]='o00O'
-        //set menpaiwuqi[6]=''
-        //武当挑战张三丰
-        //set tiaozhanduixiang[7]=''.
-        //set menpaiwuqi[7]=''
-        //星宿挑战
-        //set tiaozhanduixiang[8]=''
-        //set menpaiwuqi[8]=''
-        //华山挑战
-        //set tiaozhanduixiang[9]=''
-        //set menpaiwuqi[9]=''
-        //恒山挑战
-        //set tiaozhanduixiang[10]=''
-        //set menpaiwuqi[10]=''
+		// 离开挑战区挑战失败
+		set t=CreateTrigger()
+		call TriggerRegisterLeaveRectSimple(t,udg_tiaozhanqu)
+		call TriggerAddCondition(t,Condition(function TiaoZhanShiBai))
+		call TriggerAddAction(t,function TiaoZhanShiBai_Action)
         set t=null
     endfunction
-endlibrary
+

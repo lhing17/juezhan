@@ -1605,7 +1605,7 @@ function EL takes nothing returns nothing
 endfunction
 
 function Tasks_Trigger takes nothing returns nothing
-	local trigger t = null
+	local trigger t = CreateTrigger()
 	set Fo=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Fo,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Fo,Condition(function IJ))

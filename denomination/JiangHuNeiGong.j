@@ -261,6 +261,82 @@ endif
 call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //-----------江湖内功和九阴武功结束-----------
+//模拟九阳神功
+function IsJiuYang takes nothing returns boolean
+	return GetSpellAbilityId()=='A0DN' or GetSpellAbilityId()=='A01B' or GetSpellAbilityId()=='A01C' or GetSpellAbilityId()=='A01D'
+endfunction
+function JiuYang_End takes nothing returns nothing
+	local timer t=GetExpiredTimer()
+	local unit u=LoadUnitHandle(YDHT,GetHandleId(t),0)
+	call UnitRemoveAbility(u,'A0DL')
+	call UnitRemoveAbility(u,'A0DM')
+	call UnitRemoveAbility(u,'A0CO')
+	call UnitRemoveAbility(u,'A0CQ')
+	call FlushChildHashtable(YDHT,GetHandleId(t))
+	call PauseTimer(t)
+	call DestroyTimer(t)
+	set t=null
+	set u=null
+endfunction
+function JiuYang takes nothing returns nothing
+    local unit u=GetTriggerUnit()
+    local timer t=CreateTimer()
+    local real r=0.
+    call SaveUnitHandle(YDHT,GetHandleId(t),0,u)
+    call UnitAddAbility(u,'A0DL')
+    call UnitAddAbility(u,'A0DM')
+    call UnitAddAbility(u,'A0CO')
+    call UnitAddAbilityBJ( 'A0CQ', u )
+    call SetPlayerAbilityAvailableBJ( false, 'A0CQ', GetOwningPlayer(u) )
+    if GetSpellAbilityId()=='A0DN' then
+	    set r=30
+	elseif GetSpellAbilityId()=='A01B' then
+		set r=12
+	elseif GetSpellAbilityId()=='A01C' then
+		set r=20
+	elseif GetSpellAbilityId()=='A01D' then
+		set r=30
+	endif
+    call TimerStart(t,r,false,function JiuYang_End)
+    set t=null
+    set u=null
+endfunction
+//医疗篇
+function IsYiLiao takes nothing returns boolean
+    return ( ( GetSpellAbilityId() == 'A0D4' ) )
+endfunction
+function YiLiaoPian takes nothing returns nothing
+	local unit u=GetTriggerUnit()
+    local unit uc=GetSpellTargetUnit()
+    call SetWidgetLife(uc,GetWidgetLife(u)+20000)
+    if udg_whichzhangmen[1+GetPlayerId(GetOwningPlayer(u))]==11 then
+	    call SetWidgetLife(uc,GetWidgetLife(u)+380000)
+    endif
+endfunction
+
+
+
+
+//使用洗髓经
+function QI takes nothing returns boolean
+return((GetSpellAbilityId()==1093679152)and(UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)))
+endfunction
+function RI takes nothing returns nothing
+local integer id=GetHandleId(GetTriggeringTrigger())
+local integer cx=LoadInteger(YDHT,id,-$3021938A)
+set cx=cx+3
+call SaveInteger(YDHT,id,-$3021938A,cx)
+call SaveInteger(YDHT,id,-$1317DA19,cx)
+call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetUnitLoc(GetTriggerUnit()))
+call CreateNUnitsAtLoc(1,'e000',GetOwningPlayer(GetTriggerUnit()),LoadLocationHandle(YDHT,id*cx,$5E83114F),bj_UNIT_FACING)
+call ShowUnitHide(bj_lastCreatedUnit)
+call UnitAddAbility(bj_lastCreatedUnit,1093679153)
+call ShowUnitHide(bj_lastCreatedUnit)
+call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',26.)
+call IssueImmediateOrderById(bj_lastCreatedUnit,$D00D8)
+call FlushChildHashtable(YDHT,id*cx)
+endfunction
+
 
 function JiangHuNeiGong_Trigger takes nothing returns nothing
 	local trigger t = null
@@ -268,5 +344,49 @@ function JiangHuNeiGong_Trigger takes nothing returns nothing
     call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(t,Condition(function JiuYin_Condition))
     call TriggerAddAction(t,function JiuYin_Action)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsJiuYang))
+	call TriggerAddAction(t, function JiuYang)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(t, Condition(function IsYiLiao))
+	call TriggerAddAction(t, function YiLiaoPian)
+	set bn=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(bn,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(bn,Condition(function uI))
+	call TriggerAddAction(bn,function vI)
+	set Cn=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(Cn,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(Cn,Condition(function xI))
+	call TriggerAddAction(Cn,function AI)
+	set cn=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(cn,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(cn,Condition(function BI))
+	call TriggerAddAction(cn,function bI)
+	set Dn=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(Dn,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(Dn,Condition(function cI))
+	call TriggerAddAction(Dn,function DI)
+	set En=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(En,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(En,Condition(function FI))
+	call TriggerAddAction(En,function GI)
+	set Fn=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(Fn,EVENT_PLAYER_UNIT_DEATH)
+	call TriggerAddCondition(Fn,Condition(function II))
+	call TriggerAddAction(Fn,function lI)
+	set In=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(In,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	call TriggerAddCondition(In,Condition(function QI))
+	call TriggerAddAction(In,function RI)
+	// 特殊事件——辽国进攻
+	set t=CreateTrigger()
+	call TriggerRegisterTimerEventSingle(t,2100.)
+	call TriggerAddAction(t,function LiaoGuoJinGong)
+	// 特殊事件——灵鹫宫进攻
+	set t=CreateTrigger()
+	call TriggerRegisterTimerEventSingle(t,3000.)
+	call TriggerAddAction(t,function LingJiuGongJinGong)
 	set t = null
 endfunction

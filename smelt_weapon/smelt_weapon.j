@@ -221,13 +221,6 @@ function YeLianWuQi takes nothing returns nothing
 	set p = null
 	set it = null
 endfunction
-function SmeltingWeaponSystem takes nothing returns nothing
-	local trigger t = CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(t,Condition(function IsYeLianWuQi))
-	call TriggerAddAction(t,function YeLianWuQi)
-	set t = null
-endfunction
 function InitShopWeapon takes nothing returns nothing
 	set shopweapon[1] = ShopWeapon.create('I01E', 0)
 	set shopweapon[2] = ShopWeapon.create('I01F', 0)
@@ -254,3 +247,13 @@ function InitShopWeapon takes nothing returns nothing
 	set shopweapon[23] = ShopWeapon.create('I09C', 6)
 	set shopweapon[24] = ShopWeapon.create('I09D', 6)
 endfunction
+
+function SmeltingWeaponSystem takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	call InitShopWeapon()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	call TriggerAddCondition(t,Condition(function IsYeLianWuQi))
+	call TriggerAddAction(t,function YeLianWuQi)
+	set t = null
+endfunction
+

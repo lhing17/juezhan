@@ -440,6 +440,11 @@ function GaiBang_Trigger takes nothing returns nothing
 	call TriggerAddCondition(t,Condition(function IsFengMo))
 	call TriggerAddAction(t,function FengMoGun)
 	
+	set Bk=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(Bk,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(Bk,Condition(function IsFengMoShe))
+	call TriggerAddAction(Bk,function FengMoShe)
+	
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t, Condition(function IsGaiBang))

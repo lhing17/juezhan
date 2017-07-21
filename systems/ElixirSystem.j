@@ -1054,7 +1054,7 @@ endfunction
 //----------炼丹系统结束----------//
 
 function ElixirSystem_Trigger takes nothing returns nothing
-	local trigger t = null
+	local trigger t = CreateTrigger()
 	set yq=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(yq,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(yq,Condition(function VO))

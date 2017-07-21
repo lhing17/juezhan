@@ -573,49 +573,7 @@ function TransferJY takes nothing returns nothing
 		endif
 	endif
 endfunction
-//辽国进攻
-function LiaoGuoJinGong_1 takes nothing returns nothing
-	local timer t = GetExpiredTimer()
-	local integer j = LoadInteger(YDHT, GetHandleId(t), 0)
-	local integer jmax = 40
-	if j < jmax then
-		call CreateNUnitsAtLocFacingLocBJ(1,'hkni',Player(6),Location(-5600, 100),v7[4])
-		call GroupAddUnit(w7,bj_lastCreatedUnit)
-		call IssueTargetOrderById(bj_lastCreatedUnit, $D000F, udg_ZhengPaiWL )
-        call SaveInteger(YDHT, GetHandleId(t), 0, j + 1)
-	else
-		call PauseTimer(t)
-		call DestroyTimer(t)
-		call FlushChildHashtable(YDHT, GetHandleId(t))
-	endif
-	set t = null
-endfunction
-function LiaoGuoJinGong takes nothing returns nothing
-	local timer t
-	if Sd[1]!=2 and Sd[2]!=2 and Sd[3]!=2 and Sd[4]!=2 and Sd[5]!=2 and udg_teshushijian then
-		set t = CreateTimer()
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033激活特殊事件|cFFDDA0DD※边境入侵※")
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033由于激活特殊事件，辽国派出骑兵前来进攻，请准备防御")
-		call TimerStart(t, 2., true, function LiaoGuoJinGong_1)
-	endif
-	set t = null
-endfunction
-//灵鹫宫进攻：触发条件，有玩家选择了灵鹫宫
-function LingJiuGongJinGong takes nothing returns nothing
-	if (udg_runamen[1]==12 or udg_runamen[2]==12 or udg_runamen[3]==12 or udg_runamen[4]==12 or udg_runamen[5]==12) and udg_teshushijian then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033激活特殊事件|cFFDDA0DD※灵鹫宫劫※")
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033由于激活特殊事件，灵鹫宫派出高手前来进攻，请准备防御")
-		call CreateNUnitsAtLocFacingLocBJ(1,'ngh2',Player(6),Location(1800, -100),v7[4])
-		call GroupAddUnit(w7,bj_lastCreatedUnit)
-		call IssueTargetOrderById(bj_lastCreatedUnit, $D000F, udg_ZhengPaiWL )
-		call CreateNUnitsAtLocFacingLocBJ(1,'nfsp',Player(6),Location(1800, -100),v7[4])
-		call GroupAddUnit(w7,bj_lastCreatedUnit)
-		call IssueTargetOrderById(bj_lastCreatedUnit, $D000F, udg_ZhengPaiWL )
-		call CreateNUnitsAtLocFacingLocBJ(1,'nmgd',Player(6),Location(1800, -100),v7[4])
-		call GroupAddUnit(w7,bj_lastCreatedUnit)
-		call IssueTargetOrderById(bj_lastCreatedUnit, $D000F, udg_ZhengPaiWL )
-	endif
-endfunction
+
 function GetGeoNormRandomReal takes real r1, real r2 returns real
 	local real rr1 = YDWELogarithmLg(r1)
 	local real rr2 = YDWELogarithmLg(r2)

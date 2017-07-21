@@ -1,6 +1,8 @@
-//-----------------------
+//----------------------------------------------
 //游戏细节处理——一般情况下不需要修改
-//-----------------------
+//----------------------------------------------
+
+
 function rx takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and((GetIssuedOrderId()==$D0012)or(GetIssuedOrderId()==$D0016)))
 endfunction

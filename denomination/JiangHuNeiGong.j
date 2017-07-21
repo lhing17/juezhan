@@ -261,3 +261,12 @@ endif
 call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //-----------江湖内功和九阴武功结束-----------
+
+function JiangHuNeiGong_Trigger takes nothing returns nothing
+	local trigger t = null
+	set t=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+    call TriggerAddCondition(t,Condition(function JiuYin_Condition))
+    call TriggerAddAction(t,function JiuYin_Action)
+	set t = null
+endfunction

@@ -1,12 +1,12 @@
 //----------------------------------------------
-//ÓÎÏ·Ï¸½Ú´¦Àí¡ª¡ªÒ»°ãÇé¿öÏÂ²»ĞèÒªĞŞ¸Ä
+//æ¸¸æˆç»†èŠ‚å¤„ç†â€”â€”ä¸€èˆ¬æƒ…å†µä¸‹ä¸éœ€è¦ä¿®æ”¹
 //----------------------------------------------
 
 
 function rx takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and((GetIssuedOrderId()==$D0012)or(GetIssuedOrderId()==$D0016)))
 endfunction
-//ÓÃÒÆ¶¯Ä£Äâ¹¥»÷¡¢Ñ²ÂßÄ£ÄâÒÆ¶¯ ¶ÔµØÃæ
+//ç”¨ç§»åŠ¨æ¨¡æ‹Ÿæ”»å‡»ã€å·¡é€»æ¨¡æ‹Ÿç§»åŠ¨ å¯¹åœ°é¢
 function sx takes nothing returns nothing
 	set udg_loc1=GetOrderPointLoc()
 	if((GetIssuedOrderId()==$D0012))then
@@ -18,7 +18,7 @@ function sx takes nothing returns nothing
 	endif
 	call RemoveLocation(udg_loc1)
 endfunction
-//ÓÒ¼üµã»÷¼º·½µ¥Î»
+//å³é”®ç‚¹å‡»å·±æ–¹å•ä½
 function uuxx takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(IsPlayerAlly(GetOwningPlayer(GetOrderedUnit()),GetOwningPlayer(GetOrderTargetUnit())))and(GetIssuedOrderId()==$D0003))
 endfunction
@@ -27,19 +27,19 @@ function vvxx takes nothing returns nothing
 	call IssuePointOrderByIdLoc(GetOrderedUnit(),$D0003,udg_loc1)
 	call RemoveLocation(udg_loc1)
 endfunction
-//ÓÃÒÆ¶¯Ä£Äâ¹¥»÷ ¶Ôµã
+//ç”¨ç§»åŠ¨æ¨¡æ‹Ÿæ”»å‡» å¯¹ç‚¹
 function xx takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(GetIssuedOrderId()==$D0012))
 endfunction
 function yx takes nothing returns nothing
 	call IssueTargetOrderById(GetOrderedUnit(),$D000F,GetOrderTargetUnit())
 endfunction
-//ÓÅ»¯ËÙ¶È¼Ó¿ì
+//ä¼˜åŒ–é€Ÿåº¦åŠ å¿«
 function Ax takes nothing returns nothing
 	call Cheat("DooConV")
 endfunction
 
-//ÓÑ·½µ¥Î»A»ùµØ
+//å‹æ–¹å•ä½AåŸºåœ°
 function Ux takes nothing returns boolean
 	return((GetTriggerUnit()==udg_ZhengPaiWL)and(IsUnitAlly(GetAttacker(),Player(5))))
 endfunction
@@ -55,7 +55,7 @@ endfunction
 
 function GameDetail_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
-	//ÓÃÒÆ¶¯Ä£Äâ¹¥»÷¡¢Ñ²ÂßÄ£ÄâÒÆ¶¯ ¶ÔµØÃæ
+	//ç”¨ç§»åŠ¨æ¨¡æ‹Ÿæ”»å‡»ã€å·¡é€»æ¨¡æ‹Ÿç§»åŠ¨ å¯¹åœ°é¢
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
 	call TriggerAddCondition(t,Condition(function rx))
 	call TriggerAddAction(t,function sx)
@@ -67,16 +67,16 @@ function GameDetail_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
 	call TriggerAddCondition(t,Condition(function xx))
 	call TriggerAddAction(t,function yx)
-	// ÓÑ·½µ¥Î»A»ùµØ
+	// å‹æ–¹å•ä½AåŸºåœ°
 	set ei=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ei,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(ei,Condition(function Ux))
 	call TriggerAddAction(ei,function Vx)
-	// ÈÃ¹ÖA»ùµØ
+	// è®©æ€ªAåŸºåœ°
 	set kj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(kj,5.)
 	call TriggerAddAction(kj,function ha)
-	// ÓÎÏ·ÓÅ»¯
+	// æ¸¸æˆä¼˜åŒ–
 	set Qh=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Qh,.0)
 	call TriggerAddAction(Qh,function Ax)

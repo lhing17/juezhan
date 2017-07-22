@@ -1552,7 +1552,7 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	local real random //随机因子
 	local real basic_damage //基础伤害
 	if UnitTypeNotNull(u,UNIT_TYPE_HERO) then
-		set attack = (2-0.2*I2R(udg_nandu))*(1+0.3*GetUnitAbilityLevel(u, 'A059'))*25*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
+		set attack = (1+0.3*GetUnitAbilityLevel(u, 'A059'))*50*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
 		if GetUnitAbilityLevel(u, id)==9 then
 			set attack = attack * 3
 		endif
@@ -1579,15 +1579,15 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	
 	
 	if uc == null then
-		set target_def = 0.5
+		set target_def = 1
 	else
-		set target_def = 1/(1+0.1*GetUnitLevel(uc))
+		set target_def = 1/(1+0.04*GetUnitLevel(uc))
 	endif
 	//set critical = udg_baojishanghai[1+GetPlayerId(GetOwningPlayer(u))]
 	if uc == null then
 		set dodge = 25
 	else
-		set dodge = RMinBJ(I2R(GetUnitLevel(uc)) / 4, 95.)
+		set dodge = RMinBJ(I2R(GetUnitLevel(uc)) / 8, 95.)
 		if UnitHasBuffBJ(uc, 'Bslo') then
 			set dodge = 0.
 		endif

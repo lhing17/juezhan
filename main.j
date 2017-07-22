@@ -2138,12 +2138,26 @@ function main1 takes nothing returns nothing
 	call InitGlobalVariables() //初始化全局变量
 
 	
+	
+	
+	call KeyInputSystem() //键盘输入系统
+	call SmeltingWeaponSystem()//决战江湖1.4之大辽金匠
+	call MonsterCome() //决战江湖1.52之圣兽来了
+	call CreateDestructables() //创建可破坏物
+	call Cuns() //存储装备属性
+	call CunVIPNum()
+	call CunWuGongS() //存储武功
+	call najitest() //纳吉的测试代码
+endfunction
+
+function main2 takes nothing returns nothing
 	call GameLogic_Trigger() // 游戏逻辑触发器
 	call GameDetail_Trigger() // 游戏细节处理
 	call VIP_Trigger() // VIP系统
 	
 	call InitTrig_ZhangMenSkill()
 	
+	call Equipment_Trigger() //装备属性触发器
 	call MenPai_Trigger() //门派触发器
     call ZiZhi_Trigger() //自制武器触发器
     call ZhenFa_Trigger() //阵法触发器
@@ -2154,13 +2168,4 @@ function main1 takes nothing returns nothing
 	call Experiences_Trigger() //历练系统
 	call ElixirSystem_Trigger() //丹药系统
 	call Tasks_Trigger() //任务系统 
-	
-	call KeyInputSystem() //键盘输入系统
-	call SmeltingWeaponSystem()//决战江湖1.4之大辽金匠
-	call MonsterCome() //决战江湖1.52之圣兽来了
-	call CreateDestructables() //创建可破坏物
-	call Cuns() //存储装备属性
-	call CunVIPNum()
-	call CunWuGongS() //存储武功
-	call najitest() //纳吉的测试代码
 endfunction

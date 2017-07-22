@@ -1,18 +1,18 @@
 //---------------------------------
-// ÓÎÏ·Âß¼­´¦Àí
-// 1. »ùµØ±£»¤Âß¼­
-// 2. Ñ¡ÔñÓ¢ĞÛ¼°ÃÅÅÉ
-// 3. ÉèÖÃÓÎÏ·Ä£Ê½ºÍÄÑ¶È
-// 4. ÓÎÏ·½çÃæÏÔÊ¾Ïà¹Ø
-// 5. ÓÎÏ·Ê¤ÀûºÍÊ§°Ü
-// 6. Íæ¼ÒÓ¢ĞÛÕóÍöºÍ¸´»î
-// 7. Ë¢¹ÖÏà¹Ø
+// æ¸¸æˆé€»è¾‘å¤„ç†
+// 1. åŸºåœ°ä¿æŠ¤é€»è¾‘
+// 2. é€‰æ‹©è‹±é›„åŠé—¨æ´¾
+// 3. è®¾ç½®æ¸¸æˆæ¨¡å¼å’Œéš¾åº¦
+// 4. æ¸¸æˆç•Œé¢æ˜¾ç¤ºç›¸å…³
+// 5. æ¸¸æˆèƒœåˆ©å’Œå¤±è´¥
+// 6. ç©å®¶è‹±é›„é˜µäº¡å’Œå¤æ´»
+// 7. åˆ·æ€ªç›¸å…³
 //---------------------------------
 
 /*
- * 1. »ùµØ±£»¤»úÖÆ
+ * 1. åŸºåœ°ä¿æŠ¤æœºåˆ¶
  */
-//»ùµØ±£»¤»úÖÆ
+//åŸºåœ°ä¿æŠ¤æœºåˆ¶
 function IsJiDiBaoHu takes nothing returns boolean
 	return (GetTriggerUnit() == udg_ZhengPaiWL) and GetEventDamage() > GetUnitState(udg_ZhengPaiWL, UNIT_STATE_MAX_LIFE) * 0.03
 endfunction
@@ -20,21 +20,21 @@ function JiDiBaoHu takes nothing returns nothing
 	call WuDi(udg_ZhengPaiWL)
 	call SetUnitLifePercentBJ(udg_ZhengPaiWL, GetUnitLifePercent(udg_ZhengPaiWL) - 3.00)
 endfunction
-//ÔÆ´ó¾È¼Ò
+//äº‘å¤§æ•‘å®¶
 function Trig_YunDaXianShenConditions takes nothing returns boolean
     return ((GetTriggerUnit() == udg_ZhengPaiWL) and (GetUnitLifePercent(udg_ZhengPaiWL) <= 25.00) and (udg_yunyangxianshen == false))
 endfunction
 function Trig_YunDaXianShenActions takes nothing returns nothing
     set udg_yunyangxianshen = true
     call CreateNUnitsAtLoc( 1, 'Hblm', Player(5), OffsetLocation(GetUnitLoc(udg_ZhengPaiWL), 0, 200), 90.00 )
-    call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15,"|cFFFF6600»ùµØÑÏÖØÊÜ´´£¬ÔÆÑîÏÖÉíÏàÖú")
+    call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15,"|cFFFF6600åŸºåœ°ä¸¥é‡å—åˆ›ï¼Œäº‘æ¨ç°èº«ç›¸åŠ©")
     call UnitApplyTimedLife( GetLastCreatedUnit(), 'BHwe', 20.00 )
     call UnitAddAbility( udg_ZhengPaiWL, 'Avul' )
     call YDWEPolledWaitNull(20.00)
     call UnitRemoveAbilityBJ( 'Avul', udg_ZhengPaiWL )
 endfunction
 
-//Âò»ùµØÎŞµĞ
+//ä¹°åŸºåœ°æ— æ•Œ
 function BuyJiDiWuDi takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I07X'))
 endfunction
@@ -45,14 +45,14 @@ function JiDiWuDi takes nothing returns nothing
 	call SaveInteger(YDHT,id,-$3021938A,cx)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
 	call SaveUnitHandle(YDHT,id*cx,$32A9E4C8,udg_ZhengPaiWL)
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00ff33ÔÚÕıÒåÖ®Ê¿µÄ±Ó»¤ÏÂ£¬ÎäÁÖÔİÊ±ÎŞµĞÁË£¨20Ãëºó½â³ı£©")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00ff33åœ¨æ­£ä¹‰ä¹‹å£«çš„åº‡æŠ¤ä¸‹ï¼Œæ­¦æ—æš‚æ—¶æ— æ•Œäº†ï¼ˆ20ç§’åè§£é™¤ï¼‰")
 	call SetUnitInvulnerable(LoadUnitHandle(YDHT,id*cx,$32A9E4C8),true)
 	call YDWEPolledWaitNull(20.)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
 	call SetUnitInvulnerable(LoadUnitHandle(YDHT,id*cx,$32A9E4C8),false)
 	call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//»ùµØ°¤´ò
+//åŸºåœ°æŒ¨æ‰“
 function JiDiAiDa_Conditions takes nothing returns boolean
 	return(GetPlayerController(GetOwningPlayer(GetAttacker()))==MAP_CONTROL_COMPUTER)
 endfunction
@@ -61,18 +61,18 @@ function laojiayouren takes nothing returns boolean
 endfunction
 
 function JiDiAiDa_Actions takes nothing returns nothing
-	//==============·´³ğºŞ»úÖÆ¶¨Òåµ¥Î»×é==============
+	//==============åä»‡æ¨æœºåˆ¶å®šä¹‰å•ä½ç»„==============
 	local group g=CreateGroup()
-	//==============·´³ğºŞ»úÖÆ¶¨Òåµ¥Î»×é==============
+	//==============åä»‡æ¨æœºåˆ¶å®šä¹‰å•ä½ç»„==============
 	call PingMinimapLocForForce(GetPlayersAll(),GetUnitLoc(udg_ZhengPaiWL),1)
         if(GetRandomInt(30,50)==48)then
-            call DisplayTextToForce(GetPlayersAll(),"|CFFCCFF00ÕıÅÉÎäÁÖÊÜµ½¹¥»÷£¬Çë¸Ï½ô»Ø·À")
+            call DisplayTextToForce(GetPlayersAll(),"|CFFCCFF00æ­£æ´¾æ­¦æ—å—åˆ°æ”»å‡»ï¼Œè¯·èµ¶ç´§å›é˜²")
         endif
         if(GetRandomInt(30,50)==45)then
             call SetUnitPositionLoc(GetAttacker(),GetRectCenter(udg_jail))
-            call DisplayTextToForce(GetPlayersAll(),"|CFFCCFFCCÕıÅÉÎäÁÖ½«¹¥»÷µ¥Î»×¥½øÁË¼àÓü")
+            call DisplayTextToForce(GetPlayersAll(),"|CFFCCFFCCæ­£æ´¾æ­¦æ—å°†æ”»å‡»å•ä½æŠ“è¿›äº†ç›‘ç‹±")
         endif
-   //==========·´³ğºŞ»úÖÆ£¬°´ÔÆ´ó½¨ÒéÈ¥µô==============
+   //==========åä»‡æ¨æœºåˆ¶ï¼ŒæŒ‰äº‘å¤§å»ºè®®å»æ‰==============
     call GroupEnumUnitsInRangeOfLoc( g, GetUnitLoc(udg_ZhengPaiWL), 800, Condition(function laojiayouren) )
     if ((IsUnitGroupEmptyBJ(g) == false)) then
 	    call UnitAddAbility(udg_ZhengPaiWL,'A00S')
@@ -83,10 +83,10 @@ function JiDiAiDa_Actions takes nothing returns nothing
     	call UnitRemoveAbility(udg_ZhengPaiWL,'A00S')
     	set g=null
     endif
-   //==========·´³ğºŞ»úÖÆ£¬°´ÔÆ´ó½¨ÒéÈ¥µô==============
+   //==========åä»‡æ¨æœºåˆ¶ï¼ŒæŒ‰äº‘å¤§å»ºè®®å»æ‰==============
 endfunction
 
-//¹ºÂò³Ç·À
+//è´­ä¹°åŸé˜²
 function BuyChengFang takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896147))
 endfunction
@@ -95,15 +95,15 @@ function ShengChengFang takes nothing returns nothing
 	call SaveInteger(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
 	if((GetPlayerTechCountSimple('R000',Player(5))<=29))then
 		call SetPlayerTechResearchedSwap('R000',(GetPlayerTechCountSimple('R000',Player(5))+1),Player(5))
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|cFFFFD700ÔÚÍæ¼Ò£º"+(GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"µÄÎŞË½·îÏ×ÏÂ£¬ÕıÅÉÎäÁÖµÄ³Ç·ÀµÃµ½¼ÓÇ¿ÁË")))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|cFFFFD700åœ¨ç©å®¶ï¼š"+(GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"çš„æ— ç§å¥‰çŒ®ä¸‹ï¼Œæ­£æ´¾æ­¦æ—çš„åŸé˜²å¾—åˆ°åŠ å¼ºäº†")))
 		set shoujiajf[LoadInteger(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$5E9EB4B3)]=(shoujiajf[LoadInteger(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$5E9EB4B3)]+$F)
-		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFF34FF00ÊØ¼Ò»ı·Ö+15")
+		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFF34FF00å®ˆå®¶ç§¯åˆ†+15")
 	else
 		call AdjustPlayerStateBJ($4E20,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
-		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF0000³Ç·ÀÒÑ´ï×î¸ß£¬ÎŞ·¨¼ÌĞøÉı¼¶|r")
+		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF0000åŸé˜²å·²è¾¾æœ€é«˜ï¼Œæ— æ³•ç»§ç»­å‡çº§|r")
 	endif
 endfunction
-//¸ß¼¶³Ç·À
+//é«˜çº§åŸé˜²
 function BuyGaoChengFang takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896917))
 endfunction
@@ -113,22 +113,22 @@ function ShengGaoChengFang takes nothing returns nothing
 	if((udg_boshu>=18))then
 		if((GetPlayerTechCountSimple('R002',Player(5))<=9))then
 			call SetPlayerTechResearchedSwap('R002',(GetPlayerTechCountSimple('R002',Player(5))+1),Player(5))
-			call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|cFFFFD700ÔÚÍæ¼Ò£º"+(GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"µÄÎŞË½·îÏ×ÏÂ£¬ÕıÅÉÎäÁÖµÄ¸ß¼¶³Ç·ÀµÃµ½¼ÓÇ¿ÁË")))
+			call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|cFFFFD700åœ¨ç©å®¶ï¼š"+(GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"çš„æ— ç§å¥‰çŒ®ä¸‹ï¼Œæ­£æ´¾æ­¦æ—çš„é«˜çº§åŸé˜²å¾—åˆ°åŠ å¼ºäº†")))
 			set shoujiajf[LoadInteger(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$5E9EB4B3)]=(shoujiajf[LoadInteger(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$5E9EB4B3)]+25)
-			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFF34FF00ÊØ¼Ò»ı·Ö+25")
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFF34FF00å®ˆå®¶ç§¯åˆ†+25")
 		else
 			call AdjustPlayerStateBJ($C350,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
-			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF0000¸ß¼¶³Ç·ÀÒÑ´ï×î¸ß£¬ÎŞ·¨¼ÌĞøÉı¼¶|r")
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF0000é«˜çº§åŸé˜²å·²è¾¾æœ€é«˜ï¼Œæ— æ³•ç»§ç»­å‡çº§|r")
 		endif
 	else
 		call AdjustPlayerStateBJ($C350,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
-		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF000018²¨½ø¹¥¹ÖÒÔºó²ÅÄÜÊ¹ÓÃ´Ë¹¦ÄÜÅ¶|r")
+		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFF000018æ³¢è¿›æ”»æ€ªä»¥åæ‰èƒ½ä½¿ç”¨æ­¤åŠŸèƒ½å“¦|r")
 	endif
 endfunction
 /*
- * 2. Ñ¡ÔñÓ¢ĞÛ¼°ÃÅÅÉ
+ * 2. é€‰æ‹©è‹±é›„åŠé—¨æ´¾
  */
-//Ñ¡ÔñÓ¢ĞÛ
+//é€‰æ‹©è‹±é›„
 function fx takes nothing returns boolean
 	return(((udg_hashero[(1+GetPlayerId(GetTriggerPlayer()))]==false)and(IsUnitInGroup(GetTriggerUnit(),i7))))
 endfunction
@@ -144,7 +144,7 @@ function SelectHero takes nothing returns nothing
         	call PanCameraToTimedLocForPlayer(p,Q4,0)
     	endif
         if(u==K4[1])then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00Èôµû|r\nÇëÑ¡ÔñÏÂÁĞÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï È«Õæ ºãÉ½ ¶ëÃ¼ Îäµ± ĞÇËŞ ÁéğÕ¹¬£¨Òş²Ø£© ¹ÃËÕÄ½Èİ£¨Òş²Ø£© Ã÷½Ì£¨ÌØÊâ£© ÉñÁú½Ì£¨Å®£©|r\n\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00è‹¥è¶|r\nè¯·é€‰æ‹©ä¸‹åˆ—é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® å…¨çœŸ æ’å±± å³¨çœ‰ æ­¦å½“ æ˜Ÿå®¿ çµé¹«å®«ï¼ˆéšè—ï¼‰ å§‘è‹æ…•å®¹ï¼ˆéšè—ï¼‰ æ˜æ•™ï¼ˆç‰¹æ®Šï¼‰ ç¥é¾™æ•™ï¼ˆå¥³ï¼‰|r\n\n")
             set wuxing[i]=wuxing[i]+5
             set fuyuan[i]=fuyuan[i]+2
             set yishu[i]=yishu[i]+3
@@ -153,7 +153,7 @@ function SelectHero takes nothing returns nothing
             call RemoveUnit(K4[1])
 	        call RemoveUnit(vipbanlv[i])
         elseif(u==K4[2])then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00äìÏÀ|r\nÇëÑ¡ÔñÏÂÁĞÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ È«Õæ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬£¨Òş²Ø£© ¹ÃËÕÄ½Èİ£¨Òş²Ø£© Ã÷½Ì£¨ÌØÊâ£© ÉñÁú½Ì£¨ÄĞ£©|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00æ½‡ä¾ |r\nè¯·é€‰æ‹©ä¸‹åˆ—é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± å…¨çœŸ å³¨çœ‰ æ­¦å½“ çµé¹«å®«ï¼ˆéšè—ï¼‰ å§‘è‹æ…•å®¹ï¼ˆéšè—ï¼‰ æ˜æ•™ï¼ˆç‰¹æ®Šï¼‰ ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\n")
             set wuxing[i]=(wuxing[i]+2)
             set gengu[i]=(gengu[i]+2)
             set danpo[i]=(danpo[i]+1)
@@ -163,7 +163,7 @@ function SelectHero takes nothing returns nothing
             call RemoveUnit(K4[2])
 	        call RemoveUnit(vipbanlv[i])
         elseif((u==K4[3]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00ÄªÑÔ|r\nÇëÑ¡ÔñÏÂÁĞÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ ºãÉ½ ¶ëÃ¼ ĞÇËŞ ÁéğÕ¹¬£¨Òş²Ø£© ¹ÃËÕÄ½Èİ£¨Òş²Ø£© Ã÷½Ì£¨ÌØÊâ£©  ÉñÁú½Ì£¨Å®£©|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00è«è¨€|r\nè¯·é€‰æ‹©ä¸‹åˆ—é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ’å±± å³¨çœ‰ æ˜Ÿå®¿ çµé¹«å®«ï¼ˆéšè—ï¼‰ å§‘è‹æ…•å®¹ï¼ˆéšè—ï¼‰ æ˜æ•™ï¼ˆç‰¹æ®Šï¼‰  ç¥é¾™æ•™ï¼ˆå¥³ï¼‰|r\n")
             set wuxing[i]=(wuxing[i]+2)
             set danpo[i]=(danpo[i]+5)
             set jingmai[i]=(jingmai[i]+1)
@@ -173,7 +173,7 @@ function SelectHero takes nothing returns nothing
             call RemoveUnit(K4[3])
 	        call RemoveUnit(vipbanlv[i])
         elseif((u==K4[4]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00ÀËÔÆ|r\nÇëÑ¡ÔñÏÂÁĞÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ Îäµ± ĞÇËŞ ÁéğÕ¹¬£¨Òş²Ø£© ¹ÃËÕÄ½Èİ£¨Òş²Ø£© Ã÷½Ì£¨ÌØÊâ£©  ÉñÁú½Ì£¨ÄĞ£©|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00æµªäº‘|r\nè¯·é€‰æ‹©ä¸‹åˆ—é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ­¦å½“ æ˜Ÿå®¿ çµé¹«å®«ï¼ˆéšè—ï¼‰ å§‘è‹æ…•å®¹ï¼ˆéšè—ï¼‰ æ˜æ•™ï¼ˆç‰¹æ®Šï¼‰  ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\n")
             set gengu[i]=(gengu[i]+3)
             set jingmai[i]=(jingmai[i]+5)
             set yishu[i]=(yishu[i]+2)
@@ -182,7 +182,7 @@ function SelectHero takes nothing returns nothing
             call RemoveUnit(K4[4])
 	        call RemoveUnit(vipbanlv[i])
         elseif((u==K4[5]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00Ä§¾ı|r\nÇëÑ¡ÔñÏÂÁĞÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ£º\n|CFF00FFCCÉÙÁÖ »ªÉ½ È«Õæ Ñªµ¶ ¶ëÃ¼ Îäµ± ĞÇËŞ ÁéğÕ¹¬£¨Òş²Ø£© ¹ÃËÕÄ½Èİ£¨Òş²Ø£© Ã÷½Ì£¨ÌØÊâ£©  ÉñÁú½Ì£¨ÄĞ£©|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00é­”å›|r\nè¯·é€‰æ‹©ä¸‹åˆ—é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…ï¼š\n|CFF00FFCCå°‘æ— åå±± å…¨çœŸ è¡€åˆ€ å³¨çœ‰ æ­¦å½“ æ˜Ÿå®¿ çµé¹«å®«ï¼ˆéšè—ï¼‰ å§‘è‹æ…•å®¹ï¼ˆéšè—ï¼‰ æ˜æ•™ï¼ˆç‰¹æ®Šï¼‰  ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\n")
             set gengu[i]=(gengu[i]+5)
             set danpo[i]=(danpo[i]+2)
             set jingmai[i]=(jingmai[i]+3)
@@ -192,9 +192,9 @@ function SelectHero takes nothing returns nothing
 	        call RemoveUnit(vipbanlv[i])
         elseif (u==K4[6]) then
         	if udg_vip[i] <= 0 then
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"¸Ã½ÇÉ«ÎªÔŞÖúÓÎÏ·ÕßÌØ±ğÖÆ×÷£¬Ôİ²»¶ÔÆÕÍ¨Íæ¼Ò¿ª·Å")
+	        	call DisplayTimedTextToPlayer(p,0,0,15.,"è¯¥è§’è‰²ä¸ºèµåŠ©æ¸¸æˆè€…ç‰¹åˆ«åˆ¶ä½œï¼Œæš‚ä¸å¯¹æ™®é€šç©å®¶å¼€æ”¾")
 	        else
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00À¼Ü°|r\nÇëÑ¡ÔñÈÎÒâÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ|r\n")
+	        	call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00å…°é¦¨|r\nè¯·é€‰æ‹©ä»»æ„é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…|r\n")
 	        	set gengu[i]=(gengu[i]+3)
             	set danpo[i]=(danpo[i]+3)
             	set jingmai[i]=(jingmai[i]+3)
@@ -208,9 +208,9 @@ function SelectHero takes nothing returns nothing
         	endif
         elseif (u==K4[7]) then
         	if udg_vip[i] <= 1 and udg_changevip[i] <= 0 then
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"¸Ã½ÇÉ«ÎªÔŞÖúÓÎÏ·ÕßÌØ±ğÖÆ×÷£¬Ôİ²»¶ÔÆÕÍ¨Íæ¼Ò¿ª·Å")
+	        	call DisplayTimedTextToPlayer(p,0,0,15.,"è¯¥è§’è‰²ä¸ºèµåŠ©æ¸¸æˆè€…ç‰¹åˆ«åˆ¶ä½œï¼Œæš‚ä¸å¯¹æ™®é€šç©å®¶å¼€æ”¾")
 	        else
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"¹§Ï²»ñµÃÓ¢ĞÛ£º|CFFCCFF00èªĞù|r\nÇëÑ¡ÔñÈÎÒâÃÅÅÉºó¿ªÆô½­ºşÖ®ÂÃ|r\n")
+	        	call DisplayTimedTextToPlayer(p,0,0,15.,"æ­å–œè·å¾—è‹±é›„ï¼š|CFFCCFF00ç‘¾è½©|r\nè¯·é€‰æ‹©ä»»æ„é—¨æ´¾åå¼€å¯æ±Ÿæ¹–ä¹‹æ—…|r\n")
 	        	set gengu[i]=(gengu[i]+3)
             	set danpo[i]=(danpo[i]+3)
             	set jingmai[i]=(jingmai[i]+3)
@@ -232,43 +232,43 @@ function SelectHero takes nothing returns nothing
         	set udg_hero[i]=bj_lastCreatedUnit
         	set O4=(O4+1)
         	call RemoveLocation(Q4)
-        	call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF0000Çë´ÓÌìÏÂÃÅÅÉ´¦Ñ¡ÔñÄãÏ²»¶µÄÃÅÅÉºó·½¿ÉÀë¿ª´ËµØ|r")
-        	call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF0000ÊäÈë-random¿ÉËæ»úÑ¡ÔñÃÅÅÉ²¢»ñµÃ¶îÍâ60¸öÄ¾Í·£¬Ñ¡È¡·½Ê½Çëµ½F9ÖĞÑ°ÕÒ|r")
+        	call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF0000è¯·ä»å¤©ä¸‹é—¨æ´¾å¤„é€‰æ‹©ä½ å–œæ¬¢çš„é—¨æ´¾åæ–¹å¯ç¦»å¼€æ­¤åœ°|r")
+        	call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF0000è¾“å…¥-randomå¯éšæœºé€‰æ‹©é—¨æ´¾å¹¶è·å¾—é¢å¤–60ä¸ªæœ¨å¤´ï¼Œé€‰å–æ–¹å¼è¯·åˆ°F9ä¸­å¯»æ‰¾|r")
     	endif
     else
         set L4[i]=u
         if((u==K4[1]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00Èôµû|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï È«Õæ ºãÉ½ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì  ÉñÁú½Ì£¨Å®£©|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00ÎòĞÔ+5 ¸£Ôµ+2 Ò½Êõ+3\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00è‹¥è¶|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® å…¨çœŸ æ’å±± å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™  ç¥é¾™æ•™ï¼ˆå¥³ï¼‰|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00æ‚Ÿæ€§+5 ç¦ç¼˜+2 åŒ»æœ¯+3\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[1])
         elseif((u==K4[2]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00äìÏÀ|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ È«Õæ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì  ÉñÁú½Ì£¨ÄĞ£©|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00¸ù¹Ç+2 ÎòĞÔ+2 ¸£Ôµ+5 µ¨ÆÇ+1\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00æ½‡ä¾ |r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± å…¨çœŸ å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™  ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00æ ¹éª¨+2 æ‚Ÿæ€§+2 ç¦ç¼˜+5 èƒ†é­„+1\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[2])
         elseif((u==K4[3]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00ÄªÑÔ|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ ºãÉ½ ¶ëÃ¼ ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì  ÉñÁú½Ì£¨Å®£©|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00ÎòĞÔ+2 ¾­Âö+1 µ¨ÆÇ+5 Ò½Êõ+2\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00è«è¨€|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ’å±± å³¨çœ‰ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™  ç¥é¾™æ•™ï¼ˆå¥³ï¼‰|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00æ‚Ÿæ€§+2 ç»è„‰+1 èƒ†é­„+5 åŒ»æœ¯+2\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[3])
         elseif((u==K4[4]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00ÀËÔÆ|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì  ÉñÁú½Ì£¨ÄĞ£©|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00¸ù¹Ç+3 ¾­Âö+5 Ò½Êõ+2\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00æµªäº‘|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™  ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00æ ¹éª¨+3 ç»è„‰+5 åŒ»æœ¯+2\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[4])
         elseif((u==K4[5]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00Ä§¾ı|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ »ªÉ½ È«Õæ Ñªµ¶ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì  ÉñÁú½Ì£¨ÄĞ£©|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00¸ù¹Ç+5 ¾­Âö+3 µ¨ÆÇ+2\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00é­”å›|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— åå±± å…¨çœŸ è¡€åˆ€ å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™  ç¥é¾™æ•™ï¼ˆç”·ï¼‰|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00æ ¹éª¨+5 ç»è„‰+3 èƒ†é­„+2\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[5])
         elseif((u==K4[6]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00À¼Ü°|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCCÈ«²¿ÃÅÅÉ|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00È«ÊôĞÔ+3\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00å…°é¦¨|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå…¨éƒ¨é—¨æ´¾|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00å…¨å±æ€§+3\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[6])
         elseif((u==K4[7]))then
-            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00èªĞù|r\n¿É¼ÓÈëÃÅÅÉ£º\n|CFF00FFCCÈ«²¿ÃÅÅÉ|r\n»ù´¡È«ÊôĞÔ+9\n¶îÍâÊôĞÔ\n|cFF00FF00È«ÊôĞÔ+3\n|r\n")
+            call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFCCFF00ç‘¾è½©|r\nå¯åŠ å…¥é—¨æ´¾ï¼š\n|CFF00FFCCå…¨éƒ¨é—¨æ´¾|r\nåŸºç¡€å…¨å±æ€§+9\né¢å¤–å±æ€§\n|cFF00FF00å…¨å±æ€§+3\n|r\n")
             call SetUnitAnimation(u,"attack")
             call YDWEPolledWaitNull(2)
             call ResetUnitAnimation(K4[7])
@@ -277,42 +277,42 @@ function SelectHero takes nothing returns nothing
     set p=null
     set u=null
 endfunction
-//Ñ¡ÔñÃÅÅÉ
+//é€‰æ‹©é—¨æ´¾
 function kx takes nothing returns boolean
 	return((GetTriggerUnit()==Rs)and(udg_runamen[(1+GetPlayerId(GetTriggerPlayer()))]==0))
 endfunction
 
 function MenPai takes nothing returns nothing
 	if((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O002'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÒÔÏÂÃÅÅÉ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï È«Õæ ºãÉ½ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»¥ä¸‹é—¨æ´¾ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® å…¨çœŸ æ’å±± å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O001'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÒÔÏÂÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ È«Õæ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»¥ä¸‹é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± å…¨çœŸ å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O003'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÒÔÏÂÃÅÅÉ£º\n|CFF00FFCC¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ ºãÉ½ ¶ëÃ¼ ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»¥ä¸‹é—¨æ´¾ï¼š\n|CFF00FFCCå¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ’å±± å³¨çœ‰ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O004'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÒÔÏÂÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ ¹ÅÄ¹ Ø¤°ï »ªÉ½ Ñªµ¶ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»¥ä¸‹é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— å¤å¢“ ä¸å¸® åå±± è¡€åˆ€ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O000'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÒÔÏÂÃÅÅÉ£º\n|CFF00FFCCÉÙÁÖ »ªÉ½ È«Õæ Ñªµ¶ ¶ëÃ¼ Îäµ± ÁéğÕ¹¬ ¹ÃËÕÄ½Èİ Ã÷½Ì|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»¥ä¸‹é—¨æ´¾ï¼š\n|CFF00FFCCå°‘æ— åå±± å…¨çœŸ è¡€åˆ€ å³¨çœ‰ æ­¦å½“ çµé¹«å®« å§‘è‹æ…•å®¹ æ˜æ•™|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O023'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÈÎÒâÃÅÅÉ|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»»æ„é—¨æ´¾|r\n")
 	elseif((GetUnitTypeId(udg_hero[(1+GetPlayerId(GetTriggerPlayer()))])=='O02J'))then
-		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"µ±Ç°¿É¼ÓÈëÈÎÒâÃÅÅÉ|r\n")
+		call DisplayTimedTextToPlayer(GetTriggerPlayer(),0,0,15.,"å½“å‰å¯åŠ å…¥ä»»æ„é—¨æ´¾|r\n")
 	endif
 endfunction
 
-//Ñ¡ÔñÃÅÅÉ¼ÓÈë
+//é€‰æ‹©é—¨æ´¾åŠ å…¥
 function WuMenPai_Condition takes nothing returns boolean
     return UnitTypeNotNull(GetLeavingUnit(),UNIT_TYPE_HERO) and udg_runamen[1+GetPlayerId(GetOwningPlayer(GetLeavingUnit()))]==0 and GetPlayerController(GetOwningPlayer(GetLeavingUnit()))==MAP_CONTROL_USER
 endfunction
-//×ÔÓÉÃÅÅÉ
+//è‡ªç”±é—¨æ´¾
 function WuMenPai_Action takes nothing returns nothing
     local unit u=GetLeavingUnit()
     local player p=GetOwningPlayer(u)
     local integer i=1+GetPlayerId(p)
     set udg_runamen[i]=11
-    call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933Íæ¼Ò"+GetPlayerName(p)+"Ñ¡ÔñÁË¡ş×ÔÓÉÃÅÅÉ¡ş|r")
-    call SetPlayerName(p,"¡ş×ÔÓÉÃÅÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-    call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°")
+    call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933ç©å®¶"+GetPlayerName(p)+"é€‰æ‹©äº†ã€“è‡ªç”±é—¨æ´¾ã€“|r")
+    call SetPlayerName(p,"ã€“è‡ªç”±é—¨æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+    call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ")
     call UnitAddAbility(u,'A05R')
     call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
     call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -335,7 +335,7 @@ function WuMenPai_Action takes nothing returns nothing
     set u=null
     set p=null
 endfunction
-// ¼ÓÈëÃÅÅÉµÄitemid
+// åŠ å…¥é—¨æ´¾çš„itemid
 function ox takes nothing returns boolean
 	return ((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and((GetItemTypeId(GetManipulatedItem())==1227894833)or(GetItemTypeId(GetManipulatedItem())==1227894834)  \
 		or(GetItemTypeId(GetManipulatedItem())==1227894835)or(GetItemTypeId(GetManipulatedItem())==1227894836)or(GetItemTypeId(GetManipulatedItem())==1227894837) 	 	\
@@ -351,18 +351,18 @@ function JiaRuMenPai takes nothing returns nothing
 	if((udg_runamen[i]!=0))then
 		if GetItemTypeId(GetManipulatedItem())=='I09E' and udg_runamen[i]==11 and GetUnitLevel(u)<2 and GetPlayerState(p,PLAYER_STATE_RESOURCE_LUMBER)>=60 then
 			set udg_runamen[i]=13
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933Íæ¼Ò"+GetPlayerName(p)+"¸Ä°İÈëÁË¡ş¹ÃËÕÄ½Èİ¡ş£¬´ó¼ÒÒ»ÆğÄ¤°İËû|r")
-			call SetPlayerName(p,"¡ş¹ÃËÕÄ½Èİ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933ç©å®¶"+GetPlayerName(p)+"æ”¹æ‹œå…¥äº†ã€“å§‘è‹æ…•å®¹ã€“ï¼Œå¤§å®¶ä¸€èµ·è†œæ‹œä»–|r")
+			call SetPlayerName(p,"ã€“å§‘è‹æ…•å®¹ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
 			call AdjustPlayerStateBJ(-60, p, PLAYER_STATE_RESOURCE_LUMBER)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãÒÑ¾­¼Ó¹ıÃÅÅÉÁË|r")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ å·²ç»åŠ è¿‡é—¨æ´¾äº†|r")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894833))then
 	    if((GetUnitTypeId(u)!='O002')and(GetUnitTypeId(u)!='O003'))then
 	      set udg_runamen[i]=1
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÉÙÁÖÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-	      call SetPlayerName(p,"¡şÉÙÁÖÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“å°‘æ—æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+	      call SetPlayerName(p,"ã€“å°‘æ—æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 	      call UnitAddAbility(u,'A05R')
 	      call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
           call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -383,14 +383,14 @@ function JiaRuMenPai takes nothing returns nothing
 	      call RemoveLocation(Q4)
 	      call UnitAddItemByIdSwapped(1227896394,u)
 	    else
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 	    endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894834))then
 		if((GetUnitTypeId(u)!='O000'))then
 			set udg_runamen[i]=3
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şØ¤°ï¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şØ¤°ï¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“ä¸å¸®ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“ä¸å¸®ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -411,14 +411,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894835))then
 		if((GetUnitTypeId(u)!='O002'))then
 			set udg_runamen[i]=4
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡ş»ªÉ½ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡ş»ªÉ½ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“åå±±æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“åå±±æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -439,14 +439,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894836))then
 		if((GetUnitTypeId(u)!='O004')and(GetUnitTypeId(u)!='O003'))then
 			set udg_runamen[i]=5
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÈ«Õæ½Ì¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şÈ«Õæ½Ì¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“å…¨çœŸæ•™ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“å…¨çœŸæ•™ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -467,14 +467,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894837))then
 		if((GetUnitTypeId(u)!='O001')and(GetUnitTypeId(u)!='O002'))then
 			set udg_runamen[i]=6
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÑªµ¶ÃÅ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şÑªµ¶ÃÅ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“è¡€åˆ€é—¨ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“è¡€åˆ€é—¨ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -495,14 +495,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894838))then
 		if((GetUnitTypeId(u)!='O004')and(GetUnitTypeId(u)!='O000')and(GetUnitTypeId(u)!='O001'))then
 			set udg_runamen[i]=7
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şºãÉ½ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şºãÉ½ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“æ’å±±æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“æ’å±±æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -523,14 +523,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894839))then
 		if((GetUnitTypeId(u)!='O004'))then
 			set udg_runamen[i]=8
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡ş¶ëÃ¼ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡ş¶ëÃ¼ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“å³¨çœ‰æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“å³¨çœ‰æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -553,14 +553,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894840))then
 		if((GetUnitTypeId(u)!='O001'))then
 			set udg_runamen[i]=$A
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şĞÇËŞÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şĞÇËŞÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“æ˜Ÿå®¿æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“æ˜Ÿå®¿æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -582,14 +582,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894841))then
 		if((GetUnitTypeId(u)!='O003'))then
 			set udg_runamen[i]=9
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÎäµ±ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şÎäµ±ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“æ­¦å½“æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“æ­¦å½“æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -611,14 +611,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894849))then
 		if((GetUnitTypeId(u)!='O000'))then
 			set udg_runamen[i]=2
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡ş¹ÅÄ¹ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡ş¹ÅÄ¹ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“å¤å¢“æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“å¤å¢“æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -640,14 +640,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())=='I09N'))then
 		if udg_vip[i] > 0 then
 			set udg_runamen[i]=14
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÃ÷½Ì¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-			call SetPlayerName(p,"¡şÃ÷½Ì¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“æ˜æ•™ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+			call SetPlayerName(p,"ã€“æ˜æ•™ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -669,14 +669,14 @@ function JiaRuMenPai takes nothing returns nothing
 			call RemoveLocation(Q4)
 			call UnitAddItemByIdSwapped(1227896394,u)
 		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000¸ÃÃÅÅÉÎªÔŞÖúÓÎÏ·ÕßÌØ±ğÖÆ×÷£¬Ôİ²»¶ÔÆÕÍ¨Íæ¼Ò¿ª·Å")
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000è¯¥é—¨æ´¾ä¸ºèµåŠ©æ¸¸æˆè€…ç‰¹åˆ«åˆ¶ä½œï¼Œæš‚ä¸å¯¹æ™®é€šç©å®¶å¼€æ”¾")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())=='I0A2'))then
 	    if((GetUnitTypeId(u)!='O002')and(GetUnitTypeId(u)!='O003'))then
 	    	set udg_runamen[i]=15
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şºâÉ½ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-	    	call SetPlayerName(p,"¡şºâÉ½ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“è¡¡å±±æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+	    	call SetPlayerName(p,"ã€“è¡¡å±±æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -697,14 +697,14 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call RemoveLocation(Q4)
 	    	call UnitAddItemByIdSwapped(1227896394,u)
 	    else
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 	    endif
 	elseif((GetItemTypeId(GetManipulatedItem())=='I0CK'))then
 		if(GetUnitTypeId(u)=='O000' or GetUnitTypeId(u)=='O001' or GetUnitTypeId(u)=='O004' or GetUnitTypeId(u)=='O02J') then
 	    	set udg_runamen[i]=16
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÉñÁú½Ì¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-	    	call SetPlayerName(p,"¡şÉñÁú½Ì¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“ç¥é¾™æ•™ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+	    	call SetPlayerName(p,"ã€“ç¥é¾™æ•™ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -727,9 +727,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddItemByIdSwapped(1227896394,u)
 	    else
 	      	set udg_runamen[i]=17
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÉñÁú½Ì¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-	    	call SetPlayerName(p,"¡şÉñÁú½Ì¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“ç¥é¾™æ•™ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+	    	call SetPlayerName(p,"ã€“ç¥é¾™æ•™ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -754,9 +754,9 @@ function JiaRuMenPai takes nothing returns nothing
 	 elseif((GetItemTypeId(GetManipulatedItem())=='I0CX'))then
 	     if (GetUnitTypeId(u)!='O003') then
 	    	set udg_runamen[i]=18
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933¹§Ï²¼ÓÈë¡şÌ©É½ÅÉ¡ş£¬ÇëÔÚNPC¹ù¾¸´¦Ñ¡Ôñ¸±Ö°|r")
-	    	call SetPlayerName(p,"¡şÌ©É½ÅÉ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933»ñµÃÎä¹¦£ºÁè²¨Î¢²½£¨¿ÉÒÔÔÚÖ÷³ÇºÍ´«ËÍÊ¯Ö®¼äÈÎÒâ´«ËÍÁË£©\n»ñµÃĞÂÊÖ´óÀñ°ü£¨¿ÉÒÔÔÚ±³°üÖĞ´ò¿ª»ñµÃ¾ªÏ²Å¶£©")
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933æ­å–œåŠ å…¥ã€“æ³°å±±æ´¾ã€“ï¼Œè¯·åœ¨NPCéƒ­é–å¤„é€‰æ‹©å‰¯èŒ|r")
+	    	call SetPlayerName(p,"ã€“æ³°å±±æ´¾ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+	    	call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933è·å¾—æ­¦åŠŸï¼šå‡Œæ³¢å¾®æ­¥ï¼ˆå¯ä»¥åœ¨ä¸»åŸå’Œä¼ é€çŸ³ä¹‹é—´ä»»æ„ä¼ é€äº†ï¼‰\nè·å¾—æ–°æ‰‹å¤§ç¤¼åŒ…ï¼ˆå¯ä»¥åœ¨èƒŒåŒ…ä¸­æ‰“å¼€è·å¾—æƒŠå–œå“¦ï¼‰")
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
@@ -778,7 +778,7 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call RemoveLocation(Q4)
 	    	call UnitAddItemByIdSwapped(1227896394,u)
 	    else
-	        call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ÄãµÄ½ÇÉ«²»ÄÜ¼ÓÈë¸ÃÃÅÅÉ")
+	        call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000ä½ çš„è§’è‰²ä¸èƒ½åŠ å…¥è¯¥é—¨æ´¾")
 		endif
 	endif
 	set p=null
@@ -786,50 +786,50 @@ function JiaRuMenPai takes nothing returns nothing
 endfunction
 
 /*
- * 3. ÉèÖÃÓÎÏ·Ä£Ê½ºÍÄÑ¶È
+ * 3. è®¾ç½®æ¸¸æˆæ¨¡å¼å’Œéš¾åº¦
  */
- //Ö÷»úÑ¡ÔñÄ£Ê½
+ //ä¸»æœºé€‰æ‹©æ¨¡å¼
 function Trig_____________u_Func002C takes nothing returns boolean
     return(GetPlayerController(Player(0))==MAP_CONTROL_USER)and(GetPlayerSlotState(Player(0))==PLAYER_SLOT_STATE_PLAYING)
 endfunction
 function ChooseMoShi takes nothing returns nothing
-    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF40Ö÷»ú¿ªÊ¼Ñ¡ÔñÓÎÏ·Ä£Ê½")
+    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF40ä¸»æœºå¼€å§‹é€‰æ‹©æ¸¸æˆæ¨¡å¼")
     if(Trig_____________u_Func002C())then
         call DialogClear(udg_index)
-        call DialogSetMessage(udg_index,"ÇëÑ¡ÔñÓÎÏ·Ä£Ê½")
-        set udg_index0=DialogAddButtonBJ(udg_index,"|cFF00CC00ÆÕÍ¨Ä£Ê½")
-        set udg_index1=DialogAddButtonBJ(udg_index,"|cFFCC0066ÌØÊâÊÂ¼şÄ£Ê½")
-        set udg_index2=DialogAddButtonBJ(udg_index,"|cFFFF6600Éú´æÄ£Ê½")
-        set udg_index3 = DialogAddButtonBJ(udg_index,"|cFF6600FF¿ìËÙÍ¨¹ØÄ£Ê½")
+        call DialogSetMessage(udg_index,"è¯·é€‰æ‹©æ¸¸æˆæ¨¡å¼")
+        set udg_index0=DialogAddButtonBJ(udg_index,"|cFF00CC00æ™®é€šæ¨¡å¼")
+        set udg_index1=DialogAddButtonBJ(udg_index,"|cFFCC0066ç‰¹æ®Šäº‹ä»¶æ¨¡å¼")
+        set udg_index2=DialogAddButtonBJ(udg_index,"|cFFFF6600ç”Ÿå­˜æ¨¡å¼")
+        set udg_index3 = DialogAddButtonBJ(udg_index,"|cFF6600FFå¿«é€Ÿé€šå…³æ¨¡å¼")
         call DialogDisplayBJ(true,udg_index,Player(0))
     endif
 endfunction
 function ChooseMoShi_Action takes nothing returns nothing
     if GetClickedButton()==udg_index0 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÆÕÍ¨Ä£Ê½")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†æ™®é€šæ¨¡å¼")
         set udg_teshushijian=false
         set udg_shengchun=false
     endif
     if GetClickedButton()==udg_index1 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÌØÊâÊÂ¼şÄ£Ê½")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†ç‰¹æ®Šäº‹ä»¶æ¨¡å¼")
         set udg_teshushijian=true
         set udg_shengchun=false
     endif
     if GetClickedButton()==udg_index2 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÉú´æÄ£Ê½")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†ç”Ÿå­˜æ¨¡å¼")
         set udg_teshushijian=false
         set udg_shengchun=true
     endif
     if GetClickedButton()==udg_index3 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁË¿ìËÙÍ¨¹ØÄ£Ê½")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†å¿«é€Ÿé€šå…³æ¨¡å¼")
         set udg_teshushijian=false
         set udg_shengchun=false
         set udg_sutong = true
     endif
 endfunction
-//µ÷ÕûÓÎÏ·ÄÑ¶È
+//è°ƒæ•´æ¸¸æˆéš¾åº¦
 function GameNanDu_Condition takes nothing returns boolean
-	//·ÇÌØÊâÊÂ¼şÄ£Ê½¡¢·ÇÉú´æÄ£Ê½
+	//éç‰¹æ®Šäº‹ä»¶æ¨¡å¼ã€éç”Ÿå­˜æ¨¡å¼
 	return (udg_teshushijian==false and udg_shengchun==false)
 endfunction
 function GameNanDu takes nothing returns nothing
@@ -844,7 +844,7 @@ function GameNanDu takes nothing returns nothing
 	endif
 	set level=GetPlayerTechCountSimple('R001',Player(12))
 	if(level==50)then
-	    call DisplayTextToPlayer(Player(0),0,0,"µ±Ç°ÒÑÎª×î¸ßÄÑ¶ÈÁË")
+	    call DisplayTextToPlayer(Player(0),0,0,"å½“å‰å·²ä¸ºæœ€é«˜éš¾åº¦äº†")
 	else
 	    if level+i>=50 then
 	        set i=50-level
@@ -853,41 +853,41 @@ function GameNanDu takes nothing returns nothing
 	    call AddPlayerTechResearched(Player(6),'R001',i)
 	    call AddPlayerTechResearched(Player(15),'R001',i)
 	    set udg_nandu=udg_nandu+i/10
-	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("Íæ¼Ò1ÊäÈë¡°up¡±Ìá¸ßÁËÓÎÏ·ÄÑ¶È£¬Ä¿Ç°ÓÎÏ·ÄÑ¶ÈÎª"+I2S(udg_nandu)))
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("ç©å®¶1è¾“å…¥â€œupâ€æé«˜äº†æ¸¸æˆéš¾åº¦ï¼Œç›®å‰æ¸¸æˆéš¾åº¦ä¸º"+I2S(udg_nandu)))
 	    if udg_nandu == 5 then
-			call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFF¸ÃÄ£Ê½ÏÂ½ø¹¥¹Ö¾ßÓĞ|cFFFF0000³éÑªÊõ")
+			call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFè¯¥æ¨¡å¼ä¸‹è¿›æ”»æ€ªå…·æœ‰|cFFFF0000æŠ½è¡€æœ¯")
 		endif
 	endif
 	set t=null
 endfunction
 function ChooseNanDu takes nothing returns nothing
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF40Ö÷»ú¿ªÊ¼Ñ¡ÔñÓÎÏ·ÄÑ¶È")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF40ä¸»æœºå¼€å§‹é€‰æ‹©æ¸¸æˆéš¾åº¦")
     if(Trig_____________u_Func002C())then
         call DialogClear(udg_nan)
-        call DialogSetMessage(udg_nan,"ÇëÑ¡ÔñÓÎÏ·ÄÑ¶È")
+        call DialogSetMessage(udg_nan,"è¯·é€‰æ‹©æ¸¸æˆéš¾åº¦")
         if udg_nandu<=0 then
-        	set udg_nan0=DialogAddButtonBJ(udg_nan,"|cFF00CC00³õÈë½­ºş")
+        	set udg_nan0=DialogAddButtonBJ(udg_nan,"|cFF00CC00åˆå…¥æ±Ÿæ¹–")
     	endif
     	if udg_nandu<=1 then
-       		set udg_nan1=DialogAddButtonBJ(udg_nan,"|cFFCC0066Å£µ¶Ğ¡ÊÔ")
+       		set udg_nan1=DialogAddButtonBJ(udg_nan,"|cFFCC0066ç‰›åˆ€å°è¯•")
    		endif
    		if udg_nandu<=2 then
-        	set udg_nan2=DialogAddButtonBJ(udg_nan,"|cFFFF6600µÇÌÃÈëÊÒ")
+        	set udg_nan2=DialogAddButtonBJ(udg_nan,"|cFFFF6600ç™»å ‚å…¥å®¤")
         endif
         if udg_nandu<=3 then
-        	set udg_nan3=DialogAddButtonBJ(udg_nan,"|cFF0041FFÂ¯»ğ´¿Çà")
+        	set udg_nan3=DialogAddButtonBJ(udg_nan,"|cFF0041FFç‚‰ç«çº¯é’")
         endif
         if udg_nandu<=4 then
-        	set udg_nan4=DialogAddButtonBJ(udg_nan,"|cFF1FBF00»ªÉ½ÂÛ½£")
+        	set udg_nan4=DialogAddButtonBJ(udg_nan,"|cFF1FBF00åå±±è®ºå‰‘")
         endif
         if udg_nandu<=5 then
-        	set udg_nan5=DialogAddButtonBJ(udg_nan,"|cFFFF0000¾öÕ½½­ºş")
+        	set udg_nan5=DialogAddButtonBJ(udg_nan,"|cFFFF0000å†³æˆ˜æ±Ÿæ¹–")
         endif
         call DialogDisplayBJ(true,udg_nan,Player(0))
     endif
 endfunction
 
-// ÉèÖÃÓÎÏ·ÄÑ¶ÈºÍ¾­Ñé»ñµÃÂÊµÄº¯Êı
+// è®¾ç½®æ¸¸æˆéš¾åº¦å’Œç»éªŒè·å¾—ç‡çš„å‡½æ•°
 function setDifficultyAndExpRate takes integer difficulty returns nothing
 	set udg_nandu = difficulty
         call SetPlayerHandicapXPBJ( Player(0), 200.00-20.00*difficulty )
@@ -899,65 +899,65 @@ endfunction
 
 function ChooseNanDu_Action takes nothing returns nothing
     if GetClickedButton()==udg_nan0 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFF00CC00³õÈë½­ºş")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFF00CC00åˆå…¥æ±Ÿæ¹–")
         call SetPlayerTechResearched(Player(12),'R001',0)
         call SetPlayerTechResearched(Player(6),'R001',0)
         call SetPlayerTechResearched(Player(15),'R001',0)
         call setDifficultyAndExpRate(0)
     endif
     if GetClickedButton()==udg_nan1 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFFCC0066Å£µ¶Ğ¡ÊÔ")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFFCC0066ç‰›åˆ€å°è¯•")
         call SetPlayerTechResearched(Player(12),'R001',10)
         call SetPlayerTechResearched(Player(6),'R001',10)
         call SetPlayerTechResearched(Player(15),'R001',10)
         call setDifficultyAndExpRate(1)
     endif
     if GetClickedButton()==udg_nan2 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFFFF6600µÇÌÃÈëÊÒ")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFFFF6600ç™»å ‚å…¥å®¤")
         call SetPlayerTechResearched(Player(12),'R001',20)
         call SetPlayerTechResearched(Player(6),'R001',20)
         call SetPlayerTechResearched(Player(15),'R001',20)
         call setDifficultyAndExpRate(2)
     endif
     if GetClickedButton()==udg_nan3 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFF0041FFÂ¯»ğ´¿Çà")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFF0041FFç‚‰ç«çº¯é’")
         call SetPlayerTechResearched(Player(12),'R001',30)
         call SetPlayerTechResearched(Player(6),'R001',30)
         call SetPlayerTechResearched(Player(15),'R001',30)
         call setDifficultyAndExpRate(3)
     endif
     if GetClickedButton()==udg_nan4 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFF1FBF00»ªÉ½ÂÛ½£")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFF1FBF00åå±±è®ºå‰‘")
         call SetPlayerTechResearched(Player(12),'R001',40)
         call SetPlayerTechResearched(Player(6),'R001',40)
         call SetPlayerTechResearched(Player(15),'R001',40)
         call setDifficultyAndExpRate(4)
     endif
     if GetClickedButton()==udg_nan5 then
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFÖ÷»úÑ¡ÔñÁËÄÑ¶È|cFFFF0000¾öÕ½½­ºş")
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFF¸ÃÄ£Ê½ÏÂ½ø¹¥¹Ö¾ßÓĞ|cFFFF0000³éÑªÊõ")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFä¸»æœºé€‰æ‹©äº†éš¾åº¦|cFFFF0000å†³æˆ˜æ±Ÿæ¹–")
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFFè¯¥æ¨¡å¼ä¸‹è¿›æ”»æ€ªå…·æœ‰|cFFFF0000æŠ½è¡€æœ¯")
         call SetPlayerTechResearched(Player(12),'R001',50)
         call SetPlayerTechResearched(Player(6),'R001',50)
         call SetPlayerTechResearched(Player(15),'R001',50)
         call setDifficultyAndExpRate(5)
     endif
 endfunction
-//ÊÔÍæÄ£Ê½
+//è¯•ç©æ¨¡å¼
 function BeforeAttack takes nothing returns boolean
 	return(hd==false)
 endfunction
 function SetShiWan takes nothing returns nothing
 	set ShiFouShuaGuai=false
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFF00FF00Íæ¼ÒÒ»Ñ¡ÔñÁËÊÔÍæÄ£Ê½£¬¹ÖÎï²»»á½ø¹¥Ö÷³Ç£¬´ó¼Ò¿ÉÒÔ¾¡ÇéµÄÈ¥ÌåÑéÍæ·¨ÁË")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFF00FF00ç©å®¶ä¸€é€‰æ‹©äº†è¯•ç©æ¨¡å¼ï¼Œæ€ªç‰©ä¸ä¼šè¿›æ”»ä¸»åŸï¼Œå¤§å®¶å¯ä»¥å°½æƒ…çš„å»ä½“éªŒç©æ³•äº†")
 endfunction
 /*
- * 4. ÓÎÏ·½çÃæÏÔÊ¾Ïà¹Ø
+ * 4. æ¸¸æˆç•Œé¢æ˜¾ç¤ºç›¸å…³
  */
- //ÏµÍ³´°¿Ú
+ //ç³»ç»Ÿçª—å£
 function SystemWindow takes nothing returns nothing
 	local integer i=0
 	local string s = null
-	call CreateMultiboardBJ(5,20,"ÏµÍ³´°¿Ú")
+	call CreateMultiboardBJ(5,20,"ç³»ç»Ÿçª—å£")
 	call MultiboardSetItemsStyle(bj_lastCreatedMultiboard,true,false)
 	call MultiboardSetItemsWidth(bj_lastCreatedMultiboard,.07)
 	set i = 1
@@ -967,37 +967,37 @@ function SystemWindow takes nothing returns nothing
 		if udg_MaxDamage[i]<10000. then
             set s = R2S(udg_MaxDamage[i])
         elseif udg_MaxDamage[i]<100000000. then
-            set s = R2S(udg_MaxDamage[i])+"Íò"
+            set s = R2S(udg_MaxDamage[i])+"ä¸‡"
         elseif udg_MaxDamage[i]/10000.<100000000. then
-            set s = R2S(udg_MaxDamage[i])+"ÒÚ"
+            set s = R2S(udg_MaxDamage[i])+"äº¿"
         elseif udg_MaxDamage[i]/100000000.<100000000. then
-        	set s = R2S(udg_MaxDamage[i])+"ÍòÒÚ"
+        	set s = R2S(udg_MaxDamage[i])+"ä¸‡äº¿"
         else
-        	set s = R2S(udg_MaxDamage[i])+"ÒÚÒÚ"
+        	set s = R2S(udg_MaxDamage[i])+"äº¿äº¿"
         endif
-        call MultiboardSetTitleText(bj_lastCreatedMultiboard,"|cFFFFCC33Õâ²¢²»ÊÇÏµÍ³´°¿Ú")
+        call MultiboardSetTitleText(bj_lastCreatedMultiboard,"|cFFFFCC33è¿™å¹¶ä¸æ˜¯ç³»ç»Ÿçª—å£")
 		call DuoMianBan(bj_lastCreatedMultiboard,1,4*i-3,"|c00FF0080"+GetPlayerName(Player(i-1)))
-		call DuoMianBan(bj_lastCreatedMultiboard,2,4*i-3,"|c0000FF00"+"µÈ¼¶£º"+I2S(GetUnitLevel(udg_hero[i])))
+		call DuoMianBan(bj_lastCreatedMultiboard,2,4*i-3,"|c0000FF00"+"ç­‰çº§ï¼š"+I2S(GetUnitLevel(udg_hero[i])))
 		call DuoMianBan(bj_lastCreatedMultiboard,3,4*i-3,"|cFF00CCFF"+udg_menpainame[udg_runamen[i]])
-		call DuoMianBan(bj_lastCreatedMultiboard,4,4*i-3,"|cFFFF6600"+"×î¸ßÉËº¦£º"+s)
+		call DuoMianBan(bj_lastCreatedMultiboard,4,4*i-3,"|cFFFF6600"+"æœ€é«˜ä¼¤å®³ï¼š"+s)
 		if Ce[i] == 1 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Á¶µ¤Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç‚¼ä¸¹å¸ˆ")
 		elseif Ce[i] == 2 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¶ÍÔìÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"é”»é€ å¸ˆ")
 		elseif Ce[i] == 3 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"±øÆ÷Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"å…µå™¨å¸ˆ")
 		elseif Ce[i] == 4 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¼ø¶¨Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"é‰´å®šå¸ˆ")
 		elseif Ce[i] == 5 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Á·ÆøÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç»ƒæ°”å¸ˆ")
 		elseif Ce[i] == 6 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Ñ°±¦Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"å¯»å®å¸ˆ")
 		elseif Ce[i] == 7 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Ñ¾÷ß")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ä¸«é¬Ÿ")
 		elseif Ce[i] == 8 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¾«ÎäÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç²¾æ­¦å¸ˆ")
 		else
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Î´Ñ¡Ôñ")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"æœªé€‰æ‹©")
 		endif
 		if (I7[20*(i-1)+1]!='AEfk') then
 			call DuoMianBan(bj_lastCreatedMultiboard,1,4*i-2,"|c0000FF00"+GetObjectName(I7[20*(i-1)+1]))
@@ -1046,37 +1046,37 @@ function uuyy takes nothing returns nothing
 		if udg_MaxDamage[i]<10000. then
             set s = I2S(R2I(udg_MaxDamage[i]/1.))
         elseif udg_MaxDamage[i]<100000000. then
-            set s = I2S(R2I(udg_MaxDamage[i]/10000.))+"Íò"
+            set s = I2S(R2I(udg_MaxDamage[i]/10000.))+"ä¸‡"
         elseif udg_MaxDamage[i]/10000.<100000000. then
-            set s = I2S(R2I(udg_MaxDamage[i]/100000000.))+"ÒÚ"
+            set s = I2S(R2I(udg_MaxDamage[i]/100000000.))+"äº¿"
         elseif udg_MaxDamage[i]/100000000.<100000000. then
-        	set s = I2S(R2I(udg_MaxDamage[i]/1000000000000.))+"ÍòÒÚ"
+        	set s = I2S(R2I(udg_MaxDamage[i]/1000000000000.))+"ä¸‡äº¿"
         else
-        	set s = I2S(R2I(udg_MaxDamage[i]/10000000000000000.))+"ÒÚÒÚ"
+        	set s = I2S(R2I(udg_MaxDamage[i]/10000000000000000.))+"äº¿äº¿"
         endif
-        call MultiboardSetTitleText(bj_lastCreatedMultiboard,"|cFFFFCC33Õâ²¢²»ÊÇÏµÍ³´°¿Ú")
+        call MultiboardSetTitleText(bj_lastCreatedMultiboard,"|cFFFFCC33è¿™å¹¶ä¸æ˜¯ç³»ç»Ÿçª—å£")
 		call DuoMianBan(bj_lastCreatedMultiboard,1,4*i-3,"|c00FF0080"+GetPlayerName(Player(i-1)))
-		call DuoMianBan(bj_lastCreatedMultiboard,2,4*i-3,"|c0000FF00"+"µÈ¼¶£º"+I2S(GetUnitLevel(udg_hero[i])))
+		call DuoMianBan(bj_lastCreatedMultiboard,2,4*i-3,"|c0000FF00"+"ç­‰çº§ï¼š"+I2S(GetUnitLevel(udg_hero[i])))
 		call DuoMianBan(bj_lastCreatedMultiboard,3,4*i-3,"|cFF00CCFF"+udg_menpainame[udg_runamen[i]])
-		call DuoMianBan(bj_lastCreatedMultiboard,4,4*i-3,"|cFFFF6600"+"×î¸ßÉËº¦£º"+s)
+		call DuoMianBan(bj_lastCreatedMultiboard,4,4*i-3,"|cFFFF6600"+"æœ€é«˜ä¼¤å®³ï¼š"+s)
 		if Ce[i] == 1 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Á¶µ¤Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç‚¼ä¸¹å¸ˆ")
 		elseif Ce[i] == 2 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¶ÍÔìÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"é”»é€ å¸ˆ")
 		elseif Ce[i] == 3 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"±øÆ÷Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"å…µå™¨å¸ˆ")
 		elseif Ce[i] == 4 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¼ø¶¨Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"é‰´å®šå¸ˆ")
 		elseif Ce[i] == 5 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Á·ÆøÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç»ƒæ°”å¸ˆ")
 		elseif Ce[i] == 6 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Ñ°±¦Ê¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"å¯»å®å¸ˆ")
 		elseif Ce[i] == 7 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Ñ¾÷ß")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ä¸«é¬Ÿ")
 		elseif Ce[i] == 8 then
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"¾«ÎäÊ¦")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"ç²¾æ­¦å¸ˆ")
 		else
-			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"Î´Ñ¡Ôñ")
+			call DuoMianBan(bj_lastCreatedMultiboard,5,4*i-3,"|c00FFEE99"+"æœªé€‰æ‹©")
 		endif
 		if (I7[20*(i-1)+1]!='AEfk') then
 			call DuoMianBan(bj_lastCreatedMultiboard,1,4*i-2,"|c0000FF00"+GetObjectName(I7[20*(i-1)+1]))
@@ -1114,7 +1114,7 @@ function uuyy takes nothing returns nothing
 		set i = i + 1
 	endloop
 endfunction
-//×î´óÉËº¦
+//æœ€å¤§ä¼¤å®³
 function wy takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))!=MAP_CONTROL_USER)and(GetEventDamage()>udg_MaxDamage[(1+GetPlayerId(GetOwningPlayer(GetEventDamageSource())))]))
 endfunction
@@ -1122,7 +1122,7 @@ function SetMaxDamage takes nothing returns nothing
 	set udg_MaxDamage[(1+GetPlayerId(GetOwningPlayer(GetEventDamageSource())))]=GetEventDamage()
 endfunction
 
-//Íæ¼ÒÀë¿ª
+//ç©å®¶ç¦»å¼€
 function Xx takes nothing returns nothing
 	set bj_forLoopBIndex=1
 	set bj_forLoopBIndexEnd=6
@@ -1136,63 +1136,63 @@ endfunction
 function PlayerLeave takes nothing returns nothing
 	call ForGroupBJ((AddPlayerUnitIntoGroup((GetTriggerPlayer()),null)),function Xx)
 	call yv(bj_lastCreatedMultiboard,4,((1+GetPlayerId(GetTriggerPlayer()))+2),100.,20.,100.,0)
-	call DuoMianBan(bj_lastCreatedMultiboard,5,((1+GetPlayerId(GetTriggerPlayer()))*4-2),"Àë¿ª")
+	call DuoMianBan(bj_lastCreatedMultiboard,5,((1+GetPlayerId(GetTriggerPlayer()))*4-2),"ç¦»å¼€")
 endfunction
-//F9ÏÔÊ¾
+//F9æ˜¾ç¤º
 function Qx takes nothing returns nothing
-	call CreateQuestBJ(0,"|cFFFF00001.53°æ±¾¸üĞÂÄÚÈİ","|cff00ff00ĞÂÔöÔªËØ|n|r|cffffff00¿ª·ÅĞÂÃÅÅÉ|r£ºÉñÁú½Ì£¨ÄĞÅ®½ÇÉ«»ù´¡Îä¹¦²»Í¬£©|n|cffffff00Ôö¼ÓÍÅ¶Ó¸±±¾|r£ºÌôÕ½ÇàÁúÊ¥ÊŞ|cff00ff00|nÆ½ºâĞÔµ÷Õû|n|r|cffffff00¸±Ö°µ÷Õû|r£ºÑ¾÷ßÉı¼¶µ½¿¤Ö÷ºóĞ¯´øÎäÆ÷ºÍÒÂ·şÊıÁ¿²»ÏŞ¡£¼ø¶¨´óÊ¦Éı¼¶µ÷ÕûÎª10·Ö£¬Á·ÆøÊ¦ÓÉÃ¿¼¶ÄÚÁ¦+10¸ÄÎªËæ»ú¼Ó³É£¬´óÊ¦Ìõ¼şÓÉ100¸ÄÎª80¼¶¡£Ñ°±¦Ê¦Ë«±¶µôÂä¸ÅÂÊ¸ÄÎª30%¡£|n|cffffff00×¨Êôµ÷Õû|r£º¸÷ÃÅÅÉ×¨ÊôÉËº¦¼Ó³ÉÈ«ÃæÏÂµ÷¡£|n|cffffff00ÉËº¦¹«Ê½µ÷Õû|r£ºÎä¹¦ÉËº¦Ğè¿¼ÂÇ»¤¼×¡£|n|cffffff00ÊôĞÔµ¤µ÷Õû|r£º»ù´¡µ¤ÓÉ+2±äÎª+1£¬Ò×½îÏ´Ëèµ¤ÓÉ+2~4±äÎª+1~3£¬ÍÑÌ¥»»¹Çµ¤ÓÉ+5¸÷-1±äÎª+6¸÷-1¡£|n|cffffff00ÃÅÅÉµ÷Õû|r£º¸ö±ğÃÅÅÉÉËº¦ºÍÉıÖØËÙ¶ÈÆ½ºâ|n|cffffff00ÆäËûÏ¸½Úµ÷Õû|r|cff00ff00|nBUGĞŞ¸´|n|r|cffffff00×ÔÓÉÃÅÅÉ£º|r³öÃÅ¿ÉÒÔËæ»úµ½¾øÎäºÍ¾øÄÚÁË¡£","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(0,"|cFFFF0000ÈËÎïÊôĞÔ","ÕĞÊ½ÉËº¦£ºÓ°ÏìÈËÎïµÄËùÓĞÎä¹¦µÄÍşÁ¦£¬ÖĞºóÆÚÓ°Ïì½Ï´ó\nÄÚÁ¦£º¼Ó³ÉÎä¹¦ÉËº¦°Ù·Ö±È£¬ÖĞºóÆÚÓ°Ïì½Ï´ó\nÕæÊµÉËº¦£ºÔì³É²»ÊÜÄÚÁ¦Ó°ÏìµÄÊµ¼ÊÉËº¦£¬Ç°ÆÚÓ°Ïì½Ï´ó\n¾øÑ§ÁìÎòÁ¦£ºÓ°Ïì¾øÑ§µÄ·¢»ÓĞ§¹ûºÍÍşÁ¦\n¸ù¹Ç£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±Ìá¸ß¼¼ÄÜ±©»÷Á¦\nÎòĞÔ£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±¾ö¶¨¼¼ÄÜÉı¼¶µÄ¸ÅÂÊ\n¾­Âö£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±Ìá¸ß·¨Á¦»Ø¸´ËÙ¶È\n¸£Ôµ£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±Ìá¸ß±»¶¯ÎäÑ§´¥·¢¸ÅÂÊ\nµ¨ÆÇ£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±Ìá¸ßÉ±¹Ö»Ø¸´ÄÜÁ¦\nÒ½Êõ£ºÓ°ÏìÈÎÎñºÍÎä¹¦Ñ§Ï°Ìõ¼ş£¬Í¬Ê±Ìá¸ß×ÔÈ»ÉúÃü»Ø¸´ËÙ¶È","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(0,"|cFFFF6600ÈËÎïÎä¹¦","ÃÅÅÉÎä¹¦£º¼ÓÈëÃÅÅÉºóÃ¿¸öÓ¢ĞÛ¶¼»áÓĞ3¸öÎä¹¦£¬·Ö±ğÔÚ3¡¢8¡¢15¼¶Ê±×Ô¶¯ÁìÎò\nÃÅÅÉĞÄ·¨£ºÃ¿¸öÃÅÅÉ¶¼ÓĞÁ½ÖÖĞÄ·¨£¬¿ÉÒÔÔÚÍê³ÉÀúÁ·2ºó¶şÑ¡ÆäÒ»ĞŞÏ°\n½­ºşÎä¹¦£º·ÖÎªÎä¹¦ºÍĞÄ·¨Á½´óÀà£¬ĞèÒªÍ¨¹ıÊ¹ÓÃÎä¹¦ÃØ¼®»ñµÃ\n¾øÑ§ºÍ¾øÄÚ£ººóÆÚÀ÷º¦µÄ´óÕĞ£¬Ò²ĞèÒªÍ¨¹ıÊ¹ÓÃÎä¹¦ÃØ¼®»ñµÃ\n¾øÕó£º¿ª·Å²¿·ÖÃÅÅÉ¾øÕó£¬Çëµ½¾ÛÏÍ×¯Ñ°ÕÒ","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(0,"|cFF00FF00ÓÎÏ·Ö¸Áî","°´¼üEsc£º|cFFCCFF33²é¿´ÈËÎïÊôĞÔ|r\nÊäÈë¡°sj¡±£º|cFFCCFF33»Ö¸´ÊÓ½Ç|r\nÊäÈë¡°bl¡±£º|cFFCCFF33²é¿´°éÂÂÊôĞÔ|r\nÊäÈë¡°jy¡±£º|cFFCCFF33½«½£Òâ×ª»¯ÎªĞÔ¸ñÊôĞÔ|r\nÊäÈë¡°up¡±£º|cFFCCFF33·ÇÌØÊâÊÂ¼şÄ£Ê½ÏÂÌá¸ßÄÑ¶È£¨Ö»ÄÜÌá²»ÄÜ½µ£©|r\nÊäÈë¡°fb¡±£º|cFFCCFF33²éÑ¯¸±±¾ÖØÖÃÊ±¼ä|r\nÊäÈë¡°yx¡±£º|cFFCCFF33²éÑ¯±¦±¦Ğ¯´ø²İÒ©µÄ×ÜÒ©ĞÔ|r\nÓÎÏ·¿ªÊ¼2·ÖÖÓÄÚÊäÈë¡°sw¡±£º|cFFCCFF33ÊÔÍæÄ£Ê½|r\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(0,"|cFF0000FFÓÎÏ·Ö¸Áî2","ÊäÈë¡°cksx¡±£º|cFFCCFF33²é¿´Ê£Óà×ÔÓÉÊôĞÔµãÊı|r\nÊäÈëÊôĞÔÆ´ÒôÊ××ÖÄ¸Èç¡°gg¡±£º|cFFCCFF33¸ù¹Ç+1|r\nÊäÈëÊôĞÔÆ´ÒôÊ××ÖÄ¸¼ÓÊıÖµÈç¡°fy5¡±£º|cFFCCFF33¸£Ôµ+5|r\nÊäÈë¡°ckwq¡±£º|cFFCCFF33²éÑ¯×ÔÖÆÎäÆ÷ÊôĞÔ|r\nÊäÈë¡°ckwg¡±£º|cFFCCFF33²éÑ¯×Ô´´Îä¹¦|r\nÊäÈë¡°ckjn¡±£º|cFFCCFF33²éÑ¯ÈËÎïĞÔ¸ñºÍ¼¼ÄÜÉıÖØ½ø¶È|r\nÊäÈë¡°ck¡±£º|cFFCCFF33²éÑ¯¼¼ÄÜÉËº¦|r\nÊäÈë¡°ckjf¡±£º|cFFCCFF33²éÑ¯ÊØ¼Ò»ı·Ö|r\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2,"|cFFFF00CC³ÆºÅÏµÍ³","ÔÚÓÎÏ·ÖĞ£¬¿ÉÒÔ»ñµÃÁ½ÖÖ³ÆºÅ£ºÃÅÅÉ³ÆºÅºÍ¸±Ö°³ÆºÅ\nÃÅÅÉ³ÆºÅ£ºÈç¹ûÄãµÄËùÓĞÃÅÅÉÎäÑ§ºÍÃÅÅÉÄÚ¹¦¾ù´ïµ½6¼¶£¬¿ÉÒÔ»ñµÃ¸÷ÃÅÅÉµÄÕÆÃÅ³ÆºÅ£»ÔÚ»ñµÃÕÆÃÅÖ®Ç°´ï³ÉÒ»¶¨µÄÌõ¼ş£¬»ñµÃÕÆÃÅ³ÆºÅÊ±»¹¿ÉÒÔ»ñµÃ¶îÍâµÄÃÅÅÉ³ÆºÅ£¬¾ßÌåÃÅÅÉ³ÆºÅµÄ»ñµÃ·½·¨¿ÉÒÔ²Î¿¼ÂÛÌ³µÄ¹¥ÂÔ¡£×¢Òâ»ñµÃÃÅÅÉ³ÆºÅµÄÆõ»úÖ»ÓĞÒ»´Î¡£\n¸±Ö°³ÆºÅ£ºÓÎÏ·ÖĞµÄÆßÖÖ¸±Ö°´ïµ½Ò»¶¨Ìõ¼şÊ±£¬¿ÉÒÔ·Ö±ğ»ñµÃÏàÓ¦µÄ¸±Ö°´óÊ¦³ÆºÅ£¬Ôö¼ÓÓë¸Ã¸±Ö°Ïà¹ØµÄ¶îÍâÄÜÁ¦£¬¾ßÌå¸±Ö°´óÊ¦³ÆºÅµÄ»ñµÃ·½·¨¿ÉÒÔ²Î¿¼ÂÛÌ³µÄ¹¥ÂÔ","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	//call CreateQuestBJ(2,"|cFFFFFF00ÎäÆ÷ÏµÍ³","ÔÚÓÎÏ·ÖĞ£¬Ã¿Ò»°ÑÎäÆ÷¶¼ÓĞ×Ô¼ºµÄÄÍ¾Ã¶È£¬Ã¿»÷É±Ò»¸öµ¥Î»ÄÍ¾Ã¶È¼õ1£¬ÄÍ¾Ã¶ÈÎª0ºóÎäÆ÷ÆÆËğÏûÊ§\nÈç¹û¸±Ö°Ñ¡Ôñ±øÆ÷Ê¦£¬ÔòÎäÆ÷²»¼õÉÙÄÍ¾Ã¶È¡£\nÃ¿¸öÍæ¼Ò¶ÔÃ¿Ò»ÖÖÎäÆ÷ÓĞÒ»¶¨µÄÊìÁ·¶È£¬Ã¿»÷É±Ò»¸öµ¥Î»Ôö¼ÓÒ»¶¨ÊìÁ·¶È£¬²»Í¬ÎäÆ÷ÊìÁ·¶ÈÉÏÏŞ²»Í¬£¬ÊìÁ·¶ÈÉÏÉıÎä¹¦µÄÉËº¦½«ËæÖ®ÉÏÉı\n¸±Ö°Ñ¡Ôñ±øÆ÷Ê¦´ó·ùÌáÉıÎäÆ÷µÄÊìÁ·¶ÈÉÏÏŞ\n¶ÔÄ³ÖÖÎäÆ÷¼«²»ÊìÁ·Ê±ÉËº¦ÒªµÍÓÚ²»ÄÃÎäÆ÷Ê±µÄÉËº¦","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2,"|cFFFF0000¸±Ö°Íæ·¨","Íæ¼Ò¿ÉÔÚNPC¹ù¾¸´¦Ñ¡Ôñ×Ô¼ºµÄ¸±Ö°£¬¼ÓÈë¸±Ö°ºó»á»ñµÃÒ»Ğ©¶ÀÌØµÄÄÜÁ¦\n¸±Ö°Âú×ãÒ»¶¨Ìõ¼şºó£¬¿ÉÒÔ»ñµÃÏàÓ¦µÄ´óÊ¦³ÆºÅ£¬»ñµÃ´óÊ¦ºó»á¶îÍâ»ñµÃÒ»Ğ©ÄÜÁ¦\nÁ¶µ¤Ê¦£º¿ÉÊ¹ÓÃÁ¶µ¤ÏµÍ³²¢¿É¶à·şÊ³Îå¿Åµ¤Ò©\n¶ÍÔìÊ¦£º¿ÉÊ¹ÓÃÏâÇ¶ºÍ¶ÍÔìÏµÍ³\n±øÆ÷Ê¦£ºÕòÑıËÀÍö²»µôÂä£¬Ê°È¡ºÍÒ±Á¶±øÆ÷²»ÊÜÀúÁ·ÏŞÖÆ\nÁ·ÆøÊ¦£ºÃ¿ÌáÉıÒ»´ÎµÈ¼¶Ôö¼Ó4-12µãÕĞÊ½ÉËº¦»òÄÚÁ¦»òÕæÊµÉËº¦\nÑ°±¦Ê¦£º¸±±¾Ë«±¶µôÂä\n¼ø¶¨Ê¦£º±¬Ë«±¶¹Å¶­£¬¿ÉÒÔÊ¹ÓÃ¹Å¶­»»Êé£¬¹Å¶­ÒÔ×î¸ß¼ÛÂô³ö\nÑ¾÷ß£ºĞ¯´øÁ½°ÑÎäÆ÷¼°Á½¼şÒÂ·ş\n¾«ÎäÊ¦£º¼¼ÄÜÉı¼¶µ½¾ÅÖØ»ñµÃ¶îÍâ×Ô´´ÎäÑ§µã£¬¿ÉÒÔ´ò³öÆæÎä\n¸ü¶à´óÊ¦»ñµÃ·½Ê½ºÍ×÷ÓÃÇëµ½NPCËæ·ç¶øÊÅde·ç´¦²é¿´","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2,"|cFFFF6600³ÆºÅÏµÍ³","Íæ¼Ò4¸öÃÅÅÉÎä¹¦È«²¿´ïµ½6¼¶¿É»ñµÃÕÆÃÅ³ÆºÅ\nÔÚ»ñµÃÕÆÃÅ³ÆºÅÊ±Èô´ïµ½Ò»¶¨Ìõ¼ş£¬¿ÉÍ¬Ê±»ñµÃÆäËû³ÆºÅ\nÓĞÒ»Ğ©³ÆºÅÓëÕÆÃÅÎŞ¹Ø£¬¾ßÌå¿É²Î¿¼ÍøÕ¾»òÂÛÌ³µÄ¹¥ÂÔ\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2,"|cFF00FF00Òş²ØÃÅÅÉ","ÓÎÏ·ÖĞÓĞÁ½¸öÒş²ØÃÅÅÉ£º¹ÃËÕÄ½ÈİºÍÁéğÕ¹¬\nÒş²ØÃÅÅÉµÄÑ¡Ôñ·½Ê½:ÁéğÕ¹¬Ñ¡ÈËºóÊäÈëwww.juezhanjianghu.com£¬Ä½ÈİÊÀ¼ÒÑ¡ÈËºóÊäÈëjzjh.uuu9.com»ò3¼¶Ç°È¥ÕÒÄ½Èİ¸´\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2,"|cFF0000FFÓÎÏ·ÍøÕ¾","17Íæ°É£º|cFFCCFF33www.17wanba.cc|r\n×¨ÇøÂÛÌ³£º|cFFCCFF33jzjhbbs.uuu9.com|r\nÓÎÏ·×÷Õß£º|cFFCCFF33ÔÆÑî Zei_kale|r\nÓÎÏ·QQÈº£º|cFFCCFF33159030768, 369925013\n\n¹Ø×¢ÎäÏÀ£¬Ö§³Ö×÷Õß£¬ÏêÇéÇëÔÚÍøÕ¾ºÍÂÛÌ³²éÑ¯","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFFFF00001.53ç‰ˆæœ¬æ›´æ–°å†…å®¹","|cff00ff00æ–°å¢å…ƒç´ |n|r|cffffff00å¼€æ”¾æ–°é—¨æ´¾|rï¼šç¥é¾™æ•™ï¼ˆç”·å¥³è§’è‰²åŸºç¡€æ­¦åŠŸä¸åŒï¼‰|n|cffffff00å¢åŠ å›¢é˜Ÿå‰¯æœ¬|rï¼šæŒ‘æˆ˜é’é¾™åœ£å…½|cff00ff00|nå¹³è¡¡æ€§è°ƒæ•´|n|r|cffffff00å‰¯èŒè°ƒæ•´|rï¼šä¸«é¬Ÿå‡çº§åˆ°éƒ¡ä¸»åæºå¸¦æ­¦å™¨å’Œè¡£æœæ•°é‡ä¸é™ã€‚é‰´å®šå¤§å¸ˆå‡çº§è°ƒæ•´ä¸º10åˆ†ï¼Œç»ƒæ°”å¸ˆç”±æ¯çº§å†…åŠ›+10æ”¹ä¸ºéšæœºåŠ æˆï¼Œå¤§å¸ˆæ¡ä»¶ç”±100æ”¹ä¸º80çº§ã€‚å¯»å®å¸ˆåŒå€æ‰è½æ¦‚ç‡æ”¹ä¸º30%ã€‚|n|cffffff00ä¸“å±è°ƒæ•´|rï¼šå„é—¨æ´¾ä¸“å±ä¼¤å®³åŠ æˆå…¨é¢ä¸‹è°ƒã€‚|n|cffffff00ä¼¤å®³å…¬å¼è°ƒæ•´|rï¼šæ­¦åŠŸä¼¤å®³éœ€è€ƒè™‘æŠ¤ç”²ã€‚|n|cffffff00å±æ€§ä¸¹è°ƒæ•´|rï¼šåŸºç¡€ä¸¹ç”±+2å˜ä¸º+1ï¼Œæ˜“ç­‹æ´—é«“ä¸¹ç”±+2~4å˜ä¸º+1~3ï¼Œè„±èƒæ¢éª¨ä¸¹ç”±+5å„-1å˜ä¸º+6å„-1ã€‚|n|cffffff00é—¨æ´¾è°ƒæ•´|rï¼šä¸ªåˆ«é—¨æ´¾ä¼¤å®³å’Œå‡é‡é€Ÿåº¦å¹³è¡¡|n|cffffff00å…¶ä»–ç»†èŠ‚è°ƒæ•´|r|cff00ff00|nBUGä¿®å¤|n|r|cffffff00è‡ªç”±é—¨æ´¾ï¼š|rå‡ºé—¨å¯ä»¥éšæœºåˆ°ç»æ­¦å’Œç»å†…äº†ã€‚","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFFFF0000äººç‰©å±æ€§","æ‹›å¼ä¼¤å®³ï¼šå½±å“äººç‰©çš„æ‰€æœ‰æ­¦åŠŸçš„å¨åŠ›ï¼Œä¸­åæœŸå½±å“è¾ƒå¤§\nå†…åŠ›ï¼šåŠ æˆæ­¦åŠŸä¼¤å®³ç™¾åˆ†æ¯”ï¼Œä¸­åæœŸå½±å“è¾ƒå¤§\nçœŸå®ä¼¤å®³ï¼šé€ æˆä¸å—å†…åŠ›å½±å“çš„å®é™…ä¼¤å®³ï¼Œå‰æœŸå½±å“è¾ƒå¤§\nç»å­¦é¢†æ‚ŸåŠ›ï¼šå½±å“ç»å­¦çš„å‘æŒ¥æ•ˆæœå’Œå¨åŠ›\næ ¹éª¨ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶æé«˜æŠ€èƒ½æš´å‡»åŠ›\næ‚Ÿæ€§ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶å†³å®šæŠ€èƒ½å‡çº§çš„æ¦‚ç‡\nç»è„‰ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶æé«˜æ³•åŠ›å›å¤é€Ÿåº¦\nç¦ç¼˜ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶æé«˜è¢«åŠ¨æ­¦å­¦è§¦å‘æ¦‚ç‡\nèƒ†é­„ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶æé«˜æ€æ€ªå›å¤èƒ½åŠ›\nåŒ»æœ¯ï¼šå½±å“ä»»åŠ¡å’Œæ­¦åŠŸå­¦ä¹ æ¡ä»¶ï¼ŒåŒæ—¶æé«˜è‡ªç„¶ç”Ÿå‘½å›å¤é€Ÿåº¦","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFFFF6600äººç‰©æ­¦åŠŸ","é—¨æ´¾æ­¦åŠŸï¼šåŠ å…¥é—¨æ´¾åæ¯ä¸ªè‹±é›„éƒ½ä¼šæœ‰3ä¸ªæ­¦åŠŸï¼Œåˆ†åˆ«åœ¨3ã€8ã€15çº§æ—¶è‡ªåŠ¨é¢†æ‚Ÿ\né—¨æ´¾å¿ƒæ³•ï¼šæ¯ä¸ªé—¨æ´¾éƒ½æœ‰ä¸¤ç§å¿ƒæ³•ï¼Œå¯ä»¥åœ¨å®Œæˆå†ç»ƒ2åäºŒé€‰å…¶ä¸€ä¿®ä¹ \næ±Ÿæ¹–æ­¦åŠŸï¼šåˆ†ä¸ºæ­¦åŠŸå’Œå¿ƒæ³•ä¸¤å¤§ç±»ï¼Œéœ€è¦é€šè¿‡ä½¿ç”¨æ­¦åŠŸç§˜ç±è·å¾—\nç»å­¦å’Œç»å†…ï¼šåæœŸå‰å®³çš„å¤§æ‹›ï¼Œä¹Ÿéœ€è¦é€šè¿‡ä½¿ç”¨æ­¦åŠŸç§˜ç±è·å¾—\nç»é˜µï¼šå¼€æ”¾éƒ¨åˆ†é—¨æ´¾ç»é˜µï¼Œè¯·åˆ°èšè´¤åº„å¯»æ‰¾","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFF00FF00æ¸¸æˆæŒ‡ä»¤","æŒ‰é”®Escï¼š|cFFCCFF33æŸ¥çœ‹äººç‰©å±æ€§|r\nè¾“å…¥â€œsjâ€ï¼š|cFFCCFF33æ¢å¤è§†è§’|r\nè¾“å…¥â€œblâ€ï¼š|cFFCCFF33æŸ¥çœ‹ä¼´ä¾£å±æ€§|r\nè¾“å…¥â€œjyâ€ï¼š|cFFCCFF33å°†å‰‘æ„è½¬åŒ–ä¸ºæ€§æ ¼å±æ€§|r\nè¾“å…¥â€œupâ€ï¼š|cFFCCFF33éç‰¹æ®Šäº‹ä»¶æ¨¡å¼ä¸‹æé«˜éš¾åº¦ï¼ˆåªèƒ½æä¸èƒ½é™ï¼‰|r\nè¾“å…¥â€œfbâ€ï¼š|cFFCCFF33æŸ¥è¯¢å‰¯æœ¬é‡ç½®æ—¶é—´|r\nè¾“å…¥â€œyxâ€ï¼š|cFFCCFF33æŸ¥è¯¢å®å®æºå¸¦è‰è¯çš„æ€»è¯æ€§|r\næ¸¸æˆå¼€å§‹2åˆ†é’Ÿå†…è¾“å…¥â€œswâ€ï¼š|cFFCCFF33è¯•ç©æ¨¡å¼|r\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(0,"|cFF0000FFæ¸¸æˆæŒ‡ä»¤2","è¾“å…¥â€œcksxâ€ï¼š|cFFCCFF33æŸ¥çœ‹å‰©ä½™è‡ªç”±å±æ€§ç‚¹æ•°|r\nè¾“å…¥å±æ€§æ‹¼éŸ³é¦–å­—æ¯å¦‚â€œggâ€ï¼š|cFFCCFF33æ ¹éª¨+1|r\nè¾“å…¥å±æ€§æ‹¼éŸ³é¦–å­—æ¯åŠ æ•°å€¼å¦‚â€œfy5â€ï¼š|cFFCCFF33ç¦ç¼˜+5|r\nè¾“å…¥â€œckwqâ€ï¼š|cFFCCFF33æŸ¥è¯¢è‡ªåˆ¶æ­¦å™¨å±æ€§|r\nè¾“å…¥â€œckwgâ€ï¼š|cFFCCFF33æŸ¥è¯¢è‡ªåˆ›æ­¦åŠŸ|r\nè¾“å…¥â€œckjnâ€ï¼š|cFFCCFF33æŸ¥è¯¢äººç‰©æ€§æ ¼å’ŒæŠ€èƒ½å‡é‡è¿›åº¦|r\nè¾“å…¥â€œckâ€ï¼š|cFFCCFF33æŸ¥è¯¢æŠ€èƒ½ä¼¤å®³|r\nè¾“å…¥â€œckjfâ€ï¼š|cFFCCFF33æŸ¥è¯¢å®ˆå®¶ç§¯åˆ†|r\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2,"|cFFFF00CCç§°å·ç³»ç»Ÿ","åœ¨æ¸¸æˆä¸­ï¼Œå¯ä»¥è·å¾—ä¸¤ç§ç§°å·ï¼šé—¨æ´¾ç§°å·å’Œå‰¯èŒç§°å·\né—¨æ´¾ç§°å·ï¼šå¦‚æœä½ çš„æ‰€æœ‰é—¨æ´¾æ­¦å­¦å’Œé—¨æ´¾å†…åŠŸå‡è¾¾åˆ°6çº§ï¼Œå¯ä»¥è·å¾—å„é—¨æ´¾çš„æŒé—¨ç§°å·ï¼›åœ¨è·å¾—æŒé—¨ä¹‹å‰è¾¾æˆä¸€å®šçš„æ¡ä»¶ï¼Œè·å¾—æŒé—¨ç§°å·æ—¶è¿˜å¯ä»¥è·å¾—é¢å¤–çš„é—¨æ´¾ç§°å·ï¼Œå…·ä½“é—¨æ´¾ç§°å·çš„è·å¾—æ–¹æ³•å¯ä»¥å‚è€ƒè®ºå›çš„æ”»ç•¥ã€‚æ³¨æ„è·å¾—é—¨æ´¾ç§°å·çš„å¥‘æœºåªæœ‰ä¸€æ¬¡ã€‚\nå‰¯èŒç§°å·ï¼šæ¸¸æˆä¸­çš„ä¸ƒç§å‰¯èŒè¾¾åˆ°ä¸€å®šæ¡ä»¶æ—¶ï¼Œå¯ä»¥åˆ†åˆ«è·å¾—ç›¸åº”çš„å‰¯èŒå¤§å¸ˆç§°å·ï¼Œå¢åŠ ä¸è¯¥å‰¯èŒç›¸å…³çš„é¢å¤–èƒ½åŠ›ï¼Œå…·ä½“å‰¯èŒå¤§å¸ˆç§°å·çš„è·å¾—æ–¹æ³•å¯ä»¥å‚è€ƒè®ºå›çš„æ”»ç•¥","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	//call CreateQuestBJ(2,"|cFFFFFF00æ­¦å™¨ç³»ç»Ÿ","åœ¨æ¸¸æˆä¸­ï¼Œæ¯ä¸€æŠŠæ­¦å™¨éƒ½æœ‰è‡ªå·±çš„è€ä¹…åº¦ï¼Œæ¯å‡»æ€ä¸€ä¸ªå•ä½è€ä¹…åº¦å‡1ï¼Œè€ä¹…åº¦ä¸º0åæ­¦å™¨ç ´æŸæ¶ˆå¤±\nå¦‚æœå‰¯èŒé€‰æ‹©å…µå™¨å¸ˆï¼Œåˆ™æ­¦å™¨ä¸å‡å°‘è€ä¹…åº¦ã€‚\næ¯ä¸ªç©å®¶å¯¹æ¯ä¸€ç§æ­¦å™¨æœ‰ä¸€å®šçš„ç†Ÿç»ƒåº¦ï¼Œæ¯å‡»æ€ä¸€ä¸ªå•ä½å¢åŠ ä¸€å®šç†Ÿç»ƒåº¦ï¼Œä¸åŒæ­¦å™¨ç†Ÿç»ƒåº¦ä¸Šé™ä¸åŒï¼Œç†Ÿç»ƒåº¦ä¸Šå‡æ­¦åŠŸçš„ä¼¤å®³å°†éšä¹‹ä¸Šå‡\nå‰¯èŒé€‰æ‹©å…µå™¨å¸ˆå¤§å¹…æå‡æ­¦å™¨çš„ç†Ÿç»ƒåº¦ä¸Šé™\nå¯¹æŸç§æ­¦å™¨æä¸ç†Ÿç»ƒæ—¶ä¼¤å®³è¦ä½äºä¸æ‹¿æ­¦å™¨æ—¶çš„ä¼¤å®³","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2,"|cFFFF0000å‰¯èŒç©æ³•","ç©å®¶å¯åœ¨NPCéƒ­é–å¤„é€‰æ‹©è‡ªå·±çš„å‰¯èŒï¼ŒåŠ å…¥å‰¯èŒåä¼šè·å¾—ä¸€äº›ç‹¬ç‰¹çš„èƒ½åŠ›\nå‰¯èŒæ»¡è¶³ä¸€å®šæ¡ä»¶åï¼Œå¯ä»¥è·å¾—ç›¸åº”çš„å¤§å¸ˆç§°å·ï¼Œè·å¾—å¤§å¸ˆåä¼šé¢å¤–è·å¾—ä¸€äº›èƒ½åŠ›\nç‚¼ä¸¹å¸ˆï¼šå¯ä½¿ç”¨ç‚¼ä¸¹ç³»ç»Ÿå¹¶å¯å¤šæœé£Ÿäº”é¢—ä¸¹è¯\né”»é€ å¸ˆï¼šå¯ä½¿ç”¨é•¶åµŒå’Œé”»é€ ç³»ç»Ÿ\nå…µå™¨å¸ˆï¼šé•‡å¦–æ­»äº¡ä¸æ‰è½ï¼Œæ‹¾å–å’Œå†¶ç‚¼å…µå™¨ä¸å—å†ç»ƒé™åˆ¶\nç»ƒæ°”å¸ˆï¼šæ¯æå‡ä¸€æ¬¡ç­‰çº§å¢åŠ 4-12ç‚¹æ‹›å¼ä¼¤å®³æˆ–å†…åŠ›æˆ–çœŸå®ä¼¤å®³\nå¯»å®å¸ˆï¼šå‰¯æœ¬åŒå€æ‰è½\né‰´å®šå¸ˆï¼šçˆ†åŒå€å¤è‘£ï¼Œå¯ä»¥ä½¿ç”¨å¤è‘£æ¢ä¹¦ï¼Œå¤è‘£ä»¥æœ€é«˜ä»·å–å‡º\nä¸«é¬Ÿï¼šæºå¸¦ä¸¤æŠŠæ­¦å™¨åŠä¸¤ä»¶è¡£æœ\nç²¾æ­¦å¸ˆï¼šæŠ€èƒ½å‡çº§åˆ°ä¹é‡è·å¾—é¢å¤–è‡ªåˆ›æ­¦å­¦ç‚¹ï¼Œå¯ä»¥æ‰“å‡ºå¥‡æ­¦\næ›´å¤šå¤§å¸ˆè·å¾—æ–¹å¼å’Œä½œç”¨è¯·åˆ°NPCéšé£è€Œé€deé£å¤„æŸ¥çœ‹","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2,"|cFFFF6600ç§°å·ç³»ç»Ÿ","ç©å®¶4ä¸ªé—¨æ´¾æ­¦åŠŸå…¨éƒ¨è¾¾åˆ°6çº§å¯è·å¾—æŒé—¨ç§°å·\nåœ¨è·å¾—æŒé—¨ç§°å·æ—¶è‹¥è¾¾åˆ°ä¸€å®šæ¡ä»¶ï¼Œå¯åŒæ—¶è·å¾—å…¶ä»–ç§°å·\næœ‰ä¸€äº›ç§°å·ä¸æŒé—¨æ— å…³ï¼Œå…·ä½“å¯å‚è€ƒç½‘ç«™æˆ–è®ºå›çš„æ”»ç•¥\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2,"|cFF00FF00éšè—é—¨æ´¾","æ¸¸æˆä¸­æœ‰ä¸¤ä¸ªéšè—é—¨æ´¾ï¼šå§‘è‹æ…•å®¹å’Œçµé¹«å®«\néšè—é—¨æ´¾çš„é€‰æ‹©æ–¹å¼:çµé¹«å®«é€‰äººåè¾“å…¥www.juezhanjianghu.comï¼Œæ…•å®¹ä¸–å®¶é€‰äººåè¾“å…¥jzjh.uuu9.comæˆ–3çº§å‰å»æ‰¾æ…•å®¹å¤\n","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2,"|cFF0000FFæ¸¸æˆç½‘ç«™","17ç©å§ï¼š|cFFCCFF33www.17wanba.cc|r\nä¸“åŒºè®ºå›ï¼š|cFFCCFF33jzjhbbs.uuu9.com|r\næ¸¸æˆä½œè€…ï¼š|cFFCCFF33äº‘æ¨ Zei_kale|r\næ¸¸æˆQQç¾¤ï¼š|cFFCCFF33159030768, 369925013\n\nå…³æ³¨æ­¦ä¾ ï¼Œæ”¯æŒä½œè€…ï¼Œè¯¦æƒ…è¯·åœ¨ç½‘ç«™å’Œè®ºå›æŸ¥è¯¢","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 endfunction
 
-//ESC²é¿´ÈËÎïÊôĞÔ
+//ESCæŸ¥çœ‹äººç‰©å±æ€§
 function RenWuShuXing takes nothing returns nothing
 	local player p=GetTriggerPlayer()
 	local integer i=1+GetPlayerId(p)
 	call ClearTextMessagesBJ(ov(p))
-	call DisplayTextToPlayer(p,0,0,"|cFFFF0000ÈËÎïÊôĞÔ£º")
-	call DisplayTextToPlayer(p,0,0,"|cFFcc99ff¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş")
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF±©»÷ÂÊ £º   "+(I2S(IMinBJ(R2I((udg_baojilv[i]*100.)), 100))+"%")))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF±©»÷ÉËº¦ £º   "+(I2S(R2I((udg_baojishanghai[i]*100.)))+"%")))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFÎä¹¦ÉËº¦¼Ó³É £º   "+(I2S(R2I((udg_shanghaijiacheng[i]*100.)))+"%")))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFÉËº¦ÎüÊÕ £º   "+(I2S(IMinBJ(R2I((udg_shanghaixishou[i]*100.)),80))+"%")))
-	call DisplayTextToPlayer(p,0,0,"|cFFcc99ff¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş")
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF¸ù¹Ç £º   "+I2S(gengu[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFÎòĞÔ £º   "+I2S(wuxing[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF¾­Âö £º   "+I2S(jingmai[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFF¸£Ôµ £º   "+I2S(fuyuan[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFµ¨ÆÇ £º   "+I2S(danpo[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFÒ½Êõ £º   "+I2S(yishu[i])))
-	call DisplayTextToPlayer(p,0,0,"|cFFcc99ff¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş¡ş")
-	call DisplayTextToPlayer(p,0,0,("|cFF33FF00¾øÑ§ÁìÎòÁ¦£º"+I2S(juexuelingwu[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF33FF00ĞŞĞĞ£º"+I2S(xiuxing[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF33FF00ÎäÑ§ĞŞÎª£ºµÚ"+(I2S(wugongxiuwei[i])+"²ã")))
-	call DisplayTextToPlayer(p,0,0,("|cFF33FF00½­ºşÉùÍû£º"+I2S(shengwang[i])))
-	call DisplayTextToPlayer(p,0,0,("|cFF33FF00ÊØ¼Ò»ı·Ö£º"+I2S(shoujiajf[i])))
+	call DisplayTextToPlayer(p,0,0,"|cFFFF0000äººç‰©å±æ€§ï¼š")
+	call DisplayTextToPlayer(p,0,0,"|cFFcc99ffã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“")
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFæš´å‡»ç‡ ï¼š   "+(I2S(IMinBJ(R2I((udg_baojilv[i]*100.)), 100))+"%")))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFæš´å‡»ä¼¤å®³ ï¼š   "+(I2S(R2I((udg_baojishanghai[i]*100.)))+"%")))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFæ­¦åŠŸä¼¤å®³åŠ æˆ ï¼š   "+(I2S(R2I((udg_shanghaijiacheng[i]*100.)))+"%")))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFä¼¤å®³å¸æ”¶ ï¼š   "+(I2S(IMinBJ(R2I((udg_shanghaixishou[i]*100.)),80))+"%")))
+	call DisplayTextToPlayer(p,0,0,"|cFFcc99ffã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“")
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFæ ¹éª¨ ï¼š   "+I2S(gengu[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFæ‚Ÿæ€§ ï¼š   "+I2S(wuxing[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFç»è„‰ ï¼š   "+I2S(jingmai[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFç¦ç¼˜ ï¼š   "+I2S(fuyuan[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFèƒ†é­„ ï¼š   "+I2S(danpo[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF00FFFFåŒ»æœ¯ ï¼š   "+I2S(yishu[i])))
+	call DisplayTextToPlayer(p,0,0,"|cFFcc99ffã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“ã€“")
+	call DisplayTextToPlayer(p,0,0,("|cFF33FF00ç»å­¦é¢†æ‚ŸåŠ›ï¼š"+I2S(juexuelingwu[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF33FF00ä¿®è¡Œï¼š"+I2S(xiuxing[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF33FF00æ­¦å­¦ä¿®ä¸ºï¼šç¬¬"+(I2S(wugongxiuwei[i])+"å±‚")))
+	call DisplayTextToPlayer(p,0,0,("|cFF33FF00æ±Ÿæ¹–å£°æœ›ï¼š"+I2S(shengwang[i])))
+	call DisplayTextToPlayer(p,0,0,("|cFF33FF00å®ˆå®¶ç§¯åˆ†ï¼š"+I2S(shoujiajf[i])))
 	if Ce[i]!=1 then
-	    call DisplayTextToPlayer(p,0,0,("|cFF33FF00µ±Ç°ÓÃµ¤ÊıÁ¿£º"+(I2S(yongdanshu[i])+" / 10")))
+	    call DisplayTextToPlayer(p,0,0,("|cFF33FF00å½“å‰ç”¨ä¸¹æ•°é‡ï¼š"+(I2S(yongdanshu[i])+" / 10")))
 	else
-	    call DisplayTextToPlayer(p,0,0,("|cFF33FF00µ±Ç°ÓÃµ¤ÊıÁ¿£º"+(I2S(yongdanshu[i])+" / 15")))
+	    call DisplayTextToPlayer(p,0,0,("|cFF33FF00å½“å‰ç”¨ä¸¹æ•°é‡ï¼š"+(I2S(yongdanshu[i])+" / 15")))
 	endif
 	set p=null
 endfunction
 
 /*
- * 5. ÓÎÏ·Ê¤ÀûºÍÊ§°Ü
+ * 5. æ¸¸æˆèƒœåˆ©å’Œå¤±è´¥
  */
  
  function hy takes nothing returns boolean
 	return((GetUnitTypeId(GetTriggerUnit())=='nbds'))
 endfunction
-//ÊÇ·ñ´ïµ½Ê¤ÀûÌõ¼ş
+//æ˜¯å¦è¾¾åˆ°èƒœåˆ©æ¡ä»¶
 function IsVictory takes nothing returns nothing
 if((de==false))then
 	call FlushChildHashtable(YDHT,GetHandleId(GetExpiredTimer()))
@@ -1223,7 +1223,7 @@ else
 		call DestroyTextTag(ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)])
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F,GetUnitLoc(udg_hero[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]))
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060,pu(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F),150.,110.))
-		call CreateTextTagLocBJ("ÎäÁÖÃËÖ÷",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
+		call CreateTextTagLocBJ("æ­¦æ—ç›Ÿä¸»",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060))
 		set ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]=bj_lastCreatedTextTag
@@ -1233,7 +1233,7 @@ else
 		call DestroyTextTag(ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)])
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F,GetUnitLoc(udg_hero[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]))
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060,pu(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F),150.,110.))
-		call CreateTextTagLocBJ("ÎäÁÖÃËÖ÷",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
+		call CreateTextTagLocBJ("æ­¦æ—ç›Ÿä¸»",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060))
 		set ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]=bj_lastCreatedTextTag
@@ -1243,7 +1243,7 @@ else
 		call DestroyTextTag(ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)])
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F,GetUnitLoc(udg_hero[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]))
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060,pu(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F),150.,110.))
-		call CreateTextTagLocBJ("ÎäÁÖÃËÖ÷",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
+		call CreateTextTagLocBJ("æ­¦æ—ç›Ÿä¸»",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060))
 		set ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]=bj_lastCreatedTextTag
@@ -1253,7 +1253,7 @@ else
 		call DestroyTextTag(ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)])
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F,GetUnitLoc(udg_hero[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]))
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060,pu(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F),150.,110.))
-		call CreateTextTagLocBJ("ÎäÁÖÃËÖ÷",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
+		call CreateTextTagLocBJ("æ­¦æ—ç›Ÿä¸»",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060))
 		set ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]=bj_lastCreatedTextTag
@@ -1263,14 +1263,14 @@ else
 		call DestroyTextTag(ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)])
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F,GetUnitLoc(udg_hero[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]))
 		call SaveLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060,pu(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F),150.,110.))
-		call CreateTextTagLocBJ("ÎäÁÖÃËÖ÷",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
+		call CreateTextTagLocBJ("æ­¦æ—ç›Ÿä¸»",LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060),100.,11.,LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5E9EB4B3),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$63F0AAA2),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$5CF6751E),LoadReal(YDHT,GetHandleId(GetExpiredTimer()),-$6329FB8A))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),$5E83114F))
 		call RemoveLocation(LoadLocationHandle(YDHT,GetHandleId(GetExpiredTimer()),-$72C3E060))
 		set ee[LoadInteger(YDHT,GetHandleId(GetExpiredTimer()),-$566CDF06)]=bj_lastCreatedTextTag
 	endif
 endif
 endfunction
-//Ê¤Àû¶¯×÷
+//èƒœåˆ©åŠ¨ä½œ
 function Victory takes nothing returns nothing
 	local timer ky
 	local integer id=GetHandleId(GetTriggeringTrigger())
@@ -1283,12 +1283,12 @@ function Victory takes nothing returns nothing
 	loop
 		exitwhen i >= 6
 		set udg_MeiJuJiFen[i]=udg_MeiJuJiFen[i]+ae/50
-		call YDWE_PreloadSL_Set( Player(i-1), "×Ü»ı·Ö", 1, udg_MeiJuJiFen[i] )
+		call YDWE_PreloadSL_Set( Player(i-1), "æ€»ç§¯åˆ†", 1, udg_MeiJuJiFen[i] )
     	call YDWE_PreloadSL_Save( Player(i-1), "JueZhan", "JiangHu"+I2S(i), 1 )
 		set i = i + 1
 	endloop
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2¾öÕ½½­ºş1.53µÄÓÎÏ·×ÜÆÀ·Ö£º"+(I2S(ae)+"·Ö£¨Í¨¹Ø£©")))
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2¹§Ï²ÄãÃÇÍ¨¹Ø£¬ÓÎÏ·½«ÔÚ2·ÖÖÓºó½áÊø\nÓÎÏ·×¨ÇøÂÛÌ³£ºjzjhbbs.uuu9.com\nÓÎÏ·½»Á÷QQÈº£º159030768 369925013\n¹Ø×¢ÎäÏÀ£¬ÈÃ¾öÕ½½­ºş×ßµÃ¸üÔ¶£¬ÆÚ´ıÄãµÄ²ÎÓë£¬ÏêÇéÇëÔÚ×¨ÇøÂÛÌ³²éÑ¯")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2å†³æˆ˜æ±Ÿæ¹–1.53çš„æ¸¸æˆæ€»è¯„åˆ†ï¼š"+(I2S(ae)+"åˆ†ï¼ˆé€šå…³ï¼‰")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2æ­å–œä½ ä»¬é€šå…³ï¼Œæ¸¸æˆå°†åœ¨2åˆ†é’Ÿåç»“æŸ\næ¸¸æˆä¸“åŒºè®ºå›ï¼šjzjhbbs.uuu9.com\næ¸¸æˆäº¤æµQQç¾¤ï¼š159030768 369925013\nå…³æ³¨æ­¦ä¾ ï¼Œè®©å†³æˆ˜æ±Ÿæ¹–èµ°å¾—æ›´è¿œï¼ŒæœŸå¾…ä½ çš„å‚ä¸ï¼Œè¯¦æƒ…è¯·åœ¨ä¸“åŒºè®ºå›æŸ¥è¯¢")
 	set de=true
 	call SaveReal(YDHT,id*cx,-$5E9EB4B3,40.)
 	call SaveReal(YDHT,id*cx,-$63F0AAA2,70.)
@@ -1302,8 +1302,8 @@ function Victory takes nothing returns nothing
 	call TimerStart(ky,.04,true,function IsVictory)
 	call YDWEPolledWaitNull(60.)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2¾öÕ½½­ºş1.53µÄÓÎÏ·×ÜÆÀ·Ö£º"+(I2S(ae)+"·Ö£¨Í¨¹Ø£©")))
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2¹§Ï²ÄãÃÇÍ¨¹Ø£¬ÓÎÏ·½«ÔÚ1·ÖÖÓºó½áÊø\nÓÎÏ·×¨ÇøÂÛÌ³£ºjzjhbbs.uuu9.com\nÓÎÏ·½»Á÷QQÈº£º159030768 369925013\n¹Ø×¢ÎäÏÀ£¬ÈÃ¾öÕ½½­ºş×ßµÃ¸üÔ¶£¬ÆÚ´ıÄãµÄ²ÎÓë£¬ÏêÇéÇëÔÚ×¨ÇøÂÛÌ³²éÑ¯")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2å†³æˆ˜æ±Ÿæ¹–1.53çš„æ¸¸æˆæ€»è¯„åˆ†ï¼š"+(I2S(ae)+"åˆ†ï¼ˆé€šå…³ï¼‰")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF00B2æ­å–œä½ ä»¬é€šå…³ï¼Œæ¸¸æˆå°†åœ¨1åˆ†é’Ÿåç»“æŸ\næ¸¸æˆä¸“åŒºè®ºå›ï¼šjzjhbbs.uuu9.com\næ¸¸æˆäº¤æµQQç¾¤ï¼š159030768 369925013\nå…³æ³¨æ­¦ä¾ ï¼Œè®©å†³æˆ˜æ±Ÿæ¹–èµ°å¾—æ›´è¿œï¼ŒæœŸå¾…ä½ çš„å‚ä¸ï¼Œè¯¦æƒ…è¯·åœ¨ä¸“åŒºè®ºå›æŸ¥è¯¢")
 	call YDWEPolledWaitNull(60.)
 	call SaveInteger(YDHT,id,-$1317DA19,cx)
 	call CustomVictoryBJ(Player(0),true,true)
@@ -1314,30 +1314,30 @@ function Victory takes nothing returns nothing
 	call FlushChildHashtable(YDHT,id*cx)
 	set ky=null
 endfunction
-//Ê§°Ü¶¯×÷
+//å¤±è´¥åŠ¨ä½œ
 function Lose takes nothing returns nothing
 	local integer i=0
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2¾öÕ½½­ºş1.53µÄÓÎÏ·×ÜÆÀ·Ö£º"+(I2S(ae)+"·Ö£¨Õ½°Ü£©")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF00B2å†³æˆ˜æ±Ÿæ¹–1.53çš„æ¸¸æˆæ€»è¯„åˆ†ï¼š"+(I2S(ae)+"åˆ†ï¼ˆæˆ˜è´¥ï¼‰")))
 	set i = 1
 	loop
 		exitwhen i >= 6
 		set udg_MeiJuJiFen[i]=udg_MeiJuJiFen[i]+ae/100
-		call YDWE_PreloadSL_Set( Player(i-1), "×Ü»ı·Ö", 1, udg_MeiJuJiFen[i] )
+		call YDWE_PreloadSL_Set( Player(i-1), "æ€»ç§¯åˆ†", 1, udg_MeiJuJiFen[i] )
     	call YDWE_PreloadSL_Save( Player(i-1), "JueZhan", "JiangHu"+I2S(i), 1 )
 		set i = i + 1
 	endloop
-	call CustomDefeatBJ(Player(0),"Ã»ÓĞÄÜÊØ»¤×¡ÕıÅÉÎäÁÖ!")
-	call CustomDefeatBJ(Player(1),"Ã»ÓĞÄÜÊØ»¤×¡ÕıÅÉÎäÁÖ!")
-	call CustomDefeatBJ(Player(2),"Ã»ÓĞÄÜÊØ»¤×¡ÕıÅÉÎäÁÖ!")
-	call CustomDefeatBJ(Player(3),"Ã»ÓĞÄÜÊØ»¤×¡ÕıÅÉÎäÁÖ!")
-	call CustomDefeatBJ(Player(4),"Ã»ÓĞÄÜÊØ»¤×¡ÕıÅÉÎäÁÖ!")
+	call CustomDefeatBJ(Player(0),"æ²¡æœ‰èƒ½å®ˆæŠ¤ä½æ­£æ´¾æ­¦æ—!")
+	call CustomDefeatBJ(Player(1),"æ²¡æœ‰èƒ½å®ˆæŠ¤ä½æ­£æ´¾æ­¦æ—!")
+	call CustomDefeatBJ(Player(2),"æ²¡æœ‰èƒ½å®ˆæŠ¤ä½æ­£æ´¾æ­¦æ—!")
+	call CustomDefeatBJ(Player(3),"æ²¡æœ‰èƒ½å®ˆæŠ¤ä½æ­£æ´¾æ­¦æ—!")
+	call CustomDefeatBJ(Player(4),"æ²¡æœ‰èƒ½å®ˆæŠ¤ä½æ­£æ´¾æ­¦æ—!")
 endfunction
 
 /*
- * 6. Íæ¼ÒÓ¢ĞÛÕóÍöºÍ¸´»î
+ * 6. ç©å®¶è‹±é›„é˜µäº¡å’Œå¤æ´»
  */
  
- //Íæ¼ÒÓ¢ĞÛÕóÍö
+ //ç©å®¶è‹±é›„é˜µäº¡
 function Ex takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER))
 endfunction
@@ -1351,7 +1351,7 @@ function PlayerDeath takes nothing returns nothing
 		call StartTimerBJ(udg_revivetimer[i],false,15.)
 	endif
 	call TimerDialogDisplayForPlayerBJ(true,bj_lastCreatedTimerDialog,p)
-	call CreateTimerDialogBJ(bj_lastStartedTimer,"¸´»îµ¹¼ÆÊ±:")
+	call CreateTimerDialogBJ(bj_lastStartedTimer,"å¤æ´»å€’è®¡æ—¶:")
 	set R7[i]=bj_lastCreatedTimerDialog
 	set he[i]=true
 	set N8[i]=0
@@ -1361,13 +1361,13 @@ function PlayerDeath takes nothing returns nothing
 	call GroupRemoveUnit(r9,u)
 	if (UnitHaveItem(u,'I02S') or UnitHaveItem(u,1227895373) or UnitHaveItem(u,1227895377) or UnitHaveItem(u,1227895378) or UnitHaveItem(u,1227895376)) then
 		if Ce[i]!=3 then
-			call DisplayTextToPlayer(p,0,0,"|cFFff0000ÑøÎäÏûÊ§ÁË")
+			call DisplayTextToPlayer(p,0,0,"|cFFff0000å…»æ­¦æ¶ˆå¤±äº†")
 		endif
 	endif
 	set u=null
 	set p=null
 endfunction
-//Îå¸öÍæ¼Ò¸´»î
+//äº”ä¸ªç©å®¶å¤æ´»
 function PlayerReviveA takes nothing returns nothing
 	call DestroyTimerDialog(R7[1])
 	set Q4=GetRectCenter(He)
@@ -1490,7 +1490,7 @@ function PlayerReviveE takes nothing returns nothing
 endfunction
 
 /*
- * 7. Ë¢¹ÖÏà¹Ø
+ * 7. åˆ·æ€ªç›¸å…³
  */
 
 function CA takes nothing returns nothing
@@ -1506,9 +1506,9 @@ function cA takes nothing returns nothing
 	call ForGroupBJ((AddPlayerUnitIntoGroup((Player(12)),null)),function CA)
 	call ForGroupBJ((AddPlayerUnitIntoGroup((Player(15)),null)),function CA)
 endfunction
-//¹ÖÎïËÀºóÖØĞÂË¢¹Ö
+//æ€ªç‰©æ­»åé‡æ–°åˆ·æ€ª
 function EA takes nothing returns nothing
-	//Ê¥ÊŞËÀºó²»Ë¢ĞÂ
+	//åœ£å…½æ­»åä¸åˆ·æ–°
 	if GetTriggerUnit()!=udg_qinglong and GetTriggerUnit()!=udg_baihu and GetTriggerUnit()!=udg_zhuque and GetTriggerUnit()!=udg_xuanwu and GetTriggerUnit()!=gg_unit_n00M_0131 then
 		call YDWEPolledWaitNull(.02)
 		set s7=1
@@ -1551,18 +1551,18 @@ endfunction
 function GA takes nothing returns boolean
 	return(ShiFouShuaGuai)
 endfunction
-//BOSS³É³¤
+//BOSSæˆé•¿
 function BOSSChengZhang takes nothing returns nothing
 	local timer t=GetExpiredTimer()
     if udg_boss[udg_boshu/4]!=null then
 	    if IsUnitAliveBJ(udg_boss[udg_boshu/4]) then
 		    if GetUnitAbilityLevel(udg_boss[udg_boshu/4],'A0DB')==0 then
 	            call UnitAddAbility(udg_boss[udg_boshu/4],'A0DB')
-	            call  DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Ğ°½ÌBOSS"+GetUnitName(udg_boss[udg_boshu/4])+"ÒÑ¼ÓÇ¿")
+	            call  DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033é‚ªæ•™BOSS"+GetUnitName(udg_boss[udg_boshu/4])+"å·²åŠ å¼º")
 	        else
 	            if GetUnitAbilityLevel(udg_boss[udg_boshu/4],'A0DB')<10 then
 	                call IncUnitAbilityLevel(udg_boss[udg_boshu/4],'A0DB')
-	                call  DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Ğ°½ÌBOSS"+GetUnitName(udg_boss[udg_boshu/4])+"ÒÑ¼ÓÇ¿")
+	                call  DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033é‚ªæ•™BOSS"+GetUnitName(udg_boss[udg_boshu/4])+"å·²åŠ å¼º")
                 endif
             endif
             if GetUnitAbilityLevel(udg_boss[udg_boshu/4],'A0CP')==0 then
@@ -1585,7 +1585,7 @@ function BOSSChengZhang takes nothing returns nothing
 	set t=null
 endfunction
 
-//Íæ¼ÒµÈ¼¶´óÓÚ²¨Êı*4
+//ç©å®¶ç­‰çº§å¤§äºæ³¢æ•°*4
 function LevelGuoGao takes nothing returns boolean
 	local integer i=0
 	local integer totallevel=0
@@ -1602,54 +1602,54 @@ function LevelGuoGao takes nothing returns boolean
 	endif
 	return false
 endfunction
-//Ë¢¹Ö
+//åˆ·æ€ª
 function HA takes nothing returns nothing
 	local timer t=CreateTimer()
 	if udg_boshu==5 and udg_teshushijian==true then
 		call ChooseNanDu()
 	endif
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033Ğ°½ÌÊÆÁ¦£ºµÚ"+(I2S(udg_boshu)+"|CFFFF0033²¨")))
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033é‚ªæ•™åŠ¿åŠ›ï¼šç¬¬"+(I2S(udg_boshu)+"|CFFFF0033æ³¢")))
 	if udg_boshu==9 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÉñÊ¥»¤¼×ºÍ10±¶±©»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½ç¥åœ£æŠ¤ç”²å’Œ10å€æš´å‡»"))
 	elseif udg_boshu==11 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÅØÏøºÍÖØ»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½å’†å“®å’Œé‡å‡»"))
 	elseif udg_boshu==12 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÎª¿Õ¾ü"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªä¸ºç©ºå†›"))
 	elseif udg_boshu==13 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÊÉÑªÊõ"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½å™¬è¡€æœ¯"))
 	elseif udg_boshu==14 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÎª½ÊÈâ³µ£¬ËÀÍöºó»á²úÉúĞ¡Ö©Öë"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªä¸ºç»è‚‰è½¦ï¼Œæ­»äº¡åä¼šäº§ç”Ÿå°èœ˜è››"))
 	elseif udg_boshu==15 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÎª¿Õ¾ü£¬ÓµÓĞ¼¼ÄÜ20±¶±©»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªä¸ºç©ºå†›ï¼Œæ‹¥æœ‰æŠ€èƒ½20å€æš´å‡»"))
 	elseif udg_boshu==16 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ¾«ÁéÖ®»ğ"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½ç²¾çµä¹‹ç«"))
 	elseif udg_boshu==17 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ¿ñÕ½Ê¿ºÍ30±¶±©»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½ç‹‚æˆ˜å£«å’Œ30å€æš´å‡»"))
 	elseif udg_boshu==18 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÑªÁ¿ºÜ¸ß£¬²¢ÓµÓĞ¼¼ÄÜ³°·í"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªè¡€é‡å¾ˆé«˜ï¼Œå¹¶æ‹¥æœ‰æŠ€èƒ½å˜²è®½"))
 	elseif udg_boshu==19 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ¿ñÈÈ"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½ç‹‚çƒ­"))
 	elseif udg_boshu==20 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ±äÏàÒÆ¶¯"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½å˜ç›¸ç§»åŠ¨"))
 	elseif udg_boshu==21 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ·´Ä§·¨Íâ¿Ç"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½åé­”æ³•å¤–å£³"))
 	elseif udg_boshu==22 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÖØ»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½é‡å‡»"))
 	elseif udg_boshu==23 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ90%ÉÁ±Ü"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½90%é—ªé¿"))
 	elseif udg_boshu==24 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜ¿¨²¼¶÷£¨×Ô±¬£©"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½å¡å¸ƒæ©ï¼ˆè‡ªçˆ†ï¼‰"))
 	elseif udg_boshu==25 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÉÁµç¹¥»÷"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½é—ªç”µæ”»å‡»"))
 	elseif udg_boshu==26 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÓµÓĞ¼¼ÄÜÉñÊ¥»¤¼×"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªæ‹¥æœ‰æŠ€èƒ½ç¥åœ£æŠ¤ç”²"))
 	elseif udg_boshu==27 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£ºÏÂÒ»²¨¹ÖÑªÁ¿ºÜ¸ß£¬²¢ÓµÓĞ¼¼ÄÜÓÀ¾ÃÏ×¼ÀºÍÖØÉú"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šä¸‹ä¸€æ³¢æ€ªè¡€é‡å¾ˆé«˜ï¼Œå¹¶æ‹¥æœ‰æŠ€èƒ½æ°¸ä¹…çŒ®ç¥­å’Œé‡ç”Ÿ"))
 	elseif udg_boshu==28 then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033¡ù¾¯¸æ¡ù£º±¾²¨Îª×îºóÒ»²¨½ø¹¥£¬±¾²¨½áÊøºó½ÌÖ÷¼´½«³öÏÖ"))
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033â€»è­¦å‘Šâ€»ï¼šæœ¬æ³¢ä¸ºæœ€åä¸€æ³¢è¿›æ”»ï¼Œæœ¬æ³¢ç»“æŸåæ•™ä¸»å³å°†å‡ºç°"))
 	endif
 	if LevelGuoGao() then
-	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¼¤»îÌØÊâÊÂ¼ş|cFFDDA0DD¡ùĞ°½ÌÈ«Á¦½ø¹¥¡ù")
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ¿€æ´»ç‰¹æ®Šäº‹ä»¶|cFFDDA0DDâ€»é‚ªæ•™å…¨åŠ›è¿›æ”»â€»")
 	endif
 	call StopMusic(false)
 	call PlayMusicBJ(yh)
@@ -1661,13 +1661,13 @@ function HA takes nothing returns nothing
 	        call CreateNUnitsAtLocFacingLocBJ(1,u7[(udg_boshu/4)],Player(6),v7[8],v7[3])
 	        call GroupAddUnit(w7,bj_lastCreatedUnit)
 	        call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[3])
-	        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Ğ°½Ì³ÃÎÒ·½²»±¸£¬ÍµÍµµØÅÉ³öBOSS´Ó±³ºóÉ±¹ıÀ´ÁË£¬Çë×¼±¸·ÀÓù")
+	        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033é‚ªæ•™è¶æˆ‘æ–¹ä¸å¤‡ï¼Œå·å·åœ°æ´¾å‡ºBOSSä»èƒŒåæ€è¿‡æ¥äº†ï¼Œè¯·å‡†å¤‡é˜²å¾¡")
 	    endif
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Ğ°½Ì³ÃÎÒ·½²»±¸£¬ÍµÍµµØ´Ó±³ºóÉ±¹ıÀ´ÁË")
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033é‚ªæ•™è¶æˆ‘æ–¹ä¸å¤‡ï¼Œå·å·åœ°ä»èƒŒåæ€è¿‡æ¥äº†")
 
 	endif
 	if((ModuloInteger(udg_boshu,4)==0)and(udg_boshu<30)and udg_shengchun==false)then
-	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Ğ°½ÌÅÉ³öBOSSÇ°À´½ø¹¥£¬Çë×¼±¸·ÀÓù")
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033é‚ªæ•™æ´¾å‡ºBOSSå‰æ¥è¿›æ”»ï¼Œè¯·å‡†å¤‡é˜²å¾¡")
 	    call CreateNUnitsAtLocFacingLocBJ(1,u7[(udg_boshu/4)],Player(6),v7[6],v7[4])
 	    if udg_boshu==4 then
 	    	call UnitAddAbility(bj_lastCreatedUnit,'A0C2')
@@ -1714,7 +1714,7 @@ function HA takes nothing returns nothing
 	    call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[4])
 	elseif((ModuloInteger(udg_boshu,4)!=0)and(udg_boshu<28)and udg_shengchun==false)then
 	    if LevelGuoGao() then
-		    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ÓÉÓÚ¼¤»îÌØÊâÊÂ¼ş£¬Ğ°½ÌÅÉ³öBOSSÇ°À´½ø¹¥£¬Çë×¼±¸·ÀÓù")
+		    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ç”±äºæ¿€æ´»ç‰¹æ®Šäº‹ä»¶ï¼Œé‚ªæ•™æ´¾å‡ºBOSSå‰æ¥è¿›æ”»ï¼Œè¯·å‡†å¤‡é˜²å¾¡")
 	        call CreateNUnitsAtLocFacingLocBJ(1,u7[(udg_boshu/4)+1],Player(6),v7[6],v7[4])
 	        set udg_boss[udg_boshu/4]=bj_lastCreatedUnit
 	        call TimerStart(t,20,true,function BOSSChengZhang)
@@ -1725,7 +1725,7 @@ function HA takes nothing returns nothing
 	call YDWEPolledWaitNull(20.)
 	if((ue>0))then
 	call ConditionalTriggerExecute(dj)
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ÃûÃÅ¸ßÊÖ¿ªÊ¼½ø¹¥£¬´ó¼ÒÒªĞ¡ĞÄÓ¦¸¶ÁË£¡")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033åé—¨é«˜æ‰‹å¼€å§‹è¿›æ”»ï¼Œå¤§å®¶è¦å°å¿ƒåº”ä»˜äº†ï¼")
 	endif
 	call DisableTrigger(Yi)
 	call YDWEPolledWaitNull(10.)
@@ -1741,7 +1741,7 @@ function HA takes nothing returns nothing
 	if((udg_boshu>=29) and udg_shengchun==false)then
 	    call StopMusic(false)
 	    call PlayMusicBJ(zh)
-	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033Î÷ÓòÊÆÁ¦×îºóBOSS¼´½«·¢Æğ×îºó½ø¹¥£¬Çë×÷ºÃ·ÀÊØ×¼±¸")
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033è¥¿åŸŸåŠ¿åŠ›æœ€åBOSSå³å°†å‘èµ·æœ€åè¿›æ”»ï¼Œè¯·ä½œå¥½é˜²å®ˆå‡†å¤‡")
 	    call CreateNUnitsAtLocFacingLocBJ(1,u7[8],Player(6),v7[6],v7[4])
 	    set udg_boss[udg_boshu/4]=bj_lastCreatedUnit
 	    call TimerStart(t,20,true,function BOSSChengZhang)
@@ -1886,7 +1886,7 @@ function RA takes nothing returns nothing
 endfunction
 function TA takes nothing returns nothing
 	call DestroyTimerDialog(z7[3])
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DDÎ÷ÓòĞ°½Ì¿ªÊ¼ÁË½ø¹¥ÕıÅÉÎäÁÖ£¬Íæ¼ÒÎñ±ØÒªÈ·±£ÕıÅÉÎäÁÖ²»±»´İ»Ù£¬·ñÔòÓÎÏ·Ê§°Ü|r")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DDè¥¿åŸŸé‚ªæ•™å¼€å§‹äº†è¿›æ”»æ­£æ´¾æ­¦æ—ï¼Œç©å®¶åŠ¡å¿…è¦ç¡®ä¿æ­£æ´¾æ­¦æ—ä¸è¢«æ‘§æ¯ï¼Œå¦åˆ™æ¸¸æˆå¤±è´¥|r")
 	if udg_teshushijian==true then
 		call ChooseNanDu()
 	endif
@@ -1894,13 +1894,13 @@ function TA takes nothing returns nothing
 endfunction
 function VA takes nothing returns nothing
 	call StartTimerBJ(A7[1],false,(30.+I2R(ie)))
-	call CreateTimerDialogBJ(bj_lastStartedTimer,"Ğ°½ÌÏÂ´Î½ø¹¥Ê±¼ä")
+	call CreateTimerDialogBJ(bj_lastStartedTimer,"é‚ªæ•™ä¸‹æ¬¡è¿›æ”»æ—¶é—´")
 	set z7[1]=bj_lastCreatedTimerDialog
 	set ie=0
 endfunction
 function XA takes nothing returns nothing
 	call StartTimerBJ(A7[2],false,(x7*60.+30.+I2R(ie)))
-	call CreateTimerDialogBJ(bj_lastStartedTimer,"Ğ°½ÌÏÂ´Î½ø¹¥Ê±¼ä")
+	call CreateTimerDialogBJ(bj_lastStartedTimer,"é‚ªæ•™ä¸‹æ¬¡è¿›æ”»æ—¶é—´")
 	set z7[2]=bj_lastCreatedTimerDialog
 	set ie=0
 	set x7=0
@@ -1910,10 +1910,10 @@ function ZA takes nothing returns boolean
 endfunction
 function ea takes nothing returns nothing
 	set x7=x7+1
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFF00FF4CÔÚÎäÁÖµÜ×ÓµÄ·ÜÁ¦°ïÖúÏÂ£¬Ğ°½ÌµÄ½ø¹¥ÊÆÁ¦±»ÑÓ»ºÁË£¬´ó¼ÒÓĞ1·ÖÖÓµÄÊ±¼ä£¬¸Ï½ôÈ¥×öÈÎÎñ°É~")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFF00FF4Cåœ¨æ­¦æ—å¼Ÿå­çš„å¥‹åŠ›å¸®åŠ©ä¸‹ï¼Œé‚ªæ•™çš„è¿›æ”»åŠ¿åŠ›è¢«å»¶ç¼“äº†ï¼Œå¤§å®¶æœ‰1åˆ†é’Ÿçš„æ—¶é—´ï¼Œèµ¶ç´§å»åšä»»åŠ¡å§~")
 	call PlaySoundOnUnitBJ(Dh,100,GetTriggerUnit())
 	set shoujiajf[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]=shoujiajf[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]+10
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF00FF4CÊØ¼Ò»ı·Ö+10")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF00FF4Cå®ˆå®¶ç§¯åˆ†+10")
 endfunction
 
 function ja takes nothing returns boolean
@@ -1922,7 +1922,7 @@ endfunction
 function ka takes nothing returns nothing
 	call GroupRemoveUnit(w7,GetTriggerUnit())
 endfunction
-//Á·¹¦·¿Ë¢¹Ö
+//ç»ƒåŠŸæˆ¿åˆ·æ€ª
 function na takes nothing returns boolean
 	return(((GetOwningPlayer(GetFilterUnit())==Player(7))and(IsUnitAliveBJ(GetFilterUnit()))))
 endfunction
@@ -1937,12 +1937,12 @@ endfunction
         call CreateNUnitsAtLoc(12,y7[IMinBJ(IMaxBJ(udg_boshu,1),28)],Player(7),v7[2],bj_UNIT_FACING)
     endif
 endfunction
-//Á·¹¦·¿
+//ç»ƒåŠŸæˆ¿
 function sa takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895350))
 endfunction
 function ua takes nothing returns nothing
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00½øÈëÉÙÁÖËÂÁ·¹¦·¿¶ş")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00è¿›å…¥å°‘æ—å¯ºç»ƒåŠŸæˆ¿äºŒ")
 	call SetUnitPosition(GetTriggerUnit(), 4750, -3650)
 	call PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()),4250, -3650,0)
 endfunction
@@ -1950,7 +1950,7 @@ function wa takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895351))
 endfunction
 function xa takes nothing returns nothing
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00½øÈëÉÙÁÖËÂÁ·¹¦·¿Èı")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00è¿›å…¥å°‘æ—å¯ºç»ƒåŠŸæˆ¿ä¸‰")
 	call SetUnitPosition(GetTriggerUnit(), 5920, -4750)
 	call PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()),5920,-4750,0)
 endfunction
@@ -1958,17 +1958,17 @@ function za takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895361))
 endfunction
 function Aa takes nothing returns nothing
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00½øÈëÉÙÁÖËÂÁ·¹¦·¿Ò»")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00è¿›å…¥å°‘æ—å¯ºç»ƒåŠŸæˆ¿ä¸€")
 	call SetUnitPosition(GetTriggerUnit(), 3730, -4690)
 	call PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()),3730, -4690,0)
 endfunction
 
 /*
- * 8. ÄñµÄ¼¼ÄÜ
+ * 8. é¸Ÿçš„æŠ€èƒ½
  */
  
 
-//ÇĞ»»±³°ü
+//åˆ‡æ¢èƒŒåŒ…
 function Ba takes nothing returns boolean
 	return((GetSpellAbilityId()==1093677134))
 endfunction
@@ -1992,7 +1992,7 @@ function ba takes nothing returns nothing
 		set B7=B7+1
 	endloop
 endfunction
-//ÄñµÄ··Âô¼¼ÄÜ
+//é¸Ÿçš„è´©å–æŠ€èƒ½
 function ca takes nothing returns boolean
 	return((GetSpellAbilityId()==1093679433))
 endfunction
@@ -2007,7 +2007,7 @@ function Da takes nothing returns nothing
 	call AddSpecialEffectTargetUnitBJ("overhead",GetTriggerUnit(),"Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl")
 	call DestroyEffect(bj_lastCreatedEffect)
 endfunction
-//ÇĞ»»ÎïÆ·
+//åˆ‡æ¢ç‰©å“
 function IsQieHuanItem takes nothing returns boolean
 	return((GetSpellAbilityId()=='A00M')and(he[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==false))
 endfunction
@@ -2018,10 +2018,10 @@ function QieHuanItem takes nothing returns nothing
 endfunction
 
 /*
- * 9. Ó¢ĞÛÉı¼¶
+ * 9. è‹±é›„å‡çº§
  */
 
- //Ó¢ĞÛ´ïµ½Ä³µÈ¼¶
+ //è‹±é›„è¾¾åˆ°æŸç­‰çº§
 function Ja takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER))
 endfunction
@@ -2042,10 +2042,10 @@ function HeroLevel takes nothing returns nothing
 			set juexuelingwu[i] = juexuelingwu[i]+10
 			if udg_zhangmen[i]==true then
 			else
-				call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"¡şÁ·Æø´óÊ¦¡ş"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
+				call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"ã€“ç»ƒæ°”å¤§å¸ˆã€“"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
 			endif
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00¹§Ï²"+GetPlayerName(p)+"»ñµÃÁ·Æø´óÊ¦")
-			call SetPlayerName(p, "¡şÁ·Æø´óÊ¦¡ş"+GetPlayerName(p))
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00æ­å–œ"+GetPlayerName(p)+"è·å¾—ç»ƒæ°”å¤§å¸ˆ")
+			call SetPlayerName(p, "ã€“ç»ƒæ°”å¤§å¸ˆã€“"+GetPlayerName(p))
 		endif
 	endif
 	if((GetUnitTypeId(u)=='O004'))then
@@ -2067,32 +2067,32 @@ function HeroLevel takes nothing returns nothing
 		set Z8[i]=true
 		set d8[i]=1
 		loop
-			exitwhen d8[i]>20 //ÃÅÅÉÊı
+			exitwhen d8[i]>20 //é—¨æ´¾æ•°
 			if (udg_runamen[i]==d8[i]) then
 				//if d8[i]==11 then
 				//	if GetRandomInt(1,100)<=99 then
-				//		set X7[d8[i]] = LoadInteger(YDHT, StringHash("ÎäÑ§")+GetRandomInt(1,18), 2)
+				//		set X7[d8[i]] = LoadInteger(YDHT, StringHash("æ­¦å­¦")+GetRandomInt(1,18), 2)
 				//	else
-				//		set X7[d8[i]] = LoadInteger(YDHT, StringHash("ÎäÑ§")+GetRandomInt(19,36), 2)
+				//		set X7[d8[i]] = LoadInteger(YDHT, StringHash("æ­¦å­¦")+GetRandomInt(19,36), 2)
 				//	endif
 				//endif
 				if d8[i]!=11 then
 					call UnitAddAbility(u,X7[d8[i]])
 					call UnitMakeAbilityPermanent(u, true, X7[d8[i]])
-					call DisplayTextToPlayer(p,0,0,"|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(X7[d8[i]]))
-					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"³õ¼¶µÜ×Ó")
-					call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"³õ¼¶µÜ×Ó¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+					call DisplayTextToPlayer(p,0,0,"|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(X7[d8[i]]))
+					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"åˆçº§å¼Ÿå­")
+					call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"åˆçº§å¼Ÿå­ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
 				endif
 				if (udg_runamen[i]==11) then
 					set udg_shuxing[i]=udg_shuxing[i]+5
-					call DisplayTextToPlayer(p,0,0,"|cff00FF66×ÔÓÉÃÅÅÉ3¼¶½±Àø5µã×ÔÓÉÊôĞÔµã¼°Ëæ»úÎä¹¦ÃØ¼®Ò»±¾¡¢Ğ¡¸ÅÂÊ»ñµÃÆæÎäÃØ¼®Ò»±¾")
+					call DisplayTextToPlayer(p,0,0,"|cff00FF66è‡ªç”±é—¨æ´¾3çº§å¥–åŠ±5ç‚¹è‡ªç”±å±æ€§ç‚¹åŠéšæœºæ­¦åŠŸç§˜ç±ä¸€æœ¬ã€å°æ¦‚ç‡è·å¾—å¥‡æ­¦ç§˜ç±ä¸€æœ¬")
 					if GetRandomInt(1,100)<=10 then
-						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("ÎäÑ§")+GetRandomInt(42, 46), 1), u)
+						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("æ­¦å­¦")+GetRandomInt(42, 46), 1), u)
 					endif
 					if GetRandomInt(1,100)<=99 then
-						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("ÎäÑ§")+GetRandomInt(19, 36), 1), u)
+						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("æ­¦å­¦")+GetRandomInt(19, 36), 1), u)
 					else
-						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("ÎäÑ§")+GetRandomInt(1, 18), 1), u)
+						call unitadditembyidswapped(LoadInteger(YDHT, StringHash("æ­¦å­¦")+GetRandomInt(1, 18), 1), u)
 					endif
 					//set S9=1
      //           	loop
@@ -2130,9 +2130,9 @@ function HeroLevel takes nothing returns nothing
 				if((udg_runamen[i]==d8[i]))then
 					call UnitAddAbility(u,Z7[d8[i]])
 					call UnitMakeAbilityPermanent(u, true, Z7[d8[i]])
-					call DisplayTextToPlayer(p,0,0,("|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(Z7[d8[i]])))
-					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"ÖĞ¼¶µÜ×Ó")
-					call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"ÖĞ¼¶µÜ×Ó¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+					call DisplayTextToPlayer(p,0,0,("|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(Z7[d8[i]])))
+					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"ä¸­çº§å¼Ÿå­")
+					call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"ä¸­çº§å¼Ÿå­ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
 					set L7[i]=1
 					loop
 						exitwhen L7[i]>wugongshu[i]
@@ -2156,9 +2156,9 @@ function HeroLevel takes nothing returns nothing
 			if d8[i]!=11 then
 				if((udg_runamen[i]==d8[i]))then
 					call UnitAddAbility(u,Y7[d8[i]])
-					call DisplayTextToPlayer(p,0,0,("|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(Y7[d8[i]])))
-					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"¸ß¼¶µÜ×Ó")
-					call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"¸ß¼¶µÜ×Ó¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+					call DisplayTextToPlayer(p,0,0,("|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(Y7[d8[i]])))
+					call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"é«˜çº§å¼Ÿå­")
+					call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"é«˜çº§å¼Ÿå­ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
 					call UnitMakeAbilityPermanent(u, true, Y7[d8[i]])
 					set L7[i]=1
 					loop
@@ -2176,37 +2176,37 @@ function HeroLevel takes nothing returns nothing
 		endloop
 	endif
 	if((GetUnitLevel(u)==10))then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË10¼¶£¬Äã¿ÉÒÔÇ°ÍùÈ«Õæ½Ì£¨Ğ¡µØÍ¼Ö¸Ê¾µã£©Íê³ÉÀúÁ·1ÈÎÎñ£¨´óÕ½½­ÄÏÆß¹Ö£©ÁË£¬Íê³ÉÀúÁ·ÈÎÎñ¿ÉÒÔÌáÉıĞŞĞĞ£¬¶ÔÈËÎïµÄÎä¹¦ÉËº¦Õ¼ÓĞÖØÒªÓ°Ïì£¬ÇĞ¼ÇÇĞ¼Ç£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†10çº§ï¼Œä½ å¯ä»¥å‰å¾€å…¨çœŸæ•™ï¼ˆå°åœ°å›¾æŒ‡ç¤ºç‚¹ï¼‰å®Œæˆå†ç»ƒ1ä»»åŠ¡ï¼ˆå¤§æˆ˜æ±Ÿå—ä¸ƒæ€ªï¼‰äº†ï¼Œå®Œæˆå†ç»ƒä»»åŠ¡å¯ä»¥æå‡ä¿®è¡Œï¼Œå¯¹äººç‰©çš„æ­¦åŠŸä¼¤å®³å æœ‰é‡è¦å½±å“ï¼Œåˆ‡è®°åˆ‡è®°ï¼ï¼")
 		set loc = GetRectCenter(Te)
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
 	endif
 	if((GetUnitLevel(u)==25))then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË25¼¶£¬Äã¿ÉÒÔÇ°ÍùÉÙÁÖºóÉ½£¨Ğ¡µØÍ¼Ö¸Ê¾µã£©Íê³ÉÀúÁ·2ÈÎÎñ£¨ÌôÕ½Ê®°ËÂŞºº£©ÁË£¬Íê³ÉÀúÁ·ÈÎÎñ¿ÉÒÔÌáÉıĞŞĞĞ£¬¶ÔÈËÎïµÄÎä¹¦ÉËº¦Õ¼ÓĞÖØÒªÓ°Ïì£¬ÇĞ¼ÇÇĞ¼Ç£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†25çº§ï¼Œä½ å¯ä»¥å‰å¾€å°‘æ—åå±±ï¼ˆå°åœ°å›¾æŒ‡ç¤ºç‚¹ï¼‰å®Œæˆå†ç»ƒ2ä»»åŠ¡ï¼ˆæŒ‘æˆ˜åå…«ç½—æ±‰ï¼‰äº†ï¼Œå®Œæˆå†ç»ƒä»»åŠ¡å¯ä»¥æå‡ä¿®è¡Œï¼Œå¯¹äººç‰©çš„æ­¦åŠŸä¼¤å®³å æœ‰é‡è¦å½±å“ï¼Œåˆ‡è®°åˆ‡è®°ï¼ï¼")
 		set loc = GetRectCenter(ag)
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
 	endif
 	if((GetUnitLevel(u)==40))then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË40¼¶£¬Äã¿ÉÒÔÇ°ÍùÎäÁÖ³ÇÍâ£¨Ğ¡µØÍ¼Ö¸Ê¾µã£©Íê³ÉÀúÁ·3ÈÎÎñ£¨ÓÂ´³Ê®¶ñ²»Éâµº£©ÁË£¬Íê³ÉÀúÁ·ÈÎÎñ¿ÉÒÔÌáÉıĞŞĞĞ£¬¶ÔÈËÎïµÄÎä¹¦ÉËº¦Õ¼ÓĞÖØÒªÓ°Ïì£¬ÇĞ¼ÇÇĞ¼Ç£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†40çº§ï¼Œä½ å¯ä»¥å‰å¾€æ­¦æ—åŸå¤–ï¼ˆå°åœ°å›¾æŒ‡ç¤ºç‚¹ï¼‰å®Œæˆå†ç»ƒ3ä»»åŠ¡ï¼ˆå‹‡é—¯åæ¶ä¸èµ¦å²›ï¼‰äº†ï¼Œå®Œæˆå†ç»ƒä»»åŠ¡å¯ä»¥æå‡ä¿®è¡Œï¼Œå¯¹äººç‰©çš„æ­¦åŠŸä¼¤å®³å æœ‰é‡è¦å½±å“ï¼Œåˆ‡è®°åˆ‡è®°ï¼ï¼")
 		set loc = GetRectCenter(Bg)
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
 	endif
 	if((GetUnitLevel(u)==55))then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË55¼¶£¬Äã¿ÉÒÔÇ°Íù¹âÃ÷¶¥£¨Ğ¡µØÍ¼Ö¸Ê¾µã£©Íê³ÉÀúÁ·4ÈÎÎñ£¨ÓÂ´³¹âÃ÷¶¥£©ÁË£¬Íê³ÉÀúÁ·ÈÎÎñ¿ÉÒÔÌáÉıĞŞĞĞ£¬¶ÔÈËÎïµÄÎä¹¦ÉËº¦Õ¼ÓĞÖØÒªÓ°Ïì£¬ÇĞ¼ÇÇĞ¼Ç£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†55çº§ï¼Œä½ å¯ä»¥å‰å¾€å…‰æ˜é¡¶ï¼ˆå°åœ°å›¾æŒ‡ç¤ºç‚¹ï¼‰å®Œæˆå†ç»ƒ4ä»»åŠ¡ï¼ˆå‹‡é—¯å…‰æ˜é¡¶ï¼‰äº†ï¼Œå®Œæˆå†ç»ƒä»»åŠ¡å¯ä»¥æå‡ä¿®è¡Œï¼Œå¯¹äººç‰©çš„æ­¦åŠŸä¼¤å®³å æœ‰é‡è¦å½±å“ï¼Œåˆ‡è®°åˆ‡è®°ï¼ï¼")
 		set loc = GetRectCenter(Lg)
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
 	endif
 	if((GetUnitLevel(u)==70))then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË70¼¶£¬Äã¿ÉÒÔÇ°ÍùÉÙÁÖËÂºóÉ½£¨Ğ¡µØÍ¼Ö¸Ê¾µã£©Íê³ÉÀúÁ·5ÈÎÎñ£¨»ªÉ½ÂÛ½££©ÁË£¬Íê³ÉÀúÁ·ÈÎÎñ¿ÉÒÔÌáÉıĞŞĞĞ£¬¶ÔÈËÎïµÄÎä¹¦ÉËº¦Õ¼ÓĞÖØÒªÓ°Ïì£¬ÇĞ¼ÇÇĞ¼Ç£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†70çº§ï¼Œä½ å¯ä»¥å‰å¾€å°‘æ—å¯ºåå±±ï¼ˆå°åœ°å›¾æŒ‡ç¤ºç‚¹ï¼‰å®Œæˆå†ç»ƒ5ä»»åŠ¡ï¼ˆåå±±è®ºå‰‘ï¼‰äº†ï¼Œå®Œæˆå†ç»ƒä»»åŠ¡å¯ä»¥æå‡ä¿®è¡Œï¼Œå¯¹äººç‰©çš„æ­¦åŠŸä¼¤å®³å æœ‰é‡è¦å½±å“ï¼Œåˆ‡è®°åˆ‡è®°ï¼ï¼")
 		set loc = GetRectCenter(Rg)
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
 	endif
 	if (GetUnitLevel(u)>=80 and jiawuxue[i]==false) then
-		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00¹§Ï²ÄãÉıµ½ÁË80¼¶£¬»ñµÃ5¸ö×Ô´´ÎäÑ§µã£¨vipÍæ¼Ò»ñµÃ7¸ö£©£¬ÔÚÍ¨¹ıÀúÁ·6ÒÔºóÄã¿ÉÒÔµ½¾ÛÏÍ×¯ÓÎÌ¹Ö®´¦×Ô´´ÎäÑ§")
+		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00æ­å–œä½ å‡åˆ°äº†80çº§ï¼Œè·å¾—5ä¸ªè‡ªåˆ›æ­¦å­¦ç‚¹ï¼ˆvipç©å®¶è·å¾—7ä¸ªï¼‰ï¼Œåœ¨é€šè¿‡å†ç»ƒ6ä»¥åä½ å¯ä»¥åˆ°èšè´¤åº„æ¸¸å¦ä¹‹å¤„è‡ªåˆ›æ­¦å­¦")
 		set wuxuedian[i] = wuxuedian[i] + 5
 		if udg_vip[i] >=1 then
 			set wuxuedian[i] = wuxuedian[i] + 2
@@ -2220,10 +2220,10 @@ function HeroLevel takes nothing returns nothing
 endfunction
 
 /*
- * 10. ¸÷Àà»Ø¸´
+ * 10. å„ç±»å›å¤
  */
  
- //É±¹Ö»ØÑª
+ //æ€æ€ªå›è¡€
 function Ma takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetKillingUnit()))==MAP_CONTROL_USER))
 endfunction
@@ -2232,7 +2232,7 @@ function KillGuaiJiaXie takes nothing returns nothing
 		call SetWidgetLife(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))],(GetUnitState(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))],UNIT_STATE_LIFE)+(shaguaihufui[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]+((I2R(danpo[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))])/2000.)*GetUnitState(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))],UNIT_STATE_MAX_LIFE)))))
 	endif
 endfunction
-//Ã¿Ãë»ØÑª»ØÀ¶
+//æ¯ç§’å›è¡€å›è“
 function YiShuHuiXie takes nothing returns nothing
 	set c7=1
 	loop
@@ -2245,7 +2245,7 @@ function YiShuHuiXie takes nothing returns nothing
 		set c7=c7+1
 	endloop
 endfunction
-//ÉËº¦»Ø¸´
+//ä¼¤å®³å›å¤
 function Ra takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER))
 endfunction
@@ -2254,7 +2254,7 @@ function Sa takes nothing returns nothing
 		call SetWidgetLife(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))],(GetUnitState(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))],UNIT_STATE_LIFE)+((shanghaihuifu[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]/10.)+((I2R(danpo[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])/1500.)*GetUnitState(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))],UNIT_STATE_MAX_LIFE)))))
 	endif
 endfunction
-//ÉËº¦ÎüÊÕ
+//ä¼¤å®³å¸æ”¶
 function Ua takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)))
 endfunction
@@ -2284,20 +2284,20 @@ function Va takes nothing returns nothing
 endfunction
 
 /*
- * 11. Ô¶³Ì´«ËÍ
+ * 11. è¿œç¨‹ä¼ é€
  */
-//´«ËÍÖÁÌÒ»¨µº
+//ä¼ é€è‡³æ¡ƒèŠ±å²›
 function mB takes nothing returns boolean
 	return  GetItemTypeId(GetManipulatedItem())=='I09V' and UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)
 endfunction
 function nB takes nothing returns nothing
 	call SetUnitPosition(GetTriggerUnit(),9631,1139)
 	call PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()),9631,1139,0)
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00½øÈëÌÒ»¨µº")
-	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00¡±Ô´Ë¼Ó¢Äê,°Í°ÍÎ÷ÂåÆÕ,Ñ©Â½ÎÄ³ö£»Ô´Ë¼Ó¢Äê,°Í°ÍÎ÷ÂåÆÕ,Ñ©Â½ÎÄ³ö£¡¡°")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00è¿›å…¥æ¡ƒèŠ±å²›")
+	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|cFFFFCC00â€æºæ€è‹±å¹´,å·´å·´è¥¿æ´›æ™®,é›ªé™†æ–‡å‡ºï¼›æºæ€è‹±å¹´,å·´å·´è¥¿æ´›æ™®,é›ªé™†æ–‡å‡ºï¼â€œ")
 endfunction
 
-//ÖÕÄÏÉ½
+//ç»ˆå—å±±
 function GQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896148))
 endfunction
@@ -2307,23 +2307,23 @@ function HQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if (GetUnitLevel(u)<$A) then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã10¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³10çº§æ— æ³•ä¼ é€")
 	else
 		if (shengwang[i]<500) then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã500ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³500æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(Te)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈëÖÕÄÏÉ½")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥ç»ˆå—å±±")
 		endif
 	endif
 	set u = null
 	set p = null
 	set loc = null
 endfunction
-//ÉÙÁÖËÂºóÉ½
+//å°‘æ—å¯ºåå±±
 function lQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896149))
 endfunction
@@ -2333,23 +2333,23 @@ function JQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if(GetUnitLevel(u)<25)then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã25¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³25çº§æ— æ³•ä¼ é€")
 	else
 		if((shengwang[i]<$5DC))then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã1500ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³1500æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(ag)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈëÉÙÁÖËÂºóÉ½")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥å°‘æ—å¯ºåå±±")
 		endif
 	endif
 	set u = null
 	set p = null
 	set loc = null
 endfunction
-//ÈûÍâ
+//å¡å¤–
 function LQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896150))
 endfunction
@@ -2359,23 +2359,23 @@ function MQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if(GetUnitLevel(u)<40)then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã40¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³40çº§æ— æ³•ä¼ é€")
 	else
 		if((shengwang[i]<$9C4))then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã2500ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³2500æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(Bg)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈëÈûÍâ")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥å¡å¤–")
 		endif
 	endif
 	set u = null
 	set p = null
 	set loc = null
 endfunction
-//¹âÃ÷¶¥
+//å…‰æ˜é¡¶
 function OQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896151))
 endfunction
@@ -2385,23 +2385,23 @@ function PQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if(GetUnitLevel(u)<55)then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã55¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³55çº§æ— æ³•ä¼ é€")
 	else
 		if((shengwang[i]<$FA0))then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã4000ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³4000æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(Lg)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈë¹âÃ÷¶¥")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥å…‰æ˜é¡¶")
 		endif
 	endif
 	set u = null
 	set p = null
 	set loc = null
 endfunction
-//ÉÙÁÖËÂºóÉ½
+//å°‘æ—å¯ºåå±±
 function RQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896152))
 endfunction
@@ -2411,23 +2411,23 @@ function SQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if(GetUnitLevel(u)<70)then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã70¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³70çº§æ— æ³•ä¼ é€")
 	else
 		if((shengwang[i]<6000))then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã6000ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³6000æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(Rg)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈëÉÙÁÖËÂºóÉ½")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥å°‘æ—å¯ºåå±±")
 		endif
 	endif
 	set u = null
 	set p = null
 	set loc = null
 endfunction
-//±ß½®
+//è¾¹ç–†
 function UQ takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896385))
 endfunction
@@ -2437,16 +2437,16 @@ function VQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
 	if(GetUnitLevel(u)<100)then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000µÈ¼¶²»×ã100¼¶ÎŞ·¨´«ËÍ")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ç­‰çº§ä¸è¶³100çº§æ— æ³•ä¼ é€")
 	else
 		if((shengwang[i]<9000))then
-			call DisplayTextToPlayer(p,0,0,"|cFFFF0000½­ºşÉùÍû²»×ã9000ÎŞ·¨´«ËÍ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ±Ÿæ¹–å£°æœ›ä¸è¶³9000æ— æ³•ä¼ é€")
 		else
 			set loc = GetRectCenter(Zg)
 			call SetUnitPositionLoc(u,loc)
 			call PanCameraToTimedLocForPlayer(p,loc,0)
 			call RemoveLocation(loc)
-			call DisplayTextToPlayer(p,0,0,"|cff66ff33½øÈë±ß½®")
+			call DisplayTextToPlayer(p,0,0,"|cff66ff33è¿›å…¥è¾¹ç–†")
 		endif
 	endif
 	set u = null
@@ -2454,7 +2454,7 @@ function VQ takes nothing returns nothing
 	set loc = null
 endfunction
 
-//æäÕ¾´«ËÍ
+//é©¿ç«™ä¼ é€
 function IsYiZhan takes nothing returns boolean
 	return UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem())=='I0BP' or GetItemTypeId(GetManipulatedItem())=='I0BQ' or GetItemTypeId(GetManipulatedItem())=='I0BR' or GetItemTypeId(GetManipulatedItem())=='I0BS' or GetItemTypeId(GetManipulatedItem())=='I0BT' or GetItemTypeId(GetManipulatedItem())=='I0BU' or GetItemTypeId(GetManipulatedItem())=='I0BV' or GetItemTypeId(GetManipulatedItem())=='I0BW' or GetItemTypeId(GetManipulatedItem())=='I0BX')
 endfunction
@@ -2465,57 +2465,57 @@ function YiZhanChuanSong takes nothing returns nothing
 	if GetItemTypeId(GetManipulatedItem())=='I0BP' then
 	    call SetUnitPosition(udg_hero[i],3763,-9091)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),3763,-9091,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁÅ£Ñı»Ã¾³")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³ç‰›å¦–å¹»å¢ƒ")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BQ' then
         call SetUnitPosition(udg_hero[i],1446,-2317)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),1446,-2317,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁ³õÈë½­ºş")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³åˆå…¥æ±Ÿæ¹–")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BR' then
         call SetUnitPosition(udg_hero[i],1863,0)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),1863,0,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁÉÙÁÖËÂÍâ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³å°‘æ—å¯ºå¤–")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BS' then
         call SetUnitPosition(udg_hero[i],-1476,8139)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-1476,8139,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁ¹âÃ÷¶¥ÏÂ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³å…‰æ˜é¡¶ä¸‹")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BT' then
         call SetUnitPosition(udg_hero[i],-2400,-3900)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-2400,-3900,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁ½­ÄÏË®Ïç")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³æ±Ÿå—æ°´ä¹¡")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BU' then
         call SetUnitPosition(udg_hero[i],-4400,-2950)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-4400,-2950,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁÈ«ÕæÈı×Ó")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³å…¨çœŸä¸‰å­")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BV' then
         call SetUnitPosition(udg_hero[i],-5960,-160)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-5960,-160,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁÑãÃÅ¹ØÄÚ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³é›é—¨å…³å†…")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BW' then
         call SetUnitPosition(udg_hero[i],-13000,-15500)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-13000,-15500,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁ´óÁÉ¹ú")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³å¤§è¾½å›½")
     endif
     if GetItemTypeId(GetManipulatedItem())=='I0BX' then
         call SetUnitPosition(udg_hero[i],-9000,-14000)
    		call PanCameraToTimedForPlayer(GetTriggerPlayer(),-9000,-14000,0)
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33´«ËÍÖÁ¾ÛÏÍ×¯")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33ä¼ é€è‡³èšè´¤åº„")
     endif
     set p = null
     set u = null
 endfunction
 
 /*
- * 12. ¹Å¶­ÏµÍ³
+ * 12. å¤è‘£ç³»ç»Ÿ
  */
 
-//¹Å¶­¼Û¸ñ
+//å¤è‘£ä»·æ ¼
 function s5 takes nothing returns nothing
 	set gudong[1]=1227896115
 	set nd[1]=500
@@ -2548,9 +2548,9 @@ function s5 takes nothing returns nothing
 	set nd[10]=$4E20
 	set od[10]=$186A0
 endfunction
-//¹Å¶­¼Û¸ñ±ä¶¯
+//å¤è‘£ä»·æ ¼å˜åŠ¨
 function u5 takes nothing returns nothing
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cfffff000¹Å¶­ÉÌÈËÊÕ¹º¼Û¸ñ·¢Éú±ä¶¯ÁË~")
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cfffff000å¤è‘£å•†äººæ”¶è´­ä»·æ ¼å‘ç”Ÿå˜åŠ¨äº†~")
 	set pd[1]=GetRandomInt(nd[1],od[1])
 	set pd[2]=GetRandomInt(nd[2],od[2])
 	set pd[3]=GetRandomInt(nd[3],od[3])
@@ -2562,7 +2562,7 @@ function u5 takes nothing returns nothing
 	set pd[9]=GetRandomInt(nd[9],od[9])
 	set pd[10]=GetRandomInt(nd[10],od[10])
 endfunction
-//²éÑ¯¹Å¶­¼Û¸ñ
+//æŸ¥è¯¢å¤è‘£ä»·æ ¼
 function w5 takes nothing returns boolean
 	return (GetItemTypeId(GetManipulatedItem())=='I050')
 endfunction
@@ -2575,9 +2575,9 @@ function x5 takes nothing returns nothing
 		exitwhen i > 10
 		call createitemloc(gudong[i],v7[9])
 		if (UnitHaveItem(u,gudong[i])) then
-			call DisplayTimedTextToPlayer(p,0,0,30,"|cff00ff00"+GetItemName(bj_lastCreatedItem)+"£º"+I2S(pd[i])+" ( "+I2S(nd[i])+" £¬ "+I2S(od[i])+" )")
+			call DisplayTimedTextToPlayer(p,0,0,30,"|cff00ff00"+GetItemName(bj_lastCreatedItem)+"ï¼š"+I2S(pd[i])+" ( "+I2S(nd[i])+" ï¼Œ "+I2S(od[i])+" )")
 		else
-			call DisplayTimedTextToPlayer(p,0,0,30,GetItemName(bj_lastCreatedItem)+"£º"+I2S(pd[i])+" ( "+I2S(nd[i])+" £¬ "+I2S(od[i])+" )")
+			call DisplayTimedTextToPlayer(p,0,0,30,GetItemName(bj_lastCreatedItem)+"ï¼š"+I2S(pd[i])+" ( "+I2S(nd[i])+" ï¼Œ "+I2S(od[i])+" )")
 		endif
 		call RemoveItem(bj_lastCreatedItem)
 		set i = i + 1
@@ -2585,7 +2585,7 @@ function x5 takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-//Âô¹Å¶­
+//å–å¤è‘£
 function z5 takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896113))
 endfunction
@@ -2597,10 +2597,10 @@ function A5 takes nothing returns nothing
 		exitwhen i>10
 		if (GetItemTypeId(UnitItemInSlotBJ(u,1))==gudong[i]) then
 			if Ce[1+GetPlayerId(p)]!=4 then
-				call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00Âô³ö"+GetItemName(UnitItemInSlotBJ(u,1))+"£¬»ñµÃ½ğÇ®+"+I2S(pd[i])))
+				call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00å–å‡º"+GetItemName(UnitItemInSlotBJ(u,1))+"ï¼Œè·å¾—é‡‘é’±+"+I2S(pd[i])))
 				call AdjustPlayerStateBJ(pd[i], p, PLAYER_STATE_RESOURCE_GOLD)
 			else
-				call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00ÄãÊÇ¼ø¶¨Ê¦£¬ÒÔ×î¸ß¼Û¸ñÂô³ö"+GetItemName(UnitItemInSlotBJ(u,1))+"£¬»ñµÃ½ğÇ®+"+I2S(od[i])))
+				call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00ä½ æ˜¯é‰´å®šå¸ˆï¼Œä»¥æœ€é«˜ä»·æ ¼å–å‡º"+GetItemName(UnitItemInSlotBJ(u,1))+"ï¼Œè·å¾—é‡‘é’±+"+I2S(od[i])))
 				call AdjustPlayerStateBJ(od[i], p, PLAYER_STATE_RESOURCE_GOLD)
 			endif
 			call RemoveItem(UnitItemInSlotBJ(u, 1))
@@ -2626,10 +2626,10 @@ function b5 takes nothing returns nothing
 			exitwhen i>10
 			if((GetItemTypeId(UnitItemInSlotBJ(u,j))==gudong[i]))then
 				if Ce[1+GetPlayerId(p)]!=4 then
-					call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00Âô³ö"+(GetItemName(UnitItemInSlotBJ(u,j))+("£¬»ñµÃ½ğÇ®+"+I2S(pd[i])))))
+					call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00å–å‡º"+(GetItemName(UnitItemInSlotBJ(u,j))+("ï¼Œè·å¾—é‡‘é’±+"+I2S(pd[i])))))
 					call AdjustPlayerStateBJ(pd[i],GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
 				else
-					call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00ÄãÊÇ¼ø¶¨Ê¦£¬ÒÔ×î¸ß¼Û¸ñÂô³ö"+(GetItemName(UnitItemInSlotBJ(u,j))+("£¬»ñµÃ½ğÇ®+"+I2S(od[i])))))
+					call DisplayTimedTextToPlayer(p,0,0,30,("|CFF00FF00ä½ æ˜¯é‰´å®šå¸ˆï¼Œä»¥æœ€é«˜ä»·æ ¼å–å‡º"+(GetItemName(UnitItemInSlotBJ(u,j))+("ï¼Œè·å¾—é‡‘é’±+"+I2S(od[i])))))
 					call AdjustPlayerStateBJ(od[i],GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
 				endif
 				call RemoveItem(UnitItemInSlotBJ(u,j))
@@ -2641,7 +2641,7 @@ function b5 takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-//ÊÕ¼¯¹Å¶­
+//æ”¶é›†å¤è‘£
 function CollectGuDong_Conditions takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I093')) or ((GetItemTypeId(GetManipulatedItem())=='I094')) or ((GetItemTypeId(GetManipulatedItem())=='I095')) or ((GetItemTypeId(GetManipulatedItem())=='I096'))
 endfunction
@@ -2652,138 +2652,138 @@ function CollectGuDong_Actions takes nothing returns nothing
     if GetItemTypeId(GetManipulatedItem())=='I093' then
 	    if Ce[i] == 4 then
         	if udg_gudongD==0 then
-	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ÎÒ×ÔÓ×Ï²»¶ÊÕ¼¯¹Å¶­£¬Èç¹ûÄãÄÜÊÕ¼¯Ò»Ì×DµÈ¼¶¹Å¶­£¬ÎÒ½«ËÍÄãÒ»±¾ÃØ¼®")
+	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00æˆ‘è‡ªå¹¼å–œæ¬¢æ”¶é›†å¤è‘£ï¼Œå¦‚æœä½ èƒ½æ”¶é›†ä¸€å¥—Dç­‰çº§å¤è‘£ï¼Œæˆ‘å°†é€ä½ ä¸€æœ¬ç§˜ç±")
 	    	    set udg_gudongD=1
 	    	else
 	    	    if UnitHaveItem(u,'I053') and UnitHaveItem(u,'I054') and UnitHaveItem(u,'I055') then
 				    call RemoveItem(FetchUnitItem(u,'I053'))
 			        call RemoveItem(FetchUnitItem(u,'I054'))
 			        call RemoveItem(FetchUnitItem(u,'I055'))
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»ÄãµÄ¹Å¶­£¬Õâ±¾½­ºşÃØ¼®ËÍ¸øÄãÁË")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ çš„å¤è‘£ï¼Œè¿™æœ¬æ±Ÿæ¹–ç§˜ç±é€ç»™ä½ äº†")
         	        call unitadditembyidswapped(udg_jianghu[GetRandomInt(1,18)],u)
         	        set udg_jdds[i] = udg_jdds[i] + 2
         	        if udg_jdds[i]<=10 and udg_jddsbool[i]==false and Ce[i]==4 then
-	    	            call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00ÄúµÄ¼ø¶¨Ê¦ÒÑ¾­µÃÁË"+I2S(udg_jdds[i])+"·Ö£¬µÃµ½10·Ö¿É»ñµÃ¼ø¶¨´óÊ¦Å¶")
+	    	            call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00æ‚¨çš„é‰´å®šå¸ˆå·²ç»å¾—äº†"+I2S(udg_jdds[i])+"åˆ†ï¼Œå¾—åˆ°10åˆ†å¯è·å¾—é‰´å®šå¤§å¸ˆå“¦")
         	        endif
         	        //if Ce[1+GetPlayerId(p)]==4 then
 	    	           // call unitadditembyidswapped(udg_jianghu[GetRandomInt(1,18)],u)
-	    	           // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»Äã½ÌÎÒ¼ø¶¨¹Å¶­£¬ÔÙËÍÄãÒ»±¾½­ºşÃØ¼®°É")
+	    	           // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ æ•™æˆ‘é‰´å®šå¤è‘£ï¼Œå†é€ä½ ä¸€æœ¬æ±Ÿæ¹–ç§˜ç±å§")
         	        //endif
         	        set udg_gudongD=0
         	    else
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Äã»¹Ã»ÓĞÊÕ¼¯ÆëÒ»Ì×D¹Å¶­Å¶")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ä½ è¿˜æ²¡æœ‰æ”¶é›†é½ä¸€å¥—Då¤è‘£å“¦")
         	    endif
         	endif
         else
-        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00·Ç¼ø¶¨Ê¦²»ÄÜ½Ó´ËÈÎÎñ")
+        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00éé‰´å®šå¸ˆä¸èƒ½æ¥æ­¤ä»»åŠ¡")
     	endif
     elseif GetItemTypeId(GetManipulatedItem())=='I094' then
     	if Ce[i] == 4 then
         	if udg_gudongC==0 then
-	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ÎÒ×ÔÓ×Ï²»¶ÊÕ¼¯¹Å¶­£¬Èç¹ûÄãÄÜÊÕ¼¯Ò»Ì×CµÈ¼¶¹Å¶­£¬ÎÒ½«ËÍÄãÒ»±¾ÃØ¼®")
+	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00æˆ‘è‡ªå¹¼å–œæ¬¢æ”¶é›†å¤è‘£ï¼Œå¦‚æœä½ èƒ½æ”¶é›†ä¸€å¥—Cç­‰çº§å¤è‘£ï¼Œæˆ‘å°†é€ä½ ä¸€æœ¬ç§˜ç±")
 	    	    set udg_gudongC=1
 	    	else
 			    if UnitHaveItem(u,'I056') and UnitHaveItem(u,'I057') and UnitHaveItem(u,'I058') then
 				    call RemoveItem(FetchUnitItem(u,'I056'))
 			        call RemoveItem(FetchUnitItem(u,'I057'))
 			        call RemoveItem(FetchUnitItem(u,'I058'))
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»ÄãµÄ¹Å¶­£¬Õâ±¾¾øÑ§ÃØ¼®ËÍ¸øÄãÁË")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ çš„å¤è‘£ï¼Œè¿™æœ¬ç»å­¦ç§˜ç±é€ç»™ä½ äº†")
         	        call unitadditembyidswapped(udg_juexue[GetRandomInt(1,10)],u)
         	        set udg_jdds[i] = udg_jdds[i] + 4
         	        if udg_jdds[i]<=10 and udg_jddsbool[i]==false and Ce[i]==4 then
-	    	    	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00ÄúµÄ¼ø¶¨Ê¦ÒÑ¾­µÃÁË"+I2S(udg_jdds[i])+"·Ö£¬µÃµ½10·Ö¿É»ñµÃ¼ø¶¨´óÊ¦Å¶")
+	    	    	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00æ‚¨çš„é‰´å®šå¸ˆå·²ç»å¾—äº†"+I2S(udg_jdds[i])+"åˆ†ï¼Œå¾—åˆ°10åˆ†å¯è·å¾—é‰´å®šå¤§å¸ˆå“¦")
         	    	endif
         	     //   if Ce[1+GetPlayerId(p)]==4 then
 	    	    	   // call unitadditembyidswapped(udg_juexue[GetRandomInt(1,10)],u)
-	    	    	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»Äã½ÌÎÒ¼ø¶¨¹Å¶­£¬ÔÙËÍÄãÒ»±¾¾øÑ§ÃØ¼®°É")
+	    	    	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ æ•™æˆ‘é‰´å®šå¤è‘£ï¼Œå†é€ä½ ä¸€æœ¬ç»å­¦ç§˜ç±å§")
         	    	//endif
         	        set udg_gudongC=0
         	    else
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Äã»¹Ã»ÓĞÊÕ¼¯ÆëÒ»Ì×C¹Å¶­Å¶")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ä½ è¿˜æ²¡æœ‰æ”¶é›†é½ä¸€å¥—Cå¤è‘£å“¦")
         	    endif
         	endif
         else
-        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00·Ç¼ø¶¨Ê¦²»ÄÜ½Ó´ËÈÎÎñ")
+        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00éé‰´å®šå¸ˆä¸èƒ½æ¥æ­¤ä»»åŠ¡")
     	endif
     elseif GetItemTypeId(GetManipulatedItem())=='I095' then
     	if Ce[i] == 4 then
         	if udg_gudongB==0 then
-	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ÎÒ×ÔÓ×Ï²»¶ÊÕ¼¯¹Å¶­£¬Èç¹ûÄãÄÜÊÕ¼¯Ò»Ì×BµÈ¼¶¹Å¶­£¬ÎÒ½«ËÍÄãÒ»±¾ÃØ¼®")
+	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00æˆ‘è‡ªå¹¼å–œæ¬¢æ”¶é›†å¤è‘£ï¼Œå¦‚æœä½ èƒ½æ”¶é›†ä¸€å¥—Bç­‰çº§å¤è‘£ï¼Œæˆ‘å°†é€ä½ ä¸€æœ¬ç§˜ç±")
 	    	    set udg_gudongB=1
 	    	else
 			    if UnitHaveItem(u,'I059') and UnitHaveItem(u,'I05A') and UnitHaveItem(u,'I05B') then
 				    call RemoveItem(FetchUnitItem(u,'I059'))
 			        call RemoveItem(FetchUnitItem(u,'I05A'))
 			        call RemoveItem(FetchUnitItem(u,'I05B'))
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»ÄãµÄ¹Å¶­£¬Õâ±¾¾øÄÚÃØ¼®ËÍ¸øÄãÁË")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ çš„å¤è‘£ï¼Œè¿™æœ¬ç»å†…ç§˜ç±é€ç»™ä½ äº†")
         	        call unitadditembyidswapped(udg_juenei[GetRandomInt(1,8)],u)
         	        set udg_jdds[i] = udg_jdds[i] + 6
         	        if udg_jdds[i]<=10 and udg_jddsbool[i]==false and Ce[i]==4 then
-	    	    	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00ÄúµÄ¼ø¶¨Ê¦ÒÑ¾­µÃÁË"+I2S(udg_jdds[i])+"·Ö£¬µÃµ½10·Ö¿É»ñµÃ¼ø¶¨´óÊ¦Å¶")
+	    	    	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00æ‚¨çš„é‰´å®šå¸ˆå·²ç»å¾—äº†"+I2S(udg_jdds[i])+"åˆ†ï¼Œå¾—åˆ°10åˆ†å¯è·å¾—é‰´å®šå¤§å¸ˆå“¦")
         	    	endif
         	     //   if Ce[1+GetPlayerId(p)]==4 then
 	    	    	   // call unitadditembyidswapped(udg_juenei[GetRandomInt(1,8)],u)
-	    	    	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»Äã½ÌÎÒ¼ø¶¨¹Å¶­£¬ÔÙËÍÄãÒ»±¾¾øÄÚÃØ¼®°É")
+	    	    	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ æ•™æˆ‘é‰´å®šå¤è‘£ï¼Œå†é€ä½ ä¸€æœ¬ç»å†…ç§˜ç±å§")
         	    	//endif
         	        set udg_gudongB=0
         	    else
-        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Äã»¹Ã»ÓĞÊÕ¼¯ÆëÒ»Ì×B¹Å¶­Å¶")
+        	        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ä½ è¿˜æ²¡æœ‰æ”¶é›†é½ä¸€å¥—Bå¤è‘£å“¦")
         	    endif
         	endif
         else
-        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00·Ç¼ø¶¨Ê¦²»ÄÜ½Ó´ËÈÎÎñ")
+        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00éé‰´å®šå¸ˆä¸èƒ½æ¥æ­¤ä»»åŠ¡")
     	endif
     elseif GetItemTypeId(GetManipulatedItem())=='I096' then
     	if Ce[i] == 4 then
         	if udg_gudongA==0 then
-	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ÎÒ×ÔÓ×Ï²»¶ÊÕ¼¯¹Å¶­£¬Èç¹ûÄãÄÜÊÕ¼¯Á½¸öAµÈ¼¶¹Å¶­£¬ÎÒ½«ËÍÄãÒ»±¾ÃØ¼®")
+	    	    call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00æˆ‘è‡ªå¹¼å–œæ¬¢æ”¶é›†å¤è‘£ï¼Œå¦‚æœä½ èƒ½æ”¶é›†ä¸¤ä¸ªAç­‰çº§å¤è‘£ï¼Œæˆ‘å°†é€ä½ ä¸€æœ¬ç§˜ç±")
 	    	    set udg_gudongA=1
 	    	else
 	    	    if UnitHaveItem(u,'I05C')  then
 			        call RemoveItem(FetchUnitItem(u,'I05C'))
 			        if UnitHaveItem(u,'I05C')  then
 			            call RemoveItem(FetchUnitItem(u,'I05C'))
-			            call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»ÄãµÄ¹Å¶­£¬Õâ±¾²ĞÕÂËÍ¸øÄãÁË")
+			            call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ çš„å¤è‘£ï¼Œè¿™æœ¬æ®‹ç« é€ç»™ä½ äº†")
         	            call unitadditembyidswapped(udg_canzhang[GetRandomInt(1,10)],u)
         	            set udg_jdds[i] = udg_jdds[i] + 10
         	            if udg_jdds[i]<=10 and udg_jddsbool[i]==false and Ce[i]==4 then
-	    	        	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00ÄúµÄ¼ø¶¨Ê¦ÒÑ¾­µÃÁË"+I2S(udg_jdds[i])+"·Ö£¬µÃµ½10·Ö¿É»ñµÃ¼ø¶¨´óÊ¦Å¶")
+	    	        	    call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00æ‚¨çš„é‰´å®šå¸ˆå·²ç»å¾—äº†"+I2S(udg_jdds[i])+"åˆ†ï¼Œå¾—åˆ°10åˆ†å¯è·å¾—é‰´å®šå¤§å¸ˆå“¦")
         	        	endif
         	         //   if Ce[1+GetPlayerId(p)]==4 then
 	    	        	   // call unitadditembyidswapped(udg_canzhang[GetRandomInt(1,10)],u)
-	    	        	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Ğ»Ğ»Äã½ÌÎÒ¼ø¶¨¹Å¶­£¬ÔÙËÍÄãÒ»±¾²ĞÕÂ°É")
+	    	        	   // call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00è°¢è°¢ä½ æ•™æˆ‘é‰´å®šå¤è‘£ï¼Œå†é€ä½ ä¸€æœ¬æ®‹ç« å§")
         	        	//endif
         	            set udg_gudongA=0
 			        else
         	            call UnitAddItemById(u,'I05C')
-			            call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Äã»¹Ã»ÓĞÊÕ¼¯ÆëÁ½¸öA¹Å¶­Å¶")
+			            call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ä½ è¿˜æ²¡æœ‰æ”¶é›†é½ä¸¤ä¸ªAå¤è‘£å“¦")
 	    	        endif
         	    else
-			        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00Äã»¹Ã»ÓĞÊÕ¼¯ÆëÁ½¸öA¹Å¶­Å¶")
+			        call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00ä½ è¿˜æ²¡æœ‰æ”¶é›†é½ä¸¤ä¸ªAå¤è‘£å“¦")
         	    endif
         	endif
         else
-        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00·Ç¼ø¶¨Ê¦²»ÄÜ½Ó´ËÈÎÎñ")
+        	call DisplayTimedTextToPlayer(p,0,0,15,"|CFF00FF00éé‰´å®šå¸ˆä¸èƒ½æ¥æ­¤ä»»åŠ¡")
     	endif
     endif
     if udg_jdds[i]>=10 and udg_jddsbool[i]==false and Ce[i]==4 then
 	    set udg_jddsbool[i]=true
 	    if udg_zhangmen[i]==true then
 		else
-			call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"¡ş¼ø¶¨´óÊ¦¡ş"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
+			call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"ã€“é‰´å®šå¤§å¸ˆã€“"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
 		endif
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00¹§Ï²"+GetPlayerName(p)+"»ñµÃ¼ø¶¨´óÊ¦")
-		call SetPlayerName(p, "¡ş¼ø¶¨´óÊ¦¡ş"+GetPlayerName(p))
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00æ­å–œ"+GetPlayerName(p)+"è·å¾—é‰´å®šå¤§å¸ˆ")
+		call SetPlayerName(p, "ã€“é‰´å®šå¤§å¸ˆã€“"+GetPlayerName(p))
 	endif
 	set u=null
 	set p=null
 endfunction
 
 /*
- * 13. ½£ÒâÏµÍ³
+ * 13. å‰‘æ„ç³»ç»Ÿ
  */
  
-//½£ÒâÏµÍ³
+//å‰‘æ„ç³»ç»Ÿ
 function c5 takes nothing returns boolean
 	return (UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)
 endfunction
@@ -2795,7 +2795,7 @@ function D5 takes nothing returns nothing
 		call SetUnitPosition(u,-10510,-9660)
 		call PanCameraToTimedForPlayer(p, -10510, -9660, 0)
 	else
-		call DisplayTextToPlayer(p,0,0,"|CFF34FF00¶À¹ÂÇó°Ü£ºÄêÇáÈË£¬ÄãµÄÉ±ÆøÌ«ÖØÁË£¬¿´À´ÄãÎÒÎŞÔµ°¡")
+		call DisplayTextToPlayer(p,0,0,"|CFF34FF00ç‹¬å­¤æ±‚è´¥ï¼šå¹´è½»äººï¼Œä½ çš„æ€æ°”å¤ªé‡äº†ï¼Œçœ‹æ¥ä½ æˆ‘æ— ç¼˜å•Š")
 	endif
 	set u = null
 	set p = null
@@ -2804,16 +2804,16 @@ function XiuWei takes unit u, integer num, integer id, string s returns nothing
 	local player p = GetOwningPlayer(u)
 	local integer i = 1 + GetPlayerId(p)
 	if (wugongxiuwei[i]>=num) then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ÄãÒÑ¾­Íê³ÉÕâ¸öĞŞÎªÁË")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ä½ å·²ç»å®Œæˆè¿™ä¸ªä¿®ä¸ºäº†")
 	elseif (wugongxiuwei[i]<num-1) then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000Äã»¹ĞèÒªÍê³ÉÉÏÒ»²ãĞŞÎª")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000ä½ è¿˜éœ€è¦å®Œæˆä¸Šä¸€å±‚ä¿®ä¸º")
 	elseif(((xiuxing[i]<num)or(UnitHaveItem(u,id)==false)))then
-		call DisplayTextToPlayer(p,0,0,"|cFFFF0000Ìõ¼ş²»×ã")
+		call DisplayTextToPlayer(p,0,0,"|cFFFF0000æ¡ä»¶ä¸è¶³")
 	else
 		call RemoveItem(FetchUnitItem(u,id))
 		set udg_shanghaijiacheng[i]=udg_shanghaijiacheng[i]+0.05
 		set wugongxiuwei[i]=num
-		call DisplayTextToPlayer(p,0,0,"|cFF00FF00ĞŞĞĞ³É¹¦£¬ÎäÑ§ĞŞÎª´ïµ½µÚ"+s+"²ã£¬Îä¹¦ÌáÉı5%")
+		call DisplayTextToPlayer(p,0,0,"|cFF00FF00ä¿®è¡ŒæˆåŠŸï¼Œæ­¦å­¦ä¿®ä¸ºè¾¾åˆ°ç¬¬"+s+"å±‚ï¼Œæ­¦åŠŸæå‡5%")
 	endif
 	set p = null
 endfunction
@@ -2821,31 +2821,31 @@ function F5 takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896136))
 endfunction
 function G5 takes nothing returns nothing
-	call XiuWei(GetTriggerUnit(), 1, 'I01L', "Ò»")
+	call XiuWei(GetTriggerUnit(), 1, 'I01L', "ä¸€")
 endfunction
 function I5 takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896137))
 endfunction
 function l5 takes nothing returns nothing
-	call XiuWei(GetTriggerUnit(), 2, 1227895094, "¶ş")
+	call XiuWei(GetTriggerUnit(), 2, 1227895094, "äºŒ")
 endfunction
 function K5 takes nothing returns boolean
 		return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())=='I05G'))
 endfunction
 function L5 takes nothing returns nothing
-	call XiuWei(GetTriggerUnit(), 3, 1227895091, "Èı")
+	call XiuWei(GetTriggerUnit(), 3, 1227895091, "ä¸‰")
 endfunction
 function N5 takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896134))
 endfunction
 function O5 takes nothing returns nothing
-	call XiuWei(GetTriggerUnit(), 4, 'I02S', "ËÄ")
+	call XiuWei(GetTriggerUnit(), 4, 'I02S', "å››")
 endfunction
 function Q5 takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896138))
 endfunction
 function R5 takes nothing returns nothing
-	call XiuWei(GetTriggerUnit(), 5, 'I00P', "Îå")
+	call XiuWei(GetTriggerUnit(), 5, 'I00P', "äº”")
 endfunction
 function LingWuJY_Conditions takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896914))
@@ -2864,11 +2864,11 @@ function LingWuJY takes nothing returns nothing
 	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,u)
 	if((UnitTypeNotNull(u,UNIT_TYPE_HERO)==false))then
 	call AdjustPlayerStateBJ(5,p,PLAYER_STATE_RESOURCE_LUMBER)
-	call DisplayTextToPlayer(Player(-1+i),0,0,"|cFFFF0000ĞèÒªÖ÷½Ç²ÅÄÜÁìÎò")
+	call DisplayTextToPlayer(Player(-1+i),0,0,"|cFFFF0000éœ€è¦ä¸»è§’æ‰èƒ½é¢†æ‚Ÿ")
 	else
 	if((wugongxiuwei[i]<1))then
 	call AdjustPlayerStateBJ(5,p,PLAYER_STATE_RESOURCE_LUMBER)
-	call DisplayTextToPlayer(Player(-1+i),0,0,"|cFFFF0000ÄãµÄÎä¹¦ĞŞÎª²»×ã")
+	call DisplayTextToPlayer(Player(-1+i),0,0,"|cFFFF0000ä½ çš„æ­¦åŠŸä¿®ä¸ºä¸è¶³")
 	else
 	if((yd[i]==1))then
 	set wuxing[i]=(wuxing[i]-xd[i])
@@ -2895,8 +2895,8 @@ function LingWuJY takes nothing returns nothing
 	set xd[i]=GetRandomInt(xd[i],10)
 	endif
 	set yd[i]=0
-	call DisplayTimedTextToPlayer(Player(-1+i),0,0,20.,("|cff00ff00¹§Ï²ÁìÎòµ½µÚ"+(I2S(xd[i])+"²ã½£Òâ")))
-	call DisplayTimedTextToPlayer(Player(-1+i),0,0,20.,"|cffffff00ÊäÈëÁÄÌìĞÅÏ¢¡°jy¡±¿ÉÒÔ°Ñ½£Òâ×ª»¯ÎªÒ»ÖÖĞÔ¸ñÊôĞÔ£¬µ«ÊÇÃ¿´Î×ª»¯ĞèÒªÏûºÄ5¸öÕäÏ¡±Ò")
+	call DisplayTimedTextToPlayer(Player(-1+i),0,0,20.,("|cff00ff00æ­å–œé¢†æ‚Ÿåˆ°ç¬¬"+(I2S(xd[i])+"å±‚å‰‘æ„")))
+	call DisplayTimedTextToPlayer(Player(-1+i),0,0,20.,"|cffffff00è¾“å…¥èŠå¤©ä¿¡æ¯â€œjyâ€å¯ä»¥æŠŠå‰‘æ„è½¬åŒ–ä¸ºä¸€ç§æ€§æ ¼å±æ€§ï¼Œä½†æ˜¯æ¯æ¬¡è½¬åŒ–éœ€è¦æ¶ˆè€—5ä¸ªçç¨€å¸")
 	if((xd[i]==2))then
 	call DestroyEffect(vd[i])
 	call AddSpecialEffectTargetUnitBJ("chest",u,"war3mapImported\\fairywing.MDX")
@@ -2926,7 +2926,7 @@ function LingWuJY takes nothing returns nothing
 	set p=null
 endfunction
 
-//×ª»¯½£Òâ
+//è½¬åŒ–å‰‘æ„
 function ZhuanHuaJY_Conditions takes nothing returns boolean
 	return((Ad[(1+GetPlayerId(GetTriggerPlayer()))]))
 endfunction
@@ -2970,15 +2970,15 @@ function ZhuanHuaJY takes nothing returns nothing
 			set yd[i]=6
 		endif
 		call AdjustPlayerStateBJ(-5,p,PLAYER_STATE_RESOURCE_LUMBER)
-		call DisplayTextToPlayer(p,0,0,"|cFF99FFCC×ª»¯³É¹¦|r")
+		call DisplayTextToPlayer(p,0,0,"|cFF99FFCCè½¬åŒ–æˆåŠŸ|r")
 		call DialogClear(v8[i])
 	endif
 	set p=null
 endfunction
 /*
- * 14. »ı·ÖºÍÉùÍû»»ÎïÆ·¡¢ÎäÑ§¾«Òª
+ * 14. ç§¯åˆ†å’Œå£°æœ›æ¢ç‰©å“ã€æ­¦å­¦ç²¾è¦
  */
-//--------ÊØ¼Ò»ı·Ö»»ÎïÆ·ÏµÍ³¿ªÊ¼--------//
+//--------å®ˆå®¶ç§¯åˆ†æ¢ç‰©å“ç³»ç»Ÿå¼€å§‹--------//
 function IsJiFenHuan takes item it returns boolean
 	if GetItemTypeId(it)=='I06O' or GetItemTypeId(it)=='I0A0' or GetItemTypeId(it)=='I06S' or GetItemTypeId(it)=='I06T' or GetItemTypeId(it)=='I06R' or GetItemTypeId(it)=='I06U' or GetItemTypeId(it)=='I06P' or GetItemTypeId(it)=='I06Q' then
 		return true
@@ -2993,20 +2993,20 @@ function JiFenHuan takes unit u, item it, integer id1, integer num, integer id2 
 			set shoujiajf[i] = shoujiajf[i]-num
 			if id1=='I06S' or id1=='I06T' or id1=='I06R' or id1=='I06U' or id1=='I06Q' then
 				call unitadditembyidswapped(id2,u)
-				call DisplayTextToPlayer(p,0,0,"|CFF34FF00»ñµÃ"+GetItemName(bj_lastCreatedItem))
+				call DisplayTextToPlayer(p,0,0,"|CFF34FF00è·å¾—"+GetItemName(bj_lastCreatedItem))
 			elseif id1=='I06P' then
 				call AdjustPlayerStateBJ(20-udg_nandu*2,p,PLAYER_STATE_RESOURCE_LUMBER)
-				call DisplayTextToPlayer(p,0,0,"|CFF34FF00»ñµÃÕäÏ¡±Ò+"+I2S(20-udg_nandu*2))
+				call DisplayTextToPlayer(p,0,0,"|CFF34FF00è·å¾—çç¨€å¸+"+I2S(20-udg_nandu*2))
 			elseif id1=='I06O' then
 				call AdjustPlayerStateBJ(8000-udg_nandu*1000,p,PLAYER_STATE_RESOURCE_GOLD)
-				call DisplayTextToPlayer(p,0,0,"|CFF34FF00»ñµÃ½ğÇ®+"+I2S(8000-udg_nandu*1000))
+				call DisplayTextToPlayer(p,0,0,"|CFF34FF00è·å¾—é‡‘é’±+"+I2S(8000-udg_nandu*1000))
 			elseif id1=='I0A0' then
 				call unitadditembyidswapped(id2,udg_hero[i])
-				call DisplayTextToPlayer(p,0,0,"|CFF34FF00»ñµÃ"+GetItemName(bj_lastCreatedItem))
+				call DisplayTextToPlayer(p,0,0,"|CFF34FF00è·å¾—"+GetItemName(bj_lastCreatedItem))
 			endif
-			call DisplayTextToPlayer(p,0,0,"|cFF00CCffµ±Ç°Ê£ÓàÊØ¼Ò»ı·Ö£º"+I2S(shoujiajf[i]))
+			call DisplayTextToPlayer(p,0,0,"|cFF00CCffå½“å‰å‰©ä½™å®ˆå®¶ç§¯åˆ†ï¼š"+I2S(shoujiajf[i]))
 		else
-			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00ÊØ¼Ò»ı·Ö²»×ã")
+			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00å®ˆå®¶ç§¯åˆ†ä¸è¶³")
 		endif
 	endif
 	set p = null
@@ -3026,7 +3026,7 @@ function KuanDongHua takes nothing returns nothing
 	call JiFenHuan(u, GetManipulatedItem(), 'I06Q', 200, 'I06N')
 	set u = null
 endfunction
-//--------½­ºşÉùÍû»»ÎïÆ·ÏµÍ³¿ªÊ¼--------//
+//--------æ±Ÿæ¹–å£°æœ›æ¢ç‰©å“ç³»ç»Ÿå¼€å§‹--------//
 function IsShengWangHuan takes item it returns boolean
 	if GetItemTypeId(it)=='I0AO' or GetItemTypeId(it)=='I0AP' or GetItemTypeId(it)=='I0AQ' or GetItemTypeId(it)=='I0AR' then
 		return true
@@ -3040,10 +3040,10 @@ function ShengWangHuan takes unit u, item it, integer id1, integer num, integer 
 		if (shengwang[i]>=num) then
 			set shengwang[i] = shengwang[i]-num
 			call unitadditembyidswapped(id2,u)
-			call DisplayTextToPlayer(p,0,0,"|CFF34FF00»ñµÃ"+GetItemName(bj_lastCreatedItem))
-			call DisplayTextToPlayer(p,0,0,"|cFF00CCffµ±Ç°Ê£Óà½­ºşÉùÍû£º"+I2S(shengwang[i]))
+			call DisplayTextToPlayer(p,0,0,"|CFF34FF00è·å¾—"+GetItemName(bj_lastCreatedItem))
+			call DisplayTextToPlayer(p,0,0,"|cFF00CCffå½“å‰å‰©ä½™æ±Ÿæ¹–å£°æœ›ï¼š"+I2S(shengwang[i]))
 		else
-			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00½­ºşÉùÍû²»×ã")
+			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00æ±Ÿæ¹–å£°æœ›ä¸è¶³")
 		endif
 	endif
 	set p = null
@@ -3072,22 +3072,22 @@ function WuXueJingYao takes nothing returns nothing
 		call IncUnitAbilityLevel(u, I7[(i-1)*20+j])
 		if GetUnitAbilityLevel(u, I7[(i-1)*20+j])==level then
 			call unitadditembyidswapped('I0AS',GetTriggerUnit())
-			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ëæ»úµ½¾ÅÖØ»òÎŞ·¨ÉıÖØµÄ¼¼ÄÜ£¬Ê¹ÓÃÎäÑ§¾«ÒªÊ§°Ü")
+			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00éšæœºåˆ°ä¹é‡æˆ–æ— æ³•å‡é‡çš„æŠ€èƒ½ï¼Œä½¿ç”¨æ­¦å­¦ç²¾è¦å¤±è´¥")
 		else
-			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00¹§Ï²¼¼ÄÜ"+GetAbilityName(I7[(i-1)*20+j])+"ÉıÖØ")
+			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00æ­å–œæŠ€èƒ½"+GetAbilityName(I7[(i-1)*20+j])+"å‡é‡")
 		endif
 	else
 		call unitadditembyidswapped('I0AS',GetTriggerUnit())
-		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ëæ»úµ½Áè²¨Î¢²½£¬Ê¹ÓÃÎäÑ§¾«ÒªÊ§°Ü")
+		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00éšæœºåˆ°å‡Œæ³¢å¾®æ­¥ï¼Œä½¿ç”¨æ­¦å­¦ç²¾è¦å¤±è´¥")
 	endif
 	set u = null
 	set p = null
 endfunction
 /*
- * 15. Ñ§Ï°ºÍÒÅÍüÎä¹¦£¨º¬¼¤»î²ĞÕÂ£©
+ * 15. å­¦ä¹ å’Œé—å¿˜æ­¦åŠŸï¼ˆå«æ¿€æ´»æ®‹ç« ï¼‰
  */
  
-//ÒÅÍüÎä¹¦
+//é—å¿˜æ­¦åŠŸ
 function YiWangJiNeng takes nothing returns boolean
 	return((GetSpellAbilityId()==1093678417))
 endfunction
@@ -3097,7 +3097,7 @@ function ForgetAbility takes nothing returns nothing
 	local integer i = 1 + GetPlayerId(p)
 	local integer j = 1
 	if((UnitHaveItem(u,'I06K'))) or udg_yiwang[i]==true then
-		call DialogSetMessage(K7[i],"ÇëÑ¡ÔñÒÅÍüµÄÎä¹¦£¨ÒÅÍüºóÎŞ·¨ÕÒ»Ø£©£¡")
+		call DialogSetMessage(K7[i],"è¯·é€‰æ‹©é—å¿˜çš„æ­¦åŠŸï¼ˆé—å¿˜åæ— æ³•æ‰¾å›ï¼‰ï¼")
 		if((I7[(i-1)*20+1]!='AEfk'))then
 			call DialogAddButtonBJ(K7[i],GetObjectName(I7[(i-1)*20+1]))
 			set S4[i]=bj_lastCreatedButton
@@ -3142,11 +3142,11 @@ function ForgetAbility takes nothing returns nothing
 			call DialogAddButtonBJ(K7[i],GetObjectName(I7[(i-1)*20+11]))
 			set J711[i]=bj_lastCreatedButton
 		endif
-		call DialogAddButtonBJ(K7[i],"È¡Ïû")
+		call DialogAddButtonBJ(K7[i],"å–æ¶ˆ")
 		set l7[i]=bj_lastCreatedButton
 		call DialogDisplay(p,K7[i],true)
 	else
-		call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000ÒÅÍüÎä¹¦ĞèÒªÏûºÄµÀ¾ßÒÅÍüÖ®Ê¯£¡")
+		call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000é—å¿˜æ­¦åŠŸéœ€è¦æ¶ˆè€—é“å…·é—å¿˜ä¹‹çŸ³ï¼")
 	endif
 	set u = null
 	set p = null
@@ -3154,7 +3154,7 @@ endfunction
 function Forget takes player p, integer num returns nothing
 	local integer i = 1 + GetPlayerId(p)
 	if I7[(i-1)*20+num]=='A03N' and UnitHasBuffBJ(udg_hero[i], 'BOwk') then
-		call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF9933"+GetObjectName(I7[(i-1)*20+num])+"Ê©Õ¹ÆÚ¼ä²»ÄÜÒÅÍü£¡£¡£¡")
+		call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF9933"+GetObjectName(I7[(i-1)*20+num])+"æ–½å±•æœŸé—´ä¸èƒ½é—å¿˜ï¼ï¼ï¼")
 	else
 		set S9=1
 		loop
@@ -3168,7 +3168,7 @@ function Forget takes player p, integer num returns nothing
 			endif
 			set S9=S9+1
 		endloop
-		call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF9933³É¹¦ÒÅÍü¼¼ÄÜ£º"+GetObjectName(I7[(i-1)*20+num]))
+		call DisplayTimedTextToPlayer(p,0,0,10.,"|CFFFF9933æˆåŠŸé—å¿˜æŠ€èƒ½ï¼š"+GetObjectName(I7[(i-1)*20+num]))
 		call UnitRemoveAbility(udg_hero[i],I7[20*(i-1)+num])
 		if I7[(i-1)*20+num]=='A03P' then
 			call UnitRemoveAbility(udg_hero[i], 'A03M')
@@ -3218,7 +3218,7 @@ function GetBookNum takes integer id returns integer
 	local integer i = 1
 	loop
 		exitwhen i > MAX_WU_GONG_NUM
-		if LoadInteger(YDHT, StringHash("ÎäÑ§")+i,1) == id then
+		if LoadInteger(YDHT, StringHash("æ­¦å­¦")+i,1) == id then
 			return i
 		endif
 		set i = i + 1
@@ -3230,22 +3230,22 @@ function LearnJiNeng takes unit ut,  item it returns nothing
 	local integer i = 1 + GetPlayerId(p)
 	local unit u = udg_hero[i]
 	local integer num = GetBookNum(GetItemTypeId(it))
-	local integer id = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 2)
-	local integer dp1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 4)
-	local integer fy1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 5)
-	local integer gg1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 6)
-	local integer jm1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 7)
-	local integer wx1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 8)
-	local integer ys1 = LoadInteger(YDHT, StringHash("ÎäÑ§")+num, 9)
+	local integer id = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 2)
+	local integer dp1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 4)
+	local integer fy1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 5)
+	local integer gg1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 6)
+	local integer jm1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 7)
+	local integer wx1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 8)
+	local integer ys1 = LoadInteger(YDHT, StringHash("æ­¦å­¦")+num, 9)
 	if (GetUnitAbilityLevel(u,id)>0) then
-		call DisplayTextToPlayer(p,0,0,"|CFFFF0033ÄãÒÑ¾­ÓµÓĞ´ËÎä¹¦ÁË")
+		call DisplayTextToPlayer(p,0,0,"|CFFFF0033ä½ å·²ç»æ‹¥æœ‰æ­¤æ­¦åŠŸäº†")
 		call unitadditembyidswapped(GetItemTypeId(it),ut)
 	else
 		if (danpo[i]>=dp1 and fuyuan[i]>=fy1 and gengu[i]>=gg1 and jingmai[i]>=jm1 and wuxing[i]>=wx1 and yishu[i]>=ys1) then
 			if id == 'A03Q' then
 				call UnitAddAbility(u, id)
 				call UnitMakeAbilityPermanent(u, true, id)
-				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¹§Ï²"+GetPlayerName(p)+"Ï°µÃ"+GetObjectName(id))
+				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ­å–œ"+GetPlayerName(p)+"ä¹ å¾—"+GetObjectName(id))
 				call AddPlayerTechResearched(p,'Rhri',1)
 			else
 				set L7[i]=1
@@ -3253,7 +3253,7 @@ function LearnJiNeng takes unit ut,  item it returns nothing
 					exitwhen L7[i]>wugongshu[i]
 					if (I7[20*(i-1)+L7[i]]!='AEfk')then
 						if((L7[i]==wugongshu[i]))then
-							call DisplayTextToPlayer(p,0,0,"|CFFFF0033Ñ§Ï°¼¼ÄÜÒÑ´ïÉÏÏŞ£¬ÇëÏÈÒÅÍü²¿·Ö¼¼ÄÜ")
+							call DisplayTextToPlayer(p,0,0,"|CFFFF0033å­¦ä¹ æŠ€èƒ½å·²è¾¾ä¸Šé™ï¼Œè¯·å…ˆé—å¿˜éƒ¨åˆ†æŠ€èƒ½")
 							call unitadditembyidswapped(GetItemTypeId(it),ut)
 						endif
 					else
@@ -3264,9 +3264,9 @@ function LearnJiNeng takes unit ut,  item it returns nothing
 						endif
 						set I7[20*(i-1)+L7[i]] = id
 						if GetUnitAbilityLevel(u, id) >=2 then
-							call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¹§Ï²"+GetPlayerName(p)+"ÏëÆğ"+GetObjectName(id))
+							call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ­å–œ"+GetPlayerName(p)+"æƒ³èµ·"+GetObjectName(id))
 						else
-							call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¹§Ï²"+GetPlayerName(p)+"Ï°µÃ"+GetObjectName(id))
+							call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ­å–œ"+GetPlayerName(p)+"ä¹ å¾—"+GetObjectName(id))
 						endif
 						set S9=1
             	    	loop
@@ -3286,30 +3286,30 @@ function LearnJiNeng takes unit ut,  item it returns nothing
 				endloop
 			endif
 		else
-			call DisplayTextToPlayer(p,0,0,"|CFFFF0033Ñ§Ï°Ìõ¼ş²»×ã")
+			call DisplayTextToPlayer(p,0,0,"|CFFFF0033å­¦ä¹ æ¡ä»¶ä¸è¶³")
 			if (danpo[i]>=dp1) then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033µ¨ÆÇÈ±ÉÙ£º"+I2S(dp1-danpo[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033èƒ†é­„ç¼ºå°‘ï¼š"+I2S(dp1-danpo[i]))
 			endif
 			if (gengu[i]>=gg1) then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033¸ù¹ÇÈ±ÉÙ£º"+I2S(gg1-gengu[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033æ ¹éª¨ç¼ºå°‘ï¼š"+I2S(gg1-gengu[i]))
 			endif
 			if (fuyuan[i]>=fy1) then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033¸£ÔµÈ±ÉÙ£º"+I2S(fy1-fuyuan[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033ç¦ç¼˜ç¼ºå°‘ï¼š"+I2S(fy1-fuyuan[i]))
 			endif
 			if (wuxing[i]>=wx1) then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033ÎòĞÔÈ±ÉÙ£º"+I2S(wx1-wuxing[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033æ‚Ÿæ€§ç¼ºå°‘ï¼š"+I2S(wx1-wuxing[i]))
 			endif
 			if (jingmai[i]>=jm1) then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033¾­ÂöÈ±ÉÙ£º"+I2S(jm1-jingmai[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033ç»è„‰ç¼ºå°‘ï¼š"+I2S(jm1-jingmai[i]))
 			endif
 			if (yishu[i]>=ys1)then
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033Ò½ÊõÈ±ÉÙ£º"+I2S(ys1-yishu[i]))
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033åŒ»æœ¯ç¼ºå°‘ï¼š"+I2S(ys1-yishu[i]))
 			endif
 			call unitadditembyidswapped(GetItemTypeId(it),ut)
 		endif
@@ -3317,7 +3317,7 @@ function LearnJiNeng takes unit ut,  item it returns nothing
 	set p = null
 	set u = null
 endfunction
-//Ñ§Ï°Îä¹¦
+//å­¦ä¹ æ­¦åŠŸ
 function IsWuGongBook takes nothing returns boolean
 	return (GetBookNum(GetItemTypeId(GetManipulatedItem()))!=0)
 endfunction
@@ -3325,7 +3325,7 @@ function BookLearnWuGong takes nothing returns nothing
 	call LearnJiNeng(GetTriggerUnit(), GetManipulatedItem())
 endfunction
 
-//ÄÚ¹¦¼Ó³ÉÊôĞÔ
+//å†…åŠŸåŠ æˆå±æ€§
 function NeiGongJiaCheng takes integer i, integer id, real baoji,real shxs,integer jxlw,integer minjie,real shjc returns nothing
     set MM9[i]=id
     set udg_jueneibaojilv[i]=baoji
@@ -3335,7 +3335,7 @@ function NeiGongJiaCheng takes integer i, integer id, real baoji,real shxs,integ
     set udg_jueneishjc[i]=shjc
 endfunction
 function NeiGongJiaChengS takes nothing returns nothing
-	//ĞòºÅ¡¢ID¡¢±©»÷ÂÊ¡¢ÉËº¦ÎüÊÕ¡¢¾øÑ§ÁìÎò¡¢ÄÚÁ¦¡¢ÉËº¦¼Ó³É
+	//åºå·ã€IDã€æš´å‡»ç‡ã€ä¼¤å®³å¸æ”¶ã€ç»å­¦é¢†æ‚Ÿã€å†…åŠ›ã€ä¼¤å®³åŠ æˆ
     call NeiGongJiaCheng(1,'A0D8',.15,.2,5,30,1.)
     call NeiGongJiaCheng(2,1093679154,.08,.25,4,150,.4)
     call NeiGongJiaCheng(3,'A083',.05,.3,3,100,.3)
@@ -3357,8 +3357,8 @@ function NeiGongJiaChengS takes nothing returns nothing
     call NeiGongJiaCheng(19,'A0D6',.8,0,0,10,.15)
     call NeiGongJiaCheng(20,'A0D4',-0.2,0,0,-40,-0.25)
 endfunction
-//------Ñ§Ï°Îä¹¦ÏµÍ³½áÊø------
-//------Îä¹¦Ğ§¹ûÏµÍ³¿ªÊ¼------
+//------å­¦ä¹ æ­¦åŠŸç³»ç»Ÿç»“æŸ------
+//------æ­¦åŠŸæ•ˆæœç³»ç»Ÿå¼€å§‹------
 function uC takes nothing returns boolean
 	return((UnitHasBuffBJ(GetAttacker(),'B002')))
 endfunction
@@ -3438,7 +3438,7 @@ function aC takes nothing returns nothing
 				call SetUnitState(GetEnumUnit(),UNIT_STATE_LIFE,GetUnitState(GetEnumUnit(),UNIT_STATE_LIFE)-0.03*GetUnitState(GetEnumUnit(),UNIT_STATE_MAX_LIFE))
 			endif
 		endif
-		call CreateTextTagLocBJ("ÄÔÉñµ¤Ğ§¹û",loc,60.,12.,65.,55.,42.,0)
+		call CreateTextTagLocBJ("è„‘ç¥ä¸¹æ•ˆæœ",loc,60.,12.,65.,55.,42.,0)
 		call Nw(3.,bj_lastCreatedTextTag)
 		call SetTextTagVelocityBJ(bj_lastCreatedTextTag,100.,90)
 	endif
@@ -3448,7 +3448,7 @@ function aC takes nothing returns nothing
 		//else
 		call SetUnitState(GetEnumUnit(),UNIT_STATE_LIFE,GetUnitState(GetEnumUnit(),UNIT_STATE_LIFE)-0.03*GetUnitState(GetEnumUnit(),UNIT_STATE_LIFE))
 		//endif
-		call CreateTextTagLocBJ("»¯Ê¬·ÛĞ§¹û",loc,60.,12.,65.,55.,42.,0)
+		call CreateTextTagLocBJ("åŒ–å°¸ç²‰æ•ˆæœ",loc,60.,12.,65.,55.,42.,0)
 		call Nw(3.,bj_lastCreatedTextTag)
 		call SetTextTagVelocityBJ(bj_lastCreatedTextTag,100.,90)
 	endif
@@ -3456,28 +3456,28 @@ function aC takes nothing returns nothing
 	set loc = null
 	set loc2 = null
 endfunction
-//Ã¿ÃëÖÓ×öÒ»´Î
+//æ¯ç§’é’Ÿåšä¸€æ¬¡
 function BC takes nothing returns nothing
 	call ForGroupBJ(wv(bj_mapInitialPlayableArea,Condition(function AC)),function aC)
 endfunction
-//-----¼¤»î²ĞÕÂ-----
+//-----æ¿€æ´»æ®‹ç« -----
 function ActCanZhang takes unit ut, item it, integer id1, integer lwd, integer id2, integer id3, integer id4, string s, integer flag returns integer
 	local player p = GetOwningPlayer(ut)
 	local integer i = 1 + GetPlayerId(p)
 	local unit u = udg_hero[i]
 	if (GetUnitAbilityLevel(u, id1)<=0) then
-		call DisplayTextToPlayer(p,0,0,"|CFFFF0033ÄãÉĞÎ´Ñ§»á¸ÃÎä¹¦£¬ÎŞ·¨¼¤»îÒş²ØÕĞÊ½")
+		call DisplayTextToPlayer(p,0,0,"|CFFFF0033ä½ å°šæœªå­¦ä¼šè¯¥æ­¦åŠŸï¼Œæ— æ³•æ¿€æ´»éšè—æ‹›å¼")
 		call unitadditembyidswapped(GetItemTypeId(it), ut)
 	else
 		if((flag>=1))then
-			call DisplayTextToPlayer(p,0,0,"|CFFFF0033ÄãÖ®Ç°ÒÑ¾­¼¤»î¹ıÁË")
+			call DisplayTextToPlayer(p,0,0,"|CFFFF0033ä½ ä¹‹å‰å·²ç»æ¿€æ´»è¿‡äº†")
 			call unitadditembyidswapped(GetItemTypeId(it),ut)
 		else
 			if (juexuelingwu[i]>=lwd and GetUnitAbilityLevel(u,id2)!=0 and GetUnitAbilityLevel(u,id3)!=0 and GetUnitAbilityLevel(u,id4)!=0) then
 				set flag=1
-				call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË"+s)
+				call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†"+s)
 			else
-				call DisplayTextToPlayer(p,0,0,"|CFFFF0033Ìõ¼ş²»×ã£¬¼¤»îÊ§°Ü")
+				call DisplayTextToPlayer(p,0,0,"|CFFFF0033æ¡ä»¶ä¸è¶³ï¼Œæ¿€æ´»å¤±è´¥")
 				call unitadditembyidswapped(GetItemTypeId(it), ut)
 			endif
 		endif
@@ -3490,74 +3490,74 @@ function CC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896371))
 endfunction
 function cC takes nothing returns nothing
-	set Jd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07H', 5, 1093678935, 'A07U', 1093679152, "·´Á½ÒÇµ¶·¨µÚ1Ê½£ºĞĞÆøÈçºç", Jd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Jd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07H', 5, 1093678935, 'A07U', 1093679152, "åä¸¤ä»ªåˆ€æ³•ç¬¬1å¼ï¼šè¡Œæ°”å¦‚è™¹", Jd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function EC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896370))
 endfunction
 function FC takes nothing returns nothing
-	set Id[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A085', 5, 'A07P', 1093678930, 1093679154, "ÁùÂöÉñ½£µÚ1Ê½£ºÉÙÉÌ½£", Id[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Id[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A085', 5, 'A07P', 1093678930, 1093679154, "å…­è„‰ç¥å‰‘ç¬¬1å¼ï¼šå°‘å•†å‰‘", Id[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function HC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896369))
 endfunction
 function IC takes nothing returns nothing
-	set Qd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07L', 5, 1093679154, 'A07Q', 'A0DN', "´ò¹·°ô·¨µÚ1Ê½£º¶ñ¹·À¹Â·", Qd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Qd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07L', 5, 1093679154, 'A07Q', 'A0DN', "æ‰“ç‹—æ£’æ³•ç¬¬1å¼ï¼šæ¶ç‹—æ‹¦è·¯", Qd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function JC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896374))
 endfunction
 function KC takes nothing returns nothing
-	set ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07F', 5, 'A09D', 1093679152, 'A071', "¶À¹Â¾Å½£µÚ1Ê½£ºÆÆ½£Ê½", ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07F', 5, 'A09D', 1093679152, 'A071', "ç‹¬å­¤ä¹å‰‘ç¬¬1å¼ï¼šç ´å‰‘å¼", ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function MC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896372))
 endfunction
 function NC takes nothing returns nothing
-	set Od[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A086', 5, 'A083', 'A07X', 'A06M', "ºú¼Òµ¶·¨µÚ1Ê½£º°Ë·½²Øµ¶Ê½", Od[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Od[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A086', 5, 'A083', 'A07X', 'A06M', "èƒ¡å®¶åˆ€æ³•ç¬¬1å¼ï¼šå…«æ–¹è—åˆ€å¼", Od[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function PC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896368))
 endfunction
 function QC takes nothing returns nothing
-	set Pd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A089', 5, 'A084', 'A0D2', 'A07S', "Î÷¶¾¹÷·¨µÚ1Ê½£ºÉßÅÌÇàÖñ", Pd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Pd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A089', 5, 'A084', 'A0D2', 'A07S', "è¥¿æ¯’æ£æ³•ç¬¬1å¼ï¼šè›‡ç›˜é’ç«¹", Pd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function SC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896377))
 endfunction
 function TC takes nothing returns nothing
-	set Kd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07J', 5, 'A06J', 1093678932, 1395666994, "±ÙĞ°½£·¨µÚ1Ê½£ºÁ÷ĞÇ¸ÏÔÂ", Kd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Kd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07J', 5, 'A06J', 1093678932, 1395666994, "è¾Ÿé‚ªå‰‘æ³•ç¬¬1å¼ï¼šæµæ˜Ÿèµ¶æœˆ", Kd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function VC takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())==1227896376))
 endfunction
 function WC takes nothing returns nothing
-	set Ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07I', 5, 'A07N', 'A0D8', 'A07X', "Ò°ÇòÈ­µÚ1Ê½£º·­ÖâÁÑ´·", Ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07I', 5, 'A07N', 'A0D8', 'A07X', "é‡çƒæ‹³ç¬¬1å¼ï¼šç¿»è‚˜è£‚æ¶", Ld[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function YC takes nothing returns boolean
 	return GetItemTypeId(GetManipulatedItem())==1227896375
 endfunction
 function ZC takes nothing returns nothing
-	set Nd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07E', 5, 'A0D8', 'A07O', 'A0DN', "½µÁúÊ®°ËÕÆµÚ1Ê½£ºÉñÁú°ÚÎ²", Nd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Nd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07E', 5, 'A0D8', 'A07O', 'A0DN', "é™é¾™åå…«æŒç¬¬1å¼ï¼šç¥é¾™æ‘†å°¾", Nd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
 function ec takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I065'))
 endfunction
 function gc takes nothing returns nothing
-	set Md[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07G', 5, 'A06H', 'A07S', 'A084', "÷öÈ»Ïú»êÕÆµÚ1Ê½£ºÎŞÖĞÉúÓĞ", Md[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set Md[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A07G', 5, 'A06H', 'A07S', 'A084', "é»¯ç„¶é”€é­‚æŒç¬¬1å¼ï¼šæ— ä¸­ç”Ÿæœ‰", Md[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
-//¾ÅÑôÕæ¾­²Ğ¾í
+//ä¹é˜³çœŸç»æ®‹å·
 function isJiuYangCanJuan takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I0CW'))
 endfunction
 function jiuYangCanJuan takes nothing returns nothing
-	set JYd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A0DN', 5, 'A0DN', 'A09D', 'A07X', "¾ÅÑôÕæ¾­²Ğ¾í", JYd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
+	set JYd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 'A0DN', 5, 'A0DN', 'A09D', 'A07X', "ä¹é˜³çœŸç»æ®‹å·", JYd[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
 endfunction
-//Îä»êÊ¯ÏµÍ³
+//æ­¦é­‚çŸ³ç³»ç»Ÿ
 function IsWuHunShi takes nothing returns boolean
 	if (GetItemTypeId(GetManipulatedItem())=='I09Q') then
 		if (De[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]==false and Ee[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]==false) then
-	        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFFFF0033Î´¼¯Æë¾öÕ½Ì××°»ò½­ºşÌ××°£¬¼¤»îÊ§°Ü")
+	        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,"|CFFFF0033æœªé›†é½å†³æˆ˜å¥—è£…æˆ–æ±Ÿæ¹–å¥—è£…ï¼Œæ¿€æ´»å¤±è´¥")
 	        return false
 	    else
 	        return true
@@ -3577,38 +3577,38 @@ function WuHunShi takes nothing returns nothing
 	local integer i=1+GetPlayerId(p)
 	call DialogClear(wuhun)
 	call RemoveItem(GetManipulatedItem())
-	call DialogSetMessage(wuhun,"ÇëÑ¡ÔñÒª¼¤»îµÄ²ĞÕÂ")
+	call DialogSetMessage(wuhun,"è¯·é€‰æ‹©è¦æ¿€æ´»çš„æ®‹ç« ")
 	if Jd[i]==0 then
-    	set wuhun1[1]=DialogAddButtonBJ(wuhun,"·´Á½ÒÇµ¶·¨")
+    	set wuhun1[1]=DialogAddButtonBJ(wuhun,"åä¸¤ä»ªåˆ€æ³•")
     endif
     if Id[i]==0 then
-    	set wuhun1[2]=DialogAddButtonBJ(wuhun,"ÁùÂöÉñ½£")
+    	set wuhun1[2]=DialogAddButtonBJ(wuhun,"å…­è„‰ç¥å‰‘")
     endif
     if Qd[i]==0 then
-    	set wuhun1[3]=DialogAddButtonBJ(wuhun,"´ò¹·°ô·¨")
+    	set wuhun1[3]=DialogAddButtonBJ(wuhun,"æ‰“ç‹—æ£’æ³•")
     endif
     if ld[i]==0 then
-    	set wuhun1[4]=DialogAddButtonBJ(wuhun,"¶À¹Â¾Å½£")
+    	set wuhun1[4]=DialogAddButtonBJ(wuhun,"ç‹¬å­¤ä¹å‰‘")
     endif
     if Od[i]==0 then
-    	set wuhun1[5]=DialogAddButtonBJ(wuhun,"ºú¼Òµ¶·¨")
+    	set wuhun1[5]=DialogAddButtonBJ(wuhun,"èƒ¡å®¶åˆ€æ³•")
     endif
     if Pd[i]==0 then
-    	set wuhun1[6]=DialogAddButtonBJ(wuhun,"Î÷¶¾¹÷·¨")
+    	set wuhun1[6]=DialogAddButtonBJ(wuhun,"è¥¿æ¯’æ£æ³•")
     endif
     if Kd[i]==0 then
-    	set wuhun1[7]=DialogAddButtonBJ(wuhun,"±ÙĞ°½£·¨")
+    	set wuhun1[7]=DialogAddButtonBJ(wuhun,"è¾Ÿé‚ªå‰‘æ³•")
     endif
     if Ld[i]==0 then
-    	set wuhun1[8]=DialogAddButtonBJ(wuhun,"Ò°ÇòÈ­·¨")
+    	set wuhun1[8]=DialogAddButtonBJ(wuhun,"é‡çƒæ‹³æ³•")
     endif
     if Nd[i]==0 then
-    	set wuhun1[9]=DialogAddButtonBJ(wuhun,"½µÁúÊ®°ËÕÆ")
+    	set wuhun1[9]=DialogAddButtonBJ(wuhun,"é™é¾™åå…«æŒ")
     endif
     if Md[i]==0 then
-    	set wuhun1[10]=DialogAddButtonBJ(wuhun,"÷öÈ»Ïú»êÕÆ")
+    	set wuhun1[10]=DialogAddButtonBJ(wuhun,"é»¯ç„¶é”€é­‚æŒ")
     endif
-    set wuhun1[11]=DialogAddButtonBJ(wuhun,"È¡Ïû")
+    set wuhun1[11]=DialogAddButtonBJ(wuhun,"å–æ¶ˆ")
 	call DialogDisplay(p,wuhun,true)
 	set u=null
     set p=null
@@ -3617,43 +3617,43 @@ function JiHuoCanZhang takes nothing returns nothing
 	local player p=GetTriggerPlayer()
 	local integer i=1+GetPlayerId(p)
     if GetClickedButton()==wuhun1[1] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË·´Á½ÒÇµ¶·¨µÚ1Ê½£ºĞĞÆøÈçºç")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†åä¸¤ä»ªåˆ€æ³•ç¬¬1å¼ï¼šè¡Œæ°”å¦‚è™¹")
         set Jd[i]=1
     endif
     if GetClickedButton()==wuhun1[2] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁËÁùÂöÉñ½£µÚ1Ê½£ºÉÙÉÌ½£")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†å…­è„‰ç¥å‰‘ç¬¬1å¼ï¼šå°‘å•†å‰‘")
         set Id[i]=1
     endif
     if GetClickedButton()==wuhun1[3] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË´ò¹·°ô·¨µÚ1Ê½£º¶ñ¹·À¹Â·")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†æ‰“ç‹—æ£’æ³•ç¬¬1å¼ï¼šæ¶ç‹—æ‹¦è·¯")
         set Qd[i]=1
     endif
     if GetClickedButton()==wuhun1[4] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË¶À¹Â¾Å½£µÚ1Ê½£ºÆÆ½£Ê½")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†ç‹¬å­¤ä¹å‰‘ç¬¬1å¼ï¼šç ´å‰‘å¼")
         set ld[i]=1
     endif
     if GetClickedButton()==wuhun1[5] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁËºú¼Òµ¶·¨µÚ1Ê½£º°Ë·½²Øµ¶Ê½")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†èƒ¡å®¶åˆ€æ³•ç¬¬1å¼ï¼šå…«æ–¹è—åˆ€å¼")
         set Od[i]=1
     endif
     if GetClickedButton()==wuhun1[6] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁËÎ÷¶¾¹÷·¨µÚ1Ê½£ºÉßÅÌÇàÖñ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†è¥¿æ¯’æ£æ³•ç¬¬1å¼ï¼šè›‡ç›˜é’ç«¹")
         set Pd[i]=1
     endif
      if GetClickedButton()==wuhun1[7] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË±ÙĞ°½£·¨µÚ1Ê½£ºÁ÷ĞÇ¸ÏÔÂ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†è¾Ÿé‚ªå‰‘æ³•ç¬¬1å¼ï¼šæµæ˜Ÿèµ¶æœˆ")
         set Kd[i]=1
     endif
     if GetClickedButton()==wuhun1[8] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁËÒ°ÇòÈ­µÚ1Ê½£º·­ÖâÁÑ´·")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†é‡çƒæ‹³ç¬¬1å¼ï¼šç¿»è‚˜è£‚æ¶")
         set Ld[i]=1
     endif
     if GetClickedButton()==wuhun1[9] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË½µÁúÊ®°ËÕÆµÚ1Ê½£ºÉñÁú°ÚÎ²")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†é™é¾™åå…«æŒç¬¬1å¼ï¼šç¥é¾™æ‘†å°¾")
         set Nd[i]=1
     endif
     if GetClickedButton()==wuhun1[10] then
-        call DisplayTextToPlayer(p,0,0,"|CFF00ff33¹§Ï²¼¤»îÁË÷öÈ»Ïú»êÕÆµÚ1Ê½£ºÎŞÖĞÉúÓĞ")
+        call DisplayTextToPlayer(p,0,0,"|CFF00ff33æ­å–œæ¿€æ´»äº†é»¯ç„¶é”€é­‚æŒç¬¬1å¼ï¼šæ— ä¸­ç”Ÿæœ‰")
         set Md[i]=1
     endif
     if GetClickedButton()==wuhun1[11] then
@@ -3662,22 +3662,22 @@ function JiHuoCanZhang takes nothing returns nothing
     set p=null
 endfunction
 
-//Ñ§Ï°ÃÅÅÉÄÚ¹¦
+//å­¦ä¹ é—¨æ´¾å†…åŠŸ
 function pR takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895856))
 endfunction
 function LearnNeiGong takes nothing returns nothing
 	local button b=GetClickedButton()
-	local unit u=LoadUnitHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),3)
+	local unit u=LoadUnitHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),3)
 	local integer i=1+GetPlayerId(GetOwningPlayer(u))
-	local integer id=LoadInteger(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),4)
+	local integer id=LoadInteger(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),4)
 	local player p = GetOwningPlayer(u)
-	if b==LoadButtonHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),1) then
+	if b==LoadButtonHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),1) then
 		call UnitAddAbility(u,Q8[id])
 		call UnitMakeAbilityPermanent(u, true, Q8[id])
-        call DisplayTextToPlayer(GetOwningPlayer(u),0,0,("|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(Q8[id])))
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ")
-		call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+        call DisplayTextToPlayer(GetOwningPlayer(u),0,0,("|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(Q8[id])))
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"é•¿è€")
+		call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"é•¿è€ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
         set L7[i]=1
         loop
             exitwhen L7[i]>wugongshu[i]
@@ -3688,7 +3688,7 @@ function LearnNeiGong takes nothing returns nothing
             endif
             set L7[i]=L7[i]+1
         endloop
-    elseif b==LoadButtonHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),2) then
+    elseif b==LoadButtonHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),2) then
     	if P8[id] == 'A07W' then
 	    	if GetUnitAbilityLevel(u, 'A07W') >= 1 then
 	        	call IncUnitAbilityLevel(u, P8[id])
@@ -3720,14 +3720,14 @@ function LearnNeiGong takes nothing returns nothing
         	    set L7[i]=L7[i]+1
         	endloop
         endif
-        call DisplayTextToPlayer(GetOwningPlayer(u),0,0,("|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(P8[id])))
-        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ")
-		call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+        call DisplayTextToPlayer(GetOwningPlayer(u),0,0,("|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(P8[id])))
+        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"é•¿è€")
+		call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"é•¿è€ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
 
 
     endif
     call DialogClear(udg_menpaineigong)
-    call FlushChildHashtable(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"))
+    call FlushChildHashtable(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"))
     call DialogDestroy(udg_menpaineigong)
     set udg_menpaineigong=null
         set b=null
@@ -3748,13 +3748,13 @@ function qR takes nothing returns nothing
 	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,i)
 	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
 	if((UnitHaveItem(GetTriggerUnit(),1227895642)==false))then
-	    call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00Äã±ØĞëĞ¯´øÃÅÅÉ±ÏÒµ¾í²ÅÄÜ»ñµÃĞŞÏ°×Ê¸ñ")
+	    call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00ä½ å¿…é¡»æºå¸¦é—¨æ´¾æ¯•ä¸šå·æ‰èƒ½è·å¾—ä¿®ä¹ èµ„æ ¼")
 	else
 	    if((O8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-	        call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00ÄãÒÑ¾­ĞŞĞĞ¹ıÁË")
+	        call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00ä½ å·²ç»ä¿®è¡Œè¿‡äº†")
 	    else
 	    	if GetUnitAbilityLevel(udg_hero[i],Y7[udg_runamen[i]])<2 then
-			    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"ÄãµÄ"+GetAbilityName(Y7[udg_runamen[i]])+"|r»¹Ã»ĞŞÁ¶µ½Î»")
+			    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"ä½ çš„"+GetAbilityName(Y7[udg_runamen[i]])+"|rè¿˜æ²¡ä¿®ç‚¼åˆ°ä½")
 			else
 	    	    set j=1
 	    	    loop
@@ -3762,7 +3762,7 @@ function qR takes nothing returns nothing
 	    	        if (I7[GetPlayerId(GetOwningPlayer(GetTriggerUnit()))*20+j])!='AEfk' then
 			            //call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"j="+I2S(j))
 			            if j==wugongshu[i] then
-	    	            	call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00Ñ§Ï°¼¼ÄÜÒÑ´ïÉÏÏŞ£¬ÇëÏÈÒÅÍü²¿·Ö¼¼ÄÜ")
+	    	            	call DisplayTextToPlayer(Player(-1+i),0,0,"|CFF34FF00å­¦ä¹ æŠ€èƒ½å·²è¾¾ä¸Šé™ï¼Œè¯·å…ˆé—å¿˜éƒ¨åˆ†æŠ€èƒ½")
 	    	        	endif
 	    	        else
 	    	            set O8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
@@ -3772,23 +3772,23 @@ function qR takes nothing returns nothing
 	    	            loop
 	    	                exitwhen bj_forLoopBIndex>bj_forLoopBIndexEnd
 	    	                if((udg_runamen[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==11))then
-			                    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"×ÔÓÉÃÅÅÉÃ»ÓĞÄÚ¹¦")
+			                    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"è‡ªç”±é—¨æ´¾æ²¡æœ‰å†…åŠŸ")
 			                    exitwhen true
 			                elseif (udg_runamen[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==13) then
-			                	call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"¸ÃÃÅÅÉ²»ÔÚ´ËÑ§Ï°ÄÚ¹¦")
+			                	call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"è¯¥é—¨æ´¾ä¸åœ¨æ­¤å­¦ä¹ å†…åŠŸ")
 			                	call unitadditembyidswapped(1227895642, GetTriggerUnit())
 			                	set O8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
 			                    exitwhen true
 			                else
 	    	                    if((udg_runamen[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==bj_forLoopBIndex))then
 	    	                    	set udg_menpaineigong=DialogCreate()
-	    	                    	call DialogSetMessage(udg_menpaineigong,"ÇëÑ¡ÔñÄãÒªĞŞÏ°µÄÄÚ¹¦")
+	    	                    	call DialogSetMessage(udg_menpaineigong,"è¯·é€‰æ‹©ä½ è¦ä¿®ä¹ çš„å†…åŠŸ")
 	    	                    	set b1= DialogAddButtonBJ(udg_menpaineigong,GetObjectName(Q8[bj_forLoopBIndex]))
 	    	                    	set b2= DialogAddButtonBJ(udg_menpaineigong,GetObjectName(P8[bj_forLoopBIndex]))
-	    	                    	call SaveButtonHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),1,b1)
-	    	                    	call SaveButtonHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),2,b2)
-	    	                    	call SaveUnitHandle(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),3,GetTriggerUnit())
-	    	                    	call SaveInteger(YDHT,StringHash("ÃÅÅÉÄÚ¹¦"),4,bj_forLoopBIndex)
+	    	                    	call SaveButtonHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),1,b1)
+	    	                    	call SaveButtonHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),2,b2)
+	    	                    	call SaveUnitHandle(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),3,GetTriggerUnit())
+	    	                    	call SaveInteger(YDHT,StringHash("é—¨æ´¾å†…åŠŸ"),4,bj_forLoopBIndex)
 	    	                    	call DialogDisplay(GetOwningPlayer(GetTriggerUnit()),udg_menpaineigong,true)
 	    	                    	call TriggerRegisterDialogEvent(t,udg_menpaineigong)
 	    	                        call TriggerAddAction(t,function LearnNeiGong)
@@ -3816,23 +3816,23 @@ function MuRongNeiGong takes nothing returns nothing
 	local integer i = 1 + GetPlayerId(p)
 	local integer j = 1
 	if (udg_runamen[i]!=13) then
-		call DisplayTextToPlayer(p,0,0,"|CFF34FF00ÄãÃ»ÓĞ°İÈë¹ÃËÕÄ½Èİ")
+		call DisplayTextToPlayer(p,0,0,"|CFF34FF00ä½ æ²¡æœ‰æ‹œå…¥å§‘è‹æ…•å®¹")
 	else
 		if (UnitHaveItem(u,1227895642)==false) then
-		    call DisplayTextToPlayer(p,0,0,"|CFF34FF00Äã±ØĞëĞ¯´øÃÅÅÉ±ÏÒµ¾í²ÅÄÜ»ñµÃĞŞÏ°×Ê¸ñ")
+		    call DisplayTextToPlayer(p,0,0,"|CFF34FF00ä½ å¿…é¡»æºå¸¦é—¨æ´¾æ¯•ä¸šå·æ‰èƒ½è·å¾—ä¿®ä¹ èµ„æ ¼")
 		else
 			if GetUnitAbilityLevel(u,Y7[udg_runamen[i]])<2 then
-			    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"ÄãµÄ"+GetAbilityName(Y7[udg_runamen[i]])+"|r»¹Ã»ĞŞÁ¶µ½Î»")
+			    call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,15,"ä½ çš„"+GetAbilityName(Y7[udg_runamen[i]])+"|rè¿˜æ²¡ä¿®ç‚¼åˆ°ä½")
 			else
 			    if (O8[i]==1) then
-			        call DisplayTextToPlayer(p, 0, 0, "|CFF34FF00ÄãÒÑ¾­ĞŞĞĞ¹ıÁË")
+			        call DisplayTextToPlayer(p, 0, 0, "|CFF34FF00ä½ å·²ç»ä¿®è¡Œè¿‡äº†")
 			    else
 			        set j=1
 			        loop
 			        exitwhen j>wugongshu[i]
 			            if (I7[(i-1)*20+j])!='AEfk' then
 				            if j==wugongshu[i] then
-			                	call DisplayTextToPlayer(p,0,0,"|CFF34FF00Ñ§Ï°¼¼ÄÜÒÑ´ïÉÏÏŞ£¬ÇëÏÈÒÅÍü²¿·Ö¼¼ÄÜ")
+			                	call DisplayTextToPlayer(p,0,0,"|CFF34FF00å­¦ä¹ æŠ€èƒ½å·²è¾¾ä¸Šé™ï¼Œè¯·å…ˆé—å¿˜éƒ¨åˆ†æŠ€èƒ½")
 			            	endif
 			            else
 			                set O8[i]=1
@@ -3840,9 +3840,9 @@ function MuRongNeiGong takes nothing returns nothing
 			                if danpo[i]>20 then
 				            	call UnitAddAbility(u,P8[13])
 				            	call UnitMakeAbilityPermanent(u, true, P8[13])
-    		    				call DisplayTextToPlayer(p,0,0, "|cff00FF66¹§Ï²ÁìÎò¼¼ÄÜ£º"+GetObjectName(P8[13]))
-    		    				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ")
-								call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+    		    				call DisplayTextToPlayer(p,0,0, "|cff00FF66æ­å–œé¢†æ‚ŸæŠ€èƒ½ï¼š"+GetObjectName(P8[13]))
+    		    				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"é•¿è€")
+								call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"é•¿è€ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
     		    				set L7[i]=1
     		    				loop
     		    				    exitwhen L7[i]>wugongshu[i]
@@ -3856,9 +3856,9 @@ function MuRongNeiGong takes nothing returns nothing
     		    			else
     		    				call UnitAddAbility(u,Q8[13])
     		    				call UnitMakeAbilityPermanent(u, true, Q8[13])
-    		    				call DisplayTextToPlayer(p,0,0, "|cff00FF66Äã»¹ÊÇÏÈÕÆÎÕ"+GetObjectName(Q8[13])+"°É")
-    		    				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66Íæ¼Ò"+I2S(1+GetPlayerId(p))+"³ÉÎª"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ")
-								call SetPlayerName(p,"¡ş"+udg_menpainame[udg_runamen[i]]+"³¤ÀÏ¡ş"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+    		    				call DisplayTextToPlayer(p,0,0, "|cff00FF66ä½ è¿˜æ˜¯å…ˆæŒæ¡"+GetObjectName(Q8[13])+"å§")
+    		    				call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66ç©å®¶"+I2S(1+GetPlayerId(p))+"æˆä¸º"+udg_menpainame[udg_runamen[i]]+"é•¿è€")
+								call SetPlayerName(p,"ã€“"+udg_menpainame[udg_runamen[i]]+"é•¿è€ã€“"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
     		    				set L7[i]=1
     		    				loop
     		    				    exitwhen L7[i]>wugongshu[i]
@@ -3882,17 +3882,17 @@ function MuRongNeiGong takes nothing returns nothing
 	set p = null
 endfunction
 /*
- * 16. ºÏ³ÉÎïÆ·
+ * 16. åˆæˆç‰©å“
  */
  
 //===========================================================================
-//ºÏ³ÉÎïÆ·
+//åˆæˆç‰©å“
 function HeCheng_Conditions takes nothing returns boolean
 	//call BJDebugMsg(I2S(GetUnitTypeId(GetTriggerUnit())))
     return Ce[1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]==2 or GetItemTypeId(GetManipulatedItem()) == 'I099' or GetItemTypeId(GetManipulatedItem()) == 'I09A' or GetItemTypeId(GetManipulatedItem()) == 'I09B' or GetItemTypeId(GetManipulatedItem()) == 'I09D'
 endfunction
 function HeCheng_Actions takes nothing returns nothing
-	//¶şºÏÒ»
+	//äºŒåˆä¸€
 	//if GetItemTypeId(GetManipulatedItem()) == 'I09C' or GetItemTypeId(GetManipulatedItem()) == 'I09P' then
  //   	call YDWENewItemsFormula( 'I09C', 1, 'I09P', 1, 'ches', 0, 'ches', 0, 'ches', 0, 'ches', 0, 'I00B' )
 	//endif
@@ -3917,13 +3917,13 @@ function HeCheng_Actions takes nothing returns nothing
 	if GetItemTypeId(GetManipulatedItem()) == 'I099' or GetItemTypeId(GetManipulatedItem()) == 'I09A' then
     	call YDWENewItemsFormula( 'I099', 1, 'I09A', 1, 'ches', 0, 'ches', 0, 'ches', 0, 'ches', 0, 'I09C' )
 	endif
-	//ÈıºÏÒ»
+	//ä¸‰åˆä¸€
 	if GetItemTypeId(GetManipulatedItem()) == 'I053' or GetItemTypeId(GetManipulatedItem()) == 'I058' or GetItemTypeId(GetManipulatedItem()) == 'I05A' then
     	call YDWENewItemsFormula( 'I053', 1, 'I058', 1, 'I05A', 1, 'ches', 0, 'ches', 0, 'ches', 0, 'I05C' )
 	endif
-	//ËÄºÏÒ»
-	//ÎåºÏÒ»
-	//ÁùºÏÒ»
+	//å››åˆä¸€
+	//äº”åˆä¸€
+	//å…­åˆä¸€
 	if GetItemTypeId(GetManipulatedItem()) == 'I02P' or GetItemTypeId(GetManipulatedItem()) == 'I09P' then
     	call YDWENewItemsFormula( 'I02P', 1, 'I09P', 1, 'I09P', 1, 'I09P', 1, 'I09P', 1, 'I09P', 1, 'I08V' )
 	endif
@@ -3933,7 +3933,7 @@ function HeCheng_Actions takes nothing returns nothing
 	//    call SaveInteger(YDHT,GetHandleId(GetLastCombinedItem()),0,WeaponNaiJiu(GetLastCombinedItem()))
  //   endif
 endfunction
-//¶ÍÔì´óÊ¦²¹ÊôĞÔ
+//é”»é€ å¤§å¸ˆè¡¥å±æ€§
 function DZDSBuShuXing takes unit u returns nothing
 	local integer ii7 = 0
 	local integer ii8 = 0
@@ -3948,7 +3948,7 @@ function DZDSBuShuXing takes unit u returns nothing
 		set ii7 = ModuloInteger((GetItemUserData(it)/100),10)
 		set ii8 = ModuloInteger((GetItemUserData(it)/10),10)
 		set ii9 = ModuloInteger((GetItemUserData(it)/1),10)
-		//call BJDebugMsg("µÚ"+I2S(j)+"¸ñ×ÓÎïÆ·µÄÊıÖµÎª"+I2S(ii7*100+ii8*10+ii9))
+		//call BJDebugMsg("ç¬¬"+I2S(j)+"æ ¼å­ç‰©å“çš„æ•°å€¼ä¸º"+I2S(ii7*100+ii8*10+ii9))
 		if(ii7==1)then
 			set gengu[i] = gengu[i] + 2
 		elseif(ii7==2)then
@@ -3992,13 +3992,13 @@ function DZDSBuShuXing takes unit u returns nothing
 	endloop
 	set it = null
 endfunction
-//ÎªºÏ³ÉµÄÎäÆ÷Ôö¼ÓÄÍ¾Ã¶È
+//ä¸ºåˆæˆçš„æ­¦å™¨å¢åŠ è€ä¹…åº¦
 function WuPinHeCheng takes nothing returns nothing
 	local item it=GetLastCombinedItem()
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
 	if Ce[i]==2 and LoadBoolean(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetItemTypeId(it))==false and udg_dzds[i]<=5 then
 		set udg_dzds[i] = udg_dzds[i] + 1
-		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF66FF00¹§Ï²Äú¶ÍÔì³É¹¦µÚ"+I2S(udg_dzds[i])+"¼ş×°±¸£¬¶ÍÔì³É¹¦5¼ş×°±¸¿ÉÒÔ»ñµÃ¶ÍÔì´óÊ¦Å¶")
+		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF66FF00æ­å–œæ‚¨é”»é€ æˆåŠŸç¬¬"+I2S(udg_dzds[i])+"ä»¶è£…å¤‡ï¼Œé”»é€ æˆåŠŸ5ä»¶è£…å¤‡å¯ä»¥è·å¾—é”»é€ å¤§å¸ˆå“¦")
 		call SaveBoolean(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetItemTypeId(it), true)
 	endif
 	if Ce[i]==2 and udg_dzds[i]>=5 and udg_dzdsbool[i]==false then
@@ -4006,10 +4006,10 @@ function WuPinHeCheng takes nothing returns nothing
 		call DZDSBuShuXing(udg_hero[i])
 		if udg_zhangmen[i]==true then
 		else
-			call SaveStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit())),"¡ş¶ÍÔì´óÊ¦¡ş"+LoadStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit()))))
+			call SaveStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit())),"ã€“é”»é€ å¤§å¸ˆã€“"+LoadStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit()))))
 		endif
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00¹§Ï²"+GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"»ñµÃ¶ÍÔì´óÊ¦")
-		call SetPlayerName(GetOwningPlayer(GetTriggerUnit()), "¡ş¶ÍÔì´óÊ¦¡ş"+GetPlayerName(GetOwningPlayer(GetTriggerUnit())))
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00æ­å–œ"+GetPlayerName(GetOwningPlayer(GetTriggerUnit()))+"è·å¾—é”»é€ å¤§å¸ˆ")
+		call SetPlayerName(GetOwningPlayer(GetTriggerUnit()), "ã€“é”»é€ å¤§å¸ˆã€“"+GetPlayerName(GetOwningPlayer(GetTriggerUnit())))
 	endif
 	//call BJDebugMsg(GetItemName(it))
 	if GetItemType(it)==ITEM_TYPE_ARTIFACT then
@@ -4019,10 +4019,10 @@ function WuPinHeCheng takes nothing returns nothing
 endfunction
 
 /*
- * 17. °éÂÂÏµÍ³
+ * 17. ä¼´ä¾£ç³»ç»Ÿ
  */
  
-//°éÂÂÊôĞÔ
+//ä¼´ä¾£å±æ€§
 function BanLvShuXing_1 takes integer num, integer id1, integer id2, integer blgg, integer blwx, integer bljm, integer blfy, integer bldp, integer blys returns nothing
 	set R8[num]=id1
 	set S8[num]=id2
@@ -4047,9 +4047,9 @@ function LO takes nothing returns nothing
 	call BanLvShuXing_1(11, 1697656902, 1227895861, 1, 1, 0, 0, 0, 2)
 	call BanLvShuXing_1(12, 1697656903, 1227895860, 0, 0, 2, 1, 1, 0)
 	call BanLvShuXing_1(13, 'e01B', 'I0CP', 2, 2, 2, 2, 2, 2)
-	call BanLvShuXing_1(14, 'e01C', 'I0CS', 3, 3, 3, 3, 3, 3) //°×Ô³
+	call BanLvShuXing_1(14, 'e01C', 'I0CS', 3, 3, 3, 3, 3, 3) //ç™½çŒ¿
 endfunction
-//½á³É°éÂÂ
+//ç»“æˆä¼´ä¾£
 function NO takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemType(GetManipulatedItem())==ITEM_TYPE_PERMANENT))
 endfunction
@@ -4080,8 +4080,8 @@ function OO takes nothing returns nothing
 				call PlaySoundOnUnitBJ(Fh,100,u)
 				call CreateNUnitsAtLoc(1,R8[j],p,loc,bj_UNIT_FACING)
 				call zw(bj_lastCreatedUnit,u,1.,250.,1000.,1500.,75)
-				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00¹§Ï²ÄãÓë"+GetUnitName(bj_lastCreatedUnit)+"½á³É°éÂÂ")
-				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00²é¿´°éÂÂÊôĞÔÊäÈë¡°bl¡±")
+				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00æ­å–œä½ ä¸"+GetUnitName(bj_lastCreatedUnit)+"ç»“æˆä¼´ä¾£")
+				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00æŸ¥çœ‹ä¼´ä¾£å±æ€§è¾“å…¥â€œblâ€")
 				set k8[i]=bj_lastCreatedUnit
 				set jingmai[i]=(jingmai[i]+udg_bljm[j])
 				set fuyuan[i]=(fuyuan[i]+udg_blfy[j])
@@ -4102,33 +4102,33 @@ function OO takes nothing returns nothing
 endfunction
 
 /*
- * 18. ÕûÀíµØÍ¼ÉÏÎïÆ·
+ * 18. æ•´ç†åœ°å›¾ä¸Šç‰©å“
  */
  
-//ÕûÀíÎïÆ·
+//æ•´ç†ç‰©å“
 function SO takes nothing returns nothing
-	if((GetWidgetLife(GetEnumItem())==101.))then    //D¹Å¶­
+	if((GetWidgetLife(GetEnumItem())==101.))then    //Då¤è‘£
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(nh))
 		call RemoveLocation(GetRectCenter(nh))
-	elseif((GetWidgetLife(GetEnumItem())==102.))then    //C¹Å¶­
+	elseif((GetWidgetLife(GetEnumItem())==102.))then    //Cå¤è‘£
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(oh))
 		call RemoveLocation(GetRectCenter(oh))
-	elseif((GetWidgetLife(GetEnumItem())==103.))then    //B¹Å¶­
+	elseif((GetWidgetLife(GetEnumItem())==103.))then    //Bå¤è‘£
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(ph))
 		call RemoveLocation(GetRectCenter(ph))
-	elseif((GetWidgetLife(GetEnumItem())==104.))then    //A¹Å¶­
+	elseif((GetWidgetLife(GetEnumItem())==104.))then    //Aå¤è‘£
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(qh))
 		call RemoveLocation(GetRectCenter(qh))
-	elseif((GetWidgetLife(GetEnumItem())==105.))then    //C²İÒ©
+	elseif((GetWidgetLife(GetEnumItem())==105.))then    //Cè‰è¯
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(rh))
 		call RemoveLocation(GetRectCenter(rh))
-	elseif((GetWidgetLife(GetEnumItem())==106.))then    //B²İÒ©
+	elseif((GetWidgetLife(GetEnumItem())==106.))then    //Bè‰è¯
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(sh))
 		call RemoveLocation(GetRectCenter(sh))
-	elseif((GetWidgetLife(GetEnumItem())==107.))then    //A²İÒ©
+	elseif((GetWidgetLife(GetEnumItem())==107.))then    //Aè‰è¯
 		call SetItemPositionLoc(GetEnumItem(),GetRectCenter(th))
 		call RemoveLocation(GetRectCenter(th))
-	elseif((GetWidgetLife(GetEnumItem())==108.))then    //18ÖÖ½­ºşÎä¹¦
+	elseif((GetWidgetLife(GetEnumItem())==108.))then    //18ç§æ±Ÿæ¹–æ­¦åŠŸ
 		call SetItemPosition(GetEnumItem(),-1819.,484.)
 	elseif((GetWidgetLife(GetEnumItem())==109.))then
 		call SetItemPosition(GetEnumItem(),-1300.,-300.)
@@ -4139,10 +4139,10 @@ function TO takes nothing returns nothing
 endfunction
 
 /*
- * 19. ÆäËûËöËéÂß¼­
+ * 19. å…¶ä»–çç¢é€»è¾‘
  */
  
-//------Çá¹¦ÏµÍ³------//
+//------è½»åŠŸç³»ç»Ÿ------//
 globals
 	effect array udg_JTX
 endglobals
@@ -4175,12 +4175,12 @@ function Trig_ttActions takes nothing returns nothing
 	if distance>2000 then
 		set distance=2000
 	endif
-	call SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("Çá¹¦distance"), distance)
+	call SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("è½»åŠŸdistance"), distance)
 	if distance>DistanceBetweenPoints(d1,d2) then
 		set distance=DistanceBetweenPoints(d1,d2)
 	endif
 	set lasttime=distance/velocity
-	call SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("Çá¹¦velocity"), velocity)
+	call SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("è½»åŠŸvelocity"), velocity)
 	call SaveUnitHandle(YDHT,GetHandleId(tm), 0, GetTriggerUnit())
 	call SetUnitFacing( GetTriggerUnit(), jd)
 	call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",GetTriggerUnit(),"Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile.mdl"))
@@ -4196,7 +4196,7 @@ function Trig_ttActions takes nothing returns nothing
 	set tm=null
 endfunction
 
-//ÉËº¦²âÊÔ×®
+//ä¼¤å®³æµ‹è¯•æ¡©
 globals
 	boolean ceshi = false
 	real ceshizongshanghai
@@ -4208,7 +4208,7 @@ function CeShiJieShu takes nothing returns nothing
 	local timer t = GetExpiredTimer()
 	set ceshi = false
 	call SetUnitOwner(gg_unit_N00I_0116, Player(5), true)
-	call BJDebugMsg("|cff00ff00²âÊÔ×ÜÉËº¦Îª"+R2S(ceshizongshanghai))
+	call BJDebugMsg("|cff00ff00æµ‹è¯•æ€»ä¼¤å®³ä¸º"+R2S(ceshizongshanghai))
 	call PauseTimer(t)
 	call DestroyTimer(t)
 	set t = null
@@ -4228,7 +4228,7 @@ endfunction
 function CalcShangHai takes nothing returns nothing
 	set ceshizongshanghai = ceshizongshanghai + GetEventDamage()
 endfunction
-//³éÑªÊõ
+//æŠ½è¡€æœ¯
 function ChouXie_Condition takes nothing returns boolean
 	return IsUnitInGroup(GetAttacker(), w7) and GetPlayerTechCountSimple('R001', Player(6))==50 and GetTriggerUnit()!=udg_ZhengPaiWL and GetUnitTypeId(GetTriggerUnit())!='Hblm' and GetUnitTypeId(GetTriggerUnit())!='o02F' and GetUnitTypeId(GetTriggerUnit())!='o02G'
 endfunction
@@ -4238,7 +4238,7 @@ function ChouXie_Action takes nothing returns nothing
 	endif
 endfunction
 
-//É±¹Ö(½ø¹¥¹Ö¼°Á·¹¦·¿)
+//æ€æ€ª(è¿›æ”»æ€ªåŠç»ƒåŠŸæˆ¿)
 function ey takes nothing returns boolean
 	return((IsUnitEnemy(GetDyingUnit(),GetOwningPlayer(GetKillingUnit())))and((GetOwningPlayer(GetTriggerUnit())==Player(6))or(GetOwningPlayer(GetTriggerUnit())==Player(7))))
 endfunction
@@ -4282,7 +4282,7 @@ function KillGuai takes nothing returns nothing
 		    	set i = i + 1
 		    endloop
 	        set ae=(ae+($A+GetPlayerTechCountSimple('R001',Player(6))))
-	        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"»÷É±ÃûÃÅ¸ßÊÖ£¬Ã¿Î»Íæ¼Ò»ñµÃÊØ¼Ò»ı·Ö+"+I2S(shoujiajf[i]+15*(10-GetNumPlayer())/10))
+	        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"å‡»æ€åé—¨é«˜æ‰‹ï¼Œæ¯ä½ç©å®¶è·å¾—å®ˆå®¶ç§¯åˆ†+"+I2S(shoujiajf[i]+15*(10-GetNumPlayer())/10))
 	        call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
 	        if((GetRandomInt(1,50)<=5))then
 	            call createitemloc(YaoCao[GetRandomInt(1,12)],LoadLocationHandle(YDHT,id*cx,$1769D332))
@@ -4307,7 +4307,7 @@ function KillGuai takes nothing returns nothing
 	        endif
 	        call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
 	    else
-	        //ÅĞ¶ÏÊÇ·ñÎª½ø¹¥BOSS
+	        //åˆ¤æ–­æ˜¯å¦ä¸ºè¿›æ”»BOSS
 	        if((GetUnitPointValue(GetTriggerUnit())==101))then
 	            set i = 1
 		    	loop
@@ -4316,11 +4316,11 @@ function KillGuai takes nothing returns nothing
 		    		set i = i + 1
 		    	endloop
 	        	set ae=(ae+($A+GetPlayerTechCountSimple('R001',Player(6))))
-	        	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"»÷É±BOSS£¬Ã¿Î»Íæ¼Ò»ñµÃÊØ¼Ò»ı·Ö+"+I2S(shoujiajf[i]+30*(10-GetNumPlayer())/10))
+	        	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"å‡»æ€BOSSï¼Œæ¯ä½ç©å®¶è·å¾—å®ˆå®¶ç§¯åˆ†+"+I2S(shoujiajf[i]+30*(10-GetNumPlayer())/10))
 	            set ae=(ae+(30+GetPlayerTechCountSimple('R001',Player(6))))
 	            if GetRandomInt(1,100)<=50 then
 	                set udg_shuxing[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]=(udg_shuxing[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]+1)
-	                call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFF33CC00"+GetPlayerName(GetOwningPlayer(GetKillingUnit()))+"|cFF33CC00»÷É±ÁËBOSS"+GetUnitName(GetTriggerUnit())+"|cFF33CC00»ñµÃÁËÒ»¸ö×ÔÓÉÊôĞÔµã")
+	                call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFF33CC00"+GetPlayerName(GetOwningPlayer(GetKillingUnit()))+"|cFF33CC00å‡»æ€äº†BOSS"+GetUnitName(GetTriggerUnit())+"|cFF33CC00è·å¾—äº†ä¸€ä¸ªè‡ªç”±å±æ€§ç‚¹")
 	            endif
 	            call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
 	            call createitemloc(YaoCao[GetRandomInt(1,12)],LoadLocationHandle(YDHT,id*cx,$1769D332))
@@ -4341,16 +4341,16 @@ function KillGuai takes nothing returns nothing
 endfunction
 
 
-//Ä§½Ì¾ÈÈË
+//é­”æ•™æ•‘äºº
 function MoJiaoJiuRen_1 takes nothing returns nothing
     call SetUnitPosition(GetEnumUnit(),-910,750)
 endfunction
 function MoJiaoJiuRen takes nothing returns nothing
-    call DisplayTextToForce(GetPlayersAll(),"|CFFCCFF00Ä§½ÌÇ±Èë¼àÓü¾È×ßÁË±»×¥×¡µÄµĞÈË")
+    call DisplayTextToForce(GetPlayersAll(),"|CFFCCFF00é­”æ•™æ½œå…¥ç›‘ç‹±æ•‘èµ°äº†è¢«æŠ“ä½çš„æ•Œäºº")
     call ForGroupBJ(YDWEGetUnitsInRectOfPlayerNull(udg_jail,Player(6)),function MoJiaoJiuRen_1)
 endfunction
 
-//É±¹Ö¼ÓÉùÍû
+//æ€æ€ªåŠ å£°æœ›
 function Xa takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetKillingUnit()))==MAP_CONTROL_USER))
 endfunction
@@ -4392,14 +4392,14 @@ endfunction
 
 
 
-//¾­Ñé·û
+//ç»éªŒç¬¦
 function oQ takes nothing returns boolean
 	return(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='texp')
 endfunction
 function pQ takes nothing returns nothing
 	call AddHeroXP(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))], 200000, true)
 endfunction
-//¹ºÂòµÈ¼¶
+//è´­ä¹°ç­‰çº§
 function rQ takes nothing returns boolean
 	return(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='I05Z')
 endfunction
@@ -4409,11 +4409,11 @@ function sQ takes nothing returns nothing
 	local integer i = 1+GetPlayerId(p)
 	if (GetUnitLevel(udg_hero[i])>=100)then
 		call AdjustPlayerStateBJ(10000, p, PLAYER_STATE_RESOURCE_GOLD)
-		call DisplayTimedTextToPlayer(p,0,0,15,"|cFFFFCC00µÈ¼¶¸ßÓÚ100ÎŞ·¨¹ºÂòµÈ¼¶")
+		call DisplayTimedTextToPlayer(p,0,0,15,"|cFFFFCC00ç­‰çº§é«˜äº100æ— æ³•è´­ä¹°ç­‰çº§")
 	else
 		if Ce[i]==5 then
 			call AdjustPlayerStateBJ(10000, p, PLAYER_STATE_RESOURCE_GOLD)
-			call DisplayTimedTextToPlayer(p,0,0,15,"|cFFFFCC00Ñ¡Ôñ¸Ã¸±Ö°ÎŞ·¨¹ºÂòµÈ¼¶")
+			call DisplayTimedTextToPlayer(p,0,0,15,"|cFFFFCC00é€‰æ‹©è¯¥å‰¯èŒæ— æ³•è´­ä¹°ç­‰çº§")
 		else
 			call SetHeroLevel(udg_hero[i], GetUnitLevel(udg_hero[i])+1, true)
 		endif
@@ -4421,7 +4421,7 @@ function sQ takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-//ĞÂÊÖ´óÀñ°ü
+//æ–°æ‰‹å¤§ç¤¼åŒ…
 function uQ takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896394))
 endfunction
@@ -4430,31 +4430,31 @@ function vQ takes nothing returns nothing
 	local player p = GetOwningPlayer(u)
 	if((GetRandomInt(1,12)<=3))then
 		call AdjustPlayerStateBJ(20000, p, PLAYER_STATE_RESOURCE_GOLD)
-		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ê¹ÓÃĞÂÊÖ´óÀñ°ü»ñµÃ½ğÇ®+20000")
+		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00ä½¿ç”¨æ–°æ‰‹å¤§ç¤¼åŒ…è·å¾—é‡‘é’±+20000")
 	else
 		if((GetRandomInt(1,9)<=3))then
 			call UnitAddItemById(u,udg_jianghu[GetRandomInt(1,18)])
-			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ê¹ÓÃĞÂÊÖ´óÀñ°ü»ñµÃËæ»ú½­ºşÎä¹¦")
+			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00ä½¿ç”¨æ–°æ‰‹å¤§ç¤¼åŒ…è·å¾—éšæœºæ±Ÿæ¹–æ­¦åŠŸ")
 		else
 			if((GetRandomInt(1,6)<=3))then
 				call UnitAddAbility(u,1093679441)
-				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ê¹ÓÃĞÂÊÖ´óÀñ°ü»ñµÃÉñĞĞ×´Ì¬")
+				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00ä½¿ç”¨æ–°æ‰‹å¤§ç¤¼åŒ…è·å¾—ç¥è¡ŒçŠ¶æ€")
 				call TriggerSleepAction(300.)
 				call UnitRemoveAbility(u,1093679441)
-				call DisplayTextToPlayer(p,0,0,"|cFFFF0000Ê§È¥ÉñĞĞĞ§¹û")
+				call DisplayTextToPlayer(p,0,0,"|cFFFF0000å¤±å»ç¥è¡Œæ•ˆæœ")
 			else
 				call YDWEGeneralBounsSystemUnitSetBonus(u,3,0,20000)
-				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00Ê¹ÓÃĞÂÊÖ´óÀñ°ü»ñµÃ¿ñ±©×´Ì¬")
+				call DisplayTextToPlayer(p,0,0,"|cFFFFCC00ä½¿ç”¨æ–°æ‰‹å¤§ç¤¼åŒ…è·å¾—ç‹‚æš´çŠ¶æ€")
 				call TriggerSleepAction(120.)
 				call YDWEGeneralBounsSystemUnitSetBonus(u,3,1,20000)
-				call DisplayTextToPlayer(p,0,0,"|cFFFF0000Ê§È¥¿ñ±©Ğ§¹û")
+				call DisplayTextToPlayer(p,0,0,"|cFFFF0000å¤±å»ç‹‚æš´æ•ˆæœ")
 			endif
 		endif
 	endif
 	set u = null
 	set p = null
 endfunction
-//×°±¸´ò¿×
+//è£…å¤‡æ‰“å­”
 function xQ takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())=='I06N'))
 endfunction
@@ -4479,19 +4479,19 @@ function yQ takes nothing returns nothing
 		endif
 		if (i12<3) then
 			call SetItemUserData(UnitItemInSlotBJ(u,1),(GetItemUserData(UnitItemInSlotBJ(u,1))+$3E8))
-			call DisplayTimedTextToPlayer(p,0,0,30,"|cff00ffff´ò¿×³É¹¦£¡")
+			call DisplayTimedTextToPlayer(p,0,0,30,"|cff00ffffæ‰“å­”æˆåŠŸï¼")
 		else
 			call unitadditembyidswapped('I06N',u)
-			call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000µÚÒ»¸ñÎïÆ·²»ÄÜÔÙ´ò¿×ÁË")
+			call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000ç¬¬ä¸€æ ¼ç‰©å“ä¸èƒ½å†æ‰“å­”äº†")
 		endif
 	else
 		call unitadditembyidswapped('I06N',u)
-		call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000µÚÒ»¸ñÎïÆ·²»ÊÇ×°±¸")
+		call DisplayTimedTextToPlayer(p,0,0,30,"|cffff0000ç¬¬ä¸€æ ¼ç‰©å“ä¸æ˜¯è£…å¤‡")
 	endif
 	set u = null
 	set p = null
 endfunction
-//¼ÓÈë¸±Ö°
+//åŠ å…¥å‰¯èŒ
 function AQ takes nothing returns boolean
 	return ((GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())=='I08Q' or GetItemTypeId(GetManipulatedItem())=='I0A4' or GetItemTypeId(GetManipulatedItem())=='I0A5' or GetItemTypeId(GetManipulatedItem())=='I0A6' or GetItemTypeId(GetManipulatedItem())=='I0A7' or GetItemTypeId(GetManipulatedItem())=='I08S' or GetItemTypeId(GetManipulatedItem())=='I08T' or GetItemTypeId(GetManipulatedItem())=='I0CG'))
 endfunction
@@ -4501,31 +4501,31 @@ function aQ takes nothing returns nothing
 		if (GetItemTypeId(GetManipulatedItem())=='I08Q') then
 			set yishu[i]=yishu[i]+5
 			set Ce[i]=1
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎªÁ¶µ¤Ê¦£¬»ñµÃÒ½Êõ+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºç‚¼ä¸¹å¸ˆï¼Œè·å¾—åŒ»æœ¯+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I08S') then
 			set gengu[i]=(gengu[i]+5)
 			set Ce[i]=2
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎª¶ÍÔìÊ¦£¬»ñµÃ¸ù¹Ç+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºé”»é€ å¸ˆï¼Œè·å¾—æ ¹éª¨+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I08T') then
 			set danpo[i]=(danpo[i]+5)
 			set Ce[i]=3
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎª±øÆ÷Ê¦£¬»ñµÃµ¨ÆÇ+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºå…µå™¨å¸ˆï¼Œè·å¾—èƒ†é­„+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I0A4') then
 			set wuxing[i]=wuxing[i]+5
 			set Ce[i]=4
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎª¼ø¶¨Ê¦£¬»ñµÃÎòĞÔ+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºé‰´å®šå¸ˆï¼Œè·å¾—æ‚Ÿæ€§+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I0A5') then
 			set jingmai[i]=jingmai[i]+5
 			set Ce[i]=5
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎªÁ·ÆøÊ¦£¬»ñµÃ¾­Âö+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºç»ƒæ°”å¸ˆï¼Œè·å¾—ç»è„‰+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I0A6') then
 			set fuyuan[i]=fuyuan[i]+5
 			set Ce[i]=6
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎªÑ°±¦Ê¦£¬»ñµÃ¸£Ôµ+5")
+			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºå¯»å®å¸ˆï¼Œè·å¾—ç¦ç¼˜+5")
 		elseif (GetItemTypeId(GetManipulatedItem())=='I0A7') then
 			if (GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])=='O002' or GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])=='O003' or GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])=='O023' or GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])=='O02H' or GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])=='O02I') then
 				set Ce[i]=7
-				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎªÑ¾÷ß£¬»ñµÃÈ«ÊôĞÔ+1")
+				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºä¸«é¬Ÿï¼Œè·å¾—å…¨å±æ€§+1")
 				set danpo[i] = danpo[i]+1
 				set wuxing[i] = wuxing[i]+1
 				set gengu[i] = gengu[i]+1
@@ -4533,12 +4533,12 @@ function aQ takes nothing returns nothing
 				set jingmai[i] = jingmai[i]+1
 				set yishu[i] = yishu[i]+1
 			else
-				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00ÄĞĞÔ½ÇÉ«²»¿É¼ÓÈë¸Ã¸±Ö°")
+				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00ç”·æ€§è§’è‰²ä¸å¯åŠ å…¥è¯¥å‰¯èŒ")
 			endif
 		elseif (GetItemTypeId(GetManipulatedItem())=='I0CG') then
 			if (GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])!='O002' and GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])!='O003' and GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])!='O023' and GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])!='O02H' and GetUnitTypeId(udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])!='O02I') then
 				set Ce[i]=8
-				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00¹§Ï²³ÉÎª¾«ÎäÊ¦£¬»ñµÃÈ«ÊôĞÔ+1")
+				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00æ­å–œæˆä¸ºç²¾æ­¦å¸ˆï¼Œè·å¾—å…¨å±æ€§+1")
 				set danpo[i] = danpo[i]+1
 				set wuxing[i] = wuxing[i]+1
 				set gengu[i] = gengu[i]+1
@@ -4546,11 +4546,11 @@ function aQ takes nothing returns nothing
 				set jingmai[i] = jingmai[i]+1
 				set yishu[i] = yishu[i]+1
 			else
-				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00Å®ĞÔ½ÇÉ«²»¿É¼ÓÈë¸Ã¸±Ö°")
+				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffffff00å¥³æ€§è§’è‰²ä¸å¯åŠ å…¥è¯¥å‰¯èŒ")
 			endif
 		endif
 	else
-		call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffff0000ÄãÒÑ¾­¼ÓÈë×¨¾«ÁË£¡£¨Ã¿¸ö½ÇÉ«Ö»ÄÜÑ¡ÔñÒ»ÖÖ×¨¾«£¬Ò²¿ÉÒÔ²»Ñ¡Ôñ£©")
+		call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,5.,"|cffff0000ä½ å·²ç»åŠ å…¥ä¸“ç²¾äº†ï¼ï¼ˆæ¯ä¸ªè§’è‰²åªèƒ½é€‰æ‹©ä¸€ç§ä¸“ç²¾ï¼Œä¹Ÿå¯ä»¥ä¸é€‰æ‹©ï¼‰")
 	endif
 endfunction
 
@@ -4560,7 +4560,7 @@ endfunction
 
 
 
-//½á°İÏµÍ³
+//ç»“æ‹œç³»ç»Ÿ
 function MaiHuangZhi_Conditions takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I000'))
 endfunction
@@ -4576,16 +4576,16 @@ function ShaoHuangZhi takes nothing returns nothing
 	local player p=GetOwningPlayer(u)
 	local integer i=1+GetPlayerId(p)
 	if((Bd[i]))then
-		call DisplayTimedTextToPlayer(p,0,0,20.,"|cffff0000ÄãÒÑ¾­Ê¹ÓÃ¹ı»ÆÖ½ÁË£¬»¹ÊÇµÈµÈÁíÍâÒ»¸öÈËµÄÏìÓ¦°É")
+		call DisplayTimedTextToPlayer(p,0,0,20.,"|cffff0000ä½ å·²ç»ä½¿ç”¨è¿‡é»„çº¸äº†ï¼Œè¿˜æ˜¯ç­‰ç­‰å¦å¤–ä¸€ä¸ªäººçš„å“åº”å§")
 		call unitadditembyidswapped('I05Y',GetTriggerUnit())
 	else
 		set Bd[i]=true
 		set ad = ad+1
 		set bd[ad]=udg_hero[i]
 		if((ModuloInteger(ad,2)==0))then
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,20.,("|cffff66ff¹§Ï²"+(GetPlayerName(GetOwningPlayer(bd[(ad-1)]))+("ºÍ"+(GetPlayerName(GetOwningPlayer(bd[ad]))+"½á°İÎªĞÖµÜ")))))
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,20.,("|cffff66ffæ­å–œ"+(GetPlayerName(GetOwningPlayer(bd[(ad-1)]))+("å’Œ"+(GetPlayerName(GetOwningPlayer(bd[ad]))+"ç»“æ‹œä¸ºå…„å¼Ÿ")))))
 		else
-			call DisplayTimedTextToPlayer(p,0,0,20.,"|cffff66ffÊ¹ÓÃ³É¹¦£¬µÈ´ıÁíÍâÒ»Î»Íæ¼ÒÓëÄã½á°İ....")
+			call DisplayTimedTextToPlayer(p,0,0,20.,"|cffff66ffä½¿ç”¨æˆåŠŸï¼Œç­‰å¾…å¦å¤–ä¸€ä½ç©å®¶ä¸ä½ ç»“æ‹œ....")
 		endif
 	endif
 	set u=null
@@ -4640,15 +4640,15 @@ function rT takes nothing returns nothing
 	//endif
 	if GetItemTypeId(GetManipulatedItem())=='I07S' then
 		set ue = 5
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30.,"|cff00ffffÓĞÍæ¼Ò¿ªÊ¼Ô¤Ô¼ÃûÃÅÌôÕ½£¬±¾²¨½ø¹¥¹ÖÎï½«»áÔö¼ÓÃûÃÅ¸ßÊÖ£¬´ó¼ÒÒªĞ¡ĞÄÓ¦¸¶ÁË£¡")
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30.,"|cff00ffffæœ‰ç©å®¶å¼€å§‹é¢„çº¦åé—¨æŒ‘æˆ˜ï¼Œæœ¬æ³¢è¿›æ”»æ€ªç‰©å°†ä¼šå¢åŠ åé—¨é«˜æ‰‹ï¼Œå¤§å®¶è¦å°å¿ƒåº”ä»˜äº†ï¼")
 	endif
 	if GetItemTypeId(GetManipulatedItem())=='I0BO' then
 		set ue = 0
-		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30.,"|cff00ffffÓĞÍæ¼ÒÈ¡ÏûÁËÔ¤Ô¼ÃûÃÅÌôÕ½£¬ÏÂ²¨½ø¹¥¹ÖÎï½«²»»áÔö¼ÓÃûÃÅ¸ßÊÖ£¬´ó¼ÒÒªĞ¡ĞÄÓ¦¸¶ÁË£¡")
+		call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,30.,"|cff00ffffæœ‰ç©å®¶å–æ¶ˆäº†é¢„çº¦åé—¨æŒ‘æˆ˜ï¼Œä¸‹æ³¢è¿›æ”»æ€ªç‰©å°†ä¸ä¼šå¢åŠ åé—¨é«˜æ‰‹ï¼Œå¤§å®¶è¦å°å¿ƒåº”ä»˜äº†ï¼")
 	endif
 
 endfunction
-// ¹¥ÆÆ³ÇÃÅ
+// æ”»ç ´åŸé—¨
 function cT takes nothing returns boolean
 	return((GetUnitTypeId(GetTriggerUnit())=='hmtt'))
 endfunction
@@ -4657,7 +4657,7 @@ function DT takes nothing returns nothing
 	call YDWEPolledWaitNull(((.18-(.01*I2R(O4)))*2000.))
 	call ModifyGateBJ(0,Gt)
 endfunction
-//±¬Õ¨
+//çˆ†ç‚¸
 function FT takes nothing returns boolean
 	return((GetUnitAbilityLevel(GetTriggerUnit(),'A0BU')!=0))
 endfunction
@@ -4680,7 +4680,7 @@ function IT takes nothing returns nothing
 	set u = null
 	set loc = null
 endfunction
-// Á÷ĞÇ
+// æµæ˜Ÿ
 function JT takes nothing returns boolean
 	return((GetUnitAbilityLevel(GetAttacker(),'A0BY')!=0)and(GetRandomInt(1,70)<=5))
 endfunction
@@ -4696,7 +4696,7 @@ function KT takes nothing returns nothing
 	set u = null
 	set loc = null
 endfunction
-// ±ù»º
+// å†°ç¼“
 function MT takes nothing returns boolean
 	return((GetUnitAbilityLevel(GetAttacker(),'A0C0')!=0)and(GetRandomInt(1,70)<=5))
 endfunction
@@ -4710,7 +4710,7 @@ function NT takes nothing returns nothing
 	set loc = null
 endfunction
 
-//ÁÉ¹ú½ø¹¥
+//è¾½å›½è¿›æ”»
 function LiaoGuoJinGong_1 takes nothing returns nothing
 	local timer t = GetExpiredTimer()
 	local integer j = LoadInteger(YDHT, GetHandleId(t), 0)
@@ -4731,17 +4731,17 @@ function LiaoGuoJinGong takes nothing returns nothing
 	local timer t
 	if Sd[1]!=2 and Sd[2]!=2 and Sd[3]!=2 and Sd[4]!=2 and Sd[5]!=2 and udg_teshushijian then
 		set t = CreateTimer()
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¼¤»îÌØÊâÊÂ¼ş|cFFDDA0DD¡ù±ß¾³ÈëÇÖ¡ù")
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ÓÉÓÚ¼¤»îÌØÊâÊÂ¼ş£¬ÁÉ¹úÅÉ³öÆï±øÇ°À´½ø¹¥£¬Çë×¼±¸·ÀÓù")
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ¿€æ´»ç‰¹æ®Šäº‹ä»¶|cFFDDA0DDâ€»è¾¹å¢ƒå…¥ä¾µâ€»")
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ç”±äºæ¿€æ´»ç‰¹æ®Šäº‹ä»¶ï¼Œè¾½å›½æ´¾å‡ºéª‘å…µå‰æ¥è¿›æ”»ï¼Œè¯·å‡†å¤‡é˜²å¾¡")
 		call TimerStart(t, 2., true, function LiaoGuoJinGong_1)
 	endif
 	set t = null
 endfunction
-//ÁéğÕ¹¬½ø¹¥£º´¥·¢Ìõ¼ş£¬ÓĞÍæ¼ÒÑ¡ÔñÁËÁéğÕ¹¬
+//çµé¹«å®«è¿›æ”»ï¼šè§¦å‘æ¡ä»¶ï¼Œæœ‰ç©å®¶é€‰æ‹©äº†çµé¹«å®«
 function LingJiuGongJinGong takes nothing returns nothing
 	if (udg_runamen[1]==12 or udg_runamen[2]==12 or udg_runamen[3]==12 or udg_runamen[4]==12 or udg_runamen[5]==12) and udg_teshushijian then
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033¼¤»îÌØÊâÊÂ¼ş|cFFDDA0DD¡ùÁéğÕ¹¬½Ù¡ù")
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ÓÉÓÚ¼¤»îÌØÊâÊÂ¼ş£¬ÁéğÕ¹¬ÅÉ³ö¸ßÊÖÇ°À´½ø¹¥£¬Çë×¼±¸·ÀÓù")
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033æ¿€æ´»ç‰¹æ®Šäº‹ä»¶|cFFDDA0DDâ€»çµé¹«å®«åŠ«â€»")
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033ç”±äºæ¿€æ´»ç‰¹æ®Šäº‹ä»¶ï¼Œçµé¹«å®«æ´¾å‡ºé«˜æ‰‹å‰æ¥è¿›æ”»ï¼Œè¯·å‡†å¤‡é˜²å¾¡")
 		call CreateNUnitsAtLocFacingLocBJ(1,'ngh2',Player(6),Location(1800, -100),v7[4])
 		call GroupAddUnit(w7,bj_lastCreatedUnit)
 		call IssueTargetOrderById(bj_lastCreatedUnit, $D000F, udg_ZhengPaiWL )
@@ -4755,12 +4755,12 @@ function LingJiuGongJinGong takes nothing returns nothing
 endfunction
 
 /*
- * ÓÎÏ·Âß¼­´¥·¢Æ÷
+ * æ¸¸æˆé€»è¾‘è§¦å‘å™¨
  */
  
 function GameLogic_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
-	//Ñ¡ÔñÓ¢ĞÛ
+	//é€‰æ‹©è‹±é›„
 	set Jh=CreateTrigger()
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(0),true)
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(1),true)
@@ -4769,7 +4769,7 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterPlayerSelectionEventBJ(Jh,Player(4),true)
 	call TriggerAddCondition(Jh,Condition(function fx))
 	call TriggerAddAction(Jh,function SelectHero)
-	//²é¿´µ±Ç°¿É¼ÓÈëÃÅÅÉ
+	//æŸ¥çœ‹å½“å‰å¯åŠ å…¥é—¨æ´¾
 	set Lh=CreateTrigger()
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(0),true)
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(1),true)
@@ -4778,12 +4778,12 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterPlayerSelectionEventBJ(Lh,Player(4),true)
 	call TriggerAddCondition(Lh,Condition(function kx))
 	call TriggerAddAction(Lh,function MenPai)
-	// ¼ÓÈëÃÅÅÉ
+	// åŠ å…¥é—¨æ´¾
 	set Mh=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Mh,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Mh,Condition(function ox))
 	call TriggerAddAction(Mh,function JiaRuMenPai)
-	// ÉËº¦²âÊÔ
+	// ä¼¤å®³æµ‹è¯•
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(t,Condition(function IsCeShiShangHai))
@@ -4792,12 +4792,12 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterUnitEvent(t, gg_unit_N00I_0116, EVENT_UNIT_DAMAGED)
 	call TriggerAddCondition(t, Condition(function IsCalcShangHai))
 	call TriggerAddAction(t, function CalcShangHai)
-	// ×ÔÓÉÃÅÅÉ
+	// è‡ªç”±é—¨æ´¾
 	set Mh=CreateTrigger()
 	call TriggerRegisterLeaveRectSimple(Mh,udg_xuanmenpai)
 	call TriggerAddCondition(Mh,Condition(function WuMenPai_Condition))
 	call TriggerAddAction(Mh,function WuMenPai_Action)
-	// °´ESC²é¿´ÈËÎïÊôĞÔ
+	// æŒ‰ESCæŸ¥çœ‹äººç‰©å±æ€§
 	set Rh=CreateTrigger()
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(0))
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(1))
@@ -4805,17 +4805,17 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(3))
 	call TriggerRegisterPlayerEventEndCinematic(Rh,Player(4))
 	call TriggerAddAction(Rh,function RenWuShuXing)
-	// upÌáÉıÓÎÏ·ÄÑ¶È
+	// upæå‡æ¸¸æˆéš¾åº¦
 	set Sh=CreateTrigger()
 	call TriggerRegisterPlayerChatEvent(Sh,Player(0),"up",false)
 	call TriggerAddCondition(Sh,Condition(function GameNanDu_Condition))
 	call TriggerAddAction(Sh,function GameNanDu)
-	// Íæ¼ÒÓ¢ĞÛÕóÍö
+	// ç©å®¶è‹±é›„é˜µäº¡
 	set Th=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Th,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Th,Condition(function Ex))
 	call TriggerAddAction(Th,function PlayerDeath)
-	// Íæ¼ÒÓ¢ĞÛ¸´»î
+	// ç©å®¶è‹±é›„å¤æ´»
 	set Uh=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(Uh,udg_revivetimer[1])
 	call TriggerAddAction(Uh,function PlayerReviveA)
@@ -4831,11 +4831,11 @@ function GameLogic_Trigger takes nothing returns nothing
 	set Yh=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(Yh,udg_revivetimer[5])
 	call TriggerAddAction(Yh,function PlayerReviveE)
-	// Éú³ÉF9ĞÅÏ¢
+	// ç”ŸæˆF9ä¿¡æ¯
 	set Zh=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Zh,5)
 	call TriggerAddAction(Zh,function Qx)
-	// Íæ¼ÒÀë¿ªÓÎÏ·
+	// ç©å®¶ç¦»å¼€æ¸¸æˆ
 	set fi=CreateTrigger()
 	call TriggerRegisterPlayerEventLeave(fi,Player(0))
 	call TriggerRegisterPlayerEventLeave(fi,Player(1))
@@ -4843,97 +4843,97 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterPlayerEventLeave(fi,Player(3))
 	call TriggerRegisterPlayerEventLeave(fi,Player(4))
 	call TriggerAddAction(fi,function PlayerLeave)
-	// É±½ø¹¥¹Ö¼°Á·¹¦·¿¹Ö
+	// æ€è¿›æ”»æ€ªåŠç»ƒåŠŸæˆ¿æ€ª
 	set gi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(gi,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(gi,Condition(function ey))
 	call TriggerAddAction(gi,function KillGuai)
-	// »÷É±×îÖÕBOSSÓÎÏ·Ê¤Àû
+	// å‡»æ€æœ€ç»ˆBOSSæ¸¸æˆèƒœåˆ©
 	set hi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(hi,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(hi,Condition(function hy))
 	call TriggerAddAction(hi,function Victory)
-	// ÀÏ¼ÒÃğÁËÓÎÏ·Ê§°Ü
+	// è€å®¶ç­äº†æ¸¸æˆå¤±è´¥
 	set ii=CreateTrigger()
 	call TriggerRegisterUnitEvent(ii,udg_ZhengPaiWL,EVENT_UNIT_DEATH)
 	call TriggerAddAction(ii,function Lose)
-	// ¹ºÂòÀÏ¼ÒÎŞµĞ
+	// è´­ä¹°è€å®¶æ— æ•Œ
 	set ji=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ji,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ji,Condition(function BuyJiDiWuDi))
 	call TriggerAddAction(ji,function JiDiWuDi)
-	// Ê×´ÎÏÔÊ¾ÏµÍ³´°¿ÚĞÅÏ¢
+	// é¦–æ¬¡æ˜¾ç¤ºç³»ç»Ÿçª—å£ä¿¡æ¯
 	set ki=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(ki,10.)
 	call TriggerAddAction(ki,function SystemWindow)
-	// Ë¢ĞÂÏµÍ³´°¿ÚĞÅÏ¢
+	// åˆ·æ–°ç³»ç»Ÿçª—å£ä¿¡æ¯
 	set mi=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(mi,4.)
 	call TriggerAddAction(mi,function uuyy)
-	// ¼ÆËãÍæ¼Ò×î´óÉËº¦
+	// è®¡ç®—ç©å®¶æœ€å¤§ä¼¤å®³
 	set ni=CreateTrigger()
 	call YDWESyStemAnyUnitDamagedRegistTrigger(ni)
 	call TriggerAddCondition(ni,Condition(function wy))
 	call TriggerAddAction(ni,function SetMaxDamage)
-	// ¿ªÆôÊÔÍæÄ£Ê½
+	// å¼€å¯è¯•ç©æ¨¡å¼
 	set oi=CreateTrigger()
 	call TriggerRegisterPlayerChatEvent(oi,Player(0),"sw",true)
 	call TriggerAddCondition(oi,Condition(function BeforeAttack))
 	call TriggerAddAction(oi,function SetShiWan)
-	// ¹ºÂò³Ç·À
+	// è´­ä¹°åŸé˜²
 	set pi=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(pi,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(pi,Condition(function BuyChengFang))
 	call TriggerAddAction(pi,function ShengChengFang)
-	// ¹ºÂò¸ß¼¶³Ç·À
+	// è´­ä¹°é«˜çº§åŸé˜²
 	set ri=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ri,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ri,Condition(function BuyGaoChengFang))
 	call TriggerAddAction(ri,function ShengGaoChengFang)
-	// »ı·Ö»»ÎïÆ·
+	// ç§¯åˆ†æ¢ç‰©å“
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(si,Condition(function BuyKuanDong))
 	call TriggerAddAction(si,function KuanDongHua)
-	// ÉùÍû»»ÎïÆ·
+	// å£°æœ›æ¢ç‰©å“
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(si,Condition(function BuyKuanDong_1))
 	call TriggerAddAction(si,function KuanDongHua_1)
-	// FIXME Ê¹ÓÃÎäÑ§¾«Òª£¨Ä¿Ç°ÓĞBUG£©
+	// FIXME ä½¿ç”¨æ­¦å­¦ç²¾è¦ï¼ˆç›®å‰æœ‰BUGï¼‰
 	set si=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(si,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(si,Condition(function IsWuXueJingYao))
 	call TriggerAddAction(si,function WuXueJingYao)
 	
-	//½«µØÍ¼ÉÏ³õÊ¼ËùÓĞµ¥Î»¼ÓÈëµ¥Î»×é
+	//å°†åœ°å›¾ä¸Šåˆå§‹æ‰€æœ‰å•ä½åŠ å…¥å•ä½ç»„
 	set Vi=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(Vi,2.)
 	call TriggerAddAction(Vi,function cA)
-	//¹ÖÎïËÀºóÖØĞÂË¢¹Ö
+	//æ€ªç‰©æ­»åé‡æ–°åˆ·æ€ª
 	set Wi=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(Wi,Player(12),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(Wi,Player(15),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddAction(Wi,function EA)
-	//Ë¢½ø¹¥¹Ö
+	//åˆ·è¿›æ”»æ€ª
 	set Xi=CreateTrigger()
 	call TriggerAddCondition(Xi,Condition(function GA))
 	call TriggerAddAction(Xi,function HA)
-	//Ë¢ÕıÃæµÄ½ø¹¥¹Ö
+	//åˆ·æ­£é¢çš„è¿›æ”»æ€ª
 	set Yi=CreateTrigger()
 	call DisableTrigger(Yi)
 	call TriggerRegisterTimerEventPeriodic(Yi,3.)
 	call TriggerAddAction(Yi,function lA)
-	//Ë¢±³ÃæµÄ½ø¹¥¹Ö
+	//åˆ·èƒŒé¢çš„è¿›æ”»æ€ª
 	set Zi=CreateTrigger()
 	call DisableTrigger(Zi)
 	call TriggerRegisterTimerEventPeriodic(Zi,2.)
 	call TriggerAddAction(Zi,function KA)
-	// Ë¢ÃûÃÅ
+	// åˆ·åé—¨
 	set dj=CreateTrigger()
 	call TriggerAddCondition(dj,Condition(function MA))
 	call TriggerAddAction(dj,function NA)
-	// Ê±¼äµ½Ë¢¹Ö
+	// æ—¶é—´åˆ°åˆ·æ€ª
 	set ej=CreateTrigger()
 	call TriggerRegisterTimerExpireEvent(ej,A7[1])
 	call TriggerAddAction(ej,function PA)
@@ -4947,81 +4947,81 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerAddAction(hj,function VA)
 	set ij=CreateTrigger()
 	call TriggerAddAction(ij,function XA)
-	// Í£¹Ö
+	// åœæ€ª
 	set jj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(jj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(jj,Condition(function ZA))
 	call TriggerAddAction(jj,function ea)
-	// ½«ËÀÍöµ¥Î»´Óµ¥Î»×éÒÆ³ı
+	// å°†æ­»äº¡å•ä½ä»å•ä½ç»„ç§»é™¤
 	set mj=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(mj,Player(6),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(mj,Condition(function ja))
 	call TriggerAddAction(mj,function ka)
-	// Á·¹¦·¿Ë¢¹Ö
+	// ç»ƒåŠŸæˆ¿åˆ·æ€ª
 	set nj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(nj,6.)
 	call TriggerAddAction(nj,function qa)
-	// ½øÈëÁ·¹¦·¿
+	// è¿›å…¥ç»ƒåŠŸæˆ¿
 	set oj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(oj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(oj,Condition(function sa))
 	call TriggerAddAction(oj,function ua)
-	// ½øÈëÁ·¹¦·¿
+	// è¿›å…¥ç»ƒåŠŸæˆ¿
 	set pj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(pj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(pj,Condition(function wa))
 	call TriggerAddAction(pj,function xa)
-	// ½øÈëÁ·¹¦·¿
+	// è¿›å…¥ç»ƒåŠŸæˆ¿
 	set qj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(qj,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(qj,Condition(function za))
 	call TriggerAddAction(qj,function Aa)
-	// ÇĞ»»±³°ü
+	// åˆ‡æ¢èƒŒåŒ…
 	set rj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(rj,EVENT_PLAYER_UNIT_SPELL_CAST)
 	call TriggerAddCondition(rj,Condition(function Ba))
 	call TriggerAddAction(rj,function ba)
-	// ÄñµÄ··Âô¼¼ÄÜ
+	// é¸Ÿçš„è´©å–æŠ€èƒ½
 	set sj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(sj,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(sj,Condition(function ca))
 	call TriggerAddAction(sj,function Da)
-	// Çá¹¦ÏµÍ³
+	// è½»åŠŸç³»ç»Ÿ
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function Trig_ttConditions))
 	call TriggerAddAction(t,function Trig_ttActions)
-	// ÇĞ»»ÎïÆ·
+	// åˆ‡æ¢ç‰©å“
 	set tj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(tj,EVENT_PLAYER_UNIT_SPELL_CAST)
 	call TriggerAddCondition(tj,Condition(function IsQieHuanItem))
 	call TriggerAddAction(tj,function QieHuanItem)
 
-	// Ó¢ĞÛ´ïµ½Ä³µÈ¼¶
+	// è‹±é›„è¾¾åˆ°æŸç­‰çº§
 	set vj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(vj,EVENT_PLAYER_HERO_LEVEL)
 	call TriggerAddCondition(vj,Condition(function Ja))
 	call TriggerAddAction(vj,function HeroLevel)
-	// É±¹Ö»ØÑª
+	// æ€æ€ªå›è¡€
 	set wj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(wj,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(wj,Condition(function Ma))
 	call TriggerAddAction(wj,function KillGuaiJiaXie)
-	// Ã¿Ãë»ØÑª»ØÀ¶
+	// æ¯ç§’å›è¡€å›è“
 	set xj=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(xj,1.)
 	call TriggerAddAction(xj,function YiShuHuiXie)
-	// ¹¥»÷»Ø¸´£¨ÉËº¦»Ø¸´£©
+	// æ”»å‡»å›å¤ï¼ˆä¼¤å®³å›å¤ï¼‰
 	set yj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(yj,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(yj,Condition(function Ra))
 	call TriggerAddAction(yj,function Sa)
-	// ÉËº¦ÎüÊÕ
+	// ä¼¤å®³å¸æ”¶
 	set zj=CreateTrigger()
 	call YDWESyStemAnyUnitDamagedRegistTrigger(zj)
 	call TriggerAddCondition(zj,Condition(function Ua))
 	call TriggerAddAction(zj,function Va)
-	// É±¹Ö¼ÓÉùÍû
+	// æ€æ€ªåŠ å£°æœ›
 	set Aj=CreateTrigger()
 	call TriggerRegisterPlayerUnitEventSimple(Aj,Player(6),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerRegisterPlayerUnitEventSimple(Aj,Player(7),EVENT_PLAYER_UNIT_DEATH)
@@ -5031,16 +5031,16 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterPlayerUnitEventSimple(aj,Player(12),EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(aj,Condition(function dB))
 	call TriggerAddAction(aj,function eB)
-	// ÒÅÍüÎä¹¦
+	// é—å¿˜æ­¦åŠŸ
 	set Bj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Bj,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(Bj,Condition(function YiWangJiNeng))
 	call TriggerAddAction(Bj,function ForgetAbility)
-	// ÎªºÏ³ÉµÄÎïÆ·²¹ÊôĞÔ
+	// ä¸ºåˆæˆçš„ç‰©å“è¡¥å±æ€§
 	set t=CreateTrigger()
 	call YDWESyStemItemCombineRegistTrigger( t )
     call TriggerAddAction(t, function WuPinHeCheng)
-	// Ñ¡ÔñÒÅÍüµÄÎä¹¦
+	// é€‰æ‹©é—å¿˜çš„æ­¦åŠŸ
 	set bj=CreateTrigger()
 	call TriggerRegisterDialogEvent(bj,K7[1])
 	call TriggerRegisterDialogEvent(bj,K7[2])
@@ -5048,17 +5048,17 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterDialogEvent(bj,K7[4])
 	call TriggerRegisterDialogEvent(bj,K7[5])
 	call TriggerAddAction(bj,function jB)
-	// ´«ËÍÖÁÌÒ»¨µº
+	// ä¼ é€è‡³æ¡ƒèŠ±å²›
 	set Cj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Cj,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(Cj,Condition(function mB))
 	call TriggerAddAction(Cj,function nB)
-	// Ñ§Ï°Îä¹¦
+	// å­¦ä¹ æ­¦åŠŸ
 	set cj=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(cj,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(cj,Condition(function IsWuGongBook))
 	call TriggerAddAction(cj,function BookLearnWuGong)
-	// ³õÊ¼»¯ÄÚ¹¦¼Ó³É
+	// åˆå§‹åŒ–å†…åŠŸåŠ æˆ
 	set fk=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(fk,0.1)
 	call TriggerAddAction(fk,function NeiGongJiaChengS)
@@ -5125,27 +5125,27 @@ function GameLogic_Trigger takes nothing returns nothing
 	call YDWESyStemAnyUnitDamagedRegistTrigger( Bk )
 	call TriggerAddCondition(Bk,Condition(function IsUnitBoss))
 	call TriggerAddAction(Bk,function BossFangJiNeng)
-	// Ô¤Ô¼ÃûÃÅºÍÈ¡ÏûÔ¤Ô¼
+	// é¢„çº¦åé—¨å’Œå–æ¶ˆé¢„çº¦
 	set Gs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Gs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Gs,Condition(function qT))
 	call TriggerAddAction(Gs,function rT)
-	// ¹¥ÆÆ³ÇÃÅ
+	// æ”»ç ´åŸé—¨
 	set Ks=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ks,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Ks,Condition(function cT))
 	call TriggerAddAction(Ks,function DT)
-	// ±¬Õ¨
+	// çˆ†ç‚¸
 	set Ht=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ht,EVENT_PLAYER_UNIT_DEATH)
 	call TriggerAddCondition(Ht,Condition(function FT))
 	call TriggerAddAction(Ht,function IT)
-	// Á÷ĞÇ
+	// æµæ˜Ÿ
 	set It=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(It,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(It,Condition(function JT))
 	call TriggerAddAction(It,function KT)
-	// ±ù»º
+	// å†°ç¼“
 	set Jt=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Jt,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(Jt,Condition(function MT))
@@ -5154,105 +5154,105 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(t,Condition(function IsYiZhan))
 	call TriggerAddAction(t,function YiZhanChuanSong)
-	//³éÑªÊõ
+	//æŠ½è¡€æœ¯
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t,Condition(function ChouXie_Condition))
 	call TriggerAddAction(t,function ChouXie_Action)
-	// ³õÊ¼»¯°éÂÂÊôĞÔ
+	// åˆå§‹åŒ–ä¼´ä¾£å±æ€§
 	set uq=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(uq,.2)
 	call TriggerAddAction(uq,function LO)
-	// ½á³É°éÂÂ
+	// ç»“æˆä¼´ä¾£
 	set vq=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(vq,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(vq,Condition(function NO))
 	call TriggerAddAction(vq,function OO)
-	// ÕûÀíÎïÆ·
+	// æ•´ç†ç‰©å“
 	set xq=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(xq,400.)
 	call TriggerAddAction(xq,function TO)
 	
-	// ³Ô¾­Ñé·û
+	// åƒç»éªŒç¬¦
 	set kr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(kr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(kr,Condition(function oQ))
 	call TriggerAddAction(kr,function pQ)
-	// ¹ºÂòµÈ¼¶
+	// è´­ä¹°ç­‰çº§
 	set mr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(mr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(mr,Condition(function rQ))
 	call TriggerAddAction(mr,function sQ)
-	// ĞÂÊÖ´óÀñ°ü
+	// æ–°æ‰‹å¤§ç¤¼åŒ…
 	set nr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(nr,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(nr,Condition(function uQ))
 	call TriggerAddAction(nr,function vQ)
-	// ×°±¸´ò¿×
+	// è£…å¤‡æ‰“å­”
 	set pr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(pr,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(pr,Condition(function xQ))
 	call TriggerAddAction(pr,function yQ)
-	// ¼ÓÈë¸±Ö°
+	// åŠ å…¥å‰¯èŒ
 	set qr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(qr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(qr,Condition(function AQ))
 	call TriggerAddAction(qr,function aQ)
-	// ´«ËÍµ½ÖÓÄÏÉ½
+	// ä¼ é€åˆ°é’Ÿå—å±±
 	set tr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(tr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(tr,Condition(function GQ))
 	call TriggerAddAction(tr,function HQ)
-	// ´«ËÍµ½ÉÙÁÖËÂºóÉ½£¨25¼¶£©
+	// ä¼ é€åˆ°å°‘æ—å¯ºåå±±ï¼ˆ25çº§ï¼‰
 	set ur=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ur,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ur,Condition(function lQ))
 	call TriggerAddAction(ur,function JQ)
-	// ´«ËÍµ½ÈûÍâ
+	// ä¼ é€åˆ°å¡å¤–
 	set vr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(vr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(vr,Condition(function LQ))
 	call TriggerAddAction(vr,function MQ)
-	// ´«ËÍµ½¹âÃ÷¶¥
+	// ä¼ é€åˆ°å…‰æ˜é¡¶
 	set wr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(wr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(wr,Condition(function OQ))
 	call TriggerAddAction(wr,function PQ)
-	// ´«ËÍµ½ÉÙÁÖËÂºóÉ½£¨70¼¶£©
+	// ä¼ é€åˆ°å°‘æ—å¯ºåå±±ï¼ˆ70çº§ï¼‰
 	set xr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(xr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(xr,Condition(function RQ))
 	call TriggerAddAction(xr,function SQ)
-	// ´«ËÍµ½±ß½®
+	// ä¼ é€åˆ°è¾¹ç–†
 	set yr=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(yr,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(yr,Condition(function UQ))
 	call TriggerAddAction(yr,function VQ)
-	// Ñ§Ï°ÃÅÅÉÄÚ¹¦
+	// å­¦ä¹ é—¨æ´¾å†…åŠŸ
 	set br=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(br,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(br,Condition(function pR))
 	call TriggerAddAction(br,function qR)
-	// Ñ§Ï°Ä½ÈİÅÉÄÚ¹¦
+	// å­¦ä¹ æ…•å®¹æ´¾å†…åŠŸ
 	set br=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(br,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(br,Condition(function IsMuRongNeiGong))
 	call TriggerAddAction(br,function MuRongNeiGong)
 	
-	// ³õÊ¼»¯¹Å¶­¼Û¸ñÇø¼ä
+	// åˆå§‹åŒ–å¤è‘£ä»·æ ¼åŒºé—´
 	set rs=CreateTrigger()
 	call TriggerRegisterTimerEventSingle(rs,.5)
 	call TriggerAddAction(rs,function s5)
-	// ¹Å¶­¼Û¸ñ±ä¶¯
+	// å¤è‘£ä»·æ ¼å˜åŠ¨
 	set ss=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(ss,200.)
 	call TriggerAddAction(ss,function u5)
-	// ²éÑ¯¹Å¶­¼Û¸ñ
+	// æŸ¥è¯¢å¤è‘£ä»·æ ¼
 	set ts=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(ts,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(ts,Condition(function w5))
 	call TriggerAddAction(ts,function x5)
-	// Âô¹Å¶­
+	// å–å¤è‘£
 	set us=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(us,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(us,Condition(function z5))
@@ -5261,24 +5261,24 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(vs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(vs,Condition(function B5))
 	call TriggerAddAction(vs,function b5)
-	// ÊÕ¼¯¹Å¶­
+	// æ”¶é›†å¤è‘£
 	set vs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(vs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(vs,Condition(function CollectGuDong_Conditions))
 	call TriggerAddAction(vs,function CollectGuDong_Actions)
-	// ½øÈë½£ÒâÏµÍ³
+	// è¿›å…¥å‰‘æ„ç³»ç»Ÿ
 	set ws=CreateTrigger()
 	call TriggerAddRect(ws,Sg)
 	call TriggerAddCondition(ws,Condition(function c5))
 	call TriggerAddAction(ws,function D5)
-	// ºÏ³ÉÎïÆ·
+	// åˆæˆç‰©å“
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )
 	call TriggerAddCondition(t, Condition(function HeCheng_Conditions))
 	call TriggerAddAction(t, function HeCheng_Actions)
 	
 	
-	// ´ïµ½µÚ¼¸²ãĞŞÎª
+	// è¾¾åˆ°ç¬¬å‡ å±‚ä¿®ä¸º
 	set xs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(xs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(xs,Condition(function F5))
@@ -5299,12 +5299,12 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(as,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(as,Condition(function Q5))
 	call TriggerAddAction(as,function R5)
-	// ÁìÎò½£Òâ
+	// é¢†æ‚Ÿå‰‘æ„
 	set Bs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Bs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(Bs,Condition(function LingWuJY_Conditions))
 	call TriggerAddAction(Bs,function LingWuJY)
-	// Ñ¡Ôñ×ª»¯½£Òâ
+	// é€‰æ‹©è½¬åŒ–å‰‘æ„
 	set Cs=CreateTrigger()
 	call TriggerRegisterDialogEvent(Cs,v8[1])
 	call TriggerRegisterDialogEvent(Cs,v8[2])
@@ -5313,17 +5313,17 @@ function GameLogic_Trigger takes nothing returns nothing
 	call TriggerRegisterDialogEvent(Cs,v8[5])
 	call TriggerAddCondition(Cs,Condition(function ZhuanHuaJY_Conditions))
 	call TriggerAddAction(Cs,function ZhuanHuaJY)
-	// Âò»ÆÖ½
+	// ä¹°é»„çº¸
 	set cs=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(cs,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(cs,Condition(function MaiHuangZhi_Conditions))
 	call TriggerAddAction(cs,function MaiHuangZhi)
-	// ÉÕ»ÆÖ½
+	// çƒ§é»„çº¸
 	set Ds=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Ds,EVENT_PLAYER_UNIT_USE_ITEM)
 	call TriggerAddCondition(Ds,Condition(function IsHuangZhi))
 	call TriggerAddAction(Ds,function ShaoHuangZhi)
-	// Ìøµ½½á°İĞÖµÜ/·òÆŞ´¦
+	// è·³åˆ°ç»“æ‹œå…„å¼Ÿ/å¤«å¦»å¤„
 	set Es=CreateTrigger()
 	call TriggerRegisterPlayerChatEvent(Es,Player(0),"~",true)
 	call TriggerRegisterPlayerChatEvent(Es,Player(1),"~",true)

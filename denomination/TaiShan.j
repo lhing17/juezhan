@@ -1,24 +1,24 @@
 /*
- * @version£º¾öÕ½½­ºş1.53
+ * @versionï¼šå†³æˆ˜æ±Ÿæ¹–1.53
  * @author: zei_kale
  * @date:2017.7.12
  *
- * Ì©É½ÃÅÅÉÎä¹¦£ºÆßĞÇÂä³¤¿ÕA08A¡¢á·×ÚÈçºÎA08B¡¢Ì©É½Ê®°ËÅÌA08E¡¢Îå´ó·ò½£A08G¡¢¿ì»îÈı½£A08H
+ * æ³°å±±é—¨æ´¾æ­¦åŠŸï¼šä¸ƒæ˜Ÿè½é•¿ç©ºA08Aã€å²±å®—å¦‚ä½•A08Bã€æ³°å±±åå…«ç›˜A08Eã€äº”å¤§å¤«å‰‘A08Gã€å¿«æ´»ä¸‰å‰‘A08H
  */
 
 
 /*
- * ÆßĞÇÂä³¤¿Õ A08A ÊÍ·ÅÆß´ÎĞÇÂä£¬¶Ô·¶Î§ÄÚËæ»úµĞÈËÔì³ÉÉËº¦£¨ÒÔ¼°ÌØĞ§£©ÉËº¦µİÔö20%
- * Ö÷¶¯Îä¹¦
- * ÉËº¦ÏµÊı£ºw1=20, w2=20
- * ÉËº¦´îÅä£º
- *		+Ç¬À¤´óÅ²ÒÆ A07W ÉËº¦+60%
- *		+¿û»¨±¦µä A07T ÉËº¦+100%
- *		+ÎüĞÇ´ó·¨ A07R ¼¸ÂÊ·âÑ¨»ò»ìÂÒ
- *		+¶·×ªĞÇÒÆ A07Q Ëæ»ú·¶Î§¼õ°ë
- *		+ÇÜÁú¿Øº× A03V Ëæ»ú·¶Î§¼õ°ë
+ * ä¸ƒæ˜Ÿè½é•¿ç©º A08A é‡Šæ”¾ä¸ƒæ¬¡æ˜Ÿè½ï¼Œå¯¹èŒƒå›´å†…éšæœºæ•Œäººé€ æˆä¼¤å®³ï¼ˆä»¥åŠç‰¹æ•ˆï¼‰ä¼¤å®³é€’å¢20%
+ * ä¸»åŠ¨æ­¦åŠŸ
+ * ä¼¤å®³ç³»æ•°ï¼šw1=20, w2=20
+ * ä¼¤å®³æ­é…ï¼š
+ *		+ä¹¾å¤å¤§æŒªç§» A07W ä¼¤å®³+60%
+ *		+è‘µèŠ±å®å…¸ A07T ä¼¤å®³+100%
+ *		+å¸æ˜Ÿå¤§æ³• A07R å‡ ç‡å°ç©´æˆ–æ··ä¹±
+ *		+æ–—è½¬æ˜Ÿç§» A07Q éšæœºèŒƒå›´å‡åŠ
+ *		+æ“’é¾™æ§é¹¤ A03V éšæœºèŒƒå›´å‡åŠ
  */
- // ´¥·¢Æ÷Ìõ¼ş
+ // è§¦å‘å™¨æ¡ä»¶
  function IsQiXingLuo takes nothing returns boolean
 	return GetSpellAbilityId()=='A08A'
  endfunction
@@ -28,18 +28,18 @@
  endfunction
  
  /*
-  * ´¥·¢Æ÷¶¯×÷
+  * è§¦å‘å™¨åŠ¨ä½œ
   *
-  * ¿ÉÌæ»»²ÎÊı£º
-  * ·¶Î§ 800
-  * ÉıÖØËÙ¶È 200
+  * å¯æ›¿æ¢å‚æ•°ï¼š
+  * èŒƒå›´ 800
+  * å‡é‡é€Ÿåº¦ 200
   * w1=20 w2=20
-  * ÌØĞ§×Ö·û´® Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
+  * ç‰¹æ•ˆå­—ç¬¦ä¸² Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
   * 
-  * ¿ÉÑ¡´îÅä£º
-  * Ôö¼ÓÉËº¦ Ç¬À¤´óÅ²ÒÆ+60% ¿û»¨±¦µä+100% 
-  * Ôö¼ÓBUFF ÎüĞÇ´ó·¨+·âÑ¨»ò»ìÂÒ
-  * ¼õĞ¡Ëæ»úµÄ·¶Î§ ¶·×ªA07Q+·¶Î§¼õ°ë ÇÜÁú¿Øº×A03V+·¶Î§¼õ°ë
+  * å¯é€‰æ­é…ï¼š
+  * å¢åŠ ä¼¤å®³ ä¹¾å¤å¤§æŒªç§»+60% è‘µèŠ±å®å…¸+100% 
+  * å¢åŠ BUFF å¸æ˜Ÿå¤§æ³•+å°ç©´æˆ–æ··ä¹±
+  * å‡å°éšæœºçš„èŒƒå›´ æ–—è½¬A07Q+èŒƒå›´å‡åŠ æ“’é¾™æ§é¹¤A03V+èŒƒå›´å‡åŠ
   */
  function QiXingLuoChangKong takes nothing returns nothing
 	local group g = CreateGroup()
@@ -48,30 +48,30 @@
 	local unit u = GetTriggerUnit()
 	local location loc = GetUnitLoc(u)
 	local unit ut = null
-	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07W', 0.6) + DamageCoefficientByAbility(GetTriggerUnit(),'A07T', 1) // Ç¬À¤´óÅ²ÒÆ+60% ¿û»¨±¦µä+100%
+	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07W', 0.6) + DamageCoefficientByAbility(GetTriggerUnit(),'A07T', 1) // ä¹¾å¤å¤§æŒªç§»+60% è‘µèŠ±å®å…¸+100%
 	local real range = 800
-	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07Q')>=1) then // +¶·×ªĞÇÒÆ
+	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07Q')>=1) then // +æ–—è½¬æ˜Ÿç§»
 		set range = range / 2
 	endif
-	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A03V')>=1) then // +ÇÜÁú¿Øº×
+	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A03V')>=1) then // +æ“’é¾™æ§é¹¤
 		set range = range / 2
 	endif
-	call WuGongShengChong(GetTriggerUnit(), 'A08A', 200) //Îä¹¦ÉıÖØ
+	call WuGongShengChong(GetTriggerUnit(), 'A08A', 200) //æ­¦åŠŸå‡é‡
 	call GroupEnumUnitsInRangeOfLoc(g, loc, range, function QiXingLuo_Condition)
 	loop
 		exitwhen i >= 7
 		set ut = GroupPickRandomUnit(g)
-		//Ìí¼ÓÌØĞ§
+		//æ·»åŠ ç‰¹æ•ˆ
 		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
 		call PolledWait(0.2)
-		//u¶ÔutÔì³ÉÉËº¦
+		//uå¯¹uté€ æˆä¼¤å®³
 		set shanghai=ShangHaiGongShi(u,ut,20*(0.8+i*0.2),20*(0.8+i*0.2),shxishu,'A08A')
 		call WuGongShangHai(u,ut,shanghai)
-		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +ÎüĞÇ´ó·¨
+		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +å¸æ˜Ÿå¤§æ³•
 			if (GetRandomInt(0, 100)<=50) then
-				call WanBuff(u, ut, 4) //»ìÂÒ
+				call WanBuff(u, ut, 4) //æ··ä¹±
 			else
-				call WanBuff(u, ut, 11) //·âÑ¨
+				call WanBuff(u, ut, 11) //å°ç©´
 			endif
 		endif
 		set i = i + 1
@@ -84,61 +84,61 @@
  endfunction
 
 /*
- * á·×ÚÈçºÎ A08B Ê©·ÅºóÊıÃëÄÚ´ó·ùÌáÉı±©»÷±¶Êı£¨50*Îä¹¦ÖØÊı£©
- * Ö÷¶¯Îä¹¦
- * ÉËº¦´îÅä£º
- *		+¿û»¨±¦µä A07T ±©»÷ÉËº¦¶îÍâ+20%
- *		+Ë«ÊÖ»¥²« A07U ±©»÷ÉËº¦¶îÍâ+20%
- *		+Ğ¡ÎŞÏà¹¦ A083 ¶ÔËùÓĞÓÑ·½Ó¢ĞÛÊ©·Åá·×ÚÈçºÎ
+ * å²±å®—å¦‚ä½• A08B æ–½æ”¾åæ•°ç§’å†…å¤§å¹…æå‡æš´å‡»å€æ•°ï¼ˆ50*æ­¦åŠŸé‡æ•°ï¼‰
+ * ä¸»åŠ¨æ­¦åŠŸ
+ * ä¼¤å®³æ­é…ï¼š
+ *		+è‘µèŠ±å®å…¸ A07T æš´å‡»ä¼¤å®³é¢å¤–+20%
+ *		+åŒæ‰‹äº’æ A07U æš´å‡»ä¼¤å®³é¢å¤–+20%
+ *		+å°æ— ç›¸åŠŸ A083 å¯¹æ‰€æœ‰å‹æ–¹è‹±é›„æ–½æ”¾å²±å®—å¦‚ä½•
  */
- // ´¥·¢Æ÷Ìõ¼ş
+ // è§¦å‘å™¨æ¡ä»¶
 function IsDaiZongRuHe takes nothing returns boolean
 	return GetSpellAbilityId()=='A08B'
 endfunction
 
-// ÒÆ³ıá·×ÚÈçºÎµÄBUFF
+// ç§»é™¤å²±å®—å¦‚ä½•çš„BUFF
 function removeDaiZongBuff takes nothing returns nothing
 	local timer t = GetExpiredTimer()
 	local unit u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
 	local real extraHit = LoadReal(YDHT, GetHandleId(t), 1)
 	local integer i = LoadInteger(YDHT, GetHandleId(t), 2)
 	// call BJDebugMsg("t:"+I2S(GetHandleId(t))+", i:"+I2S(i))
-	//¼õÉÙ±©»÷±¶Êı
+	//å‡å°‘æš´å‡»å€æ•°
 	set udg_baojishanghai[i] = udg_baojishanghai[i] - extraHit
-	//Í£Ö¹¼ÆÊ±Æ÷
+	//åœæ­¢è®¡æ—¶å™¨
 	call clearTimer(t)
 	set t = null
 endfunction
 
-// ÏòÄ¿±êÊ©·Åá·×ÚÈçºÎ
+// å‘ç›®æ ‡æ–½æ”¾å²±å®—å¦‚ä½•
 function issueTargetDaiZong takes unit u, integer i, timer t, real extraHit returns nothing
-	// Âí¼×¶ÔÓ¢ĞÛÊ©·ÅÀ×»÷
+	// é©¬ç”²å¯¹è‹±é›„æ–½æ”¾é›·å‡»
 	call maJiaUseAbilityAtEnemysLoc(u, 'e01F',  'A08C', $D0097, u, 3)
-	// ÁíÒ»Âí¼×¶ÔÓ¢ĞÛÊ©·ÅÔöÒæ¼¼ÄÜ£¬Ó¢ĞÛ»ñµÃBUFF
+	// å¦ä¸€é©¬ç”²å¯¹è‹±é›„æ–½æ”¾å¢ç›ŠæŠ€èƒ½ï¼Œè‹±é›„è·å¾—BUFF
 	call maJiaUseAbilityAtEnemysLoc(u, 'e000',  'A08D', $D0062, u, 3)
-	// Ó¢ĞÛ±©»÷±¶ÊıÔö¼Ó
+	// è‹±é›„æš´å‡»å€æ•°å¢åŠ 
 	set udg_baojishanghai[i] = udg_baojishanghai[i] + extraHit
-	// 1Ãë´¥·¢1´ÎµÄ¶¨Ê±Æ÷£¬Èç¹ûÓ¢ĞÛÊ§È¥BUFF£¬ÔòÊ§È¥±©»÷±¶Êı
+	// 1ç§’è§¦å‘1æ¬¡çš„å®šæ—¶å™¨ï¼Œå¦‚æœè‹±é›„å¤±å»BUFFï¼Œåˆ™å¤±å»æš´å‡»å€æ•°
 	call SaveUnitHandle(YDHT, GetHandleId(t), 0, u)
 	call SaveReal(YDHT, GetHandleId(t), 1, extraHit)
 	call SaveInteger(YDHT, GetHandleId(t), 2, i)
 	call TimerStart(t, 10, false, function removeDaiZongBuff)
 endfunction
  /*
-  * ´¥·¢Æ÷¶¯×÷
+  * è§¦å‘å™¨åŠ¨ä½œ
   *
-  * ¿ÉÌæ»»²ÎÊı£º
-  * ÉıÖØËÙ¶È 100
+  * å¯æ›¿æ¢å‚æ•°ï¼š
+  * å‡é‡é€Ÿåº¦ 100
   * 
-  * ¿ÉÑ¡´îÅä£º
-  * Ôö¼ÓÉËº¦ ¿û»¨±¦µä A07T Ë«ÊÖ»¥²« A07U Ã¿¼¶±©»÷ÉËº¦¶îÍâ+20% 
-  * ÈºÌåBUFF Ğ¡ÎŞÏà¹¦ A083 ¶ÔËùÓĞÓÑ·½Ó¢ĞÛÊ©·Åá·×ÚÈçºÎ
+  * å¯é€‰æ­é…ï¼š
+  * å¢åŠ ä¼¤å®³ è‘µèŠ±å®å…¸ A07T åŒæ‰‹äº’æ A07U æ¯çº§æš´å‡»ä¼¤å®³é¢å¤–+20% 
+  * ç¾¤ä½“BUFF å°æ— ç›¸åŠŸ A083 å¯¹æ‰€æœ‰å‹æ–¹è‹±é›„æ–½æ”¾å²±å®—å¦‚ä½•
   */
 function DaiZongRuHe takes nothing returns nothing
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
 	local real extraHit = (0.5 + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07T') + 0.2 * GetUnitAbilityLevel(GetTriggerUnit(), 'A07U')) * GetUnitAbilityLevel(GetTriggerUnit(), 'A08B')
-	call WuGongShengChong(GetTriggerUnit(), 'A08B', 100) //Îä¹¦ÉıÖØ
-	if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then // Ğ¡ÎŞÏà¹¦
+	call WuGongShengChong(GetTriggerUnit(), 'A08B', 100) //æ­¦åŠŸå‡é‡
+	if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then // å°æ— ç›¸åŠŸ
 		call issueTargetDaiZong(udg_hero[1], 1, CreateTimer(), extraHit)
 		call issueTargetDaiZong(udg_hero[2], 2, CreateTimer(), extraHit)
 		call issueTargetDaiZong(udg_hero[3], 3, CreateTimer(), extraHit)
@@ -151,22 +151,22 @@ endfunction
 
 
 /*
- * Ì©É½Ê®°ËÅÌ A08E ¹¥»÷ÓĞĞ¡¸ÅÂÊÔÚ¶ÌÊ±¼äÄÚ´ó·ùÔö¼Ó¹¥ËÙ ²âÊÔÍ¨¹ı
- * ±»¶¯Îä¹¦
- * Îä¹¦´îÅä£º
- *		Îä¹¦µÈ¼¶£º´¥·¢¸ÅÂÊ
- *		+¿û»¨±¦µä A07T ¿ñ±©³ÖĞøÊ±¼ä+1s
- *		+ÎüĞÇ´ó·¨ A07R ¿ñ±©³ÖĞøÊ±¼ä+1s
- *		+Ç¬À¤´óÅ²ÒÆ A07W ¿ñ±©³ÖĞøÊ±¼ä+1s
- *		+ÉÏÃæÈıÖÖÎä¹¦ ¹¥ËÙÔö·ù·­±¶
- *		+Ğ¡ÎŞÏà¹¦ A083 ËùÓĞÓÑ·½Ó¢ĞÛ´¥·¢Ì©É½Ê®°ËÅÌ
+ * æ³°å±±åå…«ç›˜ A08E æ”»å‡»æœ‰å°æ¦‚ç‡åœ¨çŸ­æ—¶é—´å†…å¤§å¹…å¢åŠ æ”»é€Ÿ æµ‹è¯•é€šè¿‡
+ * è¢«åŠ¨æ­¦åŠŸ
+ * æ­¦åŠŸæ­é…ï¼š
+ *		æ­¦åŠŸç­‰çº§ï¼šè§¦å‘æ¦‚ç‡
+ *		+è‘µèŠ±å®å…¸ A07T ç‹‚æš´æŒç»­æ—¶é—´+1s
+ *		+å¸æ˜Ÿå¤§æ³• A07R ç‹‚æš´æŒç»­æ—¶é—´+1s
+ *		+ä¹¾å¤å¤§æŒªç§» A07W ç‹‚æš´æŒç»­æ—¶é—´+1s
+ *		+ä¸Šé¢ä¸‰ç§æ­¦åŠŸ æ”»é€Ÿå¢å¹…ç¿»å€
+ *		+å°æ— ç›¸åŠŸ A083 æ‰€æœ‰å‹æ–¹è‹±é›„è§¦å‘æ³°å±±åå…«ç›˜
  */
-// ´¥·¢Æ÷Ìõ¼ş
+// è§¦å‘å™¨æ¡ä»¶
 function IsShiBaPan takes nothing returns boolean
 	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08E')
 endfunction
 
-// ´¥·¢Æ÷¶¯×÷
+// è§¦å‘å™¨åŠ¨ä½œ
 function ShiBaPan takes nothing returns nothing
 	local unit u = GetAttacker()
 	local unit ut = GetTriggerUnit()
@@ -189,16 +189,16 @@ function ShiBaPan takes nothing returns nothing
 endfunction
 
 /*
- * Îå´ó·ò½£ A08G
- * ±»¶¯Îä¹¦
- * ÉËº¦ÏµÊı£ºw1=20, w2=20
- * ÉËº¦´îÅä£º
- *		+»¯¹¦´ó·¨ A07P ÉËº¦+100%
- *		+¿û»¨±¦µä A07T ÉËº¦+100%
- *		+ÒĞÌì½£ I00B ÉËº¦+300%
- *		+Ë«ÊÖ»¥²« A07U Îå´ó·ò½£·Ö±ğ¼¸ÂÊÔì³É»ìÂÒ¡¢»èÃÔ¡¢Á÷Ñª¡¢ÖĞ¶¾¡¢ÆÆ·À
+ * äº”å¤§å¤«å‰‘ A08G
+ * è¢«åŠ¨æ­¦åŠŸ
+ * ä¼¤å®³ç³»æ•°ï¼šw1=20, w2=20
+ * ä¼¤å®³æ­é…ï¼š
+ *		+åŒ–åŠŸå¤§æ³• A07P ä¼¤å®³+100%
+ *		+è‘µèŠ±å®å…¸ A07T ä¼¤å®³+100%
+ *		+å€šå¤©å‰‘ I00B ä¼¤å®³+300%
+ *		+åŒæ‰‹äº’æ A07U äº”å¤§å¤«å‰‘åˆ†åˆ«å‡ ç‡é€ æˆæ··ä¹±ã€æ˜è¿·ã€æµè¡€ã€ä¸­æ¯’ã€ç ´é˜²
  */
-// ´¥·¢Æ÷Ìõ¼ş
+// è§¦å‘å™¨æ¡ä»¶
 function IsWuDaFu takes nothing returns boolean
 	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08G')
 endfunction
@@ -210,11 +210,11 @@ endfunction
 function WuDaFuJian_Action takes nothing returns nothing
 	local unit u = GetAttacker()
 	local unit ut = GetEnumUnit()
-	local string modelName1 = "Abilities\\Spells\\Other\\Tornado\\TornadoElementalSmall.mdl" //·ç
-	local string modelName2 = "Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl" //»ğ
-	local string modelName3 = "Abilities\\Spells\\Other\\Monsoon\\MonsoonBoltTarget.mdl" //À×
-	local string modelName4 = "Abilities\\Spells\\NightElf\\EntanglingRoots\\EntanglingRootsTarget.mdl" //Ä¾
-	local string modelName5 = "Abilities\\Spells\\Human\\Blizzard\\BlizzardTarget.mdl" //±ù
+	local string modelName1 = "Abilities\\Spells\\Other\\Tornado\\TornadoElementalSmall.mdl" //é£
+	local string modelName2 = "Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl" //ç«
+	local string modelName3 = "Abilities\\Spells\\Other\\Monsoon\\MonsoonBoltTarget.mdl" //é›·
+	local string modelName4 = "Abilities\\Spells\\NightElf\\EntanglingRoots\\EntanglingRootsTarget.mdl" //æœ¨
+	local string modelName5 = "Abilities\\Spells\\Human\\Blizzard\\BlizzardTarget.mdl" //å†°
 	local real shxishu = 1 + DamageCoefficientByAbility(u, 'A07P', 1.0) + DamageCoefficientByAbility(u, 'A07T', 1.0) + DamageCoefficientByItem(u, 'I00B', 3.0)
 	local integer i = GetRandomInt(0, 100)
 	if (i <= 20) then
@@ -248,49 +248,49 @@ function WuDaFuJian_Action takes nothing returns nothing
 	set ut = null
 endfunction
 
-// ´¥·¢Æ÷¶¯×÷
+// è§¦å‘å™¨åŠ¨ä½œ
 function WuDaFuJian takes nothing returns nothing
 	call PassiveWuGongAction(GetAttacker(), GetTriggerUnit(), 15, 700, Condition(function WuDaFuJianDamageFilter), function WuDaFuJian_Action, 'A08G', 500)
 endfunction
 
 /*
- * ¿ì»îÈı½£ A08H
- * ±»¶¯Îä¹¦
- * ÉËº¦ÏµÊı£ºw1=1.6, w2=1.6
- * ÉËº¦´îÅä£º
- *		+ÎüĞÇ´ó·¨ A07R ÉËº¦+100%
- *		+¿û»¨±¦µä A07T ÉËº¦·¶Î§+200
- *		+Ë«ÊÖ»¥²« A07U ½£ÊıÁ¿+2
- *		+Ğ¡ÎŞÏà¹¦ A083 ½£ÊıÁ¿+6
- *		+ÇÜÁú¿Øº× A03V ¼Ó¿ìÉıÖØËÙ¶È
+ * å¿«æ´»ä¸‰å‰‘ A08H
+ * è¢«åŠ¨æ­¦åŠŸ
+ * ä¼¤å®³ç³»æ•°ï¼šw1=1.6, w2=1.6
+ * ä¼¤å®³æ­é…ï¼š
+ *		+å¸æ˜Ÿå¤§æ³• A07R ä¼¤å®³+100%
+ *		+è‘µèŠ±å®å…¸ A07T ä¼¤å®³èŒƒå›´+200
+ *		+åŒæ‰‹äº’æ A07U å‰‘æ•°é‡+2
+ *		+å°æ— ç›¸åŠŸ A083 å‰‘æ•°é‡+6
+ *		+æ“’é¾™æ§é¹¤ A03V åŠ å¿«å‡é‡é€Ÿåº¦
  */
-// ´¥·¢Æ÷Ìõ¼ş
+// è§¦å‘å™¨æ¡ä»¶
 function IsKuaiHuoSan takes nothing returns boolean
 	return PassiveWuGongCondition(GetAttacker(), GetTriggerUnit(), 'A08H')
 endfunction
 
-// ´¥·¢Æ÷¶¯×÷
+// è§¦å‘å™¨åŠ¨ä½œ
 function KuaiHuoSanJian takes nothing returns nothing
-	local unit caster = GetAttacker() //·¢ÉäÕß
-	local real angle = 270 //½Ç¶È
+	local unit caster = GetAttacker() //å‘å°„è€…
+	local real angle = 270 //è§’åº¦
 	local unit missile = null
-	local real originspeed = 500 //³õÊ¼ËÙ¶È
-	local real maxspeed = 800 //×î´óËÙ¶È
-	local real accel = 56 //¼ÓËÙ¶È
-	local real distance = 2000 //¾àÀë
-	local real arc = 0 //»¡¶È
-	local real range = 300 //ÉËº¦·¶Î§
-	local real damage = 0 //ÉËº¦
-	local location loc = GetUnitLoc(caster) //Ä¿±êµã
-	local unit target = null //Ä¿±êµ¥Î»
-	local real height = 50 //³õÊ¼¸ß¶È
-	local real hp = 400 //µ¯Ä»ÄÍ¾Ã¶È
-	local string Effect = "war3mapImported\\dk.mdl" //µ¯Ä»ÌØĞ§
-	local boolean gravity = false //ÊÇ·ñ¿¼ÂÇÖØÁ¦
+	local real originspeed = 500 //åˆå§‹é€Ÿåº¦
+	local real maxspeed = 800 //æœ€å¤§é€Ÿåº¦
+	local real accel = 56 //åŠ é€Ÿåº¦
+	local real distance = 2000 //è·ç¦»
+	local real arc = 0 //å¼§åº¦
+	local real range = 300 //ä¼¤å®³èŒƒå›´
+	local real damage = 0 //ä¼¤å®³
+	local location loc = GetUnitLoc(caster) //ç›®æ ‡ç‚¹
+	local unit target = null //ç›®æ ‡å•ä½
+	local real height = 50 //åˆå§‹é«˜åº¦
+	local real hp = 400 //å¼¹å¹•è€ä¹…åº¦
+	local string Effect = "war3mapImported\\dk.mdl" //å¼¹å¹•ç‰¹æ•ˆ
+	local boolean gravity = false //æ˜¯å¦è€ƒè™‘é‡åŠ›
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(caster))
 	local integer j = 0
 	local integer jmax = 3
-	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07R', 1) // ÉËº¦ÏµÊı
+	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07R', 1) // ä¼¤å®³ç³»æ•°
 	if (GetUnitAbilityLevel(caster, 'A07T') >= 1) then
 		set range = range + 200
 	endif
@@ -306,13 +306,13 @@ function KuaiHuoSanJian takes nothing returns nothing
 		loop
 			exitwhen j >= jmax
 			set angle = GetUnitFacing(caster) + 360 / jmax * j
-			set missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //µ¯Ä»µ¥Î»
+			set missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //å¼¹å¹•å•ä½
 			call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 			set j = j + 1
 		endloop
 		//call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 	endif
-	// ÅÅĞ¹
+	// æ’æ³„
 	call RemoveLocation(loc)
 	set caster = null
 	set missile = null
@@ -320,39 +320,39 @@ function KuaiHuoSanJian takes nothing returns nothing
 	set loc = null
 endfunction
 /*
- * Ì©É½´¥·¢Æ÷×Üº¯Êı
+ * æ³°å±±è§¦å‘å™¨æ€»å‡½æ•°
  */
 function TaiShan_Trigger takes nothing returns nothing
 	/*
-	 * ÆßĞÇÂä³¤¿Õ´¥·¢Æ÷
+	 * ä¸ƒæ˜Ÿè½é•¿ç©ºè§¦å‘å™¨
 	 */
 	local trigger t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function IsQiXingLuo))
     call TriggerAddAction(t,function QiXingLuoChangKong)
 	/*
-	 * á·×ÚÈçºÎ´¥·¢Æ÷
+	 * å²±å®—å¦‚ä½•è§¦å‘å™¨
 	 */
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t, Condition(function IsDaiZongRuHe))
 	call TriggerAddAction(t, function DaiZongRuHe)
 	/*
-	 * Ì©É½Ê®°ËÅÌ´¥·¢Æ÷
+	 * æ³°å±±åå…«ç›˜è§¦å‘å™¨
 	 */
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t, Condition(function IsShiBaPan))
 	call TriggerAddAction(t, function ShiBaPan)
 	/*
-	 * Îå´ó·ò½£´¥·¢Æ÷
+	 * äº”å¤§å¤«å‰‘è§¦å‘å™¨
 	 */
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
 	call TriggerAddCondition(t, Condition(function IsWuDaFu))
 	call TriggerAddAction(t, function WuDaFuJian)
 	/*
-	 * ¿ì»îÈı½£´¥·¢Æ÷
+	 * å¿«æ´»ä¸‰å‰‘è§¦å‘å™¨
 	 */
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)

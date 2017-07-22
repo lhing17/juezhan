@@ -55,22 +55,22 @@ globals
     private real map_min_Y 
 endglobals
 
-// ¼ÆËãÁ½µã¼äµÄ¾àÀë
+// è®¡ç®—ä¸¤ç‚¹é—´çš„è·ç¦»
 private function DistanceBetweenXY takes real x1,real x2,real y1,real y2 returns real
     return SquareRoot((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
 endfunction
 
-// ¼ÆËãÁ½µã¼äµÄ½Ç¶È£¨½Ç¶ÈÖÆ£©
+// è®¡ç®—ä¸¤ç‚¹é—´çš„è§’åº¦ï¼ˆè§’åº¦åˆ¶ï¼‰
 private function AngleBetweenXY takes real x1, real x2, real y1, real y2 returns real
     return bj_RADTODEG*Atan2(y2-y1,x2-x1)
 endfunction
 
-// ¼ÆËãÁ½¸öµ¥Î»¼äµÄ½Ç¶È
+// è®¡ç®—ä¸¤ä¸ªå•ä½é—´çš„è§’åº¦
 private function GetAngleBetweenUnits takes unit A,unit B returns real
     return Atan2(GetUnitY(B)-GetUnitY(A),GetUnitX(B)-GetUnitX(A))
 endfunction
 
-// ¼ÆËãÁ½¸öµ¥Î»¼äµÄ¾àÀë
+// è®¡ç®—ä¸¤ä¸ªå•ä½é—´çš„è·ç¦»
 private function DistanceBetweenUnits takes unit A,unit B returns real
     local real x1=GetUnitX(A)
     local real x2=GetUnitX(B)
@@ -79,7 +79,7 @@ private function DistanceBetweenUnits takes unit A,unit B returns real
     return SquareRoot((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
 endfunction
 
-// ¼ÆËã¼ÓËÙµÄÊ±¼ä
+// è®¡ç®—åŠ é€Ÿçš„æ—¶é—´
 // s = v0 * t + 1/2 * a * t * t
 // a * t * t  + 2 * v0 * t - 2 * s = 0
 // time1 = (- 2 * v0 + SquareRoot ( 4 * v0 *v0 + 8 * a * s)) / (2 * a)
@@ -100,15 +100,15 @@ private function GetAcceleratedTime takes real dis, real originspeed, real accel
     return time2
 endfunction
 
-// µÇ¼Çµ¯Ä»
+// ç™»è®°å¼¹å¹•
 private function MRegister takes unit missile returns nothing
-    call UnitAddAbility(missile,'Arav') // ·ç±©Ö®Ñ»
+    call UnitAddAbility(missile,'Arav') // é£Žæš´ä¹‹é¸¦
     call UnitRemoveAbility(missile,'Arav')
     call SetUnitPosition(missile,GetUnitX(missile),GetUnitY(missile))
     call SetUnitAnimationByIndex(missile, 90 )
 endfunction
 
-// ½«i´ÓÕ»ÖÐÒÆ³ý£¬Ê¹ÓÃÕ»¶¥ÔªËØ²¹³äi
+// å°†iä»Žæ ˆä¸­ç§»é™¤ï¼Œä½¿ç”¨æ ˆé¡¶å…ƒç´ è¡¥å……i
 private function MPop takes integer i returns nothing
      if GetUnitState(MU[i],UNIT_STATE_LIFE)>0.4 then
         call KillUnit(MU[i])
@@ -154,16 +154,16 @@ private function MPop takes integer i returns nothing
      set Top=Top-1
 endfunction
 
-// ÅÐ¶ÏÊÇ·ñÔ½½ç
+// åˆ¤æ–­æ˜¯å¦è¶Šç•Œ
 private function MLimit takes real x, real y returns boolean
-     if x>map_max_X or x<map_min_X or y>map_max_Y or y<map_min_Y then//±ß½çÅÐ¶¨
+     if x>map_max_X or x<map_min_X or y>map_max_Y or y<map_min_Y then//è¾¹ç•Œåˆ¤å®š
         return true
      else
         return false
      endif   
 endfunction
 
-// µ¯Ä»Ñ­»·
+// å¼¹å¹•å¾ªçŽ¯
 private function MLoop takes nothing returns nothing
      local integer i=Top
      local real array x
@@ -311,7 +311,7 @@ private function MLoop takes nothing returns nothing
      endloop
 endfunction
 
-// µ¯Ä»·¢Éä
+// å¼¹å¹•å‘å°„
 function MissileCast takes unit caster,unit missile,real originspeed,real maxspeed,real accel,real angle,real distance,real arc,real range,real damage,location loc,unit target,real height,real hp,string Effect,boolean gravity returns nothing
      local integer i=0
      local integer n=0

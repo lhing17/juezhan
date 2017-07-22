@@ -1,7 +1,7 @@
 //----------------------------
-// VIPÏµÍ³
+// VIPç³»ç»Ÿ
 //----------------------------
-//==================VIPÂëÏµÍ³¿ªÊ¼==================//
+//==================VIPç ç³»ç»Ÿå¼€å§‹==================//
 function CunVIP takes integer num, string s1, string s2 returns nothing
 	local integer i = StringHash("VIP")
 	call SaveStr(YDHT, i+num, 0, s1)
@@ -23,7 +23,7 @@ function GetVIPNum_1 takes string s returns string
 	endloop
 	return null
 endfunction
-//VIPÂë
+//VIPç 
 function GetVIPNum takes string s returns string
 	local string str
 	set str = I2S(IAbsBJ(StringHash(s)))
@@ -38,7 +38,7 @@ function GetVIPNum takes string s returns string
 	endif
 	return null
 endfunction
-//»»×°Âë
+//æ¢è£…ç 
 function GetChangePreNum takes string s returns string
 	local string str
 	set str = I2S(IAbsBJ(StringHash(s)))
@@ -54,7 +54,7 @@ function GetChangePreNum takes string s returns string
 	endif
 	return null
 endfunction
-//11¸ñÂë
+//11æ ¼ç 
 function GetElevenNum takes string s returns string
 	local string str
 	set str = I2S(IAbsBJ(StringHash(s)))
@@ -71,7 +71,7 @@ function GetElevenNum takes string s returns string
 	endif
 	return null
 endfunction
-//ÓÉÍæ¼ÒÃûÉú³ÉµÄ¼¤»îÂë
+//ç”±ç©å®¶åç”Ÿæˆçš„æ¿€æ´»ç 
 function NameProdVIP takes string s,integer cycle_count returns integer
 	local integer i = 0
 	local integer udl_vip = IAbsBJ(StringHash(s))
@@ -105,7 +105,7 @@ function ChooseVIP takes nothing returns nothing
 	local player p = GetOwningPlayer(GetTriggerUnit())
 	local integer i = 1 + GetPlayerId(p)
 	local string str = null
-	call DisplayTextToPlayer(p, 0, 0, "|CFF00FF00µã»÷ÁùÎ»ÕıÈ·µÄ¼¤»îÂë¿É¼¤»îÏàÓ¦Àñ°ü")
+	call DisplayTextToPlayer(p, 0, 0, "|CFF00FF00ç‚¹å‡»å…­ä½æ­£ç¡®çš„æ¿€æ´»ç å¯æ¿€æ´»ç›¸åº”ç¤¼åŒ…")
 	//if udg_vip[i] == 0  then
 		if GetItemTypeId(GetManipulatedItem())=='I0AA' then
 			set vipnum_1[i] = vipnum_1[i] + "1"
@@ -190,51 +190,51 @@ function ChooseVIP takes nothing returns nothing
 		//call BJDebugMsg(GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)))
 		if vipnum_1[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_2[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_3[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_4[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_5[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_6[i]==GetVIPNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_vip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
 		endif
 		if vipnum_1[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_2[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_3[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_4[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_5[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_6[i]==GetChangePreNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_changevip[i] = 1
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
 		endif
 		if vipnum_1[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -242,7 +242,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_2[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -250,7 +250,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_3[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -258,7 +258,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_4[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -266,7 +266,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_5[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -274,7 +274,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_6[i]==GetElevenNum(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
 			set udg_elevenvip[i] = 1
@@ -282,7 +282,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
 		endif
 		if vipnum_1[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_1[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -290,7 +290,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_2[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_2[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -298,7 +298,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_3[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_3[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -306,7 +306,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_4[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_4[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -314,7 +314,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_5[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_5[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -322,7 +322,7 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_6[i]==GetVIPNum_1(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) or vipnum_6[i]==I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000) then
 			set udg_vip[i] = 2
@@ -330,16 +330,16 @@ function ChooseVIP takes nothing returns nothing
 			call UnitRemoveAbility(udg_hero[i],'A040')
     		call UnitRemoveAbility(udg_hero[i],'A041')
     		call UnitRemoveAbility(udg_hero[i],'A042')
-			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
 		endif
 		if vipnum_1[i] == "000000" or vipnum_2[i] == "000000" or vipnum_3[i] == "000000" or vipnum_4[i] == "000000" or vipnum_5[i] == "000000" or vipnum_6[i] == "000000" then
 			set str = GetPlayerName(p)
 			call SetPlayerName(p, LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2))
 			call YDWE_PreloadSL_Set( p, "ID", 1, StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) )
 			if udg_vip[i] == 2 then
-				call YDWE_PreloadSL_Set( p, "¸ßV", 2, 120 )
+				call YDWE_PreloadSL_Set( p, "é«˜V", 2, 120 )
 			else
-				call YDWE_PreloadSL_Set( p, "¸ßV", 2, 100 )
+				call YDWE_PreloadSL_Set( p, "é«˜V", 2, 100 )
 			endif
 			if udg_vip[i] == 1 then
 				call YDWE_PreloadSL_Set( p, "VIP", 3, 120 )
@@ -352,18 +352,18 @@ function ChooseVIP takes nothing returns nothing
 				call YDWE_PreloadSL_Set( p, "11VIP", 4, 100 )
 			endif
 			if udg_changevip[i] == 1 then
-				call YDWE_PreloadSL_Set( p, "»»VIP", 5, 120 )
+				call YDWE_PreloadSL_Set( p, "æ¢VIP", 5, 120 )
 			else
-				call YDWE_PreloadSL_Set( p, "»»VIP", 5, 100 )
+				call YDWE_PreloadSL_Set( p, "æ¢VIP", 5, 100 )
 			endif
 			//if UnitHaveItem(udg_hero[i], 'I0CQ') then
-			//	call YDWE_PreloadSL_Set( p, "ÇàÁú", 6, 120 )
+			//	call YDWE_PreloadSL_Set( p, "é’é¾™", 6, 120 )
 			//else
-			//	call YDWE_PreloadSL_Set( p, "ÇàÁú", 6, 100 )
+			//	call YDWE_PreloadSL_Set( p, "é’é¾™", 6, 100 )
 			//endif
 
 			call YDWE_PreloadSL_Save( p, "JueZhan", "VIP", SAV_NUM  )
-			call DisplayTextToPlayer(p, 0, 0, "|CFFff9933VIP×´Ì¬ÒÑ±£´æ")
+			call DisplayTextToPlayer(p, 0, 0, "|CFFff9933VIPçŠ¶æ€å·²ä¿å­˜")
 			call SetPlayerName(p, str)
 		endif
 
@@ -390,29 +390,29 @@ function ChooseVIP takes nothing returns nothing
 	//endif
 	set p = null
 endfunction
-//==================VIPÂëÏµÍ³½áÊø==================//
+//==================VIPç ç³»ç»Ÿç»“æŸ==================//
 
 function NewSave takes player p returns nothing
 	call YDWE_PreloadSL_Set( p, "ID", 1, StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) )
-	call YDWE_PreloadSL_Set( p, "¸ßV", 2, 100 )
+	call YDWE_PreloadSL_Set( p, "é«˜V", 2, 100 )
 	call YDWE_PreloadSL_Set( p, "VIP", 3, 100 )
 	call YDWE_PreloadSL_Set( p, "11VIP", 4, 100 )
-	call YDWE_PreloadSL_Set( p, "»»VIP", 5, 100 )
-	call YDWE_PreloadSL_Set( p, "ÇàÁú", 6, 100 )
-	call YDWE_PreloadSL_Set( p, "ÕĞÊ½ÉËº¦", 7, 0 )
-	call YDWE_PreloadSL_Set( p, "ÄÚÁ¦", 8, 0 )
-	call YDWE_PreloadSL_Set( p, "ÕæÊµÉËº¦", 9, 0 )
-	call YDWE_PreloadSL_Set( p, "±©»÷ÉËº¦", 10, 0 )
-	call YDWE_PreloadSL_Set( p, "¾øÑ§ÁìÎò", 11, 0 )
-	call YDWE_PreloadSL_Set( p, "¸ù¹Ç", 12, 0 )
-	call YDWE_PreloadSL_Set( p, "µ¨ÆÇ", 13, 0 )
-	call YDWE_PreloadSL_Set( p, "Ò½Êõ", 14, 0 )
-	call YDWE_PreloadSL_Set( p, "¾­Âö", 15, 0 )
-	call YDWE_PreloadSL_Set( p, "ÎòĞÔ", 16, 0 )
-	call YDWE_PreloadSL_Set( p, "¸£Ôµ", 17, 0 )
-	call YDWE_PreloadSL_Set( p, "É±ÈËÊı", 18, 0 )
+	call YDWE_PreloadSL_Set( p, "æ¢VIP", 5, 100 )
+	call YDWE_PreloadSL_Set( p, "é’é¾™", 6, 100 )
+	call YDWE_PreloadSL_Set( p, "æ‹›å¼ä¼¤å®³", 7, 0 )
+	call YDWE_PreloadSL_Set( p, "å†…åŠ›", 8, 0 )
+	call YDWE_PreloadSL_Set( p, "çœŸå®ä¼¤å®³", 9, 0 )
+	call YDWE_PreloadSL_Set( p, "æš´å‡»ä¼¤å®³", 10, 0 )
+	call YDWE_PreloadSL_Set( p, "ç»å­¦é¢†æ‚Ÿ", 11, 0 )
+	call YDWE_PreloadSL_Set( p, "æ ¹éª¨", 12, 0 )
+	call YDWE_PreloadSL_Set( p, "èƒ†é­„", 13, 0 )
+	call YDWE_PreloadSL_Set( p, "åŒ»æœ¯", 14, 0 )
+	call YDWE_PreloadSL_Set( p, "ç»è„‰", 15, 0 )
+	call YDWE_PreloadSL_Set( p, "æ‚Ÿæ€§", 16, 0 )
+	call YDWE_PreloadSL_Set( p, "ç¦ç¼˜", 17, 0 )
+	call YDWE_PreloadSL_Set( p, "æ€äººæ•°", 18, 0 )
 	call YDWE_PreloadSL_Save( p, "JueZhan", "VIP", SAV_NUM)
-	call DisplayTextToPlayer(p, 0, 0, "|CFFff9933´´½¨ĞÂ´æµµ")
+	call DisplayTextToPlayer(p, 0, 0, "|CFFff9933åˆ›å»ºæ–°å­˜æ¡£")
 endfunction
 globals
 	constant integer SAV_NUM = 18
@@ -430,14 +430,14 @@ function Trig_______VIPActions takes nothing returns nothing
         //call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "ID", 1)))
         if ((bj_lastLoadPreloadSLResult == true)) then
         	if YDWE_PreloadSL_Get(p, "ID", 1) == StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "¸ßV", 2)))
+	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "é«˜V", 2)))
 	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "VIP", 3)))
 	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "11VIP", 4)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "»»VIP", 5)))
-	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "ÇàÁú", 6)))
+	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "æ¢VIP", 5)))
+	        	//call BJDebugMsg(I2S(YDWE_PreloadSL_Get(p, "é’é¾™", 6)))
         	    if YDWE_PreloadSL_Get(p, "VIP", 3) == 120 then
         	        set udg_vip[i] = 1
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì|r")
+        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™|r")
         	    endif
         	    if YDWE_PreloadSL_Get(p, "11VIP", 4) == 120 then
         	        set udg_elevenvip[i] = 1
@@ -445,19 +445,19 @@ function Trig_______VIPActions takes nothing returns nothing
         	        call UnitRemoveAbility(udg_hero[i],'A040')
         	        call UnitRemoveAbility(udg_hero[i],'A041')
         	        call UnitRemoveAbility(udg_hero[i],'A042')
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË11¸ñÎä¹¦|r")
+        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†11æ ¼æ­¦åŠŸ|r")
         	    endif
-        	    if YDWE_PreloadSL_Get(p, "»»VIP", 5) == 120 then
+        	    if YDWE_PreloadSL_Get(p, "æ¢VIP", 5) == 120 then
         	        set udg_changevip[i] = 1
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¹§Ï²Íæ¼Ò"+GetPlayerName(p)+"½âËøÁË½ÇÉ«èªĞù|r")
+        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ­å–œç©å®¶"+GetPlayerName(p)+"è§£é”äº†è§’è‰²ç‘¾è½©|r")
         	    endif
-        	    if YDWE_PreloadSL_Get(p, "¸ßV", 2) == 120 then
+        	    if YDWE_PreloadSL_Get(p, "é«˜V", 2) == 120 then
         	        set udg_vip[i] = 2
         	        set wugongshu[i] = 11
         	        call UnitRemoveAbility(udg_hero[i],'A040')
         	        call UnitRemoveAbility(udg_hero[i],'A041')
         	        call UnitRemoveAbility(udg_hero[i],'A042')
-        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933¸ĞĞ»Íæ¼Ò"+GetPlayerName(p)+"¶Ô¾öÕ½½­ºşµÄ½Ü³ö¹±Ï×|r")
+        	        call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933æ„Ÿè°¢ç©å®¶"+GetPlayerName(p)+"å¯¹å†³æˆ˜æ±Ÿæ¹–çš„æ°å‡ºè´¡çŒ®|r")
         	    endif
         	endif
         //else
@@ -467,7 +467,7 @@ function Trig_______VIPActions takes nothing returns nothing
         set i = i + 1
     endloop
 endfunction
-//VIPÂë¼ÆËã
+//VIPç è®¡ç®—
 function Qskc_GetL takes player pl,string str,integer hashs, integer which_number returns boolean
 	local string OOl1= SubStringBJ(str,1,10)
 	local string O01l= SubStringBJ(str,11,163)
@@ -513,37 +513,37 @@ function Qskc_GetL takes player pl,string str,integer hashs, integer which_numbe
 	return O0ll==hashs and I2S(O0l1)==OOl1
 endfunction
 function activationCode takes nothing returns nothing
-    // 1ºÅ
+    // 1å·
     if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-1418175828,4))) then
         if ((udg_vip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "¹§Ï² " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì" ) ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "æ­å–œ " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |rè§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™" ) ) )
             set udg_vip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
         else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ÄãÒÑ¾­½âËøÁË½ÇÉ«À¼Ü°ºÍÃÅÅÉÃ÷½Ì£¬²»ÄÜÖØ¸´½âËø" ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ä½ å·²ç»è§£é”äº†è§’è‰²å…°é¦¨å’Œé—¨æ´¾æ˜æ•™ï¼Œä¸èƒ½é‡å¤è§£é”" ) )
         endif
     else
     endif
-    // 2ºÅ
+    // 2å·
     if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),366685871,5))) then
         if ((udg_elevenvip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "¹§Ï² " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r½âËøÁË11¸ñÎä¹¦" ) ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "æ­å–œ " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |rè§£é”äº†11æ ¼æ­¦åŠŸ" ) ) )
             set udg_elevenvip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
             set wugongshu[GetConvertedPlayerId(GetTriggerPlayer())] = 11
         	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A040')
         	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A041')
         	call UnitRemoveAbility(udg_hero[GetConvertedPlayerId(GetTriggerPlayer())],'A042')
         else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ÄãÒÑ¾­½âËøÁË11¸ñÎä¹¦£¬²»ÄÜÖØ¸´½âËø" ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ä½ å·²ç»è§£é”äº†11æ ¼æ­¦åŠŸï¼Œä¸èƒ½é‡å¤è§£é”" ) )
         endif
     else
     endif
-    // 3ºÅ
+    // 3å·
     if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),141150855,6))) then
         if ((udg_changevip[GetConvertedPlayerId(GetTriggerPlayer())] == 0)) then
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "¹§Ï² " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |r½âËøÁË½ÇÉ«èªĞù" ) ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "æ­å–œ " + ( ( "|CFFFF8000" + GetPlayerName(GetTriggerPlayer()) ) + " |rè§£é”äº†è§’è‰²ç‘¾è½©" ) ) )
             set udg_changevip[GetConvertedPlayerId(GetTriggerPlayer())] = 1
         else
-            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ÄãÒÑ¾­½âËøÁË½ÇÉ«èªĞù£¬²»ÄÜÖØ¸´½âËø" ) )
+            call DisplayTimedTextToPlayer( GetTriggerPlayer(), 0, 0, 30, ( "ä½ å·²ç»è§£é”äº†è§’è‰²ç‘¾è½©ï¼Œä¸èƒ½é‡å¤è§£é”" ) )
         endif
     else
     endif

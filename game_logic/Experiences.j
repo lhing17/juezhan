@@ -261,8 +261,8 @@ function tR takes nothing returns nothing
 	if((GetUnitLevel(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))<40))then
 	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000等级不足40级无法接取该任务")
 	else
-	if((shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]<3500))then
-	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000江湖声望不足3500无法接取该任务")
+	if((shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]<3200))then
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000江湖声望不足3200无法接取该任务")
 	else
 	if((xiuxing[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]<2))then
 	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000你必须先完成历练2任务")

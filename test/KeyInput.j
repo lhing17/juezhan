@@ -136,6 +136,14 @@ function KeyInput takes nothing returns nothing
 		endloop
 	    call DisplayTextToPlayer(p,0,0,"|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
 	endif
+	if s=="ckhf" then
+		call DisplayTextToPlayer(p,0,0,"|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
+		call DisplayTextToPlayer(p,0,0,"|cFF00FFFF杀怪回复："+I2S(R2I(shaguaihufui[i])))
+		call DisplayTextToPlayer(p,0,0,"|cFF00FFFF伤害回复："+I2S(R2I(shanghaihuifu[i])))
+		call DisplayTextToPlayer(p,0,0,"|cFF00FFFF生命回复："+I2S(R2I(shengminghuifu[i])))
+		call DisplayTextToPlayer(p,0,0,"|cFF00FFFF法力回复："+I2S(R2I(falihuifu[i])))
+	    call DisplayTextToPlayer(p,0,0,"|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
+	endif
 
 	//if s=="碧海潮生" then
 	//	call UnitAddAbility(udg_hero[i],'A018')

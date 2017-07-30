@@ -96,7 +96,7 @@ function XiaoLianHengChen takes nothing returns nothing
 	if (GetRandomReal(.0,100.) <= 22. + fuyuan[i]/3 )then
 		//加双手加范围
 	    call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(500+300*(GetUnitAbilityLevel(u,'A07U')),loc1,Condition(function XiaoLian_Condition)),function XiaoLian_Action)
-	    call WuGongShengChong(u,'A056',1100.)
+	    call WuGongShengChong(u,'A056',900.)
 	    call WuGongShengChong(u,'A059',2500.)
 	    if((GetUnitAbilityLevel(u,'A07N')!=0))then//加九爪
 		    call SetUnitState(u, UNIT_STATE_MANA, (GetUnitState(u,UNIT_STATE_MANA)+(.2*GetUnitState(u,UNIT_STATE_MAX_MANA))))
@@ -167,7 +167,7 @@ function GuiFeiHuiMouSH takes nothing returns nothing
     local integer i = 1 + GetPlayerId(GetOwningPlayer(u))
     local real shxishu= RMinBJ(DistanceBetweenPoints(loc, loc2)/500, 4)
     local real shanghai=0.
-    call WuGongShengChong(u,'A04X',600.)
+    call WuGongShengChong(u,'A04X',500.)
     call WuGongShengChong(u,'A059',2500.)
     if (GetUnitAbilityLevel(u,'A03V')!=0) then //加擒龙
 	    set shxishu= RMinBJ(DistanceBetweenPoints(loc, loc2)/300, 10)
@@ -180,7 +180,7 @@ function GuiFeiHuiMouSH takes nothing returns nothing
     endif
 	if (GetUnitAbilityLevel(u,'A056')!=0) and (GetRandomReal(.0,100.) <= 22. + fuyuan[i]/3 ) then //加小怜横陈
 	    call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(500+300*(GetUnitAbilityLevel(u,'A07U')),loc,Condition(function XiaoLian_Condition_1)),function XiaoLian_Action_1)
-	    call WuGongShengChong(u,'A056',1100.)
+	    call WuGongShengChong(u,'A056',900.)
 	    call WuGongShengChong(u,'A059',2500.)
 	    if((GetUnitAbilityLevel(u,'A07N')!=0))then//加九爪
 		    call SetUnitState(u, UNIT_STATE_MANA, (GetUnitState(u,UNIT_STATE_MANA)+(.2*GetUnitState(u,UNIT_STATE_MAX_MANA))))

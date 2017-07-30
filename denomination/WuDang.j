@@ -6,7 +6,7 @@ endfunction
 function RouYunZhang takes nothing returns nothing
 	local unit u = GetAttacker()
 	local location loc = GetUnitLoc(GetTriggerUnit())
-	call WuGongShengChong(u,'A04D',600.)
+	call WuGongShengChong(u,'A04D',500.)
 	call CreateNUnitsAtLoc(1,'e000',GetOwningPlayer(u),loc,bj_UNIT_FACING)
     call UnitAddAbility(bj_lastCreatedUnit,'A08P')
     call ShowUnitHide(bj_lastCreatedUnit)

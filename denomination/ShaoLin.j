@@ -28,7 +28,7 @@ function WeiTuo_Action takes nothing returns nothing
 	//    set shxishu=shxishu*8.
 	//endif
 	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl", x, y))
-	set shanghai=ShangHaiGongShi(u,uc,7.2,8.9,shxishu,'A05G')
+	set shanghai=ShangHaiGongShi(u,uc,10,12,shxishu,'A05G')
 	//call BJDebugMsg("伤害="+R2S(shanghai))
 	call WuGongShangHai(u,uc,shanghai)
 	set u=null
@@ -411,7 +411,7 @@ function Sc takes nothing returns nothing
 	if UnitHaveItem(u,'I0AL') then
 		set shxishu=shxishu*8
 	endif
-	set shanghai=ShangHaiGongShi(u,uc,13.5,13.5,shxishu,'S000')
+	set shanghai=ShangHaiGongShi(u,uc,50,50,shxishu,'S000')
 	call WuGongShangHai(u,uc,shanghai)
 	set u=null
 	set uc=null

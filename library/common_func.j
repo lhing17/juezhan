@@ -427,7 +427,7 @@ function BaoWuDiaoLuo takes unit u, unit ut, integer baolv1, integer id1, intege
 		exitwhen N7>MM7
 		//第一类宝物
 		if (j>0) then
-			if(GetRandomInt(1,100)<=baolv1)then
+			if(GetRandomInt(0,100)<=baolv1)then
 				call createitemloc(idn[GetRandomInt(1,j)],loc)
 			endif
 		endif
@@ -1700,6 +1700,13 @@ function WuGongShangHai takes unit u, unit uc, real shanghai returns nothing
     call Nw(.65,bj_lastCreatedTextTag)
 endfunction
 
+function QiJueCoefficient takes unit u returns integer
+	if UnitHaveItem(u, 'I01J') then
+		return 1
+	endif
+	return 0
+endfunction
+
 //武功升重及掌门称号系统
 function WuGongShengChong takes unit u, integer id, real r returns nothing
 	local integer level=GetUnitAbilityLevel(u,id)
@@ -1708,9 +1715,9 @@ function WuGongShengChong takes unit u, integer id, real r returns nothing
 	local integer i=1+GetPlayerId(p)
 	if level>0 and level<7 then
 		if UnitHasBuffBJ(u, 'B010') then
-			call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(5+GetUnitAbilityLevel(u,'A02V')/2+2*udg_jwjs[i])/20)
+			call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(5+GetUnitAbilityLevel(u,'A02V')/2+2*udg_jwjs[i])*(2+QiJueCoefficient(u))/40)
 		else
-			call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(4+2*udg_jwjs[i])/20)
+			call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(4+2*udg_jwjs[i])*(2+QiJueCoefficient(u))/40)
 		endif
 		call SaveStr(YDHT,GetHandleId(GetOwningPlayer(u)),id*2,I2S(LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id))+"/"+I2S(R2I(r*level)))
 		if LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)>R2I(r)*level then
@@ -1745,12 +1752,12 @@ function WuGongShengChong takes unit u, integer id, real r returns nothing
 				endif
         	endif
         else
-            if udg_xinggeB[i]>=4 then
+            if udg_xinggeB[i]>=4 or UnitHaveItem(u, 'I01J') then
 	            if id!= 'A07W' then
 	            	if UnitHasBuffBJ(u, 'B010') then
-	            		call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))/10*(2+GetUnitAbilityLevel(u,'A02V')/4+udg_jwjs[i]/3*2))
+	            		call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(2+QiJueCoefficient(u))/20*(2+GetUnitAbilityLevel(u,'A02V')/4+udg_jwjs[i])/3*2)
 	            	else
-	            		call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))/10*(2+udg_jwjs[i])/3*2)
+	            		call SaveInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id,LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id)+(3+udg_xinggeA[i])*(wuxing[i]+5+GetRandomInt(0,R2I(r/60)))*(2+QiJueCoefficient(u))/20*(2+udg_jwjs[i])/3*2)
             		endif
         		endif
 		        call SaveStr(YDHT,GetHandleId(GetOwningPlayer(u)),id*2,I2S(LoadInteger(YDHT,GetHandleId(GetOwningPlayer(u)),id))+"/"+I2S(R2I(r*level)))
@@ -1760,22 +1767,22 @@ function WuGongShengChong takes unit u, integer id, real r returns nothing
 		            call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id*5, GetUnitAbilityLevel(u, id))
                     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff66ff00恭喜玩家"+I2S(i)+"领悟了武功："+GetObjectName(id)+"第"+I2S(level+1)+"重")
                     if level+1==9 and Ce[i]==8 then
-					set wuxuedian[i] = wuxuedian[i] + 2
-					call DisplayTextToPlayer(p, 0, 0, "|cff66ff00精武师有技能升级到九重，获得两个自创武学点")
-					if (udg_jwjs[i]<=2) and udg_jwjsbool[i] == false then
-						set udg_jwjs[i] = udg_jwjs[i] + 1
-						call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00恭喜您练成第"+I2S(udg_jwjs[i])+"个九重武功，练成3个可获得宗师哦")
-					endif
-					if (udg_jwjs[i]==3) and udg_jwjsbool[i] == false then
-						set udg_jwjsbool[i] = true
-						if udg_zhangmen[i]==true then
-						else
-							call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"〓精武宗师〓"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
+						set wuxuedian[i] = wuxuedian[i] + 2
+						call DisplayTextToPlayer(p, 0, 0, "|cff66ff00精武师有技能升级到九重，获得两个自创武学点")
+						if (udg_jwjs[i]<=2) and udg_jwjsbool[i] == false then
+							set udg_jwjs[i] = udg_jwjs[i] + 1
+							call DisplayTextToPlayer(p, 0, 0, "|CFF66FF00恭喜您练成第"+I2S(udg_jwjs[i])+"个九重武功，练成3个可获得宗师哦")
 						endif
-						call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00恭喜"+GetPlayerName(p)+"获得精武宗师")
-						call SetPlayerName(p, "〓精武宗师〓"+GetPlayerName(p))
+						if (udg_jwjs[i]==3) and udg_jwjsbool[i] == false then
+							set udg_jwjsbool[i] = true
+							if udg_zhangmen[i]==true then
+							else
+								call SaveStr(YDHT, GetHandleId(p), GetHandleId(p),"〓精武宗师〓"+LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
+							endif
+							call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00恭喜"+GetPlayerName(p)+"获得精武宗师")
+							call SetPlayerName(p, "〓精武宗师〓"+GetPlayerName(p))
+						endif
 					endif
-				endif
                 endif
             endif
         endif

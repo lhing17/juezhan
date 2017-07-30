@@ -20,7 +20,7 @@ function TaiZu_Action takes nothing returns nothing
 	if UnitHaveItem(u,'I097') then
 	    set shxishu=shxishu*4
     endif
-	set shanghai=ShangHaiGongShi(u,uc,10., 14.,shxishu,'A0C9')
+	set shanghai=ShangHaiGongShi(u, uc, 15., 21.,shxishu,'A0C9')
     call AddSpecialEffectTargetUnitBJ( "overhead",uc, "Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl" )
     call DestroyEffect( GetLastCreatedEffectBJ() )
     //call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,R2S(shanghai)+", "+I2S(1+GetPlayerId(GetOwningPlayer(u))))
@@ -87,11 +87,11 @@ function QuWuGongJi_Action takes nothing returns nothing
 	    set shxishu=shxishu*4
     endif
     if id=='ndog' then
-        set shanghai=ShangHaiGongShi(u,u,4,1.3,shxishu,'A0DI')
+        set shanghai=ShangHaiGongShi(u,u,8,2.6,shxishu,'A0DI')
     elseif id=='uloc' then
-        set shanghai=ShangHaiGongShi(u,u,1.6,6.7,shxishu,'A0DI')
+        set shanghai=ShangHaiGongShi(u,u,3.2,13.4,shxishu,'A0DI')
     else
-        set shanghai=ShangHaiGongShi(u,u,3.3,1.6,shxishu,'A0DI')
+        set shanghai=ShangHaiGongShi(u,u,6.6,3.2,shxishu,'A0DI')
     endif
     if j<jmax then
         call SetUnitX(ut,CheckX(GetLocationX(LoadLocationHandle(YDHT,w,2))+Cos(angle)*32*j))
@@ -241,7 +241,7 @@ function TieBuShan takes nothing returns nothing
     set cengshu=cengshu-1+GetUnitAbilityLevel(u,'A0CA')
     if udg_tiebushancengshu<=cengshu-1 and GetRandomReal(1.,200)<20 then
 	    call WuGongShengChong(u,'A0CA',2000.)
-	    call WuGongShangHai(u,uc,ShangHaiGongShi(u,uc,20.,40.,udg_tiebushancengshu,'A0CA'))
+	    call WuGongShangHai(u,uc,ShangHaiGongShi(u,uc,40.,80.,udg_tiebushancengshu,'A0CA'))
 	    call SetUnitDizzy(uc,4.+1.5*GetUnitAbilityLevel(u,'A0CA'),"Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl")
 	    set udg_tiebushancengshu=udg_tiebushancengshu+1
         call SaveUnitHandle(YDHT,GetHandleId(tm),0,u)
@@ -278,7 +278,7 @@ function YeChaGun_SH takes nothing returns nothing
 	if UnitHaveItem(udg_yechadanwei,'I097') then
 	    set shxishu=shxishu*4
     endif
-    set shanghai=ShangHaiGongShi(udg_yechadanwei,GetEnumUnit(),5.6,1.5,shxishu,'A0CB')
+    set shanghai=ShangHaiGongShi(udg_yechadanwei,GetEnumUnit(),8.4,2.3,shxishu,'A0CB')
     call WuGongShangHai(udg_yechadanwei,GetEnumUnit(),shanghai)
     if GetUnitAbilityLevel(udg_yechadanwei,'A0DI')>=1 then
 	     call SetUnitDizzy(GetEnumUnit(),2.,"Abilities\\Spells\\Human\\Thunderclap\\ThunderclapTarget.mdl")
@@ -384,7 +384,7 @@ function FengMoShe takes nothing returns nothing
 	if UnitHaveItem(u,'I097') then
 	    set shxishu=shxishu*4
     endif
-	set shanghai=ShangHaiGongShi(u,uc,18.,30.,shxishu,'A0C8')
+	set shanghai=ShangHaiGongShi(u,uc,24.,45.,shxishu,'A0C8')
 	call WuGongShangHai(u,uc,shanghai)
 	set uc=null
 	set u=null

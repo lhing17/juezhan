@@ -334,7 +334,7 @@ function EMeiJiuYang_Action2 takes nothing returns nothing
 	local real shxishu=1.
 	local unit ut=null
 	local location loc=GetUnitLoc(u)
-	set shanghai=ShangHaiGongShi(u,uc,15.,15.,shxishu,'A0C6')
+	set shanghai=ShangHaiGongShi(u,uc,45.,45.,shxishu,'A0C6')
 	if uc!=null and IsUnitEnemy(uc,GetOwningPlayer(u))==true and IsUnitAliveBJ(uc) then
 		call WuGongShangHai(u,uc,shanghai)
 		call CreateNUnitsAtLoc(1,'h00C',GetOwningPlayer(u),loc,bj_UNIT_FACING)

@@ -16,7 +16,7 @@ function JiaChuanMaJia_1 takes nothing returns nothing
     if GetRandomInt(1, 4)==1 then
    		call DestroyEffect(AddSpecialEffectLocBJ(loc,"Abilities\\Spells\\Other\\Charm\\CharmTarget.mdl"))
 	endif
-    set shanghai=ShangHaiGongShi(u,uc,6.,9.,shxishu,'A02K')
+    set shanghai=ShangHaiGongShi(u,uc,12.,18.,shxishu,'A02K')
     call WuGongShangHai(u,uc,shanghai)
     if GetUnitAbilityLevel(u, 'A02V')>=1 and GetRandomInt(1,100)<=15+fuyuan[i]/5 then
 	    call WanBuff(u, uc, 6)
@@ -111,7 +111,7 @@ function XiuZhongZhi takes nothing returns nothing
 			call WanBuff(u, uc, 11)
 		endif
 		call WuGongShangHai(u, uc, shanghai)
-		call WuGongShengChong(u, 'A0CC', 800)
+		call WuGongShengChong(u, 'A0CC', 600)
 		call SetUnitAnimation(u, "attack, slam")
 		call DestroyEffect(AddSpecialEffectLocBJ(loc,"Abilities\\Spells\\Other\\Charm\\CharmTarget.mdl"))
 		if GetUnitAbilityLevel(u, 'A02R') >= 1 then
@@ -157,7 +157,7 @@ function CanHeMaJia takes nothing returns nothing
 	local location loc = GetUnitLoc(uc)
 	local real shxishu = 1.
 	local real shanghai = 0.
-	set shanghai=ShangHaiGongShi(u,uc,75.,20.,shxishu,'A02M')
+	set shanghai=ShangHaiGongShi(u,uc,90.,50.,shxishu,'A02M')
 	call WuGongShangHai(u, uc, shanghai)
 	call CreateNUnitsAtLoc(1,'e000',GetOwningPlayer(u),loc,bj_UNIT_FACING)
 	call ShowUnitHide(bj_lastCreatedUnit)

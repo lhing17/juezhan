@@ -203,7 +203,7 @@ function ShiLinShuSheng takes nothing returns nothing
     	if GetUnitAbilityLevel(u,'A07J')>=1 then
 		    call UnitAddAbility(bj_lastCreatedUnit, 'A03O')
     	endif
-    	call WuGongShengChong(u,'A04P',700.)
+    	call WuGongShengChong(u,'A04P',600.)
     	call RemoveLocation(loc1)
     	call RemoveLocation(loc2)
 	endif
@@ -316,7 +316,7 @@ function YanHuiDamage takes nothing returns nothing
     if UnitHaveItem(u, 'I01L') or UnitHaveItem(u, 'I00C') or UnitHaveItem(u, 'I00B') or UnitHaveItem(u, 'I099') or UnitHaveItem(u, 'I09A') or UnitHaveItem(u, 'I09C') then
     	set shxishu = shxishu * 2
 	endif
-   	set shanghai=ShangHaiGongShi(u,uc,200,80,shxishu,'A04R')
+   	set shanghai=ShangHaiGongShi(u,uc,250,160,shxishu,'A04R')
     call WuGongShangHai(u,uc,shanghai)
     set u=null
     set uc=null

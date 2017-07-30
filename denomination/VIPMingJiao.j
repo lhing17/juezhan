@@ -790,7 +790,7 @@ function QianKunTan takes nothing returns nothing
 			call WuGongShangHai(u, ut, shanghai*50*GetUnitAbilityLevel(u, 'A07W'))
 			call DestroyEffect(AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl",ut,"overhead"))
 		endif
-		call WuGongShengChong(u, 'A07W', 10000)
+		call WuGongShengChong(u, 'A07W', 8000)
 	endif
 	call RemoveLocation(loc)
 	call DestroyGroup(g)

@@ -71,8 +71,9 @@ endfunction
 function jl takes nothing returns nothing
 	if (GetUnitTypeId(GetTriggerUnit())=='oshm') or (GetUnitTypeId(GetTriggerUnit())=='nass') then
 		call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 8, 'I02J', 'I02I', 0, 0, 8, YaoCao[3])
+		call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 1, 'I01W', 0, 0, 0, 0, 0)
 	elseif (GetUnitTypeId(GetTriggerUnit())=='odoc') then
-		call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 100, 'I01U', 'I01W', 'I01Z', 0, 0, 0)
+		call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 100, 'I01U', 'I01Z', 0, 0, 0, 0)
 	elseif (GetUnitTypeId(GetTriggerUnit())=='orai') then
 		call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 100, 'I01S', 'I01Y', 'I01X', 0, 0, 0)
 		//火功头陀
@@ -96,7 +97,8 @@ function al takes nothing returns boolean
 	return(((GetUnitTypeId(GetTriggerUnit())=='efon')or(GetUnitTypeId(GetTriggerUnit())=='nowb')))
 endfunction
 function Bl takes nothing returns nothing
-	call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 10, 'I01I', 1227895114, 'I02E', 'I02H', 0, 0)
+	call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 8, 'I01I', 'I02E', 'I02H', 0, 0, 0)
+	call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 1, 'I01J', 0, 0, 0, 0, 0)
 endfunction
 //杀唐文亮
 function cl takes nothing returns boolean
@@ -791,7 +793,7 @@ set N7=1
 loop
 exitwhen N7>MM7
 if((GetRandomInt(1,100)<=25))then
-call createitemloc(1227895092,LoadLocationHandle(YDHT,id*cx,$1769D332))
+call createitemloc('I014',LoadLocationHandle(YDHT,id*cx,$1769D332))
 else
 if((GetRandomInt(1,75)<=25))then
 call createitemloc(1227895093,LoadLocationHandle(YDHT,id*cx,$1769D332))
@@ -866,7 +868,7 @@ endif
 set N7=1
 loop
 exitwhen N7>MM7
-if((GetRandomInt(1,50)<=25))then
+if((GetRandomInt(0,100)<=95))then
 call createitemloc('I00W',LoadLocationHandle(YDHT,id*cx,$1769D332))
 else
 call createitemloc('I00T',LoadLocationHandle(YDHT,id*cx,$1769D332))
@@ -1377,7 +1379,7 @@ function XiYouDiaoLuo takes unit u, integer FBNum, integer dl1, integer dl2, int
 			set q8[FBNum]=dl1
 		elseif((GetRandomInt(1,45)<=15))then
 			set q8[FBNum]=dl2
-		elseif((GetRandomInt(1,30)<=15))then
+		elseif((GetRandomInt(1,30)<=25))then
 			set q8[FBNum]=dl3
 		else
 			set q8[FBNum]=dl4
@@ -1461,17 +1463,17 @@ function EnterFB takes unit u, integer goldnum, rect rt0, rect rt1, rect rt2, in
 	set dls[11] = 1227895380
 	set dls[12] = 1227895857
 	set dls[13] = 1227895859
-	set dls[14] = 1227895858
-	set dls[15] = 1227895092
-	set dls[16] = 1227895092
+	set dls[14] = 'I042'
+	set dls[15] = 'I014'
+	set dls[16] = 'I014'
 	set dls[17] = 'I00Q'
 	set dls[18] = 'I00S'
 	set dls[19] = 'I00R'
 	set dls[20] = 'I00R'
 	set dls[21] = 'I00K'
-	set dls[22] = 'I00J'
+	set dls[22] = 'I00M'
 	set dls[23] = 'I00M'
-	set dls[24] = 'I00M'
+	set dls[24] = 'I00J'
 	set dls[25] = 'crys'
 	set dls[26] = 'crys'
 	set dls[27] = 'crys'

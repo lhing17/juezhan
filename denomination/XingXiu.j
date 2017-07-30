@@ -31,7 +31,7 @@ function r3 takes nothing returns nothing
     if UnitHaveItem(u, 'I0AM') then
 	    set shxishu = shxishu * 1.8
     endif
-    set shanghai=ShangHaiGongShi(u,uc,10.3,10.3,shxishu,'A0BP')
+    set shanghai=ShangHaiGongShi(u,uc,20.3,20.3,shxishu,'A0BP')
     call WuGongShangHai(u,uc,shanghai)
     call RemoveLocation(loc)
     set u=null
@@ -184,7 +184,7 @@ function y3 takes nothing returns nothing
         if UnitHaveItem(u, 'I0AM') then
 	    	set shxishu = shxishu * 1.8
     	endif
-        set shanghai=ShangHaiGongShi(u,uc,8.,8.,shxishu,'A0BQ')
+        set shanghai=ShangHaiGongShi(u,uc,16.,16.,shxishu,'A0BQ')
         call SetUnitLifePercentBJ(uc, GetUnitLifePercent(uc)*0.7)
       	call WuGongShangHai(u,uc,shanghai)
         call KillUnit(GetAttacker())
@@ -196,7 +196,7 @@ function y3 takes nothing returns nothing
             if UnitHaveItem(u, 'I0AM') then
 	    		set shxishu = shxishu * 1.8
     		endif
-            set shanghai=ShangHaiGongShi(u,uc,10.,10.,shxishu,'A0BQ')
+            set shanghai=ShangHaiGongShi(u,uc,20.,20.,shxishu,'A0BQ')
       	    call WuGongShangHai(u,uc,shanghai)
 
         endif
@@ -268,7 +268,7 @@ function a3 takes nothing returns nothing
 	    set shxishu = shxishu * 1.8
     endif
     call DestroyEffect(AddSpecialEffectLocBJ(loc,"Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl"))
-    set shanghai=ShangHaiGongShi(u,uc,78,78,shxishu,'A0BS')
+    set shanghai=ShangHaiGongShi(u,uc,100,100,shxishu,'A0BS')
     call WuGongShangHai(u,uc,shanghai)
     if((GetUnitAbilityLevel(u,'A07P')!=0)and(GetRandomReal(.0,100.)<=10.)and(UnitHasBuffBJ(uc,1111844210)==false))then
         call WanBuff(u, uc, 8)
@@ -306,7 +306,7 @@ function C3 takes nothing returns nothing
     endif
     call WuGongShengChong(u,'A0BT',3500.)
     call YDWEPolledWaitNull(.1)
-    set shanghai=ShangHaiGongShi(u,uc,5.4,5.4,shxishu,'A0BT')
+    set shanghai=ShangHaiGongShi(u,uc,10.8,10.8,shxishu,'A0BT')
     call WuGongShangHai(u,uc,shanghai)
     call RemoveLocation(loc)
     set u=null
@@ -439,7 +439,7 @@ function L3 takes nothing returns nothing
     if UnitHaveItem(u, 'I0AM') then
 	    set shxishu = shxishu * 1.8
     endif
-    set shanghai=ShangHaiGongShi(u,uc,36.,36.,shxishu,'A0BV')
+    set shanghai=ShangHaiGongShi(u,uc,60.,60.,shxishu,'A0BV')
   	call WuGongShangHai(u,uc,shanghai)
   	set u=null
     set uc=null

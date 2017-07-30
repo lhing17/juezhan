@@ -2239,6 +2239,9 @@ function YiShuHuiXie takes nothing returns nothing
 		exitwhen c7>5
 		if((GetPlayerController(Player(-1+(c7)))==MAP_CONTROL_USER)) and UnitHasBuffBJ(udg_hero[c7], 'B014')==false then
 			call SetUnitLifePercentBJ(udg_hero[c7],GetUnitLifePercent(udg_hero[c7])+I2R(yishu[c7])/2000.+10*GetUnitAbilityLevel(udg_hero[c7],'A0D4')+guixihuixie[c7])
+			if (UnitHaveItem(udg_hero[c7], 'I01D')) then
+				call SetUnitLifePercentBJ(udg_hero[c7], GetUnitLifePercent(udg_hero[c7]) + 6)
+			endif
 			call SetUnitLifeBJ(udg_hero[c7],GetUnitState(udg_hero[c7],UNIT_STATE_LIFE)+shengminghuifu[c7])
 			call SetUnitManaBJ(udg_hero[c7],GetUnitStateSwap(UNIT_STATE_MANA,udg_hero[c7])+(.3*I2R(yishu[c7]))+falihuifu[c7]+5*GetUnitAbilityLevel(udg_hero[c7],'A0D4'))
 		endif

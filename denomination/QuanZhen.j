@@ -17,7 +17,7 @@ function QuanZhen_Action takes nothing returns nothing
     local location loc=GetUnitLoc(u)
     local location loc2=GetUnitLoc(uc)
     set shxishu=1+jingmai[i]/20
-    set shanghai=ShangHaiGongShi(u,uc,8.,14.,shxishu,'A0CF')
+    set shanghai=ShangHaiGongShi(u,uc,12.,21.,shxishu,'A0CF')
     call WuGongShangHai(u,uc,shanghai)
     call DestroyEffect(AddSpecialEffectTarget("Units\\NightElf\\Wisp\\WispExplode.mdl",uc,"overhead"))
     if GetUnitAbilityLevel(u,'A07S')>=1 and GetRandomReal(1.,100)<=20 then
@@ -102,7 +102,7 @@ function XianTianYiYang_Action takes nothing returns nothing
     if GetUnitAbilityLevel(u,'A07U')>=1 then
 	    set shxishu=shxishu/2
     endif
-    set shanghai=ShangHaiGongShi(u,uc,160.,700,shxishu,'A0CM')
+    set shanghai=ShangHaiGongShi(u,uc,250,700,shxishu,'A0CM')
     call WuGongShangHai(u,uc,shanghai)
     if GetUnitAbilityLevel(u,'A06P')>=1 and GetRandomReal(1.,200)<=fuyuan[i] then
 	    //call SetUnitState(u,UNIT_STATE_MANA,GetUnitState(u,UNIT_STATE_MANA)+80)

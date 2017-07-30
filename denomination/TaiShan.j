@@ -10,7 +10,7 @@
 /*
  * 七星落长空 A08A 释放七次星落，对范围内随机敌人造成伤害（以及特效）伤害递增20%
  * 主动武功
- * 伤害系数：w1=20, w2=20
+ * 伤害系数：w1=30, w2=30
  * 伤害搭配：
  *		+乾坤大挪移 A07W 伤害+60%
  *		+葵花宝典 A07T 伤害+100%
@@ -33,7 +33,7 @@
   * 可替换参数：
   * 范围 800
   * 升重速度 200
-  * w1=20 w2=20
+  * w1=30 w2=30
   * 特效字符串 Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl
   * 
   * 可选搭配：
@@ -65,7 +65,7 @@
 		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
 		call PolledWait(0.2)
 		//u对ut造成伤害
-		set shanghai=ShangHaiGongShi(u,ut,20*(0.8+i*0.2),20*(0.8+i*0.2),shxishu,'A08A')
+		set shanghai=ShangHaiGongShi(u,ut,30*(0.8+i*0.2),30*(0.8+i*0.2),shxishu,'A08A')
 		call WuGongShangHai(u,ut,shanghai)
 		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +吸星大法
 			if (GetRandomInt(0, 100)<=50) then
@@ -84,7 +84,7 @@
  endfunction
 
 /*
- * 岱宗如何 A08B 施放后数秒内大幅提升暴击倍数（50*武功重数）
+ * 岱宗如何 A08B 施放后数秒内大幅提升暴击倍数（50%*武功重数）
  * 主动武功
  * 伤害搭配：
  *		+葵花宝典 A07T 暴击伤害额外+20%
@@ -123,6 +123,32 @@ function issueTargetDaiZong takes unit u, integer i, timer t, real extraHit retu
 	call SaveReal(YDHT, GetHandleId(t), 1, extraHit)
 	call SaveInteger(YDHT, GetHandleId(t), 2, i)
 	call TimerStart(t, 10, false, function removeDaiZongBuff)
+endfunction
+
+function IsDaiZongBeiDong takes nothing returns boolean
+	return UnitHasBuffBJ(GetAttacker(), 'B01K') and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker()))
+endfunction
+
+function DaiZongBeiDongDamageFilter takes nothing returns boolean
+	return DamageFilter(GetAttacker(), GetFilterUnit())
+endfunction
+
+function DaiZongBeiDong_Action takes nothing returns nothing
+	local unit u = GetAttacker()
+	local unit ut = GetEnumUnit()
+	local string modelName = "Abilities\\Spells\\Undead\\FreezingBreath\\FreezingBreathTargetArt.mdl" // 冰霜喷吐
+	local real shxishu = 1
+	call PassiveWuGongEffectAndDamage(u, ut, modelName, 20, 20, shxishu, 'A08B')
+	set u = null
+	set ut = null
+endfunction
+
+function DaiZongBeiDong takes nothing returns nothing
+	local location loc = GetUnitLoc(GetAttacker())
+	local integer i = 1 + GetPlayerId(GetOwningPlayer(GetAttacker()))
+	call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(700,loc,Condition(function DaiZongBeiDongDamageFilter)), function DaiZongBeiDong_Action)
+	call RemoveLocation(loc)
+	set loc = null
 endfunction
  /*
   * 触发器动作
@@ -191,7 +217,7 @@ endfunction
 /*
  * 五大夫剑 A08G
  * 被动武功
- * 伤害系数：w1=20, w2=20
+ * 伤害系数：w1=40, w2=40
  * 伤害搭配：
  *		+化功大法 A07P 伤害+100%
  *		+葵花宝典 A07T 伤害+100%
@@ -218,27 +244,27 @@ function WuDaFuJian_Action takes nothing returns nothing
 	local real shxishu = 1 + DamageCoefficientByAbility(u, 'A07P', 1.0) + DamageCoefficientByAbility(u, 'A07T', 1.0) + DamageCoefficientByItem(u, 'I00B', 3.0)
 	local integer i = GetRandomInt(0, 100)
 	if (i <= 20) then
-		call PassiveWuGongEffectAndDamage(u, ut, modelName1, 10, 50, shxishu, 'A08G')
+		call PassiveWuGongEffectAndDamage(u, ut, modelName1, 20, 100, shxishu, 'A08G')
 		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
 			call WanBuff(u, ut, 4)
 		endif
 	elseif (i<= 40) then
-		call PassiveWuGongEffectAndDamage(u, ut, modelName2, 20, 40, shxishu, 'A08G')
+		call PassiveWuGongEffectAndDamage(u, ut, modelName2, 40, 80, shxishu, 'A08G')
 		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
 			call WanBuff(u, ut, 5)
 		endif
 	elseif (i<= 60) then
-		call PassiveWuGongEffectAndDamage(u, ut, modelName3, 30, 30, shxishu, 'A08G')
+		call PassiveWuGongEffectAndDamage(u, ut, modelName3, 60, 60, shxishu, 'A08G')
 		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
 			call WanBuff(u, ut, 3)
 		endif
 	elseif (i<= 80) then
-		call PassiveWuGongEffectAndDamage(u, ut, modelName4, 40, 20, shxishu, 'A08G')
+		call PassiveWuGongEffectAndDamage(u, ut, modelName4, 80, 40, shxishu, 'A08G')
 		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
 			call WanBuff(u, ut, 13)
 		endif
 	else
-		call PassiveWuGongEffectAndDamage(u, ut, modelName5, 50, 10, shxishu, 'A08G')
+		call PassiveWuGongEffectAndDamage(u, ut, modelName5, 100, 20, shxishu, 'A08G')
 		if (GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 'A07U') >= 1) then
 			call WanBuff(u, ut, 9)
 		endif
@@ -256,7 +282,7 @@ endfunction
 /*
  * 快活三剑 A08H
  * 被动武功
- * 伤害系数：w1=1.6, w2=1.6
+ * 伤害系数：w1=6.4, w2=6.4
  * 伤害搭配：
  *		+吸星大法 A07R 伤害+100%
  *		+葵花宝典 A07T 伤害范围+200
@@ -300,7 +326,7 @@ function KuaiHuoSanJian takes nothing returns nothing
 	if (GetUnitAbilityLevel(caster, 'A083') >= 1) then
 		set jmax = jmax + 6
 	endif
-	set damage = ShangHaiGongShi(caster, null, 3.2, 3.2, shxishu, 'A08H')
+	set damage = ShangHaiGongShi(caster, null, 6.4, 6.4, shxishu, 'A08H')
 	if (GetRandomInt(0, 100) <= 15 + fuyuan[i]) then
 		call WuGongShengChong(caster, 'A08H', 700 - GetUnitAbilityLevel(caster, 'A03V') * 350)
 		loop
@@ -337,6 +363,10 @@ function TaiShan_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t, Condition(function IsDaiZongRuHe))
 	call TriggerAddAction(t, function DaiZongRuHe)
+	set t = CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t, Condition(function IsDaiZongBeiDong))
+	call TriggerAddAction(t, function DaiZongBeiDong)
 	/*
 	 * 泰山十八盘触发器
 	 */

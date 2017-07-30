@@ -344,7 +344,7 @@ function rF takes nothing returns nothing
     if GetUnitAbilityLevel(u,'A07J')!=0 and GetUnitAbilityLevel(u,'A07X')!=0 and GetUnitAbilityLevel(u,1093678932)!=0 and GetUnitAbilityLevel(u,'A07F')!=0 then
     	set shxishu=shxishu*4*2
 	endif
-    set shanghai=ShangHaiGongShi(u,uc,26.6,26.6,shxishu,'A06J')
+    set shanghai=ShangHaiGongShi(u,uc, 53, 53,shxishu,'A06J')
     call WuGongShangHai(u,uc,shanghai)
     set u=null
     set uc=null
@@ -665,7 +665,7 @@ function MF takes nothing returns nothing
     if GetUnitAbilityLevel(u,'A06J')!=0 and GetUnitAbilityLevel(u,'A07F')!=0 and GetUnitAbilityLevel(u,'A07X')!=0 and GetUnitAbilityLevel(u,'A06M')!=0 and GetUnitAbilityLevel(u,1093678935)!=0 and GetUnitAbilityLevel(u,'A084')!=0 and GetUnitAbilityLevel(u,1093678930)!=0 then
     	set shxishu=shxishu*7*2
 	endif
-    set shanghai=ShangHaiGongShi(u,uc,38.7,38.7,shxishu,'A071')
+    set shanghai=ShangHaiGongShi(u,uc,75, 75,shxishu,'A071')
     call WuGongShangHai(u,uc,shanghai)
     if((GetUnitAbilityLevel(u,'A06M')!=0)and(GetRandomInt(1,$A)<5)and(UnitHasBuffBJ(uc,1110454323)==false))then
          call WanBuff(u, uc, 3)

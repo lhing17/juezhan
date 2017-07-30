@@ -330,7 +330,7 @@ function BaHuangGong takes nothing returns nothing
 		set jishu = 15
 	endif
 	if GetRandomInt(1,100)<6+fuyuan[i]/3+GetUnitAbilityLevel(u, 'A085')*3 then
-		call WuGongShengChong(u, 'A02G', 700-70*GetUnitAbilityLevel(u, 'A089'))
+		call WuGongShengChong(u, 'A02G', 500-50*GetUnitAbilityLevel(u, 'A089'))
 		if GetUnitAbilityLevel(u, 'A0D2')>=1 then
 			call ModifyHeroStat(j, u, 0, jishu*level*6)
 			set t = CreateTimer()

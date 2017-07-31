@@ -669,7 +669,7 @@ endif
 set N7=1
 loop
 exitwhen N7>MM7
-call createitemloc(1227895374,LoadLocationHandle(YDHT,id*cx,$1769D332))
+call createitemloc('I09I',LoadLocationHandle(YDHT,id*cx,$1769D332))
 if((GetRandomInt(1,50)<=30))then
 call createitemloc(YaoCao[6],LoadLocationHandle(YDHT,id*cx,$1769D332))
 if udg_lddsbool[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))] then
@@ -1211,7 +1211,7 @@ endloop
 call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
 call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//杀矮人得残章第二式
+//杀矮人得决战魁、杀矮子王得江湖忠
 function IsAiRen takes nothing returns boolean
     return((GetUnitTypeId(GetTriggerUnit())=='hrif') or (GetUnitTypeId(GetTriggerUnit())=='Hmkg'))
 endfunction
@@ -1223,9 +1223,7 @@ function KillAiRen takes nothing returns nothing
     	    call createitemloc('I08Y',loc)
     	endif
     else
-		if GetRandomInt(1,3)==1 then
-    		call createitemloc('I08Y',loc)
-    	endif
+   		call createitemloc('I08V',loc)
 	endif
     call RemoveLocation(loc)
     set loc=null
@@ -2324,7 +2322,7 @@ return((GetItemTypeId(GetManipulatedItem())==1227895883))
 endfunction
 function WN takes nothing returns nothing
 if((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)))then
-call unitadditembyidswapped(1227895374,GetTriggerUnit())
+call unitadditembyidswapped('I02N',GetTriggerUnit())
 else
 call AdjustPlayerStateBJ(20,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_LUMBER)
 call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0,0,10.,"|CFFFF0000该道具只能由主角亲自购买")

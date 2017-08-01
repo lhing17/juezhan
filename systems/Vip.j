@@ -105,7 +105,7 @@ function ChooseVIP takes nothing returns nothing
 	local player p = GetOwningPlayer(GetTriggerUnit())
 	local integer i = 1 + GetPlayerId(p)
 	local string str = null
-	call DisplayTextToPlayer(p, 0, 0, "|CFF00FF00点击六位正确的激活码可激活相应礼包")
+	call DisplayTextToPlayer(p, 0, 0, "|CFF00FF00点击六位正确的数字可解锁相应功能")
 	//if udg_vip[i] == 0  then
 		if GetItemTypeId(GetManipulatedItem())=='I0AA' then
 			set vipnum_1[i] = vipnum_1[i] + "1"

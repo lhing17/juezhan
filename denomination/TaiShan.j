@@ -200,7 +200,7 @@ function ShiBaPan takes nothing returns nothing
 	local integer abilityLevel = IMinBJ(1 + GetUnitAbilityLevel(u, 'A07T') + GetUnitAbilityLevel(u, 'A07R') + GetUnitAbilityLevel(u, 'A07W'), 4)
 	if (GetRandomInt(1, 100) <= 5 + GetUnitAbilityLevel(u, 'A08F') + fuyuan[i] / 5 and not(UnitHasBuffBJ(u, 'B01L'))) then
 		call WuGongShengChong(u, 'A08E', 600)
-		if GetUnitAbilityLevel(GetTriggerUnit(), 'A083') >= 1 then
+		if GetUnitAbilityLevel(u, 'A083') >= 1 then
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[1], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[1], 3)
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[2], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[2], 3)
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[3], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[3], 3)

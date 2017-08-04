@@ -1552,7 +1552,7 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	local real random //随机因子
 	local real basic_damage //基础伤害
 	if UnitTypeNotNull(u,UNIT_TYPE_HERO) then
-		set attack = (1+0.3*GetUnitAbilityLevel(u, 'A059'))*50*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
+		set attack = (1+0.3*GetUnitAbilityLevel(u, 'A059'))*37.5*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
 		if GetUnitAbilityLevel(u, id)==9 then
 			set attack = attack * 3
 		endif

@@ -1,73 +1,62 @@
 
 //------------江湖武功开始------------
 //弹指神通
-function O3 takes nothing returns boolean
+function IsTanZhi takes nothing returns boolean
 	return((GetSpellAbilityId()=='A06H')and(UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)))
 endfunction
-function P3 takes nothing returns boolean
-	local integer id=GetHandleId(GetTriggeringTrigger())
-	return(((IsUnitAliveBJ(GetFilterUnit()))and(IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(LoadUnitHandle(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),$59BEA0CB))))))
+function TanZhi_Condition takes nothing returns boolean
+	return IsUnitAliveBJ(GetFilterUnit())and IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(GetTriggerUnit()))
 endfunction
-function Q3 takes nothing returns nothing
-	local integer id=GetHandleId(GetTriggeringTrigger())
-	local integer cx=LoadInteger(YDHT,id,-$3021938A)
-	set cx=cx+3
-	call SaveInteger(YDHT,id,-$3021938A,cx)
-	call SaveInteger(YDHT,id,-$1317DA19,cx)
-	call SaveUnitHandle(YDHT,id*cx,$59BEA0CB,GetTriggerUnit())
-	call SaveInteger(YDHT,id*cx,-$2A41B3A3,'A06H')
-	call SaveLocationHandle(YDHT,id*cx,-$72C3E060,GetUnitLoc(GetTriggerUnit()))
-	call SaveLocationHandle(YDHT,id*cx,-$3348E012,GetUnitLoc(GetSpellTargetUnit()))
-	call SaveUnitHandle(YDHT,id*cx,-$270B8163,GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(300.,LoadLocationHandle(YDHT,id*cx,-$3348E012),Condition(function P3))))
-	if((GetUnitAbilityLevel(LoadUnitHandle(YDHT,id*cx,$59BEA0CB),'A07U')!=0))then
-	call CreateNUnitsAtLoc(1,'e000',GetOwningPlayer(LoadUnitHandle(YDHT,id*cx,$59BEA0CB)),LoadLocationHandle(YDHT,id*cx,-$72C3E060),bj_UNIT_FACING)
-	call UnitAddAbility(bj_lastCreatedUnit,LoadInteger(YDHT,id*cx,-$2A41B3A3))
-	call SetUnitAbilityLevel(bj_lastCreatedUnit,LoadInteger(YDHT,id*cx,-$2A41B3A3),GetUnitAbilityLevel(LoadUnitHandle(YDHT,id*cx,$59BEA0CB),LoadInteger(YDHT,id*cx,-$2A41B3A3)))
-	call IssueTargetOrderById(bj_lastCreatedUnit,$D0097,LoadUnitHandle(YDHT,id*cx,-$270B8163))
-	call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',2.)
-	call ShowUnitHide(bj_lastCreatedUnit)
+function TanZhiShenTong takes nothing returns nothing
+	local unit u = GetTriggerUnit()
+	local player p = GetOwningPlayer(u)
+	local location loc = GetUnitLoc(u)
+	local location loc2 = GetUnitLoc(GetSpellTargetUnit())
+	local integer i = 1 + GetPlayerId(p)
+	if (GetUnitAbilityLevel(u, 'A07U')>=1) then
+		call CreateNUnitsAtLoc(1, 'e000', p, loc, bj_UNIT_FACING)
+		call UnitAddAbility(bj_lastCreatedUnit, 'A06H')
+		call SetUnitAbilityLevel(bj_lastCreatedUnit, 'A06H', GetUnitAbilityLevel(u, 'A06H'))
+		call IssueTargetOrderById(bj_lastCreatedUnit, $D0097, GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(300, loc2, Condition(function TanZhi_Condition))))
+		call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',2.)
+		call ShowUnitHide(bj_lastCreatedUnit)
 	endif
 	call WuGongShengChong(GetTriggerUnit(),'A06H',350.)
-	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,-$72C3E060))
-	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,-$3348E012))
-	call YDWELocalVariableEnd()
-	call FlushChildHashtable(YDHT,id*cx)
+	call RemoveLocation(loc)
+	call RemoveLocation(loc2)
+	set u = null
+	set p = null
+	set loc = null
+	set loc2 = null
 endfunction
-function S3 takes nothing returns boolean
+function IsTanZhiBeiDong takes nothing returns boolean
 	return((GetUnitAbilityLevel(GetAttacker(),'A06H')>=1)and(GetUnitAbilityLevel(GetAttacker(),'A07S')>=1))
 endfunction
-function T3 takes nothing returns nothing
-	local integer id=GetHandleId(GetTriggeringTrigger())
-	local integer cx=LoadInteger(YDHT,id,-$3021938A)
-	set cx=cx+3
-	call SaveInteger(YDHT,id,-$3021938A,cx)
-	call SaveInteger(YDHT,id,-$1317DA19,cx)
-	call YDWELocalVariableInitiliation()
-	call SaveUnitHandle(YDHT,id*cx,$59BEA0CB,GetAttacker())
-	call SaveUnitHandle(YDHT,id*cx,-$270B8163,GetTriggerUnit())
-	call SaveLocationHandle(YDHT,id*cx,-$72C3E060,GetUnitLoc(GetAttacker()))
-	call SaveInteger(YDHT,id*cx,-$2A41B3A3,'A06H')
-	call SaveReal(YDHT,id*cx,$2392447A,8.)
-	if((GetRandomReal(.0,100.)<=LoadReal(YDHT,id*cx,$2392447A)))then
-	call CreateNUnitsAtLoc(1,'e000',GetOwningPlayer(LoadUnitHandle(YDHT,id*cx,$59BEA0CB)),LoadLocationHandle(YDHT,id*cx,-$72C3E060),bj_UNIT_FACING)
-	call UnitAddAbility(bj_lastCreatedUnit,LoadInteger(YDHT,id*cx,-$2A41B3A3))
-	call SetUnitAbilityLevel(bj_lastCreatedUnit,LoadInteger(YDHT,id*cx,-$2A41B3A3),GetUnitAbilityLevel(LoadUnitHandle(YDHT,id*cx,$59BEA0CB),LoadInteger(YDHT,id*cx,-$2A41B3A3)))
-	call IssueTargetOrderById(bj_lastCreatedUnit,$D0097,LoadUnitHandle(YDHT,id*cx,-$270B8163))
-	call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',2.)
-	call ShowUnitHide(bj_lastCreatedUnit)
+function TanZhiBeiDong takes nothing returns nothing
+	local unit u = GetAttacker()
+	local unit ut = GetTriggerUnit()
+	local location loc = GetUnitLoc(u)
+	local player p = GetOwningPlayer(u)
+	if GetRandomReal(0, 100) <= 8 then
+		call CreateNUnitsAtLoc(1, 'e000', p, loc, bj_UNIT_FACING)
+		call UnitAddAbility(bj_lastCreatedUnit, 'A06H')
+		call SetUnitAbilityLevel(bj_lastCreatedUnit, 'A06H', GetUnitAbilityLevel(u, 'A06H'))
+		call IssueTargetOrderById(bj_lastCreatedUnit, $D0097, ut)
+		call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',2.)
+		call ShowUnitHide(bj_lastCreatedUnit)
 	endif
-	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,-$72C3E060))
-	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,-$3348E012))
-	call YDWELocalVariableEnd()
-	call FlushChildHashtable(YDHT,id*cx)
+	call RemoveLocation(loc)
+	set u = null
+	set ut = null
+	set p = null
 endfunction
-function V3 takes nothing returns boolean
+function IsTanZhiShangHai takes nothing returns boolean
 	return((GetEventDamage()==.21))
 endfunction
-function W3 takes nothing returns boolean
+function TanZhiShangHai_Conditiom takes nothing returns boolean
 	return IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(GetEventDamageSource()))and IsUnitAliveBJ(GetFilterUnit())
 endfunction
-function X3 takes nothing returns nothing
+function TanZhiShangHai_Action takes nothing returns nothing
 	local integer i=1+GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
 	local unit u=udg_hero[i]
     local unit uc=GetEnumUnit()
@@ -78,7 +67,7 @@ function X3 takes nothing returns nothing
     set u=null
     set uc=null
 endfunction
-function Y3 takes nothing returns nothing
+function TanZhiShangHai takes nothing returns nothing
 	local integer i=1+GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
 	local unit u=udg_hero[i]
     local unit uc=GetTriggerUnit()
@@ -106,7 +95,7 @@ function Y3 takes nothing returns nothing
     endif
     if((GetUnitAbilityLevel(u,1395666994)!=0))then
         call DestroyEffect(AddSpecialEffectLocBJ(loc2,"war3mapImported\\PsiWave.mdx"))
-        call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(100.,loc2,Condition(function W3)),function X3)
+        call ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(100.,loc2,Condition(function TanZhiShangHai_Conditiom)),function TanZhiShangHai_Action)
     endif
     call RemoveLocation(loc)
     call RemoveLocation(loc2)
@@ -973,16 +962,16 @@ function JiangHuWuGong_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	call TriggerAddCondition(t,Condition(function O3))
-	call TriggerAddAction(t,function Q3)
+	call TriggerAddCondition(t,Condition(function IsTanZhi))
+	call TriggerAddAction(t,function TanZhiShenTong)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
-	call TriggerAddCondition(t,Condition(function S3))
-	call TriggerAddAction(t,function T3)
+	call TriggerAddCondition(t,Condition(function IsTanZhiBeiDong))
+	call TriggerAddAction(t,function TanZhiBeiDong)
 	set t=CreateTrigger()
 	call YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	call TriggerAddCondition(t,Condition(function V3))
-	call TriggerAddAction(t,function Y3)
+	call TriggerAddCondition(t,Condition(function IsTanZhiShangHai))
+	call TriggerAddAction(t,function TanZhiShangHai)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	call TriggerAddCondition(t,Condition(function dF))

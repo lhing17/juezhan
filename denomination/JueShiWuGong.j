@@ -64,46 +64,41 @@ function gG takes nothing returns nothing
 	call ForGroupBJ(j9,function fG)
 endfunction
 //独孤九剑
-function iG takes nothing returns boolean
+function IsDuGuJiuJian takes nothing returns boolean
 	return((GetSpellAbilityId()=='A07F')and(UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)))
 endfunction
-function jG takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveUnitHandle(YDHT,id*cx,$59BEA0CB,GetTriggerUnit())
-call SaveInteger(YDHT,id*cx,-$2A41B3A3,'A07F')
-call GroupAddUnit(k9,LoadUnitHandle(YDHT,id*cx,$59BEA0CB))
-set m9=.0
-set n9=.0
-set o9[0]=GetUnitLoc(LoadUnitHandle(YDHT,id*cx,$59BEA0CB))
-set p9=1
-loop
-exitwhen p9>48
-set m9=m9+18.
-set o9[1]=pu(o9[0],400.,(I2R(p9)*28.))
-call CreateNUnitsAtLoc(1,1747988531,GetOwningPlayer(LoadUnitHandle(YDHT,id*cx,$59BEA0CB)),o9[1],bj_UNIT_FACING)
-set q9[p9]=bj_lastCreatedUnit
-call RemoveLocation(o9[1])
-call SetUnitAnimation(q9[p9],"birth")
-call SetUnitFlyHeight(q9[p9],m9,100.)
-set p9=p9+1
-endloop
-call RemoveLocation(o9[0])
-call WuGongShengChong(GetTriggerUnit(),'A07F',120.)
-call YDWEWaitForLocalVariable(15.)
-call GroupRemoveUnit(k9,LoadUnitHandle(YDHT,id*cx,$59BEA0CB))
-call YDWELocalVariableEnd()
-call FlushChildHashtable(YDHT,id*cx)
+function DuGuJiuJian takes nothing returns nothing
+	local unit u = GetTriggerUnit()
+	local player p = GetOwningPlayer(u)
+	call GroupAddUnit(k9, u)
+	set m9=.0
+	set n9=.0
+	set o9[0]=GetUnitLoc(u)
+	set p9=1
+	loop
+		exitwhen p9>20
+		set m9=m9+18.
+		set o9[1]=pu(o9[0],300.,(I2R(p9)*28.))
+		call CreateNUnitsAtLoc(1,'h003',p ,o9[1],bj_UNIT_FACING)
+		set q9[p9]=bj_lastCreatedUnit
+		call RemoveLocation(o9[1])
+		call SetUnitAnimation(q9[p9],"birth")
+		call SetUnitFlyHeight(q9[p9],m9,100.)
+		set p9=p9+1
+	endloop
+	call RemoveLocation(o9[0])
+	call WuGongShengChong(GetTriggerUnit(),'A07F',120.)
+	call PolledWait(10.)
+	call GroupRemoveUnit(k9, u)
+	set u = null
+	set p = null
 endfunction
 function mG takes nothing returns boolean
-return((CountUnitsInGroup(k9)>0))
+	return((CountUnitsInGroup(k9)>0))
 endfunction
 function nG takes nothing returns boolean
-local integer id=GetHandleId(GetTriggeringTrigger())
-return(((IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(LoadUnitHandle(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),$59BEA0CB))))and(IsUnitAliveBJ(GetFilterUnit()))))
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	return(((IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(LoadUnitHandle(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),$59BEA0CB))))and(IsUnitAliveBJ(GetFilterUnit()))))
 endfunction
 function oG takes nothing returns nothing
 	local unit u=LoadUnitHandle(YDHT,GetHandleId(GetTriggeringTrigger())*LoadInteger(YDHT,GetHandleId(GetTriggeringTrigger()),-$1317DA19),$59BEA0CB)
@@ -111,7 +106,7 @@ function oG takes nothing returns nothing
 	local integer i=1+GetPlayerId(GetOwningPlayer(u))
 	local real shxishu=jueXueXiShu(i)
 	local real shanghai=0.
-    set shanghai=ShangHaiGongShi(u,uc,4.,4.,shxishu,'A07F')
+    set shanghai=ShangHaiGongShi(u,uc,9.,9.,shxishu,'A07F')
   	call WuGongShangHai(u,uc,shanghai)
     set u=null
     set uc=null
@@ -126,7 +121,7 @@ set n9=(n9+12.)
 set p9=1
 loop
 exitwhen p9>48
-set o9[2]=pu(LoadLocationHandle(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$72C3E060),450.,((I2R(p9)*16.)+n9))
+set o9[2]=pu(LoadLocationHandle(YDHT,id*LoadInteger(YDHT,id,-$1317DA19),-$72C3E060),300.,((I2R(p9)*16.)+n9))
 call SetUnitPositionLoc(q9[p9],o9[2])
 call RemoveLocation(o9[2])
 set p9=p9+1
@@ -1487,8 +1482,8 @@ function JueShiWuGong_Trigger takes nothing returns nothing
 	call TriggerAddAction(t,function gG)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	call TriggerAddCondition(t,Condition(function iG))
-	call TriggerAddAction(t,function jG)
+	call TriggerAddCondition(t,Condition(function IsDuGuJiuJian))
+	call TriggerAddAction(t,function DuGuJiuJian)
 	set t=CreateTrigger()
 	call TriggerRegisterTimerEventPeriodic(t,.03)
 	call TriggerAddCondition(t,Condition(function mG))

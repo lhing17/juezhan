@@ -68,7 +68,7 @@ function TianZhuYunQi takes nothing returns nothing
 	set loc = GetUnitLoc(u)
 	set loc2 = PolarProjectionBJ(loc, GetRandomReal(100,300), angle)
 	set loc3 = PolarProjectionBJ(loc, GetRandomReal(100,300), 180+angle)
-	if (GetRandomReal(.0,100.)<=15+fuyuan[i]/5)then
+	if (GetRandomReal(.0,200.)<=15+fuyuan[i]/5)then
 		call WuGongShengChong(u,'A04M',900.)
 		call DestroyEffect(AddSpecialEffectLocBJ(loc2, "war3mapImported\\aquaspike.mdl" ))
 		call GroupEnumUnitsInRangeOfLoc(g,loc2,500,Condition(function TianZhu_Condition))

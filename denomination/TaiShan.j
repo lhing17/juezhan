@@ -24,7 +24,48 @@
  endfunction
  
  function QiXingLuo_Condition takes nothing returns boolean
-	return DamageFilter(GetTriggerUnit(), GetFilterUnit())
+	return DamageFilter(LoadUnitHandle(YDHT, $6162A, 0), GetFilterUnit())
+ endfunction
+ 
+ function QiXingLuo_Action takes nothing returns nothing
+	local timer t = GetExpiredTimer()
+	local integer iMax = LoadInteger(YDHT, GetHandleId(t), 0)
+	local unit u = LoadUnitHandle(YDHT, GetHandleId(t), 1)
+	local real range = LoadReal(YDHT, GetHandleId(t), 2)
+	local integer i = LoadInteger(YDHT, GetHandleId(t), 3)
+	local location loc = GetUnitLoc(u)
+	local real shxishu = 1 + DamageCoefficientByAbility(u,'A07W', 0.6) + DamageCoefficientByAbility(u,'A07T', 1) // 乾坤大挪移+60% 葵花宝典+100%
+	local real shanghai = 0.
+	local group g = null
+	local unit ut = null
+	if (i <= iMax) then
+		set g = CreateGroup()
+		call SaveUnitHandle(YDHT, $6162A, 0, u)
+		call GroupEnumUnitsInRangeOfLoc(g, loc, range, function QiXingLuo_Condition)
+		set ut = GroupPickRandomUnit(g)
+		//添加特效
+		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
+		//u对ut造成伤害
+		set shanghai=ShangHaiGongShi(u,ut,30*(0.8+i*0.2),30*(0.8+i*0.2),shxishu,'A08A')
+		call WuGongShangHai(u,ut,shanghai)
+		if (GetUnitAbilityLevel(u, 'A07R')>=1) then // +吸星大法
+			if (GetRandomInt(0, 100)<=50) then
+				call WanBuff(u, ut, 4) //混乱
+			else
+				call WanBuff(u, ut, 11) //封穴
+			endif
+		endif
+		call DestroyGroup(g)
+		call SaveInteger(YDHT, GetHandleId(t), 3, i + 1)
+	else
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call FlushChildHashtable(YDHT, GetHandleId(t))
+	endif
+	call RemoveLocation(loc)
+	set t = null
+	set u = null
+	set loc = null
  endfunction
  
  /*
@@ -42,45 +83,23 @@
   * 减小随机的范围 斗转A07Q+范围减半 擒龙控鹤A03V+范围减半
   */
  function QiXingLuoChangKong takes nothing returns nothing
-	local group g = CreateGroup()
+	local timer t = CreateTimer()
 	local integer i = 0
-	local real shanghai = 0.
 	local unit u = GetTriggerUnit()
-	local location loc = GetUnitLoc(u)
-	local unit ut = null
-	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07W', 0.6) + DamageCoefficientByAbility(GetTriggerUnit(),'A07T', 1) // 乾坤大挪移+60% 葵花宝典+100%
 	local real range = 800
-	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07Q')>=1) then // +斗转星移
+	if (GetUnitAbilityLevel(u, 'A07Q')>=1) then // +斗转星移
 		set range = range / 2
 	endif
-	if (GetUnitAbilityLevel(GetTriggerUnit(), 'A03V')>=1) then // +擒龙控鹤
+	if (GetUnitAbilityLevel(u, 'A03V')>=1) then // +擒龙控鹤
 		set range = range / 2
 	endif
-	call WuGongShengChong(GetTriggerUnit(), 'A08A', 200) //武功升重
-	call GroupEnumUnitsInRangeOfLoc(g, loc, range, function QiXingLuo_Condition)
-	loop
-		exitwhen i >= 7
-		set ut = GroupPickRandomUnit(g)
-		//添加特效
-		call DestroyEffect(AddSpecialEffectTargetUnitBJ("origin",ut,"Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl"))
-		call PolledWait(0.2)
-		//u对ut造成伤害
-		set shanghai=ShangHaiGongShi(u,ut,30*(0.8+i*0.2),30*(0.8+i*0.2),shxishu,'A08A')
-		call WuGongShangHai(u,ut,shanghai)
-		if (GetUnitAbilityLevel(GetTriggerUnit(), 'A07R')>=1) then // +吸星大法
-			if (GetRandomInt(0, 100)<=50) then
-				call WanBuff(u, ut, 4) //混乱
-			else
-				call WanBuff(u, ut, 11) //封穴
-			endif
-		endif
-		set i = i + 1
-	endloop
-	call RemoveLocation(loc)
-	set g = null
-	set loc = null
+	call WuGongShengChong(u, 'A08A', 200) //武功升重
+	call SaveInteger(YDHT, GetHandleId(t), 0, 7 * (1 + GetUnitAbilityLevel(u, 'A07Q'))*(1 + GetUnitAbilityLevel(u, 'A03V')))
+	call SaveUnitHandle(YDHT, GetHandleId(t), 1, u)
+	call SaveReal(YDHT, GetHandleId(t), 2, range)
+	call TimerStart(t, 0.3, true, function QiXingLuo_Action)
+	set t = null
 	set u = null
-	set ut = null
  endfunction
 
 /*
@@ -138,7 +157,7 @@ function DaiZongBeiDong_Action takes nothing returns nothing
 	local unit ut = GetEnumUnit()
 	local string modelName = "Abilities\\Spells\\Undead\\FreezingBreath\\FreezingBreathTargetArt.mdl" // 冰霜喷吐
 	local real shxishu = 1
-	if GetRandomInt(0, 100) <= 33 then
+	if GetRandomInt(0, 100) <= 15 then
 		call PassiveWuGongEffectAndDamage(u, ut, modelName, 20, 20, shxishu, 'A08B')
 	endif
 	set u = null
@@ -200,7 +219,7 @@ function ShiBaPan takes nothing returns nothing
 	local unit ut = GetTriggerUnit()
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(u))
 	local integer abilityLevel = IMinBJ(1 + GetUnitAbilityLevel(u, 'A07T') + GetUnitAbilityLevel(u, 'A07R') + GetUnitAbilityLevel(u, 'A07W'), 4)
-	if (GetRandomInt(1, 100) <= 5 + GetUnitAbilityLevel(u, 'A08F') + fuyuan[i] / 5 and not(UnitHasBuffBJ(u, 'B01L'))) then
+	if (GetRandomInt(1, 100) <= 15 + GetUnitAbilityLevel(u, 'A08F') + fuyuan[i] / 5 and not(UnitHasBuffBJ(u, 'B01L'))) then
 		call WuGongShengChong(u, 'A08E', 500)
 		if GetUnitAbilityLevel(u, 'A083') >= 1 then
 			call maJiaUseLeveldAbilityAtTargetLoc(udg_hero[1], 'e000',  'A08F', abilityLevel, $D0085, udg_hero[1], 3)
@@ -284,12 +303,12 @@ endfunction
 /*
  * 快活三剑 A08H
  * 被动武功
- * 伤害系数：w1=6.4, w2=6.4
+ * 伤害系数：w1=16, w2=16
  * 伤害搭配：
  *		+吸星大法 A07R 伤害+100%
  *		+葵花宝典 A07T 伤害范围+200
- *		+双手互搏 A07U 剑数量+2
- *		+小无相功 A083 剑数量+6
+ *		+双手互搏 A07U 伤害+80%
+ *		+小无相功 A083 伤害+150%
  *		+擒龙控鹤 A03V 加快升重速度
  */
 // 触发器条件
@@ -313,27 +332,27 @@ function KuaiHuoSanJian takes nothing returns nothing
 	local unit target = null //目标单位
 	local real height = 50 //初始高度
 	local real hp = 400 //弹幕耐久度
-	local string Effect = "war3mapImported\\dk.mdl" //弹幕特效
+	local string Effect = "Abilities\\Weapons\\Dryadmissile\\Dryadmissile.mdl" //弹幕特效
 	local boolean gravity = false //是否考虑重力
 	local integer i = 1 + GetPlayerId(GetOwningPlayer(caster))
 	local integer j = 0
-	local integer jmax = 3
-	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07R', 1) // 伤害系数
+	local integer jmax = 2
+	local real shxishu = 1 + DamageCoefficientByAbility(GetTriggerUnit(),'A07R', 1) + DamageCoefficientByAbility(GetTriggerUnit(),'A07U', 0.8) + DamageCoefficientByAbility(GetTriggerUnit(),'A083', 1.5)// 伤害系数
 	if (GetUnitAbilityLevel(caster, 'A07T') >= 1) then
 		set range = range + 200
 	endif
-	if (GetUnitAbilityLevel(caster, 'A07U') >= 1) then
-		set jmax = jmax + 2
-	endif
-	if (GetUnitAbilityLevel(caster, 'A083') >= 1) then
-		set jmax = jmax + 6
-	endif
-	set damage = ShangHaiGongShi(caster, null, 6.4, 6.4, shxishu, 'A08H')
+	// if (GetUnitAbilityLevel(caster, 'A07U') >= 1) then
+		// set jmax = jmax + 2
+	// endif
+	// if (GetUnitAbilityLevel(caster, 'A083') >= 1) then
+		// set jmax = jmax + 6
+	// endif
+	set damage = ShangHaiGongShi(caster, null, 16, 16, shxishu, 'A08H')
 	if (GetRandomInt(0, 100) <= 15 + fuyuan[i]) then
 		call WuGongShengChong(caster, 'A08H', 700 - GetUnitAbilityLevel(caster, 'A03V') * 350)
 		loop
 			exitwhen j >= jmax
-			set angle = GetUnitFacing(caster) + 360 / jmax * j
+			set angle = GetUnitFacing(caster) + 360 / jmax * j + GetRandomReal(-90, 90)
 			set missile = CreateUnit(GetOwningPlayer(caster), 'h00M', GetUnitX(caster), GetUnitY(caster), angle) //弹幕单位
 			call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)
 			set j = j + 1

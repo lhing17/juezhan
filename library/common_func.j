@@ -1581,7 +1581,7 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	if uc == null then
 		set target_def = 1
 	else
-		set target_def = 1/(1+0.04*GetUnitLevel(uc))
+		set target_def = 1/(1+0.05*GetUnitLevel(uc))
 	endif
 	//set critical = udg_baojishanghai[1+GetPlayerId(GetOwningPlayer(u))]
 	if uc == null then

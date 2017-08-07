@@ -868,7 +868,7 @@ endif
 set N7=1
 loop
 exitwhen N7>MM7
-if((GetRandomInt(0,100)<=95))then
+if((GetRandomInt(0,100)<=90))then
 call createitemloc('I00W',LoadLocationHandle(YDHT,id*cx,$1769D332))
 else
 call createitemloc('I00T',LoadLocationHandle(YDHT,id*cx,$1769D332))

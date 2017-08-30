@@ -449,7 +449,7 @@ endfunction
 //击杀怪物后百分比概率掉落宝物的函数
 //如果副职为寻宝师或者1-1000间取随机数小于福缘成立的话，双倍掉落宝物
 
-//unit是击杀者
+//u是击杀者
 //possibility:第一种宝物掉落的概率
 //itemId:第一种宝物的id
 //itemId2:第二种宝物掉落的id，如果没有第二种宝物可以为0
@@ -1550,9 +1550,10 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 	//local real critical //暴击因子
 	local real dodge //闪避因子
 	local real random //随机因子
+	local real depth // 精深系数
 	local real basic_damage //基础伤害
 	if UnitTypeNotNull(u,UNIT_TYPE_HERO) then
-		set attack = (1+0.3*GetUnitAbilityLevel(u, 'A059'))*37.5*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
+		set attack = (1+0.3*GetUnitAbilityLevel(u, 'A059'))*25*udg_lilianxishu[i]*(w1*(1+I2R(GetHeroStatBJ(0,u,true))/200)*(1+I2R(GetHeroStatBJ(1,u,true))/200)+w2*0.03*I2R(GetHeroStatBJ(2,u,true)))*(1.+GetUnitAbilityLevel(u,id))*(udg_shanghaijiacheng[i]+1.)*shxishu
 		if GetUnitAbilityLevel(u, id)==9 then
 			set attack = attack * 3
 		endif
@@ -1592,8 +1593,9 @@ function ShangHaiGongShi takes unit u, unit uc,real w1, real w2, real shxishu, i
 			set dodge = 0.
 		endif
 	endif
+	set depth = 1 + LoadReal(YDHT, GetHandleId(p), id*12)
 	set random = GetRandomReal(0.95, 0.95+I2R(udg_xinggeB[i])/20)
-	set basic_damage = attack * target_def * random
+	set basic_damage = attack * target_def * random * depth
 	if GetRandomReal(0, 100) < dodge then
 		set shanghai = 0
 	else

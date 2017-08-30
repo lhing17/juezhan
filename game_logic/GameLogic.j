@@ -1606,7 +1606,7 @@ endfunction
 //刷怪
 function HA takes nothing returns nothing
 	local timer t=CreateTimer()
-	if udg_boshu==5 and udg_teshushijian==true then
+	if udg_boshu==4 and udg_teshushijian==true then
 		call ChooseNanDu()
 	endif
 	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033邪教势力：第"+(I2S(udg_boshu)+"|CFFFF0033波")))
@@ -2031,13 +2031,14 @@ function HeroLevel takes nothing returns nothing
 	local player p = GetOwningPlayer(u)
 	local integer i = 1+GetPlayerId(p)
 	local location loc = null
+	// 练气师
 	if (Ce[i]==5) then
 		if GetRandomInt(1, 3)==1 then
-			call ModifyHeroStat(0, u, 0, GetRandomInt(4, 12))
+			call ModifyHeroStat(0, u, 0, GetRandomInt(4, 8))
 		elseif GetRandomInt(1, 2) ==1 then
-			call ModifyHeroStat(1, u, 0, GetRandomInt(4, 12))
+			call ModifyHeroStat(1, u, 0, GetRandomInt(4, 8))
 		else
-			call ModifyHeroStat(2, u, 0, GetRandomInt(4, 12))
+			call ModifyHeroStat(2, u, 0, GetRandomInt(4, 8))
 		endif
 		if (GetUnitLevel(u)==80) then
 			set juexuelingwu[i] = juexuelingwu[i]+10
@@ -3002,8 +3003,8 @@ function JiFenHuan takes unit u, item it, integer id1, integer num, integer id2 
 				call AdjustPlayerStateBJ(20-udg_nandu*2,p,PLAYER_STATE_RESOURCE_LUMBER)
 				call DisplayTextToPlayer(p,0,0,"|CFF34FF00获得珍稀币+"+I2S(20-udg_nandu*2))
 			elseif id1=='I06O' then
-				call AdjustPlayerStateBJ(8000-udg_nandu*1000,p,PLAYER_STATE_RESOURCE_GOLD)
-				call DisplayTextToPlayer(p,0,0,"|CFF34FF00获得金钱+"+I2S(8000-udg_nandu*1000))
+				call AdjustPlayerStateBJ(5000-udg_nandu*500,p,PLAYER_STATE_RESOURCE_GOLD)
+				call DisplayTextToPlayer(p,0,0,"|CFF34FF00获得金钱+"+I2S(5000-udg_nandu*500))
 			elseif id1=='I0A0' then
 				call unitadditembyidswapped(id2,udg_hero[i])
 				call DisplayTextToPlayer(p,0,0,"|CFF34FF00获得"+GetItemName(bj_lastCreatedItem))

@@ -294,7 +294,7 @@ function WanChengYangShou takes nothing returns nothing
 	local player p=GetOwningPlayer(u)
 	local integer i=1+GetPlayerId(p)
 	local integer id = LoadInteger(YDHT, GetHandleId(p), StringHash("life"))
-	local integer j = GetRandomInt(40, 60)
+	local integer j = GetRandomInt(25, 45)
 	local integer l = LoadInteger(YDHT, GetHandleId(p), StringHash("life")*2)
 	set shengwang[i] = shengwang[i] +  j * (l+1)
 	call AdjustPlayerStateBJ(5000 * (l+1), p, PLAYER_STATE_RESOURCE_GOLD)

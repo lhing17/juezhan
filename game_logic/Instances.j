@@ -1,4 +1,8 @@
-
+//--------------------------------
+//   
+//    副  本  系  统
+//
+//--------------------------------
 //杀野猪首领
 function WI takes nothing returns boolean
 	return((GetUnitTypeId(GetTriggerUnit())=='nqb3'))
@@ -98,7 +102,7 @@ function al takes nothing returns boolean
 endfunction
 function Bl takes nothing returns nothing
 	call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 8, 'I01I', 'I02E', 'I02H', 0, 0, 0)
-	call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 1, 'I01J', 0, 0, 0, 0, 0)
+	//call BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit() , 1, 'I01J', 0, 0, 0, 0, 0)
 endfunction
 //杀唐文亮
 function cl takes nothing returns boolean
@@ -275,39 +279,39 @@ function f1 takes nothing returns boolean
 return((GetUnitTypeId(GetTriggerUnit())=='nubw'))
 endfunction
 function g1 takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
-if((GetRandomInt(1,1000)<=fuyuan[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]) or (GetRandomInt(1, 100)<=30 and Ce[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==6))then
-set MM7=2
-else
-set MM7=1
-endif
-set N7=1
-loop
-exitwhen N7>MM7
-if((GetRandomInt(1,60)<=30))then
-call createitemloc(1227895878,LoadLocationHandle(YDHT,id*cx,$1769D332))
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,0)
-call SaveInteger(YDHT,id*cx,$648579A8,GetRandomInt(1,5))
-call SaveInteger(YDHT,id*cx,-$180E5D51,GetRandomInt(1,5))
-call SaveInteger(YDHT,id*cx,-$77543A28,0)
-call SaveInteger(YDHT,id*cx,-$2D2EBEF5,0)
-call SaveInteger(YDHT,id*cx,1732931645,GetRandomInt(0,1))
-call SaveInteger(YDHT,id*cx,-$4E51D54A,0)
-call SaveInteger(YDHT,id*cx,$44078039,0)
-call SaveInteger(YDHT,id*cx,-$6F9D2AE1,0)
-call SetItemUserData(bj_lastCreatedItem,(((((((((LoadInteger(YDHT,id*cx,-$5E9EB4B3)*$5F5E100)+(LoadInteger(YDHT,id*cx,$648579A8)*$989680))+(LoadInteger(YDHT,id*cx,-$180E5D51)*$F4240))+(LoadInteger(YDHT,id*cx,-$77543A28)*$186A0))+(LoadInteger(YDHT,id*cx,-$2D2EBEF5)*$2710))+(LoadInteger(YDHT,id*cx,1732931645)*$3E8))+(LoadInteger(YDHT,id*cx,-$4E51D54A)*100))+(LoadInteger(YDHT,id*cx,$44078039)*$A))+LoadInteger(YDHT,id*cx,-$6F9D2AE1)))
-else
-call createitemloc(1227895108,LoadLocationHandle(YDHT,id*cx,$1769D332))
-endif
-set N7=N7+1
-endloop
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
+	if((GetRandomInt(1,1000)<=fuyuan[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]) or (GetRandomInt(1, 100)<=30 and Ce[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==6))then
+		set MM7=2
+	else
+		set MM7=1
+	endif
+	set N7=1
+	loop
+		exitwhen N7>MM7
+		if((GetRandomInt(1,60)<=60))then
+			call createitemloc(1227895878,LoadLocationHandle(YDHT,id*cx,$1769D332))
+			call SaveInteger(YDHT,id*cx,-$5E9EB4B3,0)
+			call SaveInteger(YDHT,id*cx,$648579A8,GetRandomInt(1,5))
+			call SaveInteger(YDHT,id*cx,-$180E5D51,GetRandomInt(1,5))
+			call SaveInteger(YDHT,id*cx,-$77543A28,0)
+			call SaveInteger(YDHT,id*cx,-$2D2EBEF5,0)
+			call SaveInteger(YDHT,id*cx,1732931645,GetRandomInt(0,1))
+			call SaveInteger(YDHT,id*cx,-$4E51D54A,0)
+			call SaveInteger(YDHT,id*cx,$44078039,0)
+			call SaveInteger(YDHT,id*cx,-$6F9D2AE1,0)
+			call SetItemUserData(bj_lastCreatedItem,(((((((((LoadInteger(YDHT,id*cx,-$5E9EB4B3)*$5F5E100)+(LoadInteger(YDHT,id*cx,$648579A8)*$989680))+(LoadInteger(YDHT,id*cx,-$180E5D51)*$F4240))+(LoadInteger(YDHT,id*cx,-$77543A28)*$186A0))+(LoadInteger(YDHT,id*cx,-$2D2EBEF5)*$2710))+(LoadInteger(YDHT,id*cx,1732931645)*$3E8))+(LoadInteger(YDHT,id*cx,-$4E51D54A)*100))+(LoadInteger(YDHT,id*cx,$44078039)*$A))+LoadInteger(YDHT,id*cx,-$6F9D2AE1)))
+		else
+			//call createitemloc(1227895108,LoadLocationHandle(YDHT,id*cx,$1769D332))
+		endif
+		set N7=N7+1
+	endloop
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //FB3杀梅超风
 function i1 takes nothing returns boolean
@@ -868,10 +872,10 @@ endif
 set N7=1
 loop
 exitwhen N7>MM7
-if((GetRandomInt(0,100)<=90))then
+if((GetRandomInt(0,100)<=100))then
 call createitemloc('I00W',LoadLocationHandle(YDHT,id*cx,$1769D332))
 else
-call createitemloc('I00T',LoadLocationHandle(YDHT,id*cx,$1769D332))
+//call createitemloc('I00T',LoadLocationHandle(YDHT,id*cx,$1769D332))
 endif
 call SaveInteger(YDHT,id*cx,-$5E9EB4B3,0)
 call SaveInteger(YDHT,id*cx,$648579A8,GetRandomInt(1,5))
@@ -1471,7 +1475,7 @@ function EnterFB takes unit u, integer goldnum, rect rt0, rect rt1, rect rt2, in
 	set dls[21] = 'I00K'
 	set dls[22] = 'I00M'
 	set dls[23] = 'I00M'
-	set dls[24] = 'I00J'
+	set dls[24] = 'I00K'
 	set dls[25] = 'crys'
 	set dls[26] = 'crys'
 	set dls[27] = 'crys'

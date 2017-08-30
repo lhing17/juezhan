@@ -8,6 +8,8 @@
 #include "game_logic/Instances.j"
 #include "game_logic/Experiences.j"
 #include "game_logic/Tasks.j"
+//神器系统
+#include "game_logic/Artifact.j" 
 
 #include "systems/ElixirSystem.j"
 #include "systems/Vip.j"
@@ -2168,4 +2170,5 @@ function main2 takes nothing returns nothing
 	call Experiences_Trigger() //历练系统
 	call ElixirSystem_Trigger() //丹药系统
 	call Tasks_Trigger() //任务系统 
+	call ArtifactTrigger() //神器系统
 endfunction

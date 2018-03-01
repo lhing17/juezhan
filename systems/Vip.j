@@ -424,6 +424,32 @@ function Trig_______VIPActions takes nothing returns nothing
         exitwhen i > 6
         //call BJDebugMsg(I2S(i))
         set p = Player(i-1)
+		if DzAPI_Map_HasMallItem(p, "E187FCD7Z2") == true then
+			set udg_vip[i] = 1
+        	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色兰馨和门派明教|r")
+		endif
+		if DzAPI_Map_HasMallItem(p, "FY9723UM4D") == true then
+			set udg_elevenvip[i] = 1
+        	set wugongshu[i] = 11
+        	call UnitRemoveAbility(udg_hero[i],'A040')
+        	call UnitRemoveAbility(udg_hero[i],'A041')
+        	call UnitRemoveAbility(udg_hero[i],'A042')
+        	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了11格武功|r")
+		endif
+		if DzAPI_Map_HasMallItem(p, "YY79FF7F5H") == true then
+			set udg_changevip[i] = 1
+        	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色瑾轩|r")
+		endif
+		if DzAPI_Map_HasMallItem(p, "QS8K6F5NV2") == true then
+			set udg_vip[i] = 2
+        	set wugongshu[i] = 11
+        	call UnitRemoveAbility(udg_hero[i],'A040')
+        	call UnitRemoveAbility(udg_hero[i],'A041')
+        	call UnitRemoveAbility(udg_hero[i],'A042')
+        	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色兰馨和门派明教|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了11格武功|r")
+			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933恭喜玩家"+GetPlayerName(p)+"解锁了角色瑾轩|r")
+		endif
         call YDWE_PreloadSL_Load( p, "JueZhan", "VIP", SAV_NUM  )
         //call BJDebugMsg(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2))
         //call BJDebugMsg(I2S(StringHash(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2))))
@@ -562,6 +588,7 @@ function initActivationCode takes nothing returns nothing
 	set t = null
 endfunction
 
+// DzAPI_Map_HasMallItem(Player(0), "ABC") == true
 
 
 
@@ -575,5 +602,7 @@ function VIP_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(t,Condition(function IsVIPItem))
 	call TriggerAddAction(t,function ChooseVIP)
+	
+	
 	set t = null
 endfunction

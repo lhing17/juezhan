@@ -7,6 +7,18 @@
 // 5. 游戏胜利和失败
 // 6. 玩家英雄阵亡和复活
 // 7. 刷怪相关
+// 8. 鸟的技能
+// 9. 英雄升级
+// 10. 各类回复
+// 11. 远程传送
+// 12. 古董系统
+// 13. 剑意系统
+// 14. 积分和声望换物品、武学精要
+// 15. 学习和遗忘武功（含激活残章）
+// 16. 合成物品
+// 17. 伴侣系统
+// 18. 整理地图上物品
+// 19. 其他琐碎逻辑
 //---------------------------------
 
 /*
@@ -68,7 +80,7 @@ function JiDiAiDa_Actions takes nothing returns nothing
         if(GetRandomInt(30,50)==48)then
             call DisplayTextToForce(GetPlayersAll(),"|CFFCCFF00正派武林受到攻击，请赶紧回防")
         endif
-        if(GetRandomInt(30,50)==45)then
+        if(GetRandomInt(30,50)==45) and GetUnitTypeId(GetAttacker())!=u7[1] and GetUnitTypeId(GetAttacker())!=u7[2] and GetUnitTypeId(GetAttacker())!=u7[3] and GetUnitTypeId(GetAttacker())!=u7[4] and GetUnitTypeId(GetAttacker())!=u7[5] and GetUnitTypeId(GetAttacker())!=u7[6] and GetUnitTypeId(GetAttacker())!=u7[7] and GetUnitTypeId(GetAttacker())!=u7[8] then
             call SetUnitPositionLoc(GetAttacker(),GetRectCenter(udg_jail))
             call DisplayTextToForce(GetPlayersAll(),"|CFFCCFFCC正派武林将攻击单位抓进了监狱")
         endif
@@ -1598,18 +1610,13 @@ function LevelGuoGao takes nothing returns boolean
         endif
 		set i = i + 1
 	endloop
-	if   udg_teshushijian and I2R(totallevel)>udg_boshu*4*I2R(GetNumPlayer()) then
+	if udg_teshushijian and I2R(totallevel)>udg_boshu*4*I2R(GetNumPlayer()) then
 		return true
 	endif
 	return false
 endfunction
-//刷怪
-function HA takes nothing returns nothing
-	local timer t=CreateTimer()
-	if udg_boshu==4 and udg_teshushijian==true then
-		call ChooseNanDu()
-	endif
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033邪教势力：第"+(I2S(udg_boshu)+"|CFFFF0033波")))
+// 下一波怪的警告
+function NextWaveWarning takes nothing returns nothing
 	if udg_boshu==9 then
 		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能神圣护甲和10倍暴击"))
 	elseif udg_boshu==11 then
@@ -1649,23 +1656,13 @@ function HA takes nothing returns nothing
 	elseif udg_boshu==28 then
 		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：本波为最后一波进攻，本波结束后教主即将出现"))
 	endif
-	if LevelGuoGao() then
-	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
-	endif
-	call StopMusic(false)
-	call PlayMusicBJ(yh)
-	call EnableTrigger(Yi)
-	call YDWEPolledWaitNull(60.)
-	if((O4>1))then
-		call EnableTrigger(Zi)
-	    if((ModuloInteger(udg_boshu,4)==0)and(udg_boshu<28) and udg_shengchun==false)then
-	        call CreateNUnitsAtLocFacingLocBJ(1,u7[(udg_boshu/4)],Player(6),v7[8],v7[3])
-	        call GroupAddUnit(w7,bj_lastCreatedUnit)
-	        call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[3])
-	        call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
-	    endif
-		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
-
+endfunction
+function BOSSAttack takes timer t returns nothing
+	if((ModuloInteger(udg_boshu,4)==0)and(udg_boshu<28) and udg_shengchun==false)then
+	    call CreateNUnitsAtLocFacingLocBJ(1,u7[(udg_boshu/4)],Player(6),v7[8],v7[3])
+	    call GroupAddUnit(w7,bj_lastCreatedUnit)
+	    call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[3])
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
 	endif
 	if((ModuloInteger(udg_boshu,4)==0)and(udg_boshu<30)and udg_shengchun==false)then
 	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教派出BOSS前来进攻，请准备防御")
@@ -1723,21 +1720,43 @@ function HA takes nothing returns nothing
 	        call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[4])
 	    endif
 	endif
+endfunction
+//刷怪
+function HA takes nothing returns nothing
+	local timer t=CreateTimer()
+	if udg_boshu==4 and udg_teshushijian==true then
+		call ChooseNanDu()
+	endif
+	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033邪教势力：第"+(I2S(udg_boshu)+"|CFFFF0033波")))
+	call NextWaveWarning() //下波警告
+	if LevelGuoGao() then
+	    call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
+	endif
+	call StopMusic(false)
+	call PlayMusicBJ(yh) // 切换BGM
+	call EnableTrigger(Yi) // 刷正面的进攻怪
+	call YDWEPolledWaitNull(40.)
+	if(O4>1)then // 游戏人数>1
+		call EnableTrigger(Zi) // 刷背面的进攻怪
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
+	endif
 	call YDWEPolledWaitNull(20.)
 	if((ue>0))then
-	call ConditionalTriggerExecute(dj)
-	call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033名门高手开始进攻，大家要小心应付了！")
+		call ConditionalTriggerExecute(dj)
+		call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033名门高手开始进攻，大家要小心应付了！")
 	endif
 	call DisableTrigger(Yi)
 	call YDWEPolledWaitNull(10.)
 	if((O4>1))then
 		call DisableTrigger(Zi)
 	endif
+	call YDWEPolledWaitNull(10.)
+	call BOSSAttack(t)
 	set udg_boshu=udg_boshu+1
 	call StopMusic(false)
 	call PlayMusicBJ(xh)
 	if udg_sutong == false then
-		call YDWEPolledWaitNull(135-GetNumPlayer()*10)
+		call YDWEPolledWaitNull(145-GetNumPlayer()*10)
 	endif
 	if((udg_boshu>=29) and udg_shengchun==false)then
 	    call StopMusic(false)
@@ -1749,7 +1768,7 @@ function HA takes nothing returns nothing
 	    call GroupAddUnit(w7,bj_lastCreatedUnit)
 	    call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D000F,v7[4])
 	else
-	    if udg_shengchun==true then
+	    if udg_shengchun then
 		    call AddPlayerTechResearched(Player(12),'R004',1)
 		    call AddPlayerTechResearched(Player(6),'R004',1)
 	    endif
@@ -1772,7 +1791,7 @@ function JiaJiNeng takes unit u returns nothing
         endif
     endif
 endfunction
-function lA takes nothing returns nothing
+function FrontAttack takes nothing returns nothing
 	if udg_shengchun==false then
         call CreateNUnitsAtLocFacingLocBJ(1,y7[udg_boshu],Player(6),v7[6],v7[4])
         call GroupAddUnit(w7,bj_lastCreatedUnit)
@@ -1809,7 +1828,7 @@ function lA takes nothing returns nothing
         call JiaJiNeng(bj_lastCreatedUnit)
     endif
 endfunction
-function KA takes nothing returns nothing
+function BackAttack takes nothing returns nothing
 	if udg_shengchun==false then
         call CreateNUnitsAtLocFacingLocBJ(1,y7[(udg_boshu+1)],Player(6),v7[8],v7[3])
         call GroupAddUnit(w7,bj_lastCreatedUnit)
@@ -4928,12 +4947,12 @@ function GameLogic_Trigger takes nothing returns nothing
 	set Yi=CreateTrigger()
 	call DisableTrigger(Yi)
 	call TriggerRegisterTimerEventPeriodic(Yi,3.)
-	call TriggerAddAction(Yi,function lA)
+	call TriggerAddAction(Yi,function FrontAttack)
 	//刷背面的进攻怪
 	set Zi=CreateTrigger()
 	call DisableTrigger(Zi)
 	call TriggerRegisterTimerEventPeriodic(Zi,2.)
-	call TriggerAddAction(Zi,function KA)
+	call TriggerAddAction(Zi,function BackAttack)
 	// 刷名门
 	set dj=CreateTrigger()
 	call TriggerAddCondition(dj,Condition(function MA))

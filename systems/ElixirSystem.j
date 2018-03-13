@@ -1,3 +1,8 @@
+globals
+	integer array yongdanshu
+endglobals
+
+
 //-------各种丹药开始-------//
 //医术丹
 function VO takes nothing returns boolean

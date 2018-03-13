@@ -1,55 +1,78 @@
 //--------------------------
 //游戏中的任务
+// 1. 店小二新手任务
+// 2. 游骐寻找物品任务
+// 3. 阳寿已尽任务
+// 4. 帮郭靖求婚任务、偷玉箫任务、寻找杨过
+// 5. 鲁有脚送信任务
+// 6. 杀野猪首领
+// 7. 林远图押镖任务
+// 8. 杀熊、桃花岛哑仆的任务
+// 9. 升到10级自动奖励丹药
+// 10. 采集断肠草任务
+// 11. 护送耶律楚材
+// 12. 高昌迷宫任务
+// 13. 辽国军心任务 + 拯救阿紫任务
 //--------------------------
 
-//店小二新手任务
-function IJ takes nothing returns boolean
+globals
+	integer array xunwu
+	integer array yangshou
+	integer array udg_yangshou
+	integer array newbeeTaskId
+endglobals
+
+
+/*
+ * 1. 店小二新手任务
+ */
+function IsNewBeeTask takes nothing returns boolean
 return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())=='I025'))
 endfunction
-function lJ takes nothing returns nothing
+function AcceptNewBeeTask takes nothing returns nothing
 	local unit u = GetTriggerUnit()
 	local player p = GetOwningPlayer(u)
 	local integer i = 1 + GetPlayerId(p)
 	local location loc = null
-	if((O7[i]==0))then
+	if((newbeeTaskId[i]==0))then
 		if((GetRandomInt(1,100)<=35))then
 			set loc = GetRectCenter(Pe)
-			set O7[i]=1
+			set newbeeTaskId[i]=1
 			call PlaySoundOnUnitBJ(bh,100,u)
 			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n")
 			call PingMinimapLocForForce(ov(p),loc,5.)
 			call RemoveLocation(loc)
 		elseif((GetRandomInt(1,70)<=35))then
 			set loc = GetRectCenter(Qe)
-			set O7[i]=2
+			set newbeeTaskId[i]=2
 			call PlaySoundOnUnitBJ(bh,100,u)
 			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC旁边树林里的野狼经常来袭击村民，你能帮助我们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F6只野狼|r\n")
 			call PingMinimapLocForForce(ov(p),loc,5.)
 			call RemoveLocation(loc)
 		else
-			set O7[i]=3
+			set newbeeTaskId[i]=3
 			set loc = GetRectCenter(Re)
 			call PlaySoundOnUnitBJ(bh,100,u)
 			call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC听说少林寺的练功房升级特别快，为何不去看看呢|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F练功房|r，可以通过主城传送\n")
 			call PingMinimapLocForForce(ov(p),loc,5.)
 			call RemoveLocation(loc)
 		endif
-	elseif((O7[i]==1))then
+	elseif((newbeeTaskId[i]==1))then
 		set loc = GetRectCenter(Pe)
 		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC你怎么还不出发啊？|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n")
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
-	elseif((O7[i]==2))then
+	elseif((newbeeTaskId[i]==2))then
 		set loc = GetRectCenter(Qe)
 		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC请帮助我们杀死野狼吧|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F6只野狼|r\n")
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
-	elseif((O7[i]==3))then
+	elseif((newbeeTaskId[i]==3))then
 		set loc = GetRectCenter(Re)
 		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC听说少林寺的练功房升级特别快，为何不去看看呢|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F练功房|r，可以通过主城传送")
 		call PingMinimapLocForForce(ov(p),loc,5.)
 		call RemoveLocation(loc)
-	elseif((O7[i]==4))then
+	elseif((newbeeTaskId[i]==4))then
 		call DisplayTextToPlayer(p,0,0,"|cFFFFCC00店小二：|r |cFF99FFCC你已经完成新手任务了")
 	endif
 	set u = null
@@ -57,10 +80,10 @@ function lJ takes nothing returns nothing
 	set loc = null
 endfunction
 //郭靖——环戒
-function KJ takes nothing returns boolean
-	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(O7[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
+function IsNewBeeTaskVisitGuoJing takes nothing returns boolean
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(newbeeTaskId[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
 endfunction
-function LJ takes nothing returns nothing
+function CompleteVisitGuoJing takes nothing returns nothing
 	local unit u = GetTriggerUnit()
 	local player p = GetOwningPlayer(u)
 	local integer i = 1 + GetPlayerId(p)
@@ -73,23 +96,23 @@ function LJ takes nothing returns nothing
 	set shengwang[i]=shengwang[i]+$A
 	call PlaySoundOnUnitBJ(Hh,100,u)
 	call DisplayTextToPlayer(p,0,0,("|CFF34FF00完成任务获得经验+100、江湖声望+10和"+GetItemName(bj_lastCreatedItem)))
-	set O7[i]=4
+	set newbeeTaskId[i]=4
 	set u = null
 	set p = null
 endfunction
 //杀狼任务——青铜刀
-function TI takes nothing returns boolean
+function IsKillingWolves takes nothing returns boolean
 	return((GetUnitTypeId(GetTriggerUnit())=='nwlt'))
 endfunction
-function UI takes nothing returns nothing
+function CompleteKillingWolves takes nothing returns nothing
 	local unit u = GetKillingUnit()
 	local player p = GetOwningPlayer(u)
 	local integer i = 1 + GetPlayerId(p)
-	if((O7[i]==2))then
+	if((newbeeTaskId[i]==2))then
 		set P7[i]=(P7[i]+1)
 		if((P7[i]>=6))then
 			set P7[i]=0
-			set O7[i]=4
+			set newbeeTaskId[i]=4
 			if GetRandomInt(1, 100) <= 85 then
 				call unitadditembyidswapped('I020',GetTriggerUnit())
 			else
@@ -107,10 +130,10 @@ function UI takes nothing returns nothing
 	set p = null
 endfunction
 //少林练功房——养精蓄锐令
-function NJ takes nothing returns boolean
-	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(O7[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
+function IsVisitShaoLin takes nothing returns boolean
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(newbeeTaskId[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
 endfunction
-function OJ takes nothing returns nothing
+function CompleteVisitShaoLin takes nothing returns nothing
 	local unit u = GetTriggerUnit()
 	local player p = GetOwningPlayer(u)
 	local integer i = 1 + GetPlayerId(p)
@@ -119,20 +142,17 @@ function OJ takes nothing returns nothing
 	set shengwang[i]=shengwang[i]+$A
 	call PlaySoundOnUnitBJ(Hh,100,u)
 	call DisplayTextToPlayer(p,0,0,("|CFF34FF00完成任务获得经验+100、江湖声望+10和"+GetItemName(bj_lastCreatedItem)))
-	set O7[i]=4
+	set newbeeTaskId[i]=4
 	set u = null
 	set p = null
 endfunction
-//寻找物品
-globals
-	integer array xunwu
-	integer array yangshou
-	integer array udg_yangshou
-endglobals
-function IsWuPin takes nothing returns boolean
+/*
+ * 2. 游骐寻找物品任务
+ */
+function IsLookingForGoods takes nothing returns boolean
 	return UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='I0BB'
 endfunction
-function LookForWuPin takes nothing returns nothing
+function LookingForGoods takes nothing returns nothing
 	local unit u =GetTriggerUnit()
 	local player p=GetOwningPlayer(u)
 	local integer i=1+GetPlayerId(p)
@@ -175,10 +195,10 @@ function LookForWuPin takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-function IsFangQiWuPin takes nothing returns boolean
+function IsGiveUpCurrentGoods takes nothing returns boolean
 	return UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='I0BC'
 endfunction
-function FangQiWuPin takes nothing returns nothing
+function GiveUpCurrentGoods takes nothing returns nothing
 	local unit u =GetTriggerUnit()
 	local player p=GetOwningPlayer(u)
 	local integer i=1+GetPlayerId(p)
@@ -193,10 +213,10 @@ function FangQiWuPin takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-function IsWanChengWuPin takes nothing returns boolean
+function IsCompleteLookingForGoods takes nothing returns boolean
 	return UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='I0BD'
 endfunction
-function WanChengWuPin takes nothing returns nothing
+function CompleteLookingForGoods takes nothing returns nothing
 	local unit u =GetTriggerUnit()
 	local player p=GetOwningPlayer(u)
 	local integer i=1+GetPlayerId(p)
@@ -237,7 +257,9 @@ function WanChengWuPin takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-//杀人系统
+/*
+ * 3. 阳寿已尽任务
+ */
 function IsYangShou takes nothing returns boolean
 	return UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem())=='I0BF'
 endfunction
@@ -311,7 +333,10 @@ function WanChengYangShou takes nothing returns nothing
 	set u = null
 	set p = null
 endfunction
-//帮郭靖求婚任务、偷玉箫任务、寻找杨过
+
+/*
+ * 4. 帮郭靖求婚任务、偷玉箫任务、寻找杨过
+ */
 function IsQiuHun takes nothing returns boolean
 	return(UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())=='I09T' or GetItemTypeId(GetManipulatedItem())=='I09U' or GetItemTypeId(GetManipulatedItem())=='I09L' or GetItemTypeId(GetManipulatedItem())=='I09M' or GetItemTypeId(GetManipulatedItem())=='I0AW' or GetItemTypeId(GetManipulatedItem())=='I0AT' or GetItemTypeId(GetManipulatedItem())=='I0AV')
 endfunction
@@ -467,637 +492,645 @@ endfunction
 //---------帮郭靖求婚结束
 
 //-------任务系统-------
-//鲁有脚送信任务
+/*
+ * 5. 鲁有脚送信任务
+ */
 function QJ takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895898))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895898))
 endfunction
 function RJ takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000你无法再接取此任务了")
-else
-if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-if((GetRandomInt(1,100)<=35))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Bg))
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F黄蓉|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,70)<=35))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F达摩祖师|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=3
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Pe))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F郭靖\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-else
-if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Bg))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F黄蓉|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F达摩祖师|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==3))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Pe))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F郭靖\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-endif
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000你无法再接取此任务了")
+	else
+	if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	if((GetRandomInt(1,100)<=35))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Bg))
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F黄蓉|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,70)<=35))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F达摩祖师|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=3
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Pe))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F郭靖\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	else
+	if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Bg))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F黄蓉|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F达摩祖师|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==3))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Pe))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F郭靖\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	endif
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function TJ takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
 endfunction
 function UJ takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
-else
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
-else
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
-endif
-endif
-if((GetRandomInt(1,50)<=40))then
-call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
-endif
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
+	else
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
+	else
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
+	endif
+	endif
+	if((GetRandomInt(1,50)<=40))then
+	call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
+	endif
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function WJ takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==2))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==2))
 endfunction
 function XJ takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
-else
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
-else
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
-endif
-endif
-if((GetRandomInt(1,50)<=40))then
-call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
-endif
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
+	else
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
+	else
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
+	endif
+	endif
+	if((GetRandomInt(1,50)<=40))then
+	call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
+	endif
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
 call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function ZJ takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(jd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
 endfunction
 function dK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
-else
-if((GetRandomInt(1,50)<=25))then
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
-else
-call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
-endif
-endif
-if((GetRandomInt(1,50)<=40))then
-call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
-endif
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),0,0,500)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、生命+500\n")
+	else
+	if((GetRandomInt(1,50)<=25))then
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),3,0,$C8)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、攻击+200")
+	else
+	call YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(),2,0,30)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得经验+100、江湖声望+15、防御+30\n")
+	endif
+	endif
+	if((GetRandomInt(1,50)<=40))then
+	call unitadditembyidswapped(YaoCao[5],GetTriggerUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00意外获得了一个锦灯笼")
+	endif
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),100,true)
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	set jd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(kd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$F)
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function fK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895352))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895352))
 endfunction
-//击杀野猪首领
+/*
+ * 6. 击杀野猪首领
+ */
 function gK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Se))
-set e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00耶律齐：|r |cFF99FFCC我一生酷爱打猎，平时有时间就会出来试试身手，你愿意一同前往吗|r\n|cFFFFCC00提示：|r |cFF99FFCC击杀山林中的|cFFADFF2F野猪首领|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Se))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC击杀山林中的|cFFADFF2F野猪首领|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Se))
+	set e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00耶律齐：|r |cFF99FFCC我一生酷爱打猎，平时有时间就会出来试试身手，你愿意一同前往吗|r\n|cFFFFCC00提示：|r |cFF99FFCC击杀山林中的|cFFADFF2F野猪首领|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((e8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Se))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC击杀山林中的|cFFADFF2F野猪首领|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function iK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895353))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895353))
 endfunction
-//林远图押镖任务
+/*
+ * 7. 林远图押镖任务
+ */
 function jK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-if((GetRandomInt(1,70)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Te))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给全真教的丘掌门吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教的|cFFADFF2F丘处机|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,60)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ue))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC全真教山下附近的豺狼经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教山下的杀死10只|cFFADFF2F豺狼|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,50)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ve))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=3
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给燕子坞的慕容复吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的|cFFADFF2F慕容复|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,40)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(We))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=4
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC燕子坞的蝎子王经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的杀死3只|cFFADFF2F蝎子王|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,30)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=5
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给少林寺的达摩祖师吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F达摩祖师|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((GetRandomInt(1,20)<=$A))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ye))
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=6
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给雁门关的乔峰吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往雁门关的|cFFADFF2F乔峰|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=7
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Je))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC西域邪教持续骚扰我中原武林，是时候给他们一点颜色了|r\n|cFFFFCC00提示：|r |cFF99FFCC守住武林正派，杀死10只|cFFADFF2F进攻的西域教徒|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-endif
-endif
-endif
-endif
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Te))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给全真教的邱掌门吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教的|cFFADFF2F丘处机|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ue))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC全真教山下附近的豺狼经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教山下的杀死10只|cFFADFF2F豺狼|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==3))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ve))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给燕子坞的慕容复吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的|cFFADFF2F慕容复|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==4))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(We))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC燕子坞的蝎子王经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的杀死5只|cFFADFF2F蝎子王|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==5))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给少林寺的达摩祖师吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F达摩祖师|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==6))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ye))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给雁门关的乔峰吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往雁门关的|cFFADFF2F乔峰|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==7))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Je))
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC西域邪教持续骚扰我中原武林，是时候给他们一点颜色了|r\n|cFFFFCC00提示：|r |cFF99FFCC守住武林正派，杀死10只|cFFADFF2F进攻的西域教徒|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	if((GetRandomInt(1,70)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Te))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给全真教的丘掌门吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教的|cFFADFF2F丘处机|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,60)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ue))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC全真教山下附近的豺狼经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教山下的杀死10只|cFFADFF2F豺狼|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,50)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ve))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=3
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给燕子坞的慕容复吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的|cFFADFF2F慕容复|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,40)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(We))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=4
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC燕子坞的蝎子王经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的杀死3只|cFFADFF2F蝎子王|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,30)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=5
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给少林寺的达摩祖师吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F达摩祖师|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((GetRandomInt(1,20)<=$A))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ye))
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=6
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给雁门关的乔峰吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往雁门关的|cFFADFF2F乔峰|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=7
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Je))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC西域邪教持续骚扰我中原武林，是时候给他们一点颜色了|r\n|cFFFFCC00提示：|r |cFF99FFCC守住武林正派，杀死10只|cFFADFF2F进攻的西域教徒|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Te))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给全真教的邱掌门吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教的|cFFADFF2F丘处机|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ue))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC全真教山下附近的豺狼经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教山下的杀死10只|cFFADFF2F豺狼|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==3))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ve))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给燕子坞的慕容复吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的|cFFADFF2F慕容复|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==4))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(We))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC燕子坞的蝎子王经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的杀死5只|cFFADFF2F蝎子王|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==5))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Xe))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给少林寺的达摩祖师吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F达摩祖师|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==6))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Ye))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给雁门关的乔峰吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往雁门关的|cFFADFF2F乔峰|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==7))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Je))
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC西域邪教持续骚扰我中原武林，是时候给他们一点颜色了|r\n|cFFFFCC00提示：|r |cFF99FFCC守住武林正派，杀死10只|cFFADFF2F进攻的西域教徒|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function mK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1))
 endfunction
 function nK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function pK takes nothing returns boolean
-return((GetUnitTypeId(GetTriggerUnit())=='ngns')and(g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==2))
+	return((GetUnitTypeId(GetTriggerUnit())=='ngns')and(g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==2))
 endfunction
 function qK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetKillingUnit())
-set h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
-set h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+25，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+25)
-call AddHeroXP(GetKillingUnit(),300,true)
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("豺狼："+(I2S(h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetKillingUnit())
+	set h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
+	set h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+25，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+25)
+	call AddHeroXP(GetKillingUnit(),300,true)
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("豺狼："+(I2S(h8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function sK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==3))
 endfunction
 function tK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function vK takes nothing returns boolean
-return((GetUnitTypeId(GetTriggerUnit())=='nanb')and(g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==4))
+	return((GetUnitTypeId(GetTriggerUnit())=='nanb')and(g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==4))
 endfunction
 function wK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
-set i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
-set i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+30，经验值+300")
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+30)
-call AddHeroXP(GetKillingUnit(),300,true)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("蝎子王："+(I2S(i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 3")))
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
+	set i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
+	set i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+30，经验值+300")
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+30)
+	call AddHeroXP(GetKillingUnit(),300,true)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("蝎子王："+(I2S(i8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 3")))
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function yK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==5))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==5))
 endfunction
 function zK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function aK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==6))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(g8[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==6))
 endfunction
 function BK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
-call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+20，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+20)
+	call AddHeroXP(LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0),300,true)
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function CK takes nothing returns boolean
-return GetKillingUnit()!=null and ((g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==7))
+	return GetKillingUnit()!=null and ((g8[(1+GetPlayerId(GetOwningPlayer(GetKillingUnit())))]==7))
 endfunction
 function cK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
-set j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
-set j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+30，经验值+300")
-set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+30)
-call AddHeroXP(GetKillingUnit(),300,true)
-set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
-call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
-endif
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("西域邪教："+(I2S(j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetKillingUnit()))))
+	set j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
+	set j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call PlaySoundOnUnitBJ(Hh,100,GetKillingUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+30，经验值+300")
+	set g8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+30)
+	call AddHeroXP(GetKillingUnit(),300,true)
+	set qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((GetRandomInt(1,35)<=(fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]-5)))then
+	call unitadditembyidswapped(gudong[GetRandomInt(1,3)],LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00你的运气（与福缘有关）太好了，竟然意外获得了一个古董")
+	endif
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("西域邪教："+(I2S(j8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function EK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895364))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895364))
 endfunction
 function FK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
-if((o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==false))then
-if((GetRandomInt(1,100)<=25))then
-call unitadditembyidswapped('I01U',GetTriggerUnit())
-set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
-else
-if((GetRandomInt(1,60)<=20))then
-call unitadditembyidswapped('I01Z',GetTriggerUnit())
-set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
-else
-if((GetRandomInt(1,60)<=30))then
-call unitadditembyidswapped(1227895124,GetTriggerUnit())
-set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
-else
-call unitadditembyidswapped(1227895109,GetTriggerUnit())
-set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
-endif
-endif
-endif
-call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
-if((GetRandomInt(1,$B4)<=$A))then
-call createitemloc(1227895627,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,$AA)<=$A))then
-call createitemloc(1227895385,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,$A0)<=$A))then
-call createitemloc('I03D',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,$96)<=$A))then
-call createitemloc(1227895382,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,$8C)<=$A))then
-call createitemloc(1227895624,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,$82)<=$A))then
-call createitemloc(1227895621,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,120)<=$A))then
-call createitemloc(1227895603,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,110)<=$A))then
-call createitemloc('I02W',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,100)<=$A))then
-call createitemloc(1227895601,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,90)<=$A))then
-call createitemloc('I03G',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,80)<=$A))then
-call createitemloc('I02U',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,70)<=$A))then
-call createitemloc(1227895626,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,60)<=$A))then
-call createitemloc('I030',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,50)<=$A))then
-call createitemloc('I02X',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,40)<=$A))then
-call createitemloc('I03I',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,30)<=$A))then
-call createitemloc('I02Z',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,20)<=$A))then
-call createitemloc('I03L',LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-call createitemloc('I03F',LoadLocationHandle(YDHT,id*cx,$1769D332))
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC你已经领过奖励了\n")
-endif
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC需要完成至少3次押镖任务才可以领取奖励哦")
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((qd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=3))then
+	if((o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==false))then
+	if((GetRandomInt(1,100)<=25))then
+	call unitadditembyidswapped('I01U',GetTriggerUnit())
+	set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
+	else
+	if((GetRandomInt(1,60)<=20))then
+	call unitadditembyidswapped('I01Z',GetTriggerUnit())
+	set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
+	else
+	if((GetRandomInt(1,60)<=30))then
+	call unitadditembyidswapped(1227895124,GetTriggerUnit())
+	set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
+	else
+	call unitadditembyidswapped(1227895109,GetTriggerUnit())
+	set o8[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=true
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
+	endif
+	endif
+	endif
+	call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
+	if((GetRandomInt(1,$B4)<=$A))then
+	call createitemloc(1227895627,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,$AA)<=$A))then
+	call createitemloc(1227895385,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,$A0)<=$A))then
+	call createitemloc('I03D',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,$96)<=$A))then
+	call createitemloc(1227895382,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,$8C)<=$A))then
+	call createitemloc(1227895624,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,$82)<=$A))then
+	call createitemloc(1227895621,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,120)<=$A))then
+	call createitemloc(1227895603,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,110)<=$A))then
+	call createitemloc('I02W',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,100)<=$A))then
+	call createitemloc(1227895601,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,90)<=$A))then
+	call createitemloc('I03G',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,80)<=$A))then
+	call createitemloc('I02U',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,70)<=$A))then
+	call createitemloc(1227895626,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,60)<=$A))then
+	call createitemloc('I030',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,50)<=$A))then
+	call createitemloc('I02X',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,40)<=$A))then
+	call createitemloc('I03I',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,30)<=$A))then
+	call createitemloc('I02Z',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,20)<=$A))then
+	call createitemloc('I03L',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	call createitemloc('I03F',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00获得"+GetItemName(bj_lastCreatedItem)))
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC你已经领过奖励了\n")
+	endif
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00林远图：|r |cFF99FFCC需要完成至少3次押镖任务才可以领取奖励哦")
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//接杀熊、桃花岛哑仆的任务
+/*
+ * 8. 杀熊、桃花岛哑仆的任务
+ */
 function HK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896132 or GetItemTypeId(GetManipulatedItem())=='I09W'))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896132 or GetItemTypeId(GetManipulatedItem())=='I09W'))
 endfunction
 function IK takes nothing returns nothing
 	local unit u=GetTriggerUnit()
@@ -1131,71 +1164,75 @@ elseif GetItemTypeId(GetManipulatedItem())=='I09W' then
 endif
 endfunction
 
-//升10级自动奖励丹药
+/* 
+ * 9. 升到10级自动奖励丹药
+ */
 function PK takes nothing returns boolean
 	return (GetTriggerUnit()==udg_hero[1] or GetTriggerUnit()==udg_hero[2] or GetTriggerUnit()==udg_hero[3] or GetTriggerUnit()==udg_hero[4] or GetTriggerUnit()==udg_hero[5])and GetUnitLevel(GetTriggerUnit())==10 and GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER
 endfunction
 function QK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-if((GetRandomInt(1,60)<=$A))then
-call unitadditembyidswapped(1227895375,GetTriggerUnit())
-else
-if((GetRandomInt(1,50)<=$A))then
-call unitadditembyidswapped(1227895370,GetTriggerUnit())
-else
-if((GetRandomInt(1,40)<=$A))then
-call unitadditembyidswapped(1227895363,GetTriggerUnit())
-else
-if((GetRandomInt(1,30)<=$A))then
-call unitadditembyidswapped(1227895368,GetTriggerUnit())
-else
-if((GetRandomInt(1,60)<=30))then
-call unitadditembyidswapped(1227895369,GetTriggerUnit())
-else
-call unitadditembyidswapped(1227895365,GetTriggerUnit())
-endif
-endif
-endif
-endif
-endif
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00恭喜升到10级，获得"+GetItemName(bj_lastCreatedItem)))
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	if((GetRandomInt(1,60)<=$A))then
+	call unitadditembyidswapped(1227895375,GetTriggerUnit())
+	else
+	if((GetRandomInt(1,50)<=$A))then
+	call unitadditembyidswapped(1227895370,GetTriggerUnit())
+	else
+	if((GetRandomInt(1,40)<=$A))then
+	call unitadditembyidswapped(1227895363,GetTriggerUnit())
+	else
+	if((GetRandomInt(1,30)<=$A))then
+	call unitadditembyidswapped(1227895368,GetTriggerUnit())
+	else
+	if((GetRandomInt(1,60)<=30))then
+	call unitadditembyidswapped(1227895369,GetTriggerUnit())
+	else
+	call unitadditembyidswapped(1227895365,GetTriggerUnit())
+	endif
+	endif
+	endif
+	endif
+	endif
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00恭喜升到10级，获得"+GetItemName(bj_lastCreatedItem)))
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//采集断肠草
+/*
+ * 10. 采集断肠草任务
+ */
 function SK takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895890))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227895890))
 endfunction
 function TK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Gg))
-set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00公孙绿萼：|r |cFF99FFCC杨过中了情花剧毒，你能替我想想办法救救他吗|r\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本中的|cFFADFF2F断肠草|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Gg))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本的|cFFADFF2F断肠草|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Gg))
+	set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00公孙绿萼：|r |cFF99FFCC杨过中了情花剧毒，你能替我想想办法救救他吗|r\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本中的|cFFADFF2F断肠草|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(Gg))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本的|cFFADFF2F断肠草|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //采集到断肠草
 function VK takes nothing returns nothing
@@ -1207,294 +1244,300 @@ function VK takes nothing returns nothing
 	endif
 endfunction
 function WK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,0)
-call EnumItemsInRectBJ(Gg,function VK)
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,0)
+	call EnumItemsInRectBJ(Gg,function VK)
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //断肠草
 function YK takes nothing returns boolean
 	return((GetItemTypeId(GetManipulatedItem())=='I04S'))
 endfunction
 function ZK takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call SaveItemHandle(YDHT,id*cx,$1769D332,GetManipulatedItem())
-if((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)==false))then
-set bj_forLoopAIndex=1
-set bj_forLoopAIndexEnd=12
-loop
-exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
-if((GetManipulatedItem()==a9[bj_forLoopAIndex]))then
-call createitemloc('I04S',B9[bj_forLoopAIndex])
-set a9[bj_forLoopAIndex]=bj_lastCreatedItem
-call DisplayTimedTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,15.,"|CFFFF0000只能由主角来采集")
-endif
-set bj_forLoopAIndex=bj_forLoopAIndex+1
-endloop
-else
-if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-set A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-if((A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
-set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
-set A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务请前往公孙绿萼换取奖励")
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("断肠草："+(I2S(A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
-endif
-call CreateNUnitsAtLoc(1,1752196449,Player(15),v7[1],bj_UNIT_FACING)
-call ShowUnitHide(bj_lastCreatedUnit)
-call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',GetRandomReal(20.,25.))
-set bj_forLoopAIndex=1
-set bj_forLoopAIndexEnd=12
-loop
-exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
-if((LoadItemHandle(YDHT,id*cx,$1769D332)==a9[bj_forLoopAIndex]))then
-set b9[bj_forLoopAIndex]=bj_lastCreatedUnit
-endif
-set bj_forLoopAIndex=bj_forLoopAIndex+1
-endloop
-else
-set bj_forLoopAIndex=1
-set bj_forLoopAIndexEnd=12
-loop
-exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
-if((LoadItemHandle(YDHT,id*cx,$1769D332)==a9[bj_forLoopAIndex]))then
-call createitemloc('I04S',B9[bj_forLoopAIndex])
-set a9[bj_forLoopAIndex]=bj_lastCreatedItem
-call DisplayTimedTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,15.,"|CFFFF0000身上没有该任务或已经完成了")
-endif
-set bj_forLoopAIndex=bj_forLoopAIndex+1
-endloop
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call SaveItemHandle(YDHT,id*cx,$1769D332,GetManipulatedItem())
+	if((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO)==false))then
+	set bj_forLoopAIndex=1
+	set bj_forLoopAIndexEnd=12
+	loop
+	exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
+	if((GetManipulatedItem()==a9[bj_forLoopAIndex]))then
+	call createitemloc('I04S',B9[bj_forLoopAIndex])
+	set a9[bj_forLoopAIndex]=bj_lastCreatedItem
+	call DisplayTimedTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,15.,"|CFFFF0000只能由主角来采集")
+	endif
+	set bj_forLoopAIndex=bj_forLoopAIndex+1
+	endloop
+	else
+	if((z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	set A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	if((A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]>=$A))then
+	set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
+	set A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务请前往公孙绿萼换取奖励")
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("断肠草："+(I2S(A9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])+" / 10")))
+	endif
+	call CreateNUnitsAtLoc(1,1752196449,Player(15),v7[1],bj_UNIT_FACING)
+	call ShowUnitHide(bj_lastCreatedUnit)
+	call UnitApplyTimedLife(bj_lastCreatedUnit,'BHwe',GetRandomReal(20.,25.))
+	set bj_forLoopAIndex=1
+	set bj_forLoopAIndexEnd=12
+	loop
+	exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
+	if((LoadItemHandle(YDHT,id*cx,$1769D332)==a9[bj_forLoopAIndex]))then
+	set b9[bj_forLoopAIndex]=bj_lastCreatedUnit
+	endif
+	set bj_forLoopAIndex=bj_forLoopAIndex+1
+	endloop
+	else
+	set bj_forLoopAIndex=1
+	set bj_forLoopAIndexEnd=12
+	loop
+	exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
+	if((LoadItemHandle(YDHT,id*cx,$1769D332)==a9[bj_forLoopAIndex]))then
+	call createitemloc('I04S',B9[bj_forLoopAIndex])
+	set a9[bj_forLoopAIndex]=bj_lastCreatedItem
+	call DisplayTimedTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,15.,"|CFFFF0000身上没有该任务或已经完成了")
+	endif
+	set bj_forLoopAIndex=bj_forLoopAIndex+1
+	endloop
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 //完成断肠草任务
 function eL takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(z9[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==2))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(z9[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==2))
 endfunction
 function fL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call PlaySoundOnUnitBJ(Hh,100,GetTriggerUnit())
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+100)
-if((GetRandomInt(1,40)<=20))then
-call unitadditembyidswapped('I00X',GetTriggerUnit())
-else
-call unitadditembyidswapped('I00Y',GetTriggerUnit())
-endif
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00完成任务江湖声望+100，并获得"+GetItemName(bj_lastCreatedItem)))
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call PlaySoundOnUnitBJ(Hh,100,GetTriggerUnit())
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	set z9[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+100)
+	if((GetRandomInt(1,40)<=20))then
+	call unitadditembyidswapped('I00X',GetTriggerUnit())
+	else
+	call unitadditembyidswapped('I00Y',GetTriggerUnit())
+	endif
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,("|CFF34FF00完成任务江湖声望+100，并获得"+GetItemName(bj_lastCreatedItem)))
+	call FlushChildHashtable(YDHT,id*cx)
+	endfunction
+	function hL takes nothing returns boolean
+	return((GetUnitTypeId(GetTriggerUnit())==1752196449))
+	endfunction
+	function iL takes nothing returns nothing
+	set bj_forLoopAIndex=1
+	set bj_forLoopAIndexEnd=12
+	loop
+	exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
+	if((GetTriggerUnit()==b9[bj_forLoopAIndex]))then
+	call createitemloc('I04S',B9[bj_forLoopAIndex])
+	set a9[bj_forLoopAIndex]=bj_lastCreatedItem
+	endif
+	set bj_forLoopAIndex=bj_forLoopAIndex+1
+	endloop
 endfunction
-function hL takes nothing returns boolean
-return((GetUnitTypeId(GetTriggerUnit())==1752196449))
-endfunction
-function iL takes nothing returns nothing
-set bj_forLoopAIndex=1
-set bj_forLoopAIndexEnd=12
-loop
-exitwhen bj_forLoopAIndex>bj_forLoopAIndexEnd
-if((GetTriggerUnit()==b9[bj_forLoopAIndex]))then
-call createitemloc('I04S',B9[bj_forLoopAIndex])
-set a9[bj_forLoopAIndex]=bj_lastCreatedItem
-endif
-set bj_forLoopAIndex=bj_forLoopAIndex+1
-endloop
-endfunction
-//护送耶律楚材
+/*
+ * 11. 护送耶律楚材
+ */
 function kL takes nothing returns boolean
 return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896387))
 endfunction
 function mL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(gh))
-set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00完颜萍：|r |cFF99FFCC耶律楚材受伤了，你能帮个忙啊|r\n|cFFFFCC00提示：|r |cFF99FFCC护送耶律楚材回|cFFADFF2F大辽国|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call SaveLocationHandle(YDHT,id*cx,1231311908,GetRectCenter(hh))
-call CreateNUnitsAtLoc(1,1853254706,GetOwningPlayer(GetTriggerUnit()),LoadLocationHandle(YDHT,id*cx,1231311908),bj_UNIT_FACING)
-call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D0012,LoadLocationHandle(YDHT,id*cx,$5E83114F))
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,1231311908))
-else
-if((Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(gh))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC护送耶律楚材回|cFFADFF2F大辽国|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经完成了这个任务了（不可重复接取）")
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(gh))
+	set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00完颜萍：|r |cFF99FFCC耶律楚材受伤了，你能帮个忙啊|r\n|cFFFFCC00提示：|r |cFF99FFCC护送耶律楚材回|cFFADFF2F大辽国|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call SaveLocationHandle(YDHT,id*cx,1231311908,GetRectCenter(hh))
+	call CreateNUnitsAtLoc(1,1853254706,GetOwningPlayer(GetTriggerUnit()),LoadLocationHandle(YDHT,id*cx,1231311908),bj_UNIT_FACING)
+	call IssuePointOrderByIdLoc(bj_lastCreatedUnit,$D0012,LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,1231311908))
+	else
+	if((Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(gh))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC护送耶律楚材回|cFFADFF2F大辽国|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00你已经完成了这个任务了（不可重复接取）")
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function oL takes nothing returns boolean
-return((GetUnitTypeId(GetTriggerUnit())==1853254706))
+	return((GetUnitTypeId(GetTriggerUnit())==1853254706))
 endfunction
 function pL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetTriggerPlayer())))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000任务失败了")
-set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call PlaySoundOnUnitBJ(Gh,100,udg_hero[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetTriggerPlayer())))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFF0000任务失败了")
+	set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call PlaySoundOnUnitBJ(Gh,100,udg_hero[LoadInteger(YDHT,id*cx,-$5E9EB4B3)])
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 function rL takes nothing returns boolean
-return((GetUnitTypeId(GetTriggerUnit())==1853254706))
+	return((GetUnitTypeId(GetTriggerUnit())==1853254706))
 endfunction
 function sL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call PlaySoundOnUnitBJ(Hh,100,udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$96)
-set juexuelingwu[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(juexuelingwu[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
-call RemoveUnit(GetTriggerUnit())
-call AdjustPlayerStateBJ($7530,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
-call AdjustPlayerStateBJ(20,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_LUMBER)
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务江湖声望+150，并获得金钱+30000、稀有币+20、绝学领悟力+1")
-call ShowUnitShow(gg_unit_nvl2_0005)
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call PlaySoundOnUnitBJ(Hh,100,udg_hero[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))])
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	set Sd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=2
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$96)
+	set juexuelingwu[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(juexuelingwu[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+1)
+	call RemoveUnit(GetTriggerUnit())
+	call AdjustPlayerStateBJ($7530,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_GOLD)
+	call AdjustPlayerStateBJ(20,GetOwningPlayer(GetTriggerUnit()),PLAYER_STATE_RESOURCE_LUMBER)
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务江湖声望+150，并获得金钱+30000、稀有币+20、绝学领悟力+1")
+	call ShowUnitShow(gg_unit_nvl2_0005)
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//高昌迷宫任务
+/*
+ * 12. 高昌迷宫任务
+ */
 function uL takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896388))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896388))
 endfunction
 function vL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(xg))
-set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
-call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
-call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(xg))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
-call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
-else
-if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFfff0000这个任务你无法再接取了")
-endif
-endif
-endif
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==0))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(xg))
+	set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=1
+	call PlaySoundOnUnitBJ(bh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==1))then
+	call SaveLocationHandle(YDHT,id*cx,$5E83114F,GetRectCenter(xg))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
+	call PingMinimapLocForForce(ov(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3)))),LoadLocationHandle(YDHT,id*cx,$5E83114F),5.)
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$5E83114F))
+	else
+	if((Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]==2))then
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|cFfff0000这个任务你无法再接取了")
+	endif
+	endif
+	endif
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
 // 完成高昌迷宫任务
 function xL takes nothing returns boolean
-return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(Td[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1)and(Vd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==$A)and(Ud[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==$A))
+	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(Td[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==1)and(Vd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==$A)and(Ud[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==$A))
 endfunction
 function yL takes nothing returns nothing
-local integer id=GetHandleId(GetTriggeringTrigger())
-local integer cx=LoadInteger(YDHT,id,-$3021938A)
-set cx=cx+3
-call SaveInteger(YDHT,id,-$3021938A,cx)
-call SaveInteger(YDHT,id,-$1317DA19,cx)
-call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
-call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
-call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
-if((GetRandomInt(1,50)<=fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]))then
-call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
-if((GetRandomInt(1,100)<=$A))then
-call createitemloc(1227896370,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,90)<=$A))then
-call createitemloc(1227896371,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,80)<=$A))then
-call createitemloc(1227896369,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,70)<=$A))then
-call createitemloc(1227896374,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,60)<=$A))then
-call createitemloc(1227896372,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,50)<=$A))then
-call createitemloc(1227896368,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,40)<=$A))then
-call createitemloc(1227896377,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,30)<=$A))then
-call createitemloc(1227896376,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-if((GetRandomInt(1,20)<=$A))then
-call createitemloc(1227896375,LoadLocationHandle(YDHT,id*cx,$1769D332))
-else
-call createitemloc('I065',LoadLocationHandle(YDHT,id*cx,$1769D332))
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和绝学隐藏招式残章一本\n")
-set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-else
-if((GetRandomInt(1,50)<=15))then
-call unitadditembyidswapped(1227896390,GetTriggerUnit())
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和号令天下令\n")
-set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-else
-call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
-call createitemloc(gudong[GetRandomInt(4,9)],LoadLocationHandle(YDHT,id*cx,$1769D332))
-call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
-call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和古董一个")
-set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-endif
-endif
-set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$C8)
-set Vd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-set Ud[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
-call FlushChildHashtable(YDHT,id*cx)
+	local integer id=GetHandleId(GetTriggeringTrigger())
+	local integer cx=LoadInteger(YDHT,id,-$3021938A)
+	set cx=cx+3
+	call SaveInteger(YDHT,id,-$3021938A,cx)
+	call SaveInteger(YDHT,id,-$1317DA19,cx)
+	call SaveInteger(YDHT,id*cx,-$5E9EB4B3,(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit()))))
+	call SaveUnitHandle(YDHT,id*cx,-$2EC5CBA0,GetTriggerUnit())
+	call PlaySoundOnUnitBJ(Hh,100,LoadUnitHandle(YDHT,id*cx,-$2EC5CBA0))
+	if((GetRandomInt(1,50)<=fuyuan[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]))then
+	call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
+	if((GetRandomInt(1,100)<=$A))then
+	call createitemloc(1227896370,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,90)<=$A))then
+	call createitemloc(1227896371,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,80)<=$A))then
+	call createitemloc(1227896369,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,70)<=$A))then
+	call createitemloc(1227896374,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,60)<=$A))then
+	call createitemloc(1227896372,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,50)<=$A))then
+	call createitemloc(1227896368,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,40)<=$A))then
+	call createitemloc(1227896377,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,30)<=$A))then
+	call createitemloc(1227896376,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	if((GetRandomInt(1,20)<=$A))then
+	call createitemloc(1227896375,LoadLocationHandle(YDHT,id*cx,$1769D332))
+	else
+	call createitemloc('I065',LoadLocationHandle(YDHT,id*cx,$1769D332))
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	endif
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和绝学隐藏招式残章一本\n")
+	set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	else
+	if((GetRandomInt(1,50)<=15))then
+	call unitadditembyidswapped(1227896390,GetTriggerUnit())
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和号令天下令\n")
+	set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	else
+	call SaveLocationHandle(YDHT,id*cx,$1769D332,GetUnitLoc(GetTriggerUnit()))
+	call createitemloc(gudong[GetRandomInt(4,9)],LoadLocationHandle(YDHT,id*cx,$1769D332))
+	call RemoveLocation(LoadLocationHandle(YDHT,id*cx,$1769D332))
+	call DisplayTextToPlayer(Player(-1+(LoadInteger(YDHT,id*cx,-$5E9EB4B3))),0,0,"|CFF34FF00完成任务获得江湖声望+200和古董一个")
+	set Td[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	endif
+	endif
+	set shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=(shengwang[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]+$C8)
+	set Vd[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	set Ud[LoadInteger(YDHT,id*cx,-$5E9EB4B3)]=0
+	call FlushChildHashtable(YDHT,id*cx)
 endfunction
-//辽国第一先锋任务+拯救阿紫任务
+/*
+ * 13. 辽国军心任务 + 拯救阿紫任务
+ */
 function AL takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(GetItemTypeId(GetManipulatedItem())==1227896389 or GetItemTypeId(GetManipulatedItem())=='I0AN'))
 endfunction
@@ -1557,7 +1600,7 @@ function CL takes nothing returns nothing
 	set loc =null
 endfunction
 
-// 完成辽国军心任务
+
 function DL takes nothing returns boolean
 	return((UnitTypeNotNull(GetTriggerUnit(),UNIT_TYPE_HERO))and(GetPlayerController(GetOwningPlayer(GetTriggerUnit()))==MAP_CONTROL_USER)and(Wd[(1+GetPlayerId(GetOwningPlayer(GetTriggerUnit())))]==2))
 endfunction
@@ -1608,35 +1651,35 @@ function Tasks_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
 	set Fo=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Fo,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	call TriggerAddCondition(Fo,Condition(function IJ))
-	call TriggerAddAction(Fo,function lJ)
+	call TriggerAddCondition(Fo,Condition(function IsNewBeeTask))
+	call TriggerAddAction(Fo,function AcceptNewBeeTask)
 	set Go=CreateTrigger()
 	call TriggerAddRect(Go,Pe)
-	call TriggerAddCondition(Go,Condition(function KJ))
-	call TriggerAddAction(Go,function LJ)
+	call TriggerAddCondition(Go,Condition(function IsNewBeeTaskVisitGuoJing))
+	call TriggerAddAction(Go,function CompleteVisitGuoJing)
 	set Jn=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(Jn,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(Jn,Condition(function TI))
-	call TriggerAddAction(Jn,function UI)
+	call TriggerAddCondition(Jn,Condition(function IsKillingWolves))
+	call TriggerAddAction(Jn,function CompleteKillingWolves)
 	set Ho=CreateTrigger()
 	call TriggerAddRect(Ho,Re)
 	call TriggerAddRect(Ho,Ie)
 	call TriggerAddRect(Ho,le)
-	call TriggerAddCondition(Ho,Condition(function NJ))
-	call TriggerAddAction(Ho,function OJ)
+	call TriggerAddCondition(Ho,Condition(function IsVisitShaoLin))
+	call TriggerAddAction(Ho,function CompleteVisitShaoLin)
 	// 杀人系统
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )
-	call TriggerAddCondition(t, Condition(function IsWuPin))
-	call TriggerAddAction(t, function LookForWuPin)
+	call TriggerAddCondition(t, Condition(function IsLookingForGoods))
+	call TriggerAddAction(t, function LookingForGoods)
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )
-	call TriggerAddCondition(t, Condition(function IsFangQiWuPin))
-	call TriggerAddAction(t, function FangQiWuPin)
+	call TriggerAddCondition(t, Condition(function IsGiveUpCurrentGoods))
+	call TriggerAddAction(t, function GiveUpCurrentGoods)
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )
-	call TriggerAddCondition(t, Condition(function IsWanChengWuPin))
-	call TriggerAddAction(t, function WanChengWuPin)
+	call TriggerAddCondition(t, Condition(function IsCompleteLookingForGoods))
+	call TriggerAddAction(t, function CompleteLookingForGoods)
 	// 寻宝系统
 	set t = CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )

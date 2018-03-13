@@ -2,6 +2,22 @@
 // VIP系统
 //----------------------------
 //==================VIP码系统开始==================//
+globals
+	string array vipnum_1
+	string array vipnum_2
+	string array vipnum_3
+	string array vipnum_4
+	string array vipnum_5
+	string array vipnum_6
+	integer array udg_vip
+	integer array udg_changevip
+	integer array udg_elevenvip
+	unit array vipbanlv
+	boolean array vipbanlvbool
+	constant integer SAV_NUM = 18
+endglobals
+
+
 function CunVIP takes integer num, string s1, string s2 returns nothing
 	local integer i = StringHash("VIP")
 	call SaveStr(YDHT, i+num, 0, s1)
@@ -85,16 +101,7 @@ function NameProdVIP takes string s,integer cycle_count returns integer
 	endif
 	return udl_vip
 endfunction
-globals
-	string array vipnum_1
-	string array vipnum_2
-	string array vipnum_3
-	string array vipnum_4
-	string array vipnum_5
-	string array vipnum_6
-	unit array vipbanlv
-	boolean array vipbanlvbool
-endglobals
+
 
 function IsVIPItem takes nothing returns boolean
 	return (GetItemTypeId(GetManipulatedItem())=='I0AA' or GetItemTypeId(GetManipulatedItem())=='I0AB' or GetItemTypeId(GetManipulatedItem())=='I0AC' or GetItemTypeId(GetManipulatedItem())=='I0AD' or GetItemTypeId(GetManipulatedItem())=='I0AE' or GetItemTypeId(GetManipulatedItem())=='I0AF' or GetItemTypeId(GetManipulatedItem())=='I0AG' or GetItemTypeId(GetManipulatedItem())=='I0AH' or GetItemTypeId(GetManipulatedItem())=='I0AI' or GetItemTypeId(GetManipulatedItem())=='I0AJ' or GetItemTypeId(GetManipulatedItem())=='I0AK')
@@ -414,9 +421,7 @@ function NewSave takes player p returns nothing
 	call YDWE_PreloadSL_Save( p, "JueZhan", "VIP", SAV_NUM)
 	call DisplayTextToPlayer(p, 0, 0, "|CFFff9933创建新存档")
 endfunction
-globals
-	constant integer SAV_NUM = 18
-endglobals
+
 function Trig_______VIPActions takes nothing returns nothing
     local player p = null
     local integer  i = 1
@@ -582,6 +587,12 @@ function initActivationCode takes nothing returns nothing
 	loop
 		exitwhen i > 6
 		call TriggerRegisterPlayerChatEvent(t,Player(i),"",true)
+		set vipnum_1[i] = ""
+		set vipnum_2[i] = "B"
+		set vipnum_3[i] = "BB"
+		set vipnum_4[i] = "BBB"
+		set vipnum_5[i] = "BBBB"
+		set vipnum_6[i] = "BBBBB"
 		set i = i + 1
 	endloop
 	call TriggerAddAction(t,function activationCode)

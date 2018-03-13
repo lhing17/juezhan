@@ -3,11 +3,11 @@
 //----------------------------------------------
 
 
-function rx takes nothing returns boolean
+function IsOrderMoveOrPatrol takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and((GetIssuedOrderId()==$D0012)or(GetIssuedOrderId()==$D0016)))
 endfunction
 //用移动模拟攻击、巡逻模拟移动 对地面
-function sx takes nothing returns nothing
+function ImitateAttackAndMove takes nothing returns nothing
 	set udg_loc1=GetOrderPointLoc()
 	if((GetIssuedOrderId()==$D0012))then
 		call IssuePointOrderByIdLoc(GetOrderedUnit(),$D000F,udg_loc1)
@@ -19,66 +19,66 @@ function sx takes nothing returns nothing
 	call RemoveLocation(udg_loc1)
 endfunction
 //右键点击己方单位
-function uuxx takes nothing returns boolean
+function IsRightClickOnAlly takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(IsPlayerAlly(GetOwningPlayer(GetOrderedUnit()),GetOwningPlayer(GetOrderTargetUnit())))and(GetIssuedOrderId()==$D0003))
 endfunction
-function vvxx takes nothing returns nothing
+function GiveUpAttack takes nothing returns nothing
 	set udg_loc1=GetUnitLoc(GetOrderTargetUnit())
 	call IssuePointOrderByIdLoc(GetOrderedUnit(),$D0003,udg_loc1)
 	call RemoveLocation(udg_loc1)
 endfunction
 //用移动模拟攻击 对点
-function xx takes nothing returns boolean
+function IsOrderMoveToPoint takes nothing returns boolean
 	return((GetPlayerController(GetOwningPlayer(GetOrderedUnit()))==MAP_CONTROL_USER)and(GetIssuedOrderId()==$D0012))
 endfunction
-function yx takes nothing returns nothing
+function ImitateAttackToPoint takes nothing returns nothing
 	call IssueTargetOrderById(GetOrderedUnit(),$D000F,GetOrderTargetUnit())
 endfunction
 //优化速度加快
-function Ax takes nothing returns nothing
+function Optimize takes nothing returns nothing
 	call Cheat("DooConV")
 endfunction
 
 //友方单位A基地
-function Ux takes nothing returns boolean
+function IsAttackBasement takes nothing returns boolean
 	return((GetTriggerUnit()==udg_ZhengPaiWL)and(IsUnitAlly(GetAttacker(),Player(5))))
 endfunction
-function Vx takes nothing returns nothing
+function GiveUpAttackBasement takes nothing returns nothing
 	call IssueImmediateOrderById(GetAttacker(),$D0004)
 endfunction
-function ga takes nothing returns nothing
+function ForceAnAttackerAttackBasement takes nothing returns nothing
 	call IssuePointOrderByIdLoc(GetEnumUnit(),$D000F,v7[4])
 endfunction
-function ha takes nothing returns nothing
-	call ForGroupBJ(w7,function ga)
+function ForceAttackersAttackBasement takes nothing returns nothing
+	call ForGroupBJ(w7,function ForceAnAttackerAttackBasement)
 endfunction
 
 function GameDetail_Trigger takes nothing returns nothing
 	local trigger t = CreateTrigger()
 	//用移动模拟攻击、巡逻模拟移动 对地面
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
-	call TriggerAddCondition(t,Condition(function rx))
-	call TriggerAddAction(t,function sx)
+	call TriggerAddCondition(t,Condition(function IsOrderMoveOrPatrol))
+	call TriggerAddAction(t,function ImitateAttackAndMove)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-	call TriggerAddCondition(t,Condition(function uuxx))
-	call TriggerAddAction(t,function vvxx)
+	call TriggerAddCondition(t,Condition(function IsRightClickOnAlly))
+	call TriggerAddAction(t,function GiveUpAttack)
 	set t=CreateTrigger()
 	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-	call TriggerAddCondition(t,Condition(function xx))
-	call TriggerAddAction(t,function yx)
+	call TriggerAddCondition(t,Condition(function IsOrderMoveToPoint))
+	call TriggerAddAction(t,function ImitateAttackToPoint)
 	// 友方单位A基地
-	set ei=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(ei,EVENT_PLAYER_UNIT_ATTACKED)
-	call TriggerAddCondition(ei,Condition(function Ux))
-	call TriggerAddAction(ei,function Vx)
+	set t=CreateTrigger()
+	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	call TriggerAddCondition(t,Condition(function IsAttackBasement))
+	call TriggerAddAction(t,function GiveUpAttackBasement)
 	// 让怪A基地
-	set kj=CreateTrigger()
-	call TriggerRegisterTimerEventPeriodic(kj,5.)
-	call TriggerAddAction(kj,function ha)
+	set t=CreateTrigger()
+	call TriggerRegisterTimerEventPeriodic(t,5.)
+	call TriggerAddAction(t,function ForceAttackersAttackBasement)
 	// 游戏优化
-	set Qh=CreateTrigger()
-	call TriggerRegisterTimerEventSingle(Qh,.0)
-	call TriggerAddAction(Qh,function Ax)
+	set t=CreateTrigger()
+	call TriggerRegisterTimerEventSingle(t,.0)
+	call TriggerAddAction(t,function Optimize)
 	set t = null
 endfunction

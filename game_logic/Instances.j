@@ -3177,30 +3177,30 @@ function Instances_Trigger takes nothing returns nothing
 	call TriggerRegisterAnyUnitEventBJ(tq,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	call TriggerAddCondition(tq,Condition(function lO))
 	call TriggerAddAction(tq,function JO)
-	//特殊事件：潇湘子和尹克西到藏经阁盗取九阳神功经书
-	set t = CreateTrigger()
-	call TriggerRegisterTimerEventSingle(t, GetRandomInt(60, 1800))
-	//call TriggerRegisterTimerEventSingle(t, 10)
-	call TriggerAddAction(t, function stealJiuYang)
-	//击杀潇湘子和尹克西，获得奇武，事件结束
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillStealer))
-	call TriggerAddAction(t,function killStealer)
-	//击杀觉远大师和张君宝，获得奇武，事件结束
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillSeeker))
-	call TriggerAddAction(t,function killSeeker)
-	//击杀白猿，获得伴侣白猿
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillBaiYuan))
-	call TriggerAddAction(t,function killBaiYuan)
-	//击杀曾阿牛，获得九阳残卷
-	set t=CreateTrigger()
-	call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-	call TriggerAddCondition(t,Condition(function isKillANiu))
-	call TriggerAddAction(t,function killANiu)
+	// //特殊事件：潇湘子和尹克西到藏经阁盗取九阳神功经书
+	// set t = CreateTrigger()
+	// call TriggerRegisterTimerEventSingle(t, GetRandomInt(60, 1800))
+	// //call TriggerRegisterTimerEventSingle(t, 10)
+	// call TriggerAddAction(t, function stealJiuYang)
+	// //击杀潇湘子和尹克西，获得奇武，事件结束
+	// set t=CreateTrigger()
+	// call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	// call TriggerAddCondition(t,Condition(function isKillStealer))
+	// call TriggerAddAction(t,function killStealer)
+	// //击杀觉远大师和张君宝，获得奇武，事件结束
+	// set t=CreateTrigger()
+	// call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	// call TriggerAddCondition(t,Condition(function isKillSeeker))
+	// call TriggerAddAction(t,function killSeeker)
+	// //击杀白猿，获得伴侣白猿
+	// set t=CreateTrigger()
+	// call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	// call TriggerAddCondition(t,Condition(function isKillBaiYuan))
+	// call TriggerAddAction(t,function killBaiYuan)
+	// //击杀曾阿牛，获得九阳残卷
+	// set t=CreateTrigger()
+	// call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	// call TriggerAddCondition(t,Condition(function isKillANiu))
+	// call TriggerAddAction(t,function killANiu)
 	set t = null
 endfunction

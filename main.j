@@ -40,17 +40,17 @@
 #include "denomination/JiangHuWuGong.j"
 #include "denomination/JueShiWuGong.j"
 #include "denomination/JiangHuNeiGong.j"
+#include "denomination/QiWu.j"
 
 
 #include "TiaoZhan.j"
 #include "ZiZhiWuGong.j"
 #include "ZhenFa.j"
-#include "QiWu.j"
 
 #include "monster_come/monster_come.j"
 #include "zhangmen_skill/zhangmen_skill.j"
 #include "smelt_weapon/smelt_weapon.j"
-#include "CreateDestructables.j"
+#include "do_not_change/CreateDestructables.j"
 #include "CreateUnitsAndInitEnvironments.j"
 
 
@@ -61,7 +61,6 @@
 
 globals
 	item yd_NullTempItem
-	//group yd_NullTempGroup
 	unit w=null
 	unit z=null
 	unit A=null
@@ -112,9 +111,7 @@ globals
 	integer udg_gudongD=0
 	integer array udg_xinggeA
 	integer array udg_xinggeB
-	integer array udg_vip
-	integer array udg_changevip
-	integer array udg_elevenvip
+	
 	integer array udg_jianghu
 	integer array udg_juexue
 	integer array udg_juenei
@@ -244,7 +241,6 @@ globals
 	integer array L7
 	integer MM7=0
 	integer N7=0
-	integer array O7
 	integer array P7
 	timer array udg_revivetimer
 	timerdialog array R7
@@ -272,7 +268,7 @@ globals
 	unit array r8
 	player s8=null
 	boolean t8=false
-	integer array yongdanshu
+	
 	dialog array v8
 	button array w8
 	button array x8
@@ -635,7 +631,6 @@ globals
 	trigger Nh=null
 	trigger Oh=null
 	trigger Ph=null
-	trigger Qh=null
 	trigger Rh=null
 	trigger Sh=null
 	trigger Th=null
@@ -646,7 +641,6 @@ globals
 	trigger Yh=null
 	trigger Zh=null
 	trigger di=null
-	trigger ei=null
 	trigger fi=null
 	trigger gi=null
 	trigger hi=null
@@ -703,7 +697,6 @@ globals
 	trigger hj=null
 	trigger ij=null
 	trigger jj=null
-	trigger kj=null
 	trigger mj=null
 	trigger nj=null
 	trigger oj=null
@@ -1747,8 +1740,6 @@ endfunction
 
 //地图初始化
 function main1 takes nothing returns nothing
-
-
 	local trigger t
 	local real life
 	local integer itemID
@@ -1803,7 +1794,7 @@ function main1 takes nothing returns nothing
 		set touxiao[i]=0
 		set bihai[i]=0
 		set aidacishu[i]=0
-		set udg_wuqishu[i]=0
+		set udg_wuqishu[i]=0 
 		set udg_yifushu[i]=0
 		set i=i+1
 	endloop
@@ -1912,20 +1903,12 @@ function main1 takes nothing returns nothing
 		set Y4[i]=1
 		set udg_xinggeA[i]=0
 		set udg_xinggeB[i]=0
-		set udg_vip[i]=0
-		set udg_changevip[i]=0
-		set udg_elevenvip[i]=0
 		set chilian[i]=false
 		set udg_zhangmen[i]=false
 		set udg_whichzhangmen[i]=0
 		set wugongshu[i]=8
 		set udg_zhemei[i]=0
-		set vipnum_1[i] = ""
-		set vipnum_2[i] = "B"
-		set vipnum_3[i] = "BB"
-		set vipnum_4[i] = "BBB"
-		set vipnum_5[i] = "BBBB"
-		set vipnum_6[i] = "BBBBB"
+		
 		set wuxing[i]=9
 		set jingmai[i]=9
 		set gengu[i]=9
@@ -1938,7 +1921,6 @@ function main1 takes nothing returns nothing
 		set G7[i]=0
 		set K7[i]=DialogCreate()
 		set L7[i]=0
-		set O7[i]=0
 		set P7[i]=0
 		set udg_revivetimer[i]=CreateTimer()
 		set S7[i]=0
@@ -2089,7 +2071,6 @@ function main1 takes nothing returns nothing
 		exitwhen(i>$A)
 		set m8[i]=false
 		set q8[i]='crys'
-		set yongdanshu[i]=0
 		set i=i+1
 	endloop
 	set i=0
@@ -2138,9 +2119,6 @@ function main1 takes nothing returns nothing
 	call TriggerAddAction(lh,function Zw)
 		
 	call InitGlobalVariables() //初始化全局变量
-
-	
-	
 	
 	call KeyInputSystem() //键盘输入系统
 	call SmeltingWeaponSystem()//决战江湖1.4之大辽金匠
@@ -2156,9 +2134,6 @@ function main2 takes nothing returns nothing
 	call GameLogic_Trigger() // 游戏逻辑触发器
 	call GameDetail_Trigger() // 游戏细节处理
 	call VIP_Trigger() // VIP系统
-	
-	call InitTrig_ZhangMenSkill()
-	
 	call Equipment_Trigger() //装备属性触发器
 	call MenPai_Trigger() //门派触发器
     call ZiZhi_Trigger() //自制武器触发器
@@ -2170,5 +2145,4 @@ function main2 takes nothing returns nothing
 	call Experiences_Trigger() //历练系统
 	call ElixirSystem_Trigger() //丹药系统
 	call Tasks_Trigger() //任务系统 
-	call ArtifactTrigger() //神器系统
 endfunction

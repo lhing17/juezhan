@@ -70,10 +70,10 @@ function WeiTuoGun takes nothing returns nothing
 endfunction
 //达摩剑法
 function qc takes nothing returns boolean
-return((GetEventDamage()==.15))
+	return((GetEventDamage()==.15))
 endfunction
 function rc takes nothing returns boolean
-return(((IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(GetEventDamageSource())))and(IsUnitAliveBJ(GetFilterUnit()))))
+	return(((IsUnitEnemy(GetFilterUnit(),GetOwningPlayer(GetEventDamageSource())))and(IsUnitAliveBJ(GetFilterUnit()))))
 endfunction
 function sc takes nothing returns nothing
     local unit u=GetEventDamageSource()
@@ -200,6 +200,12 @@ function ac takes nothing returns nothing
 	    else
 	    	call WanBuff(u, uc, 11)
 	    endif
+	endif
+	// 悟性超过20时50%概率斩杀低于20%血的怪物
+	if (wuxing[(1+GetPlayerId(GetOwningPlayer(u)))]>=20) and GetUnitLifePercent(uc) <= 20 and GetRandomInt(1, 100) < 50 then
+		call SetUnitLifeBJ(uc, 1.)
+		call WuGongShangHai(u, uc, 1000 * shanghai)
+		call FontFloat("斩杀",loc2,60.,16.,65.,55.,42.,0, 3. )
 	endif
 	if((GetUnitAbilityLevel(u,1093678930)!=0)and(GetUnitAbilityLevel(u,'A07P')!=0)and(UnitHasBuffBJ(uc,1113813619)==false))then
 	    call WanBuff(u, uc, 10)

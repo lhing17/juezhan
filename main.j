@@ -3,20 +3,21 @@
 #include "library/UniMissileSystem.j"
 
 #include "game_logic/GameLogic.j"
-#include "game_logic/GameDetail.j"
+
 #include "game_logic/Equipment.j"
 #include "game_logic/Instances.j"
 #include "game_logic/Experiences.j"
 #include "game_logic/Tasks.j"
-//神器系统
-#include "game_logic/Artifact.j" 
 
+//神器系统
+#include "systems/Artifact.j" 
 #include "systems/ElixirSystem.j"
 #include "systems/Vip.j"
+#include "systems/TaoHuaDao.j"
 
 #include "test/najitest.j"
 #include "test/KeyInput.j"
-#include "TaoHuaDao.j"
+
 
 // 包含门派库
 #include "denomination/ShaoLin.j"
@@ -40,18 +41,22 @@
 #include "denomination/JiangHuWuGong.j"
 #include "denomination/JueShiWuGong.j"
 #include "denomination/JiangHuNeiGong.j"
-#include "denomination/QiWu.j"
 
 
-#include "TiaoZhan.j"
-#include "ZiZhiWuGong.j"
-#include "ZhenFa.j"
+
+#include "systems/TiaoZhan.j"
+#include "systems/ZiZhiWuGong.j"
+#include "systems/ZhenFa.j"
+#include "systems/smelt_weapon.j"
+#include "systems/QiWu.j"
+#include "systems/JianYi.j"
 
 #include "monster_come/monster_come.j"
 #include "zhangmen_skill/zhangmen_skill.j"
-#include "smelt_weapon/smelt_weapon.j"
+
+#include "do_not_change/CreateUnitsAndInitEnvironments.j"
+#include "do_not_change/GameDetail.j"
 #include "do_not_change/CreateDestructables.j"
-#include "CreateUnitsAndInitEnvironments.j"
 
 
 
@@ -659,11 +664,6 @@ globals
 	trigger wi=null
 	trigger xi=null
 	trigger yi=null
-	trigger zi=null
-	trigger Ai=null
-	trigger ai=null
-	trigger Bi=null
-	trigger bi=null
 	trigger Ci=null
 	trigger ci=null
 	trigger Di=null
@@ -672,14 +672,9 @@ globals
 	trigger Gi=null
 	trigger Hi=null
 	trigger Ii=null
-	trigger li=null
-	trigger Ji=null
-	trigger Ki=null
-	trigger Li=null
 	trigger Mi=null
 	trigger Ni=null
 	trigger Oi=null
-	trigger Pi=null
 	trigger Qi=null
 	trigger Ri=null
 	trigger Si=null
@@ -878,44 +873,12 @@ globals
 	trigger Hn=null
 	trigger In=null
 	trigger Jn=null
-	trigger Kn=null
-	trigger Ln=null
-	trigger Mn=null
-	trigger Nn=null
 	trigger On=null
 	trigger Pn=null
 	trigger Qn=null
 	trigger Rn=null
 	trigger Sn=null
-	trigger Tn=null
 	trigger Un=null
-	trigger Vn=null
-	trigger Wn=null
-	trigger Xn=null
-	trigger Yn=null
-	trigger Zn=null
-	trigger do=null
-	trigger eo=null
-	trigger fo=null
-	trigger go=null
-	trigger ho=null
-	trigger io=null
-	trigger jo=null
-	trigger ko=null
-	trigger mo=null
-	trigger no=null
-	trigger oo=null
-	trigger po=null
-	trigger qo=null
-	trigger ro=null
-	trigger so=null
-	trigger to=null
-	trigger uo=null
-	trigger vo=null
-	trigger wo=null
-	trigger xo=null
-	trigger yo=null
-	trigger zo=null
 	trigger Ao=null
 	trigger ao=null
 	trigger Bo=null
@@ -1013,34 +976,6 @@ globals
 	trigger uq=null
 	trigger vq=null
 	trigger xq=null
-	trigger yq=null
-	trigger zq=null
-	trigger Aq=null
-	trigger aq=null
-	trigger Bq=null
-	trigger bq=null
-	trigger Cq=null
-	trigger cq=null
-	trigger Dq=null
-	trigger Eq=null
-	trigger Fq=null
-	trigger Gq=null
-	trigger Hq=null
-	trigger Iq=null
-	trigger lq=null
-	trigger Jq=null
-	trigger Kq=null
-	trigger Lq=null
-	trigger Mq=null
-	trigger Nq=null
-	trigger Oq=null
-	trigger Pq=null
-	trigger Qq=null
-	trigger Rq=null
-	trigger Sq=null
-	trigger Tq=null
-	trigger Uq=null
-	trigger Wq=null
 	trigger Xq=null
 	trigger Yq=null
 	trigger Zq=null
@@ -1112,14 +1047,6 @@ globals
 	trigger ts=null
 	trigger us=null
 	trigger vs=null
-	trigger ws=null
-	trigger xs=null
-	trigger ys=null
-	trigger zs=null
-	trigger As=null
-	trigger as=null
-	trigger Bs=null
-	trigger Cs=null
 	trigger cs=null
 	trigger Ds=null
 	trigger Es=null
@@ -2145,4 +2072,5 @@ function main2 takes nothing returns nothing
 	call Experiences_Trigger() //历练系统
 	call ElixirSystem_Trigger() //丹药系统
 	call Tasks_Trigger() //任务系统 
+	call JianYi_Trigger() //剑意系统 
 endfunction

@@ -1,0 +1,57 @@
+package HeroSelector
+
+
+import GameConfiguration
+import GlobalInitialization
+import Hero
+import ClosureTimers
+
+unit array selectedHero
+
+function showHint(player p, unit u) 
+    var msg = ""
+    if u.getTypeId() == 'E004'
+        msg = "花间派"
+    if u.getTypeId() == 'E005'
+        msg = "太极门"
+    if u.getTypeId() == 'E006'
+        msg = "八卦门"
+    if u.getTypeId() == 'E007'
+        msg = "尹贺派"
+    if u.getTypeId() == 'E008'
+        msg = "雪山派"
+    if u.getTypeId() == 'E009'
+        msg = "兽王派"
+    if u.getTypeId() == 'E00A'
+        msg = "红莲教"
+    if u.getTypeId() == 'E00B'
+        msg = "茅山派"
+    if u.getTypeId() == 'E00C'
+        msg = "逍遥派"
+    printTimedToPlayer(msg, 15, p)
+    u.setAnimation("attack")
+    doAfter(2) ->
+        u.setAnimation("stand")
+
+function selectHeroCondition() returns boolean
+    return not(GetTriggerPlayer().hasHero()) and heroSelectionGroup.contains(GetTriggerUnit())
+
+function selectHeroAction()
+    var p = GetTriggerPlayer()
+    var u = GetTriggerUnit()
+    var i = p.getId()
+    if selectedHero[i].getTypeId() == u.getTypeId()
+        var ut = createUnit(p, u.getTypeId(), BASE_LOC, bj_UNIT_FACING.asAngleDegrees())
+        p.panCamToTimed(ut, 0)
+        u.remove()
+        u.setHero(new Hero(u, i))
+    else
+        showHint(p, u)
+        selectedHero[i] = u
+
+
+init
+    trigger t = CreateTrigger()
+    for i = 1 to MAX_PLAYER_NUMBER
+        t.registerPlayerUnitEvent(Player(i - 1), EVENT_PLAYER_UNIT_SELECTED, null)
+    t..addCondition(Condition(function selectHeroCondition))..addAction(function selectHeroAction)

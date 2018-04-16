@@ -1,0 +1,43 @@
+package Hero
+
+import HashMap
+
+HashMap<int, Hero> heroMap = new HashMap<int, Hero>
+
+public function unit.setHero(Hero hero)
+    heroMap.put(this.getOwner().getId(), hero)
+
+public function unit.getHero() returns Hero
+    return heroMap.get(this.getOwner().getId())
+
+public function player.hasHero() returns boolean
+    return heroMap.get(this.getId()) != null
+
+public function player.getHero() returns Hero
+    return heroMap.get(this.getId())
+
+public class Hero
+    unit u
+    int playerIndex
+    int defensePoint = 0 // 守家积分
+    int gamePoint = 0 // 游戏积分
+    int freeAttr = 0 // 自由属性点
+    int perception = 0 // 悟性
+    int constitution = 0 // 根骨
+    int healingSkill = 0 // 医术
+    int courage = 0 // 胆魄
+    int luck = 0 // 福缘
+    int channel = 0 // 经脉
+    construct(unit u, int playerIndex)
+        this.u = u
+        this.playerIndex = playerIndex
+    
+    function setPosition(vec2 pos)
+        u.setPos(pos)
+        PanCameraToForPlayer(u.getOwner(), pos.x, pos.y)
+        
+    
+      
+    
+     
+    

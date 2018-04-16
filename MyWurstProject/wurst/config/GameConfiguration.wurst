@@ -1,0 +1,5 @@
+package GameConfiguration
+
+public let MAX_PLAYER_NUMBER = 5
+/** 中立NPC的玩家 **/
+public let NEUTRAL_NPC_PLAYER = Player(15)

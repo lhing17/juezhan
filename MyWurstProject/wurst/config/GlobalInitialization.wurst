@@ -1,0 +1,41 @@
+package GlobalInitialization
+
+import GameConfiguration
+
+/** 基地回城点 **/
+public let BASE_LOC = vec2(-1174,-678)
+/** 基地前方回城点 **/
+public let BASE_FRONT = vec2(-869,796)
+/** 基地后方回城点 **/
+public let BASE_BACK = vec2(-869,-2000)
+/** 监狱 **/
+public let JAIL = vec2(10692,-14847)
+/** 自制武器ID **/
+public let DIY_WEAPON_ID = 'I0BH'
+
+/** 选择英雄的单位组 **/
+public group heroSelectionGroup = CreateGroup()
+
+public unit LangYun = null 
+public unit MoYan = null 
+public unit MoJun = null 
+public unit XiaoXia = null 
+public unit RuoDie = null 
+public unit Lanxin = null
+public unit JinXuan = null
+
+
+function createHeroToSelect(int id, vec2 pos, angle facing) returns unit
+    var u = createUnit(NEUTRAL_NPC_PLAYER, id, pos, facing)
+    u.setMana(0)
+    heroSelectionGroup.addUnit(u)
+    return u
+
+init
+    LangYun = createHeroToSelect('O004', vec2(1963.8,-4044.6), 226.742.asAngleDegrees())
+    MoYan = createHeroToSelect('O003', vec2(1655.,-3879.3), 271.975.asAngleDegrees())
+    MoJun = createHeroToSelect('O000', vec2(1877.,-4346.3), 184.495.asAngleDegrees())
+    XiaoXia = createHeroToSelect('O001', vec2(1387.8,-4122.2), 342.869.asAngleDegrees())
+    RuoDie = createHeroToSelect('O002', vec2(1488.4,-4404.3), 48.963.asAngleDegrees())
+    Lanxin = createHeroToSelect('O023', vec2(1720,-4430.3), 229 .asAngleDegrees())
+    JinXuan = createHeroToSelect('O02J', vec2(1450,-3900), 256 .asAngleDegrees())

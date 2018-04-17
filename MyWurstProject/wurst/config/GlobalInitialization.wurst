@@ -1,7 +1,9 @@
 package GlobalInitialization
 
 import GameConfiguration
-
+/*
+ * 全局常量
+ */
 /** 基地回城点 **/
 public let BASE_LOC = vec2(-1174,-678)
 /** 基地前方回城点 **/
@@ -14,14 +16,42 @@ public let JAIL = vec2(10692,-14847)
 public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
 /** 自制武器ID **/
 public let DIY_WEAPON_ID = 'I0BH'
+/** 难度科技ID **/
+public let DIFFICULTY_TECH_ID = 'R001'
+/** 普通模式 **/
+public let GAME_MODE_NORMAL = 0
+/** 特殊事件模式 **/
+public let GAME_MODE_SPECIAL = 1
+/** 生存模式 **/
+public let GAME_MODE_SURVIVAL = 2
+/** 快速模式 **/
+public let GAME_MODE_FAST = 3
+/** 初入江湖 **/
+public let GAME_DIFFICULTY_VERY_EASY = 0
+/** 牛刀小试 **/
+public let GAME_DIFFICULTY_EASY = 1
+/** 登堂入室 **/
+public let GAME_DIFFICULTY_NORMAL = 2
+/** 炉火纯青 **/
+public let GAME_DIFFICULTY_HARD = 3
+/** 华山论剑 **/
+public let GAME_DIFFICULTY_VERY_HARD = 4
+/** 决战江湖 **/
+public let GAME_DIFFICULTY_HELL = 5
+
+/*
+ * 全局变量
+ */
 /** 选择英雄的单位组 **/
 public group heroSelectionGroup = CreateGroup()
 
-public int array lanxinVip //兰馨VIP
-public int array jinxuanVip //瑾轩VIP
-public int array elevenVip //十一格VIP
-public int array superVip //超级VIP
+public int gameMode = 0 // 游戏模式
+public int gameDifficulty = 0 // 游戏难度
 
+public int array lanxinVip // 兰馨VIP
+public int array jinxuanVip // 瑾轩VIP
+public int array elevenVip // 十一格VIP
+public int array superVip // 超级VIP
 
 public unit langyun = null 
 public unit moyan = null 

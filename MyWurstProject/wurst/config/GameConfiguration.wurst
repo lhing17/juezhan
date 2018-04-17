@@ -4,3 +4,7 @@ package GameConfiguration
 public let MAX_PLAYER_NUMBER = 5
 /** 中立NPC的玩家 **/
 public let NEUTRAL_NPC_PLAYER = Player(15)
+/** 敌对野怪的玩家 **/
+public let CREEP_PLAYER = Player(12)
+/** 进攻怪所属玩家 **/
+public let OFFENSER_PLAYER = Player(6)

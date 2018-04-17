@@ -28,6 +28,8 @@ public class Hero
     int courage = 0 // 胆魄
     int luck = 0 // 福缘
     int channel = 0 // 经脉
+    int characterA = 0 // 性格A
+    int characterB = 0 // 性格B
     construct(unit u, int playerIndex)
         this.u = u
         this.playerIndex = playerIndex

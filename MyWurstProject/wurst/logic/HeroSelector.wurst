@@ -7,27 +7,16 @@ import Hero
 import ClosureTimers
 
 unit array selectedHero
+tuple heroBonus(unit hero, string name, int perception, int constitution, int healingSkill, int courage, int luck, int channel, int characterA, int characterB)
+tuple heroDescription(unit hero, string availableDenomination, string extraAttr)
+heroBonus array heroBonusArray
+heroDescription array heroDescriptionArray
 
 function showHint(player p, unit u) 
     var msg = ""
-    if u.getTypeId() == 'E004'
-        msg = "花间派"
-    if u.getTypeId() == 'E005'
-        msg = "太极门"
-    if u.getTypeId() == 'E006'
-        msg = "八卦门"
-    if u.getTypeId() == 'E007'
-        msg = "尹贺派"
-    if u.getTypeId() == 'E008'
-        msg = "雪山派"
-    if u.getTypeId() == 'E009'
-        msg = "兽王派"
-    if u.getTypeId() == 'E00A'
-        msg = "红莲教"
-    if u.getTypeId() == 'E00B'
-        msg = "茅山派"
-    if u.getTypeId() == 'E00C'
-        msg = "逍遥派"
+    for j = 0 to 6
+        if u == heroDescriptionArray[j].hero
+            msg = "|CFFCCFF00" + heroBonusArray[j].name + "|r\n可加入门派：\n" + heroDescriptionArray[j].availableDenomination + "\n基础全属性+9\n额外属性\n" + heroDescriptionArray[j].extraAttr + "\n"
     printTimedToPlayer(msg, 15, p)
     u.setAnimation("attack")
     doAfter(2) ->
@@ -41,10 +30,31 @@ function selectHeroAction()
     var u = GetTriggerUnit()
     var i = p.getId()
     if selectedHero[i].getTypeId() == u.getTypeId()
-        var ut = createUnit(p, u.getTypeId(), BASE_LOC, bj_UNIT_FACING.asAngleDegrees())
-        p.panCamToTimed(ut, 0)
-        u.remove()
-        u.setHero(new Hero(u, i))
+        if (selectedHero[i] == lanxin and lanxinVip[i] == 0) or (selectedHero[i] == jinxuan and jinxuanVip[i] == 0)
+            printTimedToPlayer("该角色为赞助游戏者特别制作，暂不对普通玩家开放", 15, p)
+            return
+        for j = 0 to 6
+            if u == heroBonusArray[i].hero
+                var ut = createUnit(p, u.getTypeId(), HERO_BORN_LOC, bj_UNIT_FACING.asAngleDegrees())
+                p.panCamToTimed(ut, 0)
+                u.remove()
+                ut.setHero(new Hero(ut, i))
+                var hero = ut.getHero()
+                printTimedToPlayer("恭喜获得英雄：|CFFCCFF00" + heroBonusArray[j].name + "|r\n请选择下列门派后开启江湖之旅：\n" + heroDescriptionArray[j].availableDenomination + "\n", 15, p)
+                hero.channel += heroBonusArray[j].channel
+                hero.perception += heroBonusArray[j].perception
+                hero.constitution += heroBonusArray[j].constitution
+                hero.healingSkill += heroBonusArray[j].healingSkill
+                hero.luck += heroBonusArray[j].luck
+                hero.courage += heroBonusArray[j].courage
+                hero.characterA = heroBonusArray[j].characterA
+                hero.characterB = heroBonusArray[j].characterB
+                SelectUnitRemoveForPlayer(u, p)
+                SelectUnitAddForPlayer(ut, p)
+                ut.addEffect("Abilities\\Spells\\Other\\Awaken\\Awaken.mdl", "overhead").destr()
+                printTimedToPlayer("|CFFFF0000请从天下门派处选择你喜欢的门派后方可离开此地|r", 10, p)
+                printTimedToPlayer("|CFFFF0000输入-random可随机选择门派并获得额外60个木头，选取方式请到F9中寻找|r", 10, p)    
+                return    
     else
         showHint(p, u)
         selectedHero[i] = u
@@ -52,6 +62,20 @@ function selectHeroAction()
 
 init
     trigger t = CreateTrigger()
+    heroBonusArray[0] = heroBonus(ruodie, "若蝶", 5, 0, 3, 0, 2, 0, GetRandomInt(1, 3), GetRandomInt(3, 5))
+    heroBonusArray[1] = heroBonus(xiaoxia, "潇侠", 2, 2, 0, 1, 5, 0, GetRandomInt(2, 4), GetRandomInt(2, 4))
+    heroBonusArray[2] = heroBonus(moyan, "莫言", 2, 0, 2, 5, 0, 1, GetRandomInt(3, 5), GetRandomInt(1, 3))
+    heroBonusArray[3] = heroBonus(langyun, "浪云", 0, 3, 2, 0, 0, 5, GetRandomInt(2, 4), GetRandomInt(2, 4))
+    heroBonusArray[4] = heroBonus(mojun, "魔君", 0, 5, 0, 2, 0, 3, GetRandomInt(1, 3), GetRandomInt(3, 5))
+    heroBonusArray[5] = heroBonus(lanxin, "兰馨", 3, 3, 3, 3, 3, 3, GetRandomInt(3, 5), GetRandomInt(3, 5))
+    heroBonusArray[6] = heroBonus(jinxuan, "瑾轩", 3, 3, 3, 3, 3, 3, GetRandomInt(3, 5), GetRandomInt(3, 5))
+    heroDescriptionArray[0] = heroDescription(ruodie, "|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教（女）|r", "|cFF00FF00悟性+5 福缘+2 医术+3\n|r")
+    heroDescriptionArray[1] = heroDescription(xiaoxia, "|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r")
+    heroDescriptionArray[2] = heroDescription(moyan, "|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教  神龙教（女）|r", "|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r")
+    heroDescriptionArray[3] = heroDescription(langyun, "|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+3 经脉+5 医术+2\n|r")
+    heroDescriptionArray[4] = heroDescription(mojun, "|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r")
+    heroDescriptionArray[5] = heroDescription(lanxin, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
+    heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     for i = 1 to MAX_PLAYER_NUMBER
         t.registerPlayerUnitEvent(Player(i - 1), EVENT_PLAYER_UNIT_SELECTED, null)
     t..addCondition(Condition(function selectHeroCondition))..addAction(function selectHeroAction)

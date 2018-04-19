@@ -32,12 +32,12 @@ function setDifficultyAndRelativeConfig(integer difficulty)
     gameDifficulty = difficulty
     for i = 0 to MAX_PLAYER_NUMBER - 1
         SetPlayerHandicapXPBJ( Player(i), 200.00 - 20.00 * difficulty )
-    SetPlayerTechResearched(OFFENSER_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
+    SetPlayerTechResearched(OFFENSE_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
     SetPlayerTechResearched(CREEP_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
     SetPlayerTechResearched(NEUTRAL_NPC_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
 
 /** 选择游戏难度 **/
-function selectDifficulty()
+public function selectDifficulty()
     DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF40主机开始选择游戏难度")
     let gameDifficultySelectDialog = new DialogBox("请选择游戏难度")
     if gameDifficulty <= GAME_DIFFICULTY_VERY_EASY

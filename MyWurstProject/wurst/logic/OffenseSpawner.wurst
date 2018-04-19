@@ -1,0 +1,124 @@
+package OffenseSpawner
+
+import ClosureTimers
+import TimerUtils
+import GlobalInitialization
+import Offense
+import GameConfiguration
+import GameModeSelector
+import Common
+
+
+
+
+let spawn_timer = getTimer()
+timerdialog spawn_timer_dialog = CreateTimerDialog(spawn_timer)
+int wave = 0
+string attackingBGM = "war3mapImported\\wulindahui3.mp3"
+string intervalBGM = "war3mapImported\\yanmenguanqian4.mp3"
+
+/** 刷怪倒计时 **/
+function spawnAfter(real time)
+    spawn_timer.start(time, null)
+    TimerDialogSetTitle(spawn_timer_dialog, "第"+(wave+1).toString()+"波倒计时")
+    TimerDialogDisplay(spawn_timer_dialog, true)
+
+
+function showNextWaveWarning()
+    switch wave
+        case 8
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能神圣护甲和10倍暴击"))
+        case 10
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能咆哮和重击"))
+        case 11
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪为空军"))
+        case 12
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能噬血术"))
+        case 13
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪为绞肉车，死亡后会产生小蜘蛛"))
+        case 14
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪为空军，拥有技能20倍暴击"))
+        case 15
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能精灵之火"))
+        case 16
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能狂战士和30倍暴击"))
+        case 17
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪血量很高，并拥有技能嘲讽"))
+        case 18
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能狂热"))
+        case 19
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能变相移动"))
+        case 20
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能反魔法外壳"))
+        case 21
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能重击"))
+        case 22
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能90%闪避"))
+        case 23
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能卡布恩（自爆）"))
+        case 24
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能闪电攻击"))
+        case 25
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪拥有技能神圣护甲"))
+        case 26
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：下一波怪血量很高，并拥有技能永久献祭和重生"))
+        case 27
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,("|CFFFF0033※警告※：本波为最后一波进攻，本波结束后教主即将出现"))
+
+function spawnFamous()
+    // TODO 名门刷怪
+
+function spawnBoss()
+    // TODO 刷BOSS
+
+/** 刷怪 **/
+function spawn()
+    if wave == 4 and gameMode == GAME_MODE_SPECIAL
+        selectDifficulty()
+    
+    DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFFF0033邪教势力：第" + (wave+1).toString() + "|CFFFF0033波")
+    //下波警告
+    showNextWaveWarning() 
+    // 切换BGM
+    StopMusic(false)
+    PlayMusic(attackingBGM) 
+    TimerDialogDisplay(spawn_timer_dialog, false)
+    /* 刷正面进攻怪 */
+    doPeriodicallyCounted(SPAWN_INTERVAL, COUNT_PER_WAVE) cb ->
+        for i = 0 to 2
+            var offense = new Offense(wave.toOffenseId(), SPAWN_LOC[i])
+            offense.moveToAndAttack(BASE_LOC)
+    /* 刷背面进攻怪 */
+    if getPlayerNumber() > 1
+        doAfter(40) ->
+            doPeriodicallyCounted(SPAWN_INTERVAL, (COUNT_PER_WAVE - (40 - 10) / SPAWN_INTERVAL).toInt()) cb ->
+                var offense = new Offense(wave.toOffenseId(), BACK_SPAWN_LOC)
+                offense.moveToAndAttack(BASE_LOC)
+    /* 刷名门 */
+    if famousAttackFlag == 1
+        doAfter(60) ->
+            spawnFamous()
+    /* 刷BOSS */
+    doAfter(80) ->
+        spawnBoss()
+    /* 刷怪结束 */
+    doAfter(SPAWN_INTERVAL * COUNT_PER_WAVE) ->
+        wave++
+        StopMusic(false)
+        PlayMusicBJ(intervalBGM)
+        spawnAfter(WAVE_INTERAVL)
+            
+
+init
+    CreateTrigger()
+        ..registerTimerExpireEvent(spawn_timer)
+        ..addAction(function spawn)
+    doAfter(41) ->
+        spawnAfter(120)
+        doAfter(120) ->
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
+            if gameMode == GAME_MODE_SPECIAL
+                selectDifficulty()
+
+        
+        

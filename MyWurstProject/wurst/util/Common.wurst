@@ -1,0 +1,11 @@
+package Common
+
+import GameConfiguration
+
+/** 获取玩家人数 **/
+public function getPlayerNumber() returns integer
+    var n = 0
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        if Player(i).getController() == MAP_CONTROL_USER and Player(i).getSlotState() == PLAYER_SLOT_STATE_PLAYING
+            n++
+    return n

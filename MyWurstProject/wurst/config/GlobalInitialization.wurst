@@ -38,6 +38,24 @@ public let GAME_DIFFICULTY_HARD = 3
 public let GAME_DIFFICULTY_VERY_HARD = 4
 /** 决战江湖 **/
 public let GAME_DIFFICULTY_HELL = 5
+/** 英雄复活时间 **/
+public let HERO_REVIVAL_TIME = 15.0
+/** 游戏评分 **/
+public let GAME_SCORE = 0
+/** 基地 **/
+public unit BASE = gg_unit_E004_0023 // FIXME 替换成实际单位
+/** 最终进攻怪 **/
+public unit FINAL_BOSS = gg_unit_E004_0023 // FIXME 替换成实际单位
+
+/* 刷怪点 */
+// FIXME
+public let SPAWN_LOC=[
+    vec2(-13600, 2900),
+    vec2(200, 200),
+    vec2(300, 300)
+]
+
+public let BACK_SPAWN_LOC = vec2(400, 400)
 
 /*
  * 全局变量
@@ -47,6 +65,7 @@ public group heroSelectionGroup = CreateGroup()
 
 public int gameMode = 0 // 游戏模式
 public int gameDifficulty = 0 // 游戏难度
+public int famousAttackFlag = 1 // 名门进攻标识
 
 public int array lanxinVip // 兰馨VIP
 public int array jinxuanVip // 瑾轩VIP

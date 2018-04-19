@@ -1,0 +1,27 @@
+package Enemy
+
+import Formula
+
+public abstract class Enemy
+    unit u
+    int exp //杀怪
+    int money //杀怪获得金钱   
+    vec2 pos // 出生地点
+    angle facing
+    construct(player p, int unitId, vec2 pos) 
+        this.u = createUnit(p, unitId, pos, bj_UNIT_FACING.asAngleDegrees())
+        this.exp = calculateExp(u.getLevel())
+        this.money = calculateMoney(u.getLevel()) 
+        this.pos = pos
+        
+    function getLevel() returns int
+        return u.getLevel()
+        
+    function getExp() returns int
+        return this.exp
+
+    function getMoney() returns int
+        return this.money
+        
+    ondestroy
+        KillUnit(u)

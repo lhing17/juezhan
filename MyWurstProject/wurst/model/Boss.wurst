@@ -1,0 +1,19 @@
+package Boss
+
+import Creep
+
+// FIXME 更改boss的配置
+let boss_lookup = [
+    'u001',
+    'u002'
+]
+
+public function int.toBossId() returns int
+    return boss_lookup[this]
+
+/**野怪的BOSS，拥有技能**/
+public class Boss extends Creep
+    int array[4] abilities
+    construct(int unitId, vec2 pos, real reviveTime)
+        super(unitId, pos, reviveTime)
+    

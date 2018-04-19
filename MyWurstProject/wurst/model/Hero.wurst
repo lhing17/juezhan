@@ -1,6 +1,9 @@
 package Hero
 
 import HashMap
+import Event
+import GlobalInitialization
+import ClosureTimers
 
 HashMap<int, Hero> heroMap = new HashMap<int, Hero>
 
@@ -33,12 +36,26 @@ public class Hero
     construct(unit u, int playerIndex)
         this.u = u
         this.playerIndex = playerIndex
+        EventListener.add(u, EVENT_UNIT_DEATH, () -> onDeath())
+        EventListener.add(u, EVENT_UNIT_HERO_LEVEL, () -> onLevelUp())
     
     function setPosition(vec2 pos)
         u.setPos(pos)
         PanCameraToForPlayer(u.getOwner(), pos.x, pos.y)
         
-    
+    function onLevelUp()
+        // TODO 英雄升级执行的动作
+    function onDeath()
+        var t = CreateTimer()
+        CreateTimerDialogBJ(t,"复活倒计时:")
+        TimerDialogDisplayForPlayerBJ(true, bj_lastCreatedTimerDialog, Player(playerIndex))
+        var tg = bj_lastCreatedTimerDialog
+        t.start(HERO_REVIVAL_TIME, null)
+        doAfter(HERO_REVIVAL_TIME) ->
+            u.revive(HERO_BORN_LOC, true)
+            Player(playerIndex).panCamToTimed(u, 0)
+            DestroyTimerDialog(tg)
+            t.destr()
       
     
      

@@ -1,5 +1,9 @@
 package GameConfiguration
 
+//-----------------------------
+//-- 玩家
+//-----------------------------
+
 /** 最大玩家数 **/
 public let MAX_PLAYER_NUMBER = 5
 /** 中立NPC的玩家 **/
@@ -7,4 +11,26 @@ public let NEUTRAL_NPC_PLAYER = Player(15)
 /** 敌对野怪的玩家 **/
 public let CREEP_PLAYER = Player(12)
 /** 进攻怪所属玩家 **/
-public let OFFENSER_PLAYER = Player(6)
+public let OFFENSE_PLAYER = Player(6)
+
+//-----------------------------
+//-- 刷怪
+//-----------------------------
+
+/** 刷怪间隔 **/
+public let SPAWN_INTERVAL = 2.0
+/** 每波怪数（一条路） **/
+public let COUNT_PER_WAVE = 10
+/** 两波怪时间间隔 **/
+public let WAVE_INTERAVL = 10.0
+
+//-----------------------------
+//-- 游戏版本和社区
+//-----------------------------
+public let GAME_VERSION = "1.00"
+
+public let GAME_FORUM = "jzjhbbs.uuu9.com"
+
+public let QQ_GROUP_1 = "159030768"
+
+public let QQ_GROUP_2 = "369925013"

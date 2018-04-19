@@ -1,0 +1,36 @@
+package Creep
+
+import Enemy
+import ClosureTimers
+import Event
+
+@configurable player creep_player = Player(12)
+
+// FIXME 更改野怪的配置
+let creep_lookup = [
+    'u001',
+    'u002'
+]
+
+public function int.toCreepId() returns int
+    return creep_lookup[this]
+
+/**野怪实体类**/
+public class Creep extends Enemy
+    real reviveTime //复活（重新刷新）时间
+    construct(int unitId, vec2 pos, real reviveTime)
+        super(creep_player, unitId, pos)
+        this.reviveTime = reviveTime
+        EventListener.add(u, EVENT_UNIT_DEATH, () -> onDeath())
+    function onDeath()
+        var ut = GetTriggerUnit()
+        doAfter(reviveTime) ->
+            this.u = createUnit(creep_player, ut.getTypeId(), pos, bj_UNIT_FACING.asAngleDegrees())
+    function getReviveTime() returns real 
+        return this.reviveTime
+    
+    function setReviveTime(real reviveTime)
+        this.reviveTime = reviveTime
+    
+    ondestroy
+        KillUnit(u)

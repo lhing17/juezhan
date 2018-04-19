@@ -1,0 +1,13 @@
+package Formula
+
+/* 各种计算公式 */
+
+// FIXME
+/** 经验公式：经验与怪物等级的关系 **/
+public function calculateExp(int level) returns int
+    return level * 100
+
+// FIXME
+/** 金钱公式：金钱与怪物等级的关系 **/
+public function calculateMoney(int level) returns int
+    return level * 100

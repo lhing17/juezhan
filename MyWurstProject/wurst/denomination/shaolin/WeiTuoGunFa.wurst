@@ -1,0 +1,31 @@
+package WeiTuoGunFa
+
+import Common
+import ClosureForGroups
+import Hero
+
+/* 韦陀棍法 */
+function isWeiTuo() returns bool
+    return unitHasAbilityAndIsEnemy(GetAttacker(), GetTriggerUnit(), 'A05G')
+
+function weiTuo()
+    let u = GetAttacker()
+    var radius = u.getHero().channel * 8 + 300
+    if u.hasAbility('Bblo')
+        forUnitsInRange(u.getPos(), radius.toReal()) ue ->
+            ue.remove() // FIXME
+        if u.hasAbility('A0DN')
+            u.addHP(0.02 * u.getMaxHP())
+    else if percentPossiblity(22 + u.getHero().luck / 3)
+        forUnitsInRange(u.getPos(), radius.toReal()) ue ->
+            ue.remove() // FIXME
+        if u.hasAbility('A0DN')
+            u.addHP(0.02 * u.getMaxHP())
+        if u.hasAbility('A07U') and percentPossiblity(15)
+            dummyUnitCastAbilityTarget(u.getOwner(), 1093681496, 1, $D0085, u, u.getPos())
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_ATTACKED)
+        ..addCondition(Condition(function isWeiTuo))
+        ..addAction(function weiTuo)

@@ -9,3 +9,25 @@ public function getPlayerNumber() returns integer
         if Player(i).getController() == MAP_CONTROL_USER and Player(i).getSlotState() == PLAYER_SLOT_STATE_PLAYING
             n++
     return n
+
+public function unit.isEnemyOf(player p) returns bool
+    return this.getOwner().isEnemyOf(p)
+
+public function unit.isEnemyOf(unit u) returns bool
+    return this.isEnemyOf(u.getOwner())
+
+public function percentPossiblity(real r) returns bool
+    return GetRandomReal(0, 100) < r
+
+/** 攻击者拥有某技能并且是触发单位的敌人，通常用于被动技能 **/
+public function unitHasAbilityAndIsEnemy(unit attacker, unit triggerUnit, int abilityId) returns bool
+    return attacker.hasAbility(abilityId) and attacker.isEnemyOf(triggerUnit)
+
+/** 马甲单位施放技能 **/
+public function dummyUnitCastAbilityTarget(player owner, int abilityId, int lvl, int orderId, widget target, vec2 casterPos)
+    let u = createUnit(owner, 'e000', casterPos, casterPos.angleTo(target.getPos()))
+    u.hide()
+    u.addAbility(abilityId)
+    u.setAbilityLevel(abilityId, lvl)
+    u.issueTargetOrderById(orderId, target)
+    u.setTimedLife(3.)

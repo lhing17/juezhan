@@ -18,7 +18,8 @@ function weiTuo()
             u.addHP(0.02 * u.getMaxHP())
     else if percentPossiblity(22 + u.getHero().luck / 3)
         forUnitsInRange(u.getPos(), radius.toReal()) ue ->
-            ue.remove() // FIXME
+            if ue.isAlive() and ue.isEnemyOf(u)
+                ue.remove() // FIXME
         if u.hasAbility('A0DN')
             u.addHP(0.02 * u.getMaxHP())
         if u.hasAbility('A07U') and percentPossiblity(15)

@@ -38,6 +38,22 @@ public let GAME_DIFFICULTY_HARD = 3
 public let GAME_DIFFICULTY_VERY_HARD = 4
 /** 决战江湖 **/
 public let GAME_DIFFICULTY_HELL = 5
+/** 精武师 **/
+public let PART_TIME_KONGFU_MASTER = 1 
+/** 丫鬟 **/
+public let PART_TIME_MAID = 2
+/** 寻宝师 **/
+public let PART_TIME_TREASURE_HUNTER = 3
+/** 锻造师 **/
+public let PART_TIME_FORGER = 4
+/** 炼丹师 **/
+public let PART_TIME_ALCHEMIST = 5
+/** 鉴定师 **/
+public let PART_TIME_APPRAISER = 6
+/** 兵器师 **/
+public let PART_TIME_WEAPONER = 7
+/** 练气师 **/
+public let PART_TIME_QI_MASTER = 8
 /** 英雄复活时间 **/
 public let HERO_REVIVAL_TIME = 15.0
 /** 游戏评分 **/

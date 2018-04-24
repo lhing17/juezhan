@@ -1,0 +1,30 @@
+package KongFuLevelUp
+
+import Hero
+
+/* 武功升重系统 */
+
+/**
+ * @param coeff 武功升重系数
+ */
+function kongFuLevelUp(unit u, int abilityId, int coeff)
+    let level = u.getAbilityLevel(abilityId)
+    let hero = u.getHero()
+    let i = u.getOwner().getId() + 1
+    var increment = (3 + hero.characterA) * (hero.perception + 5 + GetRandomInt(0, (coeff/60).toInt())) * 2
+    
+    if level > 0 and level < 7
+        // 慕容家训
+        if u.hasAbility('B010')
+            increment *= 5 + GetUnitAbilityLevel(u,'A02V') div 2
+        else
+            increment *= 4
+        hero.kongFuTable.saveInt(abilityId, hero.kongFuTable.loadInt(abilityId) + increment)
+        hero.kongFuTable.saveString(abilityId * 2, hero.kongFuTable.loadInt(abilityId).toString() + "/" + (coeff * level).toString())
+        if (hero.kongFuTable.loadInt(abilityId) >= coeff * level)
+            hero.kongFuTable.saveInt(abilityId, 0)
+            IncUnitAbilityLevel(u, abilityId)
+            hero.kongFuTable.saveInt(abilityId * 5, u.getAbilityLevel(abilityId))
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff66ff00恭喜玩家" + i.toString() + "领悟了武功：" + GetObjectName(abilityId) + "第" + (level+1).toString() + "重")
+    else if level > 0 and level < 9
+

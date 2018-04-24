@@ -1,0 +1,41 @@
+package TriggerEvent
+
+import LinkedList
+
+var damageEventNumber = 0
+var damageEventQueue = new LinkedList<trigger>()
+trigger eventTrigger
+
+function anyUnitDamagedTriggerAction()
+    for i = 0 to damageEventNumber - 1
+        var t =  damageEventQueue.get(i)
+        if t != null and t.isEnabled() and t.evaluate()
+            t.execute()
+
+function anyUnitDamagedFilter() returns bool
+    let u = GetFilterUnit()
+    if not(u.hasAbility('Aloc'))
+        eventTrigger.registerUnitEvent(u, EVENT_UNIT_DAMAGED)
+    return false
+
+function anyUnitDamagedEnumUnit()
+    var r  = CreateRegion()
+    r.addRect(GetWorldBounds())
+    CreateTrigger()
+        ..registerEnterRegion(r, Condition(function anyUnitDamagedFilter))
+    CreateGroup()
+        ..enumUnitsInRect(GetWorldBounds(), Condition(function anyUnitDamagedFilter))
+        ..destr()
+
+
+public function anyUnitDamagedRegisterTrigger(trigger t)
+    if t == null
+        return
+
+    if damageEventNumber == 0
+        eventTrigger = CreateTrigger()
+        eventTrigger.addAction(function anyUnitDamagedTriggerAction)
+        anyUnitDamagedEnumUnit()
+    
+    damageEventQueue.push(t)
+    damageEventNumber++

@@ -1,0 +1,3 @@
+package EffectConstant
+
+public let WEITUO_EFFECT = "Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl"

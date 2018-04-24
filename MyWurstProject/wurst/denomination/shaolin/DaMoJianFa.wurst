@@ -1,3 +1,37 @@
 package DaMoJianFa
 
+import TriggerEvent
+import AbilityIdConstant
+import Common
+import KongFuLevelUp
+
 /* 达摩剑法 */
+
+
+function isDaMo() returns bool
+    return GetSpellAbilityId() == DA_MO_JIAN_FA and GetTriggerUnit().isType(UNIT_TYPE_HERO)
+function daMo()
+    let u = GetTriggerUnit()
+    if u.hasAbility('A05O')
+        dummyUnitCastAbilityTarget(u.getOwner(), 'A05H', 1, $D0062, u, u.getPos())
+    if u.hasAbility('A0DN')
+        createUnit(u.getOwner(), 1697656881, u.getPos(), bj_UNIT_FACING.asAngleDegrees()).setTimedLife(12.)
+    if u.hasAbility('A07U') and u.hasAbility('A07F')
+        dummyUnitCastAbilityPos(u.getOwner(), 1093678410, 1, $D0271, getPosFromPos(u.getPos(), 256, (u.getDefaultPropWindow() + 90).asAngleDegrees()), u.getPos())
+    kongFuLevelUp(u, DA_MO_JIAN_FA, 150)
+
+function isDaMoDamage() returns bool
+    return false
+
+function daMoDamage()
+    // TODO
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isDaMo))
+        ..addAction(function daMo)
+    CreateTrigger()
+        ..registerAnyUnitDamagedEvent()
+        ..addCondition(Condition(function isDaMoDamage))
+        ..addAction(function daMoDamage)

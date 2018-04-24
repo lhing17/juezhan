@@ -24,14 +24,23 @@ public function percentPossiblity(real r) returns bool
 public function unitHasAbilityAndIsEnemy(unit attacker, unit triggerUnit, int abilityId) returns bool
     return attacker.hasAbility(abilityId) and attacker.isEnemyOf(triggerUnit)
 
-/** 马甲单位施放技能 **/
+/** 马甲单位对目标施放技能 **/
 public function dummyUnitCastAbilityTarget(player owner, int abilityId, int lvl, int orderId, widget target, vec2 casterPos)
     let u = createUnit(owner, 'e000', casterPos, casterPos.angleTo(target.getPos()))
     u.hide()
     u.addAbility(abilityId)
     u.setAbilityLevel(abilityId, lvl)
     u.issueTargetOrderById(orderId, target)
-    u.setTimedLife(3.)
+    u.setTimedLife(3)
+
+/** 马甲单位对点施放技能 **/
+public function dummyUnitCastAbilityPos(player owner, int abilityId, int lvl, int orderId, vec2 targetPos, vec2 casterPos)
+    let u = createUnit(owner, 'e000', casterPos, casterPos.angleTo(targetPos))
+    u.hide()
+    u.addAbility(abilityId)
+    u.setAbilityLevel(abilityId, lvl)  
+    u.issuePointOrderById(orderId, targetPos)
+    u.setTimedLife(3)
 
 /** 造成伤害 **/
 public function applyDamage(unit source, unit target, real damage)
@@ -44,3 +53,11 @@ public function applyDamage(unit source, unit target, real damage)
         else
             createTTEx(target.getPos3Real(), vec2(400, GetRandomReal(80.,100.)), damage.toInt().toString(), 11, 0.65, colorA(100, 100, 100, 30))
 
+// //距离loc r1距离r2角度的点
+// function pu takes location loc,real r1,real r2 returns location
+//     return Location(GetLocationX(loc)+r1*Cos(r2*bj_DEGTORAD),GetLocationY(loc)+r1*Sin(r2*bj_DEGTORAD))
+
+public function getPosFromPos(vec2 pos, real range, angle ang) returns vec2
+    var x = pos.x + range * ang.cos()
+    var y = pos.y + range * ang.sin()
+    return vec2(x, y)

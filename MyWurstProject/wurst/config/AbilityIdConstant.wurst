@@ -1,0 +1,3 @@
+package AbilityIdConstant
+
+public let DA_MO_JIAN_FA = 'A000'

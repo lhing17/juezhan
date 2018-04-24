@@ -28,14 +28,13 @@ function anyUnitDamagedEnumUnit()
         ..destr()
 
 
-public function anyUnitDamagedRegisterTrigger(trigger t)
-    if t == null
-        return
+public function trigger.registerAnyUnitDamagedEvent()
+    
 
     if damageEventNumber == 0
         eventTrigger = CreateTrigger()
         eventTrigger.addAction(function anyUnitDamagedTriggerAction)
         anyUnitDamagedEnumUnit()
     
-    damageEventQueue.push(t)
+    damageEventQueue.push(this)
     damageEventNumber++

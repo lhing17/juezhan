@@ -17,6 +17,9 @@ public function unit.isEnemyOf(player p) returns bool
 public function unit.isEnemyOf(unit u) returns bool
     return this.isEnemyOf(u.getOwner())
 
+public function unit.isHero() returns bool
+    return this.isType(UNIT_TYPE_HERO)
+
 public function percentPossiblity(real r) returns bool
     return GetRandomReal(0, 100) < r
 

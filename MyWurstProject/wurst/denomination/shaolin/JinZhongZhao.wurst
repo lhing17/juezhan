@@ -1,0 +1,15 @@
+package JinZhongZhao
+
+import AbilityIdConstant
+import Common
+
+function isJinZhong() returns bool
+    return GetSpellAbilityId() == JIN_ZHONG_ZHAO and GetTriggerUnit().isHero()
+
+function jinZhong()
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isJinZhong))
+        ..addAction(function jinZhong)

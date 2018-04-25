@@ -110,5 +110,5 @@ function keyInput()
 init
     var t = CreateTrigger()
     for i = 0 to 5
-        t.registerPlayerChatEvent(Player(i), "", true)
+        t.registerPlayerChatEvent(players[i], "", true)
     t.addAction(function keyInput)

@@ -59,12 +59,12 @@ public class Hero
     function onDeath()
         var t = CreateTimer()
         CreateTimerDialogBJ(t,"复活倒计时:")
-        TimerDialogDisplayForPlayerBJ(true, bj_lastCreatedTimerDialog, Player(playerIndex))
+        TimerDialogDisplayForPlayerBJ(true, bj_lastCreatedTimerDialog, players[playerIndex])
         var tg = bj_lastCreatedTimerDialog
         t.start(HERO_REVIVAL_TIME, null)
         doAfter(HERO_REVIVAL_TIME) ->
             u.revive(HERO_BORN_LOC, true)
-            Player(playerIndex).panCamToTimed(u, 0)
+            players[playerIndex].panCamToTimed(u, 0)
             DestroyTimerDialog(tg)
             t.destr()
       

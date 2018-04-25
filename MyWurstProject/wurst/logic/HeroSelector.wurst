@@ -77,5 +77,5 @@ init
     heroDescriptionArray[5] = heroDescription(lanxin, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     for i = 1 to MAX_PLAYER_NUMBER
-        t.registerPlayerUnitEvent(Player(i - 1), EVENT_PLAYER_UNIT_SELECTED, null)
+        t.registerPlayerUnitEvent(players[i - 1], EVENT_PLAYER_UNIT_SELECTED, null)
     t..addCondition(Condition(function selectHeroCondition))..addAction(function selectHeroAction)

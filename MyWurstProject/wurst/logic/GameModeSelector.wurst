@@ -25,13 +25,13 @@ function selectGameMode()
         gameMode = GAME_MODE_FAST
         DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFF主机选择了快速通关模式")
         destroy gameModeSelectDialog
-    gameModeSelectDialog.display(Player(0), true)
+    gameModeSelectDialog.display(players[0], true)
 
 /** 设置游戏难度和相关配置 **/
 function setDifficultyAndRelativeConfig(integer difficulty)
     gameDifficulty = difficulty
     for i = 0 to MAX_PLAYER_NUMBER - 1
-        SetPlayerHandicapXPBJ( Player(i), 200.00 - 20.00 * difficulty )
+        SetPlayerHandicapXPBJ( players[i], 200.00 - 20.00 * difficulty )
     SetPlayerTechResearched(OFFENSE_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
     SetPlayerTechResearched(CREEP_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)
     SetPlayerTechResearched(NEUTRAL_NPC_PLAYER, DIFFICULTY_TECH_ID, difficulty * 10)

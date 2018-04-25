@@ -20,12 +20,12 @@ function onWin()
         "关注武侠，让决战江湖走得更远，期待你的参与，详情请在专区论坛查询")   
     doAfter(120.) ->
         for i = 0 to MAX_PLAYER_NUMBER - 1
-            CustomVictoryBJ(Player(0),true,true)
+            CustomVictoryBJ(players[0], true, true)
 
 function onLose()
     DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF00B2决战英雄坛" + GAME_VERSION + "的游戏总评分：" + GAME_SCORE.toString() + "分（战败）")
     for i = 0 to MAX_PLAYER_NUMBER - 1
-        CustomDefeatBJ(Player(i), "你眼前一片黑，接着什么都不知道了!")	
+        CustomDefeatBJ(players[i], "你眼前一片黑，接着什么都不知道了!")	
 
 init
     EventListener.add(FINAL_BOSS, EVENT_UNIT_DEATH, () -> onWin())

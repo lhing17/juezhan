@@ -8,12 +8,17 @@ public let DA_LI_JIN_GANG_ZHI = 'A05K'
 
 /* 江湖武功 */
 public let TANG_SHI_JIAN_FA = 'A071'
+public let TAN_ZHI_SHEN_TONG = 'A06H'
+public let YI_YANG_ZHI = 'A06P'
 
 /* 江湖内功 */
 public let JIU_YANG_SHEN_GONG = 'A0DN'
 public let SHUANG_SHOU_HU_BO = 'A07U'
 public let JIU_YIN_NEI_GONG = 'A07S'
 public let KUI_HUA_BAO_DIAN = 'A07T'
+public let HUA_GONG_DA_FA = 'A07P'
+public let LUO_HUA_FU_MO_GONG = 'A07O'
+public let XI_XING_DA_FA = 'A07R'
 
 /* 绝学 */
 public let DU_GU_JIU_JIAN = 'A07F'
@@ -21,3 +26,7 @@ public let DU_GU_JIU_JIAN = 'A07F'
 /* 马甲技能 */
 public let DUMMY_DA_MO_JIN_ZHONG = 'A05H'
 public let DUMMY_DA_MO_JIU_JIAN = 'A05J'
+
+/* BUFF */
+public let FENG_XUE = 'B008'
+public let SHEN_JING_CUO_LUAN = 'Bcrs'

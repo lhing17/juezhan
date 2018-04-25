@@ -6,6 +6,7 @@ import KongFuLevelUp
 import ClosureForGroups
 import Formula
 import Hero
+import UniversalBuff
 
 
 function isDali() returns bool
@@ -13,30 +14,42 @@ function isDali() returns bool
 
 function daLiDamage(unit source, unit target)
     var damageCoeff = 1.0
-    if source.hasAbility('A06H')
+    if source.hasAbility(TAN_ZHI_SHEN_TONG)
         damageCoeff += 0.8
-    if source.hasAbility('A0DN')
+    if source.hasAbility(JIU_YANG_SHEN_GONG)
         damageCoeff += 0.6
-    if source.hasAbility(1093678930) and source.hasAbility('A07P')
+    if source.hasAbility(XI_XING_DA_FA) and source.hasAbility(HUA_GONG_DA_FA)
         damageCoeff += 1.0
     if source.hasItemById('I0AL')
         damageCoeff *= 8
     real damage
-    if source.hasAbility('A07S')
+    if source.hasAbility(JIU_YIN_NEI_GONG)
         damage = calculateDamage(source, target, 200, 200, damageCoeff * source.getHero().criticalTimes, DA_LI_JIN_GANG_ZHI)
     else
         damage = calculateDamage(source, target, 200, 200, damageCoeff, DA_LI_JIN_GANG_ZHI)
     applyDamage(source, target, damage)
-    // TODO
+    if source.getHero().constitution >= 20 and not(source.hasAbility(FENG_XUE))
+        if source.hasAbility(YI_YANG_ZHI)
+            applyUniversalBuff(source, target, BUFF_DEEP_DIZZY)
+        else
+            applyUniversalBuff(source, target, BUFF_DIZZY)
+    if source.getHero().perception >= 20 and target.getHP() <= 0.2 * target.getMaxHP() and percentPossiblity(50)
+        target.setHP(1)
+        applyDamage(source, target, damage * 1000)
+        createTTEx(target.getPos3Real(), vec2(100, 90), "斩杀", 16, 3, colorA(65, 55, 42, 0))
+    if source.hasAbility(XI_XING_DA_FA) and source.hasAbility(HUA_GONG_DA_FA) and not(source.hasAbility(SHEN_JING_CUO_LUAN))
+        applyUniversalBuff(source, target, BUFF_INSANE)
 
 function daLi()
     let u = GetTriggerUnit()
     let ut = GetSpellTargetUnit()
-    let g = CreateGroup()
     kongFuLevelUp(u, DA_LI_JIN_GANG_ZHI, 160)
-    if u.hasAbility(1093678932) and u.hasAbility('A07O')
+    if u.hasAbility(KUI_HUA_BAO_DIAN) and u.hasAbility(LUO_HUA_FU_MO_GONG)
         forUnitsInRange(u.getPos(), 500) ue ->
             if ue.isEnemyOf(u) and ue.isAlive()
+                daLiDamage(u, ue)
+    else
+        daLiDamage(u, ut)
 
 init
     CreateTrigger()

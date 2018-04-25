@@ -23,6 +23,10 @@ public let XI_XING_DA_FA = 'A07R'
 /* 绝学 */
 public let DU_GU_JIU_JIAN = 'A07F'
 
+/* 绝内 */
+public let YI_JIN_JING = 'A09D'
+public let XIAO_WU_XIANG = 'A083'
+
 /* 马甲技能 */
 public let DUMMY_DA_MO_JIN_ZHONG = 'A05H'
 public let DUMMY_DA_MO_JIU_JIAN = 'A05J'
@@ -30,3 +34,4 @@ public let DUMMY_DA_MO_JIU_JIAN = 'A05J'
 /* BUFF */
 public let FENG_XUE = 'B008'
 public let SHEN_JING_CUO_LUAN = 'Bcrs'
+public let BUFF_JIN_ZHONG = 'B000'

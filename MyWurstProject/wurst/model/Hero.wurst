@@ -38,6 +38,7 @@ public class Hero
     real expCoeff = 1 // 历练系数
     real damageAddition = 0 // 伤害加成
     real criticalRate = 0 // 暴击率 0-1之间的小数
+    real criticalTimes = 1 // 暴击倍数
     int gender = 0 // 性别 0-女 1-男
     Table kongFuTable // 武功升重表
     construct(unit u, int playerIndex)

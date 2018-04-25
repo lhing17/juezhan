@@ -1,3 +1,23 @@
 package AbilityIdConstant
 
+/* 少林 */
 public let DA_MO_JIAN_FA = 'A000'
+public let JIN_ZHONG_ZHAO = 'A05O'
+public let XIANG_MO_GONG = 'S000'
+public let DA_LI_JIN_GANG_ZHI = 'A05K'
+
+/* 江湖武功 */
+public let TANG_SHI_JIAN_FA = 'A071'
+
+/* 江湖内功 */
+public let JIU_YANG_SHEN_GONG = 'A0DN'
+public let SHUANG_SHOU_HU_BO = 'A07U'
+public let JIU_YIN_NEI_GONG = 'A07S'
+public let KUI_HUA_BAO_DIAN = 'A07T'
+
+/* 绝学 */
+public let DU_GU_JIU_JIAN = 'A07F'
+
+/* 马甲技能 */
+public let DUMMY_DA_MO_JIN_ZHONG = 'A05H'
+public let DUMMY_DA_MO_JIU_JIAN = 'A05J'

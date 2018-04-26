@@ -76,6 +76,6 @@ init
     heroDescriptionArray[4] = heroDescription(mojun, "|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r")
     heroDescriptionArray[5] = heroDescription(lanxin, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
-    for i = 1 to MAX_PLAYER_NUMBER
-        t.registerPlayerUnitEvent(players[i - 1], EVENT_PLAYER_UNIT_SELECTED, null)
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        t.registerPlayerUnitEvent(players[i], EVENT_PLAYER_UNIT_SELECTED, null)
     t..addCondition(Condition(function selectHeroCondition))..addAction(function selectHeroAction)

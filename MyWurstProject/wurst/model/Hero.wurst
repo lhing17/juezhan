@@ -1,6 +1,7 @@
 package Hero
 
 import HashMap
+import HashList
 import Event
 import GlobalInitialization
 import ClosureTimers
@@ -40,7 +41,11 @@ public class Hero
     real criticalRate = 0 // 暴击率 0-1之间的小数
     real criticalTimes = 1 // 暴击倍数
     int gender = 0 // 性别 0-女 1-男
+    int denomination = 0 // 门派
+    unit pet
     Table kongFuTable // 武功升重表
+    HashList<int> kongFuList
+
     construct(unit u, int playerIndex)
         this.u = u
         this.playerIndex = playerIndex
@@ -49,6 +54,7 @@ public class Hero
         EventListener.add(u, EVENT_UNIT_DEATH, () -> onDeath())
         EventListener.add(u, EVENT_UNIT_HERO_LEVEL, () -> onLevelUp())
         kongFuTable = new Table()
+        kongFuList = new HashList<int>
         
     
     function setPosition(vec2 pos)

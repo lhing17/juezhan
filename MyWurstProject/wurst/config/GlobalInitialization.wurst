@@ -14,6 +14,8 @@ public let BASE_BACK = vec2(-869,-2000)
 public let JAIL = vec2(10692,-14847)
 /** 英雄出生地点 **/
 public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
+/** 选择门派的区域 **/
+public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)
 /** 自制武器ID **/
 public let DIY_WEAPON_ID = 'I0BH'
 /** 难度科技ID **/
@@ -58,12 +60,33 @@ public let PART_TIME_QI_MASTER = 8
 public let HERO_REVIVAL_TIME = 15.0
 /** 游戏评分 **/
 public let GAME_SCORE = 0
+/* 门派 */
+/** 自由门派 **/
+public let DENOMINATION_FREE = 30
+public let DENOMINATION_SHAOLIN = 1
+public let DENOMINATION_GUMU = 2
+public let DENOMINATION_GAIBANG = 3
+public let DENOMINATION_HUASHAN = 4
+public let DENOMINATION_QUANZHEN = 5
+public let DENOMINATION_XUEDAO = 6
+public let DENOMINATION_HENGSHAN_NORTH = 7
+public let DENOMINATION_EMEI = 8
+public let DENOMINATION_WUDANG = 9
+public let DENOMINATION_XINGXIU = 10
+public let DENOMINATION_LINGJIU = 11
+public let DENOMINATION_MURONG = 12
+public let DENOMINATION_TAISHAN = 13
+public let DENOMINATION_MINGJIAO = 14
+public let DENOMINATION_HENGSHAN_SOUTH = 15
+public let DENOMINATION_SHENLONG_MAN = 16
+public let DENOMINATION_SHENLONG_WOMAN = 17
+
+public let MAX_DENOMINATION_INDEX = 17
 /** 基地 **/
 public unit BASE = gg_unit_E004_0023 // FIXME 替换成实际单位
 /** 最终进攻怪 **/
 public unit FINAL_BOSS = gg_unit_E004_0023 // FIXME 替换成实际单位
-/** 波数 **/
-public int wave = 0
+
 /* 刷怪点 */
 // FIXME
 public let SPAWN_LOC=[
@@ -83,6 +106,9 @@ public group heroSelectionGroup = CreateGroup()
 public int gameMode = 0 // 游戏模式
 public int gameDifficulty = 0 // 游戏难度
 public int famousAttackFlag = 1 // 名门进攻标识
+/** 波数 **/
+public int wave = 0
+
 
 public int array lanxinVip // 兰馨VIP
 public int array jinxuanVip // 瑾轩VIP

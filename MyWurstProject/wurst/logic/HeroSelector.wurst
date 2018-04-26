@@ -5,12 +5,17 @@ import GameConfiguration
 import GlobalInitialization
 import Hero
 import ClosureTimers
+import HashList
+import EventHelper
+import Common
 
 unit array selectedHero
 tuple heroBonus(unit hero, string name, int perception, int constitution, int healingSkill, int courage, int luck, int channel, int characterA, int characterB)
 tuple heroDescription(unit hero, string availableDenomination, string extraAttr)
+tuple denominationBonus(int denomination, int itemId, string name, int perception, int constitution, int healingSkill, int courage, int luck, int channel, HashList<int> forbid)
 heroBonus array heroBonusArray
 heroDescription array heroDescriptionArray
+denominationBonus array denominationBonusArray
 
 function showHint(player p, unit u) 
     var msg = ""
@@ -49,6 +54,8 @@ function selectHeroAction()
                 hero.courage += heroBonusArray[j].courage
                 hero.characterA = heroBonusArray[j].characterA
                 hero.characterB = heroBonusArray[j].characterB
+                addCharacterABuff(ut, hero.characterA)
+                addCharacterBBuff(ut, hero.characterB)
                 SelectUnitRemoveForPlayer(u, p)
                 SelectUnitAddForPlayer(ut, p)
                 ut.addEffect("Abilities\\Spells\\Other\\Awaken\\Awaken.mdl", "overhead").destr()
@@ -59,9 +66,100 @@ function selectHeroAction()
         showHint(p, u)
         selectedHero[i] = u
 
+function addCharacterABuff(unit u, int characterA)
+    u.addAbility('A066')
+    u.getOwner().setAbilityAvailable('A066', false)
+    u.setAbilityLevel('A068', characterA)
+
+function addCharacterBBuff(unit u, int characterB)
+    u.addAbility('A067')
+    u.getOwner().setAbilityAvailable('A067', false)
+    u.setAbilityLevel('A069', characterB)
+
+function isSelectDenomination() returns bool
+    for i = 1 to MAX_DENOMINATION_INDEX
+        if GetManipulatedItem().getTypeId() == denominationBonusArray[i].itemId
+            return true
+    return false
+
+function selectDenomination()
+    let u = GetTriggerUnit()
+    let p = u.getOwner()
+    let i = p.getId()
+    for j = 1 to MAX_DENOMINATION_INDEX
+        if GetManipulatedItem().getTypeId() == denominationBonusArray[j].itemId
+            if not denominationBonusArray[j].forbid.has(u.getTypeId())
+                u.getHero().denomination = denominationBonusArray[j].denomination
+                printTimedToPlayer("|CFFff9933恭喜加入〓" + denominationBonusArray[j].name + "〓，请在NPC郭靖处选择副职|r", 15, p)
+                p.setName("〓" + denominationBonusArray[j].name + "〓" + p.getName()) //FIXME 从表中获取
+                printTimedToPlayer("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）", 15, p)
+                u.addAbility('A05R')
+                u.getHero().kongFuList.add('A05R')
+                if elevenVip[i] == 0 and superVip[i] == 0
+                    u.addAbility('A040')
+                    u.addAbility('A041')
+                    u.addAbility('A042')
+                u.removeAbility('Avul')
+                u.setPos(HERO_BORN_LOC)
+                p.panCamToTimed(u, 0)
+                u.getHero().pet = createUnit(p, 'nvul', u.getPos(), bj_UNIT_FACING.asAngleDegrees())
+                u.getHero().perception += denominationBonusArray[j].perception
+                u.getHero().constitution += denominationBonusArray[j].constitution
+                u.getHero().luck += denominationBonusArray[j].luck
+                u.getHero().courage += denominationBonusArray[j].courage
+                u.getHero().healingSkill += denominationBonusArray[j].healingSkill
+                u.getHero().channel += denominationBonusArray[j].channel
+                u.addItem(1227896394)
+                return 
+            else
+                printTimedToPlayer("|CFFff0000你的角色不能加入该门派", 15, p)
+
+function getForbidList(int i1, int i2, int i3) returns HashList<int>
+    HashList<int> hashList = new HashList<int>
+    hashList.add(i1)
+    hashList.add(i2)
+    hashList.add(i3)
+    return hashList
+
+function getForbidList(int i1, int i2) returns HashList<int>
+    HashList<int> hashList = new HashList<int>
+    hashList.add(i1)
+    hashList.add(i2)
+    return hashList
+
+function getForbidList(int i1) returns HashList<int>
+    HashList<int> hashList = new HashList<int>
+    hashList.add(i1)
+    return hashList
+
+function isSelectFreeDenomination() returns bool
+    return GetLeavingUnit().isHero() and GetLeavingUnit().getHero().denomination == 0 
+    and GetLeavingUnit().getOwner().getController() == MAP_CONTROL_USER
+
+function selectFreeDenomination()
+    let u = GetLeavingUnit()
+    let p = u.getOwner()
+    let i = p.getId()
+    u.getHero().denomination = DENOMINATION_FREE
+    DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933玩家" + p.getName() + "选择了〓自由门派〓|r")
+    p.setName("〓自由门派〓" + p.getName())
+    u.addAbility('A05R')
+    u.getHero().kongFuList.add('A05R')
+    if elevenVip[i] == 0 and superVip[i] == 0
+        u.addAbility('A040')
+        u.addAbility('A041')
+        u.addAbility('A042')
+    u.removeAbility('Avul')
+    u.setPos(HERO_BORN_LOC)
+    p.panCamToTimed(u, 0)
+    u.getHero().pet = createUnit(p, 'nvul', u.getPos(), bj_UNIT_FACING.asAngleDegrees())
+    u.getHero().freeAttr += 5
+    p.addLumber(60)
+    u.addItem(1227896394)
 
 init
     trigger t = CreateTrigger()
+    
     heroBonusArray[0] = heroBonus(ruodie, "若蝶", 5, 0, 3, 0, 2, 0, GetRandomInt(1, 3), GetRandomInt(3, 5))
     heroBonusArray[1] = heroBonus(xiaoxia, "潇侠", 2, 2, 0, 1, 5, 0, GetRandomInt(2, 4), GetRandomInt(2, 4))
     heroBonusArray[2] = heroBonus(moyan, "莫言", 2, 0, 2, 5, 0, 1, GetRandomInt(3, 5), GetRandomInt(1, 3))
@@ -69,6 +167,7 @@ init
     heroBonusArray[4] = heroBonus(mojun, "魔君", 0, 5, 0, 2, 0, 3, GetRandomInt(1, 3), GetRandomInt(3, 5))
     heroBonusArray[5] = heroBonus(lanxin, "兰馨", 3, 3, 3, 3, 3, 3, GetRandomInt(3, 5), GetRandomInt(3, 5))
     heroBonusArray[6] = heroBonus(jinxuan, "瑾轩", 3, 3, 3, 3, 3, 3, GetRandomInt(3, 5), GetRandomInt(3, 5))
+
     heroDescriptionArray[0] = heroDescription(ruodie, "|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教（女）|r", "|cFF00FF00悟性+5 福缘+2 医术+3\n|r")
     heroDescriptionArray[1] = heroDescription(xiaoxia, "|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r")
     heroDescriptionArray[2] = heroDescription(moyan, "|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教  神龙教（女）|r", "|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r")
@@ -76,6 +175,20 @@ init
     heroDescriptionArray[4] = heroDescription(mojun, "|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r", "|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r")
     heroDescriptionArray[5] = heroDescription(lanxin, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
+
+    denominationBonusArray[0] = denominationBonus(DENOMINATION_SHAOLIN, 'I001', "少林派", 0, 3, 0, 0, 0, 2, getForbidList('O002', 'O003'))
+    //TODO 完善门派加成
+
     for i = 0 to MAX_PLAYER_NUMBER - 1
         t.registerPlayerUnitEvent(players[i], EVENT_PLAYER_UNIT_SELECTED, null)
     t..addCondition(Condition(function selectHeroCondition))..addAction(function selectHeroAction)
+
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
+        ..addCondition(Condition(function isSelectDenomination))
+        ..addAction(function selectDenomination)
+
+    CreateTrigger()
+        ..registerRectLeaveEventSource(SELECT_DENOMINATION_RECT)
+        ..addCondition(Condition(function isSelectFreeDenomination))
+        ..addAction(function selectFreeDenomination)

@@ -5,6 +5,7 @@ public let DA_MO_JIAN_FA = 'A000'
 public let JIN_ZHONG_ZHAO = 'A05O'
 public let XIANG_MO_GONG = 'S000'
 public let DA_LI_JIN_GANG_ZHI = 'A05K'
+public let WEI_TUO_GUN_FA = 'A05G'
 
 /* 江湖武功 */
 public let TANG_SHI_JIAN_FA = 'A071'
@@ -26,10 +27,13 @@ public let DU_GU_JIU_JIAN = 'A07F'
 /* 绝内 */
 public let YI_JIN_JING = 'A09D'
 public let XIAO_WU_XIANG = 'A083'
+public let SHEN_ZHAO_JING = 'A07X'
+public let LONG_XIANG_BO_RE_GONG = 'S002'
 
 /* 马甲技能 */
 public let DUMMY_DA_MO_JIN_ZHONG = 'A05H'
 public let DUMMY_DA_MO_JIU_JIAN = 'A05J'
+public let DUMMY_XIANG_MO = 'A05P'
 
 /* BUFF */
 public let FENG_XUE = 'B008'

@@ -6,21 +6,22 @@ import Hero
 import KongFuLevelUp
 import EffectConstant
 import Formula
+import AbilityIdConstant
 
 /* 韦陀棍法 */
 function isWeiTuo() returns bool
-    return unitHasAbilityAndIsEnemy(GetAttacker(), GetTriggerUnit(), 'A05G')
+    return unitHasAbilityAndIsEnemy(GetAttacker(), GetTriggerUnit(), WEI_TUO_GUN_FA)
 
 function weiTuoEffectAndDamage(unit u, unit ue)
     var damageCoeff = 1.
-    if u.hasAbility('S000')
+    if u.hasAbility(XIANG_MO_GONG)
         damageCoeff += 0.5
-    if u.hasAbility('A07O')
+    if u.hasAbility(LUO_HUA_FU_MO_GONG)
         damageCoeff += 0.7
     if u.hasItemById('I0AL')
         damageCoeff *= 8
     addEffect(WEITUO_EFFECT, ue.getPos()).destr()
-    var damage = calculateDamage(u, ue, 10, 12, damageCoeff, 'A05G')
+    var damage = calculateDamage(u, ue, 10, 12, damageCoeff, WEI_TUO_GUN_FA)
     applyDamage(u, ue, damage)
 
 function weiTuo()
@@ -29,16 +30,16 @@ function weiTuo()
     if u.hasAbility('Bblo')
         forUnitsInRange(u.getPos(), radius.toReal()) ue ->
             weiTuoEffectAndDamage(u, ue)
-        if u.hasAbility('A0DN')
+        if u.hasAbility(JIU_YANG_SHEN_GONG)
             u.addHP(0.02 * u.getMaxHP())
     else if percentPossiblity(22 + u.getHero().luck / 3)
-        kongFuLevelUp(u,'A05G',1200)
+        kongFuLevelUp(u,WEI_TUO_GUN_FA,1200)
         forUnitsInRange(u.getPos(), radius.toReal()) ue ->
             if ue.isAlive() and ue.isEnemyOf(u)
                 weiTuoEffectAndDamage(u, ue)
-        if u.hasAbility('A0DN')
+        if u.hasAbility(JIU_YANG_SHEN_GONG)
             u.addHP(0.02 * u.getMaxHP())
-        if u.hasAbility('A07U') and percentPossiblity(15)
+        if u.hasAbility(SHUANG_SHOU_HU_BO) and percentPossiblity(15)
             dummyUnitCastAbilityTarget(u.getOwner(), 1093681496, 1, $D0085, u, u.getPos())
 
 init

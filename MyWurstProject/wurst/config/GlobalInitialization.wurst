@@ -62,7 +62,8 @@ public let GAME_SCORE = 0
 public unit BASE = gg_unit_E004_0023 // FIXME 替换成实际单位
 /** 最终进攻怪 **/
 public unit FINAL_BOSS = gg_unit_E004_0023 // FIXME 替换成实际单位
-
+/** 波数 **/
+public int wave = 0
 /* 刷怪点 */
 // FIXME
 public let SPAWN_LOC=[

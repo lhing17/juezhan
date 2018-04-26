@@ -13,7 +13,7 @@ import Common
 
 let spawn_timer = getTimer()
 timerdialog spawn_timer_dialog = CreateTimerDialog(spawn_timer)
-int wave = 0
+
 string attackingBGM = "war3mapImported\\wulindahui3.mp3"
 string intervalBGM = "war3mapImported\\yanmenguanqian4.mp3"
 

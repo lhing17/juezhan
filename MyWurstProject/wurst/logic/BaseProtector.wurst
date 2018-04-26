@@ -1,0 +1,116 @@
+package BaseProtector
+
+import TriggerEvent
+import GlobalInitialization
+import Common
+import ClosureTimers
+import GameConfiguration
+import Hero
+
+/* 基地保护机制 */
+var yunyangOccurFlag = false
+let YUN_YANG = 'Hblm'
+
+/* 保护基地每次受到的伤害不大于基地血量的3% */
+function isBaseProtect() returns bool
+    return GetTriggerUnit() == BASE and GetEventDamage() > 0.03 * BASE.getMaxHP()
+
+
+function baseProtect()
+    BASE.immuneDamage()
+    BASE.setHP(BASE.getHP() - BASE.getMaxHP() * 0.03)
+
+/* 第一次基地血量低于25%时云杨出现救家 */
+function isYunYangSaveBase() returns bool
+    return GetTriggerUnit() == BASE and BASE.getHP() <= 0.25 * BASE.getMaxHP() and not yunyangOccurFlag
+
+function yunYangSaveBase()
+    yunyangOccurFlag = true
+    var u = createUnit(BASE.getOwner(), YUN_YANG, BASE.getPos().polarOffset(0 .asAngleDegrees(), 200), 90 .asAngleDegrees())
+    DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15,"|cFFFF6600基地严重受创，云杨现身相助")
+    u.setTimedLife(20)
+    BASE.addAbility('Avul')
+    doAfter(20) ->
+        BASE.removeAbility('Avul')
+
+/* 购买基地无敌 */
+function isBuyBaseInvulnerable() returns bool
+    return GetManipulatedItem().getTypeId() == 'I07X'
+
+function buyBaseInvulnerable()
+    DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00ff33在正义之士的庇护下，武林暂时无敌了（20秒后解除）")
+    BASE.setInvulnerable(true)
+    doAfter(20) ->
+        BASE.setInvulnerable(false)
+
+/* 反仇恨机制 */
+function isAntiHostility() returns bool
+    return GetAttacker().getOwner().getController() == MAP_CONTROL_COMPUTER
+
+function antiHostility()
+    PingMinimapForForce(bj_FORCE_ALL_PLAYERS, BASE.getX(), BASE.getY(), 1)
+    if percentPossiblity(5)
+        DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|CFFCCFF00正派武林受到攻击，请赶紧回防")
+    if percentPossiblity(5)
+        GetAttacker().setPos(JAIL)
+        DisplayTextToForce(GetPlayersAll(),"|CFFCCFFCC正派武林将攻击单位抓进了监狱")
+    if BASE.hasAllyInRange(800) and not BASE.hasAbility('A00S')
+        BASE.addAbility('A00S')
+        doAfter(5) ->
+            if BASE.hasAbility('A00S')
+                BASE.removeAbility('A00S')
+
+/** 购买基地城防和高级城防 **/
+function isBuyBaseDefense() returns bool
+    return GetManipulatedItem().getTypeId() == 1227896147 or GetManipulatedItem().getTypeId() == 1227896917
+
+function buyBaseDefense()
+    let im = GetManipulatedItem()
+    if im.getTypeId() == 1227896147 //城防
+        if GetPlayerTechCountSimple('R000', BASE_PLAYER) <= 29
+            AddPlayerTechResearched(BASE_PLAYER, 'R000', 1)
+            DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFFFD700在玩家：" + GetTriggerUnit().getOwner().getNameColored() + "的无私奉献下，正派武林的城防得到加强了")
+            GetTriggerUnit().getHero().defensePoint += 15
+            printTimedToPlayer("|CFF34FF00守家积分+15", 10, GetTriggerUnit().getOwner())
+        else
+            GetTriggerUnit().getOwner().addGold(20000)
+            printTimedToPlayer("|cFFFF0000城防已达最高，无法继续升级|r", 10, GetTriggerUnit().getOwner())
+    else // 高级城防
+        if wave <= 17
+            GetTriggerUnit().getOwner().addGold(50000)
+            printTimedToPlayer("|cFFFF000018波进攻怪以后才能使用此功能哦|r", 10, GetTriggerUnit().getOwner())
+        else
+            if GetPlayerTechCountSimple('R002', BASE_PLAYER) <= 9
+                AddPlayerTechResearched(BASE_PLAYER, 'R002', 1)
+                DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFFFD700在玩家：" + GetTriggerUnit().getOwner().getNameColored() + "的无私奉献下，正派武林的高级城防得到加强了")
+                GetTriggerUnit().getHero().defensePoint += 25
+                printTimedToPlayer("|CFF34FF00守家积分+25", 10, GetTriggerUnit().getOwner())
+            else
+                GetTriggerUnit().getOwner().addGold(50000)
+                printTimedToPlayer("|cFFFF0000高级城防已达最高，无法继续升级|r", 10, GetTriggerUnit().getOwner())
+            
+init
+    CreateTrigger()
+        ..registerAnyUnitDamagedEvent()
+        ..addCondition(Condition(function isBaseProtect))
+        ..addAction(function baseProtect)
+
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_ATTACKED)
+        ..addCondition(Condition(function isYunYangSaveBase))
+        ..addAction(function yunYangSaveBase)
+    
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
+        ..addCondition(Condition(function isBuyBaseInvulnerable))
+        ..addAction(function buyBaseInvulnerable)
+    
+    CreateTrigger()
+        ..registerUnitEvent(BASE, EVENT_UNIT_ATTACKED)
+        ..addCondition(Condition(function isAntiHostility))
+        ..addAction(function antiHostility)
+    
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
+        ..addCondition(Condition(function isBuyBaseDefense))
+        ..addAction(function buyBaseDefense)

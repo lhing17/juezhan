@@ -86,10 +86,12 @@ function selectDenomination()
     let u = GetTriggerUnit()
     let p = u.getOwner()
     let i = p.getId()
-    for j = 1 to MAX_DENOMINATION_INDEX
+    for j = 1 to MAX_DENOMINATION_INDEX - 1
         if GetManipulatedItem().getTypeId() == denominationBonusArray[j].itemId
             if not denominationBonusArray[j].forbid.has(u.getTypeId())
                 u.getHero().denomination = denominationBonusArray[j].denomination
+                if GetManipulatedItem().getTypeId() == 'I0CK' and u.getHero().gender == 0
+                    u.getHero().denomination = DENOMINATION_SHENLONG_WOMAN
                 printTimedToPlayer("|CFFff9933恭喜加入〓" + denominationBonusArray[j].name + "〓，请在NPC郭靖处选择副职|r", 15, p)
                 p.setName("〓" + denominationBonusArray[j].name + "〓" + p.getName()) //FIXME 从表中获取
                 printTimedToPlayer("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）", 15, p)
@@ -115,20 +117,20 @@ function selectDenomination()
                 printTimedToPlayer("|CFFff0000你的角色不能加入该门派", 15, p)
 
 function getForbidList(int i1, int i2, int i3) returns HashList<int>
-    HashList<int> hashList = new HashList<int>
+    HashList<int> hashList = new HashList<int>()
     hashList.add(i1)
     hashList.add(i2)
     hashList.add(i3)
     return hashList
 
 function getForbidList(int i1, int i2) returns HashList<int>
-    HashList<int> hashList = new HashList<int>
+    HashList<int> hashList = new HashList<int>()
     hashList.add(i1)
     hashList.add(i2)
     return hashList
 
 function getForbidList(int i1) returns HashList<int>
-    HashList<int> hashList = new HashList<int>
+    HashList<int> hashList = new HashList<int>()
     hashList.add(i1)
     return hashList
 
@@ -177,7 +179,22 @@ init
     heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
 
     denominationBonusArray[0] = denominationBonus(DENOMINATION_SHAOLIN, 'I001', "少林派", 0, 3, 0, 0, 0, 2, getForbidList('O002', 'O003'))
-    //TODO 完善门派加成
+    denominationBonusArray[1] = denominationBonus(DENOMINATION_GAIBANG, 'I002', "丐帮", 0, 0, 0, 3, 0, 2, getForbidList('O000'))
+    denominationBonusArray[2] = denominationBonus(DENOMINATION_HUASHAN, 'I003', "华山派", 3, 0, 0, 2, 0, 0, getForbidList('O002'))
+    denominationBonusArray[3] = denominationBonus(DENOMINATION_QUANZHEN, 'I004', "全真教", 0, 0, 0, 0, 2, 3, getForbidList('O003', 'O004'))
+    denominationBonusArray[4] = denominationBonus(DENOMINATION_XUEDAO, 'I005', "血刀门", 0, 2, 0, 3, 0, 0, getForbidList('O001', 'O002'))
+    denominationBonusArray[5] = denominationBonus(DENOMINATION_HENGSHAN_NORTH, 'I006', "恒山派", 0, 0, 3, 0, 2, 02, getForbidList('O000', 'O001', 'O004'))
+    denominationBonusArray[6] = denominationBonus(DENOMINATION_EMEI, 'I007', "峨眉派", 0, 0, 1, 0, 3, 1, getForbidList('O004'))
+    denominationBonusArray[7] = denominationBonus(DENOMINATION_XINGXIU, 'I008', "星宿派", 0, 0, 1, 2, 0, 2, getForbidList('O001'))
+    denominationBonusArray[8] = denominationBonus(DENOMINATION_WUDANG, 'I009', "武当派", 0, 1, 0, 0, 2, 2, getForbidList('O003'))
+    denominationBonusArray[9] = denominationBonus(DENOMINATION_GUMU, 'I00A', "古墓派", 2, 0, 0, 0, 2, 1, getForbidList('O000'))
+    denominationBonusArray[10] = denominationBonus(DENOMINATION_MINGJIAO, 'I09N', "明教", 3, 0, 0, 0, 2, 2, new HashList<int>())
+    denominationBonusArray[11] = denominationBonus(DENOMINATION_HENGSHAN_SOUTH, 'I0A2', "衡山派", 3, 0, 2, 0, 0, 0, getForbidList('O002', 'O003'))
+    denominationBonusArray[12] = denominationBonus(DENOMINATION_SHENLONG_MAN, 'I0CK', "神龙教", 0, 2, 0, 1, 2, 0, new HashList<int>())
+    denominationBonusArray[13] = denominationBonus(DENOMINATION_TAISHAN, 'I0CX', "泰山派", 1, 3, 1, 0, 0, 0, getForbidList('O003'))
+    denominationBonusArray[14] = denominationBonus(DENOMINATION_LINGJIU, 'I002', "灵鹫宫", 0, 0, 0, 2, 1, 2, new HashList<int>()) // FIXME 灵鹫宫物品
+    denominationBonusArray[15] = denominationBonus(DENOMINATION_MURONG, 'I002', "姑苏慕容", 0, 0, 0, 3, 2, 0, new HashList<int>()) // FIXME 慕容物品
+    
 
     for i = 0 to MAX_PLAYER_NUMBER - 1
         t.registerPlayerUnitEvent(players[i], EVENT_PLAYER_UNIT_SELECTED, null)

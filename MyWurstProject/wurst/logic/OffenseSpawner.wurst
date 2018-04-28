@@ -114,11 +114,12 @@ init
         ..registerTimerExpireEvent(spawn_timer)
         ..addAction(function spawn)
     doAfter(41) ->
-        spawnAfter(120)
-        doAfter(120) ->
-            DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
-            if gameMode == GAME_MODE_SPECIAL
-                selectDifficulty()
+        if isSpawn
+            spawnAfter(120)
+            doAfter(120) ->
+                DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
+                if gameMode == GAME_MODE_SPECIAL
+                    selectDifficulty()
 
         
         

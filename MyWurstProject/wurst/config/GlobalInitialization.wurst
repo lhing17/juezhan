@@ -109,6 +109,12 @@ public int famousAttackFlag = 1 // 名门进攻标识
 /** 波数 **/
 public int wave = 0
 
+/** 开始刷怪 **/
+public bool startSpawn = false
+
+/** 本局游戏是否刷怪 **/
+public bool isSpawn = true
+
 
 public int array lanxinVip // 兰馨VIP
 public int array jinxuanVip // 瑾轩VIP

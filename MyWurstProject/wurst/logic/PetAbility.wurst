@@ -1,0 +1,22 @@
+package PetAbility
+
+import GlobalInitialization
+
+function isPetSellItem() returns bool
+    return GetSpellAbilityId() == 'A09I'
+
+function petSellItem()
+    let u = createUnit(GetTriggerUnit().getOwner(), 'nvul', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+    u..hide()..addItem(GetSpellTargetItem().getTypeId())..setTimedLife(5)
+    UnitDropItemTarget(u, u.itemInSlot(1), DENOMINATION_STORE)
+    GetSpellTargetItem().remove()
+    //PlaySoundOnUnitBJ(Ih, 100, GetTriggerUnit())
+    GetTriggerUnit().addEffect("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", "overhead").destr()
+  
+
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isPetSellItem))
+        ..addAction(function petSellItem)

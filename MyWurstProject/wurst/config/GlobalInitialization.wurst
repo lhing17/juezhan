@@ -14,6 +14,8 @@ public let BASE_BACK = vec2(-869,-2000)
 public let JAIL = vec2(10692,-14847)
 /** 英雄出生地点 **/
 public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
+/** 鸟贩卖东西等功能使用的临时地点 **/
+public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际英雄出生点
 /** 选择门派的区域 **/
 public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)
 /** 自制武器ID **/
@@ -86,6 +88,12 @@ public let MAX_DENOMINATION_INDEX = 17
 public unit BASE = gg_unit_E004_0023 // FIXME 替换成实际单位
 /** 最终进攻怪 **/
 public unit FINAL_BOSS = gg_unit_E004_0023 // FIXME 替换成实际单位
+/** 选择门派 **/
+public unit DENOMINATION_STORE = gg_unit_E004_0023 // FIXME 替换成实际单位
+
+// set Ih=CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav",false,true,true,$A,$A,"SpellsEAX")
+// 	call SetSoundParamsFromLabel(Ih,"ReceiveGold")
+// 	call SetSoundDuration(Ih,589)
 
 /* 刷怪点 */
 // FIXME

@@ -17,6 +17,12 @@ heroBonus array heroBonusArray
 heroDescription array heroDescriptionArray
 denominationBonus array denominationBonusArray
 
+public function int.getDenominationName() returns string
+    for j = 0 to MAX_DENOMINATION_INDEX - 2
+        if this == denominationBonusArray[j].denomination
+            return denominationBonusArray[j].name
+    return ""
+
 function showHint(player p, unit u) 
     var msg = ""
     for j = 0 to 6
@@ -86,7 +92,7 @@ function selectDenomination()
     let u = GetTriggerUnit()
     let p = u.getOwner()
     let i = p.getId()
-    for j = 1 to MAX_DENOMINATION_INDEX - 1
+    for j = 0 to MAX_DENOMINATION_INDEX - 2
         if GetManipulatedItem().getTypeId() == denominationBonusArray[j].itemId
             if not denominationBonusArray[j].forbid.has(u.getTypeId())
                 u.getHero().denomination = denominationBonusArray[j].denomination

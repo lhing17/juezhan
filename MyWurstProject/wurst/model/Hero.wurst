@@ -6,25 +6,27 @@ import Event
 import GlobalInitialization
 import ClosureTimers
 
-HashMap<int, Hero> heroMap = new HashMap<int, Hero>
+public Hero array heros
 
 public function unit.setHero(Hero hero)
-    heroMap.put(this.getOwner().getId(), hero)
+    heros[this.getOwner().getId()] = hero
 
 public function unit.getHero() returns Hero
-    return heroMap.get(this.getOwner().getId())
+    return heros[this.getOwner().getId()]
 
 public function player.hasHero() returns boolean
-    return heroMap.get(this.getId()) != null
+    return heros[this.getId()] != null
 
 public function player.getHero() returns Hero
-    return heroMap.get(this.getId())
+    return heros[this.getId()]
 
 public class Hero
     unit u
     int playerIndex
     int defensePoint = 0 // 守家积分
     int gamePoint = 0 // 游戏积分
+    int reputation = 0 // 声望
+    int kongFuQuality = 0 // 武学修为
     int freeAttr = 0 // 自由属性点
     int perception = 0 // 悟性
     int constitution = 0 // 根骨
@@ -32,16 +34,20 @@ public class Hero
     int courage = 0 // 胆魄
     int luck = 0 // 福缘
     int channel = 0 // 经脉
+    int uniquePerception // 绝学领悟点
     int characterA = 0 // 性格A
     int characterB = 0 // 性格B
     int partTime = 0 // 副职
     int partTimeMaster = 0 // 副职是否成为宗师 0-普通 1-宗师
+    int practice = 0 // 历练|修行
     real expCoeff = 1 // 历练系数
     real damageAddition = 0 // 伤害加成
+    real damageAbsorb = 0 // 伤害吸收 0-1之间的小数
     real criticalRate = 0 // 暴击率 0-1之间的小数
     real criticalTimes = 1 // 暴击倍数
     int gender = 0 // 性别 0-女 1-男
     int denomination = 0 // 门派
+    real maxDamage = 0 // 最大伤害
     unit pet
     Table kongFuTable // 武功升重表
     HashList<int> kongFuList

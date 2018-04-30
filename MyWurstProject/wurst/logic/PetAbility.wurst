@@ -1,6 +1,10 @@
 package PetAbility
 
 import GlobalInitialization
+import SoundUtils
+import Common
+
+/* 贩卖物品 */
 
 function isPetSellItem() returns bool
     return GetSpellAbilityId() == 'A09I'
@@ -10,13 +14,33 @@ function petSellItem()
     u..hide()..addItem(GetSpellTargetItem().getTypeId())..setTimedLife(5)
     UnitDropItemTarget(u, u.itemInSlot(1), DENOMINATION_STORE)
     GetSpellTargetItem().remove()
-    //PlaySoundOnUnitBJ(Ih, 100, GetTriggerUnit())
+    SOUND_SELL_ITEM.playOnPoint(GetTriggerUnit().getPos3Real())    
     GetTriggerUnit().addEffect("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", "overhead").destr()
-  
 
+/* 切换背包 */
+
+function isPetSwitchInventory() returns bool
+    return GetSpellAbilityId() == 'A09I'
+
+function petSwitchInventory()
+    let u = GetTriggerUnit()
+    let i = u.getOwner().getId()
+    for j = 1 to 6
+        inventoryOne[i].addItem(inventoryTwo[i].itemInSlot(j))
+    for j = 1 to 6
+        inventoryTwo[i].addItem(u.itemInSlot(j))
+    for j = 1 to 6
+        u.addItem(inventoryOne[i].itemInSlot(j))
+
+        
 
 init
     CreateTrigger()
         ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
         ..addCondition(Condition(function isPetSellItem))
         ..addAction(function petSellItem)
+
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isPetSwitchInventory))
+        ..addAction(function petSwitchInventory)

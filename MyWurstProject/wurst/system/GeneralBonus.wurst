@@ -5,6 +5,12 @@ import AbilityObjEditing
 //==================================
 // 万能属性系统
 //==================================
+@configurable public let MAX_ATTACK_POWER = 25
+@configurable public let MAX_ARMOR_POWER = 25
+@configurable public let MAX_ATTACK_SPEED_POWER = 25
+@configurable public let MAX_LIFE_POWER = 29
+@configurable public let MAX_MANA_POWER = 29
+
 /** 奖励类型为生命值 **/
 public let BONUS_TYPE_MAX_LIFE = 0
 /** 奖励类型为魔法值 **/
@@ -28,128 +34,24 @@ int array maxManaBonusAbilityId
 int array attackBonusAbilityId
 int array armorBonusAbilityId
 int array attackSpeedBonusAbilityId
-
-function int.getBonusArray() returns int array
-    switch(this)
-        case BONUS_TYPE_MAX_LIFE
-            return maxLifeBonusAbilityId
-        case BONUS_TYPE_MAX_MANA
-            return maxManaBonusAbilityId
-        case BONUS_TYPE_ATTACK
-            return attackBonusAbilityId
-        case BONUS_TYPE_ATTACK_SPEED
-            return attackSpeedBonusAbilityId
-        case BONUS_TYPE_ARMOR
-            return armorBonusAbilityId
-        default
-            return maxLifeBonusAbilityId
-
-
 let ht = InitHashtable()
-function unit.clearBonus(int bonusType)
-    for i = 0 to 30
-        switch(bonusType)
-            case BONUS_TYPE_MAX_LIFE
-                this.removeAbility(maxLifeBonusAbilityId[i])
-            case BONUS_TYPE_MAX_MANA
-                this.removeAbility(maxManaBonusAbilityId[i])
-            case BONUS_TYPE_ATTACK
+
+public function unit.clearBonus(int bonusType)
+    switch(bonusType)
+        case BONUS_TYPE_MAX_LIFE
+            this.addGeneralBonus(bonusType, this.getGeneralBonus(bonusType))
+        case BONUS_TYPE_MAX_MANA
+            this.addGeneralBonus(bonusType, this.getGeneralBonus(bonusType))
+        case BONUS_TYPE_ATTACK
+            for i = 0 to MAX_ATTACK_POWER
                 this.removeAbility(attackBonusAbilityId[i])
-            case BONUS_TYPE_ATTACK_SPEED
+        case BONUS_TYPE_ATTACK_SPEED
+            for i = 0 to MAX_ATTACK_SPEED_POWER
                 this.removeAbility(attackSpeedBonusAbilityId[i])
-            case BONUS_TYPE_ARMOR
+        case BONUS_TYPE_ARMOR
+            for i = 0 to MAX_ARMOR_POWER
                 this.removeAbility(armorBonusAbilityId[i])
     ht.saveInt(this.getHandleId(), bonusType, 0)
-
-function unit.setMaxLifeOrMana(int bonusType, int value) returns bool
-    if value > Pow(2, 30) or value <= 0
-        Log.error("使用万能属性系统超出最大限，请联系作者")
-        return false
-    var v = value
-    Log.debug("before v:" + v.toString())
-    if bonusType == BONUS_TYPE_MAX_LIFE
-        v -= this.getMaxHP().toInt()
-    else if bonusType == BONUS_TYPE_MAX_MANA
-        v -= this.getMaxMana().toInt()
-    else
-        Log.error("使用万能属性系统出现无效属性状态，请联系作者")
-        return false
-    Log.debug("after v:" + v.toString())
-    ht.saveInt(this.getHandleId(), bonusType, v)
-    var level = 3
-    if v < 0
-        level = 2
-        v = -v
-    if v == 0
-        return false
-    for i = 30 downto 0
-        Log.debug("i: " + i.toString() + ", v: "+ v.toString())
-        if v >= Pow(2, i.toReal())
-            Log.debug(Pow(2, i.toReal()).toInt().toString())
-            if bonusType == BONUS_TYPE_MAX_LIFE
-                this..addAbility(maxLifeBonusAbilityId[i])..setAbilityLevel(maxLifeBonusAbilityId[i], level)..removeAbility(maxLifeBonusAbilityId[i])
-            else if bonusType == BONUS_TYPE_MAX_MANA
-                this..addAbility(maxManaBonusAbilityId[i])..setAbilityLevel(maxManaBonusAbilityId[i], level)..removeAbility(maxManaBonusAbilityId[i])
-            v -= Pow(2, i.toReal()).toInt()
-    return true
-
-function unit.setAttackOrArmor(int bonusType, int value) returns bool
-    if value == 0
-        this.clearBonus(bonusType)
-        return false
-    if value > Pow(2, 30) or value <= 0
-        Log.error("使用万能属性系统超出最大限，请联系作者")
-        return false
-    if bonusType != BONUS_TYPE_ATTACK and bonusType != BONUS_TYPE_ARMOR
-        Log.error("使用万能属性系统出现无效属性状态，请联系作者")
-        return false
-    ht.saveInt(this.getHandleId(), bonusType, value)
-    int maxBonusId = 0
-    if bonusType == BONUS_TYPE_ATTACK
-        maxBonusId = attackBonusAbilityId[30]
-    else if bonusType == BONUS_TYPE_ARMOR
-        maxBonusId = armorBonusAbilityId[30]
-    var v = value
-    if value < 0
-        v += Pow(2, 30).toInt() + 1
-        this..addAbility(maxBonusId)..makeAbilityPermanent(maxBonusId, true)
-    else
-        this.removeAbility(maxBonusId)
-    for i = 29 downto 0
-        if v >= Pow(2, i.toReal())
-            if bonusType == BONUS_TYPE_ATTACK
-                this..addAbility(attackBonusAbilityId[i])..makeAbilityPermanent(attackBonusAbilityId[i], true)
-            else if bonusType == BONUS_TYPE_ARMOR
-                this..addAbility(armorBonusAbilityId[i])..makeAbilityPermanent(armorBonusAbilityId[i], true)
-            v -= Pow(2, i.toReal()).toInt()
-        else
-            if bonusType == BONUS_TYPE_ATTACK
-                this.removeAbility(attackBonusAbilityId[i])
-            else if bonusType == BONUS_TYPE_ARMOR
-                this.removeAbility(armorBonusAbilityId[i])
-    return true
-function unit.setAttackSpeed(int value) returns bool
-    if value == 0
-        this.clearBonus(BONUS_TYPE_ATTACK_SPEED)
-        return false
-    if value > 0.01 * Pow(2, 30) or value <= 0
-        Log.error("使用万能属性系统超出最大限，请联系作者")
-        return false
-    ht.saveInt(this.getHandleId(), BONUS_TYPE_ATTACK_SPEED, value)
-    var v = value
-    if value < 0
-        v += (0.01 * (Pow(2, 30) + 1)).toInt()
-        this..addAbility(attackSpeedBonusAbilityId[30])..makeAbilityPermanent(attackSpeedBonusAbilityId[30], true)
-    else
-        this.removeAbility(attackSpeedBonusAbilityId[30])
-    for i = 29 downto 0
-        if v >= 0.01 * Pow(2, i.toReal())
-            this..addAbility(attackSpeedBonusAbilityId[i])..makeAbilityPermanent(attackSpeedBonusAbilityId[i], true)
-            v -= (0.01 * Pow(2, i.toReal())).toInt()
-        else
-            this.removeAbility(attackSpeedBonusAbilityId[i])
-    return true
-        
 
 public function unit.getGeneralBonus(int bonusType) returns int
     return ht.loadInt(this.getHandleId(), bonusType)
@@ -185,6 +87,122 @@ public function unit.setGeneralBonus(int bonusType, int mode, int amount)
     else if mode == MODE_SET
         this.setGeneralBonus(bonusType, amount)
 
+function int.getBonusArray() returns int array
+    switch(this)
+        case BONUS_TYPE_MAX_LIFE
+            return maxLifeBonusAbilityId
+        case BONUS_TYPE_MAX_MANA
+            return maxManaBonusAbilityId
+        case BONUS_TYPE_ATTACK
+            return attackBonusAbilityId
+        case BONUS_TYPE_ATTACK_SPEED
+            return attackSpeedBonusAbilityId
+        case BONUS_TYPE_ARMOR
+            return armorBonusAbilityId
+        default
+            return maxLifeBonusAbilityId
+        
+function unit.setMaxLifeOrMana(int bonusType, int value) returns bool
+    if bonusType== BONUS_TYPE_MAX_LIFE and value > Pow(2, MAX_LIFE_POWER.toReal()) or value <= 0
+        Log.error("使用万能属性系统超出最大限，请联系作者")
+        return false
+    if bonusType== BONUS_TYPE_MAX_MANA and value > Pow(2, MAX_MANA_POWER.toReal()) or value <= 0
+        Log.error("使用万能属性系统超出最大限，请联系作者")
+        return false
+    var v = value
+    int max
+    if bonusType == BONUS_TYPE_MAX_LIFE
+        v -= this.getMaxHP().toInt()
+        max = MAX_LIFE_POWER
+    else if bonusType == BONUS_TYPE_MAX_MANA
+        v -= this.getMaxMana().toInt()
+        max = MAX_MANA_POWER
+    else
+        Log.error("使用万能属性系统出现无效属性状态，请联系作者")
+        return false
+    ht.saveInt(this.getHandleId(), bonusType, ht.loadInt(this.getHandleId(), bonusType) + v)
+    var level = 3
+    if v < 0
+        level = 2
+        v = -v
+    if v == 0
+        return false
+    Log.debug("max: " + max.toString())
+    for i = max downto 0
+        Log.debug("i: " + i.toString() + ", v: "+ v.toString())
+        if v >= Pow(2, i.toReal())
+            if bonusType == BONUS_TYPE_MAX_LIFE
+                this..addAbility(maxLifeBonusAbilityId[i])..setAbilityLevel(maxLifeBonusAbilityId[i], level)..removeAbility(maxLifeBonusAbilityId[i])
+            else if bonusType == BONUS_TYPE_MAX_MANA
+                this..addAbility(maxManaBonusAbilityId[i])..setAbilityLevel(maxManaBonusAbilityId[i], level)..removeAbility(maxManaBonusAbilityId[i])
+            v -= Pow(2, i.toReal()).toInt()
+    return true
+
+function unit.setAttackOrArmor(int bonusType, int value) returns bool
+    if value == 0
+        this.clearBonus(bonusType)
+        return false
+    if bonusType == BONUS_TYPE_ATTACK and value > Pow(2, MAX_ATTACK_POWER.toReal()) - 1 or value < - Pow(2, MAX_ATTACK_POWER.toReal())
+        Log.error("使用万能属性系统超出最大限，请联系作者")
+        return false
+    if bonusType == BONUS_TYPE_ARMOR and value > Pow(2, MAX_ARMOR_POWER.toReal()) - 1 or value < - Pow(2, MAX_ARMOR_POWER.toReal())
+        Log.error("使用万能属性系统超出最大限，请联系作者")
+        return false
+    if bonusType != BONUS_TYPE_ATTACK and bonusType != BONUS_TYPE_ARMOR
+        Log.error("使用万能属性系统出现无效属性状态，请联系作者")
+        return false
+    ht.saveInt(this.getHandleId(), bonusType, value)
+    int maxBonusId = 0
+    int maxPower = 0
+    if bonusType == BONUS_TYPE_ATTACK
+        maxPower = MAX_ATTACK_POWER
+        maxBonusId = attackBonusAbilityId[maxPower]
+    else if bonusType == BONUS_TYPE_ARMOR
+        maxPower = MAX_ARMOR_POWER
+        maxBonusId = armorBonusAbilityId[maxPower]
+    int maxValue = Pow(2, maxPower.toReal()).toInt()
+    var v = value
+    if value < 0
+        v += maxValue + 1
+        this..addAbility(maxBonusId)..makeAbilityPermanent(maxBonusId, true)
+    else
+        this.removeAbility(maxBonusId)
+    for i = maxPower - 1 downto 0
+        if v >= Pow(2, i.toReal())
+            if bonusType == BONUS_TYPE_ATTACK
+                this..addAbility(attackBonusAbilityId[i])..makeAbilityPermanent(attackBonusAbilityId[i], true)
+            else if bonusType == BONUS_TYPE_ARMOR
+                this..addAbility(armorBonusAbilityId[i])..makeAbilityPermanent(armorBonusAbilityId[i], true)
+            v -= Pow(2, i.toReal()).toInt()
+        else
+            if bonusType == BONUS_TYPE_ATTACK
+                this.removeAbility(attackBonusAbilityId[i])
+            else if bonusType == BONUS_TYPE_ARMOR
+                this.removeAbility(armorBonusAbilityId[i])
+    return true
+function unit.setAttackSpeed(int value) returns bool
+    if value == 0
+        this.clearBonus(BONUS_TYPE_ATTACK_SPEED)
+        return false
+    if value > Pow(2, MAX_ATTACK_SPEED_POWER.toReal()) - 1 or value < -Pow(2, MAX_ATTACK_SPEED_POWER.toReal())
+        Log.error("使用万能属性系统超出最大限，请联系作者")
+        return false
+    ht.saveInt(this.getHandleId(), BONUS_TYPE_ATTACK_SPEED, value)
+    var v = value
+    if value < 0
+        v += (Pow(2, MAX_ATTACK_SPEED_POWER.toReal()) + 1).toInt()
+        this..addAbility(attackSpeedBonusAbilityId[MAX_ATTACK_SPEED_POWER])..makeAbilityPermanent(attackSpeedBonusAbilityId[MAX_ATTACK_SPEED_POWER], true)
+    else
+        this.removeAbility(attackSpeedBonusAbilityId[MAX_ATTACK_SPEED_POWER])
+    for i = MAX_ATTACK_SPEED_POWER - 1 downto 0
+        if v >= Pow(2, i.toReal())
+            this..addAbility(attackSpeedBonusAbilityId[i])..makeAbilityPermanent(attackSpeedBonusAbilityId[i], true)
+            v -= (Pow(2, i.toReal())).toInt()
+        else
+            this.removeAbility(attackSpeedBonusAbilityId[i])
+    return true
+                
+
 @compiletime function generateMaxLifeBonusObject()
     for i = 0 to 30
         var id = 1279406128 + i
@@ -214,40 +232,55 @@ public function unit.setGeneralBonus(int bonusType, int mode, int amount)
                 ..setMaxManaGained(3, -Pow(2, i.toReal()).toInt())
 
 @compiletime function generateAttackBonusObject()
-    for i = 0 to 30
+    for i = 0 to MAX_ATTACK_POWER
         var id = 1262628912 + i
         if i >= 10
             id += 7
         if not compiletime 
             attackBonusAbilityId[i] = id
         else
-            new AbilityDefinitionAttackBonus(id)
-                ..setLevels(1)
-                ..setAttackBonus(1, Pow(2, i.toReal()).toInt()) 
+            if i == MAX_ATTACK_POWER
+                new AbilityDefinitionAttackBonus(id)
+                    ..setLevels(1)
+                    ..setAttackBonus(1, -Pow(2, i.toReal()).toInt()) 
+            else
+                new AbilityDefinitionAttackBonus(id)
+                    ..setLevels(1)
+                    ..setAttackBonus(1, Pow(2, i.toReal()).toInt()) 
 
 @compiletime function generateArmorBonusObject()
-    for i = 0 to 30
+    for i = 0 to MAX_ARMOR_POWER
         var id = 1380069424 + i
         if i >= 10
             id += 7
         if not compiletime 
             armorBonusAbilityId[i] = id
         else
-            new AbilityDefinitionDefenseBonusPlus1(id)
-                ..setLevels(1)
-                ..setDefenseBonus(1, Pow(2, i.toReal()).toInt()) 
+            if i == MAX_ARMOR_POWER
+                new AbilityDefinitionDefenseBonusPlus1(id)
+                    ..setLevels(1)
+                    ..setDefenseBonus(1, -Pow(2, i.toReal()).toInt()) 
+            else
+                new AbilityDefinitionDefenseBonusPlus1(id)
+                    ..setLevels(1)
+                    ..setDefenseBonus(1, Pow(2, i.toReal()).toInt()) 
 
 @compiletime function generateAttackSpeedBonusObject()
-    for i = 0 to 30
+    for i = 0 to MAX_ATTACK_SPEED_POWER
         var id = 1396846640 + i
         if i >= 10
             id += 7
         if not compiletime 
             attackSpeedBonusAbilityId[i] = id
         else
-            new AbilityDefinitionAttackSpeedIncrease(id)
-                ..setLevels(1)
-                ..setAttackSpeedIncrease(1, 0.01 * Pow(2, i.toReal())) 
+            if i == MAX_ATTACK_SPEED_POWER
+                new AbilityDefinitionAttackSpeedIncrease(id)
+                    ..setLevels(1)
+                    ..setAttackSpeedIncrease(1, -0.01 * Pow(2, i.toReal()).toInt()) 
+            else
+                new AbilityDefinitionAttackSpeedIncrease(id)
+                    ..setLevels(1)
+                    ..setAttackSpeedIncrease(1, 0.01 * Pow(2, i.toReal())) 
 
 function initBonusArrays()
     generateMaxLifeBonusObject()
@@ -262,21 +295,24 @@ init
 
     /* test */
     CreateTrigger()
-        ..registerPlayerChatEvent(players[0], "1234", true)
+        ..registerPlayerChatEvent(players[0], "GB1234", true)
         ..addAction() ->
             u = createUnit(players[0], 'O023', vec2(-500, -200), bj_UNIT_FACING.asAngleDegrees())
             u.removeAbility('Avul')
-            // u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, 200)
-            u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 20000)
-            u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 20000)
-            // u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, 20000)
-            // u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_ADD, 20)
+            u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, -20000)
+            u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 12345678)
+            u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 87654321)
+            u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, -20000)
+            u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_ADD, 20000)
     CreateTrigger()
-        ..registerPlayerChatEvent(players[0], "5678", true)
+        ..registerPlayerChatEvent(players[0], "GB5678", true)
         ..addAction() ->
             Log.debug("最大生命值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_LIFE).toString())
             Log.debug("最大魔法值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_MANA).toString())
             Log.debug("最大攻击力加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK).toString())
             Log.debug("最大攻速加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK_SPEED).toString())
             Log.debug("最大护甲加成：" + u.getGeneralBonus(BONUS_TYPE_ARMOR).toString())
+            Log.debug("最大生命值：" + u.getMaxHP().toString(2))
+            Log.debug("最大魔法值：" + u.getMaxMana().toString(2))
+
             

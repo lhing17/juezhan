@@ -3,8 +3,10 @@ package Hero
 import HashMap
 import HashList
 import Event
+import GeneralBonus
 import GlobalInitialization
 import ClosureTimers
+import initlater Common 
 
 public Hero array heros
 
@@ -48,6 +50,10 @@ public class Hero
     int gender = 0 // 性别 0-女 1-男
     int denomination = 0 // 门派
     real maxDamage = 0 // 最大伤害
+    boolean learnFirst = false // 是否学第一个门派技能
+    boolean learnSecond = false // 是否学第二个门派技能
+    boolean learnThird = false // 是否学第三个门派技能
+    boolean learnFinal = false // 是否学门派绝学
     unit pet
     Table kongFuTable // 武功升重表
     HashList<int> kongFuList
@@ -62,13 +68,57 @@ public class Hero
         kongFuTable = new Table()
         kongFuList = new HashList<int>
         
-    
+    function canLearnMoreKongFu() returns bool
+        return kongFuList.size() < 11
+
     function setPosition(vec2 pos)
         u.setPos(pos)
         PanCameraToForPlayer(u.getOwner(), pos.x, pos.y)
         
     function onLevelUp()
         // TODO 英雄升级执行的动作
+        u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 400)
+        u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, 40)
+        u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, 5)
+        if u.getLevel() >= 3 and not learnFirst
+            learnFirst = true
+            if denomination != DENOMINATION_FREE
+                if canLearnMoreKongFu()
+                    kongFuList.add(denominations[denomination].firstKongFu)
+                    u..addAbility(denominations[denomination].firstKongFu)..makeAbilityPermanent(denominations[denomination].firstKongFu, true)
+                    printTimedToPlayer("|cff00FF66恭喜领悟技能：" + GetObjectName(denominations[denomination].firstKongFu), 15, u.getOwner())
+                    DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66玩家" + (u.getOwner().getId() + 1).toString() + "成为" + denominations[denomination].name + "初级弟子")
+                    u.getOwner().setName("〓" + denominations[denomination].name + "初级弟子〓" + playerNames.loadString(u.getOwner().getHandleId()))
+            else
+                printTimedToPlayer("|cff00FF66自由门派3级奖励5点自由属性点及随机武功秘籍一本、小概率获得奇武秘籍一本", 15, u.getOwner())
+                freeAttr += 5
+                if percentPossiblity(99)
+                    u.addItem(kongFus[GetRandomInt(18, 35)].itemId)
+                else
+                    u.addItem(kongFus[GetRandomInt(0, 17)].itemId)
+                if percentPossiblity(10)
+                    u.addItem(kongFus[GetRandomInt(41, 55)].itemId)
+        if u.getLevel() >= 3 and u.getAbilityLevel(denominations[denomination].firstKongFu) >= 2 and not learnSecond
+            learnSecond = true
+            if denomination != DENOMINATION_FREE
+                kongFuList.add(denominations[denomination].secondKongFu)
+                u..addAbility(denominations[denomination].secondKongFu)..makeAbilityPermanent(denominations[denomination].secondKongFu, true)
+                printTimedToPlayer("|cff00FF66恭喜领悟技能：" + GetObjectName(denominations[denomination].secondKongFu), 15, u.getOwner())
+                DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66玩家" + (u.getOwner().getId() + 1).toString() + "成为" + denominations[denomination].name + "中级弟子")
+                u.getOwner().setName("〓" + denominations[denomination].name + "中级弟子〓" + playerNames.loadString(u.getOwner().getHandleId()))
+        if u.getLevel() >= 3 and u.getAbilityLevel(denominations[denomination].secondKongFu) >= 2 and not learnThird
+            learnThird = true
+            if denomination != DENOMINATION_FREE
+                kongFuList.add(denominations[denomination].thirdKongFu)
+                u..addAbility(denominations[denomination].thirdKongFu)..makeAbilityPermanent(denominations[denomination].thirdKongFu, true)
+                printTimedToPlayer("|cff00FF66恭喜领悟技能：" + GetObjectName(denominations[denomination].thirdKongFu), 15, u.getOwner())
+                DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66玩家" + (u.getOwner().getId() + 1).toString() + "成为" + denominations[denomination].name + "高级弟子")
+                u.getOwner().setName("〓" + denominations[denomination].name + "高级弟子〓" + playerNames.loadString(u.getOwner().getHandleId()))
+
+                
+
+
+
     function onDeath()
         var t = CreateTimer()
         CreateTimerDialogBJ(t,"复活倒计时:")

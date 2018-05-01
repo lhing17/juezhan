@@ -292,27 +292,37 @@ function initBonusArrays()
 unit u = null
 init
     initBonusArrays()
-
-    /* test */
-    CreateTrigger()
-        ..registerPlayerChatEvent(players[0], "GB1234", true)
-        ..addAction() ->
-            u = createUnit(players[0], 'O023', vec2(-500, -200), bj_UNIT_FACING.asAngleDegrees())
-            u.removeAbility('Avul')
-            u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, -20000)
-            u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 12345678)
-            u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 87654321)
-            u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, -20000)
-            u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_ADD, 20000)
-    CreateTrigger()
-        ..registerPlayerChatEvent(players[0], "GB5678", true)
-        ..addAction() ->
-            Log.debug("最大生命值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_LIFE).toString())
-            Log.debug("最大魔法值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_MANA).toString())
-            Log.debug("最大攻击力加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK).toString())
-            Log.debug("最大攻速加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK_SPEED).toString())
-            Log.debug("最大护甲加成：" + u.getGeneralBonus(BONUS_TYPE_ARMOR).toString())
-            Log.debug("最大生命值：" + u.getMaxHP().toString(2))
-            Log.debug("最大魔法值：" + u.getMaxMana().toString(2))
+    if (DEBUG_LEVEL castTo int) <= (Loglevel.DEBUG castTo int)
+        /* test */
+        CreateTrigger()
+            ..registerPlayerChatEvent(players[0], "GB1234", true)
+            ..addAction() ->
+                u = createUnit(players[0], 'O023', vec2(-500, -200), bj_UNIT_FACING.asAngleDegrees())
+                u.removeAbility('Avul')
+                u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, -20000)
+                u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 10000)
+                u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 10000)
+                u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, -20000)
+                u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_ADD, 20000)
+        CreateTrigger()
+            ..registerPlayerChatEvent(players[0], "GB1111", true)
+            ..addAction() ->
+                u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 10000)
+                u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 10000)
+        CreateTrigger()
+            ..registerPlayerChatEvent(players[0], "GB2222", true)
+            ..addAction() ->
+                u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 10000)
+                u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, 10000)
+        CreateTrigger()
+            ..registerPlayerChatEvent(players[0], "GB5678", true)
+            ..addAction() ->
+                Log.debug("最大生命值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_LIFE).toString())
+                Log.debug("最大魔法值加成：" + u.getGeneralBonus(BONUS_TYPE_MAX_MANA).toString())
+                Log.debug("最大攻击力加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK).toString())
+                Log.debug("最大攻速加成：" + u.getGeneralBonus(BONUS_TYPE_ATTACK_SPEED).toString())
+                Log.debug("最大护甲加成：" + u.getGeneralBonus(BONUS_TYPE_ARMOR).toString())
+                Log.debug("最大生命值：" + u.getMaxHP().toString(2))
+                Log.debug("最大魔法值：" + u.getMaxMana().toString(2))
 
             

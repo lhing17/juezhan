@@ -114,6 +114,22 @@ public class Hero
                 printTimedToPlayer("|cff00FF66恭喜领悟技能：" + GetObjectName(denominations[denomination].thirdKongFu), 15, u.getOwner())
                 DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66玩家" + (u.getOwner().getId() + 1).toString() + "成为" + denominations[denomination].name + "高级弟子")
                 u.getOwner().setName("〓" + denominations[denomination].name + "高级弟子〓" + playerNames.loadString(u.getOwner().getHandleId()))
+        if u.getLevel() == 10
+            printTimedToPlayer("|cff66ff00恭喜你升到了10级，你可以前往全真教（小地图指示点）完成历练1任务（大战江南七怪）了，完成历练任务可以提升修行，对人物的武功伤害占有重要影响，切记切记！！", 30, u.getOwner())
+            PingMinimapForPlayer(u.getOwner(), FIRST_EXPERIENCE_LOC.x, FIRST_EXPERIENCE_LOC.y, 5)
+        if u.getLevel() == 25
+            printTimedToPlayer("|cff66ff00恭喜你升到了25级，你可以前往少林后山（小地图指示点）完成历练2任务（挑战十八罗汉）了，完成历练任务可以提升修行，对人物的武功伤害占有重要影响，切记切记！！", 30, u.getOwner())
+            PingMinimapForPlayer(u.getOwner(), SECOND_EXPERIENCE_LOC.x, SECOND_EXPERIENCE_LOC.y, 5)
+        if u.getLevel() == 40
+            printTimedToPlayer("|cff66ff00恭喜你升到了40级，你可以前往武林城外（小地图指示点）完成历练3任务（勇闯十恶不赦岛）了，完成历练任务可以提升修行，对人物的武功伤害占有重要影响，切记切记！！", 30, u.getOwner())
+            PingMinimapForPlayer(u.getOwner(), THIRD_EXPERIENCE_LOC.x, THIRD_EXPERIENCE_LOC.y, 5)
+        if u.getLevel() == 55
+            printTimedToPlayer("|cff66ff00恭喜你升到了55级，你可以前往光明顶（小地图指示点）完成历练4任务（勇闯光明顶）了，完成历练任务可以提升修行，对人物的武功伤害占有重要影响，切记切记！！", 30, u.getOwner())
+            PingMinimapForPlayer(u.getOwner(), FOURTH_EXPERIENCE_LOC.x, FOURTH_EXPERIENCE_LOC.y, 5)
+        if u.getLevel() == 70
+            printTimedToPlayer("|cff66ff00恭喜你升到了70级，你可以前往少林寺后山（小地图指示点）完成历练5任务（华山论剑）了，完成历练任务可以提升修行，对人物的武功伤害占有重要影响，切记切记！！", 30, u.getOwner())
+            PingMinimapForPlayer(u.getOwner(), FIFTH_EXPERIENCE_LOC.x, FIFTH_EXPERIENCE_LOC.y, 5)
+        
 
                 
 

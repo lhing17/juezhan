@@ -16,7 +16,7 @@ function weiTuoEffectAndDamage(unit u, unit ue)
     var damageCoeff = 1.
     if u.hasAbility(XIANG_MO_GONG)
         damageCoeff += 0.5
-    if u.hasAbility(LUO_HUA_FU_MO_GONG)
+    if u.hasAbility(LUO_HAN_FU_MO_GONG)
         damageCoeff += 0.7
     if u.hasItemById('I0AL')
         damageCoeff *= 8

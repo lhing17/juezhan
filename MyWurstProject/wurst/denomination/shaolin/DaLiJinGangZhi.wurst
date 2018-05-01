@@ -44,7 +44,7 @@ function daLi()
     let u = GetTriggerUnit()
     let ut = GetSpellTargetUnit()
     kongFuLevelUp(u, DA_LI_JIN_GANG_ZHI, 160)
-    if u.hasAbility(KUI_HUA_BAO_DIAN) and u.hasAbility(LUO_HUA_FU_MO_GONG)
+    if u.hasAbility(KUI_HUA_BAO_DIAN) and u.hasAbility(LUO_HAN_FU_MO_GONG)
         forUnitsInRange(u.getPos(), 500) ue ->
             if ue.isEnemyOf(u) and ue.isAlive()
                 daLiDamage(u, ue)

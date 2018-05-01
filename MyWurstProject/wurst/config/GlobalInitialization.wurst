@@ -5,9 +5,13 @@ import GameConfiguration
 import SoundUtils
 import Table
 
-/*
- * 全局常量
- */
+
+ //=============================================================
+ // 全局常量
+ //=============================================================
+ /*
+  * 地点常量
+  */
 /** 基地回城点 **/
 public let BASE_LOC = vec2(-1174,-678)
 /** 基地前方回城点 **/
@@ -19,7 +23,20 @@ public let JAIL = vec2(10692,-14847)
 /** 英雄出生地点 **/
 public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
 /** 鸟贩卖东西等功能使用的临时地点 **/
-public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际英雄出生点
+public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练1小地图ping点 **/
+public let FIRST_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练2小地图ping点 **/
+public let SECOND_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练3小地图ping点 **/
+public let THIRD_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练4小地图ping点 **/
+public let FOURTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练5小地图ping点 **/
+public let FIFTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练6小地图ping点 **/
+public let SIXTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+
 /** 选择门派的区域 **/
 public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)
 /** 自制武器ID **/
@@ -131,9 +148,9 @@ public let SPAWN_LOC=[
 
 public let BACK_SPAWN_LOC = vec2(400, 400)
 
-/*
- * 全局变量
- */
+ //=============================================================
+ // 全局变量
+ //=============================================================
 /** 选择英雄的单位组 **/
 public group heroSelectionGroup = CreateGroup()
 

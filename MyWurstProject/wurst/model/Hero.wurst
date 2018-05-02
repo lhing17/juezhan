@@ -70,6 +70,15 @@ public class Hero
         
     function canLearnMoreKongFu() returns bool
         return kongFuList.size() < 11
+    
+    /** 全属性增加 **/
+    function addAllAttrs(int num)
+        perception += num
+        constitution += num
+        courage += num
+        luck += num
+        healingSkill += num
+        channel += num
 
     function setPosition(vec2 pos)
         u.setPos(pos)

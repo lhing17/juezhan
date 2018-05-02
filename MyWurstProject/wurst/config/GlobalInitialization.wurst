@@ -189,6 +189,30 @@ function createHeroToSelect(int id, vec2 pos, angle facing) returns unit
     heroSelectionGroup.addUnit(u)
     return u
 
+function initEnvironments()
+    FogEnableOff()
+    FogMaskEnableOff()
+    SetCreepCampFilterState(false) // 关闭小地图野怪显示
+    SetPlayerAllianceStateBJ(CREEP_PLAYER, OFFENSE_PLAYER, bj_ALLIANCE_ALLIED_VISION) // 敌方结盟
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        SetPlayerHandicapXP(players[i], HANDICAP_XP)
+    SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800, 0)
+    SetCameraBounds(-15616. + GetCameraMargin(CAMERA_MARGIN_LEFT),
+        -15872. + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
+        15616. - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+        15360. - GetCameraMargin(CAMERA_MARGIN_TOP),
+        -15616. + GetCameraMargin(CAMERA_MARGIN_LEFT),
+        15360. - GetCameraMargin(CAMERA_MARGIN_TOP),
+        15616. - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+        -15872. + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+    SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl","Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
+    SetTerrainFogEx(0, 3000, 5000, 0.5, 0, 0, 0)
+    NewSoundEnvironment("Default")
+    SetAmbientDaySound("VillageDay")
+    SetAmbientNightSound("VillageNight")
+    SetMapMusic("Music", true, 0)
+
+
 function initDenominations()
     denominations[DENOMINATION_SHAOLIN] = denomination(DENOMINATION_SHAOLIN, "少林派", WEI_TUO_GUN_FA, DA_MO_JIAN_FA, DA_LI_JIN_GANG_ZHI, JIN_ZHONG_ZHAO, XIANG_MO_GONG)
     denominations[DENOMINATION_GUMU] = denomination(DENOMINATION_GUMU, "古墓派", MEI_NV_QUAN, YU_FENG_ZHEN, TIAN_LUO_DI_WANG_ZHANG, GU_MU_QING_XIN_JUE, YU_NV_XIN_JING)
@@ -271,6 +295,7 @@ function initPlayerNames()
         playerNames.saveString(players[i].getHandleId(), players[i].getName())
 
 init
+    initEnvironments()
     initDenominations()
     initKongFus()
     initPlayerNames()

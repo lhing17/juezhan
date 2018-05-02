@@ -2,6 +2,7 @@ package KeyInput
 
 import Hero
 import GlobalInitialization
+import Common
 
 function keyInput()
     var s = GetEventPlayerChatString()
@@ -13,12 +14,16 @@ function keyInput()
         SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.00, 1.00)
     else if s == "hg"
         hero.setPosition(BASE_LOC)
+        p.panCamTo(hero.u)
     else if s == "q"
         hero.setPosition(BASE_FRONT)
+        p.panCamTo(hero.u)
     else if s == "3"
         hero.setPosition(BASE_BACK)
+        p.panCamTo(hero.u)
     else if s == "4"
         hero.setPosition(JAIL)
+        p.panCamTo(hero.u)
     else if s.substring(1, 2) == "wq"
         if hero.u.hasItemById(DIY_WEAPON_ID)
             printTimedToPlayer("|cFFFF0000当前未装备自制武器", 15, p)

@@ -24,20 +24,23 @@ function getDamageText(real damage) returns string
     return damageText
 
 function showGameBoard()
+    
+        
     for i = 0 to MAX_PLAYER_NUMBER - 1
-        var damage = heros[i].maxDamage
-        mb.getItem(4 * i + 1, 1).setValue("|c00FF0080" + players[i].getName())
-        mb.getItem(4 * i + 1, 2).setValue("|c0000FF00" + "等级：" + heros[i].u.getLevel().toString())
-        mb.getItem(4 * i + 1, 3).setValue("|cFF00CCFF" + heros[i].denomination.getDenominationName())
-        mb.getItem(4 * i + 1, 4).setValue("|cFFFF6600最高伤害：" + getDamageText(damage))
-        mb.getItem(4 * i + 1, 5).setValue("|c00FFEE99") // FIXME 副职
-        for j = 0 to heros[i].kongFuList.size() - 1
-            var row = 4 * i + 2
-            var col = j + 1
-            while col > 4
-                col -= 4
-                row++
-            mb.getItem(row, col).setValue("|c0000FF00" + GetObjectName(heros[i].kongFuList.get(j)))
+        if heros[i] != null
+            var damage = heros[i].maxDamage
+            mb.getItem(4 * i + 1, 1).setValue("|c00FF0080" + players[i].getName())
+            mb.getItem(4 * i + 1, 2).setValue("|c0000FF00" + "等级：" + heros[i].u.getLevel().toString())
+            mb.getItem(4 * i + 1, 3).setValue("|cFF00CCFF" + heros[i].denomination.getDenominationName())
+            mb.getItem(4 * i + 1, 4).setValue("|cFFFF6600最高伤害：" + getDamageText(damage))
+            mb.getItem(4 * i + 1, 5).setValue("|c00FFEE99") // FIXME 副职
+            for j = 0 to heros[i].kongFuList.size() - 1
+                var row = 4 * i + 2
+                var col = j + 1
+                while col > 4
+                    col -= 4
+                    row++
+                mb.getItem(row, col).setValue("|c0000FF00" + GetObjectName(heros[i].kongFuList.get(j)))
     mb.display(true)
 
 function isSetUnitMaxDamage() returns bool

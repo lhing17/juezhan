@@ -24,39 +24,39 @@ function teleportToTeleportStone()
     let itm = GetManipulatedItem()
     if itm.getTypeId() == 'I0BP'
         u.setPos(vec2(3763, -9091))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至牛妖幻境", 0, p)
     if itm.getTypeId() == 'I0BQ'
         u.setPos(vec2(1446, -2317))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至新手村", 0, p)
     if itm.getTypeId() == 'I0BR'
         u.setPos(vec2(1863, 0))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至少林寺外", 0, p)
     if itm.getTypeId() == 'I0BS'
         u.setPos(vec2(-1476, 8139))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至光明顶下", 0, p)
     if itm.getTypeId() == 'I0BT'
         u.setPos(vec2(-2400, -3900))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至江南水乡", 0, p)
     if itm.getTypeId() == 'I0BU'
         u.setPos(vec2(-4400, -2950))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至全真三子", 0, p)
     if itm.getTypeId() == 'I0BV'
         u.setPos(vec2(-5960, -160))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至雁门关内", 0, p)
     if itm.getTypeId() == 'I0BW'
         u.setPos(vec2(-13000, -15500))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至大辽国", 0, p)
     if itm.getTypeId() == 'I0BX'
         u.setPos(vec2(-9000, -14000))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至聚贤庄", 0, p)
 
 /* 传送到副本 */
@@ -79,7 +79,7 @@ function teleportToInstances()
     let itm = GetManipulatedItem()
     if itm.getTypeId() == 'I09V'
         u.setPos(vec2(9631, 1139))
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cFFFFCC00进入桃花岛", 15, p)
         printTimedToPlayer("|cFFFFCC00“源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！”", 15, p)
     if itm.getTypeId() == 1227896148
@@ -90,7 +90,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足500无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入终南山", 15, p)
     if itm.getTypeId() == 1227896149
         if u.getLevel() < 25
@@ -100,7 +100,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足1500无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
     if itm.getTypeId() == 1227896150
         if u.getLevel() < 40
@@ -110,7 +110,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足2500无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入塞外", 15, p)
     if itm.getTypeId() == 1227896151
         if u.getLevel() < 55
@@ -120,7 +120,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足4000无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入光明顶", 15, p)
     if itm.getTypeId() == 1227896152
         if u.getLevel() < 70
@@ -130,7 +130,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足6000无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
     if itm.getTypeId() == 1227896385
         if u.getLevel() < 100
@@ -140,7 +140,7 @@ function teleportToInstances()
             printTimedToPlayer("|cFFFF0000江湖声望不足9000无法传送", 15, p)
             return
         u.setPos(vec2(9631, 1139))  //FIXME
-        p.panCamToTimed(u, 0)
+        p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入边疆", 15, p)
             
 

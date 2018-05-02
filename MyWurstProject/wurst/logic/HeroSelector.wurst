@@ -45,9 +45,9 @@ function selectHeroAction()
             printTimedToPlayer("该角色为赞助游戏者特别制作，暂不对普通玩家开放", 15, p)
             return
         for j = 0 to 6
-            if u == heroBonusArray[i].hero
+            if u == heroBonusArray[j].hero
                 var ut = createUnit(p, u.getTypeId(), HERO_BORN_LOC, bj_UNIT_FACING.asAngleDegrees())
-                p.panCamToTimed(ut, 0)
+                p.panCamTo(ut)
                 u.remove()
                 ut.setHero(new Hero(ut, i))
                 var hero = ut.getHero()
@@ -109,7 +109,7 @@ function selectDenomination()
                     u.addAbility('A042')
                 u.removeAbility('Avul')
                 u.setPos(HERO_BORN_LOC)
-                p.panCamToTimed(u, 0)
+                p.panCamTo(u)
                 u.getHero().pet = createUnit(p, 'nvul', u.getPos(), bj_UNIT_FACING.asAngleDegrees())
                 u.getHero().perception += denominationBonusArray[j].perception
                 u.getHero().constitution += denominationBonusArray[j].constitution
@@ -159,7 +159,7 @@ function selectFreeDenomination()
         u.addAbility('A042')
     u.removeAbility('Avul')
     u.setPos(HERO_BORN_LOC)
-    p.panCamToTimed(u, 0)
+    p.panCamTo(u)
     u.getHero().pet = createUnit(p, 'nvul', u.getPos(), bj_UNIT_FACING.asAngleDegrees())
     u.getHero().freeAttr += 5
     p.addLumber(60)

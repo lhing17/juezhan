@@ -1,0 +1,63 @@
+package Task
+
+// standard imports
+import HashMap
+import HashList
+import Event
+
+// custom imports
+import Hero
+import Common
+
+/*
+ * Generally, there are three kinds of tasks in the game, including tasks that need player kill creeps, 
+ * tasks that need player get some kinds of items, and tasks that need to visit some npcs.
+ */
+
+public interface TaskHandler
+    function onCompleteTask(Task whichTask)
+    function isComplete() returns bool
+    function showProgress()
+
+public class KillingTaskHandler implements TaskHandler
+    function onCompleteTask(Task whichTask)
+        let u = GetTriggerUnit()
+        if not whichTask.killCreepMap.hasKey(u.getTypeId())
+            return
+        
+
+    function isComplete() returns bool
+        return true
+
+    function showProgress()
+
+public class Task
+    /** the subject of the task **/
+    Hero hero 
+    /** the type of the task **/
+    int taskType 
+    /** If the task type is killing creep, this field saves the type and number of creeps to kill **/
+    IterableMap<int, int> killCreepMap
+    /** If the task type is collecting items, this field saves the type and number of items to collect **/
+    IterableMap<int, int> collectItemMap
+    /** If the task type is visiting npc, this field saves which position to enter, needs to provide 
+     *  `vec2ToIndex` and `vec2FromIndex` functions
+     */
+    HashList<int> visitList    
+    /** If the task is time-limited, this field tells the time limitation (in seconds). 
+     * If the value equals to -1 (default value), it means the task is not time-limited
+     */
+    int period = -1
+
+    TaskHandler handler
+
+    construct(Hero hero, int taskType, IterableMap<int, int> killCreepMap, TaskHandler handler)
+        this.hero = hero
+        this.taskType = taskType
+        this.killCreepMap = killCreepMap
+        this.handler = handler
+        EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
+        
+    
+
+    

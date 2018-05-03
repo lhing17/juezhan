@@ -85,7 +85,6 @@ public class Hero
         PanCameraToForPlayer(u.getOwner(), pos.x, pos.y)
         
     function onLevelUp()
-        // TODO 英雄升级执行的动作
         u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 400)
         u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, 40)
         u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, 5)

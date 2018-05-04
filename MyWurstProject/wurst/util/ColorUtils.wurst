@@ -1,0 +1,9 @@
+package ColorUtils
+
+// standard imports
+
+// custom imports
+
+public class ColorUtils
+    static constant string IN_PROGRESS = fromPlayerColor(PLAYER_COLOR_YELLOW).toColorString()
+    static constant string COMPLETED = fromPlayerColor(PLAYER_COLOR_GREEN).toColorString()

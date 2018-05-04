@@ -7,54 +7,101 @@ import Event
 
 // custom imports
 import Hero
-import Common
+import ColorUtils
 
 /*
  * Generally, there are three kinds of tasks in the game, including tasks that need player kill creeps, 
  * tasks that need player get some kinds of items, and tasks that need to visit some npcs.
  */
 
+/* task type constants */
+
+let TASK_TYPE_KILLING = 0
+
+let TASK_TYPE_COLLECTING = 1
+
+let TASK_TYPE_VISITING = 2
+
+
+
+
 public interface TaskHandler
     function onCompleteTask(Task whichTask)
-    function isComplete() returns bool
-    function showProgress()
+    function isCompleted(Task whichTask) returns bool
+    function showProgress(Task whichTask)
+    function giveAwards(Task whichTask)
+
 
 public class KillingTaskHandler implements TaskHandler
+    IterableMap<int, int> killCounter = new IterableMap<int, int>()
     function onCompleteTask(Task whichTask)
         let u = GetTriggerUnit()
+        // the dying creep id is not in the task killing list.
         if not whichTask.killCreepMap.hasKey(u.getTypeId())
             return
+
+        if isCompleted(whichTask)
+            giveAwards(whichTask)
+        else
+            showProgress(whichTask)        
         
-
-    function isComplete() returns bool
+    /** checks whether the killing task is completed **/
+    function isCompleted(Task whichTask) returns bool
+        HLIterator<int> iterator = whichTask.killCreepMap.iterator()
+        while iterator.hasNext()
+            var key = iterator.next()
+            if not killCounter.hasKey(key) or killCounter.get(key) < whichTask.killCreepMap.get(key)
+                return false
         return true
-
-    function showProgress()
+    
+    /** shows the progress of the killing task **/
+    function showProgress(Task whichTask)
+        let p = whichTask.hero.u.getOwner()
+        HLIterator<int> iterator = whichTask.killCreepMap.iterator()
+        while iterator.hasNext()
+            var unitId = iterator.next()
+            var unitName = GetObjectName(unitId)
+            var finishedCount = killCounter.get(unitId)
+            var totalCount = whichTask.killCreepMap.get(unitId)
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + unitName + ": " + finishedCount.toString() + " / " + totalCount.toString(), 10, p)
+    
+    function giveAwards(Task whichTask)
 
 public class Task
     /** the subject of the task **/
     Hero hero 
+
     /** the type of the task **/
     int taskType 
-    /** If the task type is killing creep, this field saves the type and number of creeps to kill **/
+
+    /** If the task type is killing creep, this field saves the type and number of creeps to kill. **/
     IterableMap<int, int> killCreepMap
-    /** If the task type is collecting items, this field saves the type and number of items to collect **/
+
+    /** If the task type is collecting items, this field saves the type and number of items to collect. **/
     IterableMap<int, int> collectItemMap
+    
     /** If the task type is visiting npc, this field saves which position to enter, needs to provide 
-     *  `vec2ToIndex` and `vec2FromIndex` functions
+     *  `vec2ToIndex` and `vec2FromIndex` functions.
      */
-    HashList<int> visitList    
+    HashList<int> visitList   
+
+    /**
+     * saves the awards given to the hero if the task is completed.
+     */
+    IterableMap<int, int> awardMap
+     
     /** If the task is time-limited, this field tells the time limitation (in seconds). 
-     * If the value equals to -1 (default value), it means the task is not time-limited
+     * If the value equals to -1 (default value), it means the task is not time-limited.
      */
     int period = -1
 
     TaskHandler handler
 
-    construct(Hero hero, int taskType, IterableMap<int, int> killCreepMap, TaskHandler handler)
+    construct(Hero hero, int taskType, IterableMap<int, int> killCreepMap, IterableMap<int, int> awardMap, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
         this.killCreepMap = killCreepMap
+        this.awardMap = awardMap
         this.handler = handler
         EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
         

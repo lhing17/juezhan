@@ -7,6 +7,7 @@ import ClosureTimers
 import GlobalInitialization
 import GameConfiguration
 import Hero
+import GeneralBonus
 
 /** 获取玩家人数 **/
 public function getPlayerNumber() returns integer
@@ -91,3 +92,48 @@ public function vec2ToIndex(vec2 pos) returns int
 
 public function vec2FromIndex(int index) returns vec2
     return LOC_ARRAY[index]
+
+public function Hero.addAward(AwardType awardType, int value)
+    switch(awardType)
+        case AWARD_TYPE_FREE_ATTR
+            this.freeAttr += value
+        case AWARD_TYPE_PERCEPTION
+            this.perception += value
+        case AWARD_TYPE_CONSTITUTION
+            this.constitution += value
+        case AWARD_TYPE_HEALING_SKILL
+            this.healingSkill += value
+        case AWARD_TYPE_COURAGE
+            this.courage += value
+        case AWARD_TYPE_LUCK
+            this.luck += value
+        case AWARD_TYPE_CHANNEL
+            this.channel += value
+        case AWARD_TYPE_GOLD
+            this.u.getOwner().addGold(value)
+        case AWARD_TYPE_LUMBER
+            this.u.getOwner().addLumber(value)
+        case AWARD_TYPE_DEFENSE_POINT
+            this.defensePoint += value
+        case AWARD_TYPE_REPUTATION
+            this.reputation += value
+        case AWARD_TYPE_UNIQUE_PERCEPTION
+            this.uniquePerception += value
+        case AWARD_TYPE_PRACTICE
+            this.practice += value
+        case AWARD_TYPE_EXP_COEFF
+            this.expCoeff += value
+        case AWARD_TYPE_ITEM
+            //TODO
+        case AWARD_TYPE_HP
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value)
+        case AWARD_TYPE_MANA
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_MANA, value)
+        case AWARD_TYPE_ATTACK
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK, value)
+        case AWARD_TYPE_ARMOR
+            this.u.addGeneralBonus(BONUS_TYPE_ARMOR, value)
+        case AWARD_TYPE_ATTACK_SPEED
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK_SPEED, value)
+        case AWARD_TYPE_MOVE_SPEED
+            //TODO

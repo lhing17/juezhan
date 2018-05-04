@@ -1,7 +1,11 @@
 package Common
 
-import GameConfiguration
+// standard imports
 import ClosureTimers
+
+// custom imports
+import GlobalInitialization
+import GameConfiguration
 import Hero
 
 /** 获取玩家人数 **/
@@ -78,3 +82,12 @@ public function unit.hasAllyInRange(real range) returns bool
 public function player.panCamTo(unit u)
     if localPlayer == this
         PanCameraToTimed(u.getX(), u.getY(), 0.01)
+        
+public function vec2ToIndex(vec2 pos) returns int
+    for i = 0 to 1000
+        if pos.x == LOC_ARRAY[i].x and pos.y == LOC_ARRAY[i].y
+            return i
+    return -1
+
+public function vec2FromIndex(int index) returns vec2
+    return LOC_ARRAY[index]

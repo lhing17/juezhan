@@ -12,6 +12,7 @@ import Table
  /*
   * 地点常量
   */
+public vec2 array LOC_ARRAY
 /** 基地回城点 **/
 public let BASE_LOC = vec2(-1174,-678)
 /** 基地前方回城点 **/

@@ -193,3 +193,5 @@ public function Hero.addAward(Award award, boolean showHint)
             //TODO
             if showHint
                 printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励移动速度+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+
+

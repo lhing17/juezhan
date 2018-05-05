@@ -4,6 +4,7 @@ package Task
 import HashMap
 import HashList
 import Event
+import ClosureTimers
 
 // custom imports
 import Common
@@ -101,8 +102,11 @@ public class Task
     /** the type of the task **/
     int taskType 
 
-    /** the unique identification of the task **/
+    /** the unique identification of different kind of task **/
     int taskId
+
+    /** 0-ongoing 1-success 2-fail**/
+    int status = 0
     
     /** the description of the task **/
     string taskDescription
@@ -145,6 +149,9 @@ public class Task
      * The handler handles the event that completes the task
      */
     TaskHandler handler
+    
+    /** listener that listens the task completing event **/
+    EventListener listener
 
     construct(Hero hero, int taskType, int taskId, string taskDescription, HashList<TaskCondition> conditions, IterableMap<int, int> killCreepMap, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
@@ -155,17 +162,16 @@ public class Task
         this.killCreepMap = killCreepMap
         this.awardList = awardList
         this.handler = handler
-        HLIterator<TaskCondition> iterator = conditions.iterator()
-        while iterator.hasNext()
-            TaskCondition condition = iterator.next()
-            if not condition.condition
-                printTimedToPlayer(ColorUtils.WARNING + condition.conditionDescription, 15, hero.u.getOwner())
-                
         this.hero.ongoingTasks.add(this)        
-        EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
+        listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
     
     function setPeriod(int period)
         this.period = period
+        doAfter(period.toReal()) ->
+            if this.status == 0
+                printTimedToPlayer(ColorUtils.FAIL +  "时间到，任务失败", 15, this.hero.u.getOwner())
+                destroy this
+
     
     function setRepeatTimes(int repeatTimes)
         this.repeatTimes = repeatTimes
@@ -176,7 +182,16 @@ public class Task
     ondestroy
         this.hero.ongoingTasks.remove(this)
         destroy this.handler
-        
+        destroy listener
+
+public function evaluateTaskConditions(HashList<TaskCondition> conditions, Hero hero) returns bool
+    HLIterator<TaskCondition> iterator = conditions.iterator()
+    while iterator.hasNext()
+        TaskCondition condition = iterator.next()
+        if not condition.condition
+            printTimedToPlayer(ColorUtils.WARNING + condition.conditionDescription, 15, hero.u.getOwner())
+            return false
+    return true
     
 
     

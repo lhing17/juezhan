@@ -6,7 +6,9 @@ import HashList
 import Event
 
 // custom imports
+import Common
 import Hero
+import Award
 import ColorUtils
 
 /*
@@ -22,7 +24,7 @@ let TASK_TYPE_COLLECTING = 1
 
 let TASK_TYPE_VISITING = 2
 
-
+/* task id constants */
 
 
 public interface TaskHandler
@@ -66,6 +68,19 @@ public class KillingTaskHandler implements TaskHandler
             printTimedToPlayer(ColorUtils.IN_PROGRESS + unitName + ": " + finishedCount.toString() + " / " + totalCount.toString(), 10, p)
     
     function giveAwards(Task whichTask)
+        HLIterator<Award> iterator = whichTask.awardList.iterator()
+        while iterator.hasNext()
+            Award award = iterator.next()
+            whichTask.hero.addAward(award, true)
+
+/** the pre-conditions of a task **/
+public class TaskCondition
+    
+    int conditionType
+
+    int conditionValue
+
+    string conditionDescription
 
 public class Task
     /** the subject of the task **/
@@ -73,6 +88,15 @@ public class Task
 
     /** the type of the task **/
     int taskType 
+
+    /** the unique identification of the task **/
+    int taskId
+    
+    /** the description of the task **/
+    string taskDescription
+    
+    /** the pre-conditions of the task **/
+    HashList<TaskCondition> conditions
 
     /** If the task type is killing creep, this field saves the type and number of creeps to kill. **/
     IterableMap<int, int> killCreepMap
@@ -88,22 +112,49 @@ public class Task
     /**
      * saves the awards given to the hero if the task is completed.
      */
-    IterableMap<int, int> awardMap
+    HashList<Award> awardList
      
     /** If the task is time-limited, this field tells the time limitation (in seconds). 
      * If the value equals to -1 (default value), it means the task is not time-limited.
      */
     int period = -1
+    
+    /** the permitted repeat times of the task. If the value equals to -1,
+    * it means the task has no repeat times limit.
+    */
+    int repeatTimes = -1
+    
+    /**
+     * save the position to perform the task if the task needs a Teleport
+     */
+    vec2 taskPos = vec2(0, 0)
 
+    /**
+     * The handler handles the event that completes the task
+     */
     TaskHandler handler
 
-    construct(Hero hero, int taskType, IterableMap<int, int> killCreepMap, IterableMap<int, int> awardMap, TaskHandler handler)
+    construct()
+    
+    construct(Hero hero, int taskType, int taskId,string taskDescription, HashList<TaskCondition> conditions, IterableMap<int, int> killCreepMap, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
+        this.taskId = taskId
+        this.taskDescription = taskDescription
+        this.conditions = conditions
         this.killCreepMap = killCreepMap
-        this.awardMap = awardMap
+        this.awardList = awardList
         this.handler = handler
         EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
+    
+    function setPeriod(int period)
+        this.period = period
+    
+    function setRepeatTimes(int repeatTimes)
+        this.repeatTimes = repeatTimes
+    
+    function setTaskPos(vec2 taskPos)
+        this.taskPos = taskPos
         
     
 

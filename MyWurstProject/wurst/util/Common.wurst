@@ -8,6 +8,8 @@ import GlobalInitialization
 import GameConfiguration
 import Hero
 import GeneralBonus
+import Award
+import ColorUtils
 
 /** 获取玩家人数 **/
 public function getPlayerNumber() returns integer
@@ -93,47 +95,90 @@ public function vec2ToIndex(vec2 pos) returns int
 public function vec2FromIndex(int index) returns vec2
     return LOC_ARRAY[index]
 
-public function Hero.addAward(AwardType awardType, int value)
-    switch(awardType)
+public function Hero.addAward(Award award, boolean showHint)
+    let value = award.value
+    switch(award.awardType)
         case AWARD_TYPE_FREE_ATTR
             this.freeAttr += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励自由属性点" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_PERCEPTION
             this.perception += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励悟性" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_CONSTITUTION
             this.constitution += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励根骨" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_HEALING_SKILL
             this.healingSkill += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励医术" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_COURAGE
             this.courage += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励胆魄" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_LUCK
             this.luck += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励福缘" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_CHANNEL
             this.channel += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经脉" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_GOLD
             this.u.getOwner().addGold(value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toString() + "金币|r", 15, this.u.getOwner())
         case AWARD_TYPE_LUMBER
             this.u.getOwner().addLumber(value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toString() + "珍稀币|r", 15, this.u.getOwner())
         case AWARD_TYPE_DEFENSE_POINT
             this.defensePoint += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励守家积分" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_REPUTATION
             this.reputation += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励声望" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_UNIQUE_PERCEPTION
             this.uniquePerception += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励绝学领悟点" + value.toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_PRACTICE
             this.practice += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励修行+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_EXP_COEFF
             this.expCoeff += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励历练系数+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ITEM
-            //TODO
+            this.u.addItem(value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(value) + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_HP
             this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励气血+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_MANA
             this.u.addGeneralBonus(BONUS_TYPE_MAX_MANA, value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励法力值+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ATTACK
             this.u.addGeneralBonus(BONUS_TYPE_ATTACK, value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击力+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ARMOR
             this.u.addGeneralBonus(BONUS_TYPE_ARMOR, value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励防御+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ATTACK_SPEED
             this.u.addGeneralBonus(BONUS_TYPE_ATTACK_SPEED, value)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击速度+" + value.toString() + "%|r", 15, this.u.getOwner())
         case AWARD_TYPE_MOVE_SPEED
             //TODO
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励移动速度+" + value.toString() + "|r", 15, this.u.getOwner())

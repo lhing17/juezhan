@@ -7,6 +7,7 @@ import GeneralBonus
 import GlobalInitialization
 import ClosureTimers
 import initlater Common 
+import initlater Task
 
 public Hero array heros
 
@@ -57,6 +58,10 @@ public class Hero
     unit pet
     Table kongFuTable // 武功升重表
     HashList<int> kongFuList
+    
+    HashList<Task> ongoingTasks
+
+    HashList<Task> doneTasks
 
     construct(unit u, int playerIndex)
         this.u = u

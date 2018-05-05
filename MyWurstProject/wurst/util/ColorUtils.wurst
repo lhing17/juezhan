@@ -7,3 +7,4 @@ package ColorUtils
 public class ColorUtils
     static constant string IN_PROGRESS = fromPlayerColor(PLAYER_COLOR_YELLOW).toColorString()
     static constant string COMPLETED = fromPlayerColor(PLAYER_COLOR_GREEN).toColorString()
+    static constant string AWARD = "|CFF34FF00"

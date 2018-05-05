@@ -33,7 +33,7 @@ public function unit.addItem(item itm)
 
 
 public function percentPossiblity(real r) returns bool
-    return GetRandomReal(0, 100) < r
+    return GetRandomReal(0, 100) <= r
 
 /** 攻击者拥有某技能并且是触发单位的敌人，通常用于被动技能 **/
 public function unitHasAbilityAndIsEnemy(unit attacker, unit triggerUnit, int abilityId) returns bool
@@ -97,88 +97,99 @@ public function vec2FromIndex(int index) returns vec2
 
 public function Hero.addAward(Award award, boolean showHint)
     let value = award.value
+    if not percentPossiblity(award.percentage.toReal())
+        return
     switch(award.awardType)
         case AWARD_TYPE_FREE_ATTR
-            this.freeAttr += value
+            this.freeAttr += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励自由属性点" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励自由属性点" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ALL_ATTR
+            this.perception += value.toInt()
+            this.constitution += value.toInt()
+            this.healingSkill += value.toInt()
+            this.courage += value.toInt()
+            this.luck += value.toInt()
+            this.channel += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励全性格属性" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_PERCEPTION
-            this.perception += value
+            this.perception += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励悟性" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励悟性" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_CONSTITUTION
-            this.constitution += value
+            this.constitution += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励根骨" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励根骨" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_HEALING_SKILL
-            this.healingSkill += value
+            this.healingSkill += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励医术" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励医术" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_COURAGE
-            this.courage += value
+            this.courage += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励胆魄" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励胆魄" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_LUCK
-            this.luck += value
+            this.luck += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励福缘" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励福缘" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_CHANNEL
-            this.channel += value
+            this.channel += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经脉" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经脉" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_GOLD
-            this.u.getOwner().addGold(value)
+            this.u.getOwner().addGold(value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toString() + "金币|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toInt().toString() + "金币|r", 15, this.u.getOwner())
         case AWARD_TYPE_LUMBER
-            this.u.getOwner().addLumber(value)
+            this.u.getOwner().addLumber(value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toString() + "珍稀币|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toInt().toString() + "珍稀币|r", 15, this.u.getOwner())
         case AWARD_TYPE_DEFENSE_POINT
-            this.defensePoint += value
+            this.defensePoint += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励守家积分" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励守家积分" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_REPUTATION
-            this.reputation += value
+            this.reputation += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励声望" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励声望" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_UNIQUE_PERCEPTION
-            this.uniquePerception += value
+            this.uniquePerception += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励绝学领悟点" + value.toString() + "点|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励绝学领悟点" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
         case AWARD_TYPE_PRACTICE
-            this.practice += value
+            this.practice += value.toInt()
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励修行+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励修行+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_EXP_COEFF
             this.expCoeff += value
             if showHint
                 printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励历练系数+" + value.toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ITEM
-            this.u.addItem(value)
+            this.u.addItem(value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(value) + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(value.toInt()) + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_HP
-            this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value)
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励气血+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励气血+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_MANA
-            this.u.addGeneralBonus(BONUS_TYPE_MAX_MANA, value)
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_MANA, value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励法力值+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励法力值+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ATTACK
-            this.u.addGeneralBonus(BONUS_TYPE_ATTACK, value)
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK, value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击力+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击力+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ARMOR
-            this.u.addGeneralBonus(BONUS_TYPE_ARMOR, value)
+            this.u.addGeneralBonus(BONUS_TYPE_ARMOR, value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励防御+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励防御+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_ATTACK_SPEED
-            this.u.addGeneralBonus(BONUS_TYPE_ATTACK_SPEED, value)
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK_SPEED, value.toInt())
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击速度+" + value.toString() + "%|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击速度+" + value.toInt().toString() + "%|r", 15, this.u.getOwner())
         case AWARD_TYPE_MOVE_SPEED
             //TODO
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励移动速度+" + value.toString() + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励移动速度+" + value.toInt().toString() + "|r", 15, this.u.getOwner())

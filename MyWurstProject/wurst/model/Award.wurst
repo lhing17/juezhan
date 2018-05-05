@@ -3,6 +3,7 @@ package Award
 /* award type enums */
 public enum AwardType
     AWARD_TYPE_FREE_ATTR
+    AWARD_TYPE_ALL_ATTR
     AWARD_TYPE_PERCEPTION
     AWARD_TYPE_CONSTITUTION
     AWARD_TYPE_HEALING_SKILL
@@ -26,8 +27,15 @@ public enum AwardType
 
 public class Award
     AwardType awardType
-    int value
+    real value
+    int percentage
 
-    construct(AwardType awardType, int value)
+    construct(AwardType awardType, real value)
         this.awardType = awardType
         this.value = value
+        this.percentage = 100
+
+    construct(AwardType awardType, real value, int percentage)
+        this.awardType = awardType
+        this.value = value
+        this.percentage = percentage

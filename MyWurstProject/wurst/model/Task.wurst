@@ -18,14 +18,20 @@ import ColorUtils
 
 /* task type constants */
 
-let TASK_TYPE_KILLING = 0
+public let TASK_TYPE_KILLING = 0
 
-let TASK_TYPE_COLLECTING = 1
+public let TASK_TYPE_COLLECTING = 1
 
-let TASK_TYPE_VISITING = 2
+public let TASK_TYPE_VISITING = 2
 
 /* task id constants */
 
+/* task condition type */
+public let CONDITION_TYPE_LEVEL = 0
+
+public let CONDITION_TYPE_REPUTATION = 1
+
+public let CONDITION_TYPE_PRACTICE = 2
 
 public interface TaskHandler
     function onCompleteTask(Task whichTask)
@@ -73,14 +79,20 @@ public class KillingTaskHandler implements TaskHandler
             Award award = iterator.next()
             whichTask.hero.addAward(award, true)
 
+    ondestroy
+        destroy killCounter
+
 /** the pre-conditions of a task **/
 public class TaskCondition
     
-    int conditionType
+    bool condition
 
-    int conditionValue
-
+    /** If the condition is not met, show the description to the hero **/
     string conditionDescription
+
+    construct(bool condition, string conditionDescription)
+        this.condition = condition
+        this.conditionDescription = conditionDescription
 
 public class Task
     /** the subject of the task **/
@@ -134,9 +146,7 @@ public class Task
      */
     TaskHandler handler
 
-    construct()
-    
-    construct(Hero hero, int taskType, int taskId,string taskDescription, HashList<TaskCondition> conditions, IterableMap<int, int> killCreepMap, HashList<Award> awardList, TaskHandler handler)
+    construct(Hero hero, int taskType, int taskId, string taskDescription, HashList<TaskCondition> conditions, IterableMap<int, int> killCreepMap, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
         this.taskId = taskId
@@ -145,6 +155,13 @@ public class Task
         this.killCreepMap = killCreepMap
         this.awardList = awardList
         this.handler = handler
+        HLIterator<TaskCondition> iterator = conditions.iterator()
+        while iterator.hasNext()
+            TaskCondition condition = iterator.next()
+            if not condition.condition
+                printTimedToPlayer(ColorUtils.WARNING + condition.conditionDescription, 15, hero.u.getOwner())
+                
+        this.hero.ongoingTasks.add(this)        
         EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
     
     function setPeriod(int period)
@@ -155,6 +172,10 @@ public class Task
     
     function setTaskPos(vec2 taskPos)
         this.taskPos = taskPos
+    
+    ondestroy
+        this.hero.ongoingTasks.remove(this)
+        destroy this.handler
         
     
 

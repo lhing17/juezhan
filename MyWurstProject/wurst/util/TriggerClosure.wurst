@@ -1,0 +1,22 @@
+package TriggerClosure
+
+// standard imports
+import Table
+
+// custom imports
+
+Table triggerData = new Table()
+
+public abstract class TriggerActionCallBack
+    
+    abstract function onEvent()
+
+    static function staticCallBack()
+        let t = GetTriggeringTrigger()
+        let cb = triggerData.loadInt(t.getHandleId()) castTo thistype
+        cb.onEvent()
+
+public function trigger.addActionClosure(TriggerActionCallBack cb)
+    
+    triggerData.saveInt(this.getHandleId(), cb castTo int)
+    this.addAction(function TriggerActionCallBack.staticCallBack)

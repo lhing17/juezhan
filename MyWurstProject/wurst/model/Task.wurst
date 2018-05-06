@@ -5,12 +5,14 @@ import HashMap
 import HashList
 import Event
 import ClosureTimers
+import TimerUtils
 
 // custom imports
 import Common
 import Hero
 import Award
 import ColorUtils
+import TriggerClosure
 
 /*
  * Generally, there are three kinds of tasks in the game, including tasks that need player kill creeps, 
@@ -51,6 +53,8 @@ public class KillingTaskHandler implements TaskHandler
 
         if isCompleted(whichTask)
             giveAwards(whichTask)
+            whichTask.hero.doneTasks.add(whichTask)
+            whichTask.hero.ongoingTasks.remove(whichTask)
         else
             showProgress(whichTask)        
         
@@ -108,6 +112,9 @@ public class Task
     /** 0-ongoing 1-success 2-fail**/
     int status = 0
     
+    /** used as the title in time dialog **/
+    string taskName
+
     /** the description of the task **/
     string taskDescription
     
@@ -123,7 +130,7 @@ public class Task
     /** If the task type is visiting npc, this field saves which position to enter, needs to provide 
      *  `vec2ToIndex` and `vec2FromIndex` functions.
      */
-    HashList<int> visitList   
+    HashList<unit> visitList   
 
     /**
      * saves the awards given to the hero if the task is completed.
@@ -153,23 +160,51 @@ public class Task
     /** listener that listens the task completing event **/
     EventListener listener
 
-    construct(Hero hero, int taskType, int taskId, string taskDescription, HashList<TaskCondition> conditions, IterableMap<int, int> killCreepMap, HashList<Award> awardList, TaskHandler handler)
+    trigger trig
+
+    construct(Hero hero, int taskType, int taskId, string taskDescription, IterableMap<int, int> map, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
         this.taskId = taskId
         this.taskDescription = taskDescription
-        this.conditions = conditions
-        this.killCreepMap = killCreepMap
         this.awardList = awardList
         this.handler = handler
-        this.hero.ongoingTasks.add(this)        
-        listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
+        this.hero.ongoingTasks.add(this) 
+        if taskType == TASK_TYPE_KILLING
+            this.killCreepMap = map
+            this.listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
+        else if taskType == TASK_TYPE_COLLECTING
+            this.collectItemMap = map
     
+    construct(Hero hero, int taskType, int taskId, string taskDescription, HashList<unit> visitList, HashList<Award> awardList, TaskHandler handler)
+        this.hero = hero
+        this.taskType = taskType
+        this.taskId = taskId
+        this.taskDescription = taskDescription
+        this.awardList = awardList
+        this.handler = handler
+        this.hero.ongoingTasks.add(this) 
+        this.visitList = visitList
+        this.trig = CreateTrigger()
+        for u in visitList
+            this.trig.registerUnitInRangeSource(u, 256)
+        this.trig.addActionClosure(() -> this.handler.onCompleteTask(this))
+            
+    function setTaskName(string taskName)
+        this.taskName = taskName
+
     function setPeriod(int period)
         this.period = period
+        var t = getTimer()..start(period.toReal(), null)
+        var title = "任务倒计时："
+        if this.taskName != null
+            title = this.taskName + "倒计时："
+        var td = CreateTimerDialogBJ(t, title)
+        TimerDialogDisplayForPlayerBJ(true, td, this.hero.u.getOwner())
         doAfter(period.toReal()) ->
             if this.status == 0
                 printTimedToPlayer(ColorUtils.FAIL +  "时间到，任务失败", 15, this.hero.u.getOwner())
+                DestroyTimerDialog(td)
                 destroy this
 
     
@@ -183,6 +218,7 @@ public class Task
         this.hero.ongoingTasks.remove(this)
         destroy this.handler
         destroy listener
+        this.trig.destr()
 
 public function evaluateTaskConditions(HashList<TaskCondition> conditions, Hero hero) returns bool
     HLIterator<TaskCondition> iterator = conditions.iterator()

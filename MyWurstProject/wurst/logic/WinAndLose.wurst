@@ -28,5 +28,5 @@ function onLose()
         CustomDefeatBJ(players[i], "你眼前一片黑，接着什么都不知道了!")	
 
 init
-    EventListener.add(FINAL_BOSS, EVENT_UNIT_DEATH, () -> onWin())
-    EventListener.add(BASE, EVENT_UNIT_DEATH, () -> onLose())
+    EventListener.add(FINAL_BOSS, EVENT_PLAYER_UNIT_DEATH, () -> onWin())
+    EventListener.add(BASE, EVENT_PLAYER_UNIT_DEATH, () -> onLose())

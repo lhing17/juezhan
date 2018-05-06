@@ -41,7 +41,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895371))
                     Task task = new Task(hero, TASK_TYPE_KILLING, 0, 
                         "|cFFFFCC00丘处机：|r |cFF99FFCC请前往挑战|r|cFFADFF2F江南七怪|r\n",
-                        conditions, killCreepMap, awardList, new KillingTaskHandler())
+                        killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
             if itm.getTypeId() == 1227895641
                 HashList<TaskCondition> conditions = new HashList<TaskCondition>()
@@ -59,7 +59,7 @@ init
                         awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895642))
                     Task task = new Task(hero, TASK_TYPE_KILLING, 1, 
                         "|cFFFFCC00戒律主持：|r |cFF99FFCC想证明自己的能力就要通关少林|r|cFFADFF2F十八罗汉阵",
-                        conditions, killCreepMap, awardList, new KillingTaskHandler())
+                        killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
             if itm.getTypeId() == 1227895879
                 HashList<TaskCondition> conditions = new HashList<TaskCondition>()
@@ -76,7 +76,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895374))
                     Task task = new Task(hero, TASK_TYPE_KILLING, 2, 
                         "|cFFFFCC00黄蓉：|r|cFFADFF2F十恶不赦 |r|cFF99FFCC危害武林江湖多年，你须在|r|cFFADFF2F150秒内|r|cFF99FFCC击杀超过100只，才能完成任务",
-                        conditions, killCreepMap, awardList, new KillingTaskHandler())
+                        killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
                     task.setPeriod(150)
             if itm.getTypeId() == 1227895893 
@@ -100,7 +100,52 @@ init
 
                     Task task = new Task(hero, TASK_TYPE_KILLING, 3, 
                         "",
-                        conditions, killCreepMap, awardList, new KillingTaskHandler())
+                        killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
                     task.setPeriod(240)
+            if itm.getTypeId() == 1227895896 
+                HashList<TaskCondition> conditions = new HashList<TaskCondition>()
+                conditions.add(new TaskCondition(u.getLevel() >= 70, "等级不足70级无法接取该任务"))
+                conditions.add(new TaskCondition(hero.reputation >= 7500, "江湖声望不足7500无法接取该任务"))
+                conditions.add(new TaskCondition(hero.practice >= 4, "你必须先完成历练4任务"))  
+                if evaluateTaskConditions(conditions, hero)
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
 
+                    killCreepMap.put(1869050475, 1) 
+                    killCreepMap.put(1853058150, 1) 
+                    killCreepMap.put(1853323879, 1) 
+                    killCreepMap.put(1853320818, 1) 
+
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP_COEFF, 5))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
+
+                    Task task = new Task(hero, TASK_TYPE_KILLING, 4, 
+                        "",
+                        killCreepMap, awardList, new KillingTaskHandler())
+                    task.setRepeatTimes(1)
+                    task.setPeriod(280)
+            if itm.getTypeId() == 1227896386 
+                HashList<TaskCondition> conditions = new HashList<TaskCondition>()
+                conditions.add(new TaskCondition(u.getLevel() >= 100, "等级不足100级无法接取该任务"))
+                conditions.add(new TaskCondition(hero.reputation >= 11000, "江湖声望不足11000无法接取该任务"))
+                conditions.add(new TaskCondition(hero.practice >= 5, "你必须先完成历练5任务"))  
+                if evaluateTaskConditions(conditions, hero)
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+
+                    killCreepMap.put(1852794732, 1) 
+                    killCreepMap.put(1853252716, 1) 
+                    killCreepMap.put('nrvi', 1) 
+                    killCreepMap.put(1851944036, 1) 
+
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP_COEFF, 5))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
+
+                    Task task = new Task(hero, TASK_TYPE_KILLING, 5, 
+                        "",
+                        killCreepMap, awardList, new KillingTaskHandler())
+                    task.setRepeatTimes(1)
+                    task.setPeriod(120)

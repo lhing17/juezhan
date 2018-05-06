@@ -21,7 +21,7 @@ public class Creep extends Enemy
     construct(int unitId, vec2 pos, real reviveTime)
         super(creep_player, unitId, pos)
         this.reviveTime = reviveTime
-        EventListener.add(u, EVENT_UNIT_DEATH, () -> onDeath())
+        EventListener.add(u, EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
     function onDeath()
         var ut = GetTriggerUnit()
         doAfter(reviveTime) ->

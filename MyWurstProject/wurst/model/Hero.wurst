@@ -68,8 +68,8 @@ public class Hero
         this.playerIndex = playerIndex
         if u.getTypeId() == 'O000' or u.getTypeId() == 'O001' or u.getTypeId() == 'O004' or u.getTypeId() == 'O02J'
             gender = 1
-        EventListener.add(u, EVENT_UNIT_DEATH, () -> onDeath())
-        EventListener.add(u, EVENT_UNIT_HERO_LEVEL, () -> onLevelUp())
+        EventListener.add(u, EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
+        EventListener.add(u, EVENT_PLAYER_HERO_LEVEL, () -> onLevelUp())
         kongFuTable = new Table()
         kongFuList = new HashList<int>
         

@@ -42,6 +42,12 @@ public interface TaskHandler
     function showProgress(Task whichTask)
     function giveAwards(Task whichTask)
 
+public class CollectingItemHandler implements TaskHandler
+    function onCompleteTask(Task whichTask)
+    function isCompleted(Task whichTask) returns bool
+        return false
+    function showProgress(Task whichTask)
+    function giveAwards(Task whichTask)
 
 public class KillingTaskHandler implements TaskHandler
     IterableMap<int, int> killCounter = new IterableMap<int, int>()
@@ -143,10 +149,15 @@ public class Task
     int period = -1
     
     /** the permitted repeat times of the task. If the value equals to -1,
-    * it means the task has no repeat times limit.
-    */
+     * it means the task has no repeat times limit.
+     */
     int repeatTimes = -1
     
+    /** set true if the items need to collect is virtual (not exist in the unit's slot), 
+     * a counter will be used to count the virtual items
+     */
+    boolean virtualItem = false
+
     /**
      * save the position to perform the task if the task needs a Teleport
      */

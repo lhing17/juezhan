@@ -1,0 +1,62 @@
+package TaskInitializer
+
+//standard imports
+import RegisterEvents
+import HashList
+import HashMap
+import Award
+
+//custom imports
+import Task
+import Hero
+import Common
+import GlobalInitialization
+import NpcConstant
+
+/* 初始化历练 */
+
+init
+    registerPlayerUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM) ->
+        let itm = GetManipulatedItem()
+        let u = GetTriggerUnit()
+        let hero = u.getHero()
+        if u.isHero()
+            // 店小二新手任务
+            if itm.getTypeId() == 'I025'
+                var rand = GetRandomInt(1, 3)
+                if rand == 1
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('nwlt', 6)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    if percentPossiblity(85)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I020'))
+                    else
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I0CI'))
+                    Task task = new Task(hero, TASK_TYPE_KILLING, 6, 
+                        "|cFFFFCC00店小二：|r |cFF99FFCC旁边树林里的野狼经常来袭击村民，你能帮助我们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F6只野狼|r\n",
+                        killCreepMap, awardList, new KillingTaskHandler())
+                    task.setRepeatTimes(1)
+                else if rand == 2
+                    HashList<unit> visitList = new HashList<unit>()
+                    visitList.add(GUO_JING)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    if percentPossiblity(85)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I024'))
+                    else
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I0CH'))
+                    Task task = new Task(hero, TASK_TYPE_KILLING, 6, 
+                        "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
+                        visitList, awardList, new KillingTaskHandler())
+                    task.setRepeatTimes(1)
+                else
+                    IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
+                    collectItemMap.put('IIII', 1) // FIXME
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06H'))
+                    Task task = new Task(hero, TASK_TYPE_KILLING, 6, 
+                        "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
+                        collectItemMap, awardList, new KillingTaskHandler())
+                    task.setRepeatTimes(1)

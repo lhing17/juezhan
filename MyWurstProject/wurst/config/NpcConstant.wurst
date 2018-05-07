@@ -6,3 +6,4 @@ package NpcConstant
 import GameConfiguration
 
 public let GUO_JING = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees())
+public let DIAN_XIAO_ER = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees()) // FIXME

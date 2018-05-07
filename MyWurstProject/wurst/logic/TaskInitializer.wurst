@@ -58,5 +58,5 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06H'))
                     Task task = new Task(hero, TASK_TYPE_KILLING, 6, 
                         "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
-                        collectItemMap, awardList, new KillingTaskHandler())
+                        DIAN_XIAO_ER, collectItemMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)

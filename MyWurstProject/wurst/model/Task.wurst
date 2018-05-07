@@ -42,16 +42,98 @@ public interface TaskHandler
     function showProgress(Task whichTask)
     function giveAwards(Task whichTask)
 
-public class CollectingItemHandler implements TaskHandler
-    function onCompleteTask(Task whichTask)
-    function isCompleted(Task whichTask) returns bool
-        return false
-    function showProgress(Task whichTask)
-    function giveAwards(Task whichTask)
+public class VisitingNpcHandler implements TaskHandler
+    HashList<unit> visitedList = new HashList<unit>()
+    override function onCompleteTask(Task whichTask)
+        let u = GetTriggerUnit()
+        if not whichTask.visitList.has(u)
+            return
+        if isCompleted(whichTask)
+            giveAwards(whichTask)
+            whichTask.hero.doneTasks.add(whichTask)
+            whichTask.hero.ongoingTasks.remove(whichTask)
+        else
+            visitedList.add(u)
+            showProgress(whichTask)    
 
+    override function isCompleted(Task whichTask) returns bool
+        for ui in whichTask.visitList
+            if not visitedList.has(ui)
+                return false
+        return true
+
+    override function showProgress(Task whichTask)
+        let p = whichTask.hero.u.getOwner()
+        var str = "已拜访NPC："
+        for ui in visitedList
+            str += ui.getName() + "、"
+        printTimedToPlayer(ColorUtils.IN_PROGRESS + str.substring(0, str.length() - 1), 10, p)
+
+    override function giveAwards(Task whichTask)
+        HLIterator<Award> iterator = whichTask.awardList.iterator()
+        while iterator.hasNext()
+            Award award = iterator.next()
+            whichTask.hero.addAward(award, true)
+
+/** Handler for collecting item task **/
+public class CollectingItemHandler implements TaskHandler
+    IterableMap<int, int> collectCounter = new IterableMap<int, int>()
+    override function onCompleteTask(Task whichTask)
+        let itm = GetManipulatedItem()
+        Log.debug("From CollectingItemHandler: " + GetTriggerEventId().toIntId().toString())
+        if whichTask.virtualItem and GetTriggerEventId() == EVENT_PLAYER_UNIT_PICKUP_ITEM
+            if not isCompleted(whichTask)
+                showProgress(whichTask)
+                if collectCounter.hasKey(itm.getTypeId())
+                    collectCounter.put(itm.getTypeId(), collectCounter.get(itm.getTypeId()) + 1)
+                else
+                    collectCounter.put(itm.getTypeId(), 1)
+        else
+            if isCompleted(whichTask)
+                giveAwards(whichTask)
+                whichTask.hero.doneTasks.add(whichTask)
+                whichTask.hero.ongoingTasks.remove(whichTask)
+            else
+                printTimedToPlayer(ColorUtils.IN_PROGRESS + "少侠，你还没有完成任务哦", 15, whichTask.hero.u.getOwner())
+
+    override function isCompleted(Task whichTask) returns bool
+        HLIterator<int> iterator = whichTask.collectItemMap.iterator()
+        if not whichTask.virtualItem
+            collectCounter.flush()
+            while iterator.hasNext()
+                var key = iterator.next()
+                for i = 1 to 6
+                    if whichTask.hero.u.itemInSlot(i).getTypeId() == key
+                        if collectCounter.hasKey(key)
+                            collectCounter.put(key, collectCounter.get(key) + 1)
+                        else
+                            collectCounter.put(key, 1)
+        while iterator.hasNext()
+            var key = iterator.next()
+            if not collectCounter.hasKey(key) or collectCounter.get(key) < whichTask.collectItemMap.get(key)
+                return false
+        return true
+
+    override function showProgress(Task whichTask)
+        let p = whichTask.hero.u.getOwner()
+        HLIterator<int> iterator = whichTask.collectItemMap.iterator()
+        while iterator.hasNext()
+            var itemId = iterator.next()
+            var itemName = GetObjectName(itemId)
+            var finishedCount = collectCounter.get(itemId)
+            var totalCount = whichTask.killCreepMap.get(itemId)
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + itemName + ": " + finishedCount.toString() + " / " + totalCount.toString(), 10, p)
+
+    override function giveAwards(Task whichTask)
+        HLIterator<Award> iterator = whichTask.awardList.iterator()
+        while iterator.hasNext()
+            Award award = iterator.next()
+            whichTask.hero.addAward(award, true)
+
+/** Hander for killing creep task **/
 public class KillingTaskHandler implements TaskHandler
     IterableMap<int, int> killCounter = new IterableMap<int, int>()
-    function onCompleteTask(Task whichTask)
+    override function onCompleteTask(Task whichTask)
         let u = GetTriggerUnit()
         // the dying creep id is not in the task killing list.
         if not whichTask.killCreepMap.hasKey(u.getTypeId())
@@ -62,10 +144,14 @@ public class KillingTaskHandler implements TaskHandler
             whichTask.hero.doneTasks.add(whichTask)
             whichTask.hero.ongoingTasks.remove(whichTask)
         else
+            if killCounter.hasKey(u.getTypeId())
+                killCounter.put(u.getTypeId(), killCounter.get(u.getTypeId()) + 1)
+            else
+                killCounter.put(u.getTypeId(), 1)
             showProgress(whichTask)        
         
     /** checks whether the killing task is completed **/
-    function isCompleted(Task whichTask) returns bool
+    override function isCompleted(Task whichTask) returns bool
         HLIterator<int> iterator = whichTask.killCreepMap.iterator()
         while iterator.hasNext()
             var key = iterator.next()
@@ -74,7 +160,7 @@ public class KillingTaskHandler implements TaskHandler
         return true
     
     /** shows the progress of the killing task **/
-    function showProgress(Task whichTask)
+    override function showProgress(Task whichTask)
         let p = whichTask.hero.u.getOwner()
         HLIterator<int> iterator = whichTask.killCreepMap.iterator()
         while iterator.hasNext()
@@ -84,7 +170,7 @@ public class KillingTaskHandler implements TaskHandler
             var totalCount = whichTask.killCreepMap.get(unitId)
             printTimedToPlayer(ColorUtils.IN_PROGRESS + unitName + ": " + finishedCount.toString() + " / " + totalCount.toString(), 10, p)
     
-    function giveAwards(Task whichTask)
+    override function giveAwards(Task whichTask)
         HLIterator<Award> iterator = whichTask.awardList.iterator()
         while iterator.hasNext()
             Award award = iterator.next()
@@ -111,6 +197,9 @@ public class Task
 
     /** the type of the task **/
     int taskType 
+    
+
+    unit taskNpc
 
     /** the unique identification of different kind of task **/
     int taskId
@@ -173,6 +262,23 @@ public class Task
 
     trigger trig
 
+    /** collecting item **/
+    construct(Hero hero, int taskType, int taskId, string taskDescription, unit taskNpc, IterableMap<int, int> map, HashList<Award> awardList, TaskHandler handler)
+        this.hero = hero
+        this.taskType = taskType
+        this.taskId = taskId
+        this.taskDescription = taskDescription
+        this.awardList = awardList
+        this.handler = handler
+        this.hero.ongoingTasks.add(this) 
+        this.taskNpc = taskNpc
+        this.collectItemMap = map
+        this.trig = CreateTrigger()
+        this.trig.registerUnitInRangeSource(this.taskNpc, 256)
+        this.trig.addActionClosure(() -> this.handler.onCompleteTask(this))
+
+
+    /** killing creep **/
     construct(Hero hero, int taskType, int taskId, string taskDescription, IterableMap<int, int> map, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
@@ -181,12 +287,10 @@ public class Task
         this.awardList = awardList
         this.handler = handler
         this.hero.ongoingTasks.add(this) 
-        if taskType == TASK_TYPE_KILLING
-            this.killCreepMap = map
-            this.listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
-        else if taskType == TASK_TYPE_COLLECTING
-            this.collectItemMap = map
+        this.killCreepMap = map
+        this.listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
     
+    /** visiting npc **/
     construct(Hero hero, int taskType, int taskId, string taskDescription, HashList<unit> visitList, HashList<Award> awardList, TaskHandler handler)
         this.hero = hero
         this.taskType = taskType
@@ -224,6 +328,11 @@ public class Task
     
     function setTaskPos(vec2 taskPos)
         this.taskPos = taskPos
+
+    function setVirtualItem(bool virtualItem)
+        this.virtualItem = virtualItem
+        if virtualItem
+            this.listener = EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, () -> this.handler.onCompleteTask(this))
     
     ondestroy
         this.hero.ongoingTasks.remove(this)

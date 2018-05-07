@@ -24,6 +24,7 @@ public enum AwardType
     AWARD_TYPE_ARMOR
     AWARD_TYPE_ATTACK_SPEED
     AWARD_TYPE_MOVE_SPEED
+    AWARD_TYPE_EXP
 
 public class Award
     AwardType awardType

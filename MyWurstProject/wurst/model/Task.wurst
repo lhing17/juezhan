@@ -348,6 +348,12 @@ public function evaluateTaskConditions(HashList<TaskCondition> conditions, Hero 
             printTimedToPlayer(ColorUtils.WARNING + condition.conditionDescription, 15, hero.u.getOwner())
             return false
     return true
-    
+
+/** determines whether a hero has certain task **/    
+public function Hero.getTask(int taskId) returns Task
+    for task in this.ongoingTasks
+        if task.taskId == taskId
+            return task
+    return null
 
     

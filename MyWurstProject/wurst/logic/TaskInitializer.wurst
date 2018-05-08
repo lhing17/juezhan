@@ -197,7 +197,7 @@ init
                 else
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I00Y'))
                 awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 100))
-                new Task(hero, TASK_TYPE_KILLING, 14, 
+                new Task(hero, TASK_TYPE_COLLECTING, 14, 
                 "|cFFFFCC00公孙绿萼：|r |cFF99FFCC杨过中了情花剧毒，你能替我想想办法救救他吗|r\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本中的|cFFADFF2F断肠草|r\n",
                     GONG_SUN_LU_E, collectItemMap, awardList, new CollectingItemHandler()).setVirtualItem(true)
             if itm.getTypeId() == 1227896388
@@ -210,4 +210,37 @@ init
                 new Task(hero, TASK_TYPE_KILLING, 15, 
                 "|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n",
                     killCreepMap, awardList, new KillingTaskHandler())
-                
+            if itm.getTypeId() == 1227896389
+                IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                killCreepMap.put(1751543663, 1)
+                HashList<Award> awardList = new HashList<Award>()
+                if percentPossiblity(35)
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06K'))
+                else if percentPossiblity(50)
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06N'))
+                else
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06I'))
+                if percentPossiblity(35)
+                    if percentPossiblity(35)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06K'))
+                    else if percentPossiblity(50)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06N'))
+                    else
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I06I'))
+                awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 250))
+                new Task(hero, TASK_TYPE_KILLING, 16, 
+                "|cFFFFCC00乔峰：|r |cFF99FFCC最近辽国养兵蓄锐，似乎对大宋有所企图，若能擒住辽国第一先锋，百姓才能避免战祸|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F辽国第一先锋|r\n",
+                killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 'I0AN'
+                if hero.denomination != DENOMINATION_XINGXIU
+                    printTimedToPlayer("|cFFFFCC00乔峰：|r |cFF99FFCC你不是星宿派中人，无法接此任务|r\n", 15, hero.u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('odkt', 1)
+                    killCreepMap.put('h00J', 1)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I0AM'))
+                    new Task(hero, TASK_TYPE_KILLING, 17, 
+                    "|cFFFFCC00乔峰：|r |cFF99FFCC阿紫被丁老头抓走了，请英雄帮我击败丁春秋，救出阿紫|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F丁春秋|r\n",
+                    killCreepMap, awardList, new KillingTaskHandler())
+            

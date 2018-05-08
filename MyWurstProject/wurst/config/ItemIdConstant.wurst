@@ -3,7 +3,7 @@ package ItemIdConstant
 public int array clothes
 public int array ornament
 
-function InitEquipments()
+function initEquipments()
 	//衣服清单
 	clothes[1]='I022'
 	clothes[2]='I01T'
@@ -68,3 +68,5 @@ function InitEquipments()
 	ornament[42]='I08X'
 	ornament[43]='I08Y'
 	ornament[44]='I08Z'
+init
+	initEquipments()

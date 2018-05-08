@@ -13,3 +13,4 @@ public let DA_MO_ZU_SHI = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -
 public let QIU_CHU_JI = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees()) // FIXME
 public let MU_RONG_FU = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees()) // FIXME
 public let QIAO_FENG = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees()) // FIXME
+public let GONG_SUN_LU_E = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees()) // FIXME

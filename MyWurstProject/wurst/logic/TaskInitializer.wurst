@@ -237,7 +237,7 @@ init
                 else
                     IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
                     killCreepMap.put('odkt', 1)
-                    killCreepMap.put('h00J', 1)
+                    killCreepMap.put('h00J', 1) 
                     HashList<Award> awardList = new HashList<Award>()
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 'I0AM'))
                     new Task(hero, TASK_TYPE_KILLING, 17, 

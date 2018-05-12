@@ -7,7 +7,7 @@ import HeroSelector
 import TriggerEvent
 import ClosureForGroups
 
-let mb = CreateMultiboardBJ(5, 20, "系统窗口")
+multiboard mb
 
 function getDamageText(real damage) returns string
     string damageText
@@ -23,25 +23,26 @@ function getDamageText(real damage) returns string
         damageText = (damage / 10000 / 10000 / 10000 / 10000).toString(2) + "亿亿"
     return damageText
 
-function showGameBoard()
+function updateGameBoard()
     
         
     for i = 0 to MAX_PLAYER_NUMBER - 1
-        if heros[i] != null
+        
+        if heros[i] != null            
             var damage = heros[i].maxDamage
-            mb.getItem(4 * i + 1, 1).setValue("|c00FF0080" + players[i].getName())
-            mb.getItem(4 * i + 1, 2).setValue("|c0000FF00" + "等级：" + heros[i].u.getLevel().toString())
-            mb.getItem(4 * i + 1, 3).setValue("|cFF00CCFF" + heros[i].denomination.getDenominationName())
-            mb.getItem(4 * i + 1, 4).setValue("|cFFFF6600最高伤害：" + getDamageText(damage))
-            mb.getItem(4 * i + 1, 5).setValue("|c00FFEE99") // FIXME 副职
+            mb.getItem(4 * i, 0)..setValue("|c00FF0080" + players[i].getName())..release()
+            mb.getItem(4 * i, 1)..setValue("|c0000FF00" + "等级：" + heros[i].u.getLevel().toString())..release()
+            mb.getItem(4 * i, 2)..setValue("|cFF00CCFF" + heros[i].denomination.getDenominationName())..release()
+            mb.getItem(4 * i, 3)..setValue("|cFFFF6600最高伤害：" + getDamageText(damage))..release()
+            mb.getItem(4 * i, 4)..setValue("|c00FFEE99副职")..release()// FIXME 副职
             for j = 0 to heros[i].kongFuList.size() - 1
-                var row = 4 * i + 2
-                var col = j + 1
+                var row = 4 * i + 1
+                var col = j
                 while col > 4
                     col -= 4
                     row++
-                mb.getItem(row, col).setValue("|c0000FF00" + GetObjectName(heros[i].kongFuList.get(j)))
-    mb.display(true)
+                mb.getItem(row, col)..setValue("|c0000FF00" + GetObjectName(heros[i].kongFuList.get(j)))..release()
+    
 
 function isSetUnitMaxDamage() returns bool
     return GetEventDamageSource().getOwner().getController() == MAP_CONTROL_USER
@@ -58,10 +59,10 @@ function playerLeave()
         for slot = 1 to 6
             ue.removeItemFromSlot(slot)
         ue.remove()
-    for row = 4 * i + 1 to 4 * i + 4
-        for col = 1 to 4
+    for row = 4 * i to 4 * i +3
+        for col = 0 to 3
             mb.getItem(row, col).setValueColor(255, 51, 255, 0)
-    mb.getItem(4 * i + 2, 5).setValue("离开")
+    mb.getItem(4 * i + 1, 4)..setValue("离开")..release()
 
 function createF9Quests()
     CreateQuestBJ(0,"|cFFFF00001.53版本更新内容",
@@ -128,10 +129,12 @@ function showHeroAttr()
 init 
     doAfter(10) ->
         createF9Quests()
+        mb = CreateMultiboardBJ(5, MAX_PLAYER_NUMBER * 4, "系统窗口")
         mb..setItemsStyle(true, false)..setItemsWidth(0.07)..setTitle("|cFFFFCC33这并不是系统窗口")
-        showGameBoard()
+        updateGameBoard()
+        mb.display(true)
         doPeriodically(4) cb ->
-            showGameBoard()
+            updateGameBoard()
     
     CreateTrigger()
         ..registerAnyUnitDamagedEvent()

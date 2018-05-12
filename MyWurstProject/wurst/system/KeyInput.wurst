@@ -13,7 +13,7 @@ function keyInput()
     else if s == "-"
         SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.00, 1.00)
     else if s == "hg"
-        hero.setPosition(BASE_LOC)
+        hero.setPosition(BASE_TP_LOC)
         p.panCamTo(hero.u)
     else if s == "q"
         hero.setPosition(BASE_FRONT)

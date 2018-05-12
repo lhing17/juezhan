@@ -14,14 +14,20 @@ import Table
   * 地点常量
   */
 public vec2 array LOC_ARRAY
+
+public let DEFAULT_FACING = 270..asAngleDegrees()
 /** 基地回城点 **/
-public let BASE_LOC = vec2(-1174,-678)
+public let BASE_TP_LOC = vec2(-1174,-678)
+/** 基地所在位置 **/
+public let BASE_LOC = vec2(-768, -768)
 /** 基地前方回城点 **/
 public let BASE_FRONT = vec2(-869,796)
 /** 基地后方回城点 **/
 public let BASE_BACK = vec2(-869,-2000)
 /** 监狱 **/
 public let JAIL = vec2(10692,-14847)
+/** 选择门派的地点 **/
+public let SELECT_DENOMINATION_LOC = vec2(1700, -4150)
 /** 英雄出生地点 **/
 public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
 /** 鸟贩卖东西等功能使用的临时地点 **/
@@ -128,13 +134,15 @@ tuple kongFu(string name, int abilityId, int itemId, int kongFuType, int courage
 public denomination array denominations
 public kongFu array kongFus
 
+/** 最大门派下标，添加门派时需要修改 **/
 public let MAX_DENOMINATION_INDEX = 17
 /** 基地 **/
-public unit BASE = gg_unit_N007_0055 // FIXME 替换成实际单位
+public unit BASE = createUnit(BASE_PLAYER, 'nfrm', vec2(-768, -768), DEFAULT_FACING)
+
 /** 最终进攻怪 **/
-public unit FINAL_BOSS = gg_unit_N007_0055 // FIXME 替换成实际单位
+public unit FINAL_BOSS = null // FIXME 替换成实际单位
 /** 选择门派 **/
-public unit DENOMINATION_STORE = gg_unit_N007_0055 // FIXME 替换成实际单位
+public unit DENOMINATION_STORE = null // FIXME 替换成实际单位
 
 public let SOUND_SELL_ITEM = new SoundDefinition("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false)
 

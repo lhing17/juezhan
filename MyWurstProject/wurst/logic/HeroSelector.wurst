@@ -21,7 +21,9 @@ public function int.getDenominationName() returns string
     for j = 0 to MAX_DENOMINATION_INDEX - 2
         if this == denominationBonusArray[j].denomination
             return denominationBonusArray[j].name
-    return ""
+    if this == DENOMINATION_FREE
+        return "自由门派"
+    return "未加入"
 
 function showHint(player p, unit u) 
     var msg = ""
@@ -46,7 +48,7 @@ function selectHeroAction()
             return
         for j = 0 to 6
             if u == heroBonusArray[j].hero
-                var ut = createUnit(p, u.getTypeId(), HERO_BORN_LOC, bj_UNIT_FACING.asAngleDegrees())
+                var ut = createUnit(p, u.getTypeId(), SELECT_DENOMINATION_LOC, DEFAULT_FACING)
                 p.panCamTo(ut)
                 u.remove()
                 ut.setHero(new Hero(ut, i))
@@ -83,8 +85,9 @@ function addCharacterBBuff(unit u, int characterB)
     u.setAbilityLevel('A069', characterB)
 
 function isSelectDenomination() returns bool
-    for i = 1 to MAX_DENOMINATION_INDEX
+    for i = 0 to MAX_DENOMINATION_INDEX - 2
         if GetManipulatedItem().getTypeId() == denominationBonusArray[i].itemId
+            Log.debug("选择了物品:" + GetObjectName(GetManipulatedItem().getTypeId()))
             return true
     return false
 

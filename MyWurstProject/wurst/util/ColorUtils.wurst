@@ -10,3 +10,5 @@ public class ColorUtils
     static constant string AWARD = "|CFF34FF00"
     static constant string WARNING = "|cffF47E3E"
     static constant string FAIL = fromPlayerColor(PLAYER_COLOR_RED).toColorString()
+    /** possibility **/
+    static constant string RATE = fromPlayerColor(PLAYER_COLOR_ORANGE).toColorString()

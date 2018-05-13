@@ -2,7 +2,7 @@ package CreepBoss
 
 import Creep
 
-let creep_boss_lookup = [
+let boss_lookup = [
     'ncer',
     'nhea',
     'nlkl',
@@ -11,6 +11,53 @@ let creep_boss_lookup = [
     'nbda',
     'n002',
     'nbds'
+]
+
+let creep_boss_lookup = [
+    'nqb3', // wolf king, boss
+    'odoc', // bandit chief, boss
+    'orai', // king of the horse thief king, boss
+    'nubw', // Duanyanqing, boss
+    'nsqo', // god of south sea crocodile, boss
+    'nhrr', // Yeerniang, boss
+    'nomg', // Yunzhonghe, boss
+    'ndrw', // Guanneng, boss
+    'nbdw', // Tangwenliang, boss
+    'ndqs', // Linchaoying, boss
+    'nsrh', // floor-sweeping magic monk, boss, scripture repository
+    'nfov', // very evil lord, boss
+    'nrzb', // long beard ghost, boss
+    'nfpu', // Gongsunzhi, boss
+    'nfpc', // Zhaxiaoyong, boss
+    'ngh2', // Liqiushui, boss
+    'nmgd', // Wuyazi, boss
+    'nfsp', // childface grandma at Tianshan, boss
+    'hspt', // Huangshang, boss
+    'uktn', // Dongfangbubai, boss
+    'hfoo' // The first pioneer of Liao, boss
+]
+
+let experience_boss_lookup = [
+    'hsor', // Hanxiaoying, experience boss
+    'owar', // Kezhen'e, experience boss
+    'ntkt', // Zhang'asheng, experience boss
+    'nogm', // Hanbaoju, experience boss
+    'opeo', // Quanjinfa, experience boss
+    'ohun', // Nanxiren, experience boss
+    'nw2w', // Zhucong, experience boss
+    'ntkc', // white eyebrow eagle king, experience boss
+    'nrvi', // Ximenchuixue, experience boss
+    'nsgn', // golden hair lion king, experience boss
+    'nsgb', // cyan wing bat king, experience boss
+    'nwzr', // Yangdingtian, experience boss
+    'nsgt', // purple cloth dragon king, experience boss
+    'nwnr', // Hongqigong, experience boss
+    'nslf', // Ouyangfeng, experience boss
+    'nwzg', // "One-lamp" grand master, experience boss
+    'ogrk', // Huangyaoshi, experience boss
+    'nvdl', // Yegucheng, experience boss
+    'nogl', // Chuliuxiang, experience boss
+    'nbld'  // Luxiaofeng, experience boss
 ]
     
 public function int.toBossId() returns int

@@ -12,75 +12,32 @@ import Enemy
 import GameConfiguration
 import Common
 
-// FIXME 更改野怪的配置
 let creep_lookup = [
-    'nwlt', // wolf
-    'nqb2', // boar
-    'nass', // horse thief
-    'nfrl', // bear
-    'nqb3',
-    'ngns',
-    'nanb',
-    'oshm',
-    'odoc',
-    'orai',
-    'nubw',
-    'nsqo',
-    'nhrr',
-    'nomg',
-    'nnwr',
-    'nfor',
-    'hsor',
-    'owar',
-    'ntkt',
-    'nogm',
-    'opeo',
-    'ohun',
-    'nw2w',
-    'hwat',
-    'ndrw',
-    'nbdw',
-    'nowb',
-    'efon',
-    'ndqv',
-    'ndqs',
-    'nfov',
-    'ndtb',
-    'nsrh',
-    'nogr',
-    'nwrg',
-    'nrzb',
-    'nfpu',
-    'nmpg',
-    'ntkc',
-    'nrvi',
-    'nsgn',
-    'nsgb',
-    'nwzr',
-    'nstl',
-    'hmtt',
-    1852207203,
-    1853056884,
-    1852861538,
-    1852207212,
-    1852270642,
-    1852663652,
-    1852207984,
-    1853320818,
-    1853058150,
-    1853323879,
-    1869050475,
-    'nfrl',
-    1853252716,
-    1852794732,
-    1851944036,
-    1852141158,
-    1752395892,
-    1969976430,
-    1869836407,
-    'njgb',
-    1751871081,
-    1751543663
+    'nwlt', // 0, wolf, wild
+    'nqb2', // 1, boar, wild
+    'ngns', // 2, jackal, wild
+    'nanb', // 3, scorpion, wild
+    'nass', // 4, horse thief, instance 1
+    'oshm', // 5, rule-breaking monk, instance 1
+    'nowb', // 6, monster, instance 2
+    'efon', // 7, stake, instance 2
+    'nfrl', // 8, bear, instance 3
+    'nwrg', // 9, puppet, instance 4
+    'nmpg', // 10, heathen, instance 4 extend
+    'nplb', // 11, ice bear, instance 5
+    'nfpl', // 12, followers of Xiaoyao denomination, instance 5
+    'ospw', // 13, death warrior of sun and moon, instance 6
+    'hwat', // 14, south yangtze water monster, experience 1
+    'ndtb', // 15, despicable guys, experiece 3
+    'nstl', // 16, followers of Mingjiao denomination, experience 4
+    'ndqv', // 17, followers of Gumu denomination, Gumu
+    'nnwr', // 18, rascal in jianghu, Gaochang maze
+    'nfor', // 19, traitor of denomination, Gaochang maze
+    'nogr', // 20, yard-guarding monk, scripture repository
+    'nenf', // 21, bandit in jianghu, frontier
+    'hkni', // 22, knight of Liao, frontier
+    'njgb', // 23, bull monster, bull monster fairy land
+    'hmtt' // 24, city gate, Liao
 ]
 
 HashList<Creep> creepList = new HashList<Creep>()
@@ -130,43 +87,436 @@ init
     new Creep(creep_lookup[0], 792.7, -3097.9)
     new Creep(creep_lookup[0], 588.4, -2846.8)
     new Creep(creep_lookup[0], 1704.9, -3005.6)
+
     new Creep(creep_lookup[1], 776.3, -4506.1)
     new Creep(creep_lookup[1], 1226.6, -4653.)
     new Creep(creep_lookup[1], 1169.5, -5100.4)
-    new Creep(creep_lookup[2], -12157., 824.7)
-    new Creep(creep_lookup[2], -11958.4, 1297.8)
-    new Creep(creep_lookup[2], -12041.7, 2502.1)
-    new Creep(creep_lookup[2], -11753.8, 2970.5)
-    new Creep(creep_lookup[2], -12365.2, 3640.6)
-    new Creep(creep_lookup[2], -13564.5, 3750.5)
-    new Creep(creep_lookup[2], -14561.2, 3817.1)
-    new Creep(creep_lookup[2], -14973.8, 2948.4)
-    new Creep(creep_lookup[2], -15112.2, 2181.7)
-    new Creep(creep_lookup[2], -11556.2, 1961.9)
-    new Creep(creep_lookup[3], -14365.7, 11054.6)
-    new Creep(creep_lookup[3], -13768.6, 11013.8)
-    new Creep(creep_lookup[3], -13337.3, 11162.)
-    new Creep(creep_lookup[3], -14512.9, 11751.2)
-    new Creep(creep_lookup[3], -14160.7, 12171.9)
-    new Creep(creep_lookup[3], -13369.4, 12026.6)
-    new Creep(creep_lookup[3], -12020.4, 11812.1)
-    new Creep(creep_lookup[3], -11481.9, 11877.2)
-    new Creep(creep_lookup[3], -11688.9, 12311.7)
-    new Creep(creep_lookup[3], -11930.7, 12808.3)
-    new Creep(creep_lookup[3], -13449.4, 13827.7)
-    new Creep(creep_lookup[3], -13699.4, 14328.7)
-    new Creep(creep_lookup[3], -13048.2, 14421.4)
-    new Creep(creep_lookup[3], -11933.3, 14513.9)
-    new Creep(creep_lookup[3], -12259.8, 13985.9)
-    new Creep(creep_lookup[3], -12522.3, 13591.6)
-    new Creep(creep_lookup[3], -12901.2, 12929.9)
-    new Creep(creep_lookup[3], -12411.2, 12526.1)
-    new Creep(creep_lookup[3], -12639.8, 11877.)
-    new Creep(creep_lookup[3], -15307.9, 11731.7)
-    new Creep(creep_lookup[3], -14938., 12761.9)
-    new Creep(creep_lookup[3], -14360.7, 13212.6)
-    new Creep(creep_lookup[3], -13428.5, 13047.6)
-    new Creep(creep_lookup[3], -14331.4, 13670.1)
-    new Creep(creep_lookup[3], -14481.8, 14188.4)
-    new Creep(creep_lookup[3], -14987., 14628.)
+
+    new Creep(creep_lookup[2], -2913.8, -3328.4)
+    new Creep(creep_lookup[2], -2932.2, -2943.6)
+    new Creep(creep_lookup[2], -3329.7, -2739.6)
+    new Creep(creep_lookup[2], -3756.6, -2500.1)
+    new Creep(creep_lookup[2], -4586.6, -2442.)
+    new Creep(creep_lookup[2], -4257.5, -2708.6)
+    new Creep(creep_lookup[2], -4614.6, -2148.9)
+    new Creep(creep_lookup[2], -4901., -2249.5)
+    new Creep(creep_lookup[2], -4918.3, -1944.5)
+    new Creep(creep_lookup[2], -5489.1, -1749.5)
+    new Creep(creep_lookup[2], -5874.2, -1506.)
+    new Creep(creep_lookup[2], -3780.6, -2955.4)
+    new Creep(creep_lookup[2], -4115.4, -2177.3)
+
+    new Creep(creep_lookup[3], 1371.9, -6049.3)
+    new Creep(creep_lookup[3], 1417.5, -6407.)
+    new Creep(creep_lookup[3], 1739.3, -6366.4)
+    new Creep(creep_lookup[3], 2001.2, -6587.5)
+    new Creep(creep_lookup[3], 2270.7, -6280.2)
+    new Creep(creep_lookup[3], 2507.1, -6397.7)
+    new Creep(creep_lookup[3], 2838.3, -6375.6)
+
+    new Creep(creep_lookup[4], -12157., 824.7)
+    new Creep(creep_lookup[4], -11958.4, 1297.8)
+    new Creep(creep_lookup[4], -12041.7, 2502.1)
+    new Creep(creep_lookup[4], -11753.8, 2970.5)
+    new Creep(creep_lookup[4], -12365.2, 3640.6)
+    new Creep(creep_lookup[4], -13564.5, 3750.5)
+    new Creep(creep_lookup[4], -14561.2, 3817.1)
+    new Creep(creep_lookup[4], -14973.8, 2948.4)
+    new Creep(creep_lookup[4], -15112.2, 2181.7)
+    new Creep(creep_lookup[4], -11556.2, 1961.9)
+
+    new Creep(creep_lookup[5], -12090.6, 1743.3)    
+    new Creep(creep_lookup[5], -12505.3, 2980.7)    
+    new Creep(creep_lookup[5], -14040.9, 3503.2)    
+    new Creep(creep_lookup[5], -14836.4, 3400.2)    
+    new Creep(creep_lookup[5], -14612.9, 1634.5)    
+    new Creep(creep_lookup[5], -14526.5, 1094.6)    
+    new Creep(creep_lookup[5], -15071.7, 985.4)    
+    new Creep(creep_lookup[5], -14683.9, 639.)    
+    new Creep(creep_lookup[5], -14255.2, 334.2)    
+    new Creep(creep_lookup[5], -13786., 618.3)    
+    new Creep(creep_lookup[5], -13406.7, 303.3)    
+
+    new Creep(creep_lookup[6], -14654.6, 7353.7)
+    new Creep(creep_lookup[6], -14662.7, 8675.2)
+    new Creep(creep_lookup[6], -14024.6, 8955.4)
+    new Creep(creep_lookup[6], -12790., 8932.6)
+    new Creep(creep_lookup[6], -12185.4, 8447.7)
+    new Creep(creep_lookup[6], -12203.5, 6950.2)
+    new Creep(creep_lookup[6], -12755.9, 7098.6)
+    new Creep(creep_lookup[6], -11582.2, 6792.9)
+    new Creep(creep_lookup[6], -12616.1, 6183.4)
+    new Creep(creep_lookup[6], -12123.6, 6321.7)
+
+    new Creep(creep_lookup[7], -14785., 6073.2)
+    new Creep(creep_lookup[7], -14431.2, 5863.3)
+    new Creep(creep_lookup[7], -14211.2, 7038.3)
+    new Creep(creep_lookup[7], -14342.6, 7650.2)
+    new Creep(creep_lookup[7], -15000.2, 8911.7)
+    new Creep(creep_lookup[7], -14472.1, 8182.7)
+    new Creep(creep_lookup[7], -12125.2, 9114.6)
+    new Creep(creep_lookup[7], -12009.1, 7651.9)
+    new Creep(creep_lookup[7], -12495.2, 8221.5)
+
+    new Creep(creep_lookup[8], -14365.7, 11054.6)
+    new Creep(creep_lookup[8], -13768.6, 11013.8)
+    new Creep(creep_lookup[8], -13337.3, 11162.)
+    new Creep(creep_lookup[8], -14512.9, 11751.2)
+    new Creep(creep_lookup[8], -14160.7, 12171.9)
+    new Creep(creep_lookup[8], -13369.4, 12026.6)
+    new Creep(creep_lookup[8], -12020.4, 11812.1)
+    new Creep(creep_lookup[8], -11481.9, 11877.2)
+    new Creep(creep_lookup[8], -11688.9, 12311.7)
+    new Creep(creep_lookup[8], -11930.7, 12808.3)
+    new Creep(creep_lookup[8], -13449.4, 13827.7)
+    new Creep(creep_lookup[8], -13699.4, 14328.7)
+    new Creep(creep_lookup[8], -13048.2, 14421.4)
+    new Creep(creep_lookup[8], -11933.3, 14513.9)
+    new Creep(creep_lookup[8], -12259.8, 13985.9)
+    new Creep(creep_lookup[8], -12522.3, 13591.6)
+    new Creep(creep_lookup[8], -12901.2, 12929.9)
+    new Creep(creep_lookup[8], -12411.2, 12526.1)
+    new Creep(creep_lookup[8], -12639.8, 11877.)
+    new Creep(creep_lookup[8], -15307.9, 11731.7)
+    new Creep(creep_lookup[8], -14938., 12761.9)
+    new Creep(creep_lookup[8], -14360.7, 13212.6)
+    new Creep(creep_lookup[8], -13428.5, 13047.6)
+    new Creep(creep_lookup[8], -14331.4, 13670.1)
+    new Creep(creep_lookup[8], -14481.8, 14188.4)
+    new Creep(creep_lookup[8], -14987., 14628.)
     
+    new Creep(creep_lookup[9], -14793.9, -6329.7)
+    new Creep(creep_lookup[9], -14461.8, -6133.7)
+    new Creep(creep_lookup[9], -14048.8, -6240.6)
+    new Creep(creep_lookup[9], -13679.4, -6068.1)
+    new Creep(creep_lookup[9], -13264.4, -6194.2)
+    new Creep(creep_lookup[9], -12990.6, -5855.3)
+    new Creep(creep_lookup[9], -12556.6, -5669.8)
+    new Creep(creep_lookup[9], -12244.7, -5274.1)
+    new Creep(creep_lookup[9], -12518.3, -4890.1)
+    new Creep(creep_lookup[9], -12006.7, -4710.6)
+    new Creep(creep_lookup[9], -12417.5, -4207.4)
+    new Creep(creep_lookup[9], -11997.7, -3996.8)
+    new Creep(creep_lookup[9], -12504.3, -3156.4)
+    new Creep(creep_lookup[9], -12029.9, -3093.7)
+    new Creep(creep_lookup[9], -12048.2, -2660.6)
+    new Creep(creep_lookup[9], -12611.5, -2650.1)
+    new Creep(creep_lookup[9], -12922.2, -2340.6)
+    new Creep(creep_lookup[9], -11869.2, -2237.3)
+    new Creep(creep_lookup[9], -12823.6, -3845.9)
+    new Creep(creep_lookup[9], -13324., -3563.9)
+    new Creep(creep_lookup[9], -13850.1, -3490.5)
+    new Creep(creep_lookup[9], -14336.5, -4002.)
+    new Creep(creep_lookup[9], -14679.1, -4034.5)
+    new Creep(creep_lookup[9], -14482.3, -4620.8)
+    new Creep(creep_lookup[9], -13082.1, -4518.5)
+    new Creep(creep_lookup[9], -13083.6, -5033.5)
+
+    new Creep(creep_lookup[10], -14815.3, -10078.4)
+    new Creep(creep_lookup[10], -14436.5, -10108.6)
+    new Creep(creep_lookup[10], -14339.3, -9787.8)
+    new Creep(creep_lookup[10], -13835.3, -9856.3)
+    new Creep(creep_lookup[10], -13992.8, -9321.1)
+    new Creep(creep_lookup[10], -13581.6, -9598.2)
+    new Creep(creep_lookup[10], -13879.4, -8845.2)
+    new Creep(creep_lookup[10], -14246.3, -9049.)
+    new Creep(creep_lookup[10], -13576.5, -8492.8)
+    new Creep(creep_lookup[10], -13830.7, -8241.2)
+    new Creep(creep_lookup[10], -14189.9, -8505.9)
+    new Creep(creep_lookup[10], -14597.9, -8710.5)
+
+    new Creep(creep_lookup[11], 2765.4, 11990.3)
+    new Creep(creep_lookup[11], 3192.8, 11863.9)
+    new Creep(creep_lookup[11], 4320.7, 11980.7)
+    new Creep(creep_lookup[11], 4503.5, 12242.4)
+    new Creep(creep_lookup[11], 4039., 13071.9)
+    new Creep(creep_lookup[11], 3593.1, 13185.8)
+    new Creep(creep_lookup[11], 2454.7, 13204.6)
+    new Creep(creep_lookup[11], 3069.1, 14146.7)
+    new Creep(creep_lookup[11], 3607.9, 14145.5)
+    new Creep(creep_lookup[11], 3902.4, 14598.5)
+    new Creep(creep_lookup[11], 4668.3, 14134.5)
+    new Creep(creep_lookup[11], 4812.6, 14612.9)
+
+    new Creep(creep_lookup[12], 2489.2, 11815.6)
+    new Creep(creep_lookup[12], 3505., 11993.9)
+    new Creep(creep_lookup[12], 3983.6, 11873.8)
+    new Creep(creep_lookup[12], 4561.7, 12712.3)
+    new Creep(creep_lookup[12], 3142.1, 13153.1)
+    new Creep(creep_lookup[12], 2714.3, 13246.9)
+    new Creep(creep_lookup[12], 2471., 13575.8)
+    new Creep(creep_lookup[12], 2605., 14035.9)
+    new Creep(creep_lookup[12], 3899.3, 14099.)
+    new Creep(creep_lookup[12], 4277.5, 14233.6)
+    new Creep(creep_lookup[12], 4886.9, 14357.2)
+
+    new Creep(creep_lookup[13], 7140.3, 14205.1)
+    new Creep(creep_lookup[13], 7428.2, 14196.2)
+    new Creep(creep_lookup[13], 7139.1, 13752.)
+    new Creep(creep_lookup[13], 7427., 13743.1)
+    new Creep(creep_lookup[13], 7163., 13336.6)
+    new Creep(creep_lookup[13], 7450.9, 13327.7)
+    new Creep(creep_lookup[13], 7163.2, 12871.5)
+    new Creep(creep_lookup[13], 7451.1, 12862.6)
+    new Creep(creep_lookup[13], 7154.8, 12443.3)
+    new Creep(creep_lookup[13], 7442.7, 12434.4)
+
+    new Creep(creep_lookup[14], -4757.9, -6079.6)
+    new Creep(creep_lookup[14], -4500.9, -5803.9)
+    new Creep(creep_lookup[14], -4999.7, -5294.7)
+    new Creep(creep_lookup[14], -4356.5, -5113.1)
+    new Creep(creep_lookup[14], -4790.6, -4519.7)
+    new Creep(creep_lookup[14], -3694.3, -5386.9)
+    new Creep(creep_lookup[14], -3358.8, -4973.8)
+    new Creep(creep_lookup[14], -3280.4, -5722.1)
+    new Creep(creep_lookup[14], -2808.8, -5243.2)
+    new Creep(creep_lookup[14], -3162.6, -6179.2)
+    new Creep(creep_lookup[14], -5086.2, -6464.6)
+    new Creep(creep_lookup[14], -5132., -4311.6)
+
+    new Creep(creep_lookup[15], -4275., 7430.)
+    new Creep(creep_lookup[15], -4215.6, 7142.6)
+    new Creep(creep_lookup[15], -4002.8, 7510.9)
+    new Creep(creep_lookup[15], -3901.1, 7125.6)
+    new Creep(creep_lookup[15], -3743.5, 7585.4)
+    new Creep(creep_lookup[15], -3570.7, 7302.6)
+    new Creep(creep_lookup[15], -3351.4, 7576.7)
+    new Creep(creep_lookup[15], -3471.9, 7869.4)
+    new Creep(creep_lookup[15], -3687.5, 8033.3)
+    new Creep(creep_lookup[15], -3759.1, 8222.6)
+    new Creep(creep_lookup[15], -4007.4, 8314.9)
+    new Creep(creep_lookup[15], -4053.2, 8118.3)
+    new Creep(creep_lookup[15], -4262.5, 8283.8)
+    new Creep(creep_lookup[15], -4428.8, 8154.5)
+    new Creep(creep_lookup[15], -4693.5, 8253.5)
+    new Creep(creep_lookup[15], -4879., 8138.2)
+    new Creep(creep_lookup[15], -5042.9, 8425.5)
+    new Creep(creep_lookup[15], -5269.5, 8521.1)
+    new Creep(creep_lookup[15], -5107.7, 8810.2)
+    new Creep(creep_lookup[15], -5212.1, 9096.6)
+    new Creep(creep_lookup[15], -4998.6, 9432.3)
+    new Creep(creep_lookup[15], -5007.5, 9906.4)
+    new Creep(creep_lookup[15], -4810.6, 9362.7)
+    new Creep(creep_lookup[15], -4796.5, 9810.)
+    new Creep(creep_lookup[15], -4644.5, 9562.9)
+    new Creep(creep_lookup[15], -4754.2, 10103.3)
+    new Creep(creep_lookup[15], -4849.7, 10395.4)
+    new Creep(creep_lookup[15], -4475.7, 10340.8)
+    new Creep(creep_lookup[15], -4523.7, 10058.6)
+    new Creep(creep_lookup[15], -4389.9, 9811.2)
+    new Creep(creep_lookup[15], -4329., 9586.7)
+    new Creep(creep_lookup[15], -4203.1, 10252.9)
+    new Creep(creep_lookup[15], -4121.5, 9939.9)
+    new Creep(creep_lookup[15], -4117.4, 9676.2)
+    new Creep(creep_lookup[15], -4155.7, 9450.6)
+    new Creep(creep_lookup[15], -3861.7, 9485.7)
+    new Creep(creep_lookup[15], -3839.6, 9845.2)
+    new Creep(creep_lookup[15], -3815.7, 10318.2)
+    new Creep(creep_lookup[15], -3944.2, 10167.6)
+    new Creep(creep_lookup[15], -3478.5, 10294.)
+    new Creep(creep_lookup[15], -3615.5, 9959.3)
+    new Creep(creep_lookup[15], -3546.1, 9642.5)
+    new Creep(creep_lookup[15], -3656.1, 9414.1)
+    new Creep(creep_lookup[15], -3417.8, 9482.1)
+    new Creep(creep_lookup[15], -3365.3, 10142.6)
+    new Creep(creep_lookup[15], -3395.2, 9888.4)
+
+    new Creep(creep_lookup[16], -4783.8, 14102.9)
+    new Creep(creep_lookup[16], -4427., 14063.4)
+    new Creep(creep_lookup[16], -4819.5, 13523.7)
+    new Creep(creep_lookup[16], -4429.5, 13494.9)
+    new Creep(creep_lookup[16], -4777.4, 12827.1)
+    new Creep(creep_lookup[16], -4437.1, 12816.9)
+    new Creep(creep_lookup[16], -4545.6, 12201.1)
+    new Creep(creep_lookup[16], -4069.5, 12294.7)
+    new Creep(creep_lookup[16], -2869.3, 12660.5)
+    new Creep(creep_lookup[16], -2509.5, 13262.8)
+    new Creep(creep_lookup[16], -2772.6, 13610.9)
+    new Creep(creep_lookup[16], -2812., 13096.1)
+    new Creep(creep_lookup[16], -2433.1, 12741.7)
+    new Creep(creep_lookup[16], -2443., 13759.6)
+    new Creep(creep_lookup[16], -2738.5, 14172.5)
+    new Creep(creep_lookup[16], -2473.9, 14246.3)
+    new Creep(creep_lookup[16], -2760.9, 15020.9)
+    new Creep(creep_lookup[16], -2379.6, 14865.7)
+    new Creep(creep_lookup[16], -2001.7, 15075.5)
+    new Creep(creep_lookup[16], -1784., 14374.5)
+    new Creep(creep_lookup[16], -1429.4, 14281.8)
+    new Creep(creep_lookup[16], -1688.6, 13921.2)
+    new Creep(creep_lookup[16], -1401.8, 13660.9)
+    new Creep(creep_lookup[16], -1736.4, 13398.7)
+    new Creep(creep_lookup[16], -1467.2, 13180.2)
+    new Creep(creep_lookup[16], -1789.5, 12909.6)
+    new Creep(creep_lookup[16], -1493.3, 12733.9)
+    new Creep(creep_lookup[16], -1776.5, 12407.5)
+    new Creep(creep_lookup[16], -1414.2, 12260.)
+    new Creep(creep_lookup[16], -978.7, 12463.7)
+    new Creep(creep_lookup[16], -668., 12251.4)
+    new Creep(creep_lookup[16], -642.1, 13261.8)
+    new Creep(creep_lookup[16], -924.3, 13448.1)
+    new Creep(creep_lookup[16], -629.9, 13829.5)
+    new Creep(creep_lookup[16], -872.2, 14201.3)
+    new Creep(creep_lookup[16], -587.9, 14519.1)
+    new Creep(creep_lookup[16], -833.4, 14795.4)
+    new Creep(creep_lookup[16], -587., 15076.)
+    new Creep(creep_lookup[16], -233.4, 14971.1)
+    new Creep(creep_lookup[16], 362.3, 14587.)
+    new Creep(creep_lookup[16], 12.8, 14449.1)
+    new Creep(creep_lookup[16], 240.1, 14185.1)
+    new Creep(creep_lookup[16], -68.2, 14037.9)
+    new Creep(creep_lookup[16], 315.7, 13742.)
+    new Creep(creep_lookup[16], -.0, 13524.8)
+    new Creep(creep_lookup[16], 308., 13193.)
+    new Creep(creep_lookup[16], -19.7, 13055.2)
+    new Creep(creep_lookup[16], 333.8, 12762.7)
+    new Creep(creep_lookup[16], -7.6, 12558.8)
+    new Creep(creep_lookup[16], 350.2, 12368.5)
+    new Creep(creep_lookup[16], -2867.7, 14559.8)
+
+    new Creep(creep_lookup[17], -9388.5, -5304.5)
+    new Creep(creep_lookup[17], -8863.6, -5460.6)
+    new Creep(creep_lookup[17], -8668.9, -5152.1)
+    new Creep(creep_lookup[17], -8108.6, -5453.9)
+    new Creep(creep_lookup[17], -8539.6, -4553.2)
+    new Creep(creep_lookup[17], -9058.9, -4334.5)
+    new Creep(creep_lookup[17], -9488.1, -4526.7)
+    new Creep(creep_lookup[17], -8023.1, -4337.1)
+    new Creep(creep_lookup[17], -7781.9, -3873.8)
+    new Creep(creep_lookup[17], -7443.1, -3536.5)
+    new Creep(creep_lookup[17], -8000.7, -3194.8)
+    new Creep(creep_lookup[17], -8475.3, -3172.2)
+    new Creep(creep_lookup[17], -7977.2, -2488.3)
+    new Creep(creep_lookup[17], -9304.3, -3327.9)
+    new Creep(creep_lookup[17], -9644.6, -2873.3)
+    new Creep(creep_lookup[17], -9223.6, -2715.1)
+    new Creep(creep_lookup[17], -9642.7, -3627.5)
+    new Creep(creep_lookup[17], -7527.3, -5484.4)
+    new Creep(creep_lookup[17], -7100.4, -5219.8)
+    new Creep(creep_lookup[17], -7622.2, -2609.1)
+
+    new Creep(creep_lookup[18], -8770., 10894.8)
+    new Creep(creep_lookup[18], -8873.2, 12457.8)
+    new Creep(creep_lookup[18], -8064.7, 12827.7)
+    new Creep(creep_lookup[18], -7131.5, 14976.5)
+    new Creep(creep_lookup[18], -8742.7, 13760.7)
+    new Creep(creep_lookup[18], -9158.8, 14291.)
+    new Creep(creep_lookup[18], -6670.2, 7880.8)
+    new Creep(creep_lookup[18], -6507.8, 7078.)
+    new Creep(creep_lookup[18], -6750.7, 9551.3)
+    new Creep(creep_lookup[18], -6876.6, 10806.8)
+    new Creep(creep_lookup[18], -6716.6, 10259.8)
+    new Creep(creep_lookup[18], -6934.1, 13520.)
+    new Creep(creep_lookup[18], -7804.9, 6826.)
+    new Creep(creep_lookup[18], -7059.5, 12869.6)
+    new Creep(creep_lookup[18], -7928.6, 13708.7)
+    new Creep(creep_lookup[18], -7733.6, 14469.6)
+    new Creep(creep_lookup[18], -7485.8, 15140.4)
+    new Creep(creep_lookup[18], -9156.5, 13784.7)
+    new Creep(creep_lookup[18], -9477.2, 14666.3)
+    new Creep(creep_lookup[18], -9374.9, 12165.6)
+    new Creep(creep_lookup[18], -8682.5, 9543.)
+    new Creep(creep_lookup[18], -6911.5, 8331.2)
+    new Creep(creep_lookup[18], -6744.8, 7382.2)
+    new Creep(creep_lookup[18], -7044.7, 6821.3)
+    new Creep(creep_lookup[18], -8181.9, 7160.5)
+    new Creep(creep_lookup[18], -9481.9, 7072.3)
+    new Creep(creep_lookup[18], -9651.9, 7969.8)
+    new Creep(creep_lookup[18], -7944.7, 10934.6)
+    new Creep(creep_lookup[18], -7815.7, 12057.6)
+    new Creep(creep_lookup[18], -9026.4, 6848.3)
+    new Creep(creep_lookup[18], -8413.3, 6831.6)
+    new Creep(creep_lookup[18], -9222.1, 7754.9)
+    new Creep(creep_lookup[18], -8778.8, 8595.9)
+    new Creep(creep_lookup[18], -7732.1, 9779.6)
+    new Creep(creep_lookup[18], -9095.2, 9803.3)
+    new Creep(creep_lookup[18], -9590., 10390.3)
+
+    new Creep(creep_lookup[19], -7792.1, 7248.4)
+    new Creep(creep_lookup[19], -7908.6, 8889.9)
+    new Creep(creep_lookup[19], -8798.7, 10099.6)
+    new Creep(creep_lookup[19], -8226., 10636.6)
+    new Creep(creep_lookup[19], -7940.4, 11474.2)
+    new Creep(creep_lookup[19], -8601.1, 11872.3)
+    new Creep(creep_lookup[19], -9570.8, 12514.5)
+    new Creep(creep_lookup[19], -9480.5, 11722.3)
+    new Creep(creep_lookup[19], -9477.6, 13831.8)
+    new Creep(creep_lookup[19], -8579.4, 14378.1)
+    new Creep(creep_lookup[19], -7831.1, 14977.)
+    new Creep(creep_lookup[19], -7802.7, 13997.)
+    new Creep(creep_lookup[19], -6817.4, 13990.2)
+    new Creep(creep_lookup[19], -6783.1, 13080.5)
+    new Creep(creep_lookup[19], -7076.7, 12152.2)
+    new Creep(creep_lookup[19], -7617., 12300.3)
+    new Creep(creep_lookup[19], -9621., 8505.5)
+    new Creep(creep_lookup[19], -7081.3, 7260.3)
+    new Creep(creep_lookup[19], -8338.2, 9687.3)
+    new Creep(creep_lookup[19], -7305.8, 11421.5)
+    new Creep(creep_lookup[19], -7765.8, 7729.)
+    new Creep(creep_lookup[19], -8648.5, 6633.5)
+    new Creep(creep_lookup[19], -8930.8, 7902.6)
+    new Creep(creep_lookup[19], -8937.6, 8268.5)
+    new Creep(creep_lookup[19], -8329.2, 8666.6)
+    new Creep(creep_lookup[19], -7775.5, 8544.4)
+    new Creep(creep_lookup[19], -7470.8, 8841.2)
+    new Creep(creep_lookup[19], -8179.3, 10039.3)
+    new Creep(creep_lookup[19], -7226.8, 10843.3)
+    new Creep(creep_lookup[19], -8024.7, 12369.3)
+    new Creep(creep_lookup[19], -6540.4, 13723.9)
+
+    new Creep(creep_lookup[20], 6435., -1894.1)
+    new Creep(creep_lookup[20], 6438.7, -2248.3)
+    new Creep(creep_lookup[20], 6154.1, -2604.)
+    new Creep(creep_lookup[20], 6038.2, -2199.1)
+    new Creep(creep_lookup[20], 5904.8, -1786.5)
+    new Creep(creep_lookup[20], 5551.3, -1965.8)
+    new Creep(creep_lookup[20], 5381.7, -2323.9)
+    new Creep(creep_lookup[20], 5257.4, -2641.1)
+    new Creep(creep_lookup[20], 5213.1, -1761.3)
+    new Creep(creep_lookup[20], 6757.6, -1645.8)
+
+    new Creep(creep_lookup[21], -10306.4, 4076.3)
+    new Creep(creep_lookup[21], -10005.8, 3398.9)
+    new Creep(creep_lookup[21], -10118.7, 2897.8)
+    new Creep(creep_lookup[21], -9694.7, 2524.1)
+    new Creep(creep_lookup[21], -9428.9, 1948.5)
+    new Creep(creep_lookup[21], -7637.7, 1943.7)
+    new Creep(creep_lookup[21], -8193.2, 1672.9)
+    new Creep(creep_lookup[21], -8126.7, 2372.8)
+    new Creep(creep_lookup[21], -8402.5, 2766.)
+    new Creep(creep_lookup[21], -8881.8, 2708.9)
+    new Creep(creep_lookup[21], -8811.2, 3189.8)
+    new Creep(creep_lookup[21], -9304.6, 3306.9)
+    new Creep(creep_lookup[21], -9142.7, 3832.2)
+    new Creep(creep_lookup[21], -9673.4, 4347.6)
+    new Creep(creep_lookup[21], -9456.6, 3835.1)
+    new Creep(creep_lookup[21], -9612.5, 4663.)
+    new Creep(creep_lookup[21], -9928.1, 4934.5)
+    new Creep(creep_lookup[21], -9738.6, 5210.6)
+    new Creep(creep_lookup[21], -9288.5, 4243.4)
+    new Creep(creep_lookup[21], -8529.3, 2186.1)
+
+    new Creep(creep_lookup[22], -6915.4, 3983.4)
+    new Creep(creep_lookup[22], -6857., 3524.6)
+    new Creep(creep_lookup[22], -7127.3, 3460.5)
+    new Creep(creep_lookup[22], -6397.8, 3139.2)
+    new Creep(creep_lookup[22], -6544., 3469.7)
+    new Creep(creep_lookup[22], -6331.6, 3799.7)
+    new Creep(creep_lookup[22], -6722.1, 4353.1)
+    new Creep(creep_lookup[22], -6231.4, 4227.2)
+    new Creep(creep_lookup[22], -7045.6, 2863.2)
+    new Creep(creep_lookup[22], -6644.2, 2934.8)
+
+    new Creep(creep_lookup[23], 5236.1, -12937.8)
+    new Creep(creep_lookup[23], 4818.5, -12457.3)
+    new Creep(creep_lookup[23], 5432.7, -12048.3)
+    new Creep(creep_lookup[23], 4864.3, -11493.7)
+    new Creep(creep_lookup[23], 5190.9, -10875.7)
+    new Creep(creep_lookup[23], 5575.9, -11433.9)
+    new Creep(creep_lookup[23], 6112.7, -11116.9)
+    new Creep(creep_lookup[23], 5871.2, -10670.6)
+    new Creep(creep_lookup[23], 5516.4, -10235.7)
+    new Creep(creep_lookup[23], 6100.6, -10189.3)
+    new Creep(creep_lookup[23], 6007., -9673.8)
+    new Creep(creep_lookup[23], 5210.1, -10415.4)
+
+    new Creep(creep_lookup[24], -12201., -15223.2)

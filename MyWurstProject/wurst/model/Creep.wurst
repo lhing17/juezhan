@@ -1,16 +1,89 @@
 package Creep
 
-import Enemy
+// standard imports
 import ClosureTimers
 import Event
 
-@configurable player creep_player = Player(12)
+// standard imports
+import HashList
+
+// custom imports
+import Enemy
+import GameConfiguration
+import Common
 
 // FIXME 更改野怪的配置
 let creep_lookup = [
-    'u001',
-    'u002'
+    'nwlt', // wolf
+    'nqb2', // boar
+    'nass', // horse thief
+    'nfrl', // bear
+    'nqb3',
+    'ngns',
+    'nanb',
+    'oshm',
+    'odoc',
+    'orai',
+    'nubw',
+    'nsqo',
+    'nhrr',
+    'nomg',
+    'nnwr',
+    'nfor',
+    'hsor',
+    'owar',
+    'ntkt',
+    'nogm',
+    'opeo',
+    'ohun',
+    'nw2w',
+    'hwat',
+    'ndrw',
+    'nbdw',
+    'nowb',
+    'efon',
+    'ndqv',
+    'ndqs',
+    'nfov',
+    'ndtb',
+    'nsrh',
+    'nogr',
+    'nwrg',
+    'nrzb',
+    'nfpu',
+    'nmpg',
+    'ntkc',
+    'nrvi',
+    'nsgn',
+    'nsgb',
+    'nwzr',
+    'nstl',
+    'hmtt',
+    1852207203,
+    1853056884,
+    1852861538,
+    1852207212,
+    1852270642,
+    1852663652,
+    1852207984,
+    1853320818,
+    1853058150,
+    1853323879,
+    1869050475,
+    'nfrl',
+    1853252716,
+    1852794732,
+    1851944036,
+    1852141158,
+    1752395892,
+    1969976430,
+    1869836407,
+    'njgb',
+    1751871081,
+    1751543663
 ]
+
+HashList<Creep> creepList = new HashList<Creep>()
 
 public function int.toCreepId() returns int
     return creep_lookup[this]
@@ -18,14 +91,28 @@ public function int.toCreepId() returns int
 /**野怪实体类**/
 public class Creep extends Enemy
     real reviveTime //复活（重新刷新）时间
+    EventListener listener
+
+    construct(int unitId, real x, real y)
+        super(CREEP_PLAYER, unitId, vec2(x, y))
+        this.reviveTime = (0.18 - 0.01 * getPlayerNumber()) * u.getPointValue()
+        this.u.setMana(0)
+        listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
+        creepList.add(this)
+
     construct(int unitId, vec2 pos, real reviveTime)
-        super(creep_player, unitId, pos)
+        super(CREEP_PLAYER, unitId, pos)
         this.reviveTime = reviveTime
-        EventListener.add(u, EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
+        this.u.setMana(0)
+        listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
+        creepList.add(this)
+
     function onDeath()
-        var ut = GetTriggerUnit()
-        doAfter(reviveTime) ->
-            this.u = createUnit(creep_player, ut.getTypeId(), pos, bj_UNIT_FACING.asAngleDegrees())
+        let unitId = GetTriggerUnit().getTypeId()
+        if GetTriggerUnit() == u
+            doAfter(reviveTime) ->
+                this.u = createUnit(CREEP_PLAYER, unitId, pos, getRandomFacing())
+
     function getReviveTime() returns real 
         return this.reviveTime
     
@@ -34,3 +121,52 @@ public class Creep extends Enemy
     
     ondestroy
         KillUnit(u)
+        destroy listener
+
+init
+    new Creep(creep_lookup[0], 1456.2, -2702.9)
+    new Creep(creep_lookup[0], 1292.4, -3062.2)
+    new Creep(creep_lookup[0], 976., -2795.9)
+    new Creep(creep_lookup[0], 792.7, -3097.9)
+    new Creep(creep_lookup[0], 588.4, -2846.8)
+    new Creep(creep_lookup[0], 1704.9, -3005.6)
+    new Creep(creep_lookup[1], 776.3, -4506.1)
+    new Creep(creep_lookup[1], 1226.6, -4653.)
+    new Creep(creep_lookup[1], 1169.5, -5100.4)
+    new Creep(creep_lookup[2], -12157., 824.7)
+    new Creep(creep_lookup[2], -11958.4, 1297.8)
+    new Creep(creep_lookup[2], -12041.7, 2502.1)
+    new Creep(creep_lookup[2], -11753.8, 2970.5)
+    new Creep(creep_lookup[2], -12365.2, 3640.6)
+    new Creep(creep_lookup[2], -13564.5, 3750.5)
+    new Creep(creep_lookup[2], -14561.2, 3817.1)
+    new Creep(creep_lookup[2], -14973.8, 2948.4)
+    new Creep(creep_lookup[2], -15112.2, 2181.7)
+    new Creep(creep_lookup[2], -11556.2, 1961.9)
+    new Creep(creep_lookup[3], -14365.7, 11054.6)
+    new Creep(creep_lookup[3], -13768.6, 11013.8)
+    new Creep(creep_lookup[3], -13337.3, 11162.)
+    new Creep(creep_lookup[3], -14512.9, 11751.2)
+    new Creep(creep_lookup[3], -14160.7, 12171.9)
+    new Creep(creep_lookup[3], -13369.4, 12026.6)
+    new Creep(creep_lookup[3], -12020.4, 11812.1)
+    new Creep(creep_lookup[3], -11481.9, 11877.2)
+    new Creep(creep_lookup[3], -11688.9, 12311.7)
+    new Creep(creep_lookup[3], -11930.7, 12808.3)
+    new Creep(creep_lookup[3], -13449.4, 13827.7)
+    new Creep(creep_lookup[3], -13699.4, 14328.7)
+    new Creep(creep_lookup[3], -13048.2, 14421.4)
+    new Creep(creep_lookup[3], -11933.3, 14513.9)
+    new Creep(creep_lookup[3], -12259.8, 13985.9)
+    new Creep(creep_lookup[3], -12522.3, 13591.6)
+    new Creep(creep_lookup[3], -12901.2, 12929.9)
+    new Creep(creep_lookup[3], -12411.2, 12526.1)
+    new Creep(creep_lookup[3], -12639.8, 11877.)
+    new Creep(creep_lookup[3], -15307.9, 11731.7)
+    new Creep(creep_lookup[3], -14938., 12761.9)
+    new Creep(creep_lookup[3], -14360.7, 13212.6)
+    new Creep(creep_lookup[3], -13428.5, 13047.6)
+    new Creep(creep_lookup[3], -14331.4, 13670.1)
+    new Creep(creep_lookup[3], -14481.8, 14188.4)
+    new Creep(creep_lookup[3], -14987., 14628.)
+    

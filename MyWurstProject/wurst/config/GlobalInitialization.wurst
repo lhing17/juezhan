@@ -149,14 +149,13 @@ public let SOUND_SELL_ITEM = new SoundDefinition("Abilities\\Spells\\Items\\Reso
 public Table playerNames = new Table()
 
 /* 刷怪点 */
-// FIXME
 public let SPAWN_LOC=[
-    vec2(-13600, 2900),
-    vec2(200, 200),
-    vec2(300, 300)
+    vec2(-3080, 4200),
+    vec2(-790, 5730),
+    vec2(1410, 4236)
 ]
 
-public let BACK_SPAWN_LOC = vec2(400, 400)
+public let BACK_SPAWN_LOC = vec2(-700, -5400)
 
  //=============================================================
  // 全局变量

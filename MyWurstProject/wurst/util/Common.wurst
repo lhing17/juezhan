@@ -198,4 +198,5 @@ public function Hero.addAward(Award award, boolean showHint)
             if showHint
                 printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经验+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
 
-
+public function getRandomFacing() returns angle
+    return GetRandomReal(0, 360).asAngleDegrees()

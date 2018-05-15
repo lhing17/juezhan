@@ -11,7 +11,7 @@ import Task
 import Hero
 import Common
 import GlobalInitialization
-import NpcConstant
+import NpcInitializer
 import ItemIdConstant
 
 /* 初始化历练 */

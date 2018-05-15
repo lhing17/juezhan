@@ -80,7 +80,7 @@ public class Creep extends Enemy
         KillUnit(u)
         destroy listener
 
-init
+function initCreep1()
     new Creep(creep_lookup[0], 1456.2, -2702.9)
     new Creep(creep_lookup[0], 1292.4, -3062.2)
     new Creep(creep_lookup[0], 976., -2795.9)
@@ -321,6 +321,7 @@ init
     new Creep(creep_lookup[15], -3365.3, 10142.6)
     new Creep(creep_lookup[15], -3395.2, 9888.4)
 
+function initCreep2()
     new Creep(creep_lookup[16], -4783.8, 14102.9)
     new Creep(creep_lookup[16], -4427., 14063.4)
     new Creep(creep_lookup[16], -4819.5, 13523.7)
@@ -520,3 +521,10 @@ init
     new Creep(creep_lookup[23], 5210.1, -10415.4)
 
     new Creep(creep_lookup[24], -12201., -15223.2)
+init
+    initCreep1()
+    // new Thread to avoid Wc3 micro op limitation
+    ExecuteFunc("initCreep2") 
+    
+
+    

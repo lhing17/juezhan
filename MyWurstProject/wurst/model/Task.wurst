@@ -142,17 +142,16 @@ public class KillingTaskHandler implements TaskHandler
         // the dying creep id is not in the task killing list.
         if not whichTask.killCreepMap.hasKey(u.getTypeId()) or whichTask.status == 1
             return
-
+        if killCounter.hasKey(u.getTypeId())
+            killCounter.put(u.getTypeId(), killCounter.get(u.getTypeId()) + 1)
+        else
+            killCounter.put(u.getTypeId(), 1)
         if isCompleted(whichTask)
             giveAwards(whichTask)
             whichTask.status = 1
             whichTask.hero.doneTasks.add(whichTask)
             whichTask.hero.ongoingTasks.remove(whichTask)
         else
-            if killCounter.hasKey(u.getTypeId())
-                killCounter.put(u.getTypeId(), killCounter.get(u.getTypeId()) + 1)
-            else
-                killCounter.put(u.getTypeId(), 1)
             showProgress(whichTask)        
         
     /** checks whether the killing task is completed **/

@@ -39,7 +39,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_EXP_COEFF, 0.7))
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
-                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895371))
+                    awardList.add(new Award(1227895371, AwardType.AWARD_TYPE_ITEM))
                     Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_SOUTH_YANGTZ_SEVEN_MONSTER, 
                         "|cFFFFCC00丘处机：|r |cFF99FFCC请前往挑战|r|cFFADFF2F江南七怪|r\n",
                         killCreepMap, awardList, new KillingTaskHandler())
@@ -57,7 +57,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
                     if hero.denomination != DENOMINATION_FREE
-                        awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895642))
+                        awardList.add(new Award(1227895642, AwardType.AWARD_TYPE_ITEM))
                     Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_EIGHTEEN_LOHAN_MATRIX, 
                         "|cFFFFCC00戒律主持：|r |cFF99FFCC想证明自己的能力就要通关少林|r|cFFADFF2F十八罗汉阵",
                         killCreepMap, awardList, new KillingTaskHandler())
@@ -74,7 +74,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_EXP_COEFF, 1.6))
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
-                    awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895374))
+                    awardList.add(new Award(1227895374, AwardType.AWARD_TYPE_ITEM))
                     Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_DESPICABLE_GUYS, 
                         "|cFFFFCC00黄蓉：|r|cFFADFF2F十恶不赦 |r|cFF99FFCC危害武林江湖多年，你须在|r|cFFADFF2F150秒内|r|cFF99FFCC击杀超过100只，才能完成任务",
                         killCreepMap, awardList, new KillingTaskHandler())

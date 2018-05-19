@@ -97,6 +97,7 @@ public function vec2FromIndex(int index) returns vec2
 
 public function Hero.addAward(Award award, boolean showHint)
     let value = award.value
+    let intValue = award.intValue
     if not percentPossiblity(award.percentage.toReal())
         return
     switch(award.awardType)
@@ -165,10 +166,10 @@ public function Hero.addAward(Award award, boolean showHint)
             this.expCoeff += value
             if showHint
                 printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励历练系数+" + value.toString() + "|r", 15, this.u.getOwner())
-        case AWARD_TYPE_ITEM
-            this.u.addItem(value.toInt())
+        case AWARD_TYPE_ITEM            
+            this.u.addItem(intValue)
             if showHint
-                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(value.toInt()) + "|r", 15, this.u.getOwner())
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(intValue) + "|r", 15, this.u.getOwner())
         case AWARD_TYPE_HP
             this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value.toInt())
             if showHint

@@ -28,9 +28,15 @@ public enum AwardType
 
 public class Award
     AwardType awardType
+    int intValue
     real value
     int percentage
 
+    construct(int value, AwardType awardType)
+        this.awardType = awardType
+        this.intValue = value
+        this.percentage = 100
+        
     construct(AwardType awardType, real value)
         this.awardType = awardType
         this.value = value

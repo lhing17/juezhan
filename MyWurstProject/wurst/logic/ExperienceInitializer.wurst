@@ -11,6 +11,7 @@ import Task
 import Hero
 import Common
 import GlobalInitialization
+import TaskIdConstant
 
 /* 初始化历练 */
 
@@ -39,7 +40,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895371))
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 0, 
+                    Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_SOUTH_YANGTZ_SEVEN_MONSTER, 
                         "|cFFFFCC00丘处机：|r |cFF99FFCC请前往挑战|r|cFFADFF2F江南七怪|r\n",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
@@ -57,7 +58,7 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
                     if hero.denomination != DENOMINATION_FREE
                         awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895642))
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 1, 
+                    Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_EIGHTEEN_LOHAN_MATRIX, 
                         "|cFFFFCC00戒律主持：|r |cFF99FFCC想证明自己的能力就要通关少林|r|cFFADFF2F十八罗汉阵",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
@@ -68,13 +69,13 @@ init
                 conditions.add(new TaskCondition(hero.practice >= 2, "你必须先完成历练2任务"))
                 if evaluateTaskConditions(conditions, hero)
                     IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
-                    killCreepMap.put('ndtb', 18)
+                    killCreepMap.put('ndtb', 100)
                     HashList<Award> awardList = new HashList<Award>()
                     awardList.add(new Award(AwardType.AWARD_TYPE_EXP_COEFF, 1.6))
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ITEM, 1227895374))
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 2, 
+                    Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_DESPICABLE_GUYS, 
                         "|cFFFFCC00黄蓉：|r|cFFADFF2F十恶不赦 |r|cFF99FFCC危害武林江湖多年，你须在|r|cFFADFF2F150秒内|r|cFF99FFCC击杀超过100只，才能完成任务",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
@@ -98,8 +99,8 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
 
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 3, 
-                        "",
+                    Task task = new Task(hero, TASK_TYPE_KILLING, CHALLENGE_BRIGHT_SUMMIT, 
+                        "|cFFFFCC00挑战光明顶",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
                     task.setPeriod(240)
@@ -121,8 +122,8 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
 
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 4, 
-                        "",
+                    Task task = new Task(hero, TASK_TYPE_KILLING, DUEL_ON_MOUNT_HUA, 
+                        "|cFFFFCC00华山论剑",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
                     task.setPeriod(280)
@@ -144,8 +145,8 @@ init
                     awardList.add(new Award(AwardType.AWARD_TYPE_PRACTICE, 1))
                     awardList.add(new Award(AwardType.AWARD_TYPE_ALL_ATTR, 1))
 
-                    Task task = new Task(hero, TASK_TYPE_KILLING, 5, 
-                        "",
+                    Task task = new Task(hero, TASK_TYPE_KILLING, DUEL_ON_ZI_JIN_SUMMIT, 
+                        "|cFFFFCC00决战紫禁之巅",
                         killCreepMap, awardList, new KillingTaskHandler())
                     task.setRepeatTimes(1)
                     task.setPeriod(120)

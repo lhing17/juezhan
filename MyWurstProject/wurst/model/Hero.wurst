@@ -71,7 +71,9 @@ public class Hero
         EventListener.add(u, EVENT_PLAYER_UNIT_DEATH, () -> onDeath())
         EventListener.add(u, EVENT_PLAYER_HERO_LEVEL, () -> onLevelUp())
         kongFuTable = new Table()
-        kongFuList = new HashList<int>
+        kongFuList = new HashList<int>()
+        ongoingTasks = new HashList<Task>()
+        doneTasks = new HashList<Task>()
         
     function canLearnMoreKongFu() returns bool
         return kongFuList.size() < 11

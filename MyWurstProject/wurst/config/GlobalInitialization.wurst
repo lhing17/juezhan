@@ -29,7 +29,7 @@ public let JAIL = vec2(10692,-14847)
 /** 选择门派的地点 **/
 public let SELECT_DENOMINATION_LOC = vec2(1700, -4150)
 /** 英雄出生地点 **/
-public let HERO_BORN_LOC = vec2(10692,-14847) // FIXME 修改为实际英雄出生点
+public let HERO_BORN_LOC = vec2(1585, -2585) 
 /** 鸟贩卖东西等功能使用的临时地点 **/
 public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际地点
 /** 历练1小地图ping点 **/

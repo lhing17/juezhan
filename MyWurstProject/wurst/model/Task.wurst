@@ -46,10 +46,11 @@ public class VisitingNpcHandler implements TaskHandler
     HashList<unit> visitedList = new HashList<unit>()
     override function onCompleteTask(Task whichTask)
         let u = GetTriggerUnit()
-        if not whichTask.visitList.has(u)
+        if not whichTask.visitList.has(u) or whichTask.status == 1
             return
         if isCompleted(whichTask)
             giveAwards(whichTask)
+            whichTask.status = 1
             whichTask.hero.doneTasks.add(whichTask)
             whichTask.hero.ongoingTasks.remove(whichTask)
         else
@@ -80,9 +81,11 @@ public class CollectingItemHandler implements TaskHandler
     IterableMap<int, int> collectCounter = new IterableMap<int, int>()
     override function onCompleteTask(Task whichTask)
         let itm = GetManipulatedItem()
+        if not whichTask.collectItemMap.hasKey(itm.getTypeId()) or whichTask.status == 1
+            return
         Log.debug("From CollectingItemHandler: " + GetTriggerEventId().toIntId().toString())
         if whichTask.virtualItem and GetTriggerEventId() == EVENT_PLAYER_UNIT_PICKUP_ITEM
-            if not isCompleted(whichTask)
+            if not isCompleted(whichTask) 
                 showProgress(whichTask)
                 if collectCounter.hasKey(itm.getTypeId())
                     collectCounter.put(itm.getTypeId(), collectCounter.get(itm.getTypeId()) + 1)
@@ -91,6 +94,7 @@ public class CollectingItemHandler implements TaskHandler
         else
             if isCompleted(whichTask)
                 giveAwards(whichTask)
+                whichTask.status = 1
                 whichTask.hero.doneTasks.add(whichTask)
                 whichTask.hero.ongoingTasks.remove(whichTask)
             else
@@ -136,11 +140,12 @@ public class KillingTaskHandler implements TaskHandler
     override function onCompleteTask(Task whichTask)
         let u = GetTriggerUnit()
         // the dying creep id is not in the task killing list.
-        if not whichTask.killCreepMap.hasKey(u.getTypeId())
+        if not whichTask.killCreepMap.hasKey(u.getTypeId()) or whichTask.status == 1
             return
 
         if isCompleted(whichTask)
             giveAwards(whichTask)
+            whichTask.status = 1
             whichTask.hero.doneTasks.add(whichTask)
             whichTask.hero.ongoingTasks.remove(whichTask)
         else
@@ -198,15 +203,14 @@ public class Task
     /** the type of the task **/
     int taskType 
     
+    /** 0-doing 1-done **/
+    int status = 0
 
     unit taskNpc
 
     /** the unique identification of different kind of task **/
     int taskId
 
-    /** 0-ongoing 1-success 2-fail**/
-    int status = 0
-    
     /** used as the title in time dialog **/
     string taskName
 
@@ -273,6 +277,7 @@ public class Task
         this.hero.ongoingTasks.add(this) 
         this.taskNpc = taskNpc
         this.collectItemMap = map
+        printTimedToPlayer(taskDescription, 15, hero.u.getOwner())
         this.trig = CreateTrigger()
         this.trig.registerUnitInRangeSource(this.taskNpc, 256)
         this.trig.addActionClosure(() -> this.handler.onCompleteTask(this))
@@ -288,6 +293,7 @@ public class Task
         this.handler = handler
         this.hero.ongoingTasks.add(this) 
         this.killCreepMap = map
+        printTimedToPlayer(taskDescription, 15, hero.u.getOwner())
         this.listener = EventListener.add(EVENT_PLAYER_UNIT_DEATH, ()-> handler.onCompleteTask(this))
     
     /** visiting npc **/
@@ -300,6 +306,7 @@ public class Task
         this.handler = handler
         this.hero.ongoingTasks.add(this) 
         this.visitList = visitList
+        printTimedToPlayer(taskDescription, 15, hero.u.getOwner())
         this.trig = CreateTrigger()
         for u in visitList
             this.trig.registerUnitInRangeSource(u, 256)
@@ -317,7 +324,7 @@ public class Task
         var td = CreateTimerDialogBJ(t, title)
         TimerDialogDisplayForPlayerBJ(true, td, this.hero.u.getOwner())
         doAfter(period.toReal()) ->
-            if this.status == 0
+            if hero.getTask(this.taskId) != null
                 printTimedToPlayer(ColorUtils.FAIL +  "时间到，任务失败", 15, this.hero.u.getOwner())
                 DestroyTimerDialog(td)
                 destroy this

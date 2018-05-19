@@ -6,7 +6,7 @@ package NpcInitializer
 import GameConfiguration
 
 
-public let YOU_QI = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-9535, -14820), 0 .asAngleDegrees())
+public let YOU_QI = createUnit(NEUTRAL_NPC_PLAYER, 'o029', vec2(-9535, -14820), 0 .asAngleDegrees())
 public let QIU_CHU_JI = createUnit(NEUTRAL_NPC_PLAYER, 'o00D', vec2(-5498.1, -3020.3), 60.35.asAngleDegrees()) 
 public let DIAN_XIAO_ER = createUnit(NEUTRAL_NPC_PLAYER, 'o007', vec2(1939.6, -2738.2), 217.84.asAngleDegrees())
 public let MA_YU = createUnit(NEUTRAL_NPC_PLAYER, 'o00E', vec2(-5054.2, -3013.2), 129.23.asAngleDegrees())

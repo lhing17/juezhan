@@ -45,16 +45,19 @@ public interface TaskHandler
 public class VisitingNpcHandler implements TaskHandler
     HashList<unit> visitedList = new HashList<unit>()
     override function onCompleteTask(Task whichTask)
-        let u = GetTriggerUnit()
-        if not whichTask.visitList.has(u) or whichTask.status == 1
+        let u = GetTriggerUnit()        
+        if whichTask.status == 1
             return
+        for ut in whichTask.visitList
+            Log.debug(ut.getName() + "与" + u.getName() + "距离：" + ut.getPos().distanceTo(u.getPos()).toString(2))
+            if ut.getPos().distanceTo(u.getPos()) <= 400
+                visitedList.add(ut)
         if isCompleted(whichTask)
             giveAwards(whichTask)
             whichTask.status = 1
             whichTask.hero.doneTasks.add(whichTask)
             whichTask.hero.ongoingTasks.remove(whichTask)
         else
-            visitedList.add(u)
             showProgress(whichTask)    
 
     override function isCompleted(Task whichTask) returns bool
@@ -308,6 +311,7 @@ public class Task
         printTimedToPlayer(taskDescription, 15, hero.u.getOwner())
         this.trig = CreateTrigger()
         for u in visitList
+            Log.debug(u.getName())
             this.trig.registerUnitInRangeSource(u, 256)
         this.trig.addActionClosure(() -> this.handler.onCompleteTask(this))
             

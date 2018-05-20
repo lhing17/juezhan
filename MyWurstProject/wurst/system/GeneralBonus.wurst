@@ -21,6 +21,8 @@ public let BONUS_TYPE_ATTACK = 2
 public let BONUS_TYPE_ARMOR = 3
 /** 奖励类型为攻击速度 **/
 public let BONUS_TYPE_ATTACK_SPEED = 4
+/** 奖励类型为移动速度 **/
+public let BONUS_TYPE_MOVE_SPEED = 5
 
 /** 增加属性模式 **/
 public let MODE_ADD = 0

@@ -51,6 +51,12 @@ public class Hero
     int gender = 0 // 性别 0-女 1-男
     int denomination = 0 // 门派
     real maxDamage = 0 // 最大伤害
+    real dodge = 0 // 闪避
+    real vampire = 0 // 技能吸血
+    real lifeRegeneration = 0 // 生命回复
+    real manaRegeneration = 0 // 法力回复
+    real killRegneration = 0 // 杀怪回复
+    real attackedRegeneration = 0 // 受伤害回复
     boolean learnFirst = false // 是否学第一个门派技能
     boolean learnSecond = false // 是否学第二个门派技能
     boolean learnThird = false // 是否学第三个门派技能

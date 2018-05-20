@@ -3,63 +3,100 @@ package Equipment
 
 // standard imports
 import HashMap
+import Event
+import Hero
+import Common
+import GeneralBonus
 
-// 武器
-EquipmentAttr longLinJianAttr
-EquipmentAttr yiTianJianAttr
-EquipmentAttr tuLongDaoAttr
-EquipmentAttr duanChangAttr
-EquipmentAttr jingYuShanAttr
-EquipmentAttr ziJinDaoAttr
-EquipmentAttr jingGangJianAttr
-EquipmentAttr qiXingShanAttr
-EquipmentAttr yuanYangDaoAttr
-EquipmentAttr daGouBangAttr
-EquipmentAttr junZiJianAttr
-EquipmentAttr sheZhangAttr
-EquipmentAttr shuNvJianAttr
-EquipmentAttr shuangJianHeBiAttr
-EquipmentAttr xueDaoAttr
-EquipmentAttr yuXiaoAttr
-EquipmentAttr jiangHuZhongAttr
-EquipmentAttr zhenYaoOneAttr
-EquipmentAttr zhenYaoTwoAttr
-EquipmentAttr zhenYaoThreeAttr
-EquipmentAttr zhenYaoFourAttr
-EquipmentAttr zhenYaoFiveAttr
-EquipmentAttr dianJinAttr
-EquipmentAttr kaiShanFuAttr
-EquipmentAttr qingTongDaoAttr
-EquipmentAttr qiuYeRenAttr
-EquipmentAttr suoHouQiangAttr
-EquipmentAttr xuanHuaFuAttr
-EquipmentAttr yinXueQiangAttr
-EquipmentAttr qingTongDaoSpecialAttr
+public HashMap<int, EquipmentAttr> equipmentAttrMap = new HashMap<int, EquipmentAttr>()
 
-// 衣服
-EquipmentAttr buYiAttr
-EquipmentAttr caiYiAttr
-EquipmentAttr huPiYiAttr
-EquipmentAttr shePiQiuAttr
-EquipmentAttr kaiYangYiAttr
-EquipmentAttr lieHuoYiAttr
-EquipmentAttr qiXingJinFuAttr
-EquipmentAttr jinChanYiAttr
-EquipmentAttr ruanWeiJiaAttr
-EquipmentAttr liuHeZongHeAttr
-EquipmentAttr poJunWuShuangAttr
-EquipmentAttr jueZhanBaAttr
-EquipmentAttr shaoLinJiaShaAttr
-EquipmentAttr tongShenAttr
+public class Equipment
+    item itm
+    EquipmentAttr equipmentAttr
+    boolean bonus = false
+    int holeNumber // 剩余孔数
+    int hpBonus = 0
+    int defenseBonus = 0
+    int strengthBonus = 0
+    int agilityBonus = 0
+    int intelligenceBonus = 0
+    int perceptionBonus = 0
+    int constitutionBonus = 0
+    int healingSkillBonus = 0
+    int courageBonus = 0
+    int luckBonus = 0
+    int channelBonus = 0
+    int allAttrBonus = 0
 
-// 帽子和鞋子
-EquipmentAttr poJunMaoAttr
-EquipmentAttr mieYunGuanAttr
-EquipmentAttr jueZhanEAttr
-EquipmentAttr poJunXieAttr
-EquipmentAttr shenXingXieAttr
-EquipmentAttr taFengXueAttr
-EquipmentAttr jueZhanKuiAttr  
+
+    construct(item itm, boolean bonus)
+        this.itm = itm
+        this.bonus = bonus
+        this.equipmentAttr = equipmentAttrMap.get(itm.getTypeId())
+        EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, () -> addEquipmentAttr())
+        EventListener.add(EVENT_PLAYER_UNIT_DROP_ITEM, () -> removeEquipmentAttr())
+    
+    function addEquipmentAttr()
+        if GetManipulatedItem() == this.itm and GetTriggerUnit().isHero()
+            let hero = GetTriggerUnit().getHero()
+            hero.u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, equipmentAttr.attack)
+            hero.u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, equipmentAttr.defense + defenseBonus)
+            hero.u.addStr(equipmentAttr.strength + strengthBonus)
+            hero.u.addAgi(equipmentAttr.agility + agilityBonus)
+            hero.u.addInt(equipmentAttr.intelligence + intelligenceBonus)
+
+            hero.perception += equipmentAttr.perception + perceptionBonus + allAttrBonus
+            hero.constitution += equipmentAttr.constitution + constitutionBonus + allAttrBonus
+            hero.healingSkill += equipmentAttr.healingSkill + healingSkillBonus + allAttrBonus
+            hero.courage += equipmentAttr.courage + courageBonus + allAttrBonus
+            hero.luck += equipmentAttr.luck + luckBonus + allAttrBonus
+            hero.channel += equipmentAttr.channel + channelBonus + allAttrBonus
+            hero.uniquePerception += equipmentAttr.uniquePerception
+
+            hero.u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_ADD, equipmentAttr.attackSpeed.toInt())
+            hero.criticalRate += equipmentAttr.criticalRate
+            hero.criticalTimes += equipmentAttr.criticalTimes
+            hero.dodge += equipmentAttr.dodge
+            hero.vampire += equipmentAttr.vampire
+            hero.lifeRegeneration += equipmentAttr.lifeRegeneration
+            hero.manaRegeneration += equipmentAttr.manaRegeneration
+            hero.killRegneration += equipmentAttr.killRegneration
+            hero.attackedRegeneration += equipmentAttr.attackedRegeneration
+            hero.u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, equipmentAttr.maxHp.toInt() + hpBonus)
+            hero.u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, equipmentAttr.maxMana.toInt())
+            hero.u.setGeneralBonus(BONUS_TYPE_MOVE_SPEED, MODE_ADD, equipmentAttr.moveSpeed.toInt())
+            
+
+
+    function removeEquipmentAttr()
+        if GetManipulatedItem() == this.itm and GetTriggerUnit().isHero()
+            let hero = GetTriggerUnit().getHero()
+            hero.u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_SUBSTRACT, equipmentAttr.attack)
+            hero.u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_SUBSTRACT, equipmentAttr.defense + defenseBonus)
+            hero.u.addStr(-equipmentAttr.strength + strengthBonus)
+            hero.u.addAgi(-equipmentAttr.agility + agilityBonus)
+            hero.u.addInt(-equipmentAttr.intelligence + intelligenceBonus)
+
+            hero.perception -= equipmentAttr.perception + perceptionBonus + allAttrBonus
+            hero.constitution -= equipmentAttr.constitution + constitutionBonus + allAttrBonus
+            hero.healingSkill -= equipmentAttr.healingSkill + healingSkillBonus + allAttrBonus
+            hero.courage -= equipmentAttr.courage + courageBonus + allAttrBonus
+            hero.luck -= equipmentAttr.luck + luckBonus + allAttrBonus
+            hero.channel -= equipmentAttr.channel + channelBonus + allAttrBonus
+            hero.uniquePerception -= equipmentAttr.uniquePerception
+
+            hero.u.setGeneralBonus(BONUS_TYPE_ATTACK_SPEED, MODE_SUBSTRACT, equipmentAttr.attackSpeed.toInt())
+            hero.criticalRate -= equipmentAttr.criticalRate
+            hero.criticalTimes -= equipmentAttr.criticalTimes
+            hero.dodge -= equipmentAttr.dodge
+            hero.vampire -= equipmentAttr.vampire
+            hero.lifeRegeneration -= equipmentAttr.lifeRegeneration
+            hero.manaRegeneration -= equipmentAttr.manaRegeneration
+            hero.killRegneration -= equipmentAttr.killRegneration
+            hero.attackedRegeneration -= equipmentAttr.attackedRegeneration
+            hero.u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_SUBSTRACT, equipmentAttr.maxHp.toInt() + hpBonus)
+            hero.u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_SUBSTRACT, equipmentAttr.maxMana.toInt())
+            hero.u.setGeneralBonus(BONUS_TYPE_MOVE_SPEED, MODE_SUBSTRACT, equipmentAttr.moveSpeed.toInt())
 
 public class EquipmentAttr
 
@@ -120,6 +157,7 @@ public class EquipmentAttr
         this.maxHp = attrMap.get("maxHp")
         this.maxMana = attrMap.get("maxMana")
         this.moveSpeed = attrMap.get("moveSpeed")
+        equipmentAttrMap.put(itemId, this)
 
 function HashMap<string, real>.multiPut(string attr1, real value1, string attr2, real value2, string attr3, real value3, string attr4, real value4)        
     this.put(attr1, value1)
@@ -141,90 +179,90 @@ function initLongLinJianAttr()
     map.multiPut("attack", 5000, "strength", 750, "agility", 200, "intelligence", 200) // 龙鳞剑
     map.multiPut("constitution", 3, "courage", 2, "uniquePerception", 2) // 龙鳞剑
     map.multiPut("attackSpeed", 30, "criticalTimes", 0.6, "criticalRate", 0.05) // 龙鳞剑
-    longLinJianAttr = new EquipmentAttr('I00C', map)
+    new EquipmentAttr('I00C', map)
 
 function initYiTianJianAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 4500, "strength", 700, "agility", 190, "intelligence", 0) // 倚天剑
     map.multiPut("perception", 3, "healingSkill", 2, "uniquePerception", 2) // 倚天剑
     map.multiPut("dodge", 15, "manaRegeneration", 5, "killRegeneration", 2000, "attackedRegeneration", 500) // 倚天剑
-    yiTianJianAttr = new EquipmentAttr('I00B', map)
+    new EquipmentAttr('I00B', map)
 
 function initTuLongDaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 4850, "strength", 720, "agility", 195, "intelligence", 300) // 屠龙刀
     map.multiPut("channel", 3, "luck", 2, "uniquePerception", 1) // 屠龙刀
-    tuLongDaoAttr = new EquipmentAttr('I00D', map)
+    new EquipmentAttr('I00D', map)
 
 function initDuanChangAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 1000, "strength", 150, "agility", 0, "intelligence", 80) // 断肠
     map.put("channel", 2) // 断肠
     map.multiPut("attackSpeed", 30, "criticalRate", 0.02) // 断肠
-    duanChangAttr = new EquipmentAttr('I04F', map)
+    new EquipmentAttr('I04F', map)
 
 function initJingYuShanAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 3000, "strength", 250, "agility", 150, "intelligence", 0) // 晶玉扇
     map.multiPut("perception", 2, "luck", 2, "uniquePerception", 1) // 晶玉扇
     map.multiPut("attackSpeed", 25, "killRegeneration", 1500) // 晶玉扇
-    jingYuShanAttr = new EquipmentAttr('I00P', map)
+    new EquipmentAttr('I00P', map)
 
 function initZiJinDaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 2700, "strength", 230, "agility", 0, "intelligence", 100) // 紫金刀
     map.multiPut("channel", 2, "healingSkill", 2) // 紫金刀
     map.multiPut("criticalTimes", 0.6, "criticalRate", 0.05, "killRegeneration", 1500) // 紫金刀
-    ziJinDaoAttr = new EquipmentAttr('I00Q', map)
+    new EquipmentAttr('I00Q', map)
 
 function initJingGangJianAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 650, "strength", 80, "agility", 0, "intelligence", 0) // 精钢剑
     map.put("courage", 1) // 精钢剑
     map.multiPut("attackSpeed", 20, "vampire", 0.05, "criticalRate", 0.03) // 精钢剑
-    jingGangJianAttr = new EquipmentAttr('I01L', map)
+    new EquipmentAttr('I01L', map)
 
 function initQiXingShanAttr()
     HashMap<string, real> map = new HashMap<string, real>()
     map.multiPut("attack", 800, "strength", 100, "agility", 0, "intelligence", 40) // 七星扇
     map.put("healingSkill", 1) // 七星扇    
     map.put("manaRegeneration", 2) // 七星扇
-    qiXingShanAttr = new EquipmentAttr('I01N', map)
+    new EquipmentAttr('I01N', map)
 
 function initYuanYangDaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 1500, "strength", 150, "agility", 50, "intelligence", 0) // 鸳鸯刀
     map.put("luck", 2) // 鸳鸯刀
     map.put("attackSpeed", 20) // 鸳鸯刀
-    yuanYangDaoAttr = new EquipmentAttr('I00X', map)
+    new EquipmentAttr('I00X', map)
 
 function initDaoGouBangAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 4500, "strength", 650, "agility", 0, "intelligence", 0) // 打狗棒
     map.multiPut("courage", 3, "allAttrs", 1, "uniquePerception", 2) // 打狗棒
     map.multiPut("attackSpeed", 60, "criticalTimes", 1.5) // 打狗棒
-    daGouBangAttr = new EquipmentAttr('I097', map)
+    new EquipmentAttr('I097', map)
 
 function initJunZiJianAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 2000, "strength", 100, "agility", 50, "intelligence", 50) // 君子剑
     map.multiPut("perception", 1, "healingSkill", 1, "uniquePerception", 1) // 君子剑
     map.multiPut("vampire", 0.15, "manaRegeneration", 2, "killRegeneration", 500, "lifeRegeneration", 200) // 君子剑
-    junZiJianAttr = new EquipmentAttr('I099', map)
+    new EquipmentAttr('I099', map)
     
 function initSheZhangAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 4500, "strength", 0, "agility", 0, "intelligence", 1000) // 蛇杖
     map.multiPut("constitution", 4, "allAttrs", 2, "uniquePerception", 1) // 蛇杖
     map.multiPut("criticalTimes", 0.9, "criticalRate", 0.5) // 蛇杖
-    sheZhangAttr = new EquipmentAttr('I09B', map)
+    new EquipmentAttr('I09B', map)
 
 function initShuNvJianAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 1800, "strength", 50, "agility", 100, "intelligence", 50) // 淑女剑
     map.multiPut("luck", 1, "channel", 1, "uniquePerception", 1) // 淑女剑
     map.multiPut("dodge", 15, "attackedRegeneration", 500, "criticalTimes", 0.3, "criticalRate", 0.03) // 淑女剑
-    shuNvJianAttr = new EquipmentAttr('I09A', map)
+    new EquipmentAttr('I09A', map)
 
 function initShuangJianHeBiAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
@@ -232,105 +270,105 @@ function initShuangJianHeBiAttr()
     map.multiPut("perception", 3, "allAttrs", 1, "uniquePerception", 3) // 双剑合璧
     map.multiPut("vampire", 0.15, "manaRegeneration", 5, "killRegeneration", 2000, "lifeRegeneration", 500) // 双剑合璧
     map.multiPut("dodge", 15, "attackedRegeneration", 800, "criticalTimes", 0.5, "criticalRate", 0.05) // 双剑合璧
-    shuangJianHeBiAttr = new EquipmentAttr('I09C', map)
+    new EquipmentAttr('I09C', map)
 
 function initXueDaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 50000, "strength", 700, "agility", 0, "intelligence", 0) // 血刀
     map.multiPut("constitution", 7, "courage", 4, "uniquePerception", 2) // 血刀
     map.multiPut("attackSpeed", 60, "criticalTimes", 0.8, "killRegeneration", 10000) // 血刀
-    xueDaoAttr = new EquipmentAttr('I098', map)
+    new EquipmentAttr('I098', map)
 
 function initYuXiaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 4850, "strength", 0, "agility", 900, "intelligence", 0) // 玉箫
     map.multiPut("luck", 2, "allAttrs", 2, "uniquePerception", 3) // 玉箫
     map.multiPut("manaRegeneration", 15, "killRegeneration", 2000, "lifeRegeneration", 1500) // 玉箫
-    yuXiaoAttr = new EquipmentAttr('I09D', map)
+    new EquipmentAttr('I09D', map)
 
 function initJiangHuZhongAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 10000, "strength", 350, "agility", 350, "intelligence", 350) // 江湖忠
     map.multiPut("allAttrs", 2, "uniquePerception", 1) // 江湖·忠
     map.multiPut("attackSpeed", 60, "criticalTimes", 1, "criticalRate", 0.2, "killRegeneration", 3000) // 江湖·忠  
-    jiangHuZhongAttr = new EquipmentAttr('I08V', map) 
+    new EquipmentAttr('I08V', map) 
 
 function initZhenYaoOneAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 1000, "strength", 150, "agility", 0, "intelligence", 0) // 镇妖+1
     map.multiPut("attackSpeed", 20, "criticalTimes", 0.15, "killRegeneration", 300) // 镇妖+1
-    zhenYaoOneAttr = new EquipmentAttr('I02S', map)
+    new EquipmentAttr('I02S', map)
 
 function initZhenYaoTwoAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 2000, "strength", 300, "agility", 0, "intelligence", 0) // 镇妖+2
     map.multiPut("attackSpeed", 30, "criticalTimes", 0.3, "killRegeneration", 600) // 镇妖+2
-    zhenYaoTwoAttr = new EquipmentAttr('I02M', map)
+    new EquipmentAttr('I02M', map)
 
 function initZhenYaoThreeAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 3000, "strength", 450, "agility", 0, "intelligence", 0) // 镇妖+3
     map.multiPut("attackSpeed", 40, "criticalTimes", 0.45, "killRegeneration", 900) // 镇妖+3
-    zhenYaoThreeAttr = new EquipmentAttr('I02Q', map)
+    new EquipmentAttr('I02Q', map)
 
 function initZhenYaoFourAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 4000, "strength", 600, "agility", 0, "intelligence", 0) // 镇妖+4
     map.multiPut("attackSpeed", 50, "criticalTimes", 0.6, "killRegeneration", 1200) // 镇妖+4
-    zhenYaoFourAttr = new EquipmentAttr('I02R', map)
+    new EquipmentAttr('I02R', map)
 
 function initZhenYaoFiveAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 5000, "strength", 750, "agility", 0, "intelligence", 0) // 镇妖+5
     map.multiPut("attackSpeed", 60, "criticalTimes", 0.75, "killRegeneration", 1500) // 镇妖+5
-    zhenYaoFiveAttr = new EquipmentAttr('I02P', map)
+    new EquipmentAttr('I02P', map)
 
 function initDianJinAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 500, "strength", 50, "agility", 20, "intelligence", 0) // 点金
-    dianJinAttr = new EquipmentAttr('I01F', map)
+    new EquipmentAttr('I01F', map)
 
 function initKaiShanFuAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 450, "strength", 30, "agility", 0, "intelligence", 0) // 开山斧
     map.multiPut("criticalTimes", 0.15, "killRegeneration", 300) // 开山斧
-    kaiShanFuAttr = new EquipmentAttr('I01S', map)
+    new EquipmentAttr('I01S', map)
 
 function initQingTongDaoAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attackSpeed", 40, "killRegeneration", 0) // 青铜刀
-    qingTongDaoAttr = new EquipmentAttr('I020', map)
+    new EquipmentAttr('I020', map)
 
 function initQiuYeRenAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 600, "strength", 60, "agility", 0, "intelligence", 0) // 秋叶刃
     map.put("constitution", 1) // 秋叶刃
     map.multiPut("attackSpeed", 15, "killRegeneration", 500) // 秋叶刃
-    qiuYeRenAttr = new EquipmentAttr('I01E', map) 
+    new EquipmentAttr('I01E', map) 
     
 function initSuoHouQiangAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 200, "strength", 15, "agility", 0, "intelligence", 0) // 锁喉枪
     map.put("criticalRate", 0.03) // 锁候枪
-    suoHouQiangAttr = new EquipmentAttr('I021', map)
+    new EquipmentAttr('I021', map)
 
 function initXuanHuaFuAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 800, "strength", 100, "agility", 0, "intelligence", 0) // 宣花斧
     map.put("vampire", 0.15) // 宣花斧
-    xuanHuaFuAttr = new EquipmentAttr('I016', map)
+    new EquipmentAttr('I016', map)
 
 function initYinXueQiangAttr()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attack", 1200, "strength", 120, "agility", 0, "intelligence", 50) // 饮血枪
     map.put("courage", 1) // 饮血枪
     map.put("attackSpeed", 20) // 饮血枪
-    yinXueQiangAttr = new EquipmentAttr('I013', map)
+    new EquipmentAttr('I013', map)
 
 function initQingTongDaoSpecial()
     HashMap<string, real> map = new HashMap<string, real>()  
     map.multiPut("attackSpeed", 60, "killRegeneration", 0) // 张无忌用过的青铜刀
-    qingTongDaoSpecialAttr = new EquipmentAttr('I0CI', map)
+    new EquipmentAttr('I0CI', map)
     
 function initWeaponAttrs()
     initLongLinJianAttr()
@@ -368,94 +406,94 @@ function initBuYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 35, "strength", 0, "agility", 0, "intelligence", 0) // 布衣
     map.multiPut("maxHp", 1000, "killRegeneration", 30, "moveSpeed", 30) // 布衣
-    buYiAttr = new EquipmentAttr('I022', map)
+    new EquipmentAttr('I022', map)
 
 function initCaiYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 60, "strength", 0, "agility", 15, "intelligence", 0) // 彩衣
     map.multiPut("maxHp", 3000, "attackedRegeneration", 70) // 彩衣
-    caiYiAttr = new EquipmentAttr('I01T', map)
+    new EquipmentAttr('I01T', map)
 
 function initHuPiYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 85, "strength", 0, "agility", 40, "intelligence", 0) // 虎皮衣
     map.put("maxHp", 3000) // 虎皮衣
-    huPiYiAttr = new EquipmentAttr('I01H', map)
+    new EquipmentAttr('I01H', map)
 
 function initShePiQiuAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 90, "strength", 0, "agility", 0, "intelligence", 0) // 蛇皮裘
     map.multiPut("maxHp", 5000, "attackedRegeneration", 100, "lifeRegeneration", 250) // 蛇皮裘
     map.put("channel", 1) // 蛇皮裘
-    shePiQiuAttr = new EquipmentAttr('I01G', map)
+    new EquipmentAttr('I01G', map)
 
 function initKaiYangYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 150, "strength", 0, "agility", 0, "intelligence", 0) // 开阳衣
     map.put("maxHp", 10000) // 开阳衣
-    kaiYangYiAttr = new EquipmentAttr('I017', map)
+    new EquipmentAttr('I017', map)
 
 function initLieHuoYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 300, "strength", 0, "agility", 0, "intelligence", 0) // 烈火衣
     map.put("channel", 1) // 烈火衣
     map.multiPut("maxHp", 20000, "dodge", 10) // 烈火衣
-    lieHuoYiAttr = new EquipmentAttr('I014', map)
+    new EquipmentAttr('I014', map)
 
 function initQiXingJinFuAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 150, "strength", 0, "agility", 0, "intelligence", 0) // 七星锦服
     map.put("courage", 1) // 七星锦服
     map.multiPut("maxHp", 7000, "attackSpeed", 30, "attackedRegeneration", 300) // 七星锦服
-    qiXingJinFuAttr = new EquipmentAttr('I01O', map)
+    new EquipmentAttr('I01O', map)
 
 function initJinChanYiAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 250, "strength", 0, "agility", 80, "intelligence", 0) // 金蝉衣
     map.multiPut("perception", 1, "luck", 1) // 金蝉衣
     map.multiPut("maxHp", 15000, "lifeRegeneration", 700, "maxMana", 20, "manaRegeneration", 5) // 金蝉衣
-    jinChanYiAttr = new EquipmentAttr('I04E', map)
+    new EquipmentAttr('I04E', map)
 
 function initRuanWeiJiaAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 450, "strength", 0, "agility", 100, "intelligence", 0) // 软猬甲
     map.multiPut("constitution", 2, "courage", 2, "uniquePerception", 1) // 软猬甲
     map.multiPut("maxHp", 40000, "lifeRegeneration", 1200, "maxMana", 20) // 软猬甲
-    ruanWeiJiaAttr = new EquipmentAttr('I00O', map)
+    new EquipmentAttr('I00O', map)
 
 function initLiuHeZongHeAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 700, "strength", 200, "agility", 100, "intelligence", 200) // 六合纵横
     map.multiPut("constitution", 2, "courage", 2, "luck", 1) // 六合纵横
     map.multiPut("maxHp", 30000, "attackedRegeneration", 500) // 六合纵横
-    liuHeZongHeAttr = new EquipmentAttr('I00F', map)
+    new EquipmentAttr('I00F', map)
 
 function initPoJunWuShuangAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 800, "strength", 0, "agility", 0, "intelligence", 0) // 破军无双
     map.multiPut("healingSkill", 3, "perception", 2) // 破军无双
     map.multiPut("maxHp", 50000, "lifeRegeneration", 1500, "dodge", 20) // 破军无双
-    poJunWuShuangAttr = new EquipmentAttr('I00G', map)
+    new EquipmentAttr('I00G', map)
 
 function initJueZhanBaAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 1000, "strength", 0, "agility", 250, "intelligence", 0) // 决战·霸
     map.multiPut("allAttrs", 1, "uniquePerception", 1) // 决战·霸
     map.multiPut("maxHp", 100000, "lifeRegeneration", 2000, "criticalRate", 0.05) // 决战·霸
-    jueZhanBaAttr = new EquipmentAttr('I090', map)
+    new EquipmentAttr('I090', map)
 
 function initShaoLinJiaShaAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 500, "strength", 300, "agility", 0, "intelligence", 0) // 少林袈裟
     map.multiPut("allAttrs", 1, "constitution", 2) // 少林袈裟
     map.multiPut("maxHp", 100000, "attackedRegeneration", 2000, "criticalTimes", 0.7) // 少林袈裟
-    shaoLinJiaShaAttr = new EquipmentAttr('I0AL', map)
+    new EquipmentAttr('I0AL', map)
 
 function initTongShenAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 500, "strength", 0, "agility", 0, "intelligence", 0) // 通神
     map.put("maxHp", 40000) // 通神
-    tongShenAttr = new EquipmentAttr('I09Z', map)
+    new EquipmentAttr('I09Z', map)
 
 
 function initClothAttrs()
@@ -486,42 +524,42 @@ function initMieYunGuanAttr()
     map.multiPut("defense", 300, "strength", 0, "agility", 0, "intelligence", 0) // 灭云冠
     map.multiPut("constitution", 1, "perception", 2, "channel", 1, "uniquePerception", 1) // 灭云冠
     map.multiPut("maxMana", 40, "criticalTimes", 0.2) // 灭云冠
-    mieYunGuanAttr = new EquipmentAttr('I00M', map)
+    new EquipmentAttr('I00M', map)
 
 function initJueZhanEAttr()
     HashMap<string, real> map = new HashMap<string, real>()    
     map.multiPut("defense", 500, "strength", 0, "agility", 0, "intelligence", 0) // 决战·恶
     map.multiPut("allAttrs", 1, "uniquePerception", 1) // 决战·恶
     map.multiPut("maxHp", 50000, "attackSpeed", 50, "attackedRegeneration", 800, "maxMana", 100) // 决战·恶
-    jueZhanEAttr = new EquipmentAttr('I08Z', map)
+    new EquipmentAttr('I08Z', map)
 
 function initPoJunXieAttr()
     HashMap<string, real> map = new HashMap<string, real>()   
     map.multiPut("defense", 25, "strength", 0, "agility", 0, "intelligence", 30) // 破军鞋
     map.put("luck", 1) // 破军鞋
     map.multiPut("lifeRegeneration", 150, "moveSpeed", 70) // 破军鞋
-    poJunXieAttr = new EquipmentAttr('I01R', map) 
+    new EquipmentAttr('I01R', map) 
 
 function initShenXingXieAttr()
     HashMap<string, real> map = new HashMap<string, real>()   
     map.multiPut("defense", 200, "strength", 0, "agility", 0, "intelligence", 0) // 神行鞋
     map.multiPut("luck", 3, "channel", 3) // 神行鞋
     map.multiPut("maxHp", 25000, "moveSpeed", 160, "maxMana", 25, "manaRegeneration", 10) // 神行鞋
-    shenXingXieAttr = new EquipmentAttr('I00T', map)
+    new EquipmentAttr('I00T', map)
 
 function initTaFengXueAttr()
     HashMap<string, real> map = new HashMap<string, real>()   
     map.multiPut("defense", 200, "strength", 0, "agility", 0, "intelligence", 0) // 踏风靴
     map.multiPut("perception", 2, "luck", 1, "healingSkill", 1) // 踏风靴
     map.multiPut("moveSpeed", 180, "killRegeneration", 1000, "lifeRegeneration", 500, "manaRegeneration", 4) // 踏风靴
-    taFengXueAttr = new EquipmentAttr('I00N', map)
+    new EquipmentAttr('I00N', map)
 
 function initJueZhanKuiAttr() 
     HashMap<string, real> map = new HashMap<string, real>()   
     map.multiPut("strength", 0, "agility", 0, "intelligence", 500) // 决战·魁
     map.multiPut("allAttrs", 1, "uniquePerception", 1) // 决战·魁
     map.multiPut("moveSpeed", 200, "dodge", 30, "attackedRegeneration", 600, "criticalTimes", 0.8) // 决战·魁
-    jueZhanKuiAttr = new EquipmentAttr('I08Y', map)  
+    new EquipmentAttr('I08Y', map)  
     
 function initHatAndShoeAttrs()
     initPoJunMaoAttr()
@@ -839,10 +877,10 @@ function initAccessoryAttrs()
     initJiangHuYiAttr()
     initHuanJieSpecialAttr()
 init
-    initWeaponAttrs()   
-    initClothAttrs()
-    initHatAndShoeAttrs()
-    initAccessoryAttrs()  
+    ExecuteFunc("initWeaponAttrs")   
+    ExecuteFunc("initClothAttrs")
+    ExecuteFunc("initHatAndShoeAttrs")
+    ExecuteFunc("initAccessoryAttrs")  
     
     
 

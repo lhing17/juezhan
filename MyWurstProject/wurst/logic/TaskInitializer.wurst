@@ -25,7 +25,7 @@ init
         let hero = u.getHero()
         if u.isHero()
             // 店小二新手任务
-            if itm.getTypeId() == 'I025'
+            if itm.getTypeId() == 'I025' and evaluateTaskTimes(hero, NEWBEE_TASK)
                 if hero.getTask(NEWBEE_TASK) != null
                     printTimedToPlayer(ColorUtils.IN_PROGRESS + "店小二：你还没有完成任务|r", 15, u.getOwner())
                 else
@@ -111,7 +111,7 @@ init
             if itm.getTypeId() == 'I0BF'
                 // TODO
             
-            if itm.getTypeId() == 1227895898
+            if itm.getTypeId() == 1227895898 and evaluateTaskTimes(hero, SEND_MESSAGE_TASK)
                 if hero.getTask(SEND_MESSAGE_TASK) != null
                     printTimedToPlayer(ColorUtils.IN_PROGRESS + "鲁有脚：你还没有完成任务|r", 15, u.getOwner())
                 else

@@ -1,8 +1,12 @@
 package KeyInput
 
+// custom imports
 import Hero
 import GlobalInitialization
 import Common
+import HashList
+import ColorUtils
+import Task
 
 function keyInput()
     var s = GetEventPlayerChatString()
@@ -110,6 +114,13 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点经脉，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s == "ongoing tasks"
+        for task in hero.ongoingTasks
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + task.taskDescription, 15, hero.u.getOwner())
+    else if s== "done tasks"
+        for task in hero.doneTasks
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + task.taskDescription, 15, hero.u.getOwner())
+
 
 
 init

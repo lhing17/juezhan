@@ -359,6 +359,20 @@ public function evaluateTaskConditions(HashList<TaskCondition> conditions, Hero 
             return false
     return true
 
+public function evaluateTaskTimes(Hero hero, int taskId) returns bool
+    var repeatTimes = 1
+    var count = 0
+    for task in hero.doneTasks
+        if task.taskId == taskId
+            repeatTimes = task.repeatTimes
+            count ++
+    
+    if count >= repeatTimes
+        printTimedToPlayer(ColorUtils.WARNING + "任务次数已达上限|r", 15, hero.u.getOwner())
+        return false
+    return true
+
+
 /** determines whether a hero has certain task **/    
 public function Hero.getTask(int taskId) returns Task
     for task in this.ongoingTasks

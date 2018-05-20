@@ -57,8 +57,6 @@ public function unit.getGeneralBonus(int bonusType) returns int
     return ht.loadInt(this.getHandleId(), bonusType)
 
 public function unit.addGeneralBonus(int bonusType, int amount)
-    Log.debug("bonusType:" + bonusType.toString())
-    Log.debug("amount:" + amount.toString())
     if bonusType == BONUS_TYPE_MAX_LIFE
         this.setGeneralBonus(bonusType, this.getMaxHP().toInt() + amount)
     else if bonusType == BONUS_TYPE_MAX_MANA
@@ -127,9 +125,7 @@ function unit.setMaxLifeOrMana(int bonusType, int value) returns bool
         v = -v
     if v == 0
         return false
-    Log.debug("max: " + max.toString())
     for i = max downto 0
-        Log.debug("i: " + i.toString() + ", v: "+ v.toString())
         if v >= Pow(2, i.toReal())
             if bonusType == BONUS_TYPE_MAX_LIFE
                 this..addAbility(maxLifeBonusAbilityId[i])..setAbilityLevel(maxLifeBonusAbilityId[i], level)..removeAbility(maxLifeBonusAbilityId[i])

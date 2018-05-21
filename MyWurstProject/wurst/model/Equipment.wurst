@@ -5,7 +5,7 @@ package Equipment
 import HashMap
 import Event
 import Hero
-import Common
+import initlater Common
 import GeneralBonus
 
 public HashMap<int, EquipmentAttr> equipmentAttrMap = new HashMap<int, EquipmentAttr>()
@@ -13,8 +13,8 @@ public HashMap<int, EquipmentAttr> equipmentAttrMap = new HashMap<int, Equipment
 public class Equipment
     item itm
     EquipmentAttr equipmentAttr
-    boolean bonus = false
-    int holeNumber // 剩余孔数
+    int bonusType = 0 // 额外属性类型 0-无额外属性 1-攻击型 2-防御型 3-饰品型 4-套装型
+    int holeNumber = 0 // 剩余孔数
     int hpBonus = 0
     int defenseBonus = 0
     int strengthBonus = 0
@@ -29,9 +29,9 @@ public class Equipment
     int allAttrBonus = 0
 
 
-    construct(item itm, boolean bonus)
+    construct(item itm, int bonusType)
         this.itm = itm
-        this.bonus = bonus
+        this.bonusType = bonusType
         this.equipmentAttr = equipmentAttrMap.get(itm.getTypeId())
         EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, () -> addEquipmentAttr())
         EventListener.add(EVENT_PLAYER_UNIT_DROP_ITEM, () -> removeEquipmentAttr())

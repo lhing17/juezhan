@@ -129,7 +129,7 @@ public let KONGFU_TYPE_JIUYIN_MAGICAL = 6
 /** 奇武 **/
 public let KONGFU_TYPE_STRANGE = 7
 tuple denomination(int whichDenomanition, string name, int firstKongFu, int secondKongFu, int thirdKongFu, int fourthKongFu, int fifthKongFu)
-tuple kongFu(string name, int abilityId, int itemId, int kongFuType, int courage, int luck, int constitution, int channel, int perception, int healingSKill)
+tuple kongFu(string name, int itemId, int abilityId, int kongFuType, int courage, int luck, int constitution, int channel, int perception, int healingSKill)
 
 public denomination array denominations
 public kongFu array kongFus

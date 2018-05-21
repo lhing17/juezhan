@@ -17,7 +17,9 @@ function newbeeGift() returns bool
             u.getOwner().addGold(20000)
             printTimedToPlayer(ColorUtils.AWARD + "使用新手大礼包获得金钱+20000", 15, u.getOwner())
         else if percentPossiblity(33)
-            u.addItem(kongFus[GetRandomInt(0, 17)].itemId)
+            let itemId = kongFus[GetRandomInt(0, 17)].itemId
+            Log.debug(itemId.toString())
+            u.addItem(itemId)
             printTimedToPlayer(ColorUtils.AWARD + "使用新手大礼包获得随机江湖武功", 15, u.getOwner())
         else if percentPossiblity(50)
             u.addAbility('A09Q')

@@ -10,6 +10,7 @@ import Hero
 import GeneralBonus
 import Award
 import ColorUtils
+import Equipment
 
 /** 获取玩家人数 **/
 public function getPlayerNumber() returns integer
@@ -31,6 +32,11 @@ public function unit.isHero() returns bool
 public function unit.addItem(item itm)
     UnitAddItem(this, itm)
 
+public function unit.addEquipment(int itemId)
+    let itm = createItem(itemId, this.getPos())
+    if equipmentAttrMap.has(itemId)
+        new Equipment(itm, 0)
+    this.addItem(itm)
 
 public function percentPossiblity(real r) returns bool
     return GetRandomReal(0, 100) <= r

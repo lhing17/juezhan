@@ -8,6 +8,7 @@ import Event
 // custom imports
 import Hero
 import ColorUtils
+import Common
 
 int array herb
 function initHerbs()
@@ -60,7 +61,7 @@ public class InstanceTreasures
                 itemId = iterator.next()
                 real possibility = treasurePool.get(itemId)
                 if random < possibility
-                    hero.u.addItem(itemId)
+                    hero.u.addEquipment(itemId)
                     break
                 else
                     max -= possibility

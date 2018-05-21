@@ -33,8 +33,8 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000当前未装备自制武器", 15, p)
         else
             // TODO 有武器的情况
-    else if s.substring(1, 2) == "tx"
-    else if s.substring(1, 2) == "wg"
+    else if s.substring(0, 2) == "tx"
+    else if s.substring(0, 2) == "wg"
     else if s == "ckwg"
     else if s == "ckwq"
     else if s == "ckjn"
@@ -54,7 +54,7 @@ function keyInput()
         SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.00, 1.00)
     else if s=="sj"
         SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, 1800., 0)
-    else if s.substring(1, 2)=="wx"
+    else if s.substring(0, 2)=="wx"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -64,7 +64,7 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点悟性，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
-    else if s.substring(1, 2)=="gg"
+    else if s.substring(0, 2)=="gg"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -74,7 +74,7 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点根骨，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
-    else if s.substring(1, 2)=="fy"
+    else if s.substring(0, 2)=="fy"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -84,7 +84,7 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点福缘，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
-    else if s.substring(1, 2)=="dp"
+    else if s.substring(0, 2)=="dp"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -94,7 +94,7 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点胆魄，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
-    else if s.substring(1, 2)=="ys"
+    else if s.substring(0, 2)=="ys"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -104,7 +104,7 @@ function keyInput()
             printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点医术，剩余属性点：" + hero.freeAttr.toString(), 15, p)
         else
             printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
-    else if s.substring(1, 2)=="jm"
+    else if s.substring(0, 2)=="jm"
         var num = s.substring(3, 5).toInt()
         if hero.freeAttr >= 1
             if num <=0 or num > hero.freeAttr
@@ -120,6 +120,11 @@ function keyInput()
     else if s== "done tasks"
         for task in hero.doneTasks
             printTimedToPlayer(ColorUtils.IN_PROGRESS + task.taskDescription, 15, hero.u.getOwner())
+    else if s.substring(0,1) == "`"
+        Log.debug(s.substring(1, 11))
+        let id = s.substring(1, 11).toInt()
+        Log.debug(id.toString())
+        hero.u.addEquipment(id)
 
 
 

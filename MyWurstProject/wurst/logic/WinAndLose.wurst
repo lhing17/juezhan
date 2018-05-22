@@ -6,7 +6,7 @@ import Event
 import ClosureTimers
 
 function onWin()
-    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF00B2决战英雄坛" + GAME_VERSION + "的游戏总评分：" + GAME_SCORE.toString() + "分（通关）")
+    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF00B2" + GAME_NAME + GAME_VERSION + "的游戏总评分：" + GAME_SCORE.toString() + "分（通关）")
     DisplayTextToForce(bj_FORCE_ALL_PLAYERS,
         "|CFFFF00B2恭喜你们通关，游戏将在2分钟后结束\n"+
         "游戏专区论坛：" + GAME_FORUM + "\n"+
@@ -23,7 +23,7 @@ function onWin()
             CustomVictoryBJ(players[0], true, true)
 
 function onLose()
-    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF00B2决战英雄坛" + GAME_VERSION + "的游戏总评分：" + GAME_SCORE.toString() + "分（战败）")
+    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF00B2" + GAME_NAME + GAME_VERSION + "的游戏总评分：" + GAME_SCORE.toString() + "分（战败）")
     for i = 0 to MAX_PLAYER_NUMBER - 1
         CustomDefeatBJ(players[i], "你眼前一片黑，接着什么都不知道了!")	
 

@@ -141,8 +141,6 @@ public unit BASE = createUnit(BASE_PLAYER, 'nfrm', vec2(-768, -768), DEFAULT_FAC
 
 /** 最终进攻怪 **/
 public unit FINAL_BOSS = null // FIXME 替换成实际单位
-/** 选择门派 **/
-public unit DENOMINATION_STORE = null // FIXME 替换成实际单位
 
 public let SOUND_SELL_ITEM = new SoundDefinition("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false)
 
@@ -191,6 +189,7 @@ public unit jinxuan = null
 
 public unit array inventoryOne
 public unit array inventoryTwo
+public unit tempInventory
 
 function createHeroToSelect(int id, vec2 pos, angle facing) returns unit
     var u = createUnit(NEUTRAL_NPC_PLAYER, id, pos, facing)
@@ -313,8 +312,9 @@ init
         jinxuanVip[i] = 0
         elevenVip[i] = 0
         superVip[i] = 0
-        inventoryOne[i] = createUnit(players[i], 1865429046, TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
-        inventoryTwo[i] = createUnit(players[i], 1865429046, TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+        inventoryOne[i] = createUnit(players[i], 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+        inventoryTwo[i] = createUnit(players[i], 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+    tempInventory = createUnit(NEUTRAL_NPC_PLAYER, 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
 
     langyun = createHeroToSelect('O004', vec2(1963.8,-4044.6), 226.742.asAngleDegrees())
     moyan = createHeroToSelect('O003', vec2(1655.,-3879.3), 271.975.asAngleDegrees())

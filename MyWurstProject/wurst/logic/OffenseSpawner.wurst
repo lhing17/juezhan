@@ -115,9 +115,10 @@ init
         ..addAction(function spawn)
     doAfter(41) ->
         if isSpawn
-            spawnAfter(120)
-            doAfter(120) ->
+            spawnAfter(FIRST_WAVE_DELAY)
+            doAfter(FIRST_WAVE_DELAY) ->
                 DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
+                Log.debug("游戏模式为：" + gameMode.toString())
                 if gameMode == GAME_MODE_SPECIAL
                     selectDifficulty()
 

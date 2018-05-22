@@ -71,6 +71,7 @@ public function selectDifficulty()
             DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FFFF该模式下进攻怪具有|cFFFF0000抽血术")
             setDifficultyAndRelativeConfig(GAME_DIFFICULTY_HELL)
             destroy gameDifficultySelectDialog
+    gameDifficultySelectDialog.display(players[0], true)
 
 /** 普通模式和快速模式选择游戏难度 **/
 function isSelectDifficultyNormalMode() returns bool

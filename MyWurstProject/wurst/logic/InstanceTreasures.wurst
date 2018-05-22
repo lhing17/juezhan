@@ -10,7 +10,7 @@ import Hero
 import ColorUtils
 import Common
 
-int array herb
+public int array herb
 function initHerbs()
     herb[1]='I07F'
     herb[2]='I07G'

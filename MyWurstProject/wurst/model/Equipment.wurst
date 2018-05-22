@@ -60,7 +60,7 @@ public class Equipment
             hero.vampire += equipmentAttr.vampire
             hero.lifeRegeneration += equipmentAttr.lifeRegeneration
             hero.manaRegeneration += equipmentAttr.manaRegeneration
-            hero.killRegneration += equipmentAttr.killRegneration
+            hero.killRegeneration += equipmentAttr.killRegeneration
             hero.attackedRegeneration += equipmentAttr.attackedRegeneration
             hero.u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, equipmentAttr.maxHp.toInt() + hpBonus)
             hero.u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_ADD, equipmentAttr.maxMana.toInt())
@@ -92,7 +92,7 @@ public class Equipment
             hero.vampire -= equipmentAttr.vampire
             hero.lifeRegeneration -= equipmentAttr.lifeRegeneration
             hero.manaRegeneration -= equipmentAttr.manaRegeneration
-            hero.killRegneration -= equipmentAttr.killRegneration
+            hero.killRegeneration -= equipmentAttr.killRegeneration
             hero.attackedRegeneration -= equipmentAttr.attackedRegeneration
             hero.u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_SUBSTRACT, equipmentAttr.maxHp.toInt() + hpBonus)
             hero.u.setGeneralBonus(BONUS_TYPE_MAX_MANA, MODE_SUBSTRACT, equipmentAttr.maxMana.toInt())
@@ -123,7 +123,7 @@ public class EquipmentAttr
     real vampire // 技能吸血
     real lifeRegeneration // 生命回复
     real manaRegeneration // 法力回复
-    real killRegneration // 杀怪回复
+    real killRegeneration // 杀怪回复
     real attackedRegeneration // 受伤害回复
     real maxHp // 气血
     real maxMana // 法力上限
@@ -152,7 +152,7 @@ public class EquipmentAttr
         this.vampire = attrMap.get("vampire")
         this.lifeRegeneration = attrMap.get("lifeRegeneration")
         this.manaRegeneration = attrMap.get("manaRegeneration")
-        this.killRegneration = attrMap.get("killRegneration")
+        this.killRegeneration = attrMap.get("killRegeneration")
         this.attackedRegeneration = attrMap.get("attackedRegeneration")
         this.maxHp = attrMap.get("maxHp")
         this.maxMana = attrMap.get("maxMana")

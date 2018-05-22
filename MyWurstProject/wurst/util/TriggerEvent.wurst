@@ -2,6 +2,10 @@ package TriggerEvent
 
 import LinkedList
 
+/* ****************************
+ * 任意单位伤害事件 
+ * ****************************/
+
 var damageEventNumber = 0
 var damageEventQueue = new LinkedList<trigger>()
 trigger eventTrigger

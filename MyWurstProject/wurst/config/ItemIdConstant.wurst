@@ -2,6 +2,7 @@ package ItemIdConstant
 
 public int array clothes
 public int array ornament
+public int array residualChapter
 
 function initEquipments()
 	//衣服清单
@@ -68,5 +69,17 @@ function initEquipments()
 	ornament[42]='I08X'
 	ornament[43]='I08Y'
 	ornament[44]='I08Z'
+
+	residualChapter[1]='I065'
+	residualChapter[2]='I061'
+	residualChapter[3]='I066'
+	residualChapter[4]='I064'
+	residualChapter[5]='I067'
+	residualChapter[6]='I062'
+	residualChapter[7]='I069'
+	residualChapter[8]='I060'
+	residualChapter[9]='I068'
+	residualChapter[10]='I063'
+	residualChapter[11]='I0CW'
 init
 	initEquipments()

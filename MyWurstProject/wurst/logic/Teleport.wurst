@@ -1,7 +1,12 @@
 package Teleport
 
+// standard imports
+import Event
+
+// custom imports
 import Common
 import Hero
+import ColorUtils
 
 /* 传送到传送石 */
 function isTeleportToTeleportStone() returns bool
@@ -59,8 +64,8 @@ function teleportToTeleportStone()
         p.panCamTo(u)
         printTimedToPlayer("|CFF00ff33传送至聚贤庄", 0, p)
 
-/* 传送到副本 */
-function isTeleportToInstances() returns bool
+/* 传送到历练 */
+function isTeleportToExperiences() returns bool
     let itm = GetManipulatedItem()
     return GetTriggerUnit().isHero() 
         and ( itm.getTypeId() == 'I09V'
@@ -72,7 +77,7 @@ function isTeleportToInstances() returns bool
             or itm.getTypeId() == 1227896385
         )
 
-function teleportToInstances()
+function teleportToExperiences()
     let u = GetTriggerUnit()
     let hero = u.getHero()
     let p = GetOwningPlayer(u)
@@ -142,7 +147,25 @@ function teleportToInstances()
         u.setPos(vec2(9631, 1139))  //FIXME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入边疆", 15, p)
-            
+
+/** 传送至练功房 **/
+function teleportToExerciseRooms()
+    let id = GetManipulatedItem().getTypeId()
+    if id == 1227895361
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房一", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(vec2(3730, -4690))
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+    else if id == 1227895350   
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房二", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(vec2(4250, -3650))
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+    else if id == 1227895351
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房三", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(vec2(5920,-4750))
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+
+
+
 
 init
     CreateTrigger()
@@ -152,5 +175,8 @@ init
     
     CreateTrigger()
         ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
-        ..addCondition(Condition(function isTeleportToInstances))
-        ..addAction(function teleportToInstances)
+        ..addCondition(Condition(function isTeleportToExperiences))
+        ..addAction(function teleportToExperiences)
+
+    EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, () -> teleportToExerciseRooms())
+   

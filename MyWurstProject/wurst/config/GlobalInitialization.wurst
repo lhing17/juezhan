@@ -219,6 +219,7 @@ function initEnvironments()
     SetAmbientDaySound("VillageDay")
     SetAmbientNightSound("VillageNight")
     SetMapMusic("Music", true, 0)
+    EnableCreepSleepBJ(false)
 
 
 function initDenominations()

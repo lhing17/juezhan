@@ -6,6 +6,9 @@ import HashList
 import ClosureTimers
 
 // custom imports
+import Common
+import GameConfiguration
+import GlobalInitialization
 
 /** 副本类 **/
 public class Instance
@@ -15,12 +18,18 @@ public class Instance
     string name
     /** 副本序号，从0开始 **/
     int index
-    /** 神秘怪物的unitId **/
-    int mysteriousMonsterId
-    /** 稀有掉落的itemId **/
+    /** 神秘怪物的unitId列表 **/
+    HashList<int> mysteriousMonsterIds
+    /** 储存实际产生的神秘怪物 **/
+    unit mysteriousMonster
+    /** 稀有掉落的itemId列表 **/
+    HashList<int> rareDropItemIds
+    /** 某次刷新实际产生的稀有掉落 **/
     int rareDropItemId
-    /** 奇缘NPC的unitId **/
-    int fateNpcId
+    /** 奇缘NPC的unitId列表 **/
+    HashList<int> fateNpcIds
+    /** 某次刷新实际产生的奇缘NPC **/
+    unit fateNpc
     /** 刷新副本的定时器 **/
     timer refreshTimer
     /** 是否需要刷新副本 **/
@@ -63,17 +72,58 @@ public class Instance
     * 3. 载入奇缘NPC
     **/        
     function initializeInstances()
+        let p = GetTriggerUnit().getOwner()
         if refreshFlag
             refreshFlag = false
             refreshTimer.start(150, null)
             doAfter(150) ->
                 refreshFlag = true
-            // TODO 执行初始化副本的操作
+            printTimedToPlayer("|cFFFFCC00开始载入动态副本：|r |cFF99FFCC" + name + "|r", 30, p)
+            printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
+            loadMysteriousMonster(p)
+            loadRareDropItem(p)
+            loadFateNpc(p)
+            printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
+            printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
+            printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
         else
+            printTimedToPlayer("|cFFFFCC00进入动态副本：|r |cFF99FFCC" + name + "|r", 30, p)
+            printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
+            printTimedToPlayer("|cFFFFCC33神秘怪物：|cFF33FFFF" + mysteriousMonster.getName(), 30, p)
+            printTimedToPlayer("|cFFFFCC33稀有掉落：|cFF33FFFF" + GetObjectName(rareDropItemId), 30, p)
+            printTimedToPlayer("|cFFFFCC33奇缘NPC：|cFF33FFFF" + fateNpc.getName(), 30, p)
+            printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
+            printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
+            printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
+    
+    private function loadMysteriousMonster(player p)
+        if percentPossiblity(20)
+            printTimedToPlayer("|cFFFFCC33载入神秘怪物：|cFF33FFFF无", 30, p)
+        else
+            mysteriousMonster.remove()
+            let unitId = mysteriousMonsterIds.get(GetRandomInt(0, mysteriousMonsterIds.size() - 1))
+            mysteriousMonster = createUnit(CREEP_PLAYER, unitId, mysteriousMonsterPos, DEFAULT_FACING)
+            printTimedToPlayer("|cFFFFCC33载入神秘怪物：|cFF33FFFF" + mysteriousMonster.getName(), 30, p)
 
+    private function loadRareDropItem(player p)
+        if percentPossiblity(20)
+            printTimedToPlayer("|cFFFFCC33载入稀有掉落：|cFF33FFFF无", 30, p)
+        else
+            rareDropItemId = rareDropItemIds.get(GetRandomInt(0, rareDropItemIds.size() - 1))
+            printTimedToPlayer("|cFFFFCC33载入稀有掉落：|cFF33FFFF" + GetObjectName(rareDropItemId), 30, p)
+    
+    private function loadFateNpc(player p)
+        if percentPossiblity(50)
+            printTimedToPlayer("|cFFFFCC33载入奇缘NPC：|cFF33FFFF无", 30, p)
+        else
+            fateNpc.remove()
+            let unitId = fateNpcIds.get(GetRandomInt(0, fateNpcIds.size() - 1))
+            fateNpc = createUnit(NEUTRAL_NPC_PLAYER, unitId, fateNpcPos, DEFAULT_FACING)
+            printTimedToPlayer("|cFFFFCC33载入奇缘NPC：|cFF33FFFF" + fateNpc.getName(), 30, p)
 
 
 init
+    // TODO 设置各副本载入unitId、itemId和pos
     new Instance('I02F', 0, "马贼洞", 0, 100, 0, vec2(0, 0)) // FIXME
     new Instance('I03V', 1, "崆峒山", 1, 300, 0, vec2(0, 0)) // FIXME
     new Instance('I04C', 2, "塞北", 2, 1000, 0, vec2(0, 0)) // FIXME

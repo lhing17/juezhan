@@ -9,6 +9,7 @@ import ClosureTimers
 import Common
 import GameConfiguration
 import GlobalInitialization
+import Lists
 
 /** 副本类 **/
 public class Instance
@@ -124,7 +125,11 @@ public class Instance
 
 init
     // TODO 设置各副本载入unitId、itemId和pos
-    new Instance('I02F', 0, "马贼洞", 0, 100, 0, vec2(0, 0)) // FIXME
+    Instance instance0 = new Instance('I02F', 0, "马贼洞", 0, 100, 0, vec2(0, 0)) // FIXME
+    instance0.mysteriousMonsterIds = Lists.newHashList('otau', 'odkt', 'uaco')
+    instance0.rareDropItemIds = Lists.newHashList('I021', 'I01L', 'I01M', 1227895110)
+    instance0.fateNpcIds = Lists.newHashList(1865429068)
+    
     new Instance('I03V', 1, "崆峒山", 1, 300, 0, vec2(0, 0)) // FIXME
     new Instance('I04C', 2, "塞北", 2, 1000, 0, vec2(0, 0)) // FIXME
     new Instance('I04I', 3, "绝情谷", 3, 3000, 0, vec2(0, 0)) // FIXME

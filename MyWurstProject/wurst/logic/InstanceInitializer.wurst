@@ -124,14 +124,51 @@ public class Instance
 
 
 init
-    // TODO 设置各副本载入unitId、itemId和pos
-    Instance instance0 = new Instance('I02F', 0, "马贼洞", 0, 100, 0, vec2(0, 0)) // FIXME
+    // TESTME
+    // 副本1 马贼洞
+    Instance instance0 = new Instance('I02F', 0, "马贼洞", 0, 100, 0, vec2(-11900, 630)) 
     instance0.mysteriousMonsterIds = Lists.newHashList('otau', 'odkt', 'uaco')
     instance0.rareDropItemIds = Lists.newHashList('I021', 'I01L', 'I01M', 1227895110)
     instance0.fateNpcIds = Lists.newHashList(1865429068)
+    instance0.mysteriousMonsterPos = vec2(-13540, 2330) 
+    instance0.fateNpcPos = vec2(-12360, 2490) 
     
-    new Instance('I03V', 1, "崆峒山", 1, 300, 0, vec2(0, 0)) // FIXME
-    new Instance('I04C', 2, "塞北", 2, 1000, 0, vec2(0, 0)) // FIXME
-    new Instance('I04I', 3, "绝情谷", 3, 3000, 0, vec2(0, 0)) // FIXME
-    new Instance('I04V', 4, "逍遥宫", 4, 6000, 0, vec2(0, 0)) // FIXME
-    new Instance('I05L', 5, "黑木崖", 5, 10000, 0, vec2(0, 0)) // FIXME
+    // 副本2 崆峒山
+    Instance instance1 = new Instance('I03V', 1, "崆峒山", 1, 300, 0, vec2(-15150, 5790))
+    instance1.mysteriousMonsterIds = Lists.newHashList(1702258030, 1700884333, 1852007777)
+    instance1.rareDropItemIds = Lists.newHashList(1227895109, 'I02S', 1227895111, 1227895371)
+    instance1.fateNpcIds = Lists.newHashList(1865429071, 1865429059)
+    instance1.mysteriousMonsterPos = vec2(-12635, 6600) 
+    instance1.fateNpcPos = vec2(-13840, 8480)
+
+    // 副本3 塞北
+    Instance instance2 = new Instance('I04C', 2, "塞北", 2, 1000, 0, vec2(-15225, 10890))
+    instance2.mysteriousMonsterIds = Lists.newHashList(1701672039, 1702061422, 1970169187)
+    instance2.rareDropItemIds = Lists.newHashList('I02S', 1227895380, 1227895857)
+    instance2.fateNpcIds = Lists.newHashList(1865429073)
+    instance2.mysteriousMonsterPos = vec2(-13250, 14810)
+    instance2.fateNpcPos = vec2(-15020, 14850)
+
+    // 副本4 绝情谷
+    Instance instance3 = new Instance('I04I', 3, "绝情谷", 3, 3000, 0, vec2(-15140, -6460))
+    instance3.mysteriousMonsterIds = Lists.newHashList('nelb', 'nhfp', 'nmgr')
+    instance3.rareDropItemIds = Lists.newHashList(1227895859, 'I042', 'I014')
+    instance3.fateNpcIds = Lists.newHashList(1865429076, 'o026')
+    instance3.mysteriousMonsterPos = vec2(-14880, -4820)
+    instance3.fateNpcPos = vec2(-13000, -2580) 
+
+    // 副本5 逍遥宫
+    Instance instance4 = new Instance('I04V', 4, "逍遥宫", 4, 6000, 0, vec2(2180, 11930))
+    instance4.mysteriousMonsterIds = Lists.newHashList(1853058166, 'nsbm')
+    instance4.rareDropItemIds = Lists.newHashList('I00Q', 'I00S', 'I00R')
+    instance4.fateNpcIds = Lists.newHashList(1865429080)
+    instance4.mysteriousMonsterPos = vec2(4888, 14123) 
+    instance4.fateNpcPos = vec2(3660, 13220) 
+
+    // 副本6 黑木崖
+    Instance instance5 = new Instance('I05L', 5, "黑木崖", 5, 10000, 0, vec2(7275, 11990)) 
+    instance5.mysteriousMonsterIds = Lists.newHashList(1852142199, 1851942252, 1751672179)
+    instance5.rareDropItemIds = Lists.newHashList('I00K', 'I00M')
+    instance5.fateNpcIds = Lists.newHashList('crys')
+    instance5.mysteriousMonsterPos = vec2(7250, 14710)
+    instance5.fateNpcPos = vec2(7100, 13620) 

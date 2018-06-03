@@ -1,13 +1,16 @@
 package HeroSelector
 
-
-import GameConfiguration
-import GlobalInitialization
-import Hero
+// standard imports
 import ClosureTimers
 import HashList
 import EventHelper
+
+// custom imports
+import GameConfiguration
+import GlobalInitialization
 import Common
+import Lists
+import Hero
 
 unit array selectedHero
 tuple heroBonus(unit hero, string name, int perception, int constitution, int healingSkill, int courage, int luck, int channel, int characterA, int characterB)
@@ -125,23 +128,6 @@ function selectDenomination()
             else
                 printTimedToPlayer("|CFFff0000你的角色不能加入该门派", 15, p)
 
-function getForbidList(int i1, int i2, int i3) returns HashList<int>
-    HashList<int> hashList = new HashList<int>()
-    hashList.add(i1)
-    hashList.add(i2)
-    hashList.add(i3)
-    return hashList
-
-function getForbidList(int i1, int i2) returns HashList<int>
-    HashList<int> hashList = new HashList<int>()
-    hashList.add(i1)
-    hashList.add(i2)
-    return hashList
-
-function getForbidList(int i1) returns HashList<int>
-    HashList<int> hashList = new HashList<int>()
-    hashList.add(i1)
-    return hashList
 
 function isSelectFreeDenomination() returns bool
     return GetLeavingUnit().isHero() and GetLeavingUnit().getHero().denomination == 0 
@@ -187,20 +173,20 @@ init
     heroDescriptionArray[5] = heroDescription(lanxin, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
     heroDescriptionArray[6] = heroDescription(jinxuan, "|CFF00FFCC全部门派|r", "|cFF00FF00全属性+3\n|r")
 
-    denominationBonusArray[0] = denominationBonus(DENOMINATION_SHAOLIN, 'I001', "少林派", 0, 3, 0, 0, 0, 2, getForbidList('O002', 'O003'))
-    denominationBonusArray[1] = denominationBonus(DENOMINATION_GAIBANG, 'I002', "丐帮", 0, 0, 0, 3, 0, 2, getForbidList('O000'))
-    denominationBonusArray[2] = denominationBonus(DENOMINATION_HUASHAN, 'I003', "华山派", 3, 0, 0, 2, 0, 0, getForbidList('O002'))
-    denominationBonusArray[3] = denominationBonus(DENOMINATION_QUANZHEN, 'I004', "全真教", 0, 0, 0, 0, 2, 3, getForbidList('O003', 'O004'))
-    denominationBonusArray[4] = denominationBonus(DENOMINATION_XUEDAO, 'I005', "血刀门", 0, 2, 0, 3, 0, 0, getForbidList('O001', 'O002'))
-    denominationBonusArray[5] = denominationBonus(DENOMINATION_HENGSHAN_NORTH, 'I006', "恒山派", 0, 0, 3, 0, 2, 02, getForbidList('O000', 'O001', 'O004'))
-    denominationBonusArray[6] = denominationBonus(DENOMINATION_EMEI, 'I007', "峨眉派", 0, 0, 1, 0, 3, 1, getForbidList('O004'))
-    denominationBonusArray[7] = denominationBonus(DENOMINATION_XINGXIU, 'I008', "星宿派", 0, 0, 1, 2, 0, 2, getForbidList('O001'))
-    denominationBonusArray[8] = denominationBonus(DENOMINATION_WUDANG, 'I009', "武当派", 0, 1, 0, 0, 2, 2, getForbidList('O003'))
-    denominationBonusArray[9] = denominationBonus(DENOMINATION_GUMU, 'I00A', "古墓派", 2, 0, 0, 0, 2, 1, getForbidList('O000'))
+    denominationBonusArray[0] = denominationBonus(DENOMINATION_SHAOLIN, 'I001', "少林派", 0, 3, 0, 0, 0, 2, Lists.newHashList('O002', 'O003'))
+    denominationBonusArray[1] = denominationBonus(DENOMINATION_GAIBANG, 'I002', "丐帮", 0, 0, 0, 3, 0, 2, Lists.newHashList('O000'))
+    denominationBonusArray[2] = denominationBonus(DENOMINATION_HUASHAN, 'I003', "华山派", 3, 0, 0, 2, 0, 0, Lists.newHashList('O002'))
+    denominationBonusArray[3] = denominationBonus(DENOMINATION_QUANZHEN, 'I004', "全真教", 0, 0, 0, 0, 2, 3, Lists.newHashList('O003', 'O004'))
+    denominationBonusArray[4] = denominationBonus(DENOMINATION_XUEDAO, 'I005', "血刀门", 0, 2, 0, 3, 0, 0, Lists.newHashList('O001', 'O002'))
+    denominationBonusArray[5] = denominationBonus(DENOMINATION_HENGSHAN_NORTH, 'I006', "恒山派", 0, 0, 3, 0, 2, 02, Lists.newHashList('O000', 'O001', 'O004'))
+    denominationBonusArray[6] = denominationBonus(DENOMINATION_EMEI, 'I007', "峨眉派", 0, 0, 1, 0, 3, 1, Lists.newHashList('O004'))
+    denominationBonusArray[7] = denominationBonus(DENOMINATION_XINGXIU, 'I008', "星宿派", 0, 0, 1, 2, 0, 2, Lists.newHashList('O001'))
+    denominationBonusArray[8] = denominationBonus(DENOMINATION_WUDANG, 'I009', "武当派", 0, 1, 0, 0, 2, 2, Lists.newHashList('O003'))
+    denominationBonusArray[9] = denominationBonus(DENOMINATION_GUMU, 'I00A', "古墓派", 2, 0, 0, 0, 2, 1, Lists.newHashList('O000'))
     denominationBonusArray[10] = denominationBonus(DENOMINATION_MINGJIAO, 'I09N', "明教", 3, 0, 0, 0, 2, 2, new HashList<int>())
-    denominationBonusArray[11] = denominationBonus(DENOMINATION_HENGSHAN_SOUTH, 'I0A2', "衡山派", 3, 0, 2, 0, 0, 0, getForbidList('O002', 'O003'))
+    denominationBonusArray[11] = denominationBonus(DENOMINATION_HENGSHAN_SOUTH, 'I0A2', "衡山派", 3, 0, 2, 0, 0, 0, Lists.newHashList('O002', 'O003'))
     denominationBonusArray[12] = denominationBonus(DENOMINATION_SHENLONG_MAN, 'I0CK', "神龙教", 0, 2, 0, 1, 2, 0, new HashList<int>())
-    denominationBonusArray[13] = denominationBonus(DENOMINATION_TAISHAN, 'I0CX', "泰山派", 1, 3, 1, 0, 0, 0, getForbidList('O003'))
+    denominationBonusArray[13] = denominationBonus(DENOMINATION_TAISHAN, 'I0CX', "泰山派", 1, 3, 1, 0, 0, 0, Lists.newHashList('O003'))
     denominationBonusArray[14] = denominationBonus(DENOMINATION_LINGJIU, 'I002', "灵鹫宫", 0, 0, 0, 2, 1, 2, new HashList<int>()) // FIXME 灵鹫宫物品
     denominationBonusArray[15] = denominationBonus(DENOMINATION_MURONG, 'I002', "姑苏慕容", 0, 0, 0, 3, 2, 0, new HashList<int>()) // FIXME 慕容物品
     

@@ -94,7 +94,7 @@ function teleportToExperiences()
         if hero.reputation < 500
             printTimedToPlayer("|cFFFF0000江湖声望不足500无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(-4400., -2950.))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入终南山", 15, p)
     if itm.getTypeId() == 1227896149
@@ -104,7 +104,7 @@ function teleportToExperiences()
         if hero.reputation < 1500
             printTimedToPlayer("|cFFFF0000江湖声望不足1500无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(5666, -957))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
     if itm.getTypeId() == 1227896150
@@ -114,7 +114,7 @@ function teleportToExperiences()
         if hero.reputation < 2500
             printTimedToPlayer("|cFFFF0000江湖声望不足2500无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(-3555, 146))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入塞外", 15, p)
     if itm.getTypeId() == 1227896151
@@ -124,7 +124,7 @@ function teleportToExperiences()
         if hero.reputation < 4000
             printTimedToPlayer("|cFFFF0000江湖声望不足4000无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(-1180, 11267))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入光明顶", 15, p)
     if itm.getTypeId() == 1227896152
@@ -134,7 +134,7 @@ function teleportToExperiences()
         if hero.reputation < 6000
             printTimedToPlayer("|cFFFF0000江湖声望不足6000无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(4400, 470))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
     if itm.getTypeId() == 1227896385
@@ -144,7 +144,7 @@ function teleportToExperiences()
         if hero.reputation < 9000
             printTimedToPlayer("|cFFFF0000江湖声望不足9000无法传送", 15, p)
             return
-        u.setPos(vec2(9631, 1139))  //FIXME
+        u.setPos(vec2(-9635, -330))  //TESTME
         p.panCamTo(u)
         printTimedToPlayer("|cff66ff33进入边疆", 15, p)
 

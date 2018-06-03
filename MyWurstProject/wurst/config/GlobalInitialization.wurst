@@ -33,17 +33,17 @@ public let HERO_BORN_LOC = vec2(1585, -2585)
 /** 鸟贩卖东西等功能使用的临时地点 **/
 public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际地点
 /** 历练1小地图ping点 **/
-public let FIRST_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let FIRST_EXPERIENCE_LOC = vec2(-4400., -2950.) // TESTME 修改为实际地点
 /** 历练2小地图ping点 **/
-public let SECOND_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let SECOND_EXPERIENCE_LOC = vec2(5666, -957) // TESTME 修改为实际地点
 /** 历练3小地图ping点 **/
-public let THIRD_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let THIRD_EXPERIENCE_LOC = vec2(-3555, 146) // TESTME 修改为实际地点
 /** 历练4小地图ping点 **/
-public let FOURTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let FOURTH_EXPERIENCE_LOC = vec2(-1180, 11267) // TESTME 修改为实际地点
 /** 历练5小地图ping点 **/
-public let FIFTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let FIFTH_EXPERIENCE_LOC = vec2(4400, 470) // TESTME 修改为实际地点
 /** 历练6小地图ping点 **/
-public let SIXTH_EXPERIENCE_LOC = vec2(0, 0) // FIXME 修改为实际地点
+public let SIXTH_EXPERIENCE_LOC = vec2(-9635, -330) // TESTME 修改为实际地点
 
 /** 选择门派的区域 **/
 public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)

@@ -10,6 +10,8 @@ import Common
 import GameConfiguration
 import GlobalInitialization
 import Lists
+import Hero
+import ColorUtils
 
 /** 副本类 **/
 public class Instance
@@ -74,28 +76,42 @@ public class Instance
     **/        
     function initializeInstances()
         let p = GetTriggerUnit().getOwner()
-        if refreshFlag
-            refreshFlag = false
-            refreshTimer.start(150, null)
-            doAfter(150) ->
-                refreshFlag = true
-            printTimedToPlayer("|cFFFFCC00开始载入动态副本：|r |cFF99FFCC" + name + "|r", 30, p)
-            printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
-            loadMysteriousMonster(p)
-            loadRareDropItem(p)
-            loadFateNpc(p)
-            printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
-            printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
-            printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
-        else
-            printTimedToPlayer("|cFFFFCC00进入动态副本：|r |cFF99FFCC" + name + "|r", 30, p)
-            printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
-            printTimedToPlayer("|cFFFFCC33神秘怪物：|cFF33FFFF" + mysteriousMonster.getName(), 30, p)
-            printTimedToPlayer("|cFFFFCC33稀有掉落：|cFF33FFFF" + GetObjectName(rareDropItemId), 30, p)
-            printTimedToPlayer("|cFFFFCC33奇缘NPC：|cFF33FFFF" + fateNpc.getName(), 30, p)
-            printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
-            printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
-            printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
+        let hero = p.getHero()
+        if GetManipulatedItem().getTypeId() == this.itemId
+            if hero.practice < this.index
+                p.addGold(this.goldRequired)
+                p.addLumber(this.lumberRequired)
+                printTimedToPlayer(ColorUtils.WARNING + "修行达到" + (this.index + 1).toString() + "才可以进入，你的修行不足，请前往修行去吧", 15, p)
+                return
+            if not GetTriggerUnit().isHero()
+                p.addGold(this.goldRequired)
+                p.addLumber(this.lumberRequired)
+                printTimedToPlayer(ColorUtils.WARNING + "只能由主角亲自购买前往", 15, p)
+                return
+            GetTriggerUnit().setPos(this.landPos)
+            p.panCamTo(GetTriggerUnit())
+            if refreshFlag
+                refreshFlag = false
+                refreshTimer.start(150, null)
+                doAfter(150) ->
+                    refreshFlag = true
+                printTimedToPlayer("|cFFFFCC00开始载入动态副本：|r |cFF99FFCC" + this.name + "|r", 30, p)
+                printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
+                loadMysteriousMonster(p)
+                loadRareDropItem(p)
+                loadFateNpc(p)
+                printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
+                printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
+                printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
+            else
+                printTimedToPlayer("|cFFFFCC00进入动态副本：|r |cFF99FFCC" + name + "|r", 30, p)
+                printTimedToPlayer("|cFFcc99ff――――――――――", 30, p)
+                printTimedToPlayer("|cFFFFCC33神秘怪物：|cFF33FFFF" + mysteriousMonster.getName(), 30, p)
+                printTimedToPlayer("|cFFFFCC33稀有掉落：|cFF33FFFF" + GetObjectName(rareDropItemId), 30, p)
+                printTimedToPlayer("|cFFFFCC33奇缘NPC：|cFF33FFFF" + fateNpc.getName(), 30, p)
+                printTimedToPlayer("|cFFFFCC33小怪武功：|cFF33FFFF暂未制作此玩法", 30, p)
+                printTimedToPlayer("|cFFFFCC33BOSS武功：|cFF33FFFF暂未制作此玩法", 30, p)
+                printTimedToPlayer("|cFFFF0033副本重置倒计时：|cFF33FFFF" + refreshTimer.getRemaining().toInt().toString() + "秒", 30, p)
     
     private function loadMysteriousMonster(player p)
         if percentPossiblity(20)

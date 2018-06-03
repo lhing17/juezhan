@@ -29,7 +29,7 @@ init
                 if hero.getTask(NEWBEE_TASK) != null
                     printTimedToPlayer(ColorUtils.IN_PROGRESS + "店小二：你还没有完成任务|r", 15, u.getOwner())
                 else
-                    var rand = GetRandomInt(1, 3)
+                    var rand = GetRandomInt(1, 2)
                     if rand == 1
                         IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
                         killCreepMap.put('nwlt', 6)
@@ -56,16 +56,16 @@ init
                             "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
                             visitList, awardList, new VisitingNpcHandler())
                         task.setRepeatTimes(1)
-                    else
-                        IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
-                        collectItemMap.put('IIII', 1) // FIXME
-                        HashList<Award> awardList = new HashList<Award>()
-                        awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
-                        awardList.add(new Award('I06H', AwardType.AWARD_TYPE_ITEM))
-                        Task task = new Task(hero, TASK_TYPE_KILLING, NEWBEE_TASK, 
-                            "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
-                            DIAN_XIAO_ER, collectItemMap, awardList, new CollectingItemHandler())
-                        task.setRepeatTimes(1)
+                    // else
+                    //     IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
+                    //     collectItemMap.put('IIII', 1) // FIXME
+                    //     HashList<Award> awardList = new HashList<Award>()
+                    //     awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    //     awardList.add(new Award('I06H', AwardType.AWARD_TYPE_ITEM))
+                    //     Task task = new Task(hero, TASK_TYPE_KILLING, NEWBEE_TASK, 
+                    //         "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
+                    //         DIAN_XIAO_ER, collectItemMap, awardList, new CollectingItemHandler())
+                    //     task.setRepeatTimes(1)
             // 游骐寻找物品任务
             if itm.getTypeId() == 'I0BB'
                 if hero.getTask(TREASURE_HUNT_TASK) != null

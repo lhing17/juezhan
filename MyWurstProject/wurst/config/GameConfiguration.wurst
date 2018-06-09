@@ -10,6 +10,8 @@ public let MAX_PLAYER_NUMBER = 5
 public let NEUTRAL_NPC_PLAYER = players[15]
 /** 敌对野怪的玩家 **/
 public let CREEP_PLAYER = players[12]
+/** 练功房怪所属玩家 **/
+public let EXERCISE_ROOM_PLAYER = players[7]
 /** 进攻怪所属玩家 **/
 public let OFFENSE_PLAYER = players[6]
 /** 基地所属玩家 **/

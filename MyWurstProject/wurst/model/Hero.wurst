@@ -30,7 +30,7 @@ public class Hero
     int gamePoint = 0 // 游戏积分
     int reputation = 0 // 声望
     int kongFuQuality = 0 // 武学修为
-    int freeAttr = 0 // 自由属性点
+    int freeAttr = 10 // 自由属性点
     int perception = 0 // 悟性
     int constitution = 0 // 根骨
     int healingSkill = 0 // 医术
@@ -50,13 +50,14 @@ public class Hero
     real criticalTimes = 1 // 暴击倍数
     int gender = 0 // 性别 0-女 1-男
     int denomination = 0 // 门派
+    int maxKongFuNum = 8 // 最大可以学习的武功数
     real maxDamage = 0 // 最大伤害
     real dodge = 0 // 闪避
     real vampire = 0 // 技能吸血
     real lifeRegeneration = 0 // 生命回复
     real manaRegeneration = 0 // 法力回复
-    real killRegeneration = 0 // 杀怪回复
-    real attackedRegeneration = 0 // 受伤害回复
+    real killRegeneration = 200 // 杀怪回复
+    real attackedRegeneration = 100 // 受伤害回复
     boolean learnFirst = false // 是否学第一个门派技能
     boolean learnSecond = false // 是否学第二个门派技能
     boolean learnThird = false // 是否学第三个门派技能
@@ -82,7 +83,7 @@ public class Hero
         doneTasks = new HashList<Task>()
         
     function canLearnMoreKongFu() returns bool
-        return kongFuList.size() < 11
+        return kongFuList.size() < maxKongFuNum
     
     /** 全属性增加 **/
     function addAllAttrs(int num)
@@ -101,7 +102,7 @@ public class Hero
         u.setGeneralBonus(BONUS_TYPE_MAX_LIFE, MODE_ADD, 400)
         u.setGeneralBonus(BONUS_TYPE_ATTACK, MODE_ADD, 40)
         u.setGeneralBonus(BONUS_TYPE_ARMOR, MODE_ADD, 5)
-        if u.getLevel() >= 3 and not learnFirst
+        if u.getLevel() >= 2 and not learnFirst
             learnFirst = true
             if denomination != DENOMINATION_FREE
                 if canLearnMoreKongFu()
@@ -127,7 +128,7 @@ public class Hero
                 printTimedToPlayer("|cff00FF66恭喜领悟技能：" + GetObjectName(denominations[denomination].secondKongFu), 15, u.getOwner())
                 DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"|cff00FF66玩家" + (u.getOwner().getId() + 1).toString() + "成为" + denominations[denomination].name + "中级弟子")
                 u.getOwner().setName("〓" + denominations[denomination].name + "中级弟子〓" + playerNames.loadString(u.getOwner().getHandleId()))
-        if u.getLevel() >= 3 and u.getAbilityLevel(denominations[denomination].secondKongFu) >= 2 and not learnThird
+        if u.getLevel() >= 4 and u.getAbilityLevel(denominations[denomination].secondKongFu) >= 2 and not learnThird
             learnThird = true
             if denomination != DENOMINATION_FREE
                 kongFuList.add(denominations[denomination].thirdKongFu)

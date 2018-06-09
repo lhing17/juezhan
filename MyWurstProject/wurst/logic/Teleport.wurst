@@ -7,6 +7,7 @@ import Event
 import Common
 import Hero
 import ColorUtils
+import GlobalInitialization
 
 /* 传送到传送石 */
 function isTeleportToTeleportStone() returns bool
@@ -153,15 +154,15 @@ function teleportToExerciseRooms()
     let id = GetManipulatedItem().getTypeId()
     if id == 1227895361
         printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房一", 15, GetTriggerUnit().getOwner())
-        GetTriggerUnit().setPos(vec2(3730, -4690))
+        GetTriggerUnit().setPos(EXERCISE_ROOM1_LOC)
         GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
     else if id == 1227895350   
         printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房二", 15, GetTriggerUnit().getOwner())
-        GetTriggerUnit().setPos(vec2(4250, -3650))
+        GetTriggerUnit().setPos(EXERCISE_ROOM2_LOC)
         GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
     else if id == 1227895351
         printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房三", 15, GetTriggerUnit().getOwner())
-        GetTriggerUnit().setPos(vec2(5920,-4750))
+        GetTriggerUnit().setPos(EXERCISE_ROOM3_LOC)
         GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
 
 

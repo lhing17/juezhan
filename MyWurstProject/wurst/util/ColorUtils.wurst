@@ -11,5 +11,6 @@ public class ColorUtils
     static constant string WARNING = "|cffF47E3E"
     static constant string FAIL = fromPlayerColor(PLAYER_COLOR_RED).toColorString()
     static constant string HINT = "|cFFFFCC00"
+    static constant string HINT_LINES = "|cFFcc99ff"
     /** possibility **/
     static constant string RATE = fromPlayerColor(PLAYER_COLOR_ORANGE).toColorString()

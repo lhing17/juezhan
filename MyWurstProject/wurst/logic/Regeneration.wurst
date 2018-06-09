@@ -16,6 +16,8 @@ function isKillRegeneration() returns bool
 function killRegeneration()
     let hero = GetKillingUnit().getHero()
     if not GetKillingUnit().hasAbility('A03Z')
+        real r = hero.killRegeneration + (hero.courage / 2000) * hero.u.getMaxHP()
+        Log.debug("杀死怪物" + GetTriggerUnit().getName() + "回复气血：" + r.toString(2))
         hero.u.addHP(hero.killRegeneration + (hero.courage / 2000) * hero.u.getMaxHP())
 
 // 受伤害回复

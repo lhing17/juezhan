@@ -44,6 +44,12 @@ public let FOURTH_EXPERIENCE_LOC = vec2(-1180, 11267) // TESTME 修改为实际�
 public let FIFTH_EXPERIENCE_LOC = vec2(4400, 470) // TESTME 修改为实际地点
 /** 历练6小地图ping点 **/
 public let SIXTH_EXPERIENCE_LOC = vec2(-9635, -330) // TESTME 修改为实际地点
+/** 练功房1 **/
+public let EXERCISE_ROOM1_LOC = vec2(3730, -4690)
+/** 练功房2 **/
+public let EXERCISE_ROOM2_LOC = vec2(4750, -3650)
+/** 练功房3 **/
+public let EXERCISE_ROOM3_LOC = vec2(5920,-4750)
 
 /** 选择门派的区域 **/
 public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)

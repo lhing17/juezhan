@@ -7,6 +7,7 @@ import Common
 import HashList
 import ColorUtils
 import Task
+import Table
 
 function keyInput()
     var s = GetEventPlayerChatString()
@@ -38,7 +39,18 @@ function keyInput()
     else if s == "ckwg"
     else if s == "ckwq"
     else if s == "ckjn"
+        Table kongFuTable = hero.kongFuTable
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+        for id in hero.kongFuList
+            printTimedToPlayer(ColorUtils.HINT + GetAbilityName(id) + ":" + kongFuTable.loadString(id * 2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
     else if s == "ckhf"
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "杀怪回复：" + hero.killRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "伤害回复：" + hero.attackedRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "气血回复：" + hero.lifeRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "法力回复：" + hero.manaRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
     else if s == "ck"
     else if s == "-ms" 
         //printTimedToPlayer("|cFF00FFFF您当前的移动速度为"+I2S(R2I(GetUnitMoveSpeedEx(p.getHero().u))), 15, p)

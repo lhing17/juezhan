@@ -1,0 +1,31 @@
+package ExerciseRoomSpawner
+
+/* *******************************
+ * 练功房刷怪 @Test Passed
+ * *******************************/
+// standard imports
+import ClosureTimers
+
+// custom imports
+import GameConfiguration
+import GlobalInitialization
+import Offense
+
+group exerciseRoom1Group = CreateGroup()
+group exerciseRoom2Group = CreateGroup()
+group exerciseRoom3Group = CreateGroup()
+
+function isAliveExerciseRoomUnit() returns bool
+    return GetFilterUnit().getOwner() == EXERCISE_ROOM_PLAYER and GetFilterUnit().isAlive()
+
+init
+    doPeriodically(6.) cb ->
+        if exerciseRoom1Group..clear()..enumUnitsInRange(EXERCISE_ROOM1_LOC, 500, Condition(function isAliveExerciseRoomUnit)).size() < 3
+            for i = 0 to 11
+                createUnit(EXERCISE_ROOM_PLAYER, wave.toOffenseId(), EXERCISE_ROOM1_LOC, DEFAULT_FACING)
+        if exerciseRoom2Group..clear()..enumUnitsInRange(EXERCISE_ROOM2_LOC, 500, Condition(function isAliveExerciseRoomUnit)).size() < 3
+            for i = 0 to 11
+                createUnit(EXERCISE_ROOM_PLAYER, wave.toOffenseId(), EXERCISE_ROOM2_LOC, DEFAULT_FACING)
+        if exerciseRoom3Group..clear()..enumUnitsInRange(EXERCISE_ROOM3_LOC, 500, Condition(function isAliveExerciseRoomUnit)).size() < 3
+            for i = 0 to 11
+                createUnit(EXERCISE_ROOM_PLAYER, wave.toOffenseId(), EXERCISE_ROOM3_LOC, DEFAULT_FACING)

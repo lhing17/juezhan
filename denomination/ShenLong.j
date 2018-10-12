@@ -329,228 +329,228 @@ function DiQingXiangLongSH takes nothing returns nothing
     set ut=null
 endfunction
 
-//飞燕回翔
-function IsFeiYanHuiXiang takes nothing returns boolean
-    return ((GetSpellAbilityId() == 'A054'))
-endfunction
+// //飞燕回翔
+// function IsFeiYanHuiXiang takes nothing returns boolean
+    // return ((GetSpellAbilityId() == 'A054'))
+// endfunction
 
-function Trig_Wild_Axes_aFunc026Func021002003 takes nothing returns boolean
-    return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE) == false) and ((IsUnitAliveBJ(GetFilterUnit()) == true) and ((IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C))) == true) and (IsUnitInGroup(GetFilterUnit(), YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865)) == false)))))
-endfunction
+// function Trig_Wild_Axes_aFunc026Func021002003 takes nothing returns boolean
+    // return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE) == false) and ((IsUnitAliveBJ(GetFilterUnit()) == true) and ((IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C))) == true) and (IsUnitInGroup(GetFilterUnit(), YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865)) == false)))))
+// endfunction
 
-function Trig_Wild_Axes_aFunc026Func022002003 takes nothing returns boolean
-    return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE) == false) and ((IsUnitAliveBJ(GetFilterUnit()) == true) and ((IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C))) == true) and (IsUnitInGroup(GetFilterUnit(), YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7)) == false)))))
-endfunction
+// function Trig_Wild_Axes_aFunc026Func022002003 takes nothing returns boolean
+    // return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_STRUCTURE) == false) and ((IsUnitAliveBJ(GetFilterUnit()) == true) and ((IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C))) == true) and (IsUnitInGroup(GetFilterUnit(), YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7)) == false)))))
+// endfunction
 
-//function Trig_Wild_Axes_aFunc026Func023003 takes nothing returns nothing
-//    if (((GetDestructableTypeId(GetEnumDestructable()) != 'YTlb') and (GetDestructableTypeId(GetEnumDestructable()) != 'Ytlc'))) then
-//        call KillDestructable( GetEnumDestructable() )
-//    else
-//        call DoNothing(  )
-//    endif
-//endfunction
+// //function Trig_Wild_Axes_aFunc026Func023003 takes nothing returns nothing
+// //    if (((GetDestructableTypeId(GetEnumDestructable()) != 'YTlb') and (GetDestructableTypeId(GetEnumDestructable()) != 'Ytlc'))) then
+// //        call KillDestructable( GetEnumDestructable() )
+// //    else
+// //        call DoNothing(  )
+// //    endif
+// //endfunction
 
-//function Trig_Wild_Axes_aFunc026Func024003 takes nothing returns nothing
-//    if (((GetDestructableTypeId(GetEnumDestructable()) != 'YTlb') and (GetDestructableTypeId(GetEnumDestructable()) != 'Ytlc'))) then
-//        call KillDestructable( GetEnumDestructable() )
-//    else
-//        call DoNothing(  )
-//    endif
-//endfunction
+// //function Trig_Wild_Axes_aFunc026Func024003 takes nothing returns nothing
+// //    if (((GetDestructableTypeId(GetEnumDestructable()) != 'YTlb') and (GetDestructableTypeId(GetEnumDestructable()) != 'Ytlc'))) then
+// //        call KillDestructable( GetEnumDestructable() )
+// //    else
+// //        call DoNothing(  )
+// //    endif
+// //endfunction
 
-function Trig_Wild_Axes_aFunc026Func025A takes nothing returns nothing
-	local unit u = YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)
-	local unit ut = GetEnumUnit()
-	local real shxishu= 1
-    local real shanghai=0.
-    if((GetUnitAbilityLevel(u,'A07P')!=0))then//加化功
-        set shxishu=shxishu+.7
-    endif
-    if((GetUnitAbilityLevel(u,'A0D6')!=0))then//加锻骨篇
-        set shxishu=shxishu+1.3
-    endif
-    if((GetUnitAbilityLevel(u,'A0D1')!=0))then//加摧坚神抓
-        call WanBuff(u, ut, 9)
-    endif
-    if((GetUnitAbilityLevel(u,'A0D3')!=0))then//加摧心掌
-       call WanBuff(u, ut, 7)
-    endif
-    set shanghai=ShangHaiGongShi(u,ut,60,40,shxishu,'A054')
-    call WuGongShangHai(u,ut,shanghai)
+// function Trig_Wild_Axes_aFunc026Func025A takes nothing returns nothing
+	// local unit u = YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)
+	// local unit ut = GetEnumUnit()
+	// local real shxishu= 1
+    // local real shanghai=0.
+    // if((GetUnitAbilityLevel(u,'A07P')!=0))then//加化功
+        // set shxishu=shxishu+.7
+    // endif
+    // if((GetUnitAbilityLevel(u,'A0D6')!=0))then//加锻骨篇
+        // set shxishu=shxishu+1.3
+    // endif
+    // if((GetUnitAbilityLevel(u,'A0D1')!=0))then//加摧坚神抓
+        // call WanBuff(u, ut, 9)
+    // endif
+    // if((GetUnitAbilityLevel(u,'A0D3')!=0))then//加摧心掌
+       // call WanBuff(u, ut, 7)
+    // endif
+    // set shanghai=ShangHaiGongShi(u,ut,60,40,shxishu,'A054')
+    // call WuGongShangHai(u,ut,shanghai)
 
-    call GroupAddUnit( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865), GetEnumUnit() )
-    //call UnitDamageTarget( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), GetEnumUnit(), ( ( I2R(GetUnitAbilityLevel(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), 'AUcs')) * 30.00 ) + 60.00 ), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_METAL_MEDIUM_SLICE )
-    call DestroyEffect( AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl", GetEnumUnit(), "overhead") )
-endfunction
+    // call GroupAddUnit( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865), GetEnumUnit() )
+    // //call UnitDamageTarget( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), GetEnumUnit(), ( ( I2R(GetUnitAbilityLevel(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), 'AUcs')) * 30.00 ) + 60.00 ), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_METAL_MEDIUM_SLICE )
+    // call DestroyEffect( AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl", GetEnumUnit(), "overhead") )
+// endfunction
 
-function Trig_Wild_Axes_aFunc026Func026A takes nothing returns nothing
-	local unit u = YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)
-	local unit ut = GetEnumUnit()
-	local real shxishu= 1
-    local real shanghai=0.
-    set shanghai=ShangHaiGongShi(u,ut,120,80,shxishu,'A054')
-    call WuGongShangHai(u,ut,shanghai)
-    call GroupAddUnit( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7), GetEnumUnit() )
-    //call UnitDamageTarget( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), GetEnumUnit(), ( ( I2R(GetUnitAbilityLevel(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), 'AUcs')) * 30.00 ) + 60.00 ), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_METAL_MEDIUM_SLICE )
-    call DestroyEffect( AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl", GetEnumUnit(), "overhead") )
-endfunction
+// function Trig_Wild_Axes_aFunc026Func026A takes nothing returns nothing
+	// local unit u = YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)
+	// local unit ut = GetEnumUnit()
+	// local real shxishu= 1
+    // local real shanghai=0.
+    // set shanghai=ShangHaiGongShi(u,ut,120,80,shxishu,'A054')
+    // call WuGongShangHai(u,ut,shanghai)
+    // call GroupAddUnit( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7), GetEnumUnit() )
+    // //call UnitDamageTarget( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), GetEnumUnit(), ( ( I2R(GetUnitAbilityLevel(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C), 'AUcs')) * 30.00 ) + 60.00 ), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_METAL_MEDIUM_SLICE )
+    // call DestroyEffect( AddSpecialEffectTarget("Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl", GetEnumUnit(), "overhead") )
+// endfunction
 
-function Trig_Wild_Axes_aFunc026T takes nothing returns nothing
-    local group ydl_group
-    local unit ydl_unit
-    call YDWESetLocalVariableRealArray( "x", 0, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x324AE96A) )
-    call YDWESetLocalVariableRealArray( "y", 0, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x058682B9) )
-    call YDWESetLocalVariableRealArray( "x", 1, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x2392447A) )
-    call YDWESetLocalVariableRealArray( "y", 1, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xB0897302) )
-    call YDWESetLocalVariableRealArray( "x", 2, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x41713DA3) )
-    call YDWESetLocalVariableRealArray( "y", 2, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x71CA3531) )
-    call YDWESetLocalVariableRealArray( "x", 3, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD310CF7A) )
-    call YDWESetLocalVariableRealArray( "y", 3, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x7D73FF94) )
-    call YDWESetLocalVariableReal( "a", YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) )
-    call YDWESetLocalVariableReal( "b", ( 1.00 - YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) ) )
-    call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( ( YDWEGetLocalVariableRealArray("x", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("x", 2) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("x", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
-    call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( ( YDWEGetLocalVariableRealArray("y", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("y", 2) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("y", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
-    call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( ( YDWEGetLocalVariableRealArray("x", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("x", 3) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("x", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
-    call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( ( YDWEGetLocalVariableRealArray("y", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("y", 3) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("y", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
-    if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) > ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ))) then
-        call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ) )
-    else
-        if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) < ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ))) then
-            call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ) )
-        else
-            call DoNothing(  )
-        endif
-    endif
-    if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) > ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ))) then
-        call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ) )
-    else
-        if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) < ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ))) then
-            call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ) )
-        else
-            call DoNothing(  )
-        endif
-    endif
-    if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) > ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ))) then
-        call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ) )
-    else
-        if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) < ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ))) then
-            call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ) )
-        else
-            call DoNothing(  )
-        endif
-    endif
-    if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) > ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ))) then
-        call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ) )
-    else
-        if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) < ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ))) then
-            call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ) )
-        else
-            call DoNothing(  )
-        endif
-    endif
-    call YDTriggerSetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5, GetUnitLoc(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)))
-    call YDTriggerSetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37, GetUnitLoc(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)))
-    call YDWESetLocalVariableGroup( "L1", GetUnitsInRangeOfLocMatching(115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5), Condition(function Trig_Wild_Axes_aFunc026Func021002003)) )
-    call YDWESetLocalVariableGroup( "L1", GetUnitsInRangeOfLocMatching(115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37), Condition(function Trig_Wild_Axes_aFunc026Func022002003)) )
-    //call EnumDestructablesInCircleBJ( 115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5), function Trig_Wild_Axes_aFunc026Func023003 )
-    //call EnumDestructablesInCircleBJ( 115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37), function Trig_Wild_Axes_aFunc026Func024003 )
-    call ForGroupBJ( YDWEGetLocalVariableGroup("L1"), function Trig_Wild_Axes_aFunc026Func025A )
-    call ForGroupBJ( YDWEGetLocalVariableGroup("L2"), function Trig_Wild_Axes_aFunc026Func026A )
-    call DestroyGroup( YDWEGetLocalVariableGroup("L1") )
-    call DestroyGroup( YDWEGetLocalVariableGroup("L2") )
-    if ((YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == true)) then
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3, ( YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) - 0.02 ))
-    else
-        call YDWESetLocalVariableRealArray( "x", 0, GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)) )
-        call YDWESetLocalVariableRealArray( "y", 0, GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)) )
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3, ( YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) + 0.02 ))
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x324AE96A, GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)))
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x058682B9, GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)))
-        call YDWESetLocalVariableReal( "comp", Atan2(( YDWEGetLocalVariableRealArray("y", 1) - YDWEGetLocalVariableRealArray("y", 0) ), ( YDWEGetLocalVariableRealArray("x", 1) - YDWEGetLocalVariableRealArray("x", 0) )) )
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x236B99A8, YDWEGetLocalVariableReal("comp"))
-    endif
-    if (((YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) <= 0.00) and (YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == true))) then
-        call YDTriggerSetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF, false)
-        call YDWESetLocalVariableRealArray( "x", 2, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
-        call YDWESetLocalVariableRealArray( "y", 2, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
-        call YDWESetLocalVariableRealArray( "x", 3, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
-        call YDWESetLocalVariableRealArray( "y", 3, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x41713DA3, YDWEGetLocalVariableRealArray("x", 2))
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x71CA3531, YDWEGetLocalVariableRealArray("y", 2))
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD310CF7A, YDWEGetLocalVariableRealArray("x", 3))
-        call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x7D73FF94, YDWEGetLocalVariableRealArray("y", 3))
-    else
-    endif
-    if (((YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) >= 1.00) and (YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == false))) then
-        call RemoveLocation( YDWEGetLocalVariableLocation("point3") )
-        call RemoveLocation( YDWEGetLocalVariableLocation("point4") )
-        call RemoveUnit( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B) )
-        call RemoveUnit( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54) )
-        call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865) )
-        call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7) )
-        call YDTriggerClearTable(YDTriggerH2I(GetExpiredTimer()))
-        call DestroyTimer(GetExpiredTimer())
-    else
-    endif
-    set ydl_group = null
-    set ydl_unit = null
-endfunction
+// function Trig_Wild_Axes_aFunc026T takes nothing returns nothing
+    // local group ydl_group
+    // local unit ydl_unit
+    // call YDWESetLocalVariableRealArray( "x", 0, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x324AE96A) )
+    // call YDWESetLocalVariableRealArray( "y", 0, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x058682B9) )
+    // call YDWESetLocalVariableRealArray( "x", 1, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x2392447A) )
+    // call YDWESetLocalVariableRealArray( "y", 1, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xB0897302) )
+    // call YDWESetLocalVariableRealArray( "x", 2, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x41713DA3) )
+    // call YDWESetLocalVariableRealArray( "y", 2, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x71CA3531) )
+    // call YDWESetLocalVariableRealArray( "x", 3, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD310CF7A) )
+    // call YDWESetLocalVariableRealArray( "y", 3, YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x7D73FF94) )
+    // call YDWESetLocalVariableReal( "a", YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) )
+    // call YDWESetLocalVariableReal( "b", ( 1.00 - YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) ) )
+    // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( ( YDWEGetLocalVariableRealArray("x", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("x", 2) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("x", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
+    // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( ( YDWEGetLocalVariableRealArray("y", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("y", 2) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("y", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
+    // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( ( YDWEGetLocalVariableRealArray("x", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("x", 3) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("x", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
+    // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( ( YDWEGetLocalVariableRealArray("y", 0) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("a") ) ) + ( ( ( YDWEGetLocalVariableRealArray("y", 3) * 2.00 ) * ( YDWEGetLocalVariableReal("a") * YDWEGetLocalVariableReal("b") ) ) + ( YDWEGetLocalVariableRealArray("y", 1) * ( YDWEGetLocalVariableReal("b") * YDWEGetLocalVariableReal("b") ) ) ) ) )
+    // if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) > ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ))) then
+        // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ) )
+    // else
+        // if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) < ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ))) then
+            // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ) )
+        // else
+            // call DoNothing(  )
+        // endif
+    // endif
+    // if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) > ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ))) then
+        // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ) )
+    // else
+        // if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)) < ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ))) then
+            // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B), ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ) )
+        // else
+            // call DoNothing(  )
+        // endif
+    // endif
+    // if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) > ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ))) then
+        // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMaxX(bj_mapInitialPlayableArea) - 50.00 ) )
+    // else
+        // if ((GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) < ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ))) then
+            // call SetUnitX( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMinX(bj_mapInitialPlayableArea) + 50.00 ) )
+        // else
+            // call DoNothing(  )
+        // endif
+    // endif
+    // if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) > ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ))) then
+        // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMaxY(bj_mapInitialPlayableArea) - 50.00 ) )
+    // else
+        // if ((GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)) < ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ))) then
+            // call SetUnitY( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54), ( GetRectMinY(bj_mapInitialPlayableArea) + 50.00 ) )
+        // else
+            // call DoNothing(  )
+        // endif
+    // endif
+    // call YDTriggerSetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5, GetUnitLoc(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B)))
+    // call YDTriggerSetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37, GetUnitLoc(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54)))
+    // call YDWESetLocalVariableGroup( "L1", GetUnitsInRangeOfLocMatching(115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5), Condition(function Trig_Wild_Axes_aFunc026Func021002003)) )
+    // call YDWESetLocalVariableGroup( "L1", GetUnitsInRangeOfLocMatching(115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37), Condition(function Trig_Wild_Axes_aFunc026Func022002003)) )
+    // //call EnumDestructablesInCircleBJ( 115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0x247CC5E5), function Trig_Wild_Axes_aFunc026Func023003 )
+    // //call EnumDestructablesInCircleBJ( 115.00, YDTriggerGetEx(location, YDTriggerH2I(GetExpiredTimer()), 0xF4C4BD37), function Trig_Wild_Axes_aFunc026Func024003 )
+    // call ForGroupBJ( YDWEGetLocalVariableGroup("L1"), function Trig_Wild_Axes_aFunc026Func025A )
+    // call ForGroupBJ( YDWEGetLocalVariableGroup("L2"), function Trig_Wild_Axes_aFunc026Func026A )
+    // call DestroyGroup( YDWEGetLocalVariableGroup("L1") )
+    // call DestroyGroup( YDWEGetLocalVariableGroup("L2") )
+    // if ((YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == true)) then
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3, ( YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) - 0.02 ))
+    // else
+        // call YDWESetLocalVariableRealArray( "x", 0, GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)) )
+        // call YDWESetLocalVariableRealArray( "y", 0, GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)) )
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3, ( YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) + 0.02 ))
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x324AE96A, GetUnitX(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)))
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x058682B9, GetUnitY(YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0xB95F828C)))
+        // call YDWESetLocalVariableReal( "comp", Atan2(( YDWEGetLocalVariableRealArray("y", 1) - YDWEGetLocalVariableRealArray("y", 0) ), ( YDWEGetLocalVariableRealArray("x", 1) - YDWEGetLocalVariableRealArray("x", 0) )) )
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x236B99A8, YDWEGetLocalVariableReal("comp"))
+    // endif
+    // if (((YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) <= 0.00) and (YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == true))) then
+        // call YDTriggerSetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF, false)
+        // call YDWESetLocalVariableRealArray( "x", 2, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
+        // call YDWESetLocalVariableRealArray( "y", 2, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
+        // call YDWESetLocalVariableRealArray( "x", 3, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
+        // call YDWESetLocalVariableRealArray( "y", 3, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x41713DA3, YDWEGetLocalVariableRealArray("x", 2))
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x71CA3531, YDWEGetLocalVariableRealArray("y", 2))
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD310CF7A, YDWEGetLocalVariableRealArray("x", 3))
+        // call YDTriggerSetEx(real, YDTriggerH2I(GetExpiredTimer()), 0x7D73FF94, YDWEGetLocalVariableRealArray("y", 3))
+    // else
+    // endif
+    // if (((YDTriggerGetEx(real, YDTriggerH2I(GetExpiredTimer()), 0xD5CF2EF3) >= 1.00) and (YDTriggerGetEx(boolean, YDTriggerH2I(GetExpiredTimer()), 0xA32DA6CF) == false))) then
+        // call RemoveLocation( YDWEGetLocalVariableLocation("point3") )
+        // call RemoveLocation( YDWEGetLocalVariableLocation("point4") )
+        // call RemoveUnit( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x5FB96E0B) )
+        // call RemoveUnit( YDTriggerGetEx(unit, YDTriggerH2I(GetExpiredTimer()), 0x3893EA54) )
+        // call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0x93FE3865) )
+        // call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetExpiredTimer()), 0xF3DA78D7) )
+        // call YDTriggerClearTable(YDTriggerH2I(GetExpiredTimer()))
+        // call DestroyTimer(GetExpiredTimer())
+    // else
+    // endif
+    // set ydl_group = null
+    // set ydl_unit = null
+// endfunction
 
-function FeiYanHuiXiang takes nothing returns nothing
-    local timer ydl_timer
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    call WuGongShengChong(GetTriggerUnit(),'A054',300.)
-    call WuGongShengChong(GetTriggerUnit(),'A059',1500.)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call YDWESetLocalVariableRealArray( "x", 0, GetUnitX(GetTriggerUnit()) )
-    call YDWESetLocalVariableRealArray( "y", 0, GetUnitY(GetTriggerUnit()) )
-    call YDWESetLocalVariableRealArray( "x", 1, GetSpellTargetX() )
-    call YDWESetLocalVariableRealArray( "y", 1, GetSpellTargetY() )
-    call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB95F828C, GetTriggerUnit())
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A, GetUnitX(GetTriggerUnit()))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9, GetUnitY(GetTriggerUnit()))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x2392447A, GetSpellTargetX())
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB0897302, GetSpellTargetY())
-    call YDWESetLocalVariableReal( "comp", Atan2(( YDWEGetLocalVariableRealArray("y", 1) - YDWEGetLocalVariableRealArray("y", 0) ), ( YDWEGetLocalVariableRealArray("x", 1) - YDWEGetLocalVariableRealArray("x", 0) )) )
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x236B99A8, YDWEGetLocalVariableReal("comp"))
-    call YDWESetLocalVariableRealArray( "x", 2, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
-    call YDWESetLocalVariableRealArray( "y", 2, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
-    call YDWESetLocalVariableRealArray( "x", 3, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
-    call YDWESetLocalVariableRealArray( "y", 3, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x41713DA3, YDWEGetLocalVariableRealArray("x", 2))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x71CA3531, YDWEGetLocalVariableRealArray("y", 2))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD310CF7A, YDWEGetLocalVariableRealArray("x", 3))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x7D73FF94, YDWEGetLocalVariableRealArray("y", 3))
-    call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD5CF2EF3, 1.00)
-    call YDTriggerSetEx(boolean, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xA32DA6CF, true)
-    call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5FB96E0B, CreateUnit(GetTriggerPlayer(), 'h00L', YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A), YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9), 270.00))
-    call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x3893EA54, CreateUnit(GetTriggerPlayer(), 'h00L', YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A), YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9), 270.00))
-    call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x93FE3865, CreateGroup())
-    call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF3DA78D7, CreateGroup())
-    set ydl_timer = CreateTimer()
-    call YDTriggerSetEx(boolean, YDTriggerH2I(ydl_timer), 0xA32DA6CF, YDTriggerGetEx(boolean, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xA32DA6CF))
-    call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0xB95F828C, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB95F828C))
-    call YDTriggerSetEx(group, YDTriggerH2I(ydl_timer), 0x93FE3865, YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x93FE3865))
-    call YDTriggerSetEx(group, YDTriggerH2I(ydl_timer), 0xF3DA78D7, YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF3DA78D7))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xD5CF2EF3, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD5CF2EF3))
-    call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0x5FB96E0B, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5FB96E0B))
-    call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0x3893EA54, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x3893EA54))
-    call YDTriggerSetEx(location, YDTriggerH2I(ydl_timer), 0x247CC5E5, YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x247CC5E5))
-    call YDTriggerSetEx(location, YDTriggerH2I(ydl_timer), 0xF4C4BD37, YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF4C4BD37))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x324AE96A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x2392447A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x2392447A))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x41713DA3, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x41713DA3))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xD310CF7A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD310CF7A))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x058682B9, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xB0897302, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB0897302))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x71CA3531, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x71CA3531))
-    call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x7D73FF94, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x7D73FF94))
-    call TimerStart(ydl_timer, ( 0.25 / 10.00 ), true, function Trig_Wild_Axes_aFunc026T)
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-    set ydl_timer = null
-endfunction
+// function FeiYanHuiXiang takes nothing returns nothing
+    // local timer ydl_timer
+    // local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
+    // call WuGongShengChong(GetTriggerUnit(),'A054',300.)
+    // call WuGongShengChong(GetTriggerUnit(),'A059',1500.)
+    // set ydl_localvar_step = ydl_localvar_step + 3
+    // call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
+    // call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    // call YDWESetLocalVariableRealArray( "x", 0, GetUnitX(GetTriggerUnit()) )
+    // call YDWESetLocalVariableRealArray( "y", 0, GetUnitY(GetTriggerUnit()) )
+    // call YDWESetLocalVariableRealArray( "x", 1, GetSpellTargetX() )
+    // call YDWESetLocalVariableRealArray( "y", 1, GetSpellTargetY() )
+    // call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB95F828C, GetTriggerUnit())
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A, GetUnitX(GetTriggerUnit()))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9, GetUnitY(GetTriggerUnit()))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x2392447A, GetSpellTargetX())
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB0897302, GetSpellTargetY())
+    // call YDWESetLocalVariableReal( "comp", Atan2(( YDWEGetLocalVariableRealArray("y", 1) - YDWEGetLocalVariableRealArray("y", 0) ), ( YDWEGetLocalVariableRealArray("x", 1) - YDWEGetLocalVariableRealArray("x", 0) )) )
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x236B99A8, YDWEGetLocalVariableReal("comp"))
+    // call YDWESetLocalVariableRealArray( "x", 2, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
+    // call YDWESetLocalVariableRealArray( "y", 2, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") + 45.00 )) ) ) )
+    // call YDWESetLocalVariableRealArray( "x", 3, ( YDWEGetLocalVariableRealArray("x", 0) + ( 300.00 * Cos(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
+    // call YDWESetLocalVariableRealArray( "y", 3, ( YDWEGetLocalVariableRealArray("y", 0) + ( 300.00 * Sin(( YDWEGetLocalVariableReal("comp") - 45.00 )) ) ) )
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x41713DA3, YDWEGetLocalVariableRealArray("x", 2))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x71CA3531, YDWEGetLocalVariableRealArray("y", 2))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD310CF7A, YDWEGetLocalVariableRealArray("x", 3))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x7D73FF94, YDWEGetLocalVariableRealArray("y", 3))
+    // call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD5CF2EF3, 1.00)
+    // call YDTriggerSetEx(boolean, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xA32DA6CF, true)
+    // call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5FB96E0B, CreateUnit(GetTriggerPlayer(), 'h00L', YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A), YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9), 270.00))
+    // call YDTriggerSetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x3893EA54, CreateUnit(GetTriggerPlayer(), 'h00L', YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A), YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9), 270.00))
+    // call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x93FE3865, CreateGroup())
+    // call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF3DA78D7, CreateGroup())
+    // set ydl_timer = CreateTimer()
+    // call YDTriggerSetEx(boolean, YDTriggerH2I(ydl_timer), 0xA32DA6CF, YDTriggerGetEx(boolean, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xA32DA6CF))
+    // call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0xB95F828C, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB95F828C))
+    // call YDTriggerSetEx(group, YDTriggerH2I(ydl_timer), 0x93FE3865, YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x93FE3865))
+    // call YDTriggerSetEx(group, YDTriggerH2I(ydl_timer), 0xF3DA78D7, YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF3DA78D7))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xD5CF2EF3, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD5CF2EF3))
+    // call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0x5FB96E0B, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5FB96E0B))
+    // call YDTriggerSetEx(unit, YDTriggerH2I(ydl_timer), 0x3893EA54, YDTriggerGetEx(unit, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x3893EA54))
+    // call YDTriggerSetEx(location, YDTriggerH2I(ydl_timer), 0x247CC5E5, YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x247CC5E5))
+    // call YDTriggerSetEx(location, YDTriggerH2I(ydl_timer), 0xF4C4BD37, YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xF4C4BD37))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x324AE96A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x324AE96A))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x2392447A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x2392447A))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x41713DA3, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x41713DA3))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xD310CF7A, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xD310CF7A))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x058682B9, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x058682B9))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0xB0897302, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xB0897302))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x71CA3531, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x71CA3531))
+    // call YDTriggerSetEx(real, YDTriggerH2I(ydl_timer), 0x7D73FF94, YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x7D73FF94))
+    // call TimerStart(ydl_timer, ( 0.25 / 10.00 ), true, function Trig_Wild_Axes_aFunc026T)
+    // call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+    // set ydl_timer = null
+// endfunction
 
 //神龙八式
 function Trig_ciZhenSaoSheConditions takes nothing returns boolean
@@ -669,11 +669,11 @@ function ShenLong_Trigger takes nothing returns nothing
 	call TriggerAddCondition(t,Condition(function IsDiQingXiangLongSH))
     call TriggerAddAction(t,function DiQingXiangLongSH)
 
-    //飞燕回翔
-    set t = CreateTrigger()
-    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
-    call TriggerAddCondition(t, Condition(function IsFeiYanHuiXiang))
-    call TriggerAddAction(t, function FeiYanHuiXiang)
+    // //飞燕回翔
+    // set t = CreateTrigger()
+    // call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+    // call TriggerAddCondition(t, Condition(function IsFeiYanHuiXiang))
+    // call TriggerAddAction(t, function FeiYanHuiXiang)
 	//小怜横陈
     set t = CreateTrigger()
     call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)

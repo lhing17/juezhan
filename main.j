@@ -12,7 +12,6 @@
 //神器系统
 #include "systems/Artifact.j" 
 #include "systems/ElixirSystem.j"
-#include "systems/Vip.j"
 #include "systems/TaoHuaDao.j"
 
 #include "test/najitest.j"

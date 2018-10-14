@@ -2254,420 +2254,418 @@ function TestA_naji takes nothing returns nothing
     local integer i_naji
     local integer row_naji=2769
     set Sdummy_naji[1]="2013/11/04"
-    if udg_vip[1+GetPlayerId(GetTriggerPlayer())]>1 then
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00===============*****===============|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFF8000         开始初始化|cff00FFFFnajitest|cffFF8000测试代码|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFF80C0                代码版本：|cffFF0000V2.4|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00              更新日期：|cffFF0000"+Sdummy_naji[1]+"|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFFFF00       需要查看所有可用代码请按下|cffFF0000F9|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFFFF00     任意玩家输入|cffFF0000'remove|cffFFFF00可清除该系统|r")
-    	call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00===============*****===============|r")
-    	set Ptest_naji=GetTriggerPlayer()
-    	set StringList_naji=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
-    	set Rworld_naji=CreateRegion()
-    	call RegionAddRect(Rworld_naji,GetWorldBounds())
-    	set Itrigger_naji=0
-    	loop
-    	    set Itrigger_naji=Itrigger_naji+1
-    	    set Ttest_naji[Itrigger_naji]=CreateTrigger()
-    	    exitwhen Itrigger_naji>=77
-    	endloop
-    	set Iquest_naji=0
-    	loop
-    	    set Iquest_naji=Iquest_naji+1
-    	    set Q_naji[Iquest_naji]=CreateQuest()
-    	    call QuestSetIconPath(Q_naji[Iquest_naji],"Buildings\\Other\\TempArtB\\BTNTempB.blp")
-    	    call QuestSetRequired(Q_naji[Iquest_naji],false)
-    	    call QuestSetDiscovered(Q_naji[Iquest_naji],true)
-    	    call QuestSetCompleted(Q_naji[Iquest_naji],false)
-    	    exitwhen Iquest_naji>=13
-    	endloop
-    	set i_naji=61
-    	call QuestSetTitle(Q_naji[1],"|cffFF0000najitest帮助信息")
-    	call QuestSetDescription(Q_naji[1],"|cff00FFFF注意：|r|n|cff00FFFF1、|cffFF0000*|cffFFFF00代表需要输入|cffFF80C0数字/文字，且其数量代表要输入多少个参数，参数之间用英文逗号隔开。多参数命令的第1参数必需输入，其它参数若空缺则系统会自动填补|r|n|cff00FFFF2、|cffFF0000(s)|cffFFFF00代表该代码功能可以同时作用|cffFF80C0玩家选择的所有单位|r|n|cff00FFFF3、|cffFFFF00很多功能都可以通过|cffFF80C0反复输入代码|cffFFFF00来切换|cffFF0000开/关|r|n|cff00FFFF4、|cffFFFF00为保持稳定，判定|cffFF80C0玩家选择单位|cffFFFF00没有同步系统数据，请确保在使用相关代码前|cffFF0000重新框选|cffFFFF00合适的单位|r|n|cff00FFFF5、|cffFFFF00大部分功能支持|cffFF0000负数|cffFFFF00，不支持负数的功能输入负值会|cffFF80C0还原默认设定|r|n|cff00FFFF6、|cffFFFF00使用者可以在任何时候|cffFF0000按下Esc|cffFFFF00重新获得用户控制权及关闭电影模式|r")
-    	call QuestSetTitle(Q_naji[2],"|cffFF0000独立系统")
-    	call QuestSetDescription(Q_naji[2],"|cffFFFF00'feini|cffFF0000(|rnajitest system|cffFF0000)|r|cffFFFF00'gms|cffFF0000(|r(Group Multiple Spell)|cffFF0000)|r|cffFFFF00'gcd|cffFF0000(|r(Group Cool Down)|cffFF0000)|r|n|n|cff00FFFF该系统包含众多测试功能，输入后会打开一个对话框")
-    	call QuestSetTitle(Q_naji[3],"|cffFF0000单位-英雄（必须选择英雄）")
-    	call QuestSetDescription(Q_naji[3],"|cffFFFF00'hl*|cffFF0000(|rset Hero(s) Level|cffFF0000)|r|cffFFFF00'hp*|cffFF0000(|radd Hero(s) skill Point|cffFF0000)|r|cffFFFF00'hs*|cffFF0000(|rset Hero(s) Str|cffFF0000)|r|cffFFFF00'ha*|cffFF0000(|rset Hero(s) Agi|cffFF0000)|r|cffFFFF00'hi*|cffFF0000(|rset Hero(s) Int|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[4],"|cffFF0000单位-数值（必须选择单位）")
-    	call QuestSetDescription(Q_naji[4],"|cffFFFF00'uts*|cffFF0000(|rUnit(s) Time Scale|cffFF0000)|r|cffFFFF00'uic**|cffFF0000(|rset Unit's Item Charge|cffFF0000)|r|cffFFFF00'um*|cffFF0000(|rset Unit(s) Move speed|cffFF0000)|r|cffFFFF00'uus*|cffFF0000(|rset Unit(s) tUrn Speed|cffFF0000)|r|cffFFFF00'uar*|cffFF0000(|rset Unit(s) Acquire Range|cffFF0000)|r|cffFFFF00'ufh*|cffFF0000(|rset Unit(s) Fly Height|cffFF0000)|r|cffFFFF00'ud*|cffFF0000(|rset Unit(s) user Data|cffFF0000)|r|cffFFFF00'us*|cffFF0000(|rset Unit(s) Scale|cffFF0000)|r|cffFFFF00'uvc****|cffFF0000(|rset Unit(s) Vertax Color|cffFF0000)|r|cffFFFF00'uxy**|cffFF0000(|rset Unit(s) XY|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[5],"|cffFF0000单位-状态（必须选择单位）")
-    	call QuestSetDescription(Q_naji[5],"|cffFFFF00'uh|cffFF0000(|rUnit(s) Healing|cffFF0000)|r|cffFFFF00'up|cffFF0000(|rUnit(s) Pause|cffFF0000)|r|cffFFFF00'ub|cffFF0000(|rUnit(s) Buff clear|cffFF0000)|r|cffFFFF00'uw|cffFF0000(|rUnit(s) Windwalk|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[6],"|cffFF0000单位-特殊（必须选择单位）")
-    	call QuestSetDescription(Q_naji[6],"|cffFFFF00'ua*|cffFF0000(|rplay Unit(s) Animation by index|cffFF0000)|r|cffFFFF00'ui|cffFF0000(|rUnit Information|cffFF0000)|r|cffFFFF00'uo*|cffFF0000(|rset Unit(s) Owner|cffFF0000)|r|cffFFFF00'uk|cffFF0000(|rUnit(s) Killed|cffFF0000)|r|cffFFFF00'co**|cffFF0000(|rCreate Object|cffFF0000)|r|cffFFFF00'ul|cffFF0000(|rUnit camera Lock|cffFF0000)|r|cffFFFF00'ur|cffFF0000(|rUnit(s) Remove|cffFF0000)|r|cffFFFF00'uii*|cffFF0000(|rUnit's Item Information|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[7],"|cffFF0000玩家相关")
-    	call QuestSetDescription(Q_naji[7],"|cffFFFF00'ag**/al**|cffFF0000(|rAdd Gold/Lumber|cffFF0000)|r|cffFFFF00'pc**|cffFF0000(|rPlayer Control|cffFF0000)|r|cffFFFF00'pa**|cffFF0000(|rset Player Alliance|cffFF0000)|r|cffFFFF00'pk*|cffFF0000(|rPlayer Kicked|cffFF0000)|r|cffFFFF00'ph**|cffFF0000(|rset Player Handicap|cffFF0000)|r|cffFFFF00'pn*|cffFF0000(|rPlayer Name|cffFF0000)|r|cffFFFF00'pt***|cffFF0000(|rPlayer Tech|cffFF0000)|r|cffFFFF00'psl|cffFF0000(|rPlayer Statistics List|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[8],"|cffFF0000镜头相关")
-    	call QuestSetDescription(Q_naji[8],"|cffFFFF00'cm|cffFF0000(|rCamera Mode|cffFF0000)|r|cffFFFF00'cd*|cffFF0000(|rCamera Distance|cffFF0000)|r|cffFFFF00'cr|cffFF0000(|rCamera Reset|cffFF0000)|r|cffFFFF00'ci|cffFF0000(|rCamera Information|cffFF0000)|r|cffFFFF00'cz*|cffFF0000(|rset Camera farZ|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[9],"|cffFF0000其它")
-    	call QuestSetDescription(Q_naji[9],"|cffFFFF00'fog|cffFF0000(|rFog|cffFF0000)|r|cffFFFF00'sc|cffFF0000(|rScreen Clear|cffFF0000)|r|cffFFFF00'rd|cffFF0000(|rRoll Dice|cffFF0000)|r|cffFFFF00'bm*|cffFF0000(|rBackup Message|cffFF0000)|r|cffFFFF00'cbm|cffFF0000(|rClear Backup Message|cffFF0000)|r|cffFFFF00'td*|cffFF0000(|rset Time of Day|cffFF0000)|r|cffFFFF00'ts*|cffFF0000(|rset Time of day Scale|cffFF0000)|r|cffFFFF00'we*|cffFF0000(|rWeather Effect|cffFF0000)|r|cffFFFF00'se*|cffFF0000(|rSystem Exchange|cffFF0000)|r|cffFFFF00'ef*|cffFF0000(|rExecute Function|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[10],"|cffFF0000游戏设置")
-    	call QuestSetDescription(Q_naji[10],"|cffFFFF00'mv*|cffFF0000(|rMusic Volume|cffFF0000)|r|cffFFFF00'sv*|cffFF0000(|rSound Volume|cffFF0000)|r|cffFFFF00'pg|cffFF0000(|rPause Game|cffFF0000)|r|cffFFFF00'rs*|cffFF0000(|rset Random Seed|cffFF0000)|r|cffFFFF00'gg|cffFF0000(|rGood Game|cffFF0000)|r|cffFFFF00'gs*|cffFF0000(|rset Game Speed|cffFF0000)|r|cffFFFF00'mf|cffFF0000(|rset Map Flag|cffFF0000)|r|cffFFFF00're|cffFF0000(|rRestart|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[11],"|cffFF0000co命令帮助信息")
-    	call QuestSetDescription(Q_naji[11],"|cffFF0000co命令可以创建单位、物品、可破坏物、添加删除技能、设置技能等级、删除buff。输入格式为'co+id+,+数值，数值对应创建物体的数量或技能等级，当没有输入数值时，默认为1。当单位已经拥有该技能，带有数值的'co命令会改变等级，不带数值的则会删除技能。|n|n|cffFFFF00Amov|cffFF0000(|r移动|cffFF0000)|r|cffFFFF00Abun|cffFF0000(|r货物保持|cffFF0000)|r|cffFFFF00Avul|cffFF0000(|r无敌|cffFF0000)|r|cffFFFF00AInv|cffFF0000(|r英雄物品栏|cffFF0000)|r|cffFFFF00ARal|cffFF0000(|r集结|cffFF0000)|r|cffFFFF00Arng|cffFF0000(|r复仇|cffFF0000)|r|cffFFFF00Awan|cffFF0000(|r游荡者|cffFF0000)|r|cffFFFF00Ane2|cffFF0000(|r选择单位|cffFF0000)|r|cffFFFF00Apiv|cffFF0000(|r永久隐形|cffFF0000)|r|cffFFFF00Adtg|cffFF0000(|r真实视域|cffFF0000)|r|cffFFFF00Aeth|cffFF0000(|r可见幽灵|cffFF0000)|r|cffFFFF00Arsk|cffFF0000(|r抗性皮肤|cffFF0000)|r|cffFFFF00Acmi|cffFF0000(|r魔法免疫|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[12],"|cffFF0000we命令帮助信息")
-    	call QuestSetDescription(Q_naji[12],"|cffFF0000注意乱输4位ID会游戏崩溃！输入的ID未满4位时会清除所有已创建的全图天气。|r|n|n|cffFFFF00RA(h/l)r|cffFF0000(|r白杨谷(大/小)雨|cffFF0000)|r|cffFFFF00MEds|cffFF0000(|r达拉然之盾|cffFF0000)|r|cffFFFF00FD(b/g/r/w)(h/l)|cffFF0000(|r地下城(蓝/绿/红/白)(浓/薄)雾|cffFF0000)|r|cffFFFF00RL(h/l)r|cffFF0000(|r洛丹伦(大/小)雨|cffFF0000)|r|cffFFFF00SN(b/h/l)s|cffFF0000(|r诺森德(暴/大/小)雪|cffFF0000)|r|cffFFFF00WO(c/l)w|cffFF0000(|r边缘之地(大/小)风|cffFF0000)|r|cffFFFF00Lr(a/m)a|cffFF0000(|r(日/月)光|cffFF0000)|r|cffFFFF00WNcw|cffFF0000(|r大风|cffFF0000)|r")
-    	call QuestSetTitle(Q_naji[13],"|cffFF0000najitest基本信息")
-    	call QuestSetDescription(Q_naji[13],"|cffFFFF00脚本作者：|cffFF0000najizhimo|r"+"|n|cffFFFF00当前使用者：|cffFF0000"+GetPlayerName(Ptest_naji)+"|r"+"|n|cffFFFF00更新日期：|cffFF0000"+Sdummy_naji[1]+"|n|cffFFFF00可用代码数量：|cffFF0000"+I2S(i_naji)+"|r"+"|n|cffFFFF00注册触发数量：|cffFF0000"+I2S(Itrigger_naji)+"|r"+"|n|cffFFFF00创建任务数量：|cffFF0000"+I2S(Iquest_naji)+"|r"+"|n|cffFFFF00脚本行数：|cffFF0000"+I2S(row_naji)+"|n|cffFFFF00对此系统有任何提议请到|cffFF80C0百度魔兽地图编辑器贴吧|cffFFFF00发贴|r"+"|n|cffFFFF00任意玩家输入|cffFF0000'remove|cffFFFF00可清除该系统|r")
-    	call FlashQuestDialogButton()
-    	//=========================naji system开始==============================
-    	    //'feini(najitest system)
-    	set Dnaji_naji[0]=DialogCreate()
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[1],GetTriggerPlayer(),"'feini",true)
-    	call TriggerAddCondition(Ttest_naji[1],Condition(function TestA2_naji))
-    	call TriggerRegisterDialogEvent(Ttest_naji[3],Dnaji_naji[0])
-    	call TriggerAddCondition(Ttest_naji[3],Condition(function TestA4_naji))
-    	    //Display Ability
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[2],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[2],Condition(function TestA3_naji))
-    	call DisableTrigger(Ttest_naji[2])
-    	    //Display Order
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER,null)
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER,null)
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_ORDER,null)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[15],Condition(function TestA17_naji))
-    	call DisableTrigger(Ttest_naji[15])
-    	    //Display Life
-    	call TriggerRegisterEnterRegion(Ttest_naji[17],Rworld_naji,null)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[17],Player(i_naji),EVENT_PLAYER_UNIT_DEATH,null)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[17],Condition(function TestA19_naji))
-    	call DisableTrigger(Ttest_naji[17])
-    	    //Display Damage
-    	call TriggerRegisterEnterRegion(Ttest_naji[26],Rworld_naji,null)
-    	call TriggerAddCondition(Ttest_naji[26],Condition(function TestA28_naji))
-    	call DisableTrigger(Ttest_naji[26])
-    	    //No cd mana Cost
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[4],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[4],Condition(function TestA5_naji))
-    	call DisableTrigger(Ttest_naji[4])
-    	set Gcd_naji[0]=CreateGroup()
-    	set Gcd_naji[1]=null
-    	//=========================以下部分1.24以下的版本需删除==============================
-    	    //Display Handle
-    	call TriggerRegisterTimerEvent(Ttest_naji[7],0.1,true)
-    	call TriggerAddCondition(Ttest_naji[7],Condition(function TestA9_naji))
-    	call DisableTrigger(Ttest_naji[7])
-    	//=========================以上部分1.24以下的版本需删除==============================
-    	    //Observer
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[61],Player(i_naji),"",false)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call DisableTrigger(Ttest_naji[61])
-    	call TriggerAddCondition(Ttest_naji[61],Condition(function TestA66_naji))
-    	    //Multiple Spell
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerUnitEvent(Ttest_naji[71],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[71],Condition(function TestA76_naji))
-    	call DisableTrigger(Ttest_naji[71])
-    	set Gms_naji=null
-    	    //系统信息调整
-    	set Dnaji_naji[1]=DialogCreate()
-    	call TriggerRegisterDialogEvent(Ttest_naji[6],Dnaji_naji[1])
-    	call TriggerAddCondition(Ttest_naji[6],Condition(function TestA8_naji))
-    	        //whether display widget XY
-    	set Bxy_naji=true
-    	        //whether display widget ID
-    	set Bid_naji=true
-    	        //whether display Player Name
-    	set Bpn_naji=false
-    	        //whether display Int or Real
-    	set Bir_naji=true
-    	        //change Display Damage Mode
-    	set Bddm_naji=false
-    	//=========================naji system结束==============================
-    	//’uh(Unit(s) Healing)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[5],GetTriggerPlayer(),"'uh",true)
-    	call TriggerAddCondition(Ttest_naji[5],Condition(function TestA7_naji))
-    	//’ag**/al**(Add Gold/Lumber)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[8],GetTriggerPlayer(),"'ag",false)
-    	call TriggerAddCondition(Ttest_naji[8],Condition(function TestA10_naji))
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[9],GetTriggerPlayer(),"'al",false)
-    	call TriggerAddCondition(Ttest_naji[9],Condition(function TestA11_naji))
-    	//’hl*(set Hero(s) Level)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[10],GetTriggerPlayer(),"'hl",false)
-    	call TriggerAddCondition(Ttest_naji[10],Condition(function TestA12_naji))
-    	//’fog(Fog)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[11],GetTriggerPlayer(),"'fog",true)
-    	call TriggerAddCondition(Ttest_naji[11],Condition(function TestA13_naji))
-    	if IsMapFlagSet(MAP_FOG_ALWAYS_VISIBLE) then
-    	    set Bfog_naji=false
-    	else
-    	    set Bfog_naji=true
-    	endif
-    	//’ua*(play Unit(s) Animation by index)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[12],GetTriggerPlayer(),"'ua",false)
-    	call TriggerAddCondition(Ttest_naji[12],Condition(function TestA14_naji))
-    	//’cd(Camera Distance)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[13],Player(i_naji),"'cd",false)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[13],Condition(function TestA15_naji))
-    	//'ur(Unit(s) Remove)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[14],GetTriggerPlayer(),"'ur",true)
-    	call TriggerAddCondition(Ttest_naji[14],Condition(function TestA16_naji))
-    	//'pn(Player Name)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[16],Player(i_naji),"'pn",false)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[16],Condition(function TestA18_naji))
-    	//'sc(Screen Clear)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[18],Player(i_naji),"'sc",true)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[18],Condition(function TestA20_naji))
-    	//'cr(Camera Reset)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[19],Player(i_naji),"'cr",true)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[19],Condition(function TestA21_naji))
-    	//’ui(Unit Information)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[20],Player(i_naji),"'ui",true)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[20],Condition(function TestA22_naji))
-    	//’pc**(Player Control)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[21],GetTriggerPlayer(),"'pc",false)
-    	call TriggerAddCondition(Ttest_naji[21],Condition(function TestA23_naji))
-    	//'uvc****(set Unit(s) Vertex Color)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[22],GetTriggerPlayer(),"'uvc",false)
-    	call TriggerAddCondition(Ttest_naji[22],Condition(function TestA24_naji))
-    	//’uts*(Unit(s) Time Scale)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[23],GetTriggerPlayer(),"'uts",false)
-    	call TriggerAddCondition(Ttest_naji[23],Condition(function TestA25_naji))
-    	//’pg(Pause Game)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[24],GetTriggerPlayer(),"'pg",true)
-    	call TriggerAddCondition(Ttest_naji[24],Condition(function TestA26_naji))
-    	set Bpause_naji=false
-    	//'psl(Player Statistics List)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[25],GetTriggerPlayer(),"'psl",true)
-    	call TriggerAddCondition(Ttest_naji[25],Condition(function TestA27_naji))
-    	//'up(Unit(s) Pause)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[27],GetTriggerPlayer(),"'up",true)
-    	call TriggerAddCondition(Ttest_naji[27],Condition(function TestA30_naji))
-    	//'mv*(Music Volume)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[28],GetTriggerPlayer(),"'mv",false)
-    	call TriggerAddCondition(Ttest_naji[28],Condition(function TestA31_naji))
-    	//'rd(Roll Dice)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[29],GetTriggerPlayer(),"'rd",true)
-    	call TriggerAddCondition(Ttest_naji[29],Condition(function TestA32_naji))
-    	//'sv*(Sound Volume)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[30],GetTriggerPlayer(),"'sv",false)
-    	call TriggerAddCondition(Ttest_naji[30],Condition(function TestA33_naji))
-    	//'bm*(Backup Message)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[31],Player(i_naji),"'bm",false)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[31],Condition(function TestA34_naji))
-    	set Ibm_naji=0
-    	//'cbm(Clear Backup Message)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[32],GetTriggerPlayer(),"'cbm",true)
-    	call TriggerAddCondition(Ttest_naji[32],Condition(function TestA35_naji))
-    	//'uic**(set Unit's Item Charge)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[33],GetTriggerPlayer(),"'uic",false)
-    	call TriggerAddCondition(Ttest_naji[33],Condition(function TestA36_naji))
-    	//'rs*(set Random Seed)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[34],GetTriggerPlayer(),"'rs",false)
-    	call TriggerAddCondition(Ttest_naji[34],Condition(function TestA37_naji))
-    	//'td*(set Time of Day)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[35],GetTriggerPlayer(),"'td",false)
-    	call TriggerAddCondition(Ttest_naji[35],Condition(function TestA38_naji))
-    	//'um*(set Unit(s) Move speed)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[36],GetTriggerPlayer(),"'um",false)
-    	call TriggerAddCondition(Ttest_naji[36],Condition(function TestA39_naji))
-    	//'uus*(set Unit(s) tUrn Speed)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[37],GetTriggerPlayer(),"'uus",false)
-    	call TriggerAddCondition(Ttest_naji[37],Condition(function TestA40_naji))
-    	//'uar*(set Unit(s) Acquire Range)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[38],GetTriggerPlayer(),"'uar",false)
-    	call TriggerAddCondition(Ttest_naji[38],Condition(function TestA41_naji))
-    	//'ufh*(set Unit(s) Fly Height)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[39],GetTriggerPlayer(),"'ufh",false)
-    	call TriggerAddCondition(Ttest_naji[39],Condition(function TestA42_naji))
-    	//'hp*(add Hero(s) skill Point)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[40],GetTriggerPlayer(),"'hp",false)
-    	call TriggerAddCondition(Ttest_naji[40],Condition(function TestA43_naji))
-    	//'hs*(set Hero(s) Str)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[41],GetTriggerPlayer(),"'hs",false)
-    	call TriggerAddCondition(Ttest_naji[41],Condition(function TestA44_naji))
-    	//'ha*(set Hero(s) Agi)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[42],GetTriggerPlayer(),"'ha",false)
-    	call TriggerAddCondition(Ttest_naji[42],Condition(function TestA45_naji))
-    	//'hi*(set Hero(s) Int)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[43],GetTriggerPlayer(),"'hi",false)
-    	call TriggerAddCondition(Ttest_naji[43],Condition(function TestA46_naji))
-    	//'ud*(set Unit(s) user Data)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[44],GetTriggerPlayer(),"'ud",false)
-    	call TriggerAddCondition(Ttest_naji[44],Condition(function TestA47_naji))
-    	//'ts*(set Time of day Scale)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[45],GetTriggerPlayer(),"'ts",false)
-    	call TriggerAddCondition(Ttest_naji[45],Condition(function TestA48_naji))
-    	//'ph**(set Player Handicap)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[46],GetTriggerPlayer(),"'ph",false)
-    	call TriggerAddCondition(Ttest_naji[46],Condition(function TestA49_naji))
-    	//'uk(Unit(s) killed)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[47],GetTriggerPlayer(),"'uk",true)
-    	call TriggerAddCondition(Ttest_naji[47],Condition(function TestA50_naji))
-    	//'remove(remove najitest)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[48],Player(i_naji),"'remove",true)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[48],Condition(function TestA51_naji))
-    	//’pa**(set Player Alliance)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[49],GetTriggerPlayer(),"'pa",false)
-    	call TriggerAddCondition(Ttest_naji[49],Condition(function TestA52_naji))
-    	//'uo*(set Unit(s) Owner)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[50],GetTriggerPlayer(),"'uo",false)
-    	call TriggerAddCondition(Ttest_naji[50],Condition(function TestA53_naji))
-    	//'cz*(set Camera farZ)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[51],GetTriggerPlayer(),"'cz",false)
-    	call TriggerAddCondition(Ttest_naji[51],Condition(function TestA54_naji))
-    	//'uw(Unit(s) Windwalk)
-    	set Guw_naji=CreateGroup()
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[52],GetTriggerPlayer(),"'uw",true)
-    	call TriggerAddCondition(Ttest_naji[52],Condition(function TestA55_naji))
-    	//'co**(Create Object)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[53],GetTriggerPlayer(),"'co",false)
-    	call TriggerAddCondition(Ttest_naji[53],Condition(function TestA56_naji))
-    	//'pk*(Player Kicked)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[54],GetTriggerPlayer(),"'pk",false)
-    	call TriggerAddCondition(Ttest_naji[54],Condition(function TestA57_naji))
-    	//'ub(Unit(s) Buff clear)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[55],GetTriggerPlayer(),"'ub",true)
-    	call TriggerAddCondition(Ttest_naji[55],Condition(function TestA59_naji))
-    	//'ul(Unit camera Lock)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[56],GetTriggerPlayer(),"'ul",true)
-    	call TriggerAddCondition(Ttest_naji[56],Condition(function TestA60_naji))
-    	//'cm(Camera Mode)
-    	set Tcamera_naji=null
-    	set Bcamera_naji[0]=false
-    	set Bcamera_naji[1]=false
-    	set Bcamera_naji[2]=false
-    	set Bcamera_naji[3]=false
-    	set Bcamera_naji[4]=false
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[57],GetTriggerPlayer(),"'cm",true)
-    	call TriggerAddCondition(Ttest_naji[57],Condition(function TestA61_naji))
-    	call DisableTrigger(Ttest_naji[58])
-    	call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_UP_DOWN)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_DOWN_DOWN)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_LEFT_DOWN)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_RIGHT_DOWN)
-    	call TriggerAddCondition(Ttest_naji[58],Condition(function TestA62_naji))
-    	call DisableTrigger(Ttest_naji[59])
-    	call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_UP_UP)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_DOWN_UP)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_LEFT_UP)
-    	call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_RIGHT_UP)
-    	call TriggerAddCondition(Ttest_naji[59],Condition(function TestA63_naji))
-    	//'ci(Camera Information)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[60],Player(i_naji),"'ci",true)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[60],Condition(function TestA65_naji))
-    	//'us*(Unit(s) Scale)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[62],GetTriggerPlayer(),"'us",false)
-    	call TriggerAddCondition(Ttest_naji[62],Condition(function TestA67_naji))
-    	//'gg(Good Game)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[63],GetTriggerPlayer(),"'gg",true)
-    	call TriggerAddCondition(Ttest_naji[63],Condition(function TestA68_naji))
-    	//'gs*(set Game Speed)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[64],GetTriggerPlayer(),"'gs",false)
-    	call TriggerAddCondition(Ttest_naji[64],Condition(function TestA69_naji))
-    	//'mf(set Map Flag)
-    	set Dnaji_naji[2]=DialogCreate()
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[65],GetTriggerPlayer(),"'mf",true)
-    	call TriggerAddCondition(Ttest_naji[65],Condition(function TestA70_naji))
-    	call TriggerRegisterDialogEvent(Ttest_naji[66],Dnaji_naji[2])
-    	call TriggerAddCondition(Ttest_naji[66],Condition(function TestA71_naji))
-    	//Esc
-    	call TriggerRegisterPlayerEvent(Ttest_naji[67],GetTriggerPlayer(),EVENT_PLAYER_END_CINEMATIC)
-    	call TriggerAddCondition(Ttest_naji[67],Condition(function TestA72_naji))
-    	//'we(Weather Effect)
-    	set Iweather_naji=0
-    	set Weather_naji[0]=null
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[68],GetTriggerPlayer(),"'we",false)
-    	call TriggerAddCondition(Ttest_naji[68],Condition(function TestA73_naji))
-    	//'pt***(set Player Tech)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[69],GetTriggerPlayer(),"'pt",false)
-    	call TriggerAddCondition(Ttest_naji[69],Condition(function TestA74_naji))
-    	//'re(Restart)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[70],GetTriggerPlayer(),"'re",true)
-    	call TriggerAddCondition(Ttest_naji[70],Condition(function TestA75_naji))
-    	//'gms(Group Multiple Spell)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[72],GetTriggerPlayer(),"'gms",true)
-    	call TriggerAddCondition(Ttest_naji[72],Condition(function TestA77_naji))
-    	//'gcd(Group Cool Down)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[73],GetTriggerPlayer(),"'gcd",true)
-    	call TriggerAddCondition(Ttest_naji[73],Condition(function TestA78_naji))
-    	//'uii*(Unit's Item Information)
-    	set i_naji=0
-    	loop
-    	    call TriggerRegisterPlayerChatEvent(Ttest_naji[74],Player(i_naji),"'uii",false)
-    	    set i_naji=i_naji+1
-    	    exitwhen i_naji>=16
-    	endloop
-    	call TriggerAddCondition(Ttest_naji[74],Condition(function TestA79_naji))
-    	//'uxy**(set Unit(s) XY)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[75],GetTriggerPlayer(),"'uxy",false)
-    	call TriggerAddCondition(Ttest_naji[75],Condition(function TestA80_naji))
-    	//'se*(System Exchange)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[76],GetTriggerPlayer(),"'se",false)
-    	call TriggerAddCondition(Ttest_naji[76],Condition(function TestA81_naji))
-    	//'ef*(Execute Function)
-    	call TriggerRegisterPlayerChatEvent(Ttest_naji[77],GetTriggerPlayer(),"'ef",false)
-    	call TriggerAddCondition(Ttest_naji[77],Condition(function TestA82_naji))
-    	call DestroyTrigger(GetTriggeringTrigger())
-	endif
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00===============*****===============|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFF8000         开始初始化|cff00FFFFnajitest|cffFF8000测试代码|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFF80C0                代码版本：|cffFF0000V2.4|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00              更新日期：|cffFF0000"+Sdummy_naji[1]+"|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFFFF00       需要查看所有可用代码请按下|cffFF0000F9|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cffFFFF00     任意玩家输入|cffFF0000'remove|cffFFFF00可清除该系统|r")
+    call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,30,"|cff00FF00===============*****===============|r")
+    set Ptest_naji=GetTriggerPlayer()
+    set StringList_naji=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
+    set Rworld_naji=CreateRegion()
+    call RegionAddRect(Rworld_naji,GetWorldBounds())
+    set Itrigger_naji=0
+    loop
+        set Itrigger_naji=Itrigger_naji+1
+        set Ttest_naji[Itrigger_naji]=CreateTrigger()
+        exitwhen Itrigger_naji>=77
+    endloop
+    set Iquest_naji=0
+    loop
+        set Iquest_naji=Iquest_naji+1
+        set Q_naji[Iquest_naji]=CreateQuest()
+        call QuestSetIconPath(Q_naji[Iquest_naji],"Buildings\\Other\\TempArtB\\BTNTempB.blp")
+        call QuestSetRequired(Q_naji[Iquest_naji],false)
+        call QuestSetDiscovered(Q_naji[Iquest_naji],true)
+        call QuestSetCompleted(Q_naji[Iquest_naji],false)
+        exitwhen Iquest_naji>=13
+    endloop
+    set i_naji=61
+    call QuestSetTitle(Q_naji[1],"|cffFF0000najitest帮助信息")
+    call QuestSetDescription(Q_naji[1],"|cff00FFFF注意：|r|n|cff00FFFF1、|cffFF0000*|cffFFFF00代表需要输入|cffFF80C0数字/文字，且其数量代表要输入多少个参数，参数之间用英文逗号隔开。多参数命令的第1参数必需输入，其它参数若空缺则系统会自动填补|r|n|cff00FFFF2、|cffFF0000(s)|cffFFFF00代表该代码功能可以同时作用|cffFF80C0玩家选择的所有单位|r|n|cff00FFFF3、|cffFFFF00很多功能都可以通过|cffFF80C0反复输入代码|cffFFFF00来切换|cffFF0000开/关|r|n|cff00FFFF4、|cffFFFF00为保持稳定，判定|cffFF80C0玩家选择单位|cffFFFF00没有同步系统数据，请确保在使用相关代码前|cffFF0000重新框选|cffFFFF00合适的单位|r|n|cff00FFFF5、|cffFFFF00大部分功能支持|cffFF0000负数|cffFFFF00，不支持负数的功能输入负值会|cffFF80C0还原默认设定|r|n|cff00FFFF6、|cffFFFF00使用者可以在任何时候|cffFF0000按下Esc|cffFFFF00重新获得用户控制权及关闭电影模式|r")
+    call QuestSetTitle(Q_naji[2],"|cffFF0000独立系统")
+    call QuestSetDescription(Q_naji[2],"|cffFFFF00'feini|cffFF0000(|rnajitest system|cffFF0000)|r|cffFFFF00'gms|cffFF0000(|r(Group Multiple Spell)|cffFF0000)|r|cffFFFF00'gcd|cffFF0000(|r(Group Cool Down)|cffFF0000)|r|n|n|cff00FFFF该系统包含众多测试功能，输入后会打开一个对话框")
+    call QuestSetTitle(Q_naji[3],"|cffFF0000单位-英雄（必须选择英雄）")
+    call QuestSetDescription(Q_naji[3],"|cffFFFF00'hl*|cffFF0000(|rset Hero(s) Level|cffFF0000)|r|cffFFFF00'hp*|cffFF0000(|radd Hero(s) skill Point|cffFF0000)|r|cffFFFF00'hs*|cffFF0000(|rset Hero(s) Str|cffFF0000)|r|cffFFFF00'ha*|cffFF0000(|rset Hero(s) Agi|cffFF0000)|r|cffFFFF00'hi*|cffFF0000(|rset Hero(s) Int|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[4],"|cffFF0000单位-数值（必须选择单位）")
+    call QuestSetDescription(Q_naji[4],"|cffFFFF00'uts*|cffFF0000(|rUnit(s) Time Scale|cffFF0000)|r|cffFFFF00'uic**|cffFF0000(|rset Unit's Item Charge|cffFF0000)|r|cffFFFF00'um*|cffFF0000(|rset Unit(s) Move speed|cffFF0000)|r|cffFFFF00'uus*|cffFF0000(|rset Unit(s) tUrn Speed|cffFF0000)|r|cffFFFF00'uar*|cffFF0000(|rset Unit(s) Acquire Range|cffFF0000)|r|cffFFFF00'ufh*|cffFF0000(|rset Unit(s) Fly Height|cffFF0000)|r|cffFFFF00'ud*|cffFF0000(|rset Unit(s) user Data|cffFF0000)|r|cffFFFF00'us*|cffFF0000(|rset Unit(s) Scale|cffFF0000)|r|cffFFFF00'uvc****|cffFF0000(|rset Unit(s) Vertax Color|cffFF0000)|r|cffFFFF00'uxy**|cffFF0000(|rset Unit(s) XY|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[5],"|cffFF0000单位-状态（必须选择单位）")
+    call QuestSetDescription(Q_naji[5],"|cffFFFF00'uh|cffFF0000(|rUnit(s) Healing|cffFF0000)|r|cffFFFF00'up|cffFF0000(|rUnit(s) Pause|cffFF0000)|r|cffFFFF00'ub|cffFF0000(|rUnit(s) Buff clear|cffFF0000)|r|cffFFFF00'uw|cffFF0000(|rUnit(s) Windwalk|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[6],"|cffFF0000单位-特殊（必须选择单位）")
+    call QuestSetDescription(Q_naji[6],"|cffFFFF00'ua*|cffFF0000(|rplay Unit(s) Animation by index|cffFF0000)|r|cffFFFF00'ui|cffFF0000(|rUnit Information|cffFF0000)|r|cffFFFF00'uo*|cffFF0000(|rset Unit(s) Owner|cffFF0000)|r|cffFFFF00'uk|cffFF0000(|rUnit(s) Killed|cffFF0000)|r|cffFFFF00'co**|cffFF0000(|rCreate Object|cffFF0000)|r|cffFFFF00'ul|cffFF0000(|rUnit camera Lock|cffFF0000)|r|cffFFFF00'ur|cffFF0000(|rUnit(s) Remove|cffFF0000)|r|cffFFFF00'uii*|cffFF0000(|rUnit's Item Information|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[7],"|cffFF0000玩家相关")
+    call QuestSetDescription(Q_naji[7],"|cffFFFF00'ag**/al**|cffFF0000(|rAdd Gold/Lumber|cffFF0000)|r|cffFFFF00'pc**|cffFF0000(|rPlayer Control|cffFF0000)|r|cffFFFF00'pa**|cffFF0000(|rset Player Alliance|cffFF0000)|r|cffFFFF00'pk*|cffFF0000(|rPlayer Kicked|cffFF0000)|r|cffFFFF00'ph**|cffFF0000(|rset Player Handicap|cffFF0000)|r|cffFFFF00'pn*|cffFF0000(|rPlayer Name|cffFF0000)|r|cffFFFF00'pt***|cffFF0000(|rPlayer Tech|cffFF0000)|r|cffFFFF00'psl|cffFF0000(|rPlayer Statistics List|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[8],"|cffFF0000镜头相关")
+    call QuestSetDescription(Q_naji[8],"|cffFFFF00'cm|cffFF0000(|rCamera Mode|cffFF0000)|r|cffFFFF00'cd*|cffFF0000(|rCamera Distance|cffFF0000)|r|cffFFFF00'cr|cffFF0000(|rCamera Reset|cffFF0000)|r|cffFFFF00'ci|cffFF0000(|rCamera Information|cffFF0000)|r|cffFFFF00'cz*|cffFF0000(|rset Camera farZ|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[9],"|cffFF0000其它")
+    call QuestSetDescription(Q_naji[9],"|cffFFFF00'fog|cffFF0000(|rFog|cffFF0000)|r|cffFFFF00'sc|cffFF0000(|rScreen Clear|cffFF0000)|r|cffFFFF00'rd|cffFF0000(|rRoll Dice|cffFF0000)|r|cffFFFF00'bm*|cffFF0000(|rBackup Message|cffFF0000)|r|cffFFFF00'cbm|cffFF0000(|rClear Backup Message|cffFF0000)|r|cffFFFF00'td*|cffFF0000(|rset Time of Day|cffFF0000)|r|cffFFFF00'ts*|cffFF0000(|rset Time of day Scale|cffFF0000)|r|cffFFFF00'we*|cffFF0000(|rWeather Effect|cffFF0000)|r|cffFFFF00'se*|cffFF0000(|rSystem Exchange|cffFF0000)|r|cffFFFF00'ef*|cffFF0000(|rExecute Function|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[10],"|cffFF0000游戏设置")
+    call QuestSetDescription(Q_naji[10],"|cffFFFF00'mv*|cffFF0000(|rMusic Volume|cffFF0000)|r|cffFFFF00'sv*|cffFF0000(|rSound Volume|cffFF0000)|r|cffFFFF00'pg|cffFF0000(|rPause Game|cffFF0000)|r|cffFFFF00'rs*|cffFF0000(|rset Random Seed|cffFF0000)|r|cffFFFF00'gg|cffFF0000(|rGood Game|cffFF0000)|r|cffFFFF00'gs*|cffFF0000(|rset Game Speed|cffFF0000)|r|cffFFFF00'mf|cffFF0000(|rset Map Flag|cffFF0000)|r|cffFFFF00're|cffFF0000(|rRestart|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[11],"|cffFF0000co命令帮助信息")
+    call QuestSetDescription(Q_naji[11],"|cffFF0000co命令可以创建单位、物品、可破坏物、添加删除技能、设置技能等级、删除buff。输入格式为'co+id+,+数值，数值对应创建物体的数量或技能等级，当没有输入数值时，默认为1。当单位已经拥有该技能，带有数值的'co命令会改变等级，不带数值的则会删除技能。|n|n|cffFFFF00Amov|cffFF0000(|r移动|cffFF0000)|r|cffFFFF00Abun|cffFF0000(|r货物保持|cffFF0000)|r|cffFFFF00Avul|cffFF0000(|r无敌|cffFF0000)|r|cffFFFF00AInv|cffFF0000(|r英雄物品栏|cffFF0000)|r|cffFFFF00ARal|cffFF0000(|r集结|cffFF0000)|r|cffFFFF00Arng|cffFF0000(|r复仇|cffFF0000)|r|cffFFFF00Awan|cffFF0000(|r游荡者|cffFF0000)|r|cffFFFF00Ane2|cffFF0000(|r选择单位|cffFF0000)|r|cffFFFF00Apiv|cffFF0000(|r永久隐形|cffFF0000)|r|cffFFFF00Adtg|cffFF0000(|r真实视域|cffFF0000)|r|cffFFFF00Aeth|cffFF0000(|r可见幽灵|cffFF0000)|r|cffFFFF00Arsk|cffFF0000(|r抗性皮肤|cffFF0000)|r|cffFFFF00Acmi|cffFF0000(|r魔法免疫|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[12],"|cffFF0000we命令帮助信息")
+    call QuestSetDescription(Q_naji[12],"|cffFF0000注意乱输4位ID会游戏崩溃！输入的ID未满4位时会清除所有已创建的全图天气。|r|n|n|cffFFFF00RA(h/l)r|cffFF0000(|r白杨谷(大/小)雨|cffFF0000)|r|cffFFFF00MEds|cffFF0000(|r达拉然之盾|cffFF0000)|r|cffFFFF00FD(b/g/r/w)(h/l)|cffFF0000(|r地下城(蓝/绿/红/白)(浓/薄)雾|cffFF0000)|r|cffFFFF00RL(h/l)r|cffFF0000(|r洛丹伦(大/小)雨|cffFF0000)|r|cffFFFF00SN(b/h/l)s|cffFF0000(|r诺森德(暴/大/小)雪|cffFF0000)|r|cffFFFF00WO(c/l)w|cffFF0000(|r边缘之地(大/小)风|cffFF0000)|r|cffFFFF00Lr(a/m)a|cffFF0000(|r(日/月)光|cffFF0000)|r|cffFFFF00WNcw|cffFF0000(|r大风|cffFF0000)|r")
+    call QuestSetTitle(Q_naji[13],"|cffFF0000najitest基本信息")
+    call QuestSetDescription(Q_naji[13],"|cffFFFF00脚本作者：|cffFF0000najizhimo|r"+"|n|cffFFFF00当前使用者：|cffFF0000"+GetPlayerName(Ptest_naji)+"|r"+"|n|cffFFFF00更新日期：|cffFF0000"+Sdummy_naji[1]+"|n|cffFFFF00可用代码数量：|cffFF0000"+I2S(i_naji)+"|r"+"|n|cffFFFF00注册触发数量：|cffFF0000"+I2S(Itrigger_naji)+"|r"+"|n|cffFFFF00创建任务数量：|cffFF0000"+I2S(Iquest_naji)+"|r"+"|n|cffFFFF00脚本行数：|cffFF0000"+I2S(row_naji)+"|n|cffFFFF00对此系统有任何提议请到|cffFF80C0百度魔兽地图编辑器贴吧|cffFFFF00发贴|r"+"|n|cffFFFF00任意玩家输入|cffFF0000'remove|cffFFFF00可清除该系统|r")
+    call FlashQuestDialogButton()
+    //=========================naji system开始==============================
+        //'feini(najitest system)
+    set Dnaji_naji[0]=DialogCreate()
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[1],GetTriggerPlayer(),"'feini",true)
+    call TriggerAddCondition(Ttest_naji[1],Condition(function TestA2_naji))
+    call TriggerRegisterDialogEvent(Ttest_naji[3],Dnaji_naji[0])
+    call TriggerAddCondition(Ttest_naji[3],Condition(function TestA4_naji))
+        //Display Ability
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[2],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[2],Condition(function TestA3_naji))
+    call DisableTrigger(Ttest_naji[2])
+        //Display Order
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER,null)
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER,null)
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[15],Player(i_naji),EVENT_PLAYER_UNIT_ISSUED_ORDER,null)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[15],Condition(function TestA17_naji))
+    call DisableTrigger(Ttest_naji[15])
+        //Display Life
+    call TriggerRegisterEnterRegion(Ttest_naji[17],Rworld_naji,null)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[17],Player(i_naji),EVENT_PLAYER_UNIT_DEATH,null)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[17],Condition(function TestA19_naji))
+    call DisableTrigger(Ttest_naji[17])
+        //Display Damage
+    call TriggerRegisterEnterRegion(Ttest_naji[26],Rworld_naji,null)
+    call TriggerAddCondition(Ttest_naji[26],Condition(function TestA28_naji))
+    call DisableTrigger(Ttest_naji[26])
+        //No cd mana Cost
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[4],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[4],Condition(function TestA5_naji))
+    call DisableTrigger(Ttest_naji[4])
+    set Gcd_naji[0]=CreateGroup()
+    set Gcd_naji[1]=null
+    //=========================以下部分1.24以下的版本需删除==============================
+        //Display Handle
+    call TriggerRegisterTimerEvent(Ttest_naji[7],0.1,true)
+    call TriggerAddCondition(Ttest_naji[7],Condition(function TestA9_naji))
+    call DisableTrigger(Ttest_naji[7])
+    //=========================以上部分1.24以下的版本需删除==============================
+        //Observer
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[61],Player(i_naji),"",false)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call DisableTrigger(Ttest_naji[61])
+    call TriggerAddCondition(Ttest_naji[61],Condition(function TestA66_naji))
+        //Multiple Spell
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerUnitEvent(Ttest_naji[71],Player(i_naji),EVENT_PLAYER_UNIT_SPELL_EFFECT,null)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[71],Condition(function TestA76_naji))
+    call DisableTrigger(Ttest_naji[71])
+    set Gms_naji=null
+        //系统信息调整
+    set Dnaji_naji[1]=DialogCreate()
+    call TriggerRegisterDialogEvent(Ttest_naji[6],Dnaji_naji[1])
+    call TriggerAddCondition(Ttest_naji[6],Condition(function TestA8_naji))
+            //whether display widget XY
+    set Bxy_naji=true
+            //whether display widget ID
+    set Bid_naji=true
+            //whether display Player Name
+    set Bpn_naji=false
+            //whether display Int or Real
+    set Bir_naji=true
+            //change Display Damage Mode
+    set Bddm_naji=false
+    //=========================naji system结束==============================
+    //’uh(Unit(s) Healing)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[5],GetTriggerPlayer(),"'uh",true)
+    call TriggerAddCondition(Ttest_naji[5],Condition(function TestA7_naji))
+    //’ag**/al**(Add Gold/Lumber)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[8],GetTriggerPlayer(),"'ag",false)
+    call TriggerAddCondition(Ttest_naji[8],Condition(function TestA10_naji))
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[9],GetTriggerPlayer(),"'al",false)
+    call TriggerAddCondition(Ttest_naji[9],Condition(function TestA11_naji))
+    //’hl*(set Hero(s) Level)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[10],GetTriggerPlayer(),"'hl",false)
+    call TriggerAddCondition(Ttest_naji[10],Condition(function TestA12_naji))
+    //’fog(Fog)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[11],GetTriggerPlayer(),"'fog",true)
+    call TriggerAddCondition(Ttest_naji[11],Condition(function TestA13_naji))
+    if IsMapFlagSet(MAP_FOG_ALWAYS_VISIBLE) then
+        set Bfog_naji=false
+    else
+        set Bfog_naji=true
+    endif
+    //’ua*(play Unit(s) Animation by index)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[12],GetTriggerPlayer(),"'ua",false)
+    call TriggerAddCondition(Ttest_naji[12],Condition(function TestA14_naji))
+    //’cd(Camera Distance)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[13],Player(i_naji),"'cd",false)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[13],Condition(function TestA15_naji))
+    //'ur(Unit(s) Remove)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[14],GetTriggerPlayer(),"'ur",true)
+    call TriggerAddCondition(Ttest_naji[14],Condition(function TestA16_naji))
+    //'pn(Player Name)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[16],Player(i_naji),"'pn",false)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[16],Condition(function TestA18_naji))
+    //'sc(Screen Clear)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[18],Player(i_naji),"'sc",true)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[18],Condition(function TestA20_naji))
+    //'cr(Camera Reset)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[19],Player(i_naji),"'cr",true)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[19],Condition(function TestA21_naji))
+    //’ui(Unit Information)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[20],Player(i_naji),"'ui",true)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[20],Condition(function TestA22_naji))
+    //’pc**(Player Control)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[21],GetTriggerPlayer(),"'pc",false)
+    call TriggerAddCondition(Ttest_naji[21],Condition(function TestA23_naji))
+    //'uvc****(set Unit(s) Vertex Color)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[22],GetTriggerPlayer(),"'uvc",false)
+    call TriggerAddCondition(Ttest_naji[22],Condition(function TestA24_naji))
+    //’uts*(Unit(s) Time Scale)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[23],GetTriggerPlayer(),"'uts",false)
+    call TriggerAddCondition(Ttest_naji[23],Condition(function TestA25_naji))
+    //’pg(Pause Game)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[24],GetTriggerPlayer(),"'pg",true)
+    call TriggerAddCondition(Ttest_naji[24],Condition(function TestA26_naji))
+    set Bpause_naji=false
+    //'psl(Player Statistics List)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[25],GetTriggerPlayer(),"'psl",true)
+    call TriggerAddCondition(Ttest_naji[25],Condition(function TestA27_naji))
+    //'up(Unit(s) Pause)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[27],GetTriggerPlayer(),"'up",true)
+    call TriggerAddCondition(Ttest_naji[27],Condition(function TestA30_naji))
+    //'mv*(Music Volume)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[28],GetTriggerPlayer(),"'mv",false)
+    call TriggerAddCondition(Ttest_naji[28],Condition(function TestA31_naji))
+    //'rd(Roll Dice)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[29],GetTriggerPlayer(),"'rd",true)
+    call TriggerAddCondition(Ttest_naji[29],Condition(function TestA32_naji))
+    //'sv*(Sound Volume)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[30],GetTriggerPlayer(),"'sv",false)
+    call TriggerAddCondition(Ttest_naji[30],Condition(function TestA33_naji))
+    //'bm*(Backup Message)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[31],Player(i_naji),"'bm",false)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[31],Condition(function TestA34_naji))
+    set Ibm_naji=0
+    //'cbm(Clear Backup Message)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[32],GetTriggerPlayer(),"'cbm",true)
+    call TriggerAddCondition(Ttest_naji[32],Condition(function TestA35_naji))
+    //'uic**(set Unit's Item Charge)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[33],GetTriggerPlayer(),"'uic",false)
+    call TriggerAddCondition(Ttest_naji[33],Condition(function TestA36_naji))
+    //'rs*(set Random Seed)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[34],GetTriggerPlayer(),"'rs",false)
+    call TriggerAddCondition(Ttest_naji[34],Condition(function TestA37_naji))
+    //'td*(set Time of Day)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[35],GetTriggerPlayer(),"'td",false)
+    call TriggerAddCondition(Ttest_naji[35],Condition(function TestA38_naji))
+    //'um*(set Unit(s) Move speed)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[36],GetTriggerPlayer(),"'um",false)
+    call TriggerAddCondition(Ttest_naji[36],Condition(function TestA39_naji))
+    //'uus*(set Unit(s) tUrn Speed)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[37],GetTriggerPlayer(),"'uus",false)
+    call TriggerAddCondition(Ttest_naji[37],Condition(function TestA40_naji))
+    //'uar*(set Unit(s) Acquire Range)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[38],GetTriggerPlayer(),"'uar",false)
+    call TriggerAddCondition(Ttest_naji[38],Condition(function TestA41_naji))
+    //'ufh*(set Unit(s) Fly Height)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[39],GetTriggerPlayer(),"'ufh",false)
+    call TriggerAddCondition(Ttest_naji[39],Condition(function TestA42_naji))
+    //'hp*(add Hero(s) skill Point)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[40],GetTriggerPlayer(),"'hp",false)
+    call TriggerAddCondition(Ttest_naji[40],Condition(function TestA43_naji))
+    //'hs*(set Hero(s) Str)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[41],GetTriggerPlayer(),"'hs",false)
+    call TriggerAddCondition(Ttest_naji[41],Condition(function TestA44_naji))
+    //'ha*(set Hero(s) Agi)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[42],GetTriggerPlayer(),"'ha",false)
+    call TriggerAddCondition(Ttest_naji[42],Condition(function TestA45_naji))
+    //'hi*(set Hero(s) Int)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[43],GetTriggerPlayer(),"'hi",false)
+    call TriggerAddCondition(Ttest_naji[43],Condition(function TestA46_naji))
+    //'ud*(set Unit(s) user Data)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[44],GetTriggerPlayer(),"'ud",false)
+    call TriggerAddCondition(Ttest_naji[44],Condition(function TestA47_naji))
+    //'ts*(set Time of day Scale)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[45],GetTriggerPlayer(),"'ts",false)
+    call TriggerAddCondition(Ttest_naji[45],Condition(function TestA48_naji))
+    //'ph**(set Player Handicap)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[46],GetTriggerPlayer(),"'ph",false)
+    call TriggerAddCondition(Ttest_naji[46],Condition(function TestA49_naji))
+    //'uk(Unit(s) killed)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[47],GetTriggerPlayer(),"'uk",true)
+    call TriggerAddCondition(Ttest_naji[47],Condition(function TestA50_naji))
+    //'remove(remove najitest)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[48],Player(i_naji),"'remove",true)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[48],Condition(function TestA51_naji))
+    //’pa**(set Player Alliance)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[49],GetTriggerPlayer(),"'pa",false)
+    call TriggerAddCondition(Ttest_naji[49],Condition(function TestA52_naji))
+    //'uo*(set Unit(s) Owner)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[50],GetTriggerPlayer(),"'uo",false)
+    call TriggerAddCondition(Ttest_naji[50],Condition(function TestA53_naji))
+    //'cz*(set Camera farZ)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[51],GetTriggerPlayer(),"'cz",false)
+    call TriggerAddCondition(Ttest_naji[51],Condition(function TestA54_naji))
+    //'uw(Unit(s) Windwalk)
+    set Guw_naji=CreateGroup()
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[52],GetTriggerPlayer(),"'uw",true)
+    call TriggerAddCondition(Ttest_naji[52],Condition(function TestA55_naji))
+    //'co**(Create Object)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[53],GetTriggerPlayer(),"'co",false)
+    call TriggerAddCondition(Ttest_naji[53],Condition(function TestA56_naji))
+    //'pk*(Player Kicked)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[54],GetTriggerPlayer(),"'pk",false)
+    call TriggerAddCondition(Ttest_naji[54],Condition(function TestA57_naji))
+    //'ub(Unit(s) Buff clear)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[55],GetTriggerPlayer(),"'ub",true)
+    call TriggerAddCondition(Ttest_naji[55],Condition(function TestA59_naji))
+    //'ul(Unit camera Lock)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[56],GetTriggerPlayer(),"'ul",true)
+    call TriggerAddCondition(Ttest_naji[56],Condition(function TestA60_naji))
+    //'cm(Camera Mode)
+    set Tcamera_naji=null
+    set Bcamera_naji[0]=false
+    set Bcamera_naji[1]=false
+    set Bcamera_naji[2]=false
+    set Bcamera_naji[3]=false
+    set Bcamera_naji[4]=false
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[57],GetTriggerPlayer(),"'cm",true)
+    call TriggerAddCondition(Ttest_naji[57],Condition(function TestA61_naji))
+    call DisableTrigger(Ttest_naji[58])
+    call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_UP_DOWN)
+    call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_DOWN_DOWN)
+    call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_LEFT_DOWN)
+    call TriggerRegisterPlayerEvent(Ttest_naji[58],GetTriggerPlayer(),EVENT_PLAYER_ARROW_RIGHT_DOWN)
+    call TriggerAddCondition(Ttest_naji[58],Condition(function TestA62_naji))
+    call DisableTrigger(Ttest_naji[59])
+    call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_UP_UP)
+    call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_DOWN_UP)
+    call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_LEFT_UP)
+    call TriggerRegisterPlayerEvent(Ttest_naji[59],GetTriggerPlayer(),EVENT_PLAYER_ARROW_RIGHT_UP)
+    call TriggerAddCondition(Ttest_naji[59],Condition(function TestA63_naji))
+    //'ci(Camera Information)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[60],Player(i_naji),"'ci",true)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[60],Condition(function TestA65_naji))
+    //'us*(Unit(s) Scale)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[62],GetTriggerPlayer(),"'us",false)
+    call TriggerAddCondition(Ttest_naji[62],Condition(function TestA67_naji))
+    //'gg(Good Game)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[63],GetTriggerPlayer(),"'gg",true)
+    call TriggerAddCondition(Ttest_naji[63],Condition(function TestA68_naji))
+    //'gs*(set Game Speed)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[64],GetTriggerPlayer(),"'gs",false)
+    call TriggerAddCondition(Ttest_naji[64],Condition(function TestA69_naji))
+    //'mf(set Map Flag)
+    set Dnaji_naji[2]=DialogCreate()
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[65],GetTriggerPlayer(),"'mf",true)
+    call TriggerAddCondition(Ttest_naji[65],Condition(function TestA70_naji))
+    call TriggerRegisterDialogEvent(Ttest_naji[66],Dnaji_naji[2])
+    call TriggerAddCondition(Ttest_naji[66],Condition(function TestA71_naji))
+    //Esc
+    call TriggerRegisterPlayerEvent(Ttest_naji[67],GetTriggerPlayer(),EVENT_PLAYER_END_CINEMATIC)
+    call TriggerAddCondition(Ttest_naji[67],Condition(function TestA72_naji))
+    //'we(Weather Effect)
+    set Iweather_naji=0
+    set Weather_naji[0]=null
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[68],GetTriggerPlayer(),"'we",false)
+    call TriggerAddCondition(Ttest_naji[68],Condition(function TestA73_naji))
+    //'pt***(set Player Tech)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[69],GetTriggerPlayer(),"'pt",false)
+    call TriggerAddCondition(Ttest_naji[69],Condition(function TestA74_naji))
+    //'re(Restart)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[70],GetTriggerPlayer(),"'re",true)
+    call TriggerAddCondition(Ttest_naji[70],Condition(function TestA75_naji))
+    //'gms(Group Multiple Spell)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[72],GetTriggerPlayer(),"'gms",true)
+    call TriggerAddCondition(Ttest_naji[72],Condition(function TestA77_naji))
+    //'gcd(Group Cool Down)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[73],GetTriggerPlayer(),"'gcd",true)
+    call TriggerAddCondition(Ttest_naji[73],Condition(function TestA78_naji))
+    //'uii*(Unit's Item Information)
+    set i_naji=0
+    loop
+        call TriggerRegisterPlayerChatEvent(Ttest_naji[74],Player(i_naji),"'uii",false)
+        set i_naji=i_naji+1
+        exitwhen i_naji>=16
+    endloop
+    call TriggerAddCondition(Ttest_naji[74],Condition(function TestA79_naji))
+    //'uxy**(set Unit(s) XY)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[75],GetTriggerPlayer(),"'uxy",false)
+    call TriggerAddCondition(Ttest_naji[75],Condition(function TestA80_naji))
+    //'se*(System Exchange)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[76],GetTriggerPlayer(),"'se",false)
+    call TriggerAddCondition(Ttest_naji[76],Condition(function TestA81_naji))
+    //'ef*(Execute Function)
+    call TriggerRegisterPlayerChatEvent(Ttest_naji[77],GetTriggerPlayer(),"'ef",false)
+    call TriggerAddCondition(Ttest_naji[77],Condition(function TestA82_naji))
+    call DestroyTrigger(GetTriggeringTrigger())
 endfunction
 function najitest takes nothing returns nothing
     local trigger t_naji=CreateTrigger()

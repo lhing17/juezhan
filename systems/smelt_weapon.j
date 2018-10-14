@@ -184,9 +184,7 @@ function YeLianWuQi takes nothing returns nothing
 			if sjgl < 3. then
 				set sjgl = 0.
 			endif
-			if udg_vip[i]>=1 then
-				set sjgl = RMinBJ(sjgl *GetRandomReal(1.0, 1.04), 100.)
-			endif
+			set sjgl = RMinBJ(sjgl *GetRandomReal(1.0, 1.04), 100.)
 			call SaveReal(YDHT,GetHandleId(it),StringHash("升级概率"), sjgl)
 			call UnitRemoveItem(u, it)
 			call SaveReal(YDHT, GetHandleId(it), StringHash("招式伤害"), (GetGeoNormRandomReal(0., 100.)+zssh)*GetGeoNormRandomReal(1.0, 1.3))

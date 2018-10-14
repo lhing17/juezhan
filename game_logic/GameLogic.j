@@ -149,7 +149,7 @@ function SelectHero takes nothing returns nothing
     local integer i=1+GetPlayerId(p)
     local unit u=GetTriggerUnit()
     if(GetUnitTypeId(L4[i])==GetUnitTypeId(u))then
-	    if u==K4[1] or u==K4[2] or u==K4[3] or u==K4[4] or u==K4[5] or (u==K4[6] and udg_vip[i] > 0) or (u==K4[7] and (udg_changevip[i]>0 or udg_vip[i] == 2)) then
+	    if u==K4[1] or u==K4[2] or u==K4[3] or u==K4[4] or u==K4[5] or u==K4[6] or u==K4[7] then
         	set Q4=GetRandomLocInRect(Ge)
         	call CreateNUnitsAtLoc(1,GetUnitTypeId(u),p,Q4,bj_UNIT_FACING)
         	call PanCameraToTimedLocForPlayer(p,Q4,0)
@@ -202,39 +202,31 @@ function SelectHero takes nothing returns nothing
             call RemoveUnit(K4[5])
 	        call RemoveUnit(vipbanlv[i])
         elseif (u==K4[6]) then
-        	if udg_vip[i] <= 0 then
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"该角色为赞助游戏者特别制作，暂不对普通玩家开放")
-	        else
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择任意门派后开启江湖之旅|r\n")
-	        	set gengu[i]=(gengu[i]+3)
-            	set danpo[i]=(danpo[i]+3)
-            	set jingmai[i]=(jingmai[i]+3)
-            	set wuxing[i]=wuxing[i]+3
-            	set yishu[i]=yishu[i]+3
-            	set fuyuan[i]=fuyuan[i]+3
-            	set udg_xinggeA[i]=GetRandomInt(3,5)
-            	set udg_xinggeB[i]=GetRandomInt(3,5)
-            	//call RemoveUnit(K4[6])
-            	call RemoveUnit(vipbanlv[i])
-        	endif
-        elseif (u==K4[7]) then
-        	if udg_vip[i] <= 1 and udg_changevip[i] <= 0 then
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"该角色为赞助游戏者特别制作，暂不对普通玩家开放")
-	        else
-	        	call DisplayTimedTextToPlayer(p,0,0,15.,"恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择任意门派后开启江湖之旅|r\n")
-	        	set gengu[i]=(gengu[i]+3)
-            	set danpo[i]=(danpo[i]+3)
-            	set jingmai[i]=(jingmai[i]+3)
-            	set wuxing[i]=wuxing[i]+3
-            	set yishu[i]=yishu[i]+3
-            	set fuyuan[i]=fuyuan[i]+3
-            	set udg_xinggeA[i]=GetRandomInt(3,5)
-            	set udg_xinggeB[i]=GetRandomInt(3,5)
-            	//call RemoveUnit(K4[6])
-            	call RemoveUnit(vipbanlv[i])
-        	endif
+			call DisplayTimedTextToPlayer(p,0,0,15.,"恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择任意门派后开启江湖之旅|r\n")
+			set gengu[i]=(gengu[i]+3)
+			set danpo[i]=(danpo[i]+3)
+			set jingmai[i]=(jingmai[i]+3)
+			set wuxing[i]=wuxing[i]+3
+			set yishu[i]=yishu[i]+3
+			set fuyuan[i]=fuyuan[i]+3
+			set udg_xinggeA[i]=GetRandomInt(3,5)
+			set udg_xinggeB[i]=GetRandomInt(3,5)
+			//call RemoveUnit(K4[6])
+			call RemoveUnit(vipbanlv[i])
+        elseif (u==K4[7]) then        	
+			call DisplayTimedTextToPlayer(p,0,0,15.,"恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择任意门派后开启江湖之旅|r\n")
+			set gengu[i]=(gengu[i]+3)
+			set danpo[i]=(danpo[i]+3)
+			set jingmai[i]=(jingmai[i]+3)
+			set wuxing[i]=wuxing[i]+3
+			set yishu[i]=yishu[i]+3
+			set fuyuan[i]=fuyuan[i]+3
+			set udg_xinggeA[i]=GetRandomInt(3,5)
+			set udg_xinggeB[i]=GetRandomInt(3,5)
+			//call RemoveUnit(K4[6])
+			call RemoveUnit(vipbanlv[i])
         endif
-        if u==K4[1] or u==K4[2] or u==K4[3] or u==K4[4] or u==K4[5] or (u==K4[6] and udg_vip[i] > 0)  or (u==K4[7] and (udg_changevip[i]>0 or udg_vip[i] == 2))  then
+        if u==K4[1] or u==K4[2] or u==K4[3] or u==K4[4] or u==K4[5] or u==K4[6] or u==K4[7] then
         	call SelectUnitRemoveForPlayer(u,p)
         	call SelectUnitAddForPlayer(bj_lastCreatedUnit,p)
         	set udg_hashero[i]=true
@@ -327,11 +319,9 @@ function WuMenPai_Action takes nothing returns nothing
     call UnitAddAbility(u,'A05R')
     call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
     call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-    if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-    	call UnitAddAbility(u,'A040')
-    	call UnitAddAbility(u,'A041')
-    	call UnitAddAbility(u,'A042')
-	endif
+	call UnitAddAbility(u,'A040')
+	call UnitAddAbility(u,'A041')
+	call UnitAddAbility(u,'A042')
     set I7[(((i-1)*20)+8)]='A05R'
     call UnitRemoveAbility(u,'Avul')
     set Q4=GetRandomLocInRect(He)
@@ -370,29 +360,27 @@ function JiaRuMenPai takes nothing returns nothing
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())==1227894833))then
 	    if((GetUnitTypeId(u)!='O002')and(GetUnitTypeId(u)!='O003'))then
-	      set udg_runamen[i]=1
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933恭喜加入〓少林派〓，请在NPC郭靖处选择副职|r")
-	      call SetPlayerName(p,"〓少林派〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-	      call UnitAddAbility(u,'A05R')
-	      call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-          call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    	call UnitAddAbility(u,'A040')
-    		call UnitAddAbility(u,'A041')
-    		call UnitAddAbility(u,'A042')
-		endif
-	      set I7[(((i-1)*20)+8)]='A05R'
-	      call UnitRemoveAbility(u,'Avul')
-	      set Q4=GetRandomLocInRect(He)
-	      call SetUnitPositionLoc(u,Q4)
-	      call PanCameraToTimedLocForPlayer(p,Q4,0)
-	      call CreateNUnitsAtLoc(1,'nvul',p,Q4,bj_UNIT_FACING)
-	      set P4[i]=bj_lastCreatedUnit
-	      set gengu[i]=(gengu[i]+3)
-	      set jingmai[i]=(jingmai[i]+2)
-	      call RemoveLocation(Q4)
-	      call UnitAddItemByIdSwapped(1227896394,u)
+			set udg_runamen[i]=1
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933恭喜加入〓少林派〓，请在NPC郭靖处选择副职|r")
+			call SetPlayerName(p,"〓少林派〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
+			call UnitAddAbility(u,'A05R')
+			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
+			call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
+			set I7[(((i-1)*20)+8)]='A05R'
+			call UnitRemoveAbility(u,'Avul')
+			set Q4=GetRandomLocInRect(He)
+			call SetUnitPositionLoc(u,Q4)
+			call PanCameraToTimedLocForPlayer(p,Q4,0)
+			call CreateNUnitsAtLoc(1,'nvul',p,Q4,bj_UNIT_FACING)
+			set P4[i]=bj_lastCreatedUnit
+			set gengu[i]=(gengu[i]+3)
+			set jingmai[i]=(jingmai[i]+2)
+			call RemoveLocation(Q4)
+			call UnitAddItemByIdSwapped(1227896394,u)
 	    else
 	      call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000你的角色不能加入该门派")
 	    endif
@@ -405,11 +393,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -433,11 +419,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -461,11 +445,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -489,11 +471,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -517,11 +497,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -545,12 +523,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -575,11 +550,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			set Q4=GetRandomLocInRect(He)
 			call UnitRemoveAbility(u,'Avul')
@@ -604,11 +577,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			set Q4=GetRandomLocInRect(He)
 			call SetUnitPositionLoc(u,Q4)
@@ -633,11 +604,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u,'A05R')
 			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 			set I7[(((i-1)*20)+8)]='A05R'
 			call UnitRemoveAbility(u,'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -654,34 +623,28 @@ function JiaRuMenPai takes nothing returns nothing
 			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000你的角色不能加入该门派")
 		endif
 	elseif((GetItemTypeId(GetManipulatedItem())=='I09N'))then
-		if udg_vip[i] > 0 then
-			set udg_runamen[i]=14
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933恭喜加入〓明教〓，请在NPC郭靖处选择副职|r")
-			call SetPlayerName(p,"〓明教〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-			call UnitAddAbility(u,'A05R')
-			call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-        	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-			if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
-			set I7[(((i-1)*20)+8)]='A05R'
-			call UnitRemoveAbility(u,'Avul')
-			set Q4=GetRandomLocInRect(He)
-			call SetUnitPositionLoc(u,Q4)
-			call PanCameraToTimedLocForPlayer(p,Q4,0)
-			call CreateNUnitsAtLoc(1,'nvul',p,Q4,bj_UNIT_FACING)
-			set P4[i]=bj_lastCreatedUnit
-			set wuxing[i]=(wuxing[i]+3)
-			set jingmai[i]=(jingmai[i]+2)
-			set fuyuan[i]=(fuyuan[i]+2)
-			call RemoveLocation(Q4)
-			call UnitAddItemByIdSwapped(1227896394,u)
-		else
-			call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff0000该门派为赞助游戏者特别制作，暂不对普通玩家开放")
-		endif
+		set udg_runamen[i]=14
+		call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933恭喜加入〓明教〓，请在NPC郭靖处选择副职|r")
+		call SetPlayerName(p,"〓明教〓"+LoadStr(YDHT,GetHandleId(p),GetHandleId(p)))
+		call DisplayTimedTextToPlayer(p,0,0,15.,"|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
+		call UnitAddAbility(u,'A05R')
+		call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
+		call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
+		call UnitAddAbility(u,'A040')
+		call UnitAddAbility(u,'A041')
+		call UnitAddAbility(u,'A042')
+		set I7[(((i-1)*20)+8)]='A05R'
+		call UnitRemoveAbility(u,'Avul')
+		set Q4=GetRandomLocInRect(He)
+		call SetUnitPositionLoc(u,Q4)
+		call PanCameraToTimedLocForPlayer(p,Q4,0)
+		call CreateNUnitsAtLoc(1,'nvul',p,Q4,bj_UNIT_FACING)
+		set P4[i]=bj_lastCreatedUnit
+		set wuxing[i]=(wuxing[i]+3)
+		set jingmai[i]=(jingmai[i]+2)
+		set fuyuan[i]=(fuyuan[i]+2)
+		call RemoveLocation(Q4)
+		call UnitAddItemByIdSwapped(1227896394,u)
 	elseif((GetItemTypeId(GetManipulatedItem())=='I0A2'))then
 	    if((GetUnitTypeId(u)!='O002')and(GetUnitTypeId(u)!='O003'))then
 	    	set udg_runamen[i]=15
@@ -691,11 +654,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    	if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    		call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 	    	set I7[(((i-1)*20)+8)]='A05R'
 	    	call UnitRemoveAbility(u,'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -719,11 +680,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    	if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    		call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 	    	set I7[(((i-1)*20)+8)]='A05R'
 	    	call UnitRemoveAbility(u,'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -744,11 +703,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    	if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    		call UnitAddAbility(u,'A040')
-    			call UnitAddAbility(u,'A041')
-    			call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 	    	set I7[(((i-1)*20)+8)]='A05R'
 	    	call UnitRemoveAbility(u,'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -771,11 +728,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u,'A05R')
 	    	call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    	if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-				call UnitAddAbility(u,'A040')
-				call UnitAddAbility(u,'A041')
-				call UnitAddAbility(u,'A042')
-			endif
+			call UnitAddAbility(u,'A040')
+			call UnitAddAbility(u,'A041')
+			call UnitAddAbility(u,'A042')
 	    	set I7[(((i-1)*20)+8)]='A05R'
 	    	call UnitRemoveAbility(u,'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -2228,9 +2183,7 @@ function HeroLevel takes nothing returns nothing
 	if (GetUnitLevel(u)>=80 and jiawuxue[i]==false) then
 		call DisplayTimedTextToPlayer(p,0,0,30.,"|cff66ff00恭喜你升到了80级，获得5个自创武学点（vip玩家获得7个），在通过历练6以后你可以到聚贤庄游坦之处自创武学")
 		set wuxuedian[i] = wuxuedian[i] + 5
-		if udg_vip[i] >=1 then
-			set wuxuedian[i] = wuxuedian[i] + 2
-		endif
+		set wuxuedian[i] = wuxuedian[i] + 2
 		set jiawuxue[i] = true
 		set zizhiwugong[i] = ZiZhiWuGong.create(0, 0, GetRandomInt(1, 10), 0, 0)
 	endif

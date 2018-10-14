@@ -245,30 +245,7 @@ function KeyInput takes nothing returns nothing
 			set loc = null
 		endif
 	endif
-	//if s==GetVIPNum(p, LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2)) then
-	//	set udg_vip[i] = 1
-	//	call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS,15.,"|CFFff9933感谢玩家"+GetPlayerName(p)+"对决战江湖的赞助|r")
-	//endif
-	//if s=="我是赞助者" and udg_vip[i]==0 and vipbanlvbool[i]==false then
-	//	set vipbanlv[i] = CreateUnit(p,'n00G',1860,-4140,254.7)
-	//	set vipbanlvbool[i] = true
-	//endif
-	//if SubStringBJ(s,1,3)=="VIP" then
-	//	set s = SubStringBJ(s, 4, 50)
-	//	//call BJDebugMsg(s)
-	//	//call BJDebugMsg(I2S(StringLength(s)))
-	//	//call BJDebugMsg(I2S(IAbsBJ(StringHash(s))))
-	//	set s = I2S(IAbsBJ(StringHash(s)))
-	//	if StringLength(s) >= 6 then
-	//		if StringLength(s) == 10 then
-	//			call BJDebugMsg("您的VIP激活码是："+SubStringBJ(s, 5, 10))
-	//		else
-	//			call BJDebugMsg("您的VIP激活码是："+SubStringBJ(s, 1, 6))
-	//		endif
-	//	else
-	//		call BJDebugMsg("您的VIP激活码是："+SubStringBJ(s+"013478", 1, 6))
-	//	endif
-	//endif
+
 	if s=="-ms" then
 		call DisplayTextToPlayer(p,0,0,"|cFF00FFFF您当前的移动速度为"+I2S(R2I(GetUnitMoveSpeedEx(udg_hero[i]))))
 	endif
@@ -367,11 +344,9 @@ function KeyInput takes nothing returns nothing
 	    call UnitAddAbility(udg_hero[i],'A05R')
 	    call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    	call UnitAddAbility(udg_hero[i],'A040')
-	    	call UnitAddAbility(udg_hero[i],'A041')
-	    	call UnitAddAbility(udg_hero[i],'A042')
-	    endif
+		call UnitAddAbility(udg_hero[i],'A040')
+		call UnitAddAbility(udg_hero[i],'A041')
+		call UnitAddAbility(udg_hero[i],'A042')
 	    set I7[(((i-1)*20)+8)]='A05R'
 	    call UnitRemoveAbility(udg_hero[i],'Avul')
 	    set Q4=GetRandomLocInRect(He)
@@ -396,11 +371,9 @@ function KeyInput takes nothing returns nothing
 		call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
 	    call UnitAddAbility(udg_hero[i],'A05R')
-	    if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    	call UnitAddAbility(udg_hero[i],'A040')
-	    	call UnitAddAbility(udg_hero[i],'A041')
-	    	call UnitAddAbility(udg_hero[i],'A042')
-	    endif
+		call UnitAddAbility(udg_hero[i],'A040')
+		call UnitAddAbility(udg_hero[i],'A041')
+		call UnitAddAbility(udg_hero[i],'A042')
 	    set I7[(((i-1)*20)+8)]='A05R'
 	    call UnitRemoveAbility(udg_hero[i],'Avul')
 	    set Q4=GetRandomLocInRect(He)
@@ -410,9 +383,6 @@ function KeyInput takes nothing returns nothing
 	    set P4[i]=bj_lastCreatedUnit
 	    call RemoveLocation(Q4)
 	    call UnitAddItemByIdSwapped(1227896394,udg_hero[i])
-	endif
-	if s == "my gao v" and udg_vip[i] == 1 and udg_elevenvip[i] == 1 and udg_changevip[i] == 1 then
-		call DisplayTextToPlayer(p, 0, 0, I2S(NameProdVIP(LoadStr(YDHT, GetHandleId(p), GetHandleId(p)*2), 3)/10000))
 	endif
 	//存青龙之戒
 	// if s == "saveql" and UnitHaveItem(udg_hero[i], 'I0CQ') then
@@ -492,11 +462,9 @@ function KeyInput takes nothing returns nothing
 	    call UnitAddAbility(udg_hero[i],'A05R')
 	    call AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-	    if udg_vip[i]<2 and udg_elevenvip[i]<1 then
-	    	call UnitAddAbility(udg_hero[i],'A040')
-	    	call UnitAddAbility(udg_hero[i],'A041')
-	    	call UnitAddAbility(udg_hero[i],'A042')
-	    endif
+		call UnitAddAbility(udg_hero[i],'A040')
+		call UnitAddAbility(udg_hero[i],'A041')
+		call UnitAddAbility(udg_hero[i],'A042')
 	    set I7[(((i-1)*20)+8)]='A05R'
 	    call UnitRemoveAbility(udg_hero[i],'Avul')
 	    set Q4=GetRandomLocInRect(He)
@@ -638,7 +606,7 @@ function KeyInput takes nothing returns nothing
 	set p=null
 	set it=null
 	//测试码
-	if s=="要高冷一点" and udg_vip[i]>1 then
+	if s=="要高冷一点" then
 		call SetHeroLevel(udg_hero[i],GetHeroLevel(udg_hero[i])+5,true)
 		set wuxuedian[i] = wuxuedian[i] + 5
 		call unitadditembyidswapped(1227895642,udg_hero[i])
@@ -654,30 +622,30 @@ function KeyInput takes nothing returns nothing
 		set udg_shuxing[i]=udg_shuxing[i]+300
 		set shoujiajf[i]=shoujiajf[i]+1000
 	endif
-	if s=="boshu" and udg_vip[i]>1 then
+	if s=="boshu" then
 		set udg_boshu=udg_boshu+1
 		call DisplayTextToPlayer(p,0,0,"|cFFFF0000已跳转至下一波")
 	endif
-	if s=="ChuBoss1" and udg_vip[i]>1 then
+	if s=="ChuBoss1" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[1],Player(6),v7[6],v7[4])
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[1],Player(0),v7[6],v7[4])
-	elseif s=="ChuBoss2" and udg_vip[i]>1 then
+	elseif s=="ChuBoss2" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[2],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss3" and udg_vip[i]>1 then
+	elseif s=="ChuBoss3" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[3],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss4" and udg_vip[i]>1 then
+	elseif s=="ChuBoss4" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[4],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss5" and udg_vip[i]>1 then
+	elseif s=="ChuBoss5" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[5],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss6" and udg_vip[i]>1 then
+	elseif s=="ChuBoss6" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[6],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss7" and udg_vip[i]>1 then
+	elseif s=="ChuBoss7" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[7],Player(6),v7[6],v7[4])
-	elseif s=="ChuBoss8" and udg_vip[i]>1 then
+	elseif s=="ChuBoss8" then
 		call CreateNUnitsAtLocFacingLocBJ(1,u7[8],Player(6),v7[6],v7[4])
-	elseif s=="ChuLiaoGuo" and udg_vip[i]>1 then
+	elseif s=="ChuLiaoGuo" then
 		call LiaoGuoJinGong()
-	elseif s=="ChuLingJiu" and udg_vip[i]>1 then
+	elseif s=="ChuLingJiu" then
 		call LingJiuGongJinGong()
 	endif
 endfunction

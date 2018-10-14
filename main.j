@@ -1115,6 +1115,7 @@ globals
 	real fu=.0
 	real gu=.0
 	boolexpr ju=null
+	unit array vipbanlv
 endglobals
 
 
@@ -2051,7 +2052,6 @@ function main1 takes nothing returns nothing
 	call MonsterCome() //决战江湖1.52之圣兽来了
 	call CreateDestructables() //创建可破坏物
 	call Cuns() //存储装备属性
-	call CunVIPNum()
 	call CunWuGongS() //存储武功
 	call najitest() //纳吉的测试代码
 endfunction
@@ -2059,7 +2059,6 @@ endfunction
 function main2 takes nothing returns nothing
 	call GameLogic_Trigger() // 游戏逻辑触发器
 	call GameDetail_Trigger() // 游戏细节处理
-	call VIP_Trigger() // VIP系统
 	call Equipment_Trigger() //装备属性触发器
 	call MenPai_Trigger() //门派触发器
     call ZiZhi_Trigger() //自制武器触发器

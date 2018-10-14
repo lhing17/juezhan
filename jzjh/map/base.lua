@@ -37,9 +37,9 @@ function runtime.error_handle(msg)
 end
 
 --测试版本和发布版本的脚本路径
--- if base.release then
+if base.release then
 	package.path = package.path .. [[;Poi\]] .. base.version .. [[\?.lua;scripts\?.lua]]
--- end
+end
 
 --初始化本地脚本
 require 'main'

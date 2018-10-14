@@ -4,4 +4,4 @@ require 'scripts.common'
 require 'scripts.blizzard'
 require 'scripts.war3map'
 
-main()
+config()

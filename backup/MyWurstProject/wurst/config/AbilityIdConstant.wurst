@@ -1,0 +1,199 @@
+package AbilityIdConstant
+
+/* 少林 */
+public let DA_MO_JIAN_FA = 'A000'
+public let JIN_ZHONG_ZHAO = 'A05O'
+public let XIANG_MO_GONG = 'S000'
+public let DA_LI_JIN_GANG_ZHI = 'A05K'
+public let WEI_TUO_GUN_FA = 'A05G'
+
+/* 古墓 */
+public let MEI_NV_QUAN = 'A09E'
+public let YU_FENG_ZHEN = 'A09J'
+public let TIAN_LUO_DI_WANG_ZHANG = 'A09M'
+public let YU_NV_XIN_JING = 'A09U'
+public let GU_MU_QING_XIN_JUE = 'A09T'
+
+/* 丐帮 */
+public let TAI_ZU_QUAN_FA = 'A0C9'
+public let YE_CHA_GUN_FA = 'A0CB'
+public let FENG_MO_GUN_FA = 'A0C8'
+public let GAI_BANG_XIN_FA = 'A0DI'
+public let TIE_BU_SHAN = 'A0CA'
+
+/* 华山 */
+public let CHONG_LING_JIAN_FA = 'A08W'
+public let DUO_MING_JIAN_QI = 'A08X'
+public let KUANG_FENG_KUAI_JIAN = 'A08Y'
+public let ZI_XIA_GONG = 'A090'
+public let HUN_YUAN_GONG = 'A091'
+
+/* 全真 */
+public let QUAN_ZHEN_JIAN_FA = 'A0CF'
+public let JIN_YAN_GONG = 'A0DA'
+public let HAO_TIAN_ZHANG = 'A0CM'
+public let SAN_HUA_JU_DING = 'A0DE'
+public let XIAN_TIAN_GONG = 'A0CH'
+
+/* 血刀 */
+public let XUE_DAO_DAO_FA = 'A0CI'
+public let XUE_MO_DAO_FA = 'A0CJ'
+public let XUE_ZHAN_QIAN_DAO = 'A0CN'
+public let FO_MIE_WAN_JIE_GONG = 'A0CK'
+public let XUE_DAO_JING = 'A0DH'
+
+/* 峨眉 */
+public let SI_XIANG_ZHANG = 'A0C7'
+public let JIN_DING_MIAN_ZHANG = 'A0C2'
+public let MIE_JUE_JIAN_FA = 'A0C5'
+public let FO_GUANG_PU_ZHAO = 'A0C4'
+public let E_MEI_JIU_YANG_GONG = 'A0C6'
+
+/* 武当 */
+public let ROU_YUN_ZHANG = 'A04D'
+public let RAO_ZHI_ROU = 'A08S'
+public let TAI_JI_QUAN = 'A08R'
+public let CHUN_YANG_WU_JI_GONG = 'A08Q'
+public let HUN_DUN_YI_QI = 'A08V'
+
+/* 星宿 */
+public let XING_XIU_XIAO_YAO_ZHANG = 'A0BP'
+public let TIAN_SHAN_ZHANG_FA = 'A0BS'
+public let SAN_YIN_WU_GONG_ZHAO = 'A0BQ'
+public let WAN_DU_SHI_GU_SHU = 'A0BT'
+public let XING_XIU_XIN_FA = 'A0BV'
+
+/* 恒山 */
+public let WAN_HUA_JIAN_FA = 'A021'
+public let FU_CHEN_GONG = 'A01Z'
+public let BEI_YUE_JIAN_FA = 'A0CD'
+public let CI_BEI_XIN_FA = 'A023'
+public let PU_SA_YIN = 'A024'
+
+/* 衡山 */
+public let TIAN_ZHU_YUN_QI = 'A04M'
+public let HE_XIANG_ZI_GAI = 'A04N'
+public let SHI_LIN_SHU_SHENG = 'A04P'
+public let QUAN_MING_FU_RONG = 'A026'
+public let YAN_HUI_ZHU_RONG = 'A04R'
+
+/* 灵鹫宫 */
+public let TIAN_SHAN_ZHE_MEI = 'A02B'
+public let YUE_YING_WU_BU = 'A02C'
+public let RU_YI_DAO_FA = 'A02F'
+public let LIU_HUANG_BA_HE = 'A02G'
+public let TIAN_SHAN_LIU_YANG = 'A02H'
+
+/* 姑苏慕容 */
+public let JIA_CHUAN_JIAN_FA = 'A02K'
+public let XIU_ZHONG_ZHI = 'A04L'
+public let CAN_HE_ZHI = 'A02M'
+public let XING_YI_DOU_ZHUAN = 'A02S'
+public let MU_RONG_JIA_XUN = 'A02V'
+
+/* 明教 */
+public let YING_ZHAO_GONG = 'A030'
+public let FU_YI_ZONG = 'A032'
+public let SHI_ZI_HOU = 'A06R'
+public let SHENG_HUO_LING = 'A034'
+
+
+/* 神龙教——男 */
+public let ZI_XU_JU_DING = 'A04W'
+public let LU_DA_BA_LIU = 'A04Z'
+public let DI_QING_XIANG_LONG = 'A051'
+public let SHEN_LONG_XIN_FA = 'A059'
+public let SHEN_LONG_BA_SHI = 'A057'
+
+/* 神龙教——女 */
+public let XIAO_LIAN_HENG_CHEN = 'A056'
+public let FEI_YAN_HUI_XIANG = 'A054'
+public let GUI_FEI_HUI_MOU = 'A04X'
+
+/* 泰山 */
+public let QI_XING_LUO = 'A08A'
+public let DAI_ZONG_RU_HE = 'A08B'
+public let TAI_SHAN_SHI_BA_PAN = 'A08E'
+public let WU_DA_FU_JIAN = 'A08G'
+public let KUAI_HUO_SAN_JIAN = 'A08H'
+
+
+/* 江湖武功 */
+public let TANG_SHI_JIAN_FA = 'A071'
+public let TAN_ZHI_SHEN_TONG = 'A06H'
+public let YI_YANG_ZHI = 'A06P'
+public let BING_PO_YIN_ZHEN = 'A07A'
+public let HUA_GU_MIAN_ZHANG = 'A06L'
+public let JIU_YIN_BAI_GU_ZHAO = 'A07N'
+public let LIAN_CHENG_JIAN_FA = 'A06J'
+public let QI_SHANG_QUAN = 'A07M'
+public let SI_MEN_DAO_FA = 'A06M'
+public let BI_HAI_CHAO_SHENG_QU = 'A018'
+public let KONG_MING_QUAN = 'A017'
+public let CUI_JIAN_SHEN_ZHUA = 'A0D1'
+public let CUI_XIN_ZHANG = 'A0D3'
+
+/* 江湖内功 */
+public let JIU_YANG_SHEN_GONG = 'A0DN'
+public let SHUANG_SHOU_HU_BO = 'A07U'
+public let JIU_YIN_NEI_GONG = 'A07S'
+public let KUI_HUA_BAO_DIAN = 'A07T'
+public let HUA_GONG_DA_FA = 'A07P'
+public let LUO_HAN_FU_MO_GONG = 'A07O'
+public let XI_XING_DA_FA = 'A07R'
+public let QIAN_KUN_DA_DUO_YI = 'A07W'
+public let DOU_ZHUAN_XING_YI = 'A07Q'
+public let NI_JIU_YING_ZHEN_JING = 'A0D2'
+public let YI_JING_DUAN_GU_PIAN = 'A0D6'
+public let YI_LIAO_PIAN = 'A0D4'
+
+/* 绝学 */
+public let DU_GU_JIU_JIAN = 'A07F'
+public let BI_XIE_JIAN_FA = 'A07J'
+public let AN_RAN_XIAO_HUN_ZHANG = 'A07G'
+public let HU_JIA_DAO_FA = 'A086'
+public let LIU_MAI_SHEN_JIAN = 'A085'
+public let DA_GOU_BANG_FA = 'A07L'
+public let XIANG_LONG_SHI_BA_ZHANG = 'A07E'
+public let FAN_LIANG_YI_DAO_FA= 'A07H'
+public let YE_QIU_QUAN = 'A07I'
+public let XI_DU_ZHANG_FA = 'A089'
+
+
+/* 绝内 */
+public let YI_JIN_JING = 'A09D'
+public let XIAO_WU_XIANG = 'A083'
+public let SHEN_ZHAO_JING = 'A07X'
+public let LONG_XIANG_BO_RE_GONG = 'S002'
+public let TAI_XUAN_JING = 'A0D8'
+public let XI_SUI_JING = 'A080'
+public let HA_MA_GONG = 'A084'
+public let BEI_MING_SHEN_GONG = 'A082'
+
+
+/* 奇武 */
+public let SHEN_XING_BAI_BIAN = 'A03N'
+public let WU_XIANG_JIE_ZHI = 'A03P'
+public let HAN_BING_ZHEN_QI = 'A03L'
+public let BAI_SHENG_SHEN_QUAN = 'A03Q'
+public let MIAO_SHOU_KONG_KONG = 'A03O'
+public let GUI_XI_GONG = 'A0CE'
+public let XU_MI_SHAN_ZHANG = 'A03T'
+public let ZHEN_LONG_QI_JU = 'A03U'
+public let YAO_WANG_SHEN_PIAN = 'A03W'
+public let QIN_LONG_KONG_HE = 'A03V'
+public let KU_RONG_CHAN_GONG = 'A03Z'
+public let FU_QI_DAO_FA = 'A04V'
+public let SHOU_MU_CHANG_SHENG_GONG = 'A06A'
+public let HUANG_SHA_WAN_LI = 'A06B'
+public let JIU_YANG_SAN_PIAN = 'A06S'
+
+/* 马甲技能 */
+public let DUMMY_DA_MO_JIN_ZHONG = 'A05H'
+public let DUMMY_DA_MO_JIU_JIAN = 'A05J'
+public let DUMMY_XIANG_MO = 'A05P'
+
+/* BUFF */
+public let FENG_XUE = 'B008'
+public let SHEN_JING_CUO_LUAN = 'Bcrs'
+public let BUFF_JIN_ZHONG = 'B000'

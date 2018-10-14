@@ -1,0 +1,49 @@
+package Offense
+
+import Enemy
+import Orders
+import GameConfiguration
+
+let offense_lookup = [
+    1969711215,
+    1970498413,
+    1852798821,
+    1851879023,
+    1852008562,
+    1852273524,
+    1969381742,
+    1852466993,
+    1869898354,
+    1853320292,
+    1852208244,
+    1701077869,
+    1751410807,
+    1852076648,
+    1970107511,
+    1852990571,
+    1852207714,
+    1869898347,
+    1853517677,
+    1869311844,
+    1852076404,
+    1852076662,
+    1852204908,
+    1701013613,
+    1853125236,
+    1852601452,
+    1702064246,
+    1852403302,
+    'nbdk',
+    'nhyd'
+]
+ 
+    
+public function int.toOffenseId() returns int
+    return offense_lookup[this]
+
+public class Offense extends Enemy
+    construct(int unitId, vec2 pos)
+        super(OFFENSE_PLAYER, unitId, pos)
+  
+    function moveToAndAttack(vec2 target)
+        u.issuePointOrderById(Orders.attack, target)

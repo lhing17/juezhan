@@ -1,0 +1,147 @@
+package KeyInput
+
+// custom imports
+import Hero
+import GlobalInitialization
+import Common
+import HashList
+import ColorUtils
+import Task
+import Table
+
+function keyInput()
+    var s = GetEventPlayerChatString()
+    var p = GetTriggerPlayer()
+    var hero = p.getHero()
+    if s == "+"
+        SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) + 200.00, 1.00)
+    else if s == "-"
+        SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.00, 1.00)
+    else if s == "hg"
+        hero.setPosition(BASE_TP_LOC)
+        p.panCamTo(hero.u)
+    else if s == "q"
+        hero.setPosition(BASE_FRONT)
+        p.panCamTo(hero.u)
+    else if s == "3"
+        hero.setPosition(BASE_BACK)
+        p.panCamTo(hero.u)
+    else if s == "4"
+        hero.setPosition(JAIL)
+        p.panCamTo(hero.u)
+    else if s.substring(1, 2) == "wq"
+        if hero.u.hasItemById(DIY_WEAPON_ID)
+            printTimedToPlayer("|cFFFF0000当前未装备自制武器", 15, p)
+        else
+            // TODO 有武器的情况
+    else if s.substring(0, 2) == "tx"
+    else if s.substring(0, 2) == "wg"
+    else if s == "ckwg"
+    else if s == "ckwq"
+    else if s == "ckjn"
+        Table kongFuTable = hero.kongFuTable
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+        for id in hero.kongFuList
+            printTimedToPlayer(ColorUtils.HINT + GetAbilityName(id) + ":" + kongFuTable.loadString(id * 2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+    else if s == "ckhf"
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "杀怪回复：" + hero.killRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "伤害回复：" + hero.attackedRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "气血回复：" + hero.lifeRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT + "法力回复：" + hero.manaRegeneration.toString(2), 15, p)
+        printTimedToPlayer(ColorUtils.HINT_LINES + "〓〓〓〓〓〓〓〓〓〓〓", 15, p)
+    else if s == "ck"
+    else if s == "-ms" 
+        //printTimedToPlayer("|cFF00FFFF您当前的移动速度为"+I2S(R2I(GetUnitMoveSpeedEx(p.getHero().u))), 15, p)
+    else if s=="cksx"
+        printTimedToPlayer("|cFFFF0000剩余自由属性点：" + hero.freeAttr.toString(), 15, p)
+    else if s == "ckjf"
+        printTimedToPlayer("|cFFFF0000剩余守家积分：" + hero.defensePoint.toString(), 15, p)
+    else if s == "累积积分"
+        printTimedToPlayer("|cFFFF0000剩余游戏积分：" + hero.gamePoint.toString(), 15, p)
+    else if s == "+ys" or s == "+YS" 
+            SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) + 200.00, 1.00)
+    else if s == "+js" or s == "+JS" 
+        SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.00, 1.00)
+    else if s=="sj"
+        SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, 1800., 0)
+    else if s.substring(0, 2)=="wx"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.perception += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点悟性，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s.substring(0, 2)=="gg"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.constitution += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点根骨，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s.substring(0, 2)=="fy"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.luck += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点福缘，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s.substring(0, 2)=="dp"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.courage += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点胆魄，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s.substring(0, 2)=="ys"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.healingSkill += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点医术，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s.substring(0, 2)=="jm"
+        var num = s.substring(3, 5).toInt()
+        if hero.freeAttr >= 1
+            if num <=0 or num > hero.freeAttr
+                num = 1
+            hero.channel += num
+            hero.freeAttr -= num
+            printTimedToPlayer("|cFFFF0000分配" + num.toString() + "点经脉，剩余属性点：" + hero.freeAttr.toString(), 15, p)
+        else
+            printTimedToPlayer("|cFFFF0000属性点已用完", 15, p)
+    else if s == "ongoing tasks"
+        for task in hero.ongoingTasks
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + task.taskDescription, 15, hero.u.getOwner())
+    else if s== "done tasks"
+        for task in hero.doneTasks
+            printTimedToPlayer(ColorUtils.IN_PROGRESS + task.taskDescription, 15, hero.u.getOwner())
+    else if s.substring(0,1) == "`"
+        Log.debug(s.substring(1, 11))
+        let id = s.substring(1, 11).toInt()
+        Log.debug(id.toString())
+        hero.u.addEquipment(id)
+
+
+
+init
+    var t = CreateTrigger()
+    for i = 0 to 5
+        t.registerPlayerChatEvent(players[i], "", true)
+    t.addAction(function keyInput)

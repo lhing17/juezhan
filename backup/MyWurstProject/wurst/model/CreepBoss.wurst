@@ -1,0 +1,123 @@
+package CreepBoss
+
+import Creep
+
+let boss_lookup = [
+    'ncer',
+    'nhea',
+    'nlkl',
+    'nele',
+    'nenp',
+    'nbda',
+    'n002',
+    'nbds'
+]
+
+let creep_boss_lookup = [
+    'nqb3', // wolf king, boss
+    'odoc', // bandit chief, boss
+    'orai', // king of the horse thief king, boss
+    'nubw', // Duanyanqing, boss
+    'nsqo', // god of south sea crocodile, boss
+    'nhrr', // Yeerniang, boss
+    'nomg', // Yunzhonghe, boss
+    'ndrw', // Guanneng, boss
+    'nbdw', // Tangwenliang, boss
+    'ndqs', // Linchaoying, boss
+    'nsrh', // floor-sweeping magic monk, boss, scripture repository
+    'nfov', // very evil lord, boss
+    'nrzb', // long beard ghost, boss
+    'nfpu', // Gongsunzhi, boss
+    'nfpc', // Zhaxiaoyong, boss
+    'ngh2', // Liqiushui, boss
+    'nmgd', // Wuyazi, boss
+    'nfsp', // childface grandma at Tianshan, boss
+    'hspt', // Huangshang, boss
+    'uktn', // Dongfangbubai, boss
+    'hfoo' // The first pioneer of Liao, boss
+]
+
+let experience_boss_lookup = [
+    'hsor', // Hanxiaoying, experience boss
+    'owar', // Kezhen'e, experience boss
+    'ntkt', // Zhang'asheng, experience boss
+    'nogm', // Hanbaoju, experience boss
+    'opeo', // Quanjinfa, experience boss
+    'ohun', // Nanxiren, experience boss
+    'nw2w', // Zhucong, experience boss
+    'ntkc', // white eyebrow eagle king, experience boss
+    'nrvi', // Ximenchuixue, experience boss
+    'nsgn', // golden hair lion king, experience boss
+    'nsgb', // cyan wing bat king, experience boss
+    'nwzr', // Yangdingtian, experience boss
+    'nsgt', // purple cloth dragon king, experience boss
+    'nwnr', // Hongqigong, experience boss
+    'nslf', // Ouyangfeng, experience boss
+    'nwzg', // "One-lamp" grand master, experience boss
+    'ogrk', // Huangyaoshi, experience boss
+    'nvdl', // Yegucheng, experience boss
+    'nogl', // Chuliuxiang, experience boss
+    'nbld'  // Luxiaofeng, experience boss
+]
+    
+public function int.toBossId() returns int
+    return creep_boss_lookup[this]
+
+/**野怪的BOSS，拥有技能**/
+public class CreepBoss extends Creep
+    int array[4] abilities
+    construct(int unitId, real x, real y)
+        super(unitId, x, y)
+
+function initCreepBoss()
+    new CreepBoss(creep_boss_lookup[0], 1916.5, -5171.2)
+    new CreepBoss(creep_boss_lookup[1], -11632.9, 3526.4)
+    new CreepBoss(creep_boss_lookup[2], -15073.4, 627.9)
+    new CreepBoss(creep_boss_lookup[3], -11610.2, 13396.9)
+    new CreepBoss(creep_boss_lookup[4], -13636.9, 12292.7)
+    new CreepBoss(creep_boss_lookup[5], -12256.3, 10995.4)
+    new CreepBoss(creep_boss_lookup[6], -15162.7, 13751.3)
+    new CreepBoss(creep_boss_lookup[7], -11769.7, 8626.3)
+    new CreepBoss(creep_boss_lookup[8], -14468.8, 9138.2)
+    new CreepBoss(creep_boss_lookup[9], -9301.8, -2486.7)
+    new CreepBoss(creep_boss_lookup[10], 6788.6, -2224.5)
+    new CreepBoss(creep_boss_lookup[11], -8901.9, 14908.1)
+    new CreepBoss(creep_boss_lookup[12], -13378.5, -4721.9)
+    new CreepBoss(creep_boss_lookup[13], -12407.6, -2143.8)
+    new CreepBoss(creep_boss_lookup[14], -7846.3, -9418.4)
+    new CreepBoss(creep_boss_lookup[14], -7499.2, -9250.3)
+    new CreepBoss(creep_boss_lookup[15], 4457.5, 12995.6)
+    new CreepBoss(creep_boss_lookup[16], 4343., 14740.7)
+    new CreepBoss(creep_boss_lookup[17], 2347.2, 14172.4)
+    new CreepBoss(creep_boss_lookup[18], -14692.2, -15042.8)
+    new CreepBoss(creep_boss_lookup[19], 7282.8, 13564.4)
+    new CreepBoss(creep_boss_lookup[20], -6426.9, 4526.3)
+
+function initExperienceBoss()
+    new Creep(experience_boss_lookup[0], -3478., -4354.1)
+    new Creep(experience_boss_lookup[1], -5591.7, -5366.8)
+    new Creep(experience_boss_lookup[2], -3401.8, -6576.7)
+    new Creep(experience_boss_lookup[3], -5597.7, -6398.5)
+    new Creep(experience_boss_lookup[4], -2411.9, -6253.7)
+    new Creep(experience_boss_lookup[5], -4541.3, -4202.2)
+    new Creep(experience_boss_lookup[6], -5653.5, -4360.4)
+    new Creep(experience_boss_lookup[7], -2634.1, 12329.1)
+    new Creep(experience_boss_lookup[8], 10235.4, 15096.9)
+    new Creep(experience_boss_lookup[9], -1488., 14913.8)
+    new Creep(experience_boss_lookup[10], -742.8, 12726.2)
+    new Creep(experience_boss_lookup[11], -4659.9, 14915.5)
+    new Creep(experience_boss_lookup[12], 200., 14891.6)
+    new Creep(experience_boss_lookup[13], 4287.7, 10151.4)
+    new Creep(experience_boss_lookup[14], 2236.8, 9150.8)
+    new Creep(experience_boss_lookup[15], 3039., 7028.4)
+    new Creep(experience_boss_lookup[16], 5348., 8028.)
+    new Creep(experience_boss_lookup[17], 9795.2, 15164.8)
+    new Creep(experience_boss_lookup[18], 9398.7, 14965.4)
+    new Creep(experience_boss_lookup[19], 10511.7, 15018.8)
+
+
+init
+    initCreepBoss()
+    initExperienceBoss()
+
+    

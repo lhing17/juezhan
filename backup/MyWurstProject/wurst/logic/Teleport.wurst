@@ -1,0 +1,183 @@
+package Teleport
+
+// standard imports
+import Event
+
+// custom imports
+import Common
+import Hero
+import ColorUtils
+import GlobalInitialization
+
+/* 传送到传送石 */
+function isTeleportToTeleportStone() returns bool
+    let itm = GetManipulatedItem()
+    return GetTriggerUnit().isHero() 
+        and ( itm.getTypeId() == 'I0BP'
+            or itm.getTypeId() == 'I0BQ'
+            or itm.getTypeId() == 'I0BR'
+            or itm.getTypeId() == 'I0BS'
+            or itm.getTypeId() == 'I0BT'
+            or itm.getTypeId() == 'I0BU'
+            or itm.getTypeId() == 'I0BV'
+            or itm.getTypeId() == 'I0BW'
+            or itm.getTypeId() == 'I0BX'
+        )
+
+function teleportToTeleportStone()
+    let u = GetTriggerUnit()
+    let p = GetOwningPlayer(u)
+    let itm = GetManipulatedItem()
+    if itm.getTypeId() == 'I0BP'
+        u.setPos(vec2(3763, -9091))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至牛妖幻境", 0, p)
+    if itm.getTypeId() == 'I0BQ'
+        u.setPos(vec2(1446, -2317))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至新手村", 0, p)
+    if itm.getTypeId() == 'I0BR'
+        u.setPos(vec2(1863, 0))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至少林寺外", 0, p)
+    if itm.getTypeId() == 'I0BS'
+        u.setPos(vec2(-1476, 8139))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至光明顶下", 0, p)
+    if itm.getTypeId() == 'I0BT'
+        u.setPos(vec2(-2400, -3900))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至江南水乡", 0, p)
+    if itm.getTypeId() == 'I0BU'
+        u.setPos(vec2(-4400, -2950))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至全真三子", 0, p)
+    if itm.getTypeId() == 'I0BV'
+        u.setPos(vec2(-5960, -160))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至雁门关内", 0, p)
+    if itm.getTypeId() == 'I0BW'
+        u.setPos(vec2(-13000, -15500))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至大辽国", 0, p)
+    if itm.getTypeId() == 'I0BX'
+        u.setPos(vec2(-9000, -14000))
+        p.panCamTo(u)
+        printTimedToPlayer("|CFF00ff33传送至聚贤庄", 0, p)
+
+/* 传送到历练 */
+function isTeleportToExperiences() returns bool
+    let itm = GetManipulatedItem()
+    return GetTriggerUnit().isHero() 
+        and ( itm.getTypeId() == 'I09V'
+            or itm.getTypeId() == 1227896148
+            or itm.getTypeId() == 1227896149
+            or itm.getTypeId() == 1227896150
+            or itm.getTypeId() == 1227896151
+            or itm.getTypeId() == 1227896152
+            or itm.getTypeId() == 1227896385
+        )
+
+function teleportToExperiences()
+    let u = GetTriggerUnit()
+    let hero = u.getHero()
+    let p = GetOwningPlayer(u)
+    let itm = GetManipulatedItem()
+    if itm.getTypeId() == 'I09V'
+        u.setPos(vec2(9631, 1139))
+        p.panCamTo(u)
+        printTimedToPlayer("|cFFFFCC00进入桃花岛", 15, p)
+        printTimedToPlayer("|cFFFFCC00“源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！”", 15, p)
+    if itm.getTypeId() == 1227896148
+        if u.getLevel() < 10
+            printTimedToPlayer("|cFFFF0000等级不足10级无法传送", 15, p)
+            return
+        if hero.reputation < 500
+            printTimedToPlayer("|cFFFF0000江湖声望不足500无法传送", 15, p)
+            return
+        u.setPos(vec2(-4400., -2950.))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入终南山", 15, p)
+    if itm.getTypeId() == 1227896149
+        if u.getLevel() < 25
+            printTimedToPlayer("|cFFFF0000等级不足25级无法传送", 15, p)
+            return
+        if hero.reputation < 1500
+            printTimedToPlayer("|cFFFF0000江湖声望不足1500无法传送", 15, p)
+            return
+        u.setPos(vec2(5666, -957))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
+    if itm.getTypeId() == 1227896150
+        if u.getLevel() < 40
+            printTimedToPlayer("|cFFFF0000等级不足40级无法传送", 15, p)
+            return
+        if hero.reputation < 2500
+            printTimedToPlayer("|cFFFF0000江湖声望不足2500无法传送", 15, p)
+            return
+        u.setPos(vec2(-3555, 146))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入塞外", 15, p)
+    if itm.getTypeId() == 1227896151
+        if u.getLevel() < 55
+            printTimedToPlayer("|cFFFF0000等级不足55级无法传送", 15, p)
+            return
+        if hero.reputation < 4000
+            printTimedToPlayer("|cFFFF0000江湖声望不足4000无法传送", 15, p)
+            return
+        u.setPos(vec2(-1180, 11267))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入光明顶", 15, p)
+    if itm.getTypeId() == 1227896152
+        if u.getLevel() < 70
+            printTimedToPlayer("|cFFFF0000等级不足70级无法传送", 15, p)
+            return
+        if hero.reputation < 6000
+            printTimedToPlayer("|cFFFF0000江湖声望不足6000无法传送", 15, p)
+            return
+        u.setPos(vec2(4400, 470))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入少林寺后山", 15, p)
+    if itm.getTypeId() == 1227896385
+        if u.getLevel() < 100
+            printTimedToPlayer("|cFFFF0000等级不足100级无法传送", 15, p)
+            return
+        if hero.reputation < 9000
+            printTimedToPlayer("|cFFFF0000江湖声望不足9000无法传送", 15, p)
+            return
+        u.setPos(vec2(-9635, -330))  //TESTME
+        p.panCamTo(u)
+        printTimedToPlayer("|cff66ff33进入边疆", 15, p)
+
+/** 传送至练功房 **/
+function teleportToExerciseRooms()
+    let id = GetManipulatedItem().getTypeId()
+    if id == 1227895361
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房一", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(EXERCISE_ROOM1_LOC)
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+    else if id == 1227895350   
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房二", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(EXERCISE_ROOM2_LOC)
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+    else if id == 1227895351
+        printTimedToPlayer(ColorUtils.HINT + "进入少林寺练功房三", 15, GetTriggerUnit().getOwner())
+        GetTriggerUnit().setPos(EXERCISE_ROOM3_LOC)
+        GetTriggerUnit().getOwner().panCamTo(GetTriggerUnit())
+
+
+
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
+        ..addCondition(Condition(function isTeleportToTeleportStone))
+        ..addAction(function teleportToTeleportStone)
+    
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM)
+        ..addCondition(Condition(function isTeleportToExperiences))
+        ..addAction(function teleportToExperiences)
+
+    EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, () -> teleportToExerciseRooms())
+   

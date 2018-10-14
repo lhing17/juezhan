@@ -1,0 +1,157 @@
+package InstanceTreasures
+
+// standard imports
+import HashMap
+import HashList
+import Event
+
+// custom imports
+import Hero
+import ColorUtils
+import Common
+
+public int array herb
+function initHerbs()
+    herb[1]='I07F'
+    herb[2]='I07G'
+    herb[3]='I07E'
+    herb[4]='I076'
+    herb[5]='I077'
+    herb[6]='I078'
+    herb[7]='I079'
+    herb[8]='I07B'
+    herb[9]='I07A'
+    herb[10]='I07C'
+    herb[11]='I07D'
+    herb[12]='I07H'
+    
+/* creep treasure drop */
+public class InstanceTreasures
+
+    /** the type id of the creep killed **/
+    int creepTypeId
+
+    /** the key is the type id of the dropped item, the value is the possibility of the item drop **/
+    IterableMap<int, real>  treasurePool
+
+    construct(int creepTypeId, IterableMap<int, real> treasurePool)
+
+        this.creepTypeId = creepTypeId
+        this.treasurePool = treasurePool
+        EventListener.add(EVENT_PLAYER_UNIT_DEATH, () -> dropItem())
+        EventListener.add(EVENT_PLAYER_UNIT_SELECTED, () -> showDropRate())
+
+    function showDropRate()
+        let p = GetTriggerPlayer()
+        if GetTriggerUnit().getTypeId() == creepTypeId            
+            HLIterator<int> iterator = treasurePool.iterator()
+            while iterator.hasNext()
+                let itemId = iterator.next()
+                printTimedToPlayer(GetObjectName(itemId) + ":" + ColorUtils.RATE + treasurePool.get(itemId).toString(2) + "%|r", 15, p)
+
+    function dropItem()
+        if GetTriggerUnit().getTypeId() == creepTypeId
+            let hero = GetKillingUnit().getHero()
+            real max = 100
+            real random 
+            int itemId = 0
+            HLIterator<int> iterator = treasurePool.iterator()
+            while iterator.hasNext()
+                random = GetRandomReal(1, max)
+                itemId = iterator.next()
+                real possibility = treasurePool.get(itemId)
+                if random < possibility
+                    hero.u.addEquipment(itemId)
+                    break
+                else
+                    max -= possibility
+            iterator.close()
+            iterator = treasurePool.iterator()
+            while iterator.hasNext()
+                int key = iterator.next()
+                if key != itemId and treasurePool.get(itemId) >= 1
+                    treasurePool.put(key, treasurePool.get(key) + 1)
+                    treasurePool.put(itemId, treasurePool.get(itemId) - 1)
+
+function getTreasurePool(int itemId, real possibility) returns IterableMap<int, real>
+    IterableMap<int, real> treasurePool = new IterableMap<int, real>()
+    treasurePool.put(itemId, possibility)
+    return treasurePool
+
+function getTreasurePool(int itemId1, real possibility1, int itemId2, real possibility2) returns IterableMap<int, real>
+    IterableMap<int, real> treasurePool = new IterableMap<int, real>()
+    treasurePool.put(itemId1, possibility1)
+    treasurePool.put(itemId2, possibility2)
+    return treasurePool
+
+function getTreasurePool(int itemId1, real possibility1, int itemId2, real possibility2, int itemId3, real possibility3) returns IterableMap<int, real>
+    IterableMap<int, real> treasurePool = new IterableMap<int, real>()
+    treasurePool.put(itemId1, possibility1)
+    treasurePool.put(itemId2, possibility2)
+    treasurePool.put(itemId3, possibility3)
+    return treasurePool
+
+function getTreasurePool(int itemId1, real possibility1, int itemId2, real possibility2, int itemId3, real possibility3, int itemId4, real possibility4) returns IterableMap<int, real>
+    IterableMap<int, real> treasurePool = new IterableMap<int, real>()
+    treasurePool.put(itemId1, possibility1)
+    treasurePool.put(itemId2, possibility2)
+    treasurePool.put(itemId3, possibility3)
+    treasurePool.put(itemId4, possibility4)
+    return treasurePool
+
+init
+    initHerbs()
+    new InstanceTreasures('nqb3', getTreasurePool('I021', 20))
+    new InstanceTreasures('ngns', getTreasurePool(herb[1], 8))
+    new InstanceTreasures('hwat', getTreasurePool(herb[2], 8))
+    new InstanceTreasures('oshm', getTreasurePool(herb[3], 8))
+    new InstanceTreasures('oshm', getTreasurePool('I02J', 8, 'I02I', 8))
+    new InstanceTreasures('nass', getTreasurePool(herb[3], 8))
+    new InstanceTreasures('nass', getTreasurePool('I01W', 2))
+    new InstanceTreasures('odoc', getTreasurePool('I01U', 50, 'I01Z', 50))
+    new InstanceTreasures('orai', getTreasurePool('I01S', 33, 'I01Y', 33, 'I01X', 34))
+    new InstanceTreasures('otau', getTreasurePool('I02Z', 50, 'I03D', 50))
+    new InstanceTreasures('otau', getTreasurePool('I0C5', 3))
+    new InstanceTreasures('odkt', getTreasurePool('I02U', 33, 'I03G', 33, 'I02W', 34))
+    new InstanceTreasures('uaco', getTreasurePool('I02L', 33, 'I02N', 33, 'I02K', 34))
+    new InstanceTreasures('uaco', getTreasurePool('I0CB', 50))
+    new InstanceTreasures('efon', getTreasurePool('I01I', 3, 'I02E', 3, 'I02H', 3))
+    new InstanceTreasures('nowb', getTreasurePool('I01I', 3, 'I02E', 3, 'I02H', 3))
+    new InstanceTreasures('nbdw', getTreasurePool('I01L', 25, 'I01M', 25, 'I01Q', 25, 'I01R', 25))
+    new InstanceTreasures('ndrw', getTreasurePool(1227895118, 33, 1227895120, 33, 1227895119, 34))
+    new InstanceTreasures(1702258030, getTreasurePool(1227895621, 50, 1227895626, 50))
+    new InstanceTreasures(1700884333, getTreasurePool('I03L', 50, 1227895382, 50))
+    new InstanceTreasures(1852007777, getTreasurePool(1227895603, 50, 1227895627, 50))
+    new InstanceTreasures('nsqo', getTreasurePool(1227895095, 33, 1227895107, 33, 1227895097, 34))
+    new InstanceTreasures('nhrr', getTreasurePool(1227895096, 50, 1227895106, 50))
+    new InstanceTreasures('nubw', getTreasurePool(1227895878, 100))
+    new InstanceTreasures(1702061422, getTreasurePool(1227895624, 33, 'I03I', 33, 'I02X', 34))
+    new InstanceTreasures('nomg', getTreasurePool(1227895105, 50, 1227895094, 50))
+    new InstanceTreasures('nomg', getTreasurePool('I0CC', 10))
+    new InstanceTreasures(1701672039, getTreasurePool('I030', 50, 1227895385, 50))
+    new InstanceTreasures(1970169187, getTreasurePool('I03F', 50, 1227895601, 50))
+    new InstanceTreasures('nelb', getTreasurePool('I09I', 100))
+    new InstanceTreasures('nfpu', getTreasurePool(1227895089, 40, 1227895091, 40, 1227895371, 20))
+    new InstanceTreasures('nmgr', getTreasurePool(1227895090, 5, 'I099', 95))
+    new InstanceTreasures('nhfp', getTreasurePool(1227895372, 5, 'I09A', 95))
+    new InstanceTreasures('nrzb', getTreasurePool('I014', 25, 1227895093, 25, 'I00Z', 25, 'I010', 25))
+    new InstanceTreasures(1852270642, getTreasurePool('I00V', 50, 'I00U', 50))
+    new InstanceTreasures(1852207984, getTreasurePool('I00W', 100))
+    new InstanceTreasures(1852663652, getTreasurePool('I00P', 50, 'I00O', 50))
+    new InstanceTreasures(1853058166, getTreasurePool(1227895861, 100))
+    new InstanceTreasures('nsbm', getTreasurePool(1227895860, 100))
+    new InstanceTreasures(1751672179, getTreasurePool('I00I', 50, 'I00N', 50))
+    new InstanceTreasures(1851942252, getTreasurePool(1227895874, 50, 'I00G', 50))
+    new InstanceTreasures(1852142199, getTreasurePool(1227895873, 33, 'I00C', 33, 1227894856, 34))
+    new InstanceTreasures(1969976430, getTreasurePool('I00D', 25, 'I00B', 25, 'I00F', 25, 'I00L', 25))
+    new InstanceTreasures('hrif', getTreasurePool('I08Y', 7))
+    new InstanceTreasures('Hmkg', getTreasurePool('I08V', 100))
+    new InstanceTreasures(1852207203, getTreasurePool('I08X', 33, 'I08Z', 33, 'I090', 34))
+    
+    
+    
+    
+    
+
+
+            

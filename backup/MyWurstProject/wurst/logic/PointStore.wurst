@@ -1,0 +1,79 @@
+package PointStore
+
+// standard imports
+import Event
+
+// custom imports
+import Hero
+import ColorUtils
+import Common
+import GlobalInitialization
+import InstanceTreasures
+import ItemIdConstant
+
+/* ************************
+ * 积分商店
+ * ************************/
+
+function pointExchange(unit u, item itm, int itemId, int number, int award)
+    let hero = u.getHero()
+    let p = u.getOwner()
+    if itm.getTypeId() == itemId
+        if hero.defensePoint >= number
+            hero.defensePoint -= number
+            if itemId == 'I06S' or itemId == 'I06T' or itemId == 'I06R' or itemId =='I06U' or itemId == 'I06Q'
+                u.addEquipment(award)
+                printTimedToPlayer(ColorUtils.AWARD + "获得" + GetObjectName(award), 15, p)
+            else if itemId == 'I06P'
+                var lumber = 20 - gameDifficulty * 1
+                hero.u.getOwner().addLumber(lumber)
+                printTimedToPlayer(ColorUtils.AWARD + "获得珍稀币" + lumber.toString(), 15, p)
+            else if itemId == 'I06O'
+                var gold = 4000 - 200 * gameDifficulty
+                hero.u.getOwner().addGold(gold)
+                printTimedToPlayer(ColorUtils.AWARD + "获得金钱" + gold.toString(), 15, p)
+            else if itemId == 'I0A0'
+                hero.u.addItem(award)
+                printTimedToPlayer(ColorUtils.AWARD + "获得" + GetObjectName(award), 15, p)
+        else
+            printTimedToPlayer(ColorUtils.WARNING + "守家积分不足", 15, p)
+/** 积分兑换商品 **/
+function pointExchange()
+    let id = GetManipulatedItem().getTypeId()
+    if id == 'I06S' or id == 'I06T' or id == 'I06R' or id =='I06U' or id == 'I06Q' or id == 'I06P' or id == 'I06O' or id == 'I0A0'
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06O', 20, 300)
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I0A0', 50, 'I04T')
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06S', 200, herb[GetRandomInt(1, 12)])
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06T', 100, 'I02N')
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06R', 300, 'I06K')
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06U', 600, 'I02L')
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06P', 100, 5)
+        pointExchange(GetTriggerUnit(), GetManipulatedItem(), 'I06Q', 200, 'I06N')
+
+function reputationExchange(unit u, item itm, int itemId, int number, int award)
+    let hero = u.getHero()
+    let p = u.getOwner()
+    if itm.getTypeId() == itemId
+        if hero.reputation >= number
+            hero.reputation -= number
+            u.addEquipment(award)
+            printTimedToPlayer(ColorUtils.AWARD + "获得" + GetObjectName(award), 15, p)
+        else
+            printTimedToPlayer(ColorUtils.WARNING + "江湖声望不足", 15, p)
+
+/** 声望兑换商品 **/        
+function reputationExchange()
+    let id = GetManipulatedItem().getTypeId()
+    if id == 'I0AO' or id == 'I0AP' or id == 'I0AQ' or id == 'I0AR'
+        reputationExchange(GetTriggerUnit(), GetManipulatedItem(), 'I0AO', 200, 'I06K')
+        reputationExchange(GetTriggerUnit(), GetManipulatedItem(), 'I0AP', 4000, 'I08W')
+        reputationExchange(GetTriggerUnit(), GetManipulatedItem(), 'I0AQ', 2000, 'I0AS')
+        reputationExchange(GetTriggerUnit(), GetManipulatedItem(), 'I0AR', 1000, residualChapter[GetRandomInt(1,10)])
+
+
+
+
+
+init 
+    EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, ()->pointExchange())
+    EventListener.add(EVENT_PLAYER_UNIT_PICKUP_ITEM, ()->reputationExchange())

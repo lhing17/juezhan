@@ -1,0 +1,332 @@
+package GlobalInitialization
+
+import AbilityIdConstant
+import GameConfiguration
+import SoundUtils
+import Table
+
+
+ //=============================================================
+ // 全局常量和枚举
+ //=============================================================
+ 
+ /*
+  * 地点常量
+  */
+public vec2 array LOC_ARRAY
+
+public let DEFAULT_FACING = 270..asAngleDegrees()
+/** 基地回城点 **/
+public let BASE_TP_LOC = vec2(-1174,-678)
+/** 基地所在位置 **/
+public let BASE_LOC = vec2(-768, -768)
+/** 基地前方回城点 **/
+public let BASE_FRONT = vec2(-869,796)
+/** 基地后方回城点 **/
+public let BASE_BACK = vec2(-869,-2000)
+/** 监狱 **/
+public let JAIL = vec2(10692,-14847)
+/** 选择门派的地点 **/
+public let SELECT_DENOMINATION_LOC = vec2(1700, -4150)
+/** 英雄出生地点 **/
+public let HERO_BORN_LOC = vec2(1585, -2585) 
+/** 鸟贩卖东西等功能使用的临时地点 **/
+public let TEMP_LOC = vec2(0, 0) // FIXME 修改为实际地点
+/** 历练1小地图ping点 **/
+public let FIRST_EXPERIENCE_LOC = vec2(-4400., -2950.) // TESTME 修改为实际地点
+/** 历练2小地图ping点 **/
+public let SECOND_EXPERIENCE_LOC = vec2(5666, -957) // TESTME 修改为实际地点
+/** 历练3小地图ping点 **/
+public let THIRD_EXPERIENCE_LOC = vec2(-3555, 146) // TESTME 修改为实际地点
+/** 历练4小地图ping点 **/
+public let FOURTH_EXPERIENCE_LOC = vec2(-1180, 11267) // TESTME 修改为实际地点
+/** 历练5小地图ping点 **/
+public let FIFTH_EXPERIENCE_LOC = vec2(4400, 470) // TESTME 修改为实际地点
+/** 历练6小地图ping点 **/
+public let SIXTH_EXPERIENCE_LOC = vec2(-9635, -330) // TESTME 修改为实际地点
+/** 练功房1 **/
+public let EXERCISE_ROOM1_LOC = vec2(3730, -4690)
+/** 练功房2 **/
+public let EXERCISE_ROOM2_LOC = vec2(4750, -3650)
+/** 练功房3 **/
+public let EXERCISE_ROOM3_LOC = vec2(5920,-4750)
+
+/** 选择门派的区域 **/
+public let SELECT_DENOMINATION_RECT = Rect(952,-4548,2330,-2956)
+/** 自制武器ID **/
+public let DIY_WEAPON_ID = 'I0BH'
+/** 难度科技ID **/
+public let DIFFICULTY_TECH_ID = 'R001'
+/** 普通模式 **/
+public let GAME_MODE_NORMAL = 0
+/** 特殊事件模式 **/
+public let GAME_MODE_SPECIAL = 1
+/** 生存模式 **/
+public let GAME_MODE_SURVIVAL = 2
+/** 快速模式 **/
+public let GAME_MODE_FAST = 3
+/** 初入江湖 **/
+public let GAME_DIFFICULTY_VERY_EASY = 0
+/** 牛刀小试 **/
+public let GAME_DIFFICULTY_EASY = 1
+/** 登堂入室 **/
+public let GAME_DIFFICULTY_NORMAL = 2
+/** 炉火纯青 **/
+public let GAME_DIFFICULTY_HARD = 3
+/** 华山论剑 **/
+public let GAME_DIFFICULTY_VERY_HARD = 4
+/** 决战江湖 **/
+public let GAME_DIFFICULTY_HELL = 5
+/** 精武师 **/
+public let PART_TIME_KONGFU_MASTER = 1 
+/** 丫鬟 **/
+public let PART_TIME_MAID = 2
+/** 寻宝师 **/
+public let PART_TIME_TREASURE_HUNTER = 3
+/** 锻造师 **/
+public let PART_TIME_FORGER = 4
+/** 炼丹师 **/
+public let PART_TIME_ALCHEMIST = 5
+/** 鉴定师 **/
+public let PART_TIME_APPRAISER = 6
+/** 兵器师 **/
+public let PART_TIME_WEAPONER = 7
+/** 练气师 **/
+public let PART_TIME_QI_MASTER = 8
+/** 英雄复活时间 **/
+public let HERO_REVIVAL_TIME = 15.0
+/** 游戏评分 **/
+public let GAME_SCORE = 0
+/* 门派 */
+/** 自由门派 **/
+public let DENOMINATION_FREE = 30
+public let DENOMINATION_SHAOLIN = 1
+public let DENOMINATION_GUMU = 2
+public let DENOMINATION_GAIBANG = 3
+public let DENOMINATION_HUASHAN = 4
+public let DENOMINATION_QUANZHEN = 5
+public let DENOMINATION_XUEDAO = 6
+public let DENOMINATION_HENGSHAN_NORTH = 7
+public let DENOMINATION_EMEI = 8
+public let DENOMINATION_WUDANG = 9
+public let DENOMINATION_XINGXIU = 10
+public let DENOMINATION_LINGJIU = 11
+public let DENOMINATION_MURONG = 12
+public let DENOMINATION_TAISHAN = 13
+public let DENOMINATION_MINGJIAO = 14
+public let DENOMINATION_HENGSHAN_SOUTH = 15
+public let DENOMINATION_SHENLONG_MAN = 16
+public let DENOMINATION_SHENLONG_WOMAN = 17
+
+/** 门派武学 **/
+public let KONGFU_TYPE_DENOMINATION = 0
+/** 江湖武学 **/
+public let KONGFU_TYPE_NEUTRAL_PHYSICAL = 1
+/** 江湖内功 **/
+public let KONGFU_TYPE_NEUTRAL_MAGICAL = 2
+/** 绝世武学 **/
+public let KONGFU_TYPE_FINAL_PHYSICAL = 3
+/** 绝世内功 **/
+public let KONGFU_TYPE_FINAL_MAGICAL = 4
+/** 九阴武学 **/
+public let KONGFU_TYPE_JIUYIN_PHYSICAL = 5
+/** 九阴内功 **/
+public let KONGFU_TYPE_JIUYIN_MAGICAL = 6
+/** 奇武 **/
+public let KONGFU_TYPE_STRANGE = 7
+tuple denomination(int whichDenomanition, string name, int firstKongFu, int secondKongFu, int thirdKongFu, int fourthKongFu, int fifthKongFu)
+tuple kongFu(string name, int itemId, int abilityId, int kongFuType, int courage, int luck, int constitution, int channel, int perception, int healingSKill)
+
+public denomination array denominations
+public kongFu array kongFus
+
+/** 最大门派下标，添加门派时需要修改 **/
+public let MAX_DENOMINATION_INDEX = 17
+/** 基地 **/
+public unit BASE = createUnit(BASE_PLAYER, 'nfrm', vec2(-768, -768), DEFAULT_FACING)
+
+/** 最终进攻怪 **/
+public unit FINAL_BOSS = null // FIXME 替换成实际单位
+
+public let SOUND_SELL_ITEM = new SoundDefinition("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false)
+
+public Table playerNames = new Table()
+
+/* 刷怪点 */
+public let SPAWN_LOC=[
+    vec2(-3080, 4200),
+    vec2(-790, 5730),
+    vec2(1410, 4236)
+]
+
+public let BACK_SPAWN_LOC = vec2(-700, -5400)
+
+ //=============================================================
+ // 全局变量
+ //=============================================================
+/** 选择英雄的单位组 **/
+public group heroSelectionGroup = CreateGroup()
+
+public int gameMode = 0 // 游戏模式
+public int gameDifficulty = 0 // 游戏难度
+public int famousAttackFlag = 1 // 名门进攻标识
+/** 波数 **/
+public int wave = 0
+
+/** 开始刷怪 **/
+public bool startSpawn = false
+
+/** 本局游戏是否刷怪 **/
+public bool isSpawn = true
+
+
+public int array lanxinVip // 兰馨VIP
+public int array jinxuanVip // 瑾轩VIP
+public int array elevenVip // 十一格VIP
+public int array superVip // 超级VIP
+
+public unit langyun = null 
+public unit moyan = null 
+public unit mojun = null 
+public unit xiaoxia = null 
+public unit ruodie = null 
+public unit lanxin = null
+public unit jinxuan = null
+
+public unit array inventoryOne
+public unit array inventoryTwo
+public unit tempInventory
+
+function createHeroToSelect(int id, vec2 pos, angle facing) returns unit
+    var u = createUnit(NEUTRAL_NPC_PLAYER, id, pos, facing)
+    u.setMana(0)
+    heroSelectionGroup.addUnit(u)
+    return u
+
+function initEnvironments()
+    FogEnableOff()
+    FogMaskEnableOff()
+    SetCreepCampFilterState(false) // 关闭小地图野怪显示
+    SetPlayerAllianceStateBJ(CREEP_PLAYER, OFFENSE_PLAYER, bj_ALLIANCE_ALLIED_VISION) // 敌方结盟
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        SetPlayerHandicapXP(players[i], HANDICAP_XP)
+    SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800, 0)
+    SetCameraBounds(-15616. + GetCameraMargin(CAMERA_MARGIN_LEFT),
+        -15872. + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
+        15616. - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+        15360. - GetCameraMargin(CAMERA_MARGIN_TOP),
+        -15616. + GetCameraMargin(CAMERA_MARGIN_LEFT),
+        15360. - GetCameraMargin(CAMERA_MARGIN_TOP),
+        15616. - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+        -15872. + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+    SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl","Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
+    SetTerrainFogEx(0, 3000, 5000, 0.5, 0, 0, 0)
+    NewSoundEnvironment("Default")
+    SetAmbientDaySound("VillageDay")
+    SetAmbientNightSound("VillageNight")
+    SetMapMusic("Music", true, 0)
+    EnableCreepSleepBJ(false)
+
+
+function initDenominations()
+    denominations[DENOMINATION_SHAOLIN] = denomination(DENOMINATION_SHAOLIN, "少林派", WEI_TUO_GUN_FA, DA_MO_JIAN_FA, DA_LI_JIN_GANG_ZHI, JIN_ZHONG_ZHAO, XIANG_MO_GONG)
+    denominations[DENOMINATION_GUMU] = denomination(DENOMINATION_GUMU, "古墓派", MEI_NV_QUAN, YU_FENG_ZHEN, TIAN_LUO_DI_WANG_ZHANG, GU_MU_QING_XIN_JUE, YU_NV_XIN_JING)
+    denominations[DENOMINATION_XINGXIU] = denomination(DENOMINATION_XINGXIU, "星宿派", XING_XIU_XIAO_YAO_ZHANG, TIAN_SHAN_ZHANG_FA, SAN_YIN_WU_GONG_ZHAO, XING_XIU_XIN_FA, WAN_DU_SHI_GU_SHU)
+    denominations[DENOMINATION_GAIBANG] = denomination(DENOMINATION_GAIBANG, "丐帮", TAI_ZU_QUAN_FA, YE_CHA_GUN_FA, FENG_MO_GUN_FA, TIE_BU_SHAN, GAI_BANG_XIN_FA)
+    denominations[DENOMINATION_HUASHAN] = denomination(DENOMINATION_HUASHAN, "华山派", CHONG_LING_JIAN_FA, DUO_MING_JIAN_QI, KUANG_FENG_KUAI_JIAN, ZI_XIA_GONG, HUN_YUAN_GONG)
+    denominations[DENOMINATION_QUANZHEN] = denomination(DENOMINATION_QUANZHEN, "全真教", QUAN_ZHEN_JIAN_FA, JIN_YAN_GONG, HAO_TIAN_ZHANG, SAN_HUA_JU_DING, XIAN_TIAN_GONG)
+    denominations[DENOMINATION_XUEDAO] = denomination(DENOMINATION_XUEDAO, "血刀门", XUE_DAO_DAO_FA, XUE_MO_DAO_FA, XUE_ZHAN_QIAN_DAO, FO_MIE_WAN_JIE_GONG, XUE_DAO_JING)
+    denominations[DENOMINATION_EMEI] = denomination(DENOMINATION_EMEI, "峨眉派", SI_XIANG_ZHANG, JIN_DING_MIAN_ZHANG, MIE_JUE_JIAN_FA, FO_GUANG_PU_ZHAO, E_MEI_JIU_YANG_GONG)
+    denominations[DENOMINATION_WUDANG] = denomination(DENOMINATION_WUDANG, "武当派", ROU_YUN_ZHANG, RAO_ZHI_ROU, TAI_JI_QUAN, CHUN_YANG_WU_JI_GONG, HUN_DUN_YI_QI)
+    denominations[DENOMINATION_HENGSHAN_NORTH] = denomination(DENOMINATION_HENGSHAN_NORTH, "恒山派", WAN_HUA_JIAN_FA, FU_CHEN_GONG, BEI_YUE_JIAN_FA, CI_BEI_XIN_FA, PU_SA_YIN)
+    denominations[DENOMINATION_HENGSHAN_SOUTH] = denomination(DENOMINATION_HENGSHAN_SOUTH, "衡山派", TIAN_ZHU_YUN_QI, HE_XIANG_ZI_GAI, SHI_LIN_SHU_SHENG, QUAN_MING_FU_RONG, YAN_HUI_ZHU_RONG)
+    denominations[DENOMINATION_LINGJIU] = denomination(DENOMINATION_LINGJIU, "灵鹫宫", TIAN_SHAN_ZHE_MEI, YUE_YING_WU_BU, RU_YI_DAO_FA, LIU_HUANG_BA_HE, TIAN_SHAN_LIU_YANG)
+    denominations[DENOMINATION_MURONG] = denomination(DENOMINATION_MURONG, "姑苏慕容", JIA_CHUAN_JIAN_FA, XIU_ZHONG_ZHI, CAN_HE_ZHI, XING_YI_DOU_ZHUAN, MU_RONG_JIA_XUN)
+    denominations[DENOMINATION_MINGJIAO] = denomination(DENOMINATION_MINGJIAO, "明教", YING_ZHAO_GONG, FU_YI_ZONG, SHI_ZI_HOU, SHENG_HUO_LING, QIAN_KUN_DA_DUO_YI)
+    denominations[DENOMINATION_SHENLONG_MAN] = denomination(DENOMINATION_SHENLONG_MAN, "神龙教", ZI_XU_JU_DING, LU_DA_BA_LIU, DI_QING_XIANG_LONG, SHEN_LONG_XIN_FA, SHEN_LONG_BA_SHI)
+    denominations[DENOMINATION_SHENLONG_WOMAN] = denomination(DENOMINATION_SHENLONG_WOMAN, "神龙教", XIAO_LIAN_HENG_CHEN, FEI_YAN_HUI_XIANG, GUI_FEI_HUI_MOU, SHEN_LONG_XIN_FA, SHEN_LONG_BA_SHI)
+    denominations[DENOMINATION_TAISHAN] = denomination(DENOMINATION_TAISHAN, "泰山派", QI_XING_LUO, DAI_ZONG_RU_HE, TAI_SHAN_SHI_BA_PAN, WU_DA_FU_JIAN, KUAI_HUO_SAN_JIAN)
+
+function initKongFus()
+    kongFus[0] = kongFu("冰魄银针", 'I03J', BING_PO_YIN_ZHEN, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 10, 0, 0, 14, 15)
+    kongFus[1] = kongFu("弹指神通", 'I03H', TAN_ZHI_SHEN_TONG, KONGFU_TYPE_NEUTRAL_PHYSICAL, 14, 12, 18, 0, 0, 0)
+    kongFus[2] = kongFu("斗转星移", 'I02V', DOU_ZHUAN_XING_YI, KONGFU_TYPE_NEUTRAL_MAGICAL, 0, 12, 0, 18, 0, 14)
+    kongFus[3] = kongFu("化功大法", 'I02U', HUA_GONG_DA_FA, KONGFU_TYPE_NEUTRAL_MAGICAL, 17, 0, 0, 22, 0, 0)
+    kongFus[4] = kongFu("化骨绵掌", 'I03G', HUA_GU_MIAN_ZHANG, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 0, 0, 15, 10, 12)
+    kongFus[5] = kongFu("九阳神功", 'I02Z', JIU_YANG_SHEN_GONG, KONGFU_TYPE_NEUTRAL_MAGICAL, 17, 14, 18, 0, 0, 0)
+    kongFus[6] = kongFu("九阴真经·内功", 'I02X', JIU_YIN_NEI_GONG, KONGFU_TYPE_JIUYIN_MAGICAL, 0, 17, 17, 17, 20, 0)
+    kongFus[7] = kongFu("九阴白骨爪", 'I03I', JIU_YIN_BAI_GU_ZHAO, KONGFU_TYPE_JIUYIN_PHYSICAL, 13, 0, 12, 12, 16, 0)
+    kongFus[8] = kongFu("葵花宝典", 'I02Y', KUI_HUA_BAO_DIAN, KONGFU_TYPE_NEUTRAL_MAGICAL, 22, 20, 0, 17, 0, 0)
+    kongFus[9] = kongFu("连城剑法", 'I03K', LIAN_CHENG_JIAN_FA, KONGFU_TYPE_NEUTRAL_PHYSICAL, 14, 0, 0, 16, 20, 0)
+    kongFus[10] = kongFu("罗汉伏魔功", 'I03D', LUO_HAN_FU_MO_GONG, KONGFU_TYPE_NEUTRAL_MAGICAL, 0, 16, 0, 0, 0, 16)
+    kongFus[11] = kongFu("七伤拳", 'I03L', QI_SHANG_QUAN, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 14, 14, 14, 14, 0)
+    kongFus[12] = kongFu("乾坤大挪移", 'I030', QIAN_KUN_DA_DUO_YI, KONGFU_TYPE_NEUTRAL_MAGICAL, 0, 0, 0, 23, 18, 17)
+    kongFus[13] = kongFu("双手互搏", 'I031', SHUANG_SHOU_HU_BO, KONGFU_TYPE_NEUTRAL_MAGICAL, 18, 20, 16, 0, 0, 0)
+    kongFus[14] = kongFu("四门刀法", 'I03E', SI_MEN_DAO_FA, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 0, 18, 18, 0, 0)
+    kongFus[15] = kongFu("唐诗剑法", 'I033', TANG_SHI_JIAN_FA, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 12, 0, 16, 0, 11)
+    kongFus[16] = kongFu("吸星大法", 'I02W', XI_XING_DA_FA, KONGFU_TYPE_NEUTRAL_MAGICAL, 0, 0, 0, 14, 12, 11)
+    kongFus[17] = kongFu("一阳指", 'I03F', YI_YANG_ZHI, KONGFU_TYPE_NEUTRAL_PHYSICAL, 0, 0, 22, 17, 15, 0)
+    kongFus[18] = kongFu("黯然销魂掌", 'I039', AN_RAN_XIAO_HUN_ZHANG, KONGFU_TYPE_FINAL_PHYSICAL, 18, 21, 27, 0, 0, 0)
+    kongFus[19] = kongFu("打狗棒法", 'I034', DA_GOU_BANG_FA, KONGFU_TYPE_FINAL_PHYSICAL, 20, 0, 26, 18, 0, 0)
+    kongFus[20] = kongFu("独孤九剑", 'I038', DU_GU_JIU_JIAN, KONGFU_TYPE_FINAL_PHYSICAL, 0, 19, 0, 22, 28, 0)
+    kongFus[21] = kongFu("反两仪刀法", 'I037', FAN_LIANG_YI_DAO_FA, KONGFU_TYPE_FINAL_PHYSICAL, 17, 25, 0, 0, 17, 0)
+    kongFus[22] = kongFu("胡家刀法", 'I03B', HU_JIA_DAO_FA, KONGFU_TYPE_FINAL_PHYSICAL, 0, 23, 20, 0, 29, 0)
+    kongFus[23] = kongFu("降龙十八掌", 'I032', XIANG_LONG_SHI_BA_ZHANG, KONGFU_TYPE_FINAL_PHYSICAL, 24, 0, 30, 24, 0, 0)
+    kongFus[24] = kongFu("六脉神剑", 'I035', LIU_MAI_SHEN_JIAN, KONGFU_TYPE_FINAL_PHYSICAL, 0, 0, 0, 24, 19, 16)
+    kongFus[25] = kongFu("辟邪剑法", 'I036', BI_XIE_JIAN_FA, KONGFU_TYPE_FINAL_PHYSICAL, 23, 0, 0, 18, 0, 16)
+    kongFus[26] = kongFu("西毒杖法", 'I03C', XI_DU_ZHANG_FA, KONGFU_TYPE_FINAL_PHYSICAL, 23, 0, 0, 20, 22, 0)
+    kongFus[27] = kongFu("野球拳", 'I03A', YE_QIU_QUAN, KONGFU_TYPE_FINAL_PHYSICAL, 25, 0, 25, 25, 20, 0)
+    kongFus[28] = kongFu("北冥神功", 'I03S', BEI_MING_SHEN_GONG, KONGFU_TYPE_FINAL_MAGICAL, 22, 32, 0, 22, 0, 25)
+    kongFus[29] = kongFu("蛤蟆功", 'I03O', HA_MA_GONG, KONGFU_TYPE_FINAL_MAGICAL, 28, 19, 0, 28, 0, 0)
+    kongFus[30] = kongFu("龙象般若功", 'I03T', LONG_XIANG_BO_RE_GONG, KONGFU_TYPE_FINAL_MAGICAL, 20, 0, 29, 0, 0, 23)
+    kongFus[31] = kongFu("神照经", 'I03Q', SHEN_ZHAO_JING, KONGFU_TYPE_FINAL_MAGICAL, 0, 23, 31, 33, 0, 0)
+    kongFus[32] = kongFu("太玄经", 'I03M', TAI_XUAN_JING, KONGFU_TYPE_FINAL_MAGICAL, 28, 24, 0, 33, 0, 30)
+    kongFus[33] = kongFu("洗髓经", 'I03P', XI_SUI_JING, KONGFU_TYPE_FINAL_MAGICAL, 25, 0, 0, 32, 22, 32)
+    kongFus[34] = kongFu("小无相功", 'I03U', XIAO_WU_XIANG, KONGFU_TYPE_FINAL_MAGICAL, 0, 24, 0, 30, 24, 21)
+    kongFus[35] = kongFu("易筋经", 'I03R', YI_JIN_JING, KONGFU_TYPE_FINAL_MAGICAL, 0, 30, 0, 27, 34, 23)
+    kongFus[36] = kongFu("逆九阴真经·内功", 'I09G', NI_JIU_YING_ZHEN_JING, KONGFU_TYPE_JIUYIN_MAGICAL, 0, 17, 17, 17, 20, 0)
+    kongFus[37] = kongFu("九阴真经·医疗篇", 'I09H', YI_LIAO_PIAN, KONGFU_TYPE_JIUYIN_MAGICAL, 0, 17, 17, 17, 20, 0)
+    kongFus[38] = kongFu("九阴真经·易筋锻骨篇", 'I09I', YI_JING_DUAN_GU_PIAN, KONGFU_TYPE_JIUYIN_MAGICAL, 0, 17, 17, 17, 20, 0)
+    kongFus[39] = kongFu("九阴真经·摧坚神抓", 'I09J', CUI_JIAN_SHEN_ZHUA, KONGFU_TYPE_JIUYIN_PHYSICAL, 13, 0, 12, 12, 16, 0)
+    kongFus[40] = kongFu("九阴真经·摧心掌", 'I09K', CUI_XIN_ZHANG, KONGFU_TYPE_JIUYIN_PHYSICAL, 13, 0, 12, 12, 16, 0)
+    kongFus[41] = kongFu("神行百变", 'I0C2', SHEN_XING_BAI_BIAN, KONGFU_TYPE_STRANGE, 0, 0, 0, 15, 14, 16)
+    kongFus[42] = kongFu("无相劫指", 'I0C3', WU_XIANG_JIE_ZHI, KONGFU_TYPE_STRANGE, 0, 18, 26, 0, 0, 16)
+    kongFus[43] = kongFu("寒冰真气", 'I0C4', HAN_BING_ZHEN_QI, KONGFU_TYPE_STRANGE, 12, 14, 16, 0, 0, 0)
+    kongFus[44] = kongFu("百胜神拳", 'I0C5', BAI_SHENG_SHEN_QUAN, KONGFU_TYPE_STRANGE, 17, 0, 0, 0, 20, 0)
+    kongFus[45] = kongFu("妙手空空", 'I0C6', MIAO_SHOU_KONG_KONG, KONGFU_TYPE_STRANGE, 14, 15, 16, 0, 0, 12)
+    kongFus[46] = kongFu("龟息功", 'I0C8', GUI_XI_GONG, KONGFU_TYPE_STRANGE, 12, 0, 0, 0, 18, 0)
+    kongFus[47] = kongFu("须弥山掌", 'I0C9', XU_MI_SHAN_ZHANG, KONGFU_TYPE_STRANGE, 14, 17, 0, 16, 0, 0)
+    kongFus[48] = kongFu("珍珑棋局", 'I0CA', ZHEN_LONG_QI_JU, KONGFU_TYPE_STRANGE, 0, 0, 0, 20, 0, 0)
+    kongFus[49] = kongFu("药王神篇", 'I0CB', YAO_WANG_SHEN_PIAN, KONGFU_TYPE_STRANGE, 0, 0, 0, 14, 14, 0)
+    kongFus[50] = kongFu("擒龙控鹤", 'I0CC', QIN_LONG_KONG_HE, KONGFU_TYPE_STRANGE, 0, 0, 0, 0, 15, 12)
+    kongFus[51] = kongFu("枯荣禅功", 'I0CD', KU_RONG_CHAN_GONG, KONGFU_TYPE_STRANGE, 13, 17, 16, 0, 0, 0)
+    kongFus[52] = kongFu("夫妻刀法", 'I0CJ', FU_QI_DAO_FA, KONGFU_TYPE_STRANGE, 15, 0, 16, 0, 17, 0)
+    kongFus[53] = kongFu("寿木长生功", 'I0CT', SHOU_MU_CHANG_SHENG_GONG, KONGFU_TYPE_STRANGE, 15, 0, 15, 15, 15, 0) //《寿木长生功》
+    kongFus[54] = kongFu("黄沙万里鞭法", 'I0CU', HUANG_SHA_WAN_LI, KONGFU_TYPE_STRANGE, 20, 20, 0, 18, 0, 0) //《黄沙万里鞭法》
+    kongFus[55] = kongFu("九阳真经散篇", 'I0CV', JIU_YANG_SAN_PIAN, KONGFU_TYPE_STRANGE, 0, 0, 0, 25, 0, 25) //《九阳真经散篇》
+
+function initPlayerNames()
+    for i = 0 to MAX_PLAYER_NUMBER
+        playerNames.saveString(players[i].getHandleId(), players[i].getName())
+
+init
+    initEnvironments()
+    initDenominations()
+    initKongFus()
+    initPlayerNames()
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        lanxinVip[i] = 0
+        jinxuanVip[i] = 0
+        elevenVip[i] = 0
+        superVip[i] = 0
+        inventoryOne[i] = createUnit(players[i], 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+        inventoryTwo[i] = createUnit(players[i], 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+    tempInventory = createUnit(NEUTRAL_NPC_PLAYER, 'o006', TEMP_LOC, bj_UNIT_FACING.asAngleDegrees())
+
+    langyun = createHeroToSelect('O004', vec2(1963.8,-4044.6), 226.742.asAngleDegrees())
+    moyan = createHeroToSelect('O003', vec2(1655.,-3879.3), 271.975.asAngleDegrees())
+    mojun = createHeroToSelect('O000', vec2(1877.,-4346.3), 184.495.asAngleDegrees())
+    xiaoxia = createHeroToSelect('O001', vec2(1387.8,-4122.2), 342.869.asAngleDegrees())
+    ruodie = createHeroToSelect('O002', vec2(1488.4,-4404.3), 48.963.asAngleDegrees())
+    lanxin = createHeroToSelect('O023', vec2(1720,-4430.3), 229 .asAngleDegrees())
+    jinxuan = createHeroToSelect('O02J', vec2(1450,-3900), 256 .asAngleDegrees())

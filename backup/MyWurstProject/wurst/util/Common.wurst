@@ -1,0 +1,209 @@
+package Common
+
+// standard imports
+import ClosureTimers
+
+// custom imports
+import GlobalInitialization
+import GameConfiguration
+import Hero
+import GeneralBonus
+import Award
+import ColorUtils
+import Equipment
+
+/** 获取玩家人数 **/
+public function getPlayerNumber() returns integer
+    var n = 0
+    for i = 0 to MAX_PLAYER_NUMBER - 1
+        if players[i].getController() == MAP_CONTROL_USER and players[i].getSlotState() == PLAYER_SLOT_STATE_PLAYING
+            n++
+    return n
+
+public function unit.isEnemyOf(player p) returns bool
+    return this.getOwner().isEnemyOf(p)
+
+public function unit.isEnemyOf(unit u) returns bool
+    return this.isEnemyOf(u.getOwner())
+
+public function unit.isHero() returns bool
+    return this.isType(UNIT_TYPE_HERO)
+
+public function unit.addItem(item itm)
+    UnitAddItem(this, itm)
+
+public function unit.addEquipment(int itemId)
+    let itm = createItem(itemId, this.getPos())
+    if equipmentAttrMap.has(itemId)
+        new Equipment(itm, 0)
+    this.addItem(itm)
+
+public function percentPossiblity(real r) returns bool
+    return GetRandomReal(0, 100) <= r
+
+/** 攻击者拥有某技能并且是触发单位的敌人，通常用于被动技能 **/
+public function unitHasAbilityAndIsEnemy(unit attacker, unit triggerUnit, int abilityId) returns bool
+    return attacker.hasAbility(abilityId) and attacker.isEnemyOf(triggerUnit)
+
+/** 马甲单位对目标施放技能 **/
+public function dummyUnitCastAbilityTarget(player owner, int abilityId, int lvl, int orderId, widget target, vec2 casterPos)
+    let u = createUnit(owner, 'e000', casterPos, casterPos.angleTo(target.getPos()))
+    u..hide()
+    ..addAbility(abilityId)
+    ..setAbilityLevel(abilityId, lvl)
+    ..issueTargetOrderById(orderId, target)
+    ..setTimedLife(3)
+
+/** 马甲单位对点施放技能 **/
+public function dummyUnitCastAbilityPos(player owner, int abilityId, int lvl, int orderId, vec2 targetPos, vec2 casterPos)
+    let u = createUnit(owner, 'e000', casterPos, casterPos.angleTo(targetPos))
+    u..hide()
+    ..addAbility(abilityId)
+    ..setAbilityLevel(abilityId, lvl)  
+    ..issuePointOrderById(orderId, targetPos)
+    ..setTimedLife(3)
+
+/** 造成伤害 **/
+public function applyDamage(unit source, unit target, real damage)
+    if damage == 0
+        createTTEx(target.getPos3Real(), vec2(400, GetRandomReal(80.,100.)), "MISS", 11, 0.65, colorA(255, 0, 0, 30))
+    else
+        source.damageTarget(target, damage)
+        if GetRandomReal(0, 100) <= 100 * source.getHero().criticalRate
+            createTTEx(target.getPos3Real(), vec2(400, GetRandomReal(80.,100.)), damage.toInt().toString(), 14, 0.65, colorA(100, 100, 0, 30))
+        else
+            createTTEx(target.getPos3Real(), vec2(400, GetRandomReal(80.,100.)), damage.toInt().toString(), 11, 0.65, colorA(100, 100, 100, 30))
+
+/** 免疫伤害 **/
+public function unit.immuneDamage()
+    this.setInvulnerable(true)
+    nullTimer() ->
+        this.setInvulnerable(false)
+
+/** 周围某范围内有友军 **/
+public function unit.hasAllyInRange(real range) returns bool
+    var g = CreateGroup()
+    g.enumUnitsInRange(this.getPos(), range)
+    var flag = not g.isEmpty()
+    g.destr()
+    return flag
+
+public function player.panCamTo(unit u)
+    if localPlayer == this
+        PanCameraToTimed(u.getX(), u.getY(), 0.01)
+        
+public function vec2ToIndex(vec2 pos) returns int
+    for i = 0 to 1000
+        if pos.x == LOC_ARRAY[i].x and pos.y == LOC_ARRAY[i].y
+            return i
+    return -1
+
+public function vec2FromIndex(int index) returns vec2
+    return LOC_ARRAY[index]
+
+public function Hero.addAward(Award award, boolean showHint)
+    let value = award.value
+    let intValue = award.intValue
+    if not percentPossiblity(award.percentage.toReal())
+        return
+    switch(award.awardType)
+        case AWARD_TYPE_FREE_ATTR
+            this.freeAttr += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励自由属性点" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ALL_ATTR
+            this.perception += value.toInt()
+            this.constitution += value.toInt()
+            this.healingSkill += value.toInt()
+            this.courage += value.toInt()
+            this.luck += value.toInt()
+            this.channel += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励全性格属性" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_PERCEPTION
+            this.perception += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励悟性" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_CONSTITUTION
+            this.constitution += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励根骨" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_HEALING_SKILL
+            this.healingSkill += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励医术" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_COURAGE
+            this.courage += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励胆魄" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_LUCK
+            this.luck += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励福缘" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_CHANNEL
+            this.channel += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经脉" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_GOLD
+            this.u.getOwner().addGold(value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toInt().toString() + "金币|r", 15, this.u.getOwner())
+        case AWARD_TYPE_LUMBER
+            this.u.getOwner().addLumber(value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励" + value.toInt().toString() + "珍稀币|r", 15, this.u.getOwner())
+        case AWARD_TYPE_DEFENSE_POINT
+            this.defensePoint += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励守家积分" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_REPUTATION
+            this.reputation += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励声望" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_UNIQUE_PERCEPTION
+            this.uniquePerception += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励绝学领悟点" + value.toInt().toString() + "点|r", 15, this.u.getOwner())
+        case AWARD_TYPE_PRACTICE
+            this.practice += value.toInt()
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励修行+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_EXP_COEFF
+            this.expCoeff += value
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励历练系数+" + value.toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ITEM            
+            this.u.addItem(intValue)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励物品：" + GetObjectName(intValue) + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_HP
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_LIFE, value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励气血+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_MANA
+            this.u.addGeneralBonus(BONUS_TYPE_MAX_MANA, value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励法力值+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ATTACK
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK, value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击力+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ARMOR
+            this.u.addGeneralBonus(BONUS_TYPE_ARMOR, value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励防御+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_ATTACK_SPEED
+            this.u.addGeneralBonus(BONUS_TYPE_ATTACK_SPEED, value.toInt())
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励攻击速度+" + value.toInt().toString() + "%|r", 15, this.u.getOwner())
+        case AWARD_TYPE_MOVE_SPEED
+            //TODO
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励移动速度+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+        case AWARD_TYPE_EXP
+            this.u.addXp(value.toInt(), true)
+            if showHint
+                printTimedToPlayer(ColorUtils.AWARD + "完成任务，奖励经验+" + value.toInt().toString() + "|r", 15, this.u.getOwner())
+
+public function getRandomFacing() returns angle
+    return GetRandomReal(0, 360).asAngleDegrees()

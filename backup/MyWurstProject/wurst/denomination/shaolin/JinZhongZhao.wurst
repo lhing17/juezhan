@@ -1,0 +1,76 @@
+package JinZhongZhao
+
+import AbilityIdConstant
+import EffectConstant
+import Common
+import Hero
+import KongFuLevelUp
+import TriggerEvent
+import Formula
+import ClosureForGroups
+
+effect array jinZhongEffects
+int array jinZhongDamageNums
+int array jinZhongBonuses
+
+
+function isJinZhong() returns bool
+    return GetSpellAbilityId() == JIN_ZHONG_ZHAO and GetTriggerUnit().isHero()
+
+function applyJinZhong(int i, unit u, int coeff, string text)
+    jinZhongDamageNums[i] = coeff * u.getHero().healingSkill * u.getAbilityLevel(JIN_ZHONG_ZHAO)
+    jinZhongBonuses[i] = 70 * u.getAbilityLevel(JIN_ZHONG_ZHAO)
+    // TODO 万能属性
+
+    if u.getHero().constitution >= 20
+        jinZhongDamageNums[i] *= 2
+    jinZhongEffects[i] = u.addEffect(JINZHONG_EFFECT, "chest")
+    printTimedToPlayer(text + jinZhongDamageNums[i].toString(), 15, u.getOwner())
+
+function jinZhong()
+    let u = GetTriggerUnit()
+    let i = u.getOwner().getId()
+    jinZhongEffects[i].destr()
+    u.removeAbility(BUFF_JIN_ZHONG)
+    
+    applyJinZhong(i, u, 5000, "|cff00ccff金钟罩效果总值：")
+    kongFuLevelUp(u, JIN_ZHONG_ZHAO, 100)
+
+function isJinZhongDamageAbsorb() returns bool
+    return GetTriggerUnit().hasAbility(BUFF_JIN_ZHONG)
+
+function jinZhongDamageAbsorb()
+    let u = GetTriggerUnit()
+    let ut = GetEventDamageSource()
+    let i = u.getOwner().getId()
+    var damageCoeff = 1.0
+    if u.hasItemById('I0AL')
+        damageCoeff *= 8
+    if GetEventDamage() <= jinZhongDamageNums[i]
+        u.addHP(GetEventDamage())
+        if u.hasAbility(HUA_GONG_DA_FA)
+            addEffect(JINZHONG_DAMAGE_EFFECT, ut.getPos()).destr()
+            var damage = calculateDamage(u, ut, 20, 20, damageCoeff, JIN_ZHONG_ZHAO)
+            applyDamage(u, ut, damage)
+    else
+        jinZhongEffects[i].destr()
+        // TODO 万能属性
+
+        if u.hasAbility(YI_JIN_JING)
+            forUnitsInRange(u.getPos(), 600) ue ->
+                if ue.isEnemyOf(u) and ue.isAlive()
+                    addEffect(JINZHONG_DAMAGE_EFFECT, ue.getPos()).destr()
+                    var damage = calculateDamage(u, ut, 400, 400, damageCoeff, JIN_ZHONG_ZHAO)
+                    applyDamage(u, ut, damage)
+        if u.hasAbility(XIAO_WU_XIANG)
+            applyJinZhong(i, u, 2500, "|cff00ccff小无相重启金钟罩，效果总值：")
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isJinZhong))
+        ..addAction(function jinZhong)
+    
+    CreateTrigger()
+        ..registerAnyUnitDamagedEvent()
+        ..addCondition(Condition(function isJinZhongDamageAbsorb))
+        ..addAction(function isJinZhongDamageAbsorb)

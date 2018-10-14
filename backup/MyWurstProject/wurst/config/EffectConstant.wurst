@@ -1,0 +1,6 @@
+package EffectConstant
+
+public let WEITUO_EFFECT = "Abilities\\Spells\\Orc\\WarStomp\\WarStompCaster.mdl"
+public let DAMO_EFFECT = "war3mapImported\\ShadowBurn.mdx"
+public let JINZHONG_EFFECT = "war3mapImported\\DefensiveBarrierBig.mdx"
+public let JINZHONG_DAMAGE_EFFECT = "Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl"

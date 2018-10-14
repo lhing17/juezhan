@@ -1,0 +1,67 @@
+package PetAbility
+
+// standard imports
+import SoundUtils
+
+// custom imports
+import GlobalInitialization
+import Common
+import NpcInitializer
+import Hero
+
+/* 贩卖物品 */
+function isPetSellItem() returns bool
+    return GetSpellAbilityId() == 'A09I'
+
+function petSellItem()
+    let u = createUnit(GetTriggerUnit().getOwner(), 'nvul', ANTIQUE_MECHANT.getPos(), bj_UNIT_FACING.asAngleDegrees())
+    u..hide()..addItem(GetSpellTargetItem().getTypeId())..setTimedLife(5)
+    UnitDropItemTarget(u, u.itemInSlot(0), ANTIQUE_MECHANT)
+    GetSpellTargetItem().remove()
+    SOUND_SELL_ITEM.playOnPoint(GetTriggerUnit().getPos3Real())    
+    GetTriggerUnit().addEffect("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", "overhead").destr()
+
+/* 切换背包 */
+function isPetSwitchInventory() returns bool
+    return GetSpellAbilityId() == 'A00N'
+
+function petSwitchInventory()
+    let u = GetTriggerUnit()
+    let i = u.getOwner().getId()
+    for j = 0 to 5
+        inventoryOne[i].addItem(inventoryTwo[i].itemInSlot(j))
+    for j = 0 to 5
+        inventoryTwo[i].addItem(u.itemInSlot(j))
+    for j = 0 to 5
+        u.addItem(inventoryOne[i].itemInSlot(j))
+
+/* 切换物品 */
+function isPetSwitchItem() returns bool
+    return GetSpellAbilityId() == 'A00M' and GetTriggerUnit().getHero().u.isAlive()
+
+function petSwitchItem()
+    let ut = GetTriggerUnit()
+    Log.debug(ut.getName())
+    Log.debug(ut.getHero().u.getName())
+    Log.debug(ut.itemInSlot(0).getName())
+    Log.debug(ut.getHero().u.itemInSlot(0).getName())
+    tempInventory.addItem(ut.itemInSlot(0))
+    ut.addItem(ut.getHero().u.itemInSlot(0))
+    ut.getHero().u.addItem(tempInventory.itemInSlot(0))   
+        
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isPetSellItem))
+        ..addAction(function petSellItem)
+
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isPetSwitchInventory))
+        ..addAction(function petSwitchInventory)
+    
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_SPELL_EFFECT)
+        ..addCondition(Condition(function isPetSwitchItem))
+        ..addAction(function petSwitchItem)

@@ -1,0 +1,59 @@
+package Formula
+
+import Hero
+
+/* 各种计算公式 */
+
+// FIXME
+/** 经验公式：经验与怪物等级的关系 **/
+public function calculateExp(int level) returns int
+    return level * 100
+
+// FIXME
+/** 金钱公式：金钱与怪物等级的关系 **/
+public function calculateMoney(int level) returns int
+    return level * 100
+
+/** 伤害公式 **/
+public function calculateDamage(unit source, unit target, real physicalCoeff, real magicalCoeff, real damageCoeff, int abilityId) returns real
+    let hero = source.getHero()
+    real attack//伤害因子
+    real targetDef //敌方防御因子
+    real dodge //闪避因子
+    if source.isType(UNIT_TYPE_HERO)
+        attack =  (1 + 0.3 * GetUnitAbilityLevel(source, 'A059'))
+                * 25 
+                * hero.expCoeff 
+                * (physicalCoeff * (1 + source.getStr(true) / 200)
+                * (1 + source.getAgi(true) / 200) + magicalCoeff * 0.03 * source.getInt(true))
+                * (1. + source.getAbilityLevel(abilityId))
+                * (hero.damageAddition + 1.)
+                * damageCoeff
+        if source.getAbilityLevel(abilityId) == 9
+            attack *= 3
+        if source.hasItemById('I099') and hero.gender == 1
+            attack *= 1.5
+        else if source.hasItemById('I09A') and hero.gender == 0
+            attack *= 1.5
+    else
+        attack = 750 * (physicalCoeff + magicalCoeff) * (1. + source.getAbilityLevel(abilityId)) * damageCoeff
+    
+    if target == null
+        targetDef = 1
+        dodge = 25
+    else
+        targetDef = 1 / (1 + 0.05 * target.getLevel())
+        dodge = min(target.getLevel() / 8, 95.)
+        if target.hasAbility('Bslo')
+            dodge = 0.
+    
+    var depth = 1
+    var random = GetRandomReal(0.95, 0.95 +source.getHero().characterB / 20)
+    var basicDamage = attack * targetDef * random * depth
+    real damage
+    if GetRandomReal(0, 100) < dodge 
+        damage = 0
+    else
+        damage = basicDamage
+    return damage
+        

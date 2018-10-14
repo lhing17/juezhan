@@ -1,0 +1,281 @@
+package TaskInitializer
+
+//standard imports
+import RegisterEvents
+import HashList
+import HashMap
+import Award
+
+//custom imports
+import Task
+import Hero
+import Common
+import GlobalInitialization
+import NpcInitializer
+import ItemIdConstant
+import TaskIdConstant
+import ColorUtils
+
+/* 初始化任务 */
+
+init
+    registerPlayerUnitEvent(EVENT_PLAYER_UNIT_PICKUP_ITEM) ->
+        let itm = GetManipulatedItem()
+        let u = GetTriggerUnit()
+        let hero = u.getHero()
+        if u.isHero()
+            // 店小二新手任务
+            if itm.getTypeId() == 'I025' and evaluateTaskTimes(hero, NEWBEE_TASK)
+                if hero.getTask(NEWBEE_TASK) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "店小二：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    var rand = GetRandomInt(1, 2)
+                    if rand == 1
+                        IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                        killCreepMap.put('nwlt', 6)
+                        HashList<Award> awardList = new HashList<Award>()
+                        awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                        if percentPossiblity(85)
+                            awardList.add(new Award('I020', AwardType.AWARD_TYPE_ITEM))
+                        else
+                            awardList.add(new Award('I0CI', AwardType.AWARD_TYPE_ITEM))
+                        Task task = new Task(hero, TASK_TYPE_KILLING, NEWBEE_TASK, 
+                            "|cFFFFCC00店小二：|r |cFF99FFCC旁边树林里的野狼经常来袭击村民，你能帮助我们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F6只野狼|r\n",
+                            killCreepMap, awardList, new KillingTaskHandler())
+                        task.setRepeatTimes(1)
+                    else if rand == 2
+                        HashList<unit> visitList = new HashList<unit>()
+                        visitList.add(GUO_JING)
+                        HashList<Award> awardList = new HashList<Award>()
+                        awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                        if percentPossiblity(85)
+                            awardList.add(new Award('I024', AwardType.AWARD_TYPE_ITEM))
+                        else
+                            awardList.add(new Award('I0CH', AwardType.AWARD_TYPE_ITEM))
+                        Task task = new Task(hero, TASK_TYPE_KILLING, NEWBEE_TASK, 
+                            "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
+                            visitList, awardList, new VisitingNpcHandler())
+                        task.setRepeatTimes(1)
+                    // else
+                    //     IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
+                    //     collectItemMap.put('IIII', 1) // FIXME
+                    //     HashList<Award> awardList = new HashList<Award>()
+                    //     awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    //     awardList.add(new Award('I06H', AwardType.AWARD_TYPE_ITEM))
+                    //     Task task = new Task(hero, TASK_TYPE_KILLING, NEWBEE_TASK, 
+                    //         "|cFFFFCC00店小二：|r |cFF99FFCC我这有一壶上等女儿红专程送给襄阳城郭靖的，你能帮我跑一趟吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往正派武林主城的|cFFADFF2F郭靖|r\n",
+                    //         DIAN_XIAO_ER, collectItemMap, awardList, new CollectingItemHandler())
+                    //     task.setRepeatTimes(1)
+            // 游骐寻找物品任务
+            if itm.getTypeId() == 'I0BB'
+                if hero.getTask(TREASURE_HUNT_TASK) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "游骐：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
+                    int id
+                    if hero.practice <= 2
+                        if percentPossiblity(50)
+                            id = clothes[GetRandomInt(1, 6)]
+                        else
+                            id = ornament[GetRandomInt(1, 18)]
+                    else if hero.practice <= 4
+                        if percentPossiblity(50)
+                            id =clothes[GetRandomInt(7, 9)]
+                        else
+                            id =ornament[GetRandomInt(19, 33)]
+                    else
+                        if percentPossiblity(33)
+                            id =clothes[GetRandomInt(10, 14)]
+                        else
+                            id =ornament[GetRandomInt(34, 44)]
+                    collectItemMap.put(id, 1)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, (40 * hero.practice + 40.)))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP, 15. * hero.u.getLevel() * hero.u.getLevel() * (hero.practice + 1)))
+                    if GetRandomInt(1, 10) > hero.practice + 1
+                        awardList.add(new Award('I04T', AwardType.AWARD_TYPE_ITEM))
+                    var s = GetObjectName(id)
+                    new Task(hero, TASK_TYPE_KILLING, TREASURE_HUNT_TASK, 
+                    "|cFFFFCC00游骐：|r |cFF99FFCC我需要" + s + "，你能帮我找来么|r\n|cFFFFCC00提示：|r |cFF99FFCC帮助游骐寻找|cFFADFF2F" + s + "|r\n",
+                        YOU_QI, collectItemMap, awardList, new CollectingItemHandler())
+                if itm.getTypeId() == 'I0BC'
+                var task = hero.getTask(TREASURE_HUNT_TASK)
+                if task != null
+                    destroy task
+                    hero.reputation -= 100
+                    printTimedToPlayer("|cFFFFCC00游骐：|r |cFF99FFCC堂堂大侠，居然找不到小女子需要的东西吗|r\n", 15, hero.u.getOwner())
+                    printTimedToPlayer("|cFFFFCC00放弃任务，声望减少100|r\n", 15, hero.u.getOwner())
+                else
+                    printTimedToPlayer("|cFFFFCC00游骐：|r |cFF99FFCC当前没有接任务哦|r\n", 15, hero.u.getOwner())
+            
+            if itm.getTypeId() == 'I0BF'
+                // TODO
+            
+            if itm.getTypeId() == 1227895898 and evaluateTaskTimes(hero, SEND_MESSAGE_TASK)
+                if hero.getTask(SEND_MESSAGE_TASK) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "鲁有脚：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    HashList<unit> visitList = new HashList<unit>()
+                    string description
+                    if percentPossiblity(35)
+                        visitList.add(GUO_JING)
+                        description = "|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F郭靖\n"
+                    else if percentPossiblity(50)
+                        visitList.add(DA_MO_ZU_SHI)
+                        description = "|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F达摩祖师\n"
+                    else
+                        visitList.add(HUANG_RONG)
+                        description = "|cFFFFCC00鲁有脚：|r |cFF99FFCC丐帮乃江湖第一大帮派，负责传送各种情报|r\n|cFFFFCC00提示：|r |cFF99FFCC送信给|cFFADFF2F黄蓉\n"
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 15))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP, 100))
+                    if percentPossiblity(35)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_HP, 500))
+                    else if percentPossiblity(50)
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ATTACK, 200))
+                    else
+                        awardList.add(new Award(AwardType.AWARD_TYPE_ARMOR, 30))
+                    Task task = new Task(hero, TASK_TYPE_VISITING, SEND_MESSAGE_TASK, 
+                        description, visitList, awardList, new VisitingNpcHandler())
+                    task.setRepeatTimes(3)
+            if itm.getTypeId() == 1227895352
+                if hero.getTask(HUNT_TASK) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "耶律齐：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('nqb3', 1)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 50))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP, 150))
+                    awardList.add(new Award(1227896391, AwardType.AWARD_TYPE_ITEM))
+
+                    new Task(hero, TASK_TYPE_KILLING, HUNT_TASK, 
+                    "|cFFFFCC00耶律齐：|r |cFF99FFCC我一生酷爱打猎，平时有时间就会出来试试身手，你愿意一同前往吗|r\n|cFFFFCC00提示：|r |cFF99FFCC击杀山林中的|cFFADFF2F野猪首领|r\n",
+                    killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 1227895353
+                if hero.getTask(ESCORT_TASK) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "林远图：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    var rand = GetRandomInt(1, 6)
+                    HashList<unit> visitList = new HashList<unit>()
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    string description = ""
+                    switch rand
+                        case 1
+                            visitList.add(QIU_CHU_JI)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给全真教的丘掌门吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教的|cFFADFF2F丘处机|r\n"
+                        case 2
+                            killCreepMap.put('ngns', 10)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC全真教山下附近的豺狼经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往全真教山下的杀死10只|cFFADFF2F豺狼|r\n"
+                        case 3
+                            visitList.add(MU_RONG_FU)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给燕子坞的慕容复吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的|cFFADFF2F慕容复|r\n"
+                        case 4
+                            killCreepMap.put('nanb', 3)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC燕子坞的蝎子王经常出没攻击镖车，你能前往消灭他们吗|r\n|cFFFFCC00提示：|r |cFF99FFCC前往燕子坞的杀死3只|cFFADFF2F蝎子王|r\n"
+                        case 5
+                            visitList.add(DA_MO_ZU_SHI)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给少林寺的达摩祖师吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往少林寺的|cFFADFF2F达摩祖师|r\n"
+                        case 6
+                            visitList.add(QIAO_FENG)
+                            description = "|cFFFFCC00林远图：|r |cFF99FFCC我这有一封信，你帮我送给雁门关的乔峰吧|r\n|cFFFFCC00提示：|r |cFF99FFCC前往雁门关的|cFFADFF2F乔峰|r\n"
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(AwardType.AWARD_TYPE_EXP, 300))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 30))
+                    if not visitList.isEmpty()
+                        new Task(hero, TASK_TYPE_VISITING, ESCORT_TASK, description, visitList, awardList, new VisitingNpcHandler())
+                    else
+                        new Task(hero, TASK_TYPE_KILLING, ESCORT_TASK, description, killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 'I09W'
+                if hero.getTask(KILL_DUMB_SERVENTS) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "周伯通：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('nvil', 10)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award('I09V', AwardType.AWARD_TYPE_ITEM))
+                    if percentPossiblity(30)
+                        awardList.add(new Award('I09K', AwardType.AWARD_TYPE_ITEM))
+                    new Task(hero, TASK_TYPE_KILLING, KILL_DUMB_SERVENTS, 
+                        "|cFFFFCC00周伯通：|r |cFF99FFCC黄老邪把我腿打断的时候，桃花岛上的哑仆一直欺负我，你能帮我杀掉十个哑仆吗|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F十个哑仆|r\n",
+                        killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 1227896132
+                if hero.getTask(KILL_BEARS) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "胡斐：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('nfrl', 30)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(1227895372, AwardType.AWARD_TYPE_ITEM))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 150))
+                    new Task(hero, TASK_TYPE_KILLING, KILL_BEARS, 
+                        "|cFFFFCC00胡斐：|r |cFF99FFCC这一代时常有熊出没，能搞点熊皮来的话应该可以卖个好价钱|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F30只熊|r\n",
+                        killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 1227895890
+                if hero.getTask(SAVE_YANG_GUO) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "公孙绿萼：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> collectItemMap = new IterableMap<int, int>()
+                    collectItemMap.put('I04S', 10)
+                    HashList<Award> awardList = new HashList<Award>()
+                    if percentPossiblity(50)
+                        awardList.add(new Award('I00X', AwardType.AWARD_TYPE_ITEM))
+                    else
+                        awardList.add(new Award('I00Y', AwardType.AWARD_TYPE_ITEM))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 100))
+                    new Task(hero, TASK_TYPE_COLLECTING, SAVE_YANG_GUO, 
+                    "|cFFFFCC00公孙绿萼：|r |cFF99FFCC杨过中了情花剧毒，你能替我想想办法救救他吗|r\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本中的|cFFADFF2F断肠草|r\n",
+                        GONG_SUN_LU_E, collectItemMap, awardList, new CollectingItemHandler()).setVirtualItem(true)
+            if itm.getTypeId() == 1227896388
+                if hero.getTask(KILL_BAD_GUYS) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "苗人凤：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put('nfor', 10)
+                    killCreepMap.put('nnwr', 10)
+                    HashList<Award> awardList = new HashList<Award>()
+                    awardList.add(new Award(1227895372, AwardType.AWARD_TYPE_ITEM))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 200))
+                    new Task(hero, TASK_TYPE_KILLING, KILL_BAD_GUYS, 
+                    "|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n",
+                        killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 1227896389
+                if hero.getTask(KILL_LIAO_FIRST_POINEER) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "乔峰：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                    killCreepMap.put(1751543663, 1)
+                    HashList<Award> awardList = new HashList<Award>()
+                    if percentPossiblity(35)
+                        awardList.add(new Award('I06K', AwardType.AWARD_TYPE_ITEM))
+                    else if percentPossiblity(50)
+                        awardList.add(new Award('I06N', AwardType.AWARD_TYPE_ITEM))
+                    else
+                        awardList.add(new Award('I06I', AwardType.AWARD_TYPE_ITEM))
+                    if percentPossiblity(35)
+                        if percentPossiblity(35)
+                            awardList.add(new Award('I06K', AwardType.AWARD_TYPE_ITEM))
+                        else if percentPossiblity(50)
+                            awardList.add(new Award('I06N', AwardType.AWARD_TYPE_ITEM))
+                        else
+                            awardList.add(new Award('I06I', AwardType.AWARD_TYPE_ITEM))
+                    awardList.add(new Award(AwardType.AWARD_TYPE_REPUTATION, 250))
+                    new Task(hero, TASK_TYPE_KILLING, KILL_LIAO_FIRST_POINEER, 
+                    "|cFFFFCC00乔峰：|r |cFF99FFCC最近辽国养兵蓄锐，似乎对大宋有所企图，若能擒住辽国第一先锋，百姓才能避免战祸|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F辽国第一先锋|r\n",
+                    killCreepMap, awardList, new KillingTaskHandler())
+            if itm.getTypeId() == 'I0AN'
+                if hero.getTask(SAVE_A_ZI) != null
+                    printTimedToPlayer(ColorUtils.IN_PROGRESS + "乔峰：你还没有完成任务|r", 15, u.getOwner())
+                else
+                    if hero.denomination != DENOMINATION_XINGXIU
+                        printTimedToPlayer("|cFFFFCC00乔峰：|r |cFF99FFCC你不是星宿派中人，无法接此任务|r\n", 15, hero.u.getOwner())
+                    else
+                        IterableMap<int, int> killCreepMap = new IterableMap<int, int>()
+                        killCreepMap.put('odkt', 1)
+                        killCreepMap.put('h00J', 1) 
+                        HashList<Award> awardList = new HashList<Award>()
+                        awardList.add(new Award('I0AM', AwardType.AWARD_TYPE_ITEM))
+                        new Task(hero, TASK_TYPE_KILLING, SAVE_A_ZI, 
+                        "|cFFFFCC00乔峰：|r |cFF99FFCC阿紫被丁老头抓走了，请英雄帮我击败丁春秋，救出阿紫|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F丁春秋|r\n",
+                        killCreepMap, awardList, new KillingTaskHandler())
+            

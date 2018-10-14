@@ -1,0 +1,73 @@
+package UniversalBuff
+
+import Common
+
+/** 内伤 **/
+public let BUFF_INTER_HURT = 1
+/** 走火入魔 **/
+public let BUFF_DEVIL_POSSESS = 2
+/** 流血 **/
+public let BUFF_BLEED = 3
+/** 混乱 **/
+public let BUFF_CHAOS = 4
+/** 昏迷 **/
+public let BUFF_UNCONSCIOUS = 5
+/** 重伤 **/
+public let BUFF_SERIOUS_INJURY = 6
+/** 流血不止 **/
+public let BUFF_KEEP_BLEEDING = 7
+/** 麻痹 **/
+public let BUFF_NUMB = 8
+/** 破防 **/
+public let BUFF_DEFENSE_BROKEN = 9
+/** 神经错乱 **/
+public let BUFF_INSANE = 10
+/** 封穴 **/
+public let BUFF_DIZZY = 11
+/** 穴位全封 **/
+public let BUFF_DEEP_DIZZY = 12
+/** 中毒 **/
+public let BUFF_POISONED = 13
+/** 深度中毒 **/
+public let BUFF_DEEP_POISONED = 14
+/**
+ * 万能状态系统：
+ * 1 内伤 处于内伤状态下，每次发起攻击扣除自身气血1/1000
+ * 2 走火入魔 该单位受到了走火入魔的作用，每次发起攻击会扣除自身3/1000的气血
+ * 3 流血 处于流血状态下，每秒扣除气血2/1000
+ * 4 混乱 该单位受到了混乱的作用，因此失去了控制
+ * 5 昏迷 该单位被昏迷了，其移动速度下降很多
+ * 6 重伤 该单位被重伤了，其攻击速度都会下降
+ * 7 血流不止 处于血流不止状态下，每秒扣除气血3/1000
+ * 8 麻痹 该单位受到了麻痹效果，因此攻击命中率从下降60%
+ * 9 破防 降低400点护甲
+ * 10 神经错乱 释放技能和触发招式扣血气血5%
+ * 11 封穴 眩晕3秒
+ * 12 穴位全封 眩晕6秒
+ * 13 中毒 处于中毒状态下，减少移动速度并且每秒扣除气血1/1000
+ * 14 深度中毒 处于深度中毒状态下，减少移动速度并且每秒扣除气血3/1000
+ */
+public function applyUniversalBuff(unit source, unit target, int whichBuff)
+    applyBuffIfMeetBuffId(whichBuff, BUFF_INTER_HURT, source, 'A077', $D008F, target, "内伤")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_DEVIL_POSSESS, source, 'A079', $D02BC, target, "走火入魔")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_BLEED, source, 'A075', $D022F, target, "流血")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_CHAOS, source, 'A06I', $D00DD, target, "混乱")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_UNCONSCIOUS, source, 'A0AZ', $D006B, target, "昏迷")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_SERIOUS_INJURY, source, 'A076', $D006B, target, "重伤")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_KEEP_BLEEDING, source, 'A078', $D022F, target, "血流不止")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_NUMB, source, 'A0AY', $D00DE, target, "麻痹")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_DEFENSE_BROKEN, source, 'A019', $D00B5, target, "破防")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_INSANE, source, 'A05N', $D00DE, target, "神经错乱")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_DIZZY, source, 'A05L', $D007F, target, "封穴")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_DEEP_DIZZY, source, 'A05L', $D007F, target, "穴位全封")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_POISONED, source, 'A074', $D022F, target, "中毒")
+    applyBuffIfMeetBuffId(whichBuff, BUFF_DEEP_POISONED, source, 'A074', $D022F, target, "深度中毒")
+
+
+function applyBuffIfMeetBuffId(int whichBuff, int buffId, unit source, int abilityId, int orderId, unit target, string text)
+    if (whichBuff == buffId)
+        var level = 1
+        if buffId == 12 or buffId == 14
+            level = 2
+        dummyUnitCastAbilityTarget(source.getOwner(), abilityId, level, orderId, target, target.getPos())
+        createTTEx(target.getPos3Real(), vec2(100, 90), text, 12, 3, colorA(65, 55, 42, 0))

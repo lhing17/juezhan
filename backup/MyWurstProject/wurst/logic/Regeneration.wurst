@@ -1,0 +1,78 @@
+package Regeneration
+
+// custom imports
+import Hero
+import Common
+import ClosureTimers
+import GameConfiguration
+import TriggerEvent
+
+/* 各类回复 */
+
+// 杀怪回复
+function isKillRegeneration() returns bool
+    return GetKillingUnit().getOwner().getController() == MAP_CONTROL_USER
+
+function killRegeneration()
+    let hero = GetKillingUnit().getHero()
+    if not GetKillingUnit().hasAbility('A03Z')
+        real r = hero.killRegeneration + (hero.courage / 2000) * hero.u.getMaxHP()
+        Log.debug("杀死怪物" + GetTriggerUnit().getName() + "回复气血：" + r.toString(2))
+        hero.u.addHP(hero.killRegeneration + (hero.courage / 2000) * hero.u.getMaxHP())
+
+// 受伤害回复
+function isAttackedRegeneration() returns bool
+    return GetTriggerUnit().isHero() and GetTriggerUnit().getOwner().getController() == MAP_CONTROL_USER
+
+function attackedRegeneration()
+    let hero = GetTriggerUnit().getHero()
+    if not hero.u.hasAbility('A03Z')
+        hero.u.addHP(hero.attackedRegeneration / 10 + (hero.courage / 1500) * hero.u.getMaxHP())
+
+// 伤害吸收        
+function isDamageAbsorb() returns bool
+    return GetTriggerUnit().isHero()
+
+function damageAbsorb()
+    let hero = GetTriggerUnit().getHero()
+    var damageAfterAbsorb = GetEventDamage() * (1 - min(hero.damageAbsorb, 0.8))
+    hero.u.addHP(GetEventDamage() - damageAfterAbsorb)
+    // 古墓清心诀和吸星大法
+    if hero.u.hasAbility('B00D') and hero.u.hasAbility('A07R')
+        hero.u.addHP(0.3 * GetEventDamage())
+    if hero.u.hasItemById('I09Z')
+        if hero.u.hasAbility('A03O')
+            damageAfterAbsorb /= 3
+        if hero.u.getOwner().getGold() >= damageAfterAbsorb / 20
+            hero.u.getOwner().addGold(-(damageAfterAbsorb / 20).toInt())
+            hero.u.addHP(damageAfterAbsorb)
+        else
+            hero.u.addHP(5.0 * hero.u.getOwner().getGold())
+            hero.u.getOwner().setGold(0)
+
+init
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_DEATH)
+        ..addCondition(Condition(function isKillRegeneration))
+        ..addAction(function killRegeneration)
+
+    CreateTrigger()
+        ..registerAnyUnitEvent(EVENT_PLAYER_UNIT_ATTACKED)
+        ..addCondition(Condition(function isAttackedRegeneration))
+        ..addAction(function attackedRegeneration)
+    
+    CreateTrigger()
+        ..registerAnyUnitDamagedEvent()
+        ..addCondition(Condition(function isDamageAbsorb))
+        ..addAction(function damageAbsorb)
+
+
+    // 每秒回复血和蓝
+    doPeriodically(0.5) cb ->
+        for i = 0 to MAX_PLAYER_NUMBER - 1
+            let hero = players[i].getHero()
+            if players[i].getController() == MAP_CONTROL_USER and not hero.u.hasAbility('B014')
+                hero.u.addHP((hero.healingSkill / 40000 + hero.u.getAbilityLevel('A0D4') / 20) * hero.u.getMaxHP() + hero.lifeRegeneration / 2)
+                if hero.u.hasItemById('I01D')
+                    hero.u.addHP(0.03 * hero.u.getMaxHP())
+                hero.u.addMana(hero.manaRegeneration / 2 + 0.15 * hero.healingSkill + 2.5 * hero.u.getAbilityLevel('A0D4'))

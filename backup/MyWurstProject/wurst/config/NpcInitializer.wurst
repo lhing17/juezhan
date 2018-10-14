@@ -1,0 +1,96 @@
+package NpcInitializer
+
+// standard imports
+
+// custom imports
+import GameConfiguration
+
+
+public let YOU_QI = createUnit(NEUTRAL_NPC_PLAYER, 'o029', vec2(-9535, -14820), 0 .asAngleDegrees())
+public let QIU_CHU_JI = createUnit(NEUTRAL_NPC_PLAYER, 'o00D', vec2(-5498.1, -3020.3), 60.35.asAngleDegrees()) 
+public let DIAN_XIAO_ER = createUnit(NEUTRAL_NPC_PLAYER, 'o007', vec2(1939.6, -2738.2), 217.84.asAngleDegrees())
+public let MA_YU = createUnit(NEUTRAL_NPC_PLAYER, 'o00E', vec2(-5054.2, -3013.2), 129.23.asAngleDegrees())
+public let GUO_JING = createUnit(NEUTRAL_NPC_PLAYER, 'o00A', vec2(-2053.7, -339.5), 180 .asAngleDegrees())
+public let YE_LV_QI = createUnit(NEUTRAL_NPC_PLAYER, 'o00B', vec2(347.5, -3809.3), 20.7.asAngleDegrees())  
+public let LIN_YUAN_TU = createUnit(NEUTRAL_NPC_PLAYER, 'o008', vec2(-1689.9, -2919.2), 272.02.asAngleDegrees())  
+public let HAO_DA_TONG = createUnit(NEUTRAL_NPC_PLAYER, 'o00F', vec2(-5514., -2567.8), 315.26.asAngleDegrees())  
+public let MU_RONG_FU = createUnit(NEUTRAL_NPC_PLAYER, 'o00G', vec2(2900.8, -6110.5), 233.25.asAngleDegrees()) 
+public let DA_MO_ZU_SHI = createUnit(NEUTRAL_NPC_PLAYER, 'o00I', vec2(3414.3, -699.1), 185.39.asAngleDegrees()) 
+public let QIAO_FENG = createUnit(NEUTRAL_NPC_PLAYER, 'o00J', vec2(-4885.4, 423.9), 273.2.asAngleDegrees()) 
+/** 戒律院住持 **/
+public let JIE_LV_YUAN_ZHU_CHI = createUnit(NEUTRAL_NPC_PLAYER, 'o00P', vec2(5741.1, -877.8), 224.9.asAngleDegrees()) 
+public let HUANG_RONG = createUnit(NEUTRAL_NPC_PLAYER, 'o00R', vec2(-3452.7, 153.4),  251.26.asAngleDegrees()) 
+public let XU_ZHU = createUnit(NEUTRAL_NPC_PLAYER, 'o00S', vec2(4045.8, -2255.6), 181.94.asAngleDegrees())
+public let XIAO_LONG_NV = createUnit(NEUTRAL_NPC_PLAYER, 'o00U', vec2(-14635.1, -8394.7), 327.01.asAngleDegrees())
+public let GONG_SUN_LU_E = createUnit(NEUTRAL_NPC_PLAYER, 'o00V', vec2(-12182.9, -5939.8), 148.96.asAngleDegrees()) 
+/** 江湖内功商店 **/
+public let NEUTRAL_MAGICAL_STORE = createUnit(NEUTRAL_NPC_PLAYER, 'o01R', vec2(3070.6, -1542.5), 268.66.asAngleDegrees()) 
+/** 绝世武学商店 **/
+public let FINAL_PHYSICAL_STORE = createUnit(NEUTRAL_NPC_PLAYER, 'o01S', vec2(3343.6, -2375.3), 5.029.asAngleDegrees())  
+/** 绝世内功商店 **/
+public let FINAL_MAGICAL_STORE = createUnit(NEUTRAL_NPC_PLAYER, 'o01T', vec2(3322.4, -2730.6), 11.06.asAngleDegrees()) 
+/** 江湖武功商店 **/
+public let NEUTRAL_PHYSICAL_STORE = createUnit(NEUTRAL_NPC_PLAYER, 'o01R', vec2(2649.6, -1514.4), 277.06.asAngleDegrees()) 
+/** 名门挑战 **/
+public let FAMOUS_CHALLENGE = createUnit(NEUTRAL_NPC_PLAYER, 'o01P', vec2(-134.4, 372.9), 106.56.asAngleDegrees()) 
+public let MIE_JUE_SHI_TAI = createUnit(NEUTRAL_NPC_PLAYER, 'o00W', vec2(-1174.4, 11346.6), 274.03.asAngleDegrees())
+public let WANG_CHONG_YANG = createUnit(NEUTRAL_NPC_PLAYER, 'o00Y', vec2(4580., 419.), 179.83.asAngleDegrees())
+/** 宝石商人 **/
+public let JEWEL_MECHANT = createUnit(NEUTRAL_NPC_PLAYER, 'o018', vec2(598.6, -2015.8), 94.58.asAngleDegrees())
+public let SHI_PO_TIAN = createUnit(NEUTRAL_NPC_PLAYER, 'o019', vec2(-2081.6, -1962.8), 24.21.asAngleDegrees())
+public let SUO_E_TU = createUnit(NEUTRAL_NPC_PLAYER, 'o01A', vec2(-4242.4, -492.4), 63.2.asAngleDegrees())
+public let LU_YOU_JIAO = createUnit(NEUTRAL_NPC_PLAYER, 'o010', vec2(-129.2, -2927.6), 277.91.asAngleDegrees())
+/** 古董商人 **/
+public let ANTIQUE_MECHANT = createUnit(NEUTRAL_NPC_PLAYER, 'o011', vec2(670.9, -1270.5), 175.947.asAngleDegrees())
+public let HU_FEI = createUnit(NEUTRAL_NPC_PLAYER, 'o012', vec2(-11366.8, 10882.4), 86.53.asAngleDegrees())
+public let DU_GU_QIU_BAI_20 = createUnit(NEUTRAL_NPC_PLAYER, 'o013', vec2(-10757.5, -9392.7), 335.57.asAngleDegrees())
+public let DU_GU_QIU_BAI_30 = createUnit(NEUTRAL_NPC_PLAYER, 'o014', vec2(-10267.3, -9397.), 236.63.asAngleDegrees())
+public let DU_GU_QIU_BAI_40 = createUnit(NEUTRAL_NPC_PLAYER, 'o015', vec2(-10757.4, -8828.2), 287.56.asAngleDegrees())
+public let DU_GU_QIU_BAI_50 = createUnit(NEUTRAL_NPC_PLAYER, 'o016', vec2(-10344.1, -8824.9), 251.35.asAngleDegrees())
+public let DU_GU_QIU_BAI_60 = createUnit(NEUTRAL_NPC_PLAYER, 'o017', vec2(-10584.5, -8441.9), 294.94.asAngleDegrees())
+/** 龙爷 **/
+public let LONG_YE = createUnit(NEUTRAL_NPC_PLAYER, 'o01B', vec2(-10140.6, 719.9), 154.87.asAngleDegrees())
+public let WAN_YAN_PING = createUnit(NEUTRAL_NPC_PLAYER, 'o01C', vec2(-9636.7, -400.7), 28.58.asAngleDegrees())
+public let MIAO_REN_FENG = createUnit(NEUTRAL_NPC_PLAYER, 'o01H', vec2(-8902.4, -26.), 141.62.asAngleDegrees())
+public let PING_YI_ZHI = createUnit(NEUTRAL_NPC_PLAYER, 'o01J', vec2(-2032.3, -1442.2), 180 .asAngleDegrees())
+
+function initTeleportStones()
+    createUnit(BASE_PLAYER, 'nbse', vec2(-5920., -224.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(-4448., -2976.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(1888., -224.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(-1440., 8160.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(-2336., -3872.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(1632., -2464.), 270 .asAngleDegrees())
+    createUnit(BASE_PLAYER, 'nbse', vec2(3616., -8928.), 270 .asAngleDegrees())
+
+function initShaoLinFollowers()
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(3065.6, -415.5), 260.325.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2800.7, -432.4), 260.325.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2554.3, -442.), 260.325.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2326.7, -440.3), 260.325.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(3095.5, -1042.9), 88.198.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2830.6, -1059.8), 88.075.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2584.1, -1069.5), 89.265.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o00H', vec2(2356.6, -1067.7), 91.855.asAngleDegrees())
+
+function initOtherNPCs()
+    // 无人之马
+    createUnit(NEUTRAL_NPC_PLAYER, 'hhdl', vec2(-2092.9 ,-2759.4), 336.13.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'hhdl', vec2(-2095.1, -2894.8), 344.96.asAngleDegrees())
+    // 物品栏
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5503.8, 5213.9), 156.857.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5538.1, 5186.3), 209.428.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5425.9, 5155.9), 280.391.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5448.9, 5202.9), 106.67.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5487.7, 5169.9), 191.717.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5517.6, 5090.4), 182.565.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5540.2, 5134.9), 255.418.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5483.4, 5122.9), 225.216.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5429.8, 5108.7), 262.307.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5453.9, 5084.4), 242.388.asAngleDegrees())
+    createUnit(NEUTRAL_NPC_PLAYER, 'o006', vec2(-5467.9, 5207.8), 242.388.asAngleDegrees())
+init    
+    initTeleportStones()
+    initShaoLinFollowers()
+    initOtherNPCs()
+    

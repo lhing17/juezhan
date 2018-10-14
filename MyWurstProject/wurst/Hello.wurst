@@ -1,5 +1,0 @@
-package Hello
-
-// Wurst demo package
-init
-	print("Hello World")

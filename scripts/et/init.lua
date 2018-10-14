@@ -1,8 +1,0 @@
--- entity 封装各实体类
-
-et = {}
-et.game = {}
-
-require 'et.trigger'
-require 'et.event'
-require 'et.player'

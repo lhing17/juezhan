@@ -19,12 +19,12 @@ local function get_debugger()
 end
 
 local root = fs.path(arg[1])
-if not fs.exists(root / 'MoeHero.w3x') then
-    print('地图不存在', root / 'MoeHero.w3x')
+if not fs.exists(root / 'jzjh.w3x') then
+    print('地图不存在', root / 'jzjh.w3x')
     return
 end
 local command = (registry.open [[HKEY_CURRENT_USER\SOFTWARE\Classes\YDWEMap\shell\run_war3\command]])['']
-command = command:gsub("%%1", (root / 'MoeHero.w3x'):string())
+command = command:gsub("%%1", (root / 'jzjh.w3x'):string())
 if get_debugger() then
     --command = command .. ' -debugger 4278'
 end

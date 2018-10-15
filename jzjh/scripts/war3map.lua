@@ -1,4 +1,5 @@
 local japi = require 'jass.japi'
+require 'util.commonutil'
 require 'map.static.destructables'
 
 --globals from DzAPI:
@@ -415,7 +416,6 @@ udg_jianghu = _array_(0)
 udg_juexue = _array_(0)
 udg_juenei = _array_(0)
 udg_canzhang = _array_(0)
-udg_diershi = _array_(0)
 aidacishu = _array_(0)
 udg_wuqishu = _array_(0)
 udg_yifushu = _array_(0)
@@ -457,7 +457,6 @@ shengminghuifu = _array_(0.0)
 falihuifu = _array_(0.0)
 udg_lilianxishu = _array_(0.0)
 udg_loc1 = nil
-K4 = _array_()
 L4 = _array_()
 udg_hashero = _array_(false)
 udg_baoji = _array_(false)
@@ -480,7 +479,6 @@ gengu = _array_(0)
 fuyuan = _array_(0)
 danpo = _array_(0)
 yishu = _array_(0)
-i7 = nil
 udg_runamen = _array_(0)
 k7 = 0
 m7 = _array_()
@@ -2130,130 +2128,7 @@ function FetchUnitItem(u, j)
 	end
 	return nil
 end
---function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius,location whichLocation,boolexpr filter returns group
---    local group g= CreateGroup()
---    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
---    call DestroyBoolExpr(filter)
---    set yd_NullTempGroup=g
---    set g=null
---    return yd_NullTempGroup
---endfunction
-function YDWEGetUnitsInRectOfPlayerNull(r, whichPlayer)
-	local g = CreateGroup()
-	bj_groupEnumOwningPlayer = whichPlayer
-	GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
-	yd_NullTempGroup = g
-	g = nil
-	return yd_NullTempGroup
-end
-function YDWEGetRandomSubGroupEnumNull()
-	if bj_randomSubGroupWant > 0 then
-		if bj_randomSubGroupWant >= bj_randomSubGroupTotal or GetRandomInt(1, bj_randomSubGroupTotal) <= bj_randomSubGroupWant then
-			-- We either need every remaining unit, or the unit passed its chance check.
-			GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
-			bj_randomSubGroupWant = bj_randomSubGroupWant - 1
-		end
-	end
-	bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
-end
-function YDWEGetRandomSubGroupNull(count, sourceGroup)
-	bj_randomSubGroupGroup = CreateGroup()
-	bj_randomSubGroupWant = count
-	bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
-	if bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0 then
-		return bj_randomSubGroupGroup
-	end
-	ForGroup(sourceGroup, YDWEGetRandomSubGroupEnumNull)
-	return bj_randomSubGroupGroup
-end
-function YDWEGetItemOfTypeFromUnitBJNull(whichUnit, itemId)
-	local index = 0
-	for _ in _loop_() do
-		yd_NullTempItem = UnitItemInSlot(whichUnit, index)
-		if GetItemTypeId(yd_NullTempItem) == itemId then
-			return yd_NullTempItem
-		end
-		index = index + 1
-		if index >= bj_MAX_INVENTORY then break end
-	end
-	return nil
-end
-function YDWETriggerActionUnitRescuedBJNull()
-	local theUnit = GetTriggerUnit()
-	if IsUnitType(theUnit, UNIT_TYPE_STRUCTURE) then
-		RescueUnitBJ(theUnit, GetOwningPlayer(GetRescuer()), bj_rescueChangeColorBldg)
-	else
-		RescueUnitBJ(theUnit, GetOwningPlayer(GetRescuer()), bj_rescueChangeColorUnit)
-	end
-	theUnit = nil
-end
-function YDWETryInitRescuableTriggersBJNull()
-	local index
-	if bj_rescueUnitBehavior == nil then
-		bj_rescueUnitBehavior = CreateTrigger()
-		index = 0
-		for _ in _loop_() do
-			TriggerRegisterPlayerUnitEvent(bj_rescueUnitBehavior, Player(index), EVENT_PLAYER_UNIT_RESCUED, nil)
-			index = index + 1
-			if index == bj_MAX_PLAYER_SLOTS then break end
-		end
-		TriggerAddAction(bj_rescueUnitBehavior, YDWETriggerActionUnitRescuedBJNull)
-	end
-end
-function YDWEInitRescuableBehaviorBJNull()
-	local index
-	index = 0
-	for _ in _loop_() do
-		-- If at least one player slot is "Rescuable"-controlled, init the
-		-- rescue behavior triggers.
-		if GetPlayerController(Player(index)) == MAP_CONTROL_RESCUABLE then
-			YDWETryInitRescuableTriggersBJNull()
-			return
-		end
-		index = index + 1
-		if index == bj_MAX_PLAYERS then break end
-	end
-end
-function wv(r, vv)
-	local g = CreateGroup()
-	GroupEnumUnitsInRect(g, r, vv)
-	DestroyBoolExpr(vv)
-	e4 = g
-	g = nil
-	return e4
-end
-function AddPlayerUnitIntoGroup(pv, vv)
-	local g = CreateGroup()
-	GroupEnumUnitsOfPlayer(g, pv, vv)
-	DestroyBoolExpr(vv)
-	e4 = g
-	g = nil
-	return e4
-end
-function yv(mb, zv, Av, av, Bv, bv, Cv)
-	local cv = 0
-	local Dv = 0
-	local Ev = MultiboardGetRowCount(mb)
-	local Fv = MultiboardGetColumnCount(mb)
-	local Gv = nil
-	for _ in _loop_() do
-		cv = cv + 1
-		if cv > Ev then break end
-		if Av == 0 or Av == cv then
-			Dv = 0
-			for _ in _loop_() do
-				Dv = Dv + 1
-				if Dv > Fv then break end
-				if zv == 0 or zv == Dv then
-					Gv = MultiboardGetItem(mb, cv - 1, Dv - 1)
-					MultiboardSetItemValueColor(Gv, PercentTo255(av), PercentTo255(Bv), PercentTo255(bv), PercentTo255(100.0 - Cv))
-					MultiboardReleaseItem(Gv)
-				end
-			end
-		end
-	end
-	Gv = nil
-end
+
 function DuoMianBan(mb, zv, Av, Iv)
 	local cv = 0
 	local Dv = 0
@@ -2278,28 +2153,6 @@ function DuoMianBan(mb, zv, Av, Iv)
 	end
 	Gv = nil
 end
---function YDWEPolledWaitNull takes real duration returns nothing
---    local timer t
---    local real timeRemaining
---    if ( duration > 0 ) then
---        set t=CreateTimer()
---        call TimerStart(t, duration, false, null)
---        loop
---            set timeRemaining=TimerGetRemaining(t)
---            exitwhen timeRemaining <= 0
---            // If we have a bit of time left, skip past 10% of the remaining
---            // duration instead of checking every interval, to minimize the
---            // polling on long waits.
---            if ( timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD ) then
---                call TriggerSleepAction(0.1 * timeRemaining)
---            else
---                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
---            endif
---        endloop
---        call DestroyTimer(t)
---    endif
---    set t=null
---endfunction
 --符合条件执行g4[i]触发
 function Lv()
 	local i = 0
@@ -3194,20 +3047,8 @@ function Zw()
 	SetPlayerHandicapXP(Player(4), 0.43)
 	SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0.0)
 	PlayMusicBJ(xh)
-	K4[1] = Ls
-	K4[2] = Qs
-	K4[3] = Os
-	K4[4] = Ns
-	K4[5] = Ps
-	K4[6] = LanXin
-	K4[7] = XuanJin
-	GroupAddUnit(i7, Ls)
-	GroupAddUnit(i7, Ns)
-	GroupAddUnit(i7, Qs)
-	GroupAddUnit(i7, Os)
-	GroupAddUnit(i7, Ps)
-	GroupAddUnit(i7, LanXin)
-	GroupAddUnit(i7, XuanJin)
+	 -- 英雄选择列表
+	pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
 	y7[1] = 1969711215
 	y7[2] = 1970498413
 	y7[3] = 1852798821
@@ -3399,35 +3240,38 @@ function InitBosses()
 	Ae[28] = 1227896912
 end
 function InitHerbs()
-	YaoCao[1] = 1227896646
-	YaoCao[2] = 1227896647
-	YaoCao[3] = 1227896645
-	YaoCao[4] = 1227896630
-	YaoCao[5] = 1227896631
-	YaoCao[6] = 1227896632
-	YaoCao[7] = 1227896633
-	YaoCao[8] = 1227896642
-	YaoCao[9] = 1227896641
-	YaoCao[10] = 1227896643
-	YaoCao[11] = 1227896644
-	YaoCao[12] = 1227896648
+	YaoCao = {1227896646,
+		1227896647,
+		1227896645,
+		1227896630,
+		1227896631,
+		1227896632,
+		1227896633,
+		1227896642,
+		1227896641,
+		1227896643,
+		1227896644,
+		1227896648,
+	}
 end
 function InitEquipments()
 	--衣服清单
-	ZhuangBei[1] = 1227895346
-	ZhuangBei[2] = 1227895124
-	ZhuangBei[3] = 1227895112
-	ZhuangBei[4] = 1227895111
-	ZhuangBei[5] = 1227895095
-	ZhuangBei[6] = 1227895092
-	ZhuangBei[7] = 1227895119
-	ZhuangBei[8] = 1227895877
-	ZhuangBei[9] = 1227897178
-	ZhuangBei[10] = 1227894863
-	ZhuangBei[11] = 1227894854
-	ZhuangBei[12] = 1227894855
-	ZhuangBei[13] = 1227899212
-	ZhuangBei[14] = 1227897136
+	ZhuangBei = {
+	1227895346,
+	1227895124,
+	1227895112,
+	1227895111,
+	1227895095,
+	1227895092,
+	1227895119,
+	1227895877,
+	1227897178,
+	1227894863,
+	1227894854,
+	1227894855,
+	1227899212,
+	1227897136,
+}
 	--饰品清单
 	--白字
 	ShiPin[1] = 1227895347
@@ -3609,45 +3453,38 @@ function InitSkillBooks()
 		1227895383,
 		1227895622,
 	}
-	udg_juexue[1] = 1227895609
-	udg_juexue[2] = 1227895604
-	udg_juexue[3] = 1227895608
-	udg_juexue[4] = 1227895607
-	udg_juexue[5] = 1227895618
-	udg_juexue[6] = 1227895602
-	udg_juexue[7] = 1227895605
-	udg_juexue[8] = 1227895606
-	udg_juexue[9] = 1227895619
-	udg_juexue[10] = 1227895617
-	udg_juenei[1] = 1227895635
-	udg_juenei[2] = 1227895631
-	udg_juenei[3] = 1227895636
-	udg_juenei[4] = 1227895633
-	udg_juenei[5] = 1227895629
-	udg_juenei[6] = 1227895632
-	udg_juenei[7] = 1227895637
-	udg_juenei[8] = 1227895634
-	udg_canzhang[1] = 1227896373
-	udg_canzhang[2] = 1227896369
-	udg_canzhang[3] = 1227896374
-	udg_canzhang[4] = 1227896372
-	udg_canzhang[5] = 1227896375
-	udg_canzhang[6] = 1227896370
-	udg_canzhang[7] = 1227896377
-	udg_canzhang[8] = 1227896368
-	udg_canzhang[9] = 1227896376
-	udg_canzhang[10] = 1227896371
-	udg_canzhang[11] = 1227899735
-	udg_diershi[1] = 1227897157
-	udg_diershi[2] = 1227897158
-	udg_diershi[3] = 1227897159
-	udg_diershi[4] = 1227897160
-	udg_diershi[5] = 1227897161
-	udg_diershi[6] = 1227897162
-	udg_diershi[7] = 1227897163
-	udg_diershi[8] = 1227897164
-	udg_diershi[9] = 1227897165
-	udg_diershi[10] = 1227897166
+	udg_juexue = {1227895609,
+		1227895604,
+		1227895608,
+		1227895607,
+		1227895618,
+		1227895602,
+		1227895605,
+		1227895606,
+		1227895619,
+		1227895617,
+	}
+	udg_juenei = {1227895635,
+		1227895631,
+		1227895636,
+		1227895633,
+		1227895629,
+		1227895632,
+		1227895637,
+		1227895634,
+	}
+	udg_canzhang = {1227896373,
+		1227896369,
+		1227896374,
+		1227896372,
+		1227896375,
+		1227896370,
+		1227896377,
+		1227896368,
+		1227896376,
+		1227896371,
+		1227899735,
+	}
 end
 function InitKillingTaskCreatures()
 	--阳寿已尽任务怪
@@ -3993,7 +3830,6 @@ function main1()
 	--set udg_menpaineigong=DialogCreate()
 	udg_index = DialogCreate()
 	udg_nan = DialogCreate()
-	i7 = CreateGroup()
 	udg_shanghaidanweizu = CreateGroup()
 	udg_boshu = 1
 	w7 = CreateGroup()

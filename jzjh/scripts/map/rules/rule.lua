@@ -133,28 +133,28 @@ end
 
 --选择英雄
 function fx()
-	return udg_hashero[1 + GetPlayerId(GetTriggerPlayer())] == false and IsUnitInGroup(GetTriggerUnit(), i7)
+	return udg_hashero[1 + GetPlayerId(GetTriggerPlayer())] == false and is_in(GetTriggerUnit(), pick_list)
 end
 function SelectHero()
 	local p = GetTriggerPlayer()
 	local i = 1 + GetPlayerId(p)
 	local u = GetTriggerUnit()
 	if GetUnitTypeId(L4[i]) == GetUnitTypeId(u) then
-		if u == K4[1] or u == K4[2] or u == K4[3] or u == K4[4] or u == K4[5] or u == K4[6] or u == K4[7] then
+		if u == pick_list[1] or u == pick_list[2] or u == pick_list[3] or u == pick_list[4] or u == pick_list[5] or u == pick_list[6] or u == pick_list[7] then
 			Q4 = GetRandomLocInRect(Ge)
 			CreateNUnitsAtLoc(1, GetUnitTypeId(u), p, Q4, bj_UNIT_FACING)
 			PanCameraToTimedLocForPlayer(p, Q4, 0)
 		end
-		if u == K4[1] then
+		if u == pick_list[1] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫（隐藏） 姑苏慕容（隐藏） 明教（特殊） 神龙教（女）|r\n\n")
 			wuxing[i] = wuxing[i] + 5
 			fuyuan[i] = fuyuan[i] + 2
 			yishu[i] = yishu[i] + 3
 			udg_xinggeA[i] = GetRandomInt(1, 3)
 			udg_xinggeB[i] = GetRandomInt(3, 5)
-			RemoveUnit(K4[1])
+			RemoveUnit(pick_list[1])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[2] then
+		elseif u == pick_list[2] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00潇侠|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫（隐藏） 姑苏慕容（隐藏） 明教（特殊） 神龙教（男）|r\n")
 			wuxing[i] = wuxing[i] + 2
 			gengu[i] = gengu[i] + 2
@@ -162,9 +162,9 @@ function SelectHero()
 			fuyuan[i] = fuyuan[i] + 5
 			udg_xinggeA[i] = GetRandomInt(2, 4)
 			udg_xinggeB[i] = GetRandomInt(2, 4)
-			RemoveUnit(K4[2])
+			RemoveUnit(pick_list[2])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[3] then
+		elseif u == pick_list[3] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00莫言|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 星宿 灵鹫宫（隐藏） 姑苏慕容（隐藏） 明教（特殊）  神龙教（女）|r\n")
 			wuxing[i] = wuxing[i] + 2
 			danpo[i] = danpo[i] + 5
@@ -172,27 +172,27 @@ function SelectHero()
 			yishu[i] = yishu[i] + 2
 			udg_xinggeA[i] = GetRandomInt(3, 5)
 			udg_xinggeB[i] = GetRandomInt(1, 3)
-			RemoveUnit(K4[3])
+			RemoveUnit(pick_list[3])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[4] then
+		elseif u == pick_list[4] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00浪云|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 星宿 灵鹫宫（隐藏） 姑苏慕容（隐藏） 明教（特殊）  神龙教（男）|r\n")
 			gengu[i] = gengu[i] + 3
 			jingmai[i] = jingmai[i] + 5
 			yishu[i] = yishu[i] + 2
 			udg_xinggeA[i] = GetRandomInt(2, 4)
 			udg_xinggeB[i] = GetRandomInt(2, 4)
-			RemoveUnit(K4[4])
+			RemoveUnit(pick_list[4])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[5] then
+		elseif u == pick_list[5] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00魔君|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 星宿 灵鹫宫（隐藏） 姑苏慕容（隐藏） 明教（特殊）  神龙教（男）|r\n")
 			gengu[i] = gengu[i] + 5
 			danpo[i] = danpo[i] + 2
 			jingmai[i] = jingmai[i] + 3
 			udg_xinggeA[i] = GetRandomInt(1, 3)
 			udg_xinggeB[i] = GetRandomInt(3, 5)
-			RemoveUnit(K4[5])
+			RemoveUnit(pick_list[5])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[6] then
+		elseif u == pick_list[6] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择任意门派后开启江湖之旅|r\n")
 			gengu[i] = gengu[i] + 3
 			danpo[i] = danpo[i] + 3
@@ -202,9 +202,9 @@ function SelectHero()
 			fuyuan[i] = fuyuan[i] + 3
 			udg_xinggeA[i] = GetRandomInt(3, 5)
 			udg_xinggeB[i] = GetRandomInt(3, 5)
-			--call RemoveUnit(K4[6])
+			--call RemoveUnit(pick_list[6])
 			RemoveUnit(vipbanlv[i])
-		elseif u == K4[7] then
+		elseif u == pick_list[7] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择任意门派后开启江湖之旅|r\n")
 			gengu[i] = gengu[i] + 3
 			danpo[i] = danpo[i] + 3
@@ -214,10 +214,10 @@ function SelectHero()
 			fuyuan[i] = fuyuan[i] + 3
 			udg_xinggeA[i] = GetRandomInt(3, 5)
 			udg_xinggeB[i] = GetRandomInt(3, 5)
-			--call RemoveUnit(K4[6])
+			--call RemoveUnit(pick_list[6])
 			RemoveUnit(vipbanlv[i])
 		end
-		if u == K4[1] or u == K4[2] or u == K4[3] or u == K4[4] or u == K4[5] or u == K4[6] or u == K4[7] then
+		if u == pick_list[1] or u == pick_list[2] or u == pick_list[3] or u == pick_list[4] or u == pick_list[5] or u == pick_list[6] or u == pick_list[7] then
 			SelectUnitRemoveForPlayer(u, p)
 			SelectUnitAddForPlayer(bj_lastCreatedUnit, p)
 			udg_hashero[i] = true
@@ -231,41 +231,41 @@ function SelectHero()
 		end
 	else
 		L4[i] = u
-		if u == K4[1] then
+		if u == pick_list[1] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00若蝶|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（女）|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+5 福缘+2 医术+3\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[1])
-		elseif u == K4[2] then
+			ResetUnitAnimation(pick_list[1])
+		elseif u == pick_list[2] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00潇侠|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[2])
-		elseif u == K4[3] then
+			ResetUnitAnimation(pick_list[2])
+		elseif u == pick_list[3] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00莫言|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教  神龙教（女）|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[3])
-		elseif u == K4[4] then
+			ResetUnitAnimation(pick_list[3])
+		elseif u == pick_list[4] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00浪云|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+3 经脉+5 医术+2\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[4])
-		elseif u == K4[5] then
+			ResetUnitAnimation(pick_list[4])
+		elseif u == pick_list[5] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00魔君|r\n可加入门派：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教  神龙教（男）|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[5])
-		elseif u == K4[6] then
+			ResetUnitAnimation(pick_list[5])
+		elseif u == pick_list[6] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00兰馨|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[6])
-		elseif u == K4[7] then
+			ResetUnitAnimation(pick_list[6])
+		elseif u == pick_list[7] then
 			DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFCCFF00瑾轩|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n")
 			SetUnitAnimation(u, "attack")
 			YDWEPolledWaitNull(2)
-			ResetUnitAnimation(K4[7])
+			ResetUnitAnimation(pick_list[7])
 		end
 	end
 	p = nil

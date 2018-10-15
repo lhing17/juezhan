@@ -3299,3 +3299,119 @@ function YDWETimerRunPeriodicTriggerOver(trg, data)
 end
 
 --library YDWETimerSystem ends
+function YDWEGetUnitsInRectOfPlayerNull(r, whichPlayer)
+	local g = CreateGroup()
+	bj_groupEnumOwningPlayer = whichPlayer
+	GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+	yd_NullTempGroup = g
+	g = nil
+	return yd_NullTempGroup
+end
+function YDWEGetRandomSubGroupEnumNull()
+	if bj_randomSubGroupWant > 0 then
+		if bj_randomSubGroupWant >= bj_randomSubGroupTotal or GetRandomInt(1, bj_randomSubGroupTotal) <= bj_randomSubGroupWant then
+			-- We either need every remaining unit, or the unit passed its chance check.
+			GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
+			bj_randomSubGroupWant = bj_randomSubGroupWant - 1
+		end
+	end
+	bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
+end
+function YDWEGetRandomSubGroupNull(count, sourceGroup)
+	bj_randomSubGroupGroup = CreateGroup()
+	bj_randomSubGroupWant = count
+	bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
+	if bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0 then
+		return bj_randomSubGroupGroup
+	end
+	ForGroup(sourceGroup, YDWEGetRandomSubGroupEnumNull)
+	return bj_randomSubGroupGroup
+end
+function YDWEGetItemOfTypeFromUnitBJNull(whichUnit, itemId)
+	local index = 0
+	for _ in _loop_() do
+		yd_NullTempItem = UnitItemInSlot(whichUnit, index)
+		if GetItemTypeId(yd_NullTempItem) == itemId then
+			return yd_NullTempItem
+		end
+		index = index + 1
+		if index >= bj_MAX_INVENTORY then break end
+	end
+	return nil
+end
+function YDWETriggerActionUnitRescuedBJNull()
+	local theUnit = GetTriggerUnit()
+	if IsUnitType(theUnit, UNIT_TYPE_STRUCTURE) then
+		RescueUnitBJ(theUnit, GetOwningPlayer(GetRescuer()), bj_rescueChangeColorBldg)
+	else
+		RescueUnitBJ(theUnit, GetOwningPlayer(GetRescuer()), bj_rescueChangeColorUnit)
+	end
+	theUnit = nil
+end
+function YDWETryInitRescuableTriggersBJNull()
+	local index
+	if bj_rescueUnitBehavior == nil then
+		bj_rescueUnitBehavior = CreateTrigger()
+		index = 0
+		for _ in _loop_() do
+			TriggerRegisterPlayerUnitEvent(bj_rescueUnitBehavior, Player(index), EVENT_PLAYER_UNIT_RESCUED, nil)
+			index = index + 1
+			if index == bj_MAX_PLAYER_SLOTS then break end
+		end
+		TriggerAddAction(bj_rescueUnitBehavior, YDWETriggerActionUnitRescuedBJNull)
+	end
+end
+function YDWEInitRescuableBehaviorBJNull()
+	local index
+	index = 0
+	for _ in _loop_() do
+		-- If at least one player slot is "Rescuable"-controlled, init the
+		-- rescue behavior triggers.
+		if GetPlayerController(Player(index)) == MAP_CONTROL_RESCUABLE then
+			YDWETryInitRescuableTriggersBJNull()
+			return
+		end
+		index = index + 1
+		if index == bj_MAX_PLAYERS then break end
+	end
+end
+function wv(r, vv)
+	local g = CreateGroup()
+	GroupEnumUnitsInRect(g, r, vv)
+	DestroyBoolExpr(vv)
+	e4 = g
+	g = nil
+	return e4
+end
+function AddPlayerUnitIntoGroup(pv, vv)
+	local g = CreateGroup()
+	GroupEnumUnitsOfPlayer(g, pv, vv)
+	DestroyBoolExpr(vv)
+	e4 = g
+	g = nil
+	return e4
+end
+function yv(mb, zv, Av, av, Bv, bv, Cv)
+	local cv = 0
+	local Dv = 0
+	local Ev = MultiboardGetRowCount(mb)
+	local Fv = MultiboardGetColumnCount(mb)
+	local Gv = nil
+	for _ in _loop_() do
+		cv = cv + 1
+		if cv > Ev then break end
+		if Av == 0 or Av == cv then
+			Dv = 0
+			for _ in _loop_() do
+				Dv = Dv + 1
+				if Dv > Fv then break end
+				if zv == 0 or zv == Dv then
+					Gv = MultiboardGetItem(mb, cv - 1, Dv - 1)
+					MultiboardSetItemValueColor(Gv, PercentTo255(av), PercentTo255(Bv), PercentTo255(bv), PercentTo255(100.0 - Cv))
+					MultiboardReleaseItem(Gv)
+				end
+			end
+		end
+	end
+	Gv = nil
+end

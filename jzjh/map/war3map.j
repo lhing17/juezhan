@@ -1,4 +1,5 @@
 function main takes nothing returns nothing
+    call Cheat("exec-lua:lua.currentpath")
     call Cheat("exec-lua:scripts.runtime")
     call Cheat("exec-lua:scripts.main")
 endfunction

@@ -6,7 +6,6 @@
 - jzjh/ lni格式地图
 - releases/ 发布版本
 - resources/ 资源文件
-- scripts/ lua脚本
 - jzjh.w3x obj/slk格式地图
 
 

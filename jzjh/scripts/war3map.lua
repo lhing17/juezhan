@@ -222,10 +222,8 @@ jingyao_button10 = _array_()
 jingyao_button11 = _array_()
 jingyao_button_cancel = _array_()
 yongdanshu = _array_(0)
-
 tiebucishu = _array_(0)
 isproducing = _array_(false)
-
 tiaozhanduixiang = _array_(0)
 menpaiwuqi = _array_(0)
 udg_tiaoxuedao = _array_(false)
@@ -243,18 +241,6 @@ udg_shenxingpoyin = _array_(0.0)
 udg_shenxingfuzhu = _array_()
 udg_miaoshoufuzhu = _array_()
 guixihuixie = _array_(0.0)
-udg_qinglong = nil
-udg_baihu = nil
-udg_xuanwu = nil
-udg_zhuque = nil
-udg_ql = false
-udg_bh = false
-udg_xw = false
-udg_zq = false
-udg_qlover = false
-udg_bhover = false
-udg_xwover = false
-udg_zqover = false
 udg_loadql = _array_(false)
 yd_NullTempItem = nil
 
@@ -473,8 +459,7 @@ f9 = _array_()
 g9 = _array_()
 h9 = _array_(false)
 i9 = _array_(0)
-j9 = nil
-k9 = nil
+
 m9 = 0
 n9 = 0
 o9 = _array_()
@@ -493,9 +478,7 @@ A9 = _array_(0)
 a9 = _array_()
 B9 = _array_()
 b9 = _array_()
-C9 = nil
-c9 = nil
-D9 = nil
+
 E9 = _array_()
 F9 = 0
 G9 = _array_(0)
@@ -1823,8 +1806,7 @@ end
 --万能属性系统
 --以下函数仅仅是让技能ID出现在代码里，不然SLK优化器会删除这些技能
 function DisplayAllAbilityId()
-	local aid = 0
-	aid = 1497656368
+	local aid = 1497656368
 	aid = 1497656369
 	aid = 1497656370
 	aid = 1497656371

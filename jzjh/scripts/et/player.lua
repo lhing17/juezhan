@@ -1,4 +1,5 @@
 local jass = require 'jass.common'
+local dbg = require 'jass.debug'
 
 local player = {}
 setmetatable(player, player)
@@ -54,6 +55,7 @@ end
 
 -- 获取玩家名字
 function mt:get_name()
+    -- return nil
     return jass.GetPlayerName(self.handle)
 end
 
@@ -141,10 +143,16 @@ function player.create(id, jPlayer)
     local p = {}
     setmetatable(p, player)
 
+    print(jPlayer)
+
     p.handle = jPlayer
+    dbg.handle_ref(jPlayer)
     player[jPlayer] = p
 
     p.id = id
+    for k, v in pairs(p) do
+        print(k, v)
+    end
     p.base_name = p:get_name()
 
     player[id] = p
@@ -182,6 +190,7 @@ local function init()
     player.count = 0
 
     for i = 1, 16 do
+        
         player.create(i, jass.Player(i - 1))
 
         if player[i]:is_player() then
@@ -195,9 +204,12 @@ local function init()
     jass.SetReservedLocalHeroButtons(2)
     
     -- 本地玩家
+    -- player.localplayer = et.player(1)
     player.localplayer = et.player(jass.GetLocalPlayer())
     log.debug(('本地玩家[%s][%s]'):format(player.localplayer:get(), player.localplayer:get_name()))
- 
+    
+    --注册常用事件
+    player.regist_jass_triggers()
 end
 
 init()

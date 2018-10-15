@@ -8529,9 +8529,9 @@ function WuMenPai_Action takes nothing returns nothing
     call UnitAddAbility(u, 'A05R')
     call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
     call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-	call UnitAddAbility(u, 'A040')
-	call UnitAddAbility(u, 'A041')
-	call UnitAddAbility(u, 'A042')
+	
+	
+	
     set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
     call UnitRemoveAbility(u, 'Avul')
     set Q4=GetRandomLocInRect(He)
@@ -8572,9 +8572,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
 			call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8598,9 +8598,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8624,9 +8624,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8650,9 +8650,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8676,9 +8676,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8702,9 +8702,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8728,9 +8728,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8755,9 +8755,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			set Q4=GetRandomLocInRect(He)
 			call UnitRemoveAbility(u, 'Avul')
@@ -8782,9 +8782,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			set Q4=GetRandomLocInRect(He)
 			call SetUnitPositionLoc(u, Q4)
@@ -8809,9 +8809,9 @@ function JiaRuMenPai takes nothing returns nothing
 			call UnitAddAbility(u, 'A05R')
 			call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 			set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 			call UnitRemoveAbility(u, 'Avul')
 			set Q4=GetRandomLocInRect(He)
@@ -8835,9 +8835,9 @@ function JiaRuMenPai takes nothing returns nothing
 		call UnitAddAbility(u, 'A05R')
 		call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
 		call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-		call UnitAddAbility(u, 'A040')
-		call UnitAddAbility(u, 'A041')
-		call UnitAddAbility(u, 'A042')
+		
+		
+		
 		set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 		call UnitRemoveAbility(u, 'Avul')
 		set Q4=GetRandomLocInRect(He)
@@ -8859,9 +8859,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u, 'A05R')
 	    	call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 	    	set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    	call UnitRemoveAbility(u, 'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -8885,9 +8885,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u, 'A05R')
 	    	call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 	    	set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    	call UnitRemoveAbility(u, 'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -8908,9 +8908,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u, 'A05R')
 	    	call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 	    	set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    	call UnitRemoveAbility(u, 'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -8933,9 +8933,9 @@ function JiaRuMenPai takes nothing returns nothing
 	    	call UnitAddAbility(u, 'A05R')
 	    	call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         	call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-			call UnitAddAbility(u, 'A040')
-			call UnitAddAbility(u, 'A041')
-			call UnitAddAbility(u, 'A042')
+			
+			
+			
 	    	set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    	call UnitRemoveAbility(u, 'Avul')
 	    	set Q4=GetRandomLocInRect(He)
@@ -25736,9 +25736,9 @@ function KeyInput takes nothing returns nothing
 	    call UnitAddAbility(udg_hero[i], 'A05R')
 	    call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-		call UnitAddAbility(udg_hero[i], 'A040')
-		call UnitAddAbility(udg_hero[i], 'A041')
-		call UnitAddAbility(udg_hero[i], 'A042')
+		
+		
+		
 	    set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    call UnitRemoveAbility(udg_hero[i], 'Avul')
 	    set Q4=GetRandomLocInRect(He)
@@ -25761,9 +25761,9 @@ function KeyInput takes nothing returns nothing
 		call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
 	    call UnitAddAbility(udg_hero[i], 'A05R')
-		call UnitAddAbility(udg_hero[i], 'A040')
-		call UnitAddAbility(udg_hero[i], 'A041')
-		call UnitAddAbility(udg_hero[i], 'A042')
+		
+		
+		
 	    set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    call UnitRemoveAbility(udg_hero[i], 'Avul')
 	    set Q4=GetRandomLocInRect(He)
@@ -25849,9 +25849,9 @@ function KeyInput takes nothing returns nothing
 	    call UnitAddAbility(udg_hero[i], 'A05R')
 	    call AddCharacterABuff(udg_hero[i] , udg_xinggeA[i])
         call AddCharacterBBuff(udg_hero[i] , udg_xinggeB[i])
-		call UnitAddAbility(udg_hero[i], 'A040')
-		call UnitAddAbility(udg_hero[i], 'A041')
-		call UnitAddAbility(udg_hero[i], 'A042')
+		
+		
+		
 	    set I7[( ( ( i - 1 ) * 20 ) + 8 )]='A05R'
 	    call UnitRemoveAbility(udg_hero[i], 'Avul')
 	    set Q4=GetRandomLocInRect(He)

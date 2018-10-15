@@ -1,4 +1,4 @@
-require '韦陀棍法'
+require 'map.门派.少林.韦陀棍法'
 --达摩剑法
 function qc()
 	return GetEventDamage() == 0.15

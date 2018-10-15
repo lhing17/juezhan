@@ -1,3 +1,38 @@
+
+--===============najitest===============
+unitnumber_lh = 0
+createdunitnumber_lh = 0
+StringList_naji = nil
+Sdummy_naji = _array_()
+Ttest_naji = _array_()
+Ptest_naji = nil
+Ihandle_naji = nil
+Ibm_naji = nil
+Itrigger_naji = nil
+Iquest_naji = nil
+Iweather_naji = nil
+Bfog_naji = nil
+Bpause_naji = nil
+Bxy_naji = nil
+Bid_naji = nil
+Bir_naji = nil
+Bcamera_naji = _array_(false)
+Bpn_naji = nil
+Bddm_naji = nil
+Dnaji_naji = _array_()
+Button_naji = _array_()
+Rhandle_naji = nil
+Rdummy_naji = nil
+Rcamera_naji = _array_(0.0)
+Rworld_naji = nil
+Gcd_naji = _array_()
+Guw_naji = nil
+Gms_naji = nil
+Q_naji = _array_()
+Tcamera_naji = nil
+Tbm_naji = _array_()
+Weather_naji = _array_()
+--===============najitest===============
 --===============najitest===============
 --=====================================@共用函数开始=====================================
 function ID2S_naji(i_naji)

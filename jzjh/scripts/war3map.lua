@@ -1,6 +1,4 @@
 local japi = require 'jass.japi'
-require 'util.commonutil'
-require 'map.static.destructables'
 
 --globals from DzAPI:
 LIBRARY_DzAPI = true
@@ -126,40 +124,19 @@ yd_NullTempGroup = nil
 --globals from YDWELogarithm:
 LIBRARY_YDWELogarithm = true
 YDWELogarithm__base = _array_(0.0)
---endglobals from YDWELogarithm
---globals from YDWEPolledWaitNull:
 LIBRARY_YDWEPolledWaitNull = true
---endglobals from YDWEPolledWaitNull
---globals from YDWEStringHash:
 LIBRARY_YDWEStringHash = true
---endglobals from YDWEStringHash
---globals from YDWESync:
 LIBRARY_YDWESync = true
-YDWESync__m_gc = nil
 YDWESync__m_mutex_state = false
---endglobals from YDWESync
---globals from YDWETriggerEvent:
 LIBRARY_YDWETriggerEvent = true
-yd_DamageEventTrigger = nil
 YDWETriggerEvent__DamageEventQueue = _array_()
 YDWETriggerEvent__DamageEventNumber = 0
-
-bj_lastMovedItemInItemSlot = nil
-
-YDWETriggerEvent__MoveItemEventTrigger = nil
 YDWETriggerEvent__MoveItemEventQueue = _array_()
 YDWETriggerEvent__MoveItemEventNumber = 0
---endglobals from YDWETriggerEvent
---globals from YDWETriggerRegisterLeaveRectSimpleNull:
 LIBRARY_YDWETriggerRegisterLeaveRectSimpleNull = true
-yd_NullTempRegion = nil
---endglobals from YDWETriggerRegisterLeaveRectSimpleNull
---globals from YDWEUnitHasItemOfTypeBJNull:
 LIBRARY_YDWEUnitHasItemOfTypeBJNull = true
---endglobals from YDWEUnitHasItemOfTypeBJNull
 --globals from YDWEJumpTimer:
 LIBRARY_YDWEJumpTimer = true
---��Ծϵͳ���ȼ�
 MoveMoreLevel_JumpTimer = 3
 --endglobals from YDWEJumpTimer
 --globals from YDWELocalVariable:
@@ -167,20 +144,15 @@ LIBRARY_YDWELocalVariable = true
 --endglobals from YDWELocalVariable
 --globals from YDWEPreloadSL:
 LIBRARY_YDWEPreloadSL = true
---/
---/ ÿ�����ռ�õĿռ�[500*id, 500*(id-1))
---/ �±�Խ��û�н��м�飬�ƺ�û�����Ҫ��˭Ҫ���ó���500...��ȥ����- -
---/ 
+
 YDWEPreloadSL__Code = _array_(0)
 YDWEPreloadSL__CodeHI = _array_(0)
 YDWEPreloadSL__CodeLO = _array_(0)
-bj_lastLoadPreloadSLResult = nil
 udg_YDWE_PreloadSL_List = _array_()
 udg_YDWE_PreloadSL_CurrentDir = ""
 --endglobals from YDWEPreloadSL
 --globals from YDWEStringFormula:
 LIBRARY_YDWEStringFormula = true
-bj_lastCombinedItem = nil
 YDWEStringFormula__ItemCombineEventQueue = _array_()
 YDWEStringFormula__ItemCombineEventNumber = 0
 YDWEStringFormula__MAX_INSTANCES = 8100
@@ -189,30 +161,14 @@ YDWEStringFormula__FormulaData = 0
 --endglobals from YDWEStringFormula
 --globals from YDWETimerPattern:
 LIBRARY_YDWETimerPattern = true
-YDWETimerPattern__Bexpr = nil
-YDWETimerPattern__Area = nil
-YDWETimerPattern__tmp_data = nil
 YDWETimerPattern__yd_loc = Location(0.0, 0.0)
 --endglobals from YDWETimerPattern
 --globals from YDWETimerSystem:
 LIBRARY_YDWETimerSystem = true
-YDWETimerSystem__CurrentTime = nil
-YDWETimerSystem__CurrentIndex = nil
-YDWETimerSystem__TaskListHead = nil
-YDWETimerSystem__TaskListIdleHead = nil
-YDWETimerSystem__TaskListIdleMax = nil
 YDWETimerSystem__TaskListIdle = _array_(0)
 YDWETimerSystem__TaskListNext = _array_(0)
 YDWETimerSystem__TaskListTime = _array_(0)
 YDWETimerSystem__TaskListProc = _array_()
-YDWETimerSystem__fnRemoveUnit = nil
-YDWETimerSystem__fnDestroyTimer = nil
-YDWETimerSystem__fnRemoveItem = nil
-YDWETimerSystem__fnDestroyEffect = nil
-YDWETimerSystem__fnDestroyLightning = nil
-YDWETimerSystem__fnRunTrigger = nil
-YDWETimerSystem__Timer = nil
-YDWETimerSystem__TimerHandle = nil
 YDWETimerSystem__TimerSystem_RunIndex = 0
 --endglobals from YDWETimerSystem
 -- User-defined
@@ -238,32 +194,6 @@ udg_Number_player = 0
 udg_MeiJuJiFen = _array_(0)
 udg_kurongsharen = _array_(0)
 udg_HuanZhuangCD = _array_(false)
--- Generated
-gg_trg_import_lua = nil
-gg_trg____________________001 = nil
-gg_trg____________________004 = nil
-gg_trg____________________005 = nil
-gg_trg____________________002 = nil
-gg_trg____________________003 = nil
-gg_trg___________________u = nil
-gg_trg_____________u = nil
-gg_trg_ChangeClothes = nil
-gg_trg_QinLongKongHe = nil
-gg_trg_YaoWangShenPian = nil
-gg_trg_KuRongShenGong = nil
-gg_trg_KuRongShenGong_2 = nil
-gg_trg_KuRongShenGong_3 = nil
-gg_trg_ShuiShangPiao = nil
-gg_trg_SH = nil
-gg_trg_AM_1 = nil
-gg_trg_AM_2 = nil
-gg_unit_N008_0054 = nil
-gg_unit_N007_0055 = nil
-gg_unit_n00M_0131 = nil
-gg_unit_nvl2_0005 = nil
-gg_unit_N00I_0116 = nil
-gg_unit_n00E_0066 = nil
-gg_unit_n00N_0132 = nil
 
 -- 江湖、绝学、绝内的最大武功种类数
 MAX_WU_GONG_NUM = 56
@@ -274,15 +204,6 @@ wuhun1 = _array_()
 chuansong1 = _array_()
 udg_JTX = _array_()
 ceshi = false
-ceshizongshanghai = nil
-jiuyangTimer1 = nil
-jiuyangTimer2 = nil
-jiuyangTimer3 = nil
-jiuyangTimerDialog1 = nil
-jiuyangTimerDialog2 = nil
-jiuyangTimerDialog3 = nil
-defeatStealer = nil
-defeatSeeker = nil
 xunwu = _array_(0)
 yangshou = _array_(0)
 udg_yangshou = _array_(0)
@@ -301,65 +222,16 @@ jingyao_button10 = _array_()
 jingyao_button11 = _array_()
 jingyao_button_cancel = _array_()
 yongdanshu = _array_(0)
---===============najitest===============
-unitnumber_lh = 0
-createdunitnumber_lh = 0
-StringList_naji = nil
-Sdummy_naji = _array_()
-Ttest_naji = _array_()
-Ptest_naji = nil
-Ihandle_naji = nil
-Ibm_naji = nil
-Itrigger_naji = nil
-Iquest_naji = nil
-Iweather_naji = nil
-Bfog_naji = nil
-Bpause_naji = nil
-Bxy_naji = nil
-Bid_naji = nil
-Bir_naji = nil
-Bcamera_naji = _array_(false)
-Bpn_naji = nil
-Bddm_naji = nil
-Dnaji_naji = _array_()
-Button_naji = _array_()
-Rhandle_naji = nil
-Rdummy_naji = nil
-Rcamera_naji = _array_(0.0)
-Rworld_naji = nil
-Gcd_naji = _array_()
-Guw_naji = nil
-Gms_naji = nil
-Q_naji = _array_()
-Tcamera_naji = nil
-Tbm_naji = _array_()
-Weather_naji = _array_()
---===============najitest===============
+
 tiebucishu = _array_(0)
 isproducing = _array_(false)
-gg_trg_Number14_0 = nil
-gg_trg_Number14_1 = nil
-udg_zhemeieff = nil
-shenghuoling_1 = nil
-shenghuoling_2 = nil
-shenghuoling_3 = nil
-ling1zhuan = nil
-ling2zhuan = nil
-ling3zhuan = nil
-udg_xiantiandanwei = nil
+
 tiaozhanduixiang = _array_(0)
 menpaiwuqi = _array_(0)
 udg_tiaoxuedao = _array_(false)
 udg_tiaodugu = _array_(false)
 udg_tiaodamo = _array_(false)
 tiaozhanwho = DialogCreate()
-b_dugu = nil
-b_xuedaozu = nil
-b_ronglianlaozu = nil
-b_zhucong = nil
-b_damozushi = nil
-b_cancel = nil
-udg_tiaozhanguai = nil
 zizhiwugong = _array_(0)
 lh_texiao = _array_()
 wuxuedian = _array_(0)
@@ -3010,6 +2882,7 @@ require 'map.门派.神龙.init'
 require 'map.门派.全真.init'
 require 'map.门派.铁掌.init'
 require 'map.门派.泰山.init'
+require 'map.门派.明教.init'
 
 require 'map.门派.江湖武学.init'
 require 'map.门派.绝世武学.init'
@@ -3139,29 +3012,30 @@ function Zw()
 	ChooseMoShi()
 	print("选择模式")
 	TaoHuaDaoKaiFang()
-	bj_forLoopAIndex = 0
-	for _ in _loop_() do
-		if bj_forLoopAIndex >= 5 then break end
-		if GetPlayerController(Player(bj_forLoopAIndex)) == MAP_CONTROL_USER and GetPlayerSlotState(Player(bj_forLoopAIndex)) == PLAYER_SLOT_STATE_PLAYING then
-			SaveStr(YDHT, GetHandleId(Player(bj_forLoopAIndex)), GetHandleId(Player(bj_forLoopAIndex)), GetPlayerName(Player(bj_forLoopAIndex)))
-			SaveStr(YDHT, GetHandleId(Player(bj_forLoopAIndex)), GetHandleId(Player(bj_forLoopAIndex)) * 2, GetPlayerName(Player(bj_forLoopAIndex)))
+	for i = 0, 4 do
+		if GetPlayerController(Player(i)) == MAP_CONTROL_USER and GetPlayerSlotState(Player(i)) == PLAYER_SLOT_STATE_PLAYING then
+			SaveStr(YDHT, GetHandleId(Player(i)), GetHandleId(Player(i)), GetPlayerName(Player(i)))
+			SaveStr(YDHT, GetHandleId(Player(i)), GetHandleId(Player(i)) * 2, GetPlayerName(Player(i)))
 		end
-		bj_forLoopAIndex = bj_forLoopAIndex + 1
 	end
-	YDWEPolledWaitNull(40.0)
-	StartTimerBJ(A7[3], false, 120.0)
-	CreateTimerDialogBJ(bj_lastStartedTimer, "邪教进攻倒计时：")
-	TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
-	z7[3] = bj_lastCreatedTimerDialog
-	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖1.53|r")
-	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000游戏初期您可以完成难度为一星到二星的任务来提升角色的能力，游戏前期金钱较匮乏，可以在守家积分商店使用积分兑换金钱，关于游戏的各个系统，请查看F9任务面板，欢迎前往游戏专区论坛jzjhbbs.uuu9.com查看游戏攻略以及提出您的宝贵意见|R")
-	YDWEPolledWaitNull(40.0)
-	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000由于制作和测试时间紧张，如遇游戏里有BUG或不舒适的体验给你带来不愉快，尽情谅解，欢迎前往游戏专区论坛jzjhbbs.uuu9.com提出您的宝贵意见。游戏中的特殊玩法，请到NPC随风而逝de风处查看，在基地右侧|R")
-	YDWEPolledWaitNull(40.0)
-	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000游戏里的相关指令\n按键Esc：|cFFCCFF33查看人物属性|r\n输入“sj”：|cFFCCFF33恢复视角|r\n输入“bl”：|cFFCCFF33查看伴侣属性|r\n输入“jy”：|cFFCCFF33将剑意转化为性格属性|r\n输入“up”：|cFFCCFF33提高难度（只能提不能降）|r\n输入“fb”：|cFFCCFF33查询副本重置时间|r\n输入“yx”：|cFFCCFF33查询宝宝携带草药的总药性|r\n输入属性拼音首字母加数值如fy5：|cFFCCFF33增加相应点数的自由属性（福缘+5）|r\n游戏开始2分钟内输入“sw”：|cFFCCFF33试玩模式|r\n更多游戏帮助，请按F9打开任务面板进行查询")
-	YDWEPolledWaitNull(40.0)
-	TriggerExecute(ss)
-	hd = true
+	et.wait(40 * 1000, function()
+		StartTimerBJ(A7[3], false, 120.0)
+		CreateTimerDialogBJ(bj_lastStartedTimer, "邪教进攻倒计时：")
+		TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
+		z7[3] = bj_lastCreatedTimerDialog
+		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖1.53|r")
+		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000游戏初期您可以完成难度为一星到二星的任务来提升角色的能力，游戏前期金钱较匮乏，可以在守家积分商店使用积分兑换金钱，关于游戏的各个系统，请查看F9任务面板，欢迎前往游戏专区论坛jzjhbbs.uuu9.com查看游戏攻略以及提出您的宝贵意见|R")
+		et.wait(40 * 1000, function()
+			DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000由于制作和测试时间紧张，如遇游戏里有BUG或不舒适的体验给你带来不愉快，尽情谅解，欢迎前往游戏专区论坛jzjhbbs.uuu9.com提出您的宝贵意见。游戏中的特殊玩法，请到NPC随风而逝de风处查看，在基地右侧|R")
+			et.wait(40 * 1000, function()
+				DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000游戏里的相关指令\n按键Esc：|cFFCCFF33查看人物属性|r\n输入“sj”：|cFFCCFF33恢复视角|r\n输入“bl”：|cFFCCFF33查看伴侣属性|r\n输入“jy”：|cFFCCFF33将剑意转化为性格属性|r\n输入“up”：|cFFCCFF33提高难度（只能提不能降）|r\n输入“fb”：|cFFCCFF33查询副本重置时间|r\n输入“yx”：|cFFCCFF33查询宝宝携带草药的总药性|r\n输入属性拼音首字母加数值如fy5：|cFFCCFF33增加相应点数的自由属性（福缘+5）|r\n游戏开始2分钟内输入“sw”：|cFFCCFF33试玩模式|r\n更多游戏帮助，请按F9打开任务面板进行查询")
+				et.wait(40 * 1000, function()
+					TriggerExecute(ss)
+					hd = true
+				end)
+			end)			
+		end)		
+	end)	
 end
 function InitFamouses()
 	ve[1] = 1328558411
@@ -4630,6 +4504,11 @@ end
 --***************************************************************************
 --===========================================================================
 function main()
+	require 'util.log'
+	require 'et.init'
+	require 'util.commonutil'
+	require 'map.static.destructables'
+
 	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
 	SetTerrainFogEx(0, 3000.0, 5000.0, 0.5, 0.0, 0.0, 0.0)

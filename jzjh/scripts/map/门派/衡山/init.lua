@@ -348,23 +348,23 @@ function QuanMing_Actions()
 		RemoveLocation(loc2)
 		i = i + 1
 	end
-	TriggerSleepAction(1.5)
-	EnableTrigger(gg_trg_Number14_1)
-	TriggerSleepAction(13.5)
-	DisableTrigger(gg_trg_Number14_1)
-	TriggerSleepAction(0.5)
-	i = 1
-	for _ in _loop_() do
-		if i > 16 then break end
-		DestroyEffect(AddSpecialEffectLocBJ(PolarProjectionBJ(loc, 350.0, 22.5 * I2R(i)), "Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl"))
-		i = i + 1
-	end
-	RemoveUnit(l__ut)
-	RemoveLocation(loc)
-	u = nil
-	l__ut = nil
-	loc = nil
-	loc2 = nil
+	et.wait(1500, function()
+		EnableTrigger(gg_trg_Number14_1)
+		et.wait(13500, function()
+			DisableTrigger(gg_trg_Number14_1)
+			et.wait(500, function()
+				for i = 1, 16 do
+					DestroyEffect(AddSpecialEffectLocBJ(PolarProjectionBJ(loc, 350.0, 22.5 * I2R(i)), "Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl"))
+				end
+				RemoveUnit(l__ut)
+				RemoveLocation(loc)
+				u = nil
+				l__ut = nil
+				loc = nil
+				loc2 = nil
+			end)
+		end)
+	end)	
 end
 function Trig_Number14_1Func001001003()
 	return UnitHasBuffBJ(GetFilterUnit(), 1113682796) == true

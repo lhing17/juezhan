@@ -1,4 +1,4 @@
-local japi = require 'jass.japi'
+japi = require 'jass.japi'
 
 --globals from DzAPI:
 LIBRARY_DzAPI = true
@@ -117,18 +117,8 @@ YDWEGeneralBounsSystem__MinBonus = _array_(0)
 YDWEGeneralBounsSystem__Units = _array_()
 YDWEGeneralBounsSystem__UnitCount = 0
 --endglobals from YDWEGeneralBounsSystem
---globals from YDWEGetUnitsInRangeOfLocMatchingNull:
-LIBRARY_YDWEGetUnitsInRangeOfLocMatchingNull = true
-yd_NullTempGroup = nil
---endglobals from YDWEGetUnitsInRangeOfLocMatchingNull
---globals from YDWELogarithm:
-LIBRARY_YDWELogarithm = true
 YDWELogarithm__base = _array_(0.0)
-LIBRARY_YDWEPolledWaitNull = true
-LIBRARY_YDWEStringHash = true
-LIBRARY_YDWESync = true
 YDWESync__m_mutex_state = false
-LIBRARY_YDWETriggerEvent = true
 YDWETriggerEvent__DamageEventQueue = _array_()
 YDWETriggerEvent__DamageEventNumber = 0
 YDWETriggerEvent__MoveItemEventQueue = _array_()
@@ -171,16 +161,10 @@ YDWETimerSystem__TaskListTime = _array_(0)
 YDWETimerSystem__TaskListProc = _array_()
 YDWETimerSystem__TimerSystem_RunIndex = 0
 --endglobals from YDWETimerSystem
--- User-defined
-udg_UG_ResidualImage = nil
-udg_A_Unit = nil
-udg_A_Unit2 = nil
+
 udg_A_PlayerHero = _array_()
 udg_Player_Hero = _array_()
 udg_Unit_B = _array_()
-udg_A_UG = nil
-udg_A_Piont = nil
-udg_A_Piont2 = nil
 udg_A_Angle = 0
 udg_A_Ang = 0
 udg_A_Ang_2 = 0
@@ -603,7 +587,6 @@ Yt = _array_(0.0)
 Zt = _array_(0.0)
 fu = 0.0
 gu = 0.0
-ju = nil
 vipbanlv = _array_()
 --JASSHelper struct globals:
 si__ModSpeed = 1
@@ -720,7 +703,7 @@ si__YDWETimerPattern__Thread_type = _array_(0)
 st__YDWETimerPattern__Thread_onDestroy = _array_()
 st___prototype16 = _array_()
 
-require 'map.util.dzapi'
+require 'util.dzapi'
 
 
 --Generated method caller for ShopWeapon.onDestroy
@@ -1223,49 +1206,30 @@ function FBdaojishi()
 end
 --伴侣属性
 function BanLvShuXing()
-	local t = GetTriggeringTrigger()
-	local p = GetTriggerPlayer()
-	local i = 1 + GetPlayerId(p)
-	bj_forLoopBIndex = 1
-	bj_forLoopBIndexEnd = MAX_BAN_LV_NUM
-	for _ in _loop_() do
-		if bj_forLoopBIndex > bj_forLoopBIndexEnd then break end
-		if GetUnitTypeId(k8[i]) == R8[bj_forLoopBIndex] then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFFF00伴侣：" .. (GetUnitName(k8[i]) or ""))
-			if udg_blgg[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF根骨 ：   " .. (I2S(udg_blgg[bj_forLoopBIndex]) or ""))
+	local p = et.player(jass.GetTriggerPlayer())
+	for i = 1, MAX_BAN_LV_NUM do
+		if GetUnitTypeId(k8[p.id]) == R8[i] then
+			p:send_message("|cFFFFFF00伴侣：" .. (GetUnitName(k8[p.id]) or ""))
+			if udg_blgg[i] > 0 then
+				p:send_message("|cFF00FFFF根骨 ：   " .. (I2S(udg_blgg[i]) or ""))
 			end
-			if udg_blwx[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF悟性 ：   " .. (I2S(udg_blwx[bj_forLoopBIndex]) or ""))
+			if udg_blwx[i] > 0 then
+				p:send_message("|cFF00FFFF悟性 ：   " .. (I2S(udg_blwx[i]) or ""))
 			end
-			if udg_bljm[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF经脉 ：   " .. (I2S(udg_bljm[bj_forLoopBIndex]) or ""))
+			if udg_bljm[i] > 0 then
+				p:send_message("|cFF00FFFF经脉 ：   " .. (I2S(udg_bljm[i]) or ""))
 			end
-			if udg_blfy[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF福缘 ：   " .. (I2S(udg_blfy[bj_forLoopBIndex]) or ""))
+			if udg_blfy[i] > 0 then
+				p:send_message("|cFF00FFFF福缘 ：   " .. (I2S(udg_blfy[i]) or ""))
 			end
-			if udg_bldp[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF胆魄 ：   " .. (I2S(udg_bldp[bj_forLoopBIndex]) or ""))
+			if udg_bldp[i] > 0 then
+				p:send_message("|cFF00FFFF胆魄 ：   " .. (I2S(udg_bldp[i]) or ""))
 			end
-			if udg_blys[bj_forLoopBIndex] > 0 then
-				DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF医术 ：   " .. (I2S(udg_blys[bj_forLoopBIndex]) or ""))
+			if udg_blys[i] > 0 then
+				p:send_message("|cFF00FFFF医术 ：   " .. (I2S(udg_blys[i]) or ""))
 			end
 		end
-		bj_forLoopBIndex = bj_forLoopBIndex + 1
 	end
-	t = nil
-	p = nil
-end
-function IsYaoCao(id)
-	local i = 1
-	for _ in _loop_() do
-		if i > 12 then break end
-		if id == YaoCao[i] then
-			return true
-		end
-		i = i + 1
-	end
-	return false
 end
 --宝物掉落函数
 function BaoWuDiaoLuo(u, l__ut, baolv1, id1, id2, id3, id4, baolv2, id5)
@@ -1308,7 +1272,7 @@ function BaoWuDiaoLuo(u, l__ut, baolv1, id1, id2, id3, id4, baolv2, id5)
 		if baolv2 ~= 0 then
 			if GetRandomInt(1, 100) <= baolv2 then
 				createitemloc(id5, loc)
-				if IsYaoCao(id5) and udg_lddsbool[i] == true then
+				if is_in(id5, YaoCao) and udg_lddsbool[i] == true then
 					createitemloc(id5, loc)
 				end
 			end
@@ -3172,7 +3136,6 @@ function main1()
 	end
 	Fe = CreateGroup()
 	--刚进入地图
-	print("lh触发器执行了一次")
 	lh = CreateTrigger()
 	TriggerRegisterTimerEventSingle(lh, 0.1)
 	TriggerAddAction(lh, Zw)

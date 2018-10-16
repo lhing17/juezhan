@@ -1764,13 +1764,8 @@ function MA()
 	return ShiFouShuaGuai
 end
 function NA()
-	local i = 1
-	local j = 1
-	local rand = 0
 	local r1 = 0
 	local r2 = 0
-	local rr3 = 1.0
-	local rr4 = 1.0
 	if famous_num == 1 then
 		r1 = 1.26
 		r2 = 1.4
@@ -1787,28 +1782,19 @@ function NA()
 		r1 = 1.34
 		r2 = 1.52
 	end
-	for _ in _loop_() do
-		if i > famous_num then break end
-		for _ in _loop_() do
-			if j > udg_boshu then break end
-			if j < udg_boshu then
-				rr3 = rr3 * r1
-				rr4 = rr4 * r2
-			end
-			j = j + 1
-		end
+	for i = 1, famous_num do
+		rr3 = r1 ^ udg_boshu
+		rr4 = r2 ^ udg_boshu
 		rand = GetRandomInt(1, 11)
 		CreateNUnitsAtLocFacingLocBJ(1, et.famous[rand].id, Player(6), v7[GetRandomInt(5, 8)], v7[4])
 		GroupAddUnit(w7, bj_lastCreatedUnit)
 		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
 		SetHeroLevelBJ(bj_lastCreatedUnit, 4 * udg_boshu, false)
-		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(I2R(et.famous[rand]["攻击成长"]) * (rr3 * 3.3)))
+		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
 		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (udg_boshu - 1) * et.famous[rand]["防御成长"] * 9 // 10 * famous_num)
 		--call YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit,1,0,R2I(I2R(et.famous[rand]["法力成长"])*rr4))
 		unitadditembyidswapped(Ae[udg_boshu], bj_lastCreatedUnit)
-		i = i + 1
 	end
---set famous_num=0
 end
 function PA()
 	DestroyTimerDialog(z7[1])
@@ -1817,7 +1803,6 @@ end
 function RA()
 	DestroyTimerDialog(z7[2])
 	ConditionalTriggerExecute(Xi)
---set x7=0
 end
 function TA()
 	DestroyTimerDialog(z7[3])
@@ -4108,15 +4093,18 @@ function vQ()
 			if GetRandomInt(1, 6) <= 3 then
 				UnitAddAbility(u, 1093679441)
 				DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得神行状态")
-				TriggerSleepAction(300.0)
-				UnitRemoveAbility(u, 1093679441)
-				DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去神行效果")
+				et.wait(300 * 1000, function()
+					UnitRemoveAbility(u, 1093679441)
+					DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去神行效果")
+				end)				
 			else
 				YDWEGeneralBounsSystemUnitSetBonus(u, 3, 0, 20000)
 				DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得狂暴状态")
-				TriggerSleepAction(120.0)
-				YDWEGeneralBounsSystemUnitSetBonus(u, 3, 1, 20000)
-				DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去狂暴效果")
+				et.wait(120 * 1000, function()
+					YDWEGeneralBounsSystemUnitSetBonus(u, 3, 1, 20000)
+					DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去狂暴效果")
+				end)	
+				
 			end
 		end
 	end
@@ -4966,7 +4954,7 @@ end
 
 require 'map.系统.装备'
 require 'map.系统.套装'
-require 'map.系统.养武'
+
 require 'map.系统.镶嵌'
 
 function Equipment_Trigger()
@@ -5011,11 +4999,9 @@ function Equipment_Trigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
 	TriggerAddCondition(t, Condition(Sz))
 	TriggerAddAction(t, Tz)
-	--镇妖升级
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-	TriggerAddCondition(t, Condition(Vz))
-	TriggerAddAction(t, Wz)
+
+	require 'map.系统.养武'
+	
 	--镶嵌宝石系统
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)

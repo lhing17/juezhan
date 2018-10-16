@@ -1,5 +1,6 @@
 local jass = require 'jass.common'
 local dbg = require 'jass.debug'
+require 'war3.api'
 
 local player = {}
 setmetatable(player, player)

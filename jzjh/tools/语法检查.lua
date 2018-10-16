@@ -1,6 +1,6 @@
 require 'filesystem'
 
-package.cpath=package.cpath..';'..'D:\\MPQEditor\\1.决战江湖1.6之丹舞乾坤\\juezhan\\jzjh\\tools\\?.dll'
+package.cpath=package.cpath..';'..'F:\\personal\\heroaltar\\juezhan\\jzjh\\tools\\?.dll'
 
 local function for_directory(path, f)
 	for p in path:list_directory() do

@@ -148,7 +148,7 @@ function Rl()
 	local i = 1
 	shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + 50
 	DisplayTextToPlayer(GetOwningPlayer(GetKillingUnit()), 0, 0, "|cff00ff00击杀林朝英，获得江湖声望+50")
-	--call BJDebugMsg(I2S(LoadInteger(YDHT, StringHash("武学")+GetRandomInt(42, 46), 2)))
+	
 	BaoWuDiaoLuo(GetKillingUnit(), GetTriggerUnit(), 100, udg_jianghu[GetRandomInt(1, 18)], 0, 0, 0, 0, 0)
 	if Ce[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] == 8 then
 		if GetRandomReal(1, 100) <= 10.0 then

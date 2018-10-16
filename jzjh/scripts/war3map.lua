@@ -3147,7 +3147,7 @@ function main1()
 	MonsterCome() --决战江湖1.52之圣兽来了
 	CreateDestructables() --创建可破坏物
 	Cuns() --存储装备属性
-	CunWuGongS() --存储武功
+	kongfu.init() --存储武功
 	najitest() --纳吉的测试代码
 end
 function main2()

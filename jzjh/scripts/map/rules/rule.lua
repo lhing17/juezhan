@@ -1981,13 +1981,7 @@ function HeroLevel()
 		for _ in _loop_() do
 			if d8[i] > 20 then break end --门派数
 			if udg_runamen[i] == d8[i] then
-				--if d8[i]==11 then
-				--	if GetRandomInt(1,100)<=99 then
-				--		set X7[d8[i]] = LoadInteger(YDHT, StringHash("武学")+GetRandomInt(1,18), 2)
-				--	else
-				--		set X7[d8[i]] = LoadInteger(YDHT, StringHash("武学")+GetRandomInt(19,36), 2)
-				--	endif
-				--endif
+
 				if d8[i] ~= 11 then
 					UnitAddAbility(u, X7[d8[i]])
 					UnitMakeAbilityPermanent(u, true, X7[d8[i]])
@@ -1999,12 +1993,12 @@ function HeroLevel()
 					udg_shuxing[i] = udg_shuxing[i] + 5
 					DisplayTextToPlayer(p, 0, 0, "|cff00FF66自由门派3级奖励5点自由属性点及随机武功秘籍一本、小概率获得奇武秘籍一本")
 					if GetRandomInt(1, 100) <= 10 then
-						unitadditembyidswapped(LoadInteger(YDHT, StringHash("武学") + GetRandomInt(42, 46), 1), u)
+						unitadditembyidswapped(kongfu[GetRandomInt(42, 46)].itemid, u)
 					end
 					if GetRandomInt(1, 100) <= 99 then
-						unitadditembyidswapped(LoadInteger(YDHT, StringHash("武学") + GetRandomInt(19, 36), 1), u)
+						unitadditembyidswapped(kongfu[GetRandomInt(19, 36)].itemid, u)
 					else
-						unitadditembyidswapped(LoadInteger(YDHT, StringHash("武学") + GetRandomInt(1, 18), 1), u)
+						unitadditembyidswapped(kongfu[GetRandomInt(1, 18)].itemid, u)
 					end
 				--set S9=1
 				--           	loop
@@ -2913,13 +2907,10 @@ function jB()
 	p = nil
 end
 function GetBookNum(id)
-	local i = 1
-	for _ in _loop_() do
-		if i > MAX_WU_GONG_NUM then break end
-		if LoadInteger(YDHT, StringHash("武学") + i, 1) == id then
+	for i = 1, #kongfu do	
+		if kongfu[i].itemid == id then
 			return i
 		end
-		i = i + 1
 	end
 	return 0
 end
@@ -2928,13 +2919,13 @@ function LearnJiNeng(l__ut, it)
 	local i = 1 + GetPlayerId(p)
 	local u = udg_hero[i]
 	local num = GetBookNum(GetItemTypeId(it))
-	local id = LoadInteger(YDHT, StringHash("武学") + num, 2)
-	local dp1 = LoadInteger(YDHT, StringHash("武学") + num, 4)
-	local fy1 = LoadInteger(YDHT, StringHash("武学") + num, 5)
-	local gg1 = LoadInteger(YDHT, StringHash("武学") + num, 6)
-	local jm1 = LoadInteger(YDHT, StringHash("武学") + num, 7)
-	local wx1 = LoadInteger(YDHT, StringHash("武学") + num, 8)
-	local ys1 = LoadInteger(YDHT, StringHash("武学") + num, 9)
+	local id = kongfu[num].abilityid
+	local dp1 = kongfu[num].conditions['胆魄']
+	local fy1 = kongfu[num].conditions['福缘']
+	local gg1 = kongfu[num].conditions['根骨']
+	local jm1 = kongfu[num].conditions['经脉']
+	local wx1 = kongfu[num].conditions['悟性']
+	local ys1 = kongfu[num].conditions['医术']
 	if GetUnitAbilityLevel(u, id) > 0 then
 		DisplayTextToPlayer(p, 0, 0, "|CFFFF0033你已经拥有此武功了")
 		unitadditembyidswapped(GetItemTypeId(it), l__ut)

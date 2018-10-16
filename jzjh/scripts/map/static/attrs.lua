@@ -1,17 +1,46 @@
+
+kongfu = {}
+setmetatable(kongfu,kongfu)
+et.kongfu = kongfu
+
+local mt = {}
+kongfu.__index = mt
+
+mt.id = 0
+
+mt.name = ''
+
+mt.itemid = 0
+
+mt.abilityid = 0
+
+mt.type = ''
+
+mt.conditions = {
+	['悟性'] = 0,
+	['根骨'] = 0,
+	['经脉'] = 0,
+	['医术'] = 0,
+	['福缘'] = 0,
+	['胆魄'] = 0,
+}
+
 function CunWuGong(num, id1, id2, s, dp1, fy1, gg1, jm1, wx1, ys1)
-	local i = StringHash("武学")
-	SaveInteger(YDHT, i + num, 0, num)
-	SaveInteger(YDHT, i + num, 1, id1)
-	SaveInteger(YDHT, i + num, 2, id2)
-	SaveStr(YDHT, i + num, 3, s)
-	SaveInteger(YDHT, i + num, 4, dp1)
-	SaveInteger(YDHT, i + num, 5, fy1)
-	SaveInteger(YDHT, i + num, 6, gg1)
-	SaveInteger(YDHT, i + num, 7, jm1)
-	SaveInteger(YDHT, i + num, 8, wx1)
-	SaveInteger(YDHT, i + num, 9, ys1)
+	kongfu[num].id = num
+	kongfu[num].itemid = id1
+	kongfu[num].abilityid = id2
+	kongfu[num].type = s
+	kongfu[num].conditions = {
+		['悟性'] = wx1,
+		['根骨'] = gg1,
+		['经脉'] = jm1,
+		['医术'] = ys1,
+		['福缘'] = fy1,
+		['胆魄'] = dp1,
+	}
 end
-function CunWuGongS()
+
+function kongfu.init()
 	--顺序：胆魄、福缘、根骨、经脉、悟性、医术
 	CunWuGong(1, 1227895626, 1093678913, "江湖武学", 0, 10, 0, 0, 14, 15)
 	CunWuGong(2, 1227895624, 1093678664, "江湖武学", 14, 12, 18, 0, 0, 0)
@@ -70,6 +99,9 @@ function CunWuGongS()
 	CunWuGong(55, 1227899733, 1093678658, "奇武", 20, 20, 0, 18, 0, 0) --《黄沙万里鞭法》
 	CunWuGong(56, 1227899734, 1093678675, "奇武", 0, 0, 0, 25, 0, 25) --《九阳真经散篇》
 end
+
+
+
 --万能装备系统
 function Cun(id, name, s11, i11, s12, i12, s13, i13, s14, i14)
 	local it = CreateItem(id, 0, 0)

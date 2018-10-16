@@ -465,3 +465,5 @@ function LingJiuGong_Trigger()
 	TriggerAddAction(t, RuYiBeiDong)
 	t = nil
 end
+
+LingJiuGong_Trigger() --灵鹫宫武功触发

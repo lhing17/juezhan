@@ -1037,3 +1037,5 @@ function JiangHuWuGong_Trigger()
 	TriggerAddAction(t, BiHaiChaoSheng)
 	t = nil
 end
+
+JiangHuWuGong_Trigger() --江湖武功触发

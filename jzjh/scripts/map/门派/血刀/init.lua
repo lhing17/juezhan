@@ -527,3 +527,5 @@ function XueDao_Trigger()
 	t = nil
 end
 ----------血刀结束--------//
+
+XueDao_Trigger() --血刀门武功触发

@@ -505,3 +505,4 @@ function QuanZhen_Trigger()
 	TriggerAddAction(t, SanHua_Action)
 	t = nil
 end
+QuanZhen_Trigger() --全真武功触发

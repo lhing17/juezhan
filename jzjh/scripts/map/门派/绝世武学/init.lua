@@ -1622,3 +1622,7 @@ function JueShiWuGong_Trigger()
 	TriggerAddAction(t, jiuYangCanJuanAct)
 	t = nil
 end
+
+
+
+JueShiWuGong_Trigger() --绝世武功触发

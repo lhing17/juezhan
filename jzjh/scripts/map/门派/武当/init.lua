@@ -434,3 +434,5 @@ function WuDang_Trigger()
 	TriggerAddCondition(t, Condition(MD))
 	TriggerAddAction(t, ND)
 end
+
+WuDang_Trigger() --武当武功触发

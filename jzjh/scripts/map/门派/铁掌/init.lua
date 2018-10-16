@@ -282,3 +282,5 @@ function TieZhang_Trigger()
 	TriggerAddAction(t, ShuiShangPiao)
 	t = nil
 end
+
+TieZhang_Trigger() --铁掌帮武功触发

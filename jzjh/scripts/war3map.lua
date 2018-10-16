@@ -242,13 +242,10 @@ udg_shenxingfuzhu = _array_()
 udg_miaoshoufuzhu = _array_()
 guixihuixie = _array_(0.0)
 udg_loadql = _array_(false)
-yd_NullTempItem = nil
-
 H = 0
 I = 0
 l = 0
 J = 0
-
 wugongshu = _array_(0)
 udg_whichzhangmen = _array_(0)
 udg_zhemei = _array_(0)
@@ -314,7 +311,6 @@ shaguaihufui = _array_(0.0)
 shengminghuifu = _array_(0.0)
 falihuifu = _array_(0.0)
 udg_lilianxishu = _array_(0.0)
-udg_loc1 = nil
 L4 = _array_()
 udg_hashero = _array_(false)
 udg_baoji = _array_(false)
@@ -322,7 +318,6 @@ udg_yiwang = _array_(false)
 udg_hero = _array_()
 O4 = 0
 P4 = _array_()
-Q4 = nil
 R4 = _array_()
 S4 = _array_()
 T4 = _array_()
@@ -349,7 +344,6 @@ s7 = 0
 udg_boshu = 0
 u7 = _array_(0)
 v7 = _array_()
-w7 = nil
 x7 = 0
 y7 = _array_(0)
 z7 = _array_()
@@ -372,7 +366,6 @@ J79 = _array_()
 J710 = _array_()
 J711 = _array_()
 K7 = _array_()
-udg_menpaineigong = nil
 L7 = _array_(0)
 MM7 = 0
 N7 = 0
@@ -401,9 +394,7 @@ o8 = _array_(false)
 p8 = _array_()
 q8 = _array_(0)
 r8 = _array_()
-s8 = nil
 t8 = false
-
 v8 = _array_()
 w8 = _array_()
 x8 = _array_()
@@ -465,8 +456,6 @@ n9 = 0
 o9 = _array_()
 p9 = 0
 q9 = _array_()
-r9 = nil
-s9 = nil
 t9 = _array_()
 u9 = 0
 v9 = _array_(false)
@@ -730,36 +719,7 @@ si__YDWETimerPattern__Thread_type = _array_(0)
 st__YDWETimerPattern__Thread_onDestroy = _array_()
 st___prototype16 = _array_()
 
-
-
-DzAPI_Map_SaveServerValue = japi.DzAPI_Map_SaveServerValue
-DzAPI_Map_GetServerValue = japi.DzAPI_Map_GetServerValue
-DzAPI_Map_Ladder_SetStat = japi.DzAPI_Map_Ladder_SetStat
-DzAPI_Map_IsRPGLadder = japi.DzAPI_Map_IsRPGLadder
-DzAPI_Map_GetGameStartTime = japi.DzAPI_Map_GetGameStartTime
-DzAPI_Map_Stat_SetStat = japi.DzAPI_Map_Stat_SetStat
-DzAPI_Map_GetMatchType = japi.DzAPI_Map_GetMatchType
-DzAPI_Map_Ladder_SetPlayerStat = japi.DzAPI_Map_Ladder_SetPlayerStat
-DzAPI_Map_GetServerValueErrorCode = japi.DzAPI_Map_GetServerValueErrorCode
-DzAPI_Map_GetLadderLevel = japi.DzAPI_Map_GetLadderLevel
-DzAPI_Map_IsRedVIP = japi.DzAPI_Map_IsRedVIP
-DzAPI_Map_IsBlueVIP = japi.DzAPI_Map_IsBlueVIP
-DzAPI_Map_GetLadderRank = japi.DzAPI_Map_GetLadderRank
-DzAPI_Map_GetMapLevelRank = japi.DzAPI_Map_GetMapLevelRank
-DzAPI_Map_GetGuildName = japi.DzAPI_Map_GetGuildName
-DzAPI_Map_GetGuildRole = japi.DzAPI_Map_GetGuildRole
-DzAPI_Map_IsRPGLobby = japi.DzAPI_Map_IsRPGLobby
-DzAPI_Map_GetMapLevel = japi.DzAPI_Map_GetMapLevel
-DzAPI_Map_MissionComplete = japi.DzAPI_Map_MissionComplete
-DzAPI_Map_GetActivityData = japi.DzAPI_Map_GetActivityData
-DzAPI_Map_GetMapConfig = japi.DzAPI_Map_GetMapConfig
-DzAPI_Map_HasMallItem = japi.DzAPI_Map_HasMallItem
-DzAPI_Map_SavePublicArchive = japi.DzAPI_Map_SavePublicArchive
-DzAPI_Map_GetPublicArchive = japi.DzAPI_Map_GetPublicArchive
-DzAPI_Map_UseConsumablesItem = japi.DzAPI_Map_UseConsumablesItem
-DzAPI_Map_OrpgTrigger = japi.DzAPI_Map_OrpgTrigger
-DzAPI_Map_GetServerArchiveDrop = japi.DzAPI_Map_GetServerArchiveDrop
-DzAPI_Map_GetServerArchiveEquip = japi.DzAPI_Map_GetServerArchiveEquip
+require 'map.util.dzapi'
 
 
 --Generated method caller for ShopWeapon.onDestroy
@@ -1154,144 +1114,7 @@ function h__SetUnitMoveSpeed(a0, a1)
 	SetUnitMoveSpeed(a0, a1)
 end
 
---library DzAPI:
-function GetPlayerServerValueSuccess(whichPlayer)
-	return DzAPI_Map_GetServerValueErrorCode(whichPlayer) == 0 
-end
-function DzAPI_Map_StoreInteger(whichPlayer, key, value)
-	key = "I" .. (key or "")
-	DzAPI_Map_SaveServerValue(whichPlayer, key, I2S(value))
-	key = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_GetStoredInteger(whichPlayer, key)
-	local value
-	key = "I" .. (key or "")
-	value = S2I(DzAPI_Map_GetServerValue(whichPlayer, key))
-	key = nil
-	whichPlayer = nil
-	return value
-end
-function DzAPI_Map_StoreReal(whichPlayer, key, value)
-	key = "R" .. (key or "")
-	DzAPI_Map_SaveServerValue(whichPlayer, key, R2S(value))
-	key = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_GetStoredReal(whichPlayer, key)
-	local value
-	key = "R" .. (key or "")
-	value = S2R(DzAPI_Map_GetServerValue(whichPlayer, key))
-	key = nil
-	whichPlayer = nil
-	return value
-end
-function DzAPI_Map_StoreBoolean(whichPlayer, key, value)
-	key = "B" .. (key or "")
-	if value then
-		DzAPI_Map_SaveServerValue(whichPlayer, key, "1")
-	else
-		DzAPI_Map_SaveServerValue(whichPlayer, key, "0")
-	end
-	key = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_GetStoredBoolean(whichPlayer, key)
-	local value
-	key = "B" .. (key or "")
-	key = DzAPI_Map_GetServerValue(whichPlayer, key)
-	if key == "1" then
-		value = true
-	else
-		value = false
-	end
-	key = nil
-	whichPlayer = nil
-	return value
-end
-function DzAPI_Map_StoreString(whichPlayer, key, value)
-	key = "S" .. (key or "")
-	DzAPI_Map_SaveServerValue(whichPlayer, key, value)
-	key = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_GetStoredString(whichPlayer, key)
-	return DzAPI_Map_GetServerValue(whichPlayer, "S" .. (key or ""))
-end
-function DzAPI_Map_GetStoredUnitType(whichPlayer, key)
-	local value
-	key = "I" .. (key or "")
-	value = S2I(DzAPI_Map_GetServerValue(whichPlayer, key))
-	key = nil
-	whichPlayer = nil
-	return value
-end
-function DzAPI_Map_GetStoredAbilityId(whichPlayer, key)
-	local value
-	key = "I" .. (key or "")
-	value = S2I(DzAPI_Map_GetServerValue(whichPlayer, key))
-	key = nil
-	whichPlayer = nil
-	return value
-end
-function DzAPI_Map_FlushStoredMission(whichPlayer, key)
-	DzAPI_Map_SaveServerValue(whichPlayer, key, nil)
-	key = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_Ladder_SubmitIntegerData(whichPlayer, key, value)
-	DzAPI_Map_Ladder_SetStat(whichPlayer, key, I2S(value))
-end
-function DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer, key, value)
-	if value == 0 then
-	--call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-	else
-		DzAPI_Map_Ladder_SetStat(whichPlayer, key, I2S(value))
-	end
-end
-function DzAPI_Map_Stat_SubmitUnitData(whichPlayer, key, value)
-	DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer, key, GetUnitTypeId(value))
-end
-function DzAPI_Map_Ladder_SubmitAblityIdData(whichPlayer, key, value)
-	if value == 0 then
-	--call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-	else
-		DzAPI_Map_Ladder_SetStat(whichPlayer, key, I2S(value))
-	end
-end
-function DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer, key, value)
-	local l__S
-	if value == 0 then
-		l__S = "0"
-	else
-		l__S = I2S(value)
-		DzAPI_Map_Ladder_SetStat(whichPlayer, key, l__S)
-	end
-	--call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
-	l__S = nil
-	whichPlayer = nil
-end
-function DzAPI_Map_Ladder_SubmitItemData(whichPlayer, key, value)
-	DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer, key, GetItemTypeId(value))
-end
-function DzAPI_Map_Ladder_SubmitBooleanData(whichPlayer, key, value)
-	if value then
-		DzAPI_Map_Ladder_SetStat(whichPlayer, key, "1")
-	else
-		DzAPI_Map_Ladder_SetStat(whichPlayer, key, "0")
-	end
-end
-function DzAPI_Map_Ladder_SubmitTitle(whichPlayer, value)
-	DzAPI_Map_Ladder_SetStat(whichPlayer, value, "1")
-end
-function DzAPI_Map_Ladder_SubmitPlayerRank(whichPlayer, value)
-	DzAPI_Map_Ladder_SetPlayerStat(whichPlayer, "RankIndex", I2S(value))
-end
-function DzAPI_Map_Ladder_SubmitPlayerExtraExp(whichPlayer, value)
-	DzAPI_Map_Ladder_SetStat(whichPlayer, "ExtraExp", I2S(value))
-end
 
---library DzAPI ends
 require 'util.maxspeed'
 require 'map.系统.弹幕'
 require 'map.系统.武器'
@@ -1352,24 +1175,9 @@ function InitGlobals()
 	udg_y = 0
 	udg_A_Int = 0
 	udg_Number_player = 0
-	i = 0
-	for _ in _loop_() do
-		if i > 7 then break end
-		udg_MeiJuJiFen[i] = 0
-		i = i + 1
-	end
-	i = 0
-	for _ in _loop_() do
-		if i > 5 then break end
-		udg_kurongsharen[i] = 0
-		i = i + 1
-	end
-	i = 0
-	for _ in _loop_() do
-		if i > 5 then break end
-		udg_HuanZhuangCD[i] = false
-		i = i + 1
-	end
+	udg_MeiJuJiFen = {0, 0, 0, 0, 0, 0, 0}
+	udg_kurongsharen = {0, 0, 0, 0, 0, 0, 0}
+	udg_HuanZhuangCD = {false, false, false, false, false, false, false}
 end
 
 require 'map.static.units'
@@ -1803,78 +1611,7 @@ function SetCamera()
 	l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
 	Qu()
 end
---万能属性系统
---以下函数仅仅是让技能ID出现在代码里，不然SLK优化器会删除这些技能
-function DisplayAllAbilityId()
-	local aid = 1497656368
-	aid = 1497656369
-	aid = 1497656370
-	aid = 1497656371
-	aid = 1497656372
-	aid = 1497656373
-	aid = 1497656374
-	aid = 1497656375
-	aid = 1497656376
-	aid = 1497656377
-	aid = 1497656417
-	aid = 1497656418
-	aid = 1497656419
-	aid = 1497656420
-	aid = 1497656421
-	aid = 1497656422
-	aid = 1497656624
-	aid = 1497656625
-	aid = 1497656626
-	aid = 1497656627
-	aid = 1497656628
-	aid = 1497656629
-	aid = 1497656630
-	aid = 1497656631
-	aid = 1497656632
-	aid = 1497656633
-	aid = 1497656673
-	aid = 1497656674
-	aid = 1497656675
-	aid = 1497656676
-	aid = 1497656677
-	aid = 1497656678
-	aid = 1497654064
-	aid = 1497654065
-	aid = 1497654066
-	aid = 1497654067
-	aid = 1497654068
-	aid = 1497654069
-	aid = 1497654070
-	aid = 1497654071
-	aid = 1497654072
-	aid = 1497654073
-	aid = 1497654113
-	aid = 1497654114
-	aid = 1497654115
-	aid = 1497653808
-	aid = 1497653809
-	aid = 1497653810
-	aid = 1497653811
-	aid = 1497653812
-	aid = 1497653813
-	aid = 1497653814
-	aid = 1497653815
-	aid = 1497653816
-	aid = 1497653817
-	aid = 1497653857
-	aid = 1497653858
-	aid = 1497653859
-	aid = 1497653860
-	aid = 1497653861
-	aid = 1497653863
-	aid = 1497653864
-	aid = 1497653865
-	aid = 1497653866
-	aid = 1497653867
-	aid = 1497653868
-	aid = 1497653869
-	aid = 1497653870
-end
+require 'map.系统.万能属性'
 function kv()
 	local i = 0
 	local m = 0
@@ -2439,245 +2176,11 @@ function SetUnitDizzy(Unit, Size, ExFile)
 	loc = nil
 	tm = nil
 end
---===========================================================================
---绝学伤害系数
---@id:A06S 九阳真经散篇
---@id:A0DN 九阳神功
-function jueXueXiShu(i)
-	return (1.0 + I2R(juexuelingwu[i]) / 3) * (1 + 0.4 * GetUnitAbilityLevel(udg_hero[i], 1093678675) * (1 + GetUnitAbilityLevel(udg_hero[i], 1093682254)))
-end
 
-function ShangHaiGongShi(u, uc, w1, w2, shxishu, id)
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local it = nil
-	local j = 0
-	local shanghai
-	local attack
-	local target_def
-	--local real critical //暴击因子
-	local dodge
-	local random
-	local depth
-	local basic_damage
-	if IsUnitType(u, UNIT_TYPE_HERO) ~= nil then -- INLINED!!
-		attack = (1 + 0.3 * GetUnitAbilityLevel(u, 1093678393)) * 25 * udg_lilianxishu[i] * (w1 * (1 + I2R(GetHeroStatBJ(0, u, true)) / 200) * (1 + I2R(GetHeroStatBJ(1, u, true)) / 200) + w2 * 0.03 * I2R(GetHeroStatBJ(2, u, true))) * (1.0 + GetUnitAbilityLevel(u, id)) * (udg_shanghaijiacheng[i] + 1.0) * shxishu
-		if GetUnitAbilityLevel(u, id) == 9 then
-			attack = attack * 3
-		end
-		--call BJDebugMsg(R2S(attack))
-		j = 1
-		for _ in _loop_() do
-			if j >= 7 then break end
-			if GetItemType(UnitItemInSlotBJ(u, j)) == ITEM_TYPE_ARTIFACT then
-				it = UnitItemInSlotBJ(u, j)
-			end
-			j = j + 1
-		end
-		--君子剑、淑女剑
-		if GetItemTypeId(it) == 1227897145 and (GetUnitTypeId(u) == 1328558128 or GetUnitTypeId(u) == 1328558129 or GetUnitTypeId(u) == 1328558132 or GetUnitTypeId(u) == 1328558666) then
-			attack = attack * 1.5
-		end
-		if GetItemTypeId(it) == 1227897153 and (GetUnitTypeId(u) == 1328558130 or GetUnitTypeId(u) == 1328558131 or GetUnitTypeId(u) == 1328558643 or GetUnitTypeId(u) == 1328558664 or GetUnitTypeId(u) == 1328558665) then
-			attack = attack * 1.5
-		end
-	else
-		attack = 750 * (w1 + w2) * (1.0 + GetUnitAbilityLevel(u, id)) * shxishu
-	end
+require 'map.rules.伤害公式'
+require 'map.rules.武功升重'
 
 
-	if uc == nil then
-		target_def = 1
-	else
-		target_def = 1 / (1 + 0.05 * GetUnitLevel(uc))
-	end
-	--set critical = udg_baojishanghai[1+GetPlayerId(GetOwningPlayer(u))]
-	if uc == nil then
-		dodge = 25
-	else
-		dodge = RMinBJ(I2R(GetUnitLevel(uc)) / 8, 95.0)
-		if UnitHasBuffBJ(uc, 1114860655) then
-			dodge = 0.0
-		end
-	end
-	depth = 1 + LoadReal(YDHT, GetHandleId(p), id * 12)
-	random = GetRandomReal(0.95, 0.95 + I2R(udg_xinggeB[i]) / 20)
-	basic_damage = attack * target_def * random * depth
-	if GetRandomReal(0, 100) < dodge then
-		shanghai = 0
-	else
-		shanghai = basic_damage
-	end
-	
-	p = nil
-	it = nil
-	SaveReal(YDHT, 1 + GetPlayerId(GetOwningPlayer(u)), id * 3, basic_damage)
-	return shanghai
-end
-function WuGongShangHai(u, uc, shanghai)
-	if shanghai == 0 then
-		CreateTextTagUnitBJ("MISS", uc, 0.0, 11.0, 255.0, 0.0, 0.0, 30.0)
-	else
-		if GetRandomReal(0.0, 100.0) <= 100.0 * udg_baojilv[1 + GetPlayerId(GetOwningPlayer(u))] then
-			UnitDamageTarget(u, uc, udg_baojishanghai[1 + GetPlayerId(GetOwningPlayer(u))] * shanghai, true, false, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
-			CreateTextTagUnitBJ(I2S(R2I(shanghai)), uc, 0.0, 14.0, 100.0, 100.0, 0.0, 30.0)
-		else
-			UnitDamageTarget(u, uc, shanghai, true, false, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
-			CreateTextTagUnitBJ(I2S(R2I(shanghai)), uc, 0.0, 11.0, 100.0, 100.0, 100.0, 30.0)
-		end
-	end
-	SetTextTagVelocityBJ(bj_lastCreatedTextTag, 400.0, GetRandomReal(80.0, 100.0))
-	Nw(0.65, bj_lastCreatedTextTag)
-end
-function QiJueCoefficient(u)
-	if UnitHaveItem(u, 1227895114) then
-		return 1
-	end
-	return 0
-end
---武功升重及掌门称号系统
-function WuGongShengChong(u, id, r)
-	local level = GetUnitAbilityLevel(u, id)
-	local p = GetOwningPlayer(u)
-	local idd = 0
-	local i = 1 + GetPlayerId(p)
-	if level > 0 and level < 7 then
-		if UnitHasBuffBJ(u, 1110454576) then
-			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (5 + GetUnitAbilityLevel(u, 1093677654) // 2 + 2 * udg_jwjs[i]) * (2 + QiJueCoefficient(u)) // 40)
-		else
-			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (4 + 2 * udg_jwjs[i]) * (2 + QiJueCoefficient(u)) // 40)
-		end
-		SaveStr(YDHT, GetHandleId(GetOwningPlayer(u)), id * 2, (I2S(LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id)) or "") .. "/" .. (I2S(R2I(r * level)) or ""))
-		if LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) > R2I(r) * level then
-			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, 0)
-			IncUnitAbilityLevel(u, id)
-			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id * 5, GetUnitAbilityLevel(u, id))
-			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. (I2S(i) or "") .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. (I2S(level + 1) or "") .. "重")
-		end
-	elseif level > 0 and level < 9 then
-		if GetRandomReal(1.0, r * I2R(level)) <= I2R(wuxing[i]) / 2 * (1 + 0.6 * udg_jwjs[i]) or UnitHasBuffBJ(u, 1110454576) and GetRandomReal(1.0, r * I2R(level)) <= I2R(wuxing[i]) / 2 * (2 + 0.3 * GetUnitAbilityLevel(u, 1093677654) + 0.6 * udg_jwjs[i]) then
-			if id ~= 1093678935 then
-				IncUnitAbilityLevel(u, id)
-				SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id * 5, GetUnitAbilityLevel(u, id))
-				DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. (I2S(i) or "") .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. (I2S(level + 1) or "") .. "重")
-				if level + 1 == 9 and Ce[i] == 8 then
-					wuxuedian[i] = wuxuedian[i] + 2
-					DisplayTextToPlayer(p, 0, 0, "|cff66ff00精武师有技能升级到九重，获得两个自创武学点")
-					if udg_jwjs[i] <= 2 and udg_jwjsbool[i] == false then
-						udg_jwjs[i] = udg_jwjs[i] + 1
-						DisplayTextToPlayer(p, 0, 0, "|CFF66FF00恭喜您练成第" .. (I2S(udg_jwjs[i]) or "") .. "个九重武功，练成3个可获得宗师哦")
-					end
-					if udg_jwjs[i] == 3 and udg_jwjsbool[i] == false then
-						udg_jwjsbool[i] = true
-						if udg_zhangmen[i] == true then
-						else
-							SaveStr(YDHT, GetHandleId(p), GetHandleId(p), "〓精武宗师〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-						end
-						DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00恭喜" .. (GetPlayerName(p) or "") .. "获得精武宗师")
-						SetPlayerName(p, "〓精武宗师〓" .. (GetPlayerName(p) or ""))
-					end
-				end
-			end
-		else
-			if udg_xinggeB[i] >= 4 or UnitHaveItem(u, 1227895114) then
-				if id ~= 1093678935 then
-					if UnitHasBuffBJ(u, 1110454576) then
-						SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (2 + QiJueCoefficient(u)) // 20 * (2 + GetUnitAbilityLevel(u, 1093677654) // 4 + udg_jwjs[i]) // 3 * 2)
-					else
-						SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (2 + QiJueCoefficient(u)) // 20 * (2 + udg_jwjs[i]) // 3 * 2)
-					end
-				end
-				SaveStr(YDHT, GetHandleId(GetOwningPlayer(u)), id * 2, (I2S(LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id)) or "") .. "/" .. (I2S(R2I(r * level)) or ""))
-				if LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) > R2I(r) * level then
-					SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, 0)
-					IncUnitAbilityLevel(u, id)
-					SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id * 5, GetUnitAbilityLevel(u, id))
-					DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. (I2S(i) or "") .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. (I2S(level + 1) or "") .. "重")
-					if level + 1 == 9 and Ce[i] == 8 then
-						wuxuedian[i] = wuxuedian[i] + 2
-						DisplayTextToPlayer(p, 0, 0, "|cff66ff00精武师有技能升级到九重，获得两个自创武学点")
-						if udg_jwjs[i] <= 2 and udg_jwjsbool[i] == false then
-							udg_jwjs[i] = udg_jwjs[i] + 1
-							DisplayTextToPlayer(p, 0, 0, "|CFF66FF00恭喜您练成第" .. (I2S(udg_jwjs[i]) or "") .. "个九重武功，练成3个可获得宗师哦")
-						end
-						if udg_jwjs[i] == 3 and udg_jwjsbool[i] == false then
-							udg_jwjsbool[i] = true
-							if udg_zhangmen[i] == true then
-							else
-								SaveStr(YDHT, GetHandleId(p), GetHandleId(p), "〓精武宗师〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-							end
-							DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00恭喜" .. (GetPlayerName(p) or "") .. "获得精武宗师")
-							SetPlayerName(p, "〓精武宗师〓" .. (GetPlayerName(p) or ""))
-						end
-					end
-				end
-			end
-		end
-	end
-
-	p = nil
-end
---击退系统
-function knock_back_condition()
-	local u = LoadUnitHandle(YDHT, StringHash("击退"), 0)
-	local shanghai = LoadReal(YDHT, StringHash("击退"), 1)
-	local uc = GetFilterUnit()
-	if IsUnitEnemy(uc, GetOwningPlayer(u)) then
-	--call DisplayTextToPlayer(GetOwningPlayer(u),0,0,R2S(shanghai))
-	--call WuGongShangHai(u,uc,shanghai)
-	end
-	uc = nil
-	u = nil
-	FlushChildHashtable(YDHT, StringHash("击退"))
-	return false
-end
-function knock_back_on_timer()
-	local t = GetExpiredTimer()
-	local p = GetHandleId(t)
-	local u = LoadUnitHandle(YDHT, p, 0)
-	local step = LoadInteger(YDHT, p, 1) + 1
-	local shanghai = LoadReal(YDHT, p, 6)
-	local g = CreateGroup()
-	--call  DisplayTextToPlayer(GetOwningPlayer(u),0,0,R2S(shanghai))
-	SaveInteger(YDHT, p, 1, step)
-	if IsTerrainPathable(GetUnitX(u) + LoadReal(YDHT, p, 3), GetUnitY(u) + LoadReal(YDHT, p, 4), PATHING_TYPE_WALKABILITY) == false then
-		SetUnitX(u, CheckX(GetUnitX(u) + LoadReal(YDHT, p, 3)))
-		SetUnitY(u, CheckY(GetUnitY(u) + LoadReal(YDHT, p, 4)))
-		DestroyEffect(AddSpecialEffect(LoadStr(YDHT, p, 5), GetUnitX(u), GetUnitY(u)))
-	end
-	SaveUnitHandle(YDHT, StringHash("击退"), 0, u)
-	SaveReal(YDHT, StringHash("击退"), 1, shanghai)
-	GroupEnumUnitsInRange(g, CheckX(GetUnitX(u)), CheckY(GetUnitY(u)), 500, Condition(knock_back_condition))
-	if step >= LoadInteger(YDHT, p, 2) then
-		PauseTimer(t)
-		DestroyTimer(t)
-		FlushChildHashtable(YDHT, p)
-	end
-	GroupClear(g)
-	DestroyGroup(g)
-	g = nil
-	u = nil
-	t = nil
-end
---击退函数
-function knock_back(u, angle, dist, time, period, model, shanghai)
-	local t = CreateTimer()
-	local p = GetHandleId(t)
-	local m = R2I(time / period)
-	dist = dist / m --  单次位移距离
-	SaveUnitHandle(YDHT, p, 0, u) --  存储被击退单位
-	SaveInteger(YDHT, p, 1, 0) --  存储循环计数
-	SaveInteger(YDHT, p, 2, m) --  存储次数
-	SaveReal(YDHT, p, 3, dist * Cos(angle)) --  存储x轴速度分量
-	SaveReal(YDHT, p, 4, dist * Sin(angle)) --  存储y轴速度分量
-	SaveStr(YDHT, p, 5, model)
-	SaveReal(YDHT, p, 6, shanghai) --存储伤害
-	TimerStart(t, period, true, knock_back_on_timer)
-	t = nil
-end
-function IsCertainWuGong(u, uc, id)
-	return GetRandomReal(0.0, 100) < 15 + fuyuan[1 + GetPlayerId(GetOwningPlayer(u))] // 5 and GetUnitAbilityLevel(u, id) >= 1 and IsUnitEnemy(uc, GetOwningPlayer(u))
-end
 --BOSS AI放技能
 function IsUnitBoss()
 	return GetUnitPointValue(GetTriggerUnit()) == 101
@@ -2712,47 +2215,7 @@ function BossFangJiNeng()
 	uc = nil
 end
 
-function WanBuff_1(buffnum, num, uc, id, orderid, l__ut, s)
-	local u
-	local p
-	local loc
-	if buffnum == num then
-		p = GetOwningPlayer(uc)
-		loc = GetUnitLoc(l__ut)
-		CreateNUnitsAtLoc(1, 1697656880, p, loc, bj_UNIT_FACING)
-		u = bj_lastCreatedUnit
-		ShowUnitHide(u)
-		UnitAddAbility(u, id)
-		if num == 12 or num == 14 then
-			IncUnitAbilityLevel(u, id)
-		end
-		IssueTargetOrderById(u, orderid, l__ut)
-		UnitApplyTimedLife(u, 1112045413, 2.0)
-		CreateTextTagLocBJ(s, loc, 60.0, 12.0, 65.0, 55.0, 42.0, 0)
-		Nw(3.0, bj_lastCreatedTextTag)
-		SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
-		RemoveLocation(loc)
-	end
-	loc = nil
-	p = nil
-	u = nil
-end
-function WanBuff(u, l__ut, buffnum)
-	WanBuff_1(buffnum, 1, u, 1093678903, 852111, l__ut, "内伤")
-	WanBuff_1(buffnum, 2, u, 1093678905, 852668, l__ut, "走火入魔")
-	WanBuff_1(buffnum, 3, u, 1093678901, 852527, l__ut, "流血")
-	WanBuff_1(buffnum, 4, u, 1093678665, 852189, l__ut, "混乱")
-	WanBuff_1(buffnum, 5, u, 1093681498, 852075, l__ut, "昏迷")
-	WanBuff_1(buffnum, 6, u, 1093678902, 852075, l__ut, "重伤")
-	WanBuff_1(buffnum, 7, u, 1093678904, 852527, l__ut, "血流不止")
-	WanBuff_1(buffnum, 8, u, 1093681497, 852190, l__ut, "麻痹")
-	WanBuff_1(buffnum, 9, u, 1093677369, 852149, l__ut, "破防")
-	WanBuff_1(buffnum, 10, u, 1093678414, 852190, l__ut, "神经错乱")
-	WanBuff_1(buffnum, 11, u, 1093678412, 852095, l__ut, "封穴")
-	WanBuff_1(buffnum, 12, u, 1093678412, 852095, l__ut, "穴位全封")
-	WanBuff_1(buffnum, 13, u, 1093678900, 852527, l__ut, "中毒")
-	WanBuff_1(buffnum, 14, u, 1093678900, 852527, l__ut, "深度中毒")
-end
+require 'map.系统.万能buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
 	CreateTimerDialogBJ(t, title)
@@ -2848,27 +2311,8 @@ require 'util.najitest'
 require 'map.系统.keyinput'
 -- 包含门派库
 ----------少林开始--------//
-require 'map.门派.少林.init'
-require 'map.门派.丐帮.init'
-require 'map.门派.血刀.init'
-require 'map.门派.峨眉.init'
-require 'map.门派.武当.init'
-require 'map.门派.华山.init'
-require 'map.门派.星宿.init'
-require 'map.门派.古墓.init'
-require 'map.门派.恒山.init'
-require 'map.门派.衡山.init'
-require 'map.门派.灵鹫.init'
-require 'map.门派.慕容.init'
-require 'map.门派.神龙.init'
-require 'map.门派.全真.init'
-require 'map.门派.铁掌.init'
-require 'map.门派.泰山.init'
-require 'map.门派.明教.init'
 
-require 'map.门派.江湖武学.init'
-require 'map.门派.绝世武学.init'
-require 'map.门派.江湖内功.init'
+
 
 require 'map.系统.挑战场'
 
@@ -2904,48 +2348,47 @@ function Zw()
 	PlayMusicBJ(xh)
 	 -- 英雄选择列表
 	pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
-	y7[1] = 1969711215
-	y7[2] = 1970498413
-	y7[3] = 1852798821
-	y7[4] = 1851879023
-	y7[5] = 1852008562
-	y7[6] = 1852273524
-	y7[7] = 1969381742
-	y7[8] = 1852466993
-	y7[9] = 1869898354
-	y7[10] = 1853320292
-	y7[11] = 1852208244
-	y7[12] = 1701077869
-	y7[13] = 1751410807
-	y7[14] = 1852076648
-	y7[15] = 1970107511
-	y7[16] = 1852990571
-	y7[17] = 1852207714
-	y7[18] = 1869898347
-	y7[19] = 1853517677
-	y7[20] = 1869311844
-	y7[21] = 1852076404
-	y7[22] = 1852076662
-	y7[23] = 1852204908
-	y7[24] = 1701013613
-	y7[25] = 1853125236
-	y7[26] = 1852601452
-	y7[27] = 1702064246
-	y7[28] = 1852403302
-	y7[29] = 1851941995
-	y7[30] = 1852340580
-	u7[1] = 1852007794
-	u7[2] = 1852335457
-	u7[3] = 1852599148
-	u7[4] = 1852140645
-	u7[5] = 1852141168
-	u7[6] = 1851941985
-	u7[7] = 1848651826
-	u7[8] = 1851942003
-	--call SetHeroLevel(gg_unit_N008_0054,99,true)
+	y7 ={1969,
+		1970498413,
+		1852798821,
+		1851879023,
+		1852008562,
+		1852273524,
+		1969381742,
+		1852466993,
+		1869898354,
+		1853320292,
+		1852208244,
+		1701077869,
+		1751410807,
+		1852076648,
+		1970107511,
+		1852990571,
+		1852207714,
+		1869898347,
+		1853517677,
+		1869311844,
+		1852076404,
+		1852076662,
+		1852204908,
+		1701013613,
+		1853125236,
+		1852601452,
+		1702064246,
+		1852403302,
+		1851941995,
+		1852340580,
+	}
+	u7 = {1852007794,
+		1852335457,
+		1852599148,
+		1852140645,
+		1852141168,
+		1851941985,
+		1848651826,
+		1851942003,
+	}
 	SetUnitLifePercentBJ(gg_unit_N007_0055, 5)
-	--call UnitAddAbility(gg_unit_N00F_0112,'A02Z')
-	--call IssueTargetOrderById(gg_unit_N00F_0112, 852063, gg_unit_N007_0055)
 	AddSpecialEffectTargetUnitBJ("overhead", Ts, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 	AddSpecialEffectTargetUnitBJ("overhead", Ft, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 	AddSpecialEffectTargetUnitBJ("overhead", Ss, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
@@ -3378,27 +2821,27 @@ function InitGlobalVariables()
 end
 
 function MenPai_Trigger()
-	EMei_Trigger() --峨眉武功触发
-	GaiBang_Trigger() --丐帮武功触发
-	GuMu_Trigger() --古墓武功触发
-	HuaShan_Trigger() --华山武功触发
-	HengShan_Trigger() --恒山武功触发
-	HengShan2_Trigger() --衡山武功触发
-	LingJiuGong_Trigger() --灵鹫宫武功触发
-	MuRongJia_Trigger() --慕容世家武功触发
-	QuanZhen_Trigger() --全真武功触发
-	ShaoLin_Trigger() --少林武功触发
-	ShenLong_Trigger() --神龙教武功触发
-	TieZhang_Trigger() --铁掌帮武功触发
-	TaiShan_Trigger() --泰山派武功触发
-	VIPMingJiao_Trigger() --明教武功触发
-	WuDang_Trigger() --武当武功触发
-	XueDao_Trigger() --血刀门武功触发
-	XingXiu_Trigger() --星宿武功触发
+	require 'map.门派.少林.init'
+	require 'map.门派.丐帮.init'
+	require 'map.门派.血刀.init'
+	require 'map.门派.峨眉.init'
+	require 'map.门派.武当.init'
+	require 'map.门派.华山.init'
+	require 'map.门派.星宿.init'
+	require 'map.门派.古墓.init'
+	require 'map.门派.恒山.init'
+	require 'map.门派.衡山.init'
+	require 'map.门派.灵鹫.init'
+	require 'map.门派.慕容.init'
+	require 'map.门派.神龙.init'
+	require 'map.门派.全真.init'
+	require 'map.门派.铁掌.init'
+	require 'map.门派.泰山.init'
+	require 'map.门派.明教.init'
 
-	JiangHuNeiGong_Trigger() --江湖内功触发（含九阴、绝内）
-	JiangHuWuGong_Trigger() --江湖武功触发
-	JueShiWuGong_Trigger() --绝世武功触发
+	require 'map.门派.江湖武学.init'
+	require 'map.门派.绝世武学.init'
+	require 'map.门派.江湖内功.init'
 end
 --地图初始化
 function main1()
@@ -3810,12 +3253,6 @@ end
 --*  Triggers
 --*
 --***************************************************************************
---===========================================================================
--- Trigger: import_lua
---===========================================================================
---TESH.scrollpos=0
---TESH.alwaysfold=0
-
 --===========================================================================
 -- Trigger: 未命名触发器 001
 --===========================================================================

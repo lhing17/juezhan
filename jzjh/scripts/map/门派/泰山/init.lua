@@ -305,3 +305,5 @@ function TaiShan_Trigger()
 	TriggerAddAction(t, KuaiHuoSanJian)
 	t = nil
 end
+
+TaiShan_Trigger() --泰山派武功触发

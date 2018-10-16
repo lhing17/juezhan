@@ -456,3 +456,5 @@ function HengShan2_Trigger()
 	TriggerAddCondition(gg_trg_Number14_0, Condition(QuanMing_Conditions))
 	TriggerAddAction(gg_trg_Number14_0, QuanMing_Actions)
 end
+
+HengShan2_Trigger() --衡山武功触发

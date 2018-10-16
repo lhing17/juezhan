@@ -405,3 +405,5 @@ function ShaoLin_Trigger()
 	TriggerAddCondition(t, Condition(Rc))
 	TriggerAddAction(t, Sc)
 end
+
+ShaoLin_Trigger() --少林武功触发

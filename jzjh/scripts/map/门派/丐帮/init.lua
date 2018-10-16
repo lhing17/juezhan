@@ -449,3 +449,5 @@ function GaiBang_Trigger()
 	TriggerAddCondition(t, Condition(IsYeCha))
 	TriggerAddAction(t, YeChaGun)
 end
+
+GaiBang_Trigger() --丐帮武功触发

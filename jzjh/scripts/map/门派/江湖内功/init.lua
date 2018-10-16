@@ -377,3 +377,5 @@ function JiangHuNeiGong_Trigger()
 	TriggerAddAction(t, LingJiuGongJinGong)
 	t = nil
 end
+
+JiangHuNeiGong_Trigger() --江湖内功触发（含九阴、绝内）

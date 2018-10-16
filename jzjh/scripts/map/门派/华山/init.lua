@@ -702,3 +702,5 @@ function HuaShan_Trigger()
 	TriggerAddCondition(t, Condition(BE))
 	TriggerAddAction(t, cE)
 end
+
+HuaShan_Trigger() --华山武功触发

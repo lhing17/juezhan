@@ -525,3 +525,5 @@ function XingXiu_Trigger()
 	TriggerAddAction(t, ShenDingSanYin)
 	t = nil
 end
+
+XingXiu_Trigger() --星宿武功触发

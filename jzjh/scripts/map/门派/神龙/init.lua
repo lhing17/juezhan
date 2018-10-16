@@ -667,3 +667,5 @@ function ShenLong_Trigger()
 	--神龙心法
 	t = nil
 end
+
+ShenLong_Trigger() --神龙教武功触发

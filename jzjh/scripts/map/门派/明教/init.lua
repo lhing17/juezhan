@@ -567,3 +567,5 @@ function VIPMingJiao_Trigger()
 	TriggerAddAction(t, QianKunTan)
 	t = nil
 end
+
+VIPMingJiao_Trigger() --明教武功触发

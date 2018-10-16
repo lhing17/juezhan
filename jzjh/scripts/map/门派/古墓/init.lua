@@ -474,3 +474,5 @@ function GuMu_Trigger()
 	TriggerAddAction(t, nn3)
 	t = nil
 end
+
+GuMu_Trigger() --古墓武功触发

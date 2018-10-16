@@ -331,3 +331,5 @@ function MuRongJia_Trigger()
 	TriggerAddAction(t, JiaXun)
 	t = nil
 end
+
+MuRongJia_Trigger() --慕容世家武功触发

@@ -421,3 +421,5 @@ function EMei_Trigger()
 
 	t = nil
 end
+
+EMei_Trigger() --峨眉武功触发

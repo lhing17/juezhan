@@ -567,7 +567,8 @@ re10 = _array_()
 re11 = _array_()
 se = _array_()
 te = _array_(0)
-ue = 5
+-- 名门数量
+famous_num = 5
 ve = _array_(0)
 xe = _array_(0)
 ye = _array_(0)
@@ -2462,52 +2463,6 @@ function Zw()
 		end)		
 	end)	
 end
-function InitFamouses()
-	ve[1] = 1328558411
-	xe[1] = 400
-	ye[1] = 20
-	ze[1] = 600
-	ve[2] = 1429221424
-	xe[2] = 350
-	ye[2] = 15
-	ze[2] = 730
-	ve[3] = 1160786002
-	xe[3] = 260
-	ye[3] = 12
-	ze[3] = 540
-	ve[4] = 1211117633
-	xe[4] = 250
-	ye[4] = 18
-	ze[4] = 500
-	ve[5] = 1328558412
-	xe[5] = 310
-	ye[5] = 16
-	ze[5] = 750
-	ve[6] = 1328558413
-	xe[6] = 220
-	ye[6] = 19
-	ze[6] = 700
-	ve[7] = 1328558414
-	xe[7] = 340
-	ye[7] = 17
-	ze[7] = 640
-	ve[8] = 1160786003
-	xe[8] = 320
-	ye[8] = 10
-	ze[8] = 780
-	ve[9] = 1160786004
-	xe[9] = 200
-	ye[9] = 12
-	ze[9] = 550
-	ve[10] = 1311780913
-	xe[10] = 380
-	ye[10] = 11
-	ze[10] = 580
-	ve[11] = 1328558415
-	xe[11] = 280
-	ye[11] = 14
-	ze[11] = 800
-end
 function InitBosses()
 	Ae[1] = 1227896898
 	Ae[2] = 1227896665
@@ -2811,7 +2766,8 @@ function InitKillingTaskCreatures()
 }
 end
 function InitGlobalVariables()
-	InitFamouses() --初始化名门
+	--初始化名门
+	require 'et.名门'
 	InitBosses() --初始化BOSS
 	InitHerbs() --初始化草药
 	InitEquipments() --初始化装备

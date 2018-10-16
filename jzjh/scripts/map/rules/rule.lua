@@ -1656,7 +1656,7 @@ function HA()
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
 	end
 	YDWEPolledWaitNull(20.0)
-	if ue > 0 then
+	if famous_num > 0 then
 		ConditionalTriggerExecute(dj)
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033名门高手开始进攻，大家要小心应付了！")
 	end
@@ -1766,29 +1766,29 @@ end
 function NA()
 	local i = 1
 	local j = 1
-	local l__l = 0
+	local rand = 0
 	local r1 = 0
 	local r2 = 0
 	local rr3 = 1.0
 	local rr4 = 1.0
-	if ue == 1 then
+	if famous_num == 1 then
 		r1 = 1.26
 		r2 = 1.4
-	elseif ue == 2 then
+	elseif famous_num == 2 then
 		r1 = 1.28
 		r2 = 1.43
-	elseif ue == 3 then
+	elseif famous_num == 3 then
 		r1 = 1.3
 		r2 = 1.46
-	elseif ue == 4 then
+	elseif famous_num == 4 then
 		r1 = 1.32
 		r2 = 1.49
-	elseif ue == 5 then
+	elseif famous_num == 5 then
 		r1 = 1.34
 		r2 = 1.52
 	end
 	for _ in _loop_() do
-		if i > ue then break end
+		if i > famous_num then break end
 		for _ in _loop_() do
 			if j > udg_boshu then break end
 			if j < udg_boshu then
@@ -1797,18 +1797,18 @@ function NA()
 			end
 			j = j + 1
 		end
-		l__l = GetRandomInt(1, 11)
-		CreateNUnitsAtLocFacingLocBJ(1, ve[l__l], Player(6), v7[GetRandomInt(5, 8)], v7[4])
+		rand = GetRandomInt(1, 11)
+		CreateNUnitsAtLocFacingLocBJ(1, et.famous[rand].id, Player(6), v7[GetRandomInt(5, 8)], v7[4])
 		GroupAddUnit(w7, bj_lastCreatedUnit)
 		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
 		SetHeroLevelBJ(bj_lastCreatedUnit, 4 * udg_boshu, false)
-		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(I2R(xe[l__l]) * (rr3 * 3.3)))
-		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (udg_boshu - 1) * ye[l__l] * 9 // 10 * ue)
-		--call YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit,1,0,R2I(I2R(ze[l])*rr4))
+		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(I2R(et.famous[rand]["攻击成长"]) * (rr3 * 3.3)))
+		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (udg_boshu - 1) * et.famous[rand]["防御成长"] * 9 // 10 * famous_num)
+		--call YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit,1,0,R2I(I2R(et.famous[rand]["法力成长"])*rr4))
 		unitadditembyidswapped(Ae[udg_boshu], bj_lastCreatedUnit)
 		i = i + 1
 	end
---set ue=0
+--set famous_num=0
 end
 function PA()
 	DestroyTimerDialog(z7[1])
@@ -4287,24 +4287,12 @@ function qT()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899471 or GetItemTypeId(GetManipulatedItem()) == 1227896659)
 end
 function rT()
-	--if GetItemTypeId(GetManipulatedItem())==1227896663 then
-	--	set ue = 1
-	--endif
-	--if GetItemTypeId(GetManipulatedItem())==1227896661 then
-	--	set ue = 2
-	--endif
-	--if GetItemTypeId(GetManipulatedItem())==1227896660 then
-	--	set ue = 3
-	--endif
-	--if GetItemTypeId(GetManipulatedItem())==1227896662 then
-	--	set ue = 4
-	--endif
 	if GetItemTypeId(GetManipulatedItem()) == 1227896659 then
-		ue = 5
+		famous_num = 5
 		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30.0, "|cff00ffff有玩家开始预约名门挑战，本波进攻怪物将会增加名门高手，大家要小心应付了！")
 	end
 	if GetItemTypeId(GetManipulatedItem()) == 1227899471 then
-		ue = 0
+		famous_num = 0
 		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30.0, "|cff00ffff有玩家取消了预约名门挑战，下波进攻怪物将不会增加名门高手，大家要小心应付了！")
 	end
 end

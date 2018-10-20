@@ -6,16 +6,25 @@ local function split(str, p) local rt = {} str:gsub('[^'..p..']+', function (w) 
 -- 字符串去空格
 local function trim(str) return str:gsub('^%s*(.-)%s*$', '%1') end
 
--- 5.3.x版本为load (chunk [, chunkname [, mode [, env]]]) 
--- chunk为函数或字符串
--- mode 为加载模式:”t”文本样式,”b”二进制样式,”bt”二进制和文本模式.
--- env 代码块需要的参数
+--[==[
+	load函数用于加载一个数据块.从字符串或者函数中加载一个代码块为方法并返回.
+	5.3.x版本为load (chunk [, chunkname [, mode [, env]]]) 
+	chunk为函数或字符串
+	chunkname is used as the name of the chunk for error messages and debug information 
+	mode 为加载模式:”t”文本样式,”b”二进制样式,”bt”二进制和文本模式.
+	env 代码块需要的参数
+
+	load函数返回值是一个function，assert在其参数为nil或false时抛出error，最后的()调用load函数返回的function
+]==] 
+
 local function dostring(file, ln, str, env) return assert(load(str, '=['..file..':'.. ln..']', 't', env))() end
 
 -- 拷贝表格
 local function table_copy(tbl) local res = {} if tbl then for k, v in pairs(tbl) do res[k] = v end end return res end
-local function complie_computed(line, env)
-	-- f, l分别为开始和结束下标
+
+-- 编译已经计算过的行
+local function compile_computed(line, env)
+	-- f, l分别为寻找到字符串开始和结束下标
 	local f, l = line:find('=', 1, true)
 	if not f then
 		return
@@ -44,6 +53,7 @@ local function complie_computed(line, env)
 	return trim(k), 'local _l,_u=...;_l=(_l-1)/(max_level-1);return('..v..')'
 end
 
+-- 根据formater对n进行格式化
 local function format(n, formater)
 	if formater then
 		return ('%' .. formater):format(n)
@@ -111,14 +121,27 @@ local function format_computed(str, hero, level, env, fmt)
 		fmt = fmt,
 	}, fmter)
 end
-function mt:loader(code, file, ac, default, enum)
+
+mt.local_funcs = {
+	['split'] = split,
+	['trim'] = trim,
+	['dostring'] = dostring,
+	['table_copy'] = table_copy,
+	['compile_computed'] = compile_computed,
+	['format'] = format,
+	['format_computed'] = format_computed,
+	['fmter'] = fmter,
+}
+
+
+function mt:loader(code, file, et, default, enum)
 	-- 去掉bom头
 	if code:sub(1, 3) == '\xEF\xBB\xBF' then code = code:sub(4) end
 	local env = nil
 	local multi_table = nil
 	local multi_string = nil
 	file = file or '...'
-	ac = ac or {}
+	et = et or {}
 	default = table_copy(default)
 	enum = table_copy(enum)
 	-- ln是行号，line是行的内容
@@ -155,7 +178,7 @@ function mt:loader(code, file, ac, default, enum)
 					function mt:__newindex(k, v)
 						if k == 'computed' then
 							for _, l in ipairs(split(v, '\n')) do
-								local k, v = complie_computed(trim(l), self)
+								local k, v = compile_computed(trim(l), self)
 								if k then
 									computed[k] = v
 								end
@@ -165,7 +188,7 @@ function mt:loader(code, file, ac, default, enum)
 						rawset(self, k, v)
 					end
 					env = setmetatable(table_copy(default), mt)
-					ac[name] = env
+					et[name] = env
 				end
 			elseif line:sub(1,2) == '--' then
 			elseif line:sub(-2) == '[[' then
@@ -183,7 +206,7 @@ function mt:loader(code, file, ac, default, enum)
 			end
 		end
 	end
-	return ac, default, enum
+	return et, default, enum
 end
 function mt:normalize_then_unpack(abil)
 	local spell = {}

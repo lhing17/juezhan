@@ -1,20 +1,20 @@
 --========================================================================
 --键盘输入系统
 --========================================================================
-function KeyInput()
-	local s = GetEventPlayerChatString()
+local player = require 'et.player'
+
+function KeyInput(game, p, s)
 	local it = nil
-	local p = GetTriggerPlayer()
-	local i = GetPlayerId(p) + 1
+	local i = p.id
 	local j = 0
 	local loc = nil
 	local str = nil
 	local shanghai = _array_(0.0)
 	if s == "+" then
-		SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) + 200.0, 1.0)
+		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:GetCameraField('CAMERA_FIELD_TARGET_DISTANCE') + 200, 1)
 	end
 	if s == "-" then
-		SetCameraFieldForPlayer(p, CAMERA_FIELD_TARGET_DISTANCE, GetCameraField(CAMERA_FIELD_TARGET_DISTANCE) - 200.0, 1.0)
+		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:GetCameraField('CAMERA_FIELD_TARGET_DISTANCE') - 200, 1)
 	end
 	if s == "hg" then
 		SetUnitPosition(udg_hero[i], -1174, -678)
@@ -541,14 +541,9 @@ function KeyInput()
 		LingJiuGongJinGong()
 	end
 end
-function KeyInputSystem()
-	local t = CreateTrigger()
-	local i = 0
-	for _ in _loop_() do
-		if i > 6 then break end
-		TriggerRegisterPlayerChatEvent(t, Player(i), "", true)
-		i = i + 1
-	end
-	TriggerAddAction(t, KeyInput)
-	t = nil
-end
+
+et.game:event '玩家-聊天' (function(self, player, str)
+	KeyInput(self, player, str)
+end)
+
+KeyInputSystem() 

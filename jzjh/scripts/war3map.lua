@@ -2273,7 +2273,7 @@ require 'map.系统.炼丹'
 require 'map.系统.桃花岛'
 
 require 'util.najitest'
-require 'map.系统.keyinput'
+
 -- 包含门派库
 ----------少林开始--------//
 
@@ -2295,7 +2295,7 @@ require 'map.门派.掌门技.init'
 
 require 'map.static.environment'
 require 'map.static.detail'
-require 'map.static.attrs'
+
 
 --刚进入地图
 function Zw()
@@ -3142,11 +3142,14 @@ function main1()
 
 	InitGlobalVariables() --初始化全局变量
 
-	KeyInputSystem() --键盘输入系统
+	--键盘输入系统
+	require 'map.系统.keyinput'
+
 	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
 	MonsterCome() --决战江湖1.52之圣兽来了
 	CreateDestructables() --创建可破坏物
-	Cuns() --存储装备属性
+	--存储装备属性
+	require 'map.static.attrs'	
 	kongfu.init() --存储武功
 	najitest() --纳吉的测试代码
 end

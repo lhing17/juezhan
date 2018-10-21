@@ -29,6 +29,7 @@ function mt:get()
     return self.id
 end
 
+
 --注册事件
 function mt:event(name)
 	return et.event_register(self, name)
@@ -122,6 +123,23 @@ function mt:clear_messages()
     end
 end
 
+--设置镜头属性
+--	镜头属性
+--	数值
+--	[持续时间]
+function mt:setCameraField(key, value, time)
+	if self == player.localplayer then
+		jass.SetCameraField(jass[key], value, time or 0)
+	end
+end
+
+--获取镜头属性
+--	镜头属性
+function mt:getCameraField(key)
+	return math.deg(jass.GetCameraField(jass[key]))
+end
+
+
 -- 直接作为方法调用，获取玩家
 function player:__call(i)
     return player[i]
@@ -144,16 +162,13 @@ function player.create(id, jPlayer)
     local p = {}
     setmetatable(p, player)
 
-    print(jPlayer)
 
     p.handle = jPlayer
     dbg.handle_ref(jPlayer)
     player[jPlayer] = p
 
     p.id = id
-    for k, v in pairs(p) do
-        print(k, v)
-    end
+
     p.base_name = p:get_name()
 
     player[id] = p
@@ -211,6 +226,9 @@ local function init()
     
     --注册常用事件
     player.regist_jass_triggers()
+
+    -- 选择单位事件
+    require 'war3.select'
 end
 
 init()

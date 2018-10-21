@@ -63,6 +63,7 @@ mt['武功'] = {}
 -- 最大伤害
 mt.max_damage = 0
 
+-- TODO 替换英雄属性
 function hero.init_pick_list()
     pick_list[Ls] = {
         ['name'] = '若蝶',

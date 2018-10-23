@@ -211,7 +211,7 @@ function AllocateWuXueDian()
 					if GetRandomInt(1, 3) <= 2 then
 						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(19, 28)].abilityid, 3)
 					else
-						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(29, 41)].abilityid, 2), 4)
+						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(29, 41)].abilityid, 4)
 					end
 				end
 			end

@@ -137,9 +137,9 @@ mt.local_funcs = {
 function mt:loader(code, file, et, default, enum)
 	-- 去掉bom头
 	if code:sub(1, 3) == '\xEF\xBB\xBF' then code = code:sub(4) end
-	local env = nil
-	local multi_table = nil
-	local multi_string = nil
+	local env
+	local multi_table
+	local multi_string
 	file = file or '...'
 	et = et or {}
 	default = table_copy(default)

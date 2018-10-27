@@ -588,10 +588,16 @@ function mt:disable_ability(ability_id)
     self:get_owner():disable_ability(ability_id)
 end
 
+function mt:hasAbility(ability_id)
+    return self:getAbilityLevel(ability_id) > 1
+end
+
 --获取技能等级
 --	技能id
 function mt:getAbilityLevel(ability_id)
-    local ability_id = base.string2id(ability_id)
+    if type(ability_id) == 'string' then
+        ability_id = base.string2id(ability_id)
+    end
     return jass.GetUnitAbilityLevel(self.handle, ability_id)
 end
 
@@ -599,7 +605,9 @@ end
 --	技能id
 --	[技能等级]
 function mt:setAbilityLevel(ability_id, lv)
-    local ability_id = base.string2id(ability_id)
+    if type(ability_id) == 'string' then
+        ability_id = base.string2id(ability_id)
+    end
     jass.SetUnitAbilityLevel(self.handle, ability_id, lv or 1)
 end
 
@@ -1215,25 +1223,36 @@ end
 
 function unit.register_jass_triggers()
 
-    -- 单位被攻击事件
-    local j_trg = war3.CreateTrigger(function()
-        local source = unit.j_unit(jass.GetAttacker())
-        local target = unit.j_unit(jass.GetTriggerUnit())
-        local dmg = source:get '攻击'
-        source.last_attack_damage = {
-            source = source,
-            target = target,
-            attack = true,
-            common_attack = true,
-            damage = dmg,
-            skill = false,
-        }
-        setmetatable(source.last_attack_damage, damage)
-        source.last_attack_damage:on_attribute_attack()
-        source:event_notify('单位-攻击开始', source.last_attack_damage)
+    ---- 单位被攻击事件
+    --local j_trg = war3.CreateTrigger(function()
+    --    local source = unit.j_unit(jass.GetAttacker())
+    --    local target = unit.j_unit(jass.GetTriggerUnit())
+    --    local dmg = source:get '攻击'
+    --    source.last_attack_damage = {
+    --        source = source,
+    --        target = target,
+    --        attack = true,
+    --        common_attack = true,
+    --        damage = dmg,
+    --        skill = false,
+    --    }
+    --    setmetatable(source.last_attack_damage, damage)
+    --    source.last_attack_damage:on_attribute_attack()
+    --    source:event_notify('单位-攻击开始', source.last_attack_damage)
+    --end)
+    --for i = 1, 16 do
+    --    jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_ATTACKED, nil)
+    --end
+
+    j_trg = war3.CreateTrigger(function()
+        local killer = unit(jass.GetKillingUnit())
+        local killed = unit(jass.GetTriggerUnit())
+        killed:event_notify('单位-死亡', killer, killed)
+        killer:event_notify('单位-杀死单位', killer, killed)
     end)
+
     for i = 1, 16 do
-        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_ATTACKED, nil)
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_DEATH, nil)
     end
 end
 

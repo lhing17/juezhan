@@ -27,9 +27,8 @@ function et.player.__index:removeSelect(u)
 end
 
 --定义玩家选择事件
--- TODO 封装unit
 local j_trg = war3.CreateTrigger(function()
-	local u = jass.GetTriggerUnit()
+	local u = et.unit(jass.GetTriggerUnit())
 	if not u then
 		return
 	end

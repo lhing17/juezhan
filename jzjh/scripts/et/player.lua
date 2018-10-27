@@ -123,6 +123,23 @@ function mt:clear_messages()
     end
 end
 
+--设置镜头位置
+function mt:setCamera(where, time)
+    if player.self == self then
+        local x, y
+        if where then
+            x, y = where:get_point():get()
+        else
+            x, y = jass.GetCameraTargetPositionX(), jass.GetCameraTargetPositionY()
+        end
+        if time then
+            jass.PanCameraToTimed(x, y, time)
+        else
+            jass.SetCameraPosition(x, y)
+        end
+    end
+end
+
 --设置镜头属性
 --	镜头属性
 --	数值

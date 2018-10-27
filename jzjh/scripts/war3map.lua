@@ -2765,15 +2765,13 @@ function MenPai_Trigger()
 end
 --地图初始化
 function main1()
-	local t
-	local life
-	local itemID
-	local i
+    local i
 	local cu
 	local Du
 	local v
 	local wu
 	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
+    et.hero.init_pick_table()
 	ConfigureNeutralVictim()
 	ju = Filter(bu)
 	filterIssueHauntOrderAtLocBJ = Filter(IssueHauntOrderAtLocBJFilter)
@@ -3150,7 +3148,7 @@ function main1()
 	CreateDestructables() --创建可破坏物
 	--存储装备属性
 	require 'map.static.attrs'	
-	kongfu.init() --存储武功
+
 	najitest() --纳吉的测试代码
 end
 function main2()

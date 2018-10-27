@@ -28,6 +28,7 @@ function JiDiBaoHu()
 	WuDi(udg_ZhengPaiWL)
 	SetUnitLifePercentBJ(udg_ZhengPaiWL, GetUnitLifePercent(udg_ZhengPaiWL) - 3.0)
 end
+
 --云大救家
 function Trig_YunDaXianShenConditions()
 	return GetTriggerUnit() == udg_ZhengPaiWL and GetUnitLifePercent(udg_ZhengPaiWL) <= 25.0 and udg_yunyangxianshen == false

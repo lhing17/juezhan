@@ -142,4 +142,5 @@ function Cuns()
 	end
 end
 
-Cuns() 
+Cuns()
+kongfu.init() --存储武功

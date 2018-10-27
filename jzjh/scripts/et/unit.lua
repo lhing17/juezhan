@@ -436,6 +436,26 @@ function mt:set_facing(angle, instant)
     end
 end
 
+function mt:get_max_life()
+    return jass.GetUnitState(self.handle, UNIT_STATE_MAX_LIFE)
+end
+
+function mt:get_life()
+    return jass.GetUnitState(self.handle, UNIT_STATE_LIFE)
+end
+
+function mt:set_life(life)
+    return jass.SetUnitState(self.handle, UNIT_STATE_LIFE, life)
+end
+
+function mt:get_life_percent()
+    return jass.GetUnitLifePercent(self.handle)
+end
+
+function mt:set_life_percent(percent)
+    return jass.SetUnitLifePercentBJ(self.handle, percent)
+end
+
 --大小
 mt.size = 1
 mt.default_size = nil
@@ -555,7 +575,12 @@ function mt:add_ability(sid, lv)
     if not sid then
         return false
     end
-    local id = base.string2id(sid)
+    local id
+    if type(sid) == 'string' then
+        id = base.string2id(sid)
+    else
+        id = sid
+    end
     if not jass.UnitAddAbility(self.handle, id) then
         return false
     end
@@ -572,7 +597,9 @@ function mt:remove_ability(ability_id)
     if not ability_id then
         return false
     end
-    local ability_id = base.string2id(ability_id)
+    if type(ability_id) == 'string' then
+        ability_id = base.string2id(ability_id)
+    end
     return jass.UnitRemoveAbility(self.handle, ability_id)
 end
 
@@ -1107,7 +1134,12 @@ function player.__index:create_unit(id, where, face)
     if data then
         id = data.id
     end
-    local j_id = base.string2id(id)
+    local j_id
+    if type(id) == 'string' then
+        j_id = base.string2id(id)
+    else
+        j_id = id
+    end
     local x, y
     if where.type == 'point' then
         x, y = where:get()
@@ -1158,6 +1190,12 @@ function player.__index:create_dummy(id, where, face)
     return u
 end
 
+function mt:set_invulnerable(time)
+    jass.SetUnitInvulnerable(self.handle, true)
+    et.wait(time, function()
+        jass.SetUnitInvulnerable(self.handle, false)
+    end)
+end
 
 --初始化
 function unit.init()
@@ -1195,13 +1233,11 @@ function unit.init()
 
     --捕捉攻击伤害
     local j_trg = war3.CreateTrigger(function()
-        if jass.GetEventDamage() == 1 then
-            --认为是物理伤害
-            local source = unit.j_unit(jass.GetEventDamageSource())
-            local target = unit.j_unit(jass.GetTriggerUnit())
-            --todo: 传一个普通攻击的技能
-            source:attack_start(target, nil)
-        end
+        local source = unit.j_unit(jass.GetEventDamageSource())
+        local target = unit.j_unit(jass.GetTriggerUnit())
+        local damage = jass.GetEventDamage()
+        source:event_notify('单位-造成伤害', source, target, damage)
+        target:event_notify('单位-受到伤害', source, target, damage)
     end)
     --每个单位创建时加入捕捉
     et.game:event '单位-创建'(function(self, u)
@@ -1243,6 +1279,13 @@ function unit.register_jass_triggers()
     --for i = 1, 16 do
     --    jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_ATTACKED, nil)
     --end
+
+    local j_trg = war3.CreateTrigger(function()
+        local source = unit(jass.GetAttacker())
+        local target = unit(jass.GetTriggerUnit())
+        source:event_notify('单位-攻击', source, target)
+        target:event_notify('单位-受攻击', source, target)
+    end)
 
     j_trg = war3.CreateTrigger(function()
         local killer = unit(jass.GetKillingUnit())

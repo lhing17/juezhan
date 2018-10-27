@@ -2091,22 +2091,9 @@ function Sw()
 	end
 	Pv = nil
 end
---0秒无敌，用来抵消伤害
-function WuDiQingChu()
-	local t = GetExpiredTimer()
-	local u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
-	SetUnitInvulnerable(u, false)
-	PauseTimer(t)
-	DestroyTimer(t)
-	t = nil
-	u = nil
-end
-function WuDi(u)
-	local t = CreateTimer()
-	SaveUnitHandle(YDHT, GetHandleId(t), 0, u)
-	SetUnitInvulnerable(u, true)
-	TimerStart(t, 0, false, WuDiQingChu)
-	t = nil
+function WuDi(handle)
+    local u = et.unit(handle)
+    u:set_invulnerable(0)
 end
 --使单位晕眩 先天功、铁布衫
 function SetUnitDizzyDoc()

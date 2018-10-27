@@ -20,117 +20,7 @@
 -- 19. 其他琐碎逻辑
 -----------------------------------
 
---基地保护机制
-function IsJiDiBaoHu()
-	return GetTriggerUnit() == udg_ZhengPaiWL and GetEventDamage() > GetUnitState(udg_ZhengPaiWL, UNIT_STATE_MAX_LIFE) * 0.03
-end
-function JiDiBaoHu()
-	WuDi(udg_ZhengPaiWL)
-	SetUnitLifePercentBJ(udg_ZhengPaiWL, GetUnitLifePercent(udg_ZhengPaiWL) - 3.0)
-end
 
---云大救家
-function Trig_YunDaXianShenConditions()
-	return GetTriggerUnit() == udg_ZhengPaiWL and GetUnitLifePercent(udg_ZhengPaiWL) <= 25.0 and udg_yunyangxianshen == false
-end
-function Trig_YunDaXianShenActions()
-	udg_yunyangxianshen = true
-	CreateNUnitsAtLoc(1, 1214409837, Player(5), OffsetLocation(GetUnitLoc(udg_ZhengPaiWL), 0, 200), 90.0)
-	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|cFFFF6600基地严重受创，云杨现身相助")
-	UnitApplyTimedLife(GetLastCreatedUnit(), 1112045413, 20.0)
-	UnitAddAbility(udg_ZhengPaiWL, 1098282348)
-	YDWEPolledWaitNull(20.0)
-	UnitRemoveAbilityBJ(1098282348, udg_ZhengPaiWL)
-end
---买基地无敌
-function BuyJiDiWuDi()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896664
-end
-function JiDiWuDi()
-	local id = GetHandleId(GetTriggeringTrigger())
-	local cx = LoadInteger(YDHT, id, -807506826)
-	cx = cx + 3
-	SaveInteger(YDHT, id, -807506826, cx)
-	SaveInteger(YDHT, id, -320330265, cx)
-	SaveUnitHandle(YDHT, id * cx, 849994952, udg_ZhengPaiWL)
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00ff33在正义之士的庇护下，武林暂时无敌了（20秒后解除）")
-	SetUnitInvulnerable(LoadUnitHandle(YDHT, id * cx, 849994952), true)
-	YDWEPolledWaitNull(20.0)
-	SaveInteger(YDHT, id, -320330265, cx)
-	SetUnitInvulnerable(LoadUnitHandle(YDHT, id * cx, 849994952), false)
-	FlushChildHashtable(YDHT, id * cx)
-end
---基地挨打
-function JiDiAiDa_Conditions()
-	return GetPlayerController(GetOwningPlayer(GetAttacker())) == MAP_CONTROL_COMPUTER
-end
-function laojiayouren()
-	return IsUnitAlly(GetFilterUnit(), Player(0)) and IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) and GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER
-end
-function JiDiAiDa_Actions()
-	--==============反仇恨机制定义单位组==============
-	local g = CreateGroup()
-	--==============反仇恨机制定义单位组==============
-	PingMinimapLocForForce(GetPlayersAll(), GetUnitLoc(udg_ZhengPaiWL), 1)
-	if GetRandomInt(30, 50) == 48 then
-		DisplayTextToForce(GetPlayersAll(), "|CFFCCFF00正派武林受到攻击，请赶紧回防")
-	end
-	if GetRandomInt(30, 50) == 45 and GetUnitTypeId(GetAttacker()) ~= u7[1] and GetUnitTypeId(GetAttacker()) ~= u7[2] and GetUnitTypeId(GetAttacker()) ~= u7[3] and GetUnitTypeId(GetAttacker()) ~= u7[4] and GetUnitTypeId(GetAttacker()) ~= u7[5] and GetUnitTypeId(GetAttacker()) ~= u7[6] and GetUnitTypeId(GetAttacker()) ~= u7[7] and GetUnitTypeId(GetAttacker()) ~= u7[8] then
-		SetUnitPositionLoc(GetAttacker(), GetRectCenter(udg_jail))
-		DisplayTextToForce(GetPlayersAll(), "|CFFCCFFCC正派武林将攻击单位抓进了监狱")
-	end
-	--==========反仇恨机制，按云大建议去掉==============
-	GroupEnumUnitsInRangeOfLoc(g, GetUnitLoc(udg_ZhengPaiWL), 800, Condition(laojiayouren))
-	if IsUnitGroupEmptyBJ(g) == false then
-		UnitAddAbility(udg_ZhengPaiWL, 1093677139)
-		--call SetUnitInvulnerable(udg_ZhengPaiWL,true)
-		GroupClear(g)
-		YDWEPolledWaitNull(5.0)
-		--call SetUnitInvulnerable(udg_ZhengPaiWL,false)
-		UnitRemoveAbility(udg_ZhengPaiWL, 1093677139)
-		g = nil
-	end
---==========反仇恨机制，按云大建议去掉==============
-end
---购买城防
-function BuyChengFang()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896147
-end
-function ShengChengFang()
-	local id = GetHandleId(GetTriggeringTrigger())
-	SaveInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251, 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())))
-	if GetPlayerTechCountSimple(1378889776, Player(5)) <= 29 then
-		SetPlayerTechResearchedSwap(1378889776, GetPlayerTechCountSimple(1378889776, Player(5)) + 1, Player(5))
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFFFD700在玩家：" .. (GetPlayerName(GetOwningPlayer(GetTriggerUnit())) or "") .. "的无私奉献下，正派武林的城防得到加强了")
-		shoujiajf[LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251)] = shoujiajf[LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251)] + 15
-		DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF34FF00守家积分+15")
-	else
-		AdjustPlayerStateBJ(20000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
-		DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF0000城防已达最高，无法继续升级|r")
-	end
-end
---高级城防
-function BuyGaoChengFang()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896917
-end
-function ShengGaoChengFang()
-	local id = GetHandleId(GetTriggeringTrigger())
-	SaveInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251, 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())))
-	if udg_boshu >= 18 then
-		if GetPlayerTechCountSimple(1378889778, Player(5)) <= 9 then
-			SetPlayerTechResearchedSwap(1378889778, GetPlayerTechCountSimple(1378889778, Player(5)) + 1, Player(5))
-			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFFFD700在玩家：" .. (GetPlayerName(GetOwningPlayer(GetTriggerUnit())) or "") .. "的无私奉献下，正派武林的高级城防得到加强了")
-			shoujiajf[LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251)] = shoujiajf[LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -1587459251)] + 25
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF34FF00守家积分+25")
-		else
-			AdjustPlayerStateBJ(50000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF0000高级城防已达最高，无法继续升级|r")
-		end
-	else
-		AdjustPlayerStateBJ(50000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
-		DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF000018波进攻怪以后才能使用此功能哦|r")
-	end
-end
 
 
 --选择门派加入
@@ -4304,11 +4194,7 @@ function GameLogic_Trigger()
 	ii = CreateTrigger()
 	TriggerRegisterUnitEvent(ii, udg_ZhengPaiWL, EVENT_UNIT_DEATH)
 	TriggerAddAction(ii, Lose)
-	-- 购买老家无敌
-	ji = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ji, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(ji, Condition(BuyJiDiWuDi))
-	TriggerAddAction(ji, JiDiWuDi)
+
 	-- 首次显示系统窗口信息
 	ki = CreateTrigger()
 	TriggerRegisterTimerEventSingle(ki, 10.0)
@@ -4327,16 +4213,7 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerChatEvent(oi, Player(0), "sw", true)
 	TriggerAddCondition(oi, Condition(BeforeAttack))
 	TriggerAddAction(oi, SetShiWan)
-	-- 购买城防
-	pi = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(pi, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(pi, Condition(BuyChengFang))
-	TriggerAddAction(pi, ShengChengFang)
-	-- 购买高级城防
-	ri = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ri, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(ri, Condition(BuyGaoChengFang))
-	TriggerAddAction(ri, ShengGaoChengFang)
+
 	-- 积分换物品
 	si = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_PICKUP_ITEM)
@@ -4748,19 +4625,9 @@ function GameLogic_Trigger()
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, udg_nan)
 	TriggerAddAction(t, ChooseNanDu_Action)
-	t = CreateTrigger()
-	YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	TriggerAddCondition(t, Condition(IsJiDiBaoHu))
-	TriggerAddAction(t, JiDiBaoHu)
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(t, Condition(Trig_YunDaXianShenConditions))
-	TriggerAddAction(t, Trig_YunDaXianShenActions)
 
-	t = CreateTrigger()
-	TriggerRegisterUnitEvent(t, udg_ZhengPaiWL, EVENT_UNIT_ATTACKED)
-	TriggerAddCondition(t, Condition(JiDiAiDa_Conditions))
-	TriggerAddAction(t, JiDiAiDa_Actions)
+
+
 	t = CreateTrigger()
 	TriggerRegisterTimerEventPeriodic(t, 1000.0)
 	TriggerAddAction(t, MoJiaoJiuRen)

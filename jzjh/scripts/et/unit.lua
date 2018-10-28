@@ -459,15 +459,15 @@ function mt:get_life()
 end
 
 function mt:set_life(life)
-    return jass.SetUnitState(self.handle, UNIT_STATE_LIFE, life)
+    jass.SetUnitState(self.handle, UNIT_STATE_LIFE, life)
 end
 
 function mt:get_life_percent()
-    return jass.GetUnitLifePercent(self.handle)
+    return jass.GetUnitState(self.handle, UNIT_STATE_LIFE) / jass.GetUnitState(self.handle, UNIT_STATE_MAX_LIFE) * 100
 end
 
 function mt:set_life_percent(percent)
-    return jass.SetUnitLifePercentBJ(self.handle, percent)
+    self.set_life(self.get_max_life() * math.max(0, percent) * 0.01)
 end
 
 --大小

@@ -1,4 +1,4 @@
-require 'lni.lni'
+
 
 kongfu = {}
 setmetatable(kongfu,kongfu)

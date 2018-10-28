@@ -8,16 +8,16 @@ local function init()
             local i = p.id
             if GetUnitTypeId(L4[i]) == GetUnitTypeId(u.handle) then
                 pt = get_rect_random(Ge)
-                p:create_unit(GetUnitTypeId(u.handle), pt)
+                last_unit = p:create_unit(GetUnitTypeId(u.handle), pt)
                 p:setCamera(pt)
-                et.hero.create(bj_lastCreatedUnit, pick_table[u.handle])
+                et.hero.create(last_unit.handle, pick_table[u.handle])
                 et.unit(vipbanlv[i]):remove()
                 SelectUnitRemoveForPlayer(u.handle, p.handle)
-                SelectUnitAddForPlayer(bj_lastCreatedUnit, p.handle)
+                SelectUnitAddForPlayer(last_unit.handle, p.handle)
                 udg_hashero[i] = true
-                AddSpecialEffectTargetUnitBJ("overhead", bj_lastCreatedUnit, "Abilities\\Spells\\Other\\Awaken\\Awaken.mdl")
+                AddSpecialEffectTargetUnitBJ("overhead", last_unit.handle, "Abilities\\Spells\\Other\\Awaken\\Awaken.mdl")
                 DestroyEffect(bj_lastCreatedEffect)
-                udg_hero[i] = bj_lastCreatedUnit
+                udg_hero[i] = last_unit.handle
                 RemoveLocation(Q4)
                 p:send_message("|CFFFF0000请从天下门派处选择你喜欢的门派后方可离开此地|r")
                 p:send_message("|CFFFF0000输入-random可随机选择门派并获得额外60个木头，选取方式请到F9中寻找|r")

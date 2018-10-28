@@ -4640,6 +4640,7 @@ require 'map.系统.套装'
 require 'map.系统.镶嵌'
 
 function Equipment_Trigger()
+	require('map.rules.基地保护')
 	local t = CreateTrigger()
 	--鸟拿东西显示附加属性
 	t = CreateTrigger()

@@ -65,6 +65,8 @@ mt.last_pause_clock = 0
 --系数
 mt.proc = 1
 
+mt.class = ''
+
 --获得所有者
 function mt:get_owner()
     return self.owner
@@ -120,7 +122,7 @@ end
 
 --是否是英雄
 function mt:is_hero()
-    return self.unit_type == '英雄' and not self._is_illusion
+    return jass.IsUnitType(self.handle, UNIT_TYPE_HERO) and not self._is_illusion
 end
 
 function mt:is_illusion()
@@ -231,7 +233,7 @@ function mt:remove()
     self._last_point = et.point(jass.GetUnitX(self.handle), jass.GetUnitY(self.handle))
     self:event_notify('单位-移除', self)
 
-    self:removeAllEffects()
+--    self:removeAllEffects()
 
     --移除单位的所有Buff
     if self.buffs then
@@ -313,6 +315,18 @@ function mt:get_point()
     else
         return et.point(jass.GetUnitX(self.handle), jass.GetUnitY(self.handle))
     end
+end
+
+function mt:getX()
+    return jass.GetUnitX(self.handle)
+end
+
+function mt:getY()
+    return jass.GetUnitY(self.handle)
+end
+
+function mt:has_restriction(restriction)
+    return false
 end
 
 --设置位置
@@ -1003,6 +1017,10 @@ function mt:wait_to_remove()
     table.insert(unit.wait_to_remove_table1, self)
 end
 
+function mt:set_lifetime(time)
+    jass.UnitApplyTimedLife(self.handle, 1112045413, time)
+end
+
 --转换handle为单位
 function unit.j_unit(handle)
     if not handle or handle == 0 then
@@ -1036,6 +1054,10 @@ function unit.saveDefaultUnits()
             log.error('未知的单位', u.handle, u.id, u:get_name())
         end
     end
+end
+
+function mt:set_class(c)
+    self.class = c
 end
 
 -- handle: jass的unit
@@ -1091,17 +1113,19 @@ function unit.init_unit(handle, p)
     if not u then
         return nil
     end
-    local data = et.lni.unit[u:get_name()]
-    if data then
-        u.unit_type = data.type
-        if data.attribute then
-            for k, v in pairs(data.attribute) do
-                u:set(k, v)
+    if et.lni.unit then
+        local data = et.lni.unit[u:get_name()]
+        if data then
+            u.unit_type = data.type
+            if data.attribute then
+                for k, v in pairs(data.attribute) do
+                    u:set(k, v)
+                end
             end
-        end
-        if data.restriction then
-            for _, v in ipairs(data.restriction) do
-                u:add_restriction(v)
+            if data.restriction then
+                for _, v in ipairs(data.restriction) do
+                    u:add_restriction(v)
+                end
             end
         end
     end
@@ -1130,9 +1154,11 @@ end
 --	位置
 --	[朝向]
 function player.__index:create_unit(id, where, face)
-    local data = et.lni.unit[id]
-    if data then
-        id = data.id
+    if et.lni.unit then
+        local data = et.lni.unit[id]
+        if data then
+            id = data.id
+        end
     end
     local j_id
     if type(id) == 'string' then
@@ -1158,9 +1184,11 @@ end
 
 function player.__index:create_dummy(id, where, face)
     local id = id or self:get_type_id()
-    local data = et.lni.unit[id]
-    if data then
-        id = data.id
+    if et.lni.unit then
+        local data = et.lni.unit[id]
+        if data then
+            id = data.id
+        end
     end
     local j_id = base.string2id(id)
     local x, y
@@ -1190,11 +1218,16 @@ function player.__index:create_dummy(id, where, face)
     return u
 end
 
+-- 设置无敌
 function mt:set_invulnerable(time)
     jass.SetUnitInvulnerable(self.handle, true)
     et.wait(time, function()
         jass.SetUnitInvulnerable(self.handle, false)
     end)
+end
+
+function mt:update()
+
 end
 
 --初始化
@@ -1287,6 +1320,10 @@ function unit.register_jass_triggers()
         target:event_notify('单位-受攻击', source, target)
     end)
 
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_ATTACKED, nil)
+    end
+
     j_trg = war3.CreateTrigger(function()
         local killer = unit(jass.GetKillingUnit())
         local killed = unit(jass.GetTriggerUnit())
@@ -1297,6 +1334,17 @@ function unit.register_jass_triggers()
     for i = 1, 16 do
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_DEATH, nil)
     end
+
+    j_trg = war3.CreateTrigger(function()
+        local item = jass.GetManipulatedItem()
+        local u = unit(jass.GetTriggerUnit())
+        unit:event_notify('单位-捡起物品', u, item)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, nil)
+    end
+
 end
 
 function init()

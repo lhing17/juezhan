@@ -163,6 +163,13 @@ function hero.create(jUnit, pick)
     setmetatable(h, hero)
     h.handle = jUnit
     -- 获取player对象
+
+    print(jUnit)
+    print(jass.GetOwningPlayer(jUnit))
+    print(et.player(jass.GetOwningPlayer(jUnit)))
+    print(et.player[jass.GetOwningPlayer(jUnit)])
+
+
     p = et.player(jass.GetOwningPlayer(jUnit))
     -- 将hero设为player对象的hero属性
     p.hero = h

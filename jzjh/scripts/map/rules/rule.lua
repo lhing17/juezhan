@@ -383,37 +383,7 @@ function Qx()
 	CreateQuestBJ(2, "|cFF00FF00隐藏门派", "游戏中有两个隐藏门派：姑苏慕容和灵鹫宫\n隐藏门派的选择方式:灵鹫宫选人后输入www.juezhanjianghu.com，慕容世家选人后输入jzjh.uuu9.com或3级前去找慕容复\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	CreateQuestBJ(2, "|cFF0000FF游戏网站", "专区论坛：|cFFCCFF33jzjhbbs.uuu9.com|r\n游戏作者：|cFFCCFF33云杨 Zei_kale|r\n游戏QQ群：|cFFCCFF33159030768, 369925013\n\n关注武侠，支持作者，详情请在网站和论坛查询", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 end
---ESC查看人物属性
-function RenWuShuXing()
-	local p = GetTriggerPlayer()
-	local i = 1 + GetPlayerId(p)
-	ClearTextMessagesBJ(ov(p))
-	DisplayTextToPlayer(p, 0, 0, "|cFFFF0000人物属性：")
-	DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF暴击率 ：   " .. (I2S(IMinBJ(R2I(udg_baojilv[i] * 100.0), 100)) or "") .. "%")
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF暴击伤害 ：   " .. (I2S(R2I(udg_baojishanghai[i] * 100.0)) or "") .. "%")
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF武功伤害加成 ：   " .. (I2S(R2I(udg_shanghaijiacheng[i] * 100.0)) or "") .. "%")
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF伤害吸收 ：   " .. (I2S(IMinBJ(R2I(udg_shanghaixishou[i] * 100.0), 80)) or "") .. "%")
-	DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF根骨 ：   " .. (I2S(gengu[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF悟性 ：   " .. (I2S(wuxing[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF经脉 ：   " .. (I2S(jingmai[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF福缘 ：   " .. (I2S(fuyuan[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF胆魄 ：   " .. (I2S(danpo[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF医术 ：   " .. (I2S(yishu[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
-	DisplayTextToPlayer(p, 0, 0, "|cFF33FF00绝学领悟力：" .. (I2S(juexuelingwu[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF33FF00修行：" .. (I2S(xiuxing[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF33FF00武学修为：第" .. (I2S(wugongxiuwei[i]) or "") .. "层")
-	DisplayTextToPlayer(p, 0, 0, "|cFF33FF00江湖声望：" .. (I2S(shengwang[i]) or ""))
-	DisplayTextToPlayer(p, 0, 0, "|cFF33FF00守家积分：" .. (I2S(shoujiajf[i]) or ""))
-	if Ce[i] ~= 1 then
-		DisplayTextToPlayer(p, 0, 0, "|cFF33FF00当前用丹数量：" .. (I2S(yongdanshu[i]) or "") .. " / 10")
-	else
-		DisplayTextToPlayer(p, 0, 0, "|cFF33FF00当前用丹数量：" .. (I2S(yongdanshu[i]) or "") .. " / 15")
-	end
-	p = nil
-end
+
 
 
 function hy()
@@ -3649,16 +3619,9 @@ function GameLogic_Trigger()
 	require 'map.rules.选择英雄'
 	require 'map.rules.选择门派'
 	require 'map.rules.伤害测试'
+	require 'map.rules.查看属性'
 
 
-	-- 按ESC查看人物属性
-	Rh = CreateTrigger()
-	TriggerRegisterPlayerEventEndCinematic(Rh, Player(0))
-	TriggerRegisterPlayerEventEndCinematic(Rh, Player(1))
-	TriggerRegisterPlayerEventEndCinematic(Rh, Player(2))
-	TriggerRegisterPlayerEventEndCinematic(Rh, Player(3))
-	TriggerRegisterPlayerEventEndCinematic(Rh, Player(4))
-	TriggerAddAction(Rh, RenWuShuXing)
 	-- up提升游戏难度
 	Sh = CreateTrigger()
 	TriggerRegisterPlayerChatEvent(Sh, Player(0), "up", false)

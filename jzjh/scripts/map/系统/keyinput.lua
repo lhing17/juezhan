@@ -520,7 +520,6 @@ function KeyInput(game, p, s)
 	end
 	if s == "ChuBoss1" then
 		CreateNUnitsAtLocFacingLocBJ(1, u7[1], Player(6), v7[6], v7[4])
-		CreateNUnitsAtLocFacingLocBJ(1, u7[1], Player(0), v7[6], v7[4])
 	elseif s == "ChuBoss2" then
 		CreateNUnitsAtLocFacingLocBJ(1, u7[2], Player(6), v7[6], v7[4])
 	elseif s == "ChuBoss3" then
@@ -545,5 +544,3 @@ end
 et.game:event '玩家-聊天' (function(self, player, str)
 	KeyInput(self, player, str)
 end)
-
-KeyInputSystem() 

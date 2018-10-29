@@ -7,4 +7,8 @@ require 'et.trigger'
 require 'et.event'
 require 'et.player'
 require 'et.timer'
+require 'et.point'
 require 'et.unit'
+require 'et.hero'
+require 'et.selector'
+

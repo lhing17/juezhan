@@ -9,7 +9,7 @@ end
 function ShangHaiGongShi(u, uc, w1, w2, shxishu, id)
 	local p = GetOwningPlayer(u)
 	local i = 1 + GetPlayerId(p)
-	local it = nil
+	local it
 	local j = 0
 	local shanghai
 	local attack

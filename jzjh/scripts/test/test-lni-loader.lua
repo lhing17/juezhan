@@ -38,7 +38,36 @@ end
 
 local function test_format()
     result = funcs.format(1.234)
-    print(result)
+    assert(result == '1.2')
+end
+
+local function storm_load(filename)
+    file = io.open(filename)
+    if file then
+        return file:read('*a')
+    end
+    return nil
+end
+
+local function test_packager()
+    loader:set_marco('TableSearcher', '$MapPath$lni\\table\\')
+    for _, path in ipairs(funcs.split(package.path, ';')) do
+        -- 把packagepath的?.lua替换成lni\table\.iniconfig
+        local buf = storm_load(path:gsub('%?%.lua', 'lni\\table\\.iniconfig'))
+        -- 如果找到了.iniconfig文件，将当前路径设置为地图搜索路径
+        if buf then
+            loader:set_marco('MapPath', path:gsub('%?%.lua', ''))
+            break
+        end
+    end
+    l = loader:packager('clothes', storm_load)
+    print('读取lni文件'..'clothes')
+    for k, v in pairs(l) do
+        print(k)
+        for k1, v1 in pairs(v) do
+            print('\t', k1, v1)
+        end
+    end
 end
 
 local function main()
@@ -47,6 +76,7 @@ local function main()
     test_table_copy()
     test_compile_computed()
     test_format()
+    test_packager()
 end
 
 main()

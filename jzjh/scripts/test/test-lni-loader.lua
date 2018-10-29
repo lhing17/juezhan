@@ -60,9 +60,17 @@ local function test_packager()
             break
         end
     end
-    l = loader:packager('clothes', storm_load)
-    print('读取lni文件'..'clothes')
-    for k, v in pairs(l) do
+    l = loader:packager('denomination', storm_load)
+    print('读取lni文件'..'denomination')
+    q = funcs.table_copy(l)
+    for k, v in pairs(q) do
+        v.name = k
+        if v.item_id then
+            q[v.item_id] = v
+        end
+
+    end
+    for k, v in pairs(q) do
         print(k)
         for k1, v1 in pairs(v) do
             print('\t', k1, v1)

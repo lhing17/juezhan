@@ -134,6 +134,11 @@ function mt:is_dummy()
     return self._is_dummy
 end
 
+function mt:set_owner(p)
+    jass.SetUnitOwner(self.handle, p.handle, true)
+    self.owner = p
+end
+
 --获得名字
 function mt:get_name()
     return self.name or self:get_slk 'Propernames' or self:get_slk 'Name'

@@ -187,7 +187,6 @@ chuansong = DialogCreate()
 wuhun1 = _array_()
 chuansong1 = _array_()
 udg_JTX = _array_()
-ceshi = false
 xunwu = _array_(0)
 yangshou = _array_(0)
 udg_yangshou = _array_(0)

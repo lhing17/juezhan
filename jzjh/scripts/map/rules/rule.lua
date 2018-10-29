@@ -3143,34 +3143,7 @@ function Trig_ttActions()
 	d2 = nil
 	tm = nil
 end
---伤害测试桩
-function IsCeShiShangHai()
-	return GetItemTypeId(GetManipulatedItem()) == 1227899447
-end
-function CeShiJieShu()
-	local t = GetExpiredTimer()
-	ceshi = false
-	SetUnitOwner(gg_unit_N00I_0116, Player(5), true)
-	BJDebugMsg("|cff00ff00测试总伤害为" .. (R2S(ceshizongshanghai) or ""))
-	PauseTimer(t)
-	DestroyTimer(t)
-	t = nil
-end
-function CeShiShangHai()
-	local t = CreateTimer()
-	ceshi = true
-	ceshizongshanghai = 0
-	BJDebugMsg(GetUnitName(gg_unit_N00I_0116))
-	SetUnitOwner(gg_unit_N00I_0116, Player(6), true)
-	TimerStart(t, 10, false, CeShiJieShu)
-	t = nil
-end
-function IsCalcShangHai()
-	return ceshi
-end
-function CalcShangHai()
-	ceshizongshanghai = ceshizongshanghai + GetEventDamage()
-end
+
 --抽血术
 function ChouXie_Condition()
 	return IsUnitInGroup(GetAttacker(), w7) and GetPlayerTechCountSimple(1378889777, Player(6)) == 50 and GetTriggerUnit() ~= udg_ZhengPaiWL and GetUnitTypeId(GetTriggerUnit()) ~= 1214409837 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429574 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429575
@@ -3675,15 +3648,8 @@ function GameLogic_Trigger()
 	local t = CreateTrigger()
 	require 'map.rules.选择英雄'
 	require 'map.rules.选择门派'
-	-- 伤害测试
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(IsCeShiShangHai))
-	TriggerAddAction(t, CeShiShangHai)
-	t = CreateTrigger()
-	TriggerRegisterUnitEvent(t, gg_unit_N00I_0116, EVENT_UNIT_DAMAGED)
-	TriggerAddCondition(t, Condition(IsCalcShangHai))
-	TriggerAddAction(t, CalcShangHai)
+	require 'map.rules.伤害测试'
+
 
 	-- 按ESC查看人物属性
 	Rh = CreateTrigger()

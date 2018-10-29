@@ -64,119 +64,6 @@ function ChooseMoShi_Action()
 		udg_sutong = true
 	end
 end
---调整游戏难度
-function GameNanDu_Condition()
-	--非特殊事件模式、非生存模式
-	return udg_teshushijian == false and udg_shengchun == false
-end
-function GameNanDu()
-	local t = GetTriggeringTrigger()
-	local id = GetHandleId(t)
-	local i = 0
-	local level = 0
-	if S2I(SubStringBJ(GetEventPlayerChatString(), 3, 5)) == 0 then
-		i = 10
-	else
-		i = S2I(SubStringBJ(GetEventPlayerChatString(), 3, 5)) * 10
-	end
-	level = GetPlayerTechCountSimple(1378889777, Player(12))
-	if level == 50 then
-		DisplayTextToPlayer(Player(0), 0, 0, "当前已为最高难度了")
-	else
-		if level + i >= 50 then
-			i = 50 - level
-		end
-		AddPlayerTechResearched(Player(12), 1378889777, i)
-		AddPlayerTechResearched(Player(6), 1378889777, i)
-		AddPlayerTechResearched(Player(15), 1378889777, i)
-		udg_nandu = udg_nandu + i // 10
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "玩家1输入“up”提高了游戏难度，目前游戏难度为" .. (I2S(udg_nandu) or ""))
-		if udg_nandu == 5 then
-			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF该模式下进攻怪具有|cFFFF0000抽血术")
-		end
-	end
-	t = nil
-end
-function ChooseNanDu()
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FF40主机开始选择游戏难度")
-	if GetPlayerController(Player(0)) == MAP_CONTROL_USER and GetPlayerSlotState(Player(0)) == PLAYER_SLOT_STATE_PLAYING then -- INLINED!!
-		DialogClear(udg_nan)
-		DialogSetMessage(udg_nan, "请选择游戏难度")
-		if udg_nandu <= 0 then
-			udg_nan0 = DialogAddButtonBJ(udg_nan, "|cFF00CC00初入江湖")
-		end
-		if udg_nandu <= 1 then
-			udg_nan1 = DialogAddButtonBJ(udg_nan, "|cFFCC0066牛刀小试")
-		end
-		if udg_nandu <= 2 then
-			udg_nan2 = DialogAddButtonBJ(udg_nan, "|cFFFF6600登堂入室")
-		end
-		if udg_nandu <= 3 then
-			udg_nan3 = DialogAddButtonBJ(udg_nan, "|cFF0041FF炉火纯青")
-		end
-		if udg_nandu <= 4 then
-			udg_nan4 = DialogAddButtonBJ(udg_nan, "|cFF1FBF00华山论剑")
-		end
-		if udg_nandu <= 5 then
-			udg_nan5 = DialogAddButtonBJ(udg_nan, "|cFFFF0000决战江湖")
-		end
-		DialogDisplayBJ(true, udg_nan, Player(0))
-	end
-end
--- 设置游戏难度和经验获得率的函数
-function setDifficultyAndExpRate(difficulty)
-	udg_nandu = difficulty
-	SetPlayerHandicapXPBJ(Player(0), 200.0 - 20.0 * difficulty)
-	SetPlayerHandicapXPBJ(Player(1), 200.0 - 20.0 * difficulty)
-	SetPlayerHandicapXPBJ(Player(2), 200.0 - 20.0 * difficulty)
-	SetPlayerHandicapXPBJ(Player(3), 200.0 - 20.0 * difficulty)
-	SetPlayerHandicapXPBJ(Player(4), 200.0 - 20.0 * difficulty)
-end
-function ChooseNanDu_Action()
-	if GetClickedButton() == udg_nan0 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFF00CC00初入江湖")
-		SetPlayerTechResearched(Player(12), 1378889777, 0)
-		SetPlayerTechResearched(Player(6), 1378889777, 0)
-		SetPlayerTechResearched(Player(15), 1378889777, 0)
-		setDifficultyAndExpRate(0)
-	end
-	if GetClickedButton() == udg_nan1 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFFCC0066牛刀小试")
-		SetPlayerTechResearched(Player(12), 1378889777, 10)
-		SetPlayerTechResearched(Player(6), 1378889777, 10)
-		SetPlayerTechResearched(Player(15), 1378889777, 10)
-		setDifficultyAndExpRate(1)
-	end
-	if GetClickedButton() == udg_nan2 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFFFF6600登堂入室")
-		SetPlayerTechResearched(Player(12), 1378889777, 20)
-		SetPlayerTechResearched(Player(6), 1378889777, 20)
-		SetPlayerTechResearched(Player(15), 1378889777, 20)
-		setDifficultyAndExpRate(2)
-	end
-	if GetClickedButton() == udg_nan3 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFF0041FF炉火纯青")
-		SetPlayerTechResearched(Player(12), 1378889777, 30)
-		SetPlayerTechResearched(Player(6), 1378889777, 30)
-		SetPlayerTechResearched(Player(15), 1378889777, 30)
-		setDifficultyAndExpRate(3)
-	end
-	if GetClickedButton() == udg_nan4 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFF1FBF00华山论剑")
-		SetPlayerTechResearched(Player(12), 1378889777, 40)
-		SetPlayerTechResearched(Player(6), 1378889777, 40)
-		SetPlayerTechResearched(Player(15), 1378889777, 40)
-		setDifficultyAndExpRate(4)
-	end
-	if GetClickedButton() == udg_nan5 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了难度|cFFFF0000决战江湖")
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF该模式下进攻怪具有|cFFFF0000抽血术")
-		SetPlayerTechResearched(Player(12), 1378889777, 50)
-		SetPlayerTechResearched(Player(6), 1378889777, 50)
-		SetPlayerTechResearched(Player(15), 1378889777, 50)
-		setDifficultyAndExpRate(5)
-	end
-end
 --试玩模式
 function BeforeAttack()
 	return hd == false
@@ -352,22 +239,8 @@ end
 function SetMaxDamage()
 	udg_MaxDamage[1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))] = GetEventDamage()
 end
---玩家离开
-function Xx()
-	bj_forLoopBIndex = 1
-	bj_forLoopBIndexEnd = 6
-	for _ in _loop_() do
-		if bj_forLoopBIndex > bj_forLoopBIndexEnd then break end
-		UnitRemoveItemSwapped(UnitItemInSlotBJ(GetEnumUnit(), bj_forLoopBIndex), GetEnumUnit())
-		bj_forLoopBIndex = bj_forLoopBIndex + 1
-	end
-	RemoveUnit(GetEnumUnit())
-end
-function PlayerLeave()
-	ForGroupBJ(AddPlayerUnitIntoGroup(GetTriggerPlayer(), nil), Xx)
-	yv(bj_lastCreatedMultiboard, 4, 1 + GetPlayerId(GetTriggerPlayer()) + 2, 100.0, 20.0, 100.0, 0)
-	DuoMianBan(bj_lastCreatedMultiboard, 5, (1 + GetPlayerId(GetTriggerPlayer())) * 4 - 2, "离开")
-end
+
+
 --F9显示
 function Qx()
 	CreateQuestBJ(0, "|cFFFF00001.53版本更新内容", "|cff00ff00新增元素|n|r|cffffff00开放新门派|r：泰山派|n|cffffff00装备调整|r：七绝护符、天璇护腕、神行鞋和神迹戒变更为神器|n|cff00ff00平衡性调整|n|r|cffffff00门派调整|r：全面平衡各门派伤害和升重速度|n|cffffff00删除了救火任务和青龙团队副本。|n积分兑换金钱和珍稀币随难度不同而不同。|n历练3的声望要求降至3200，十恶不赦基础血量降至30000。|n杀矮子王爆江湖忠，杀南海神尼爆九阴锻骨篇。|n大量游戏细节优化调整。|r|cff00ff00|nBUG修复|n|r|cffffff00修复部分装备不能正确加攻速和移速的BUG。|n修复部分武功属性要求显示不正确的BUG。|r", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
@@ -535,153 +408,7 @@ end
 function Ex()
 	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER -- INLINED!!
 end
-function PlayerDeath()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if ge[i] then
-		StartTimerBJ(udg_revivetimer[i], false, 7.0)
-	else
-		StartTimerBJ(udg_revivetimer[i], false, 15.0)
-	end
-	TimerDialogDisplayForPlayerBJ(true, bj_lastCreatedTimerDialog, p)
-	CreateTimerDialogBJ(bj_lastStartedTimer, "复活倒计时:")
-	R7[i] = bj_lastCreatedTimerDialog
-	he[i] = true
-	N8[i] = 0
-	GroupRemoveUnit(k9, u)
-	GroupRemoveUnit(j9, u)
-	GroupRemoveUnit(s9, u)
-	GroupRemoveUnit(r9, u)
-	if UnitHaveItem(u, 1227895379) or UnitHaveItem(u, 1227895373) or UnitHaveItem(u, 1227895377) or UnitHaveItem(u, 1227895378) or UnitHaveItem(u, 1227895376) then
-		if Ce[i] ~= 3 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFff0000养武消失了")
-		end
-	end
-	u = nil
-	p = nil
-end
---五个玩家复活
-function PlayerReviveA()
-	DestroyTimerDialog(R7[1])
-	Q4 = GetRectCenter(He)
-	ReviveHeroLoc(udg_hero[1], Q4, true)
-	PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_hero[1]), Q4, 0)
-	RemoveLocation(Q4)
-	he[1] = false
-	if UnitHaveItem(udg_hero[1], 1227895379) or UnitHaveItem(udg_hero[1], 1227895373) or UnitHaveItem(udg_hero[1], 1227895377) or UnitHaveItem(udg_hero[1], 1227895378) or UnitHaveItem(udg_hero[1], 1227895376) then
-		if Ce[1] ~= 3 then
-			RemoveItem(FetchUnitItem(udg_hero[1], 1227895379))
-			RemoveItem(FetchUnitItem(udg_hero[1], 1227895373))
-			RemoveItem(FetchUnitItem(udg_hero[1], 1227895377))
-			RemoveItem(FetchUnitItem(udg_hero[1], 1227895378))
-			RemoveItem(FetchUnitItem(udg_hero[1], 1227895376))
-		end
-	end
-	if GetUnitAbilityLevel(udg_hero[1], 1093677877) > 0 then
-		UnitRemoveAbility(udg_hero[1], 1093677877)
-		UnitAddAbility(udg_hero[1], 1093677876)
-		SetUnitAbilityLevel(udg_hero[1], 1093677876, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(udg_hero[1])), 1093677876 * 5))
-	end
-	AddCharacterABuff(udg_hero[1], udg_xinggeA[1])
-	AddCharacterBBuff(udg_hero[1], udg_xinggeB[1])
-end
-function PlayerReviveB()
-	DestroyTimerDialog(R7[2])
-	Q4 = GetRectCenter(He)
-	ReviveHeroLoc(udg_hero[2], Q4, true)
-	PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_hero[2]), Q4, 0)
-	RemoveLocation(Q4)
-	he[2] = false
-	if UnitHaveItem(udg_hero[2], 1227895379) or UnitHaveItem(udg_hero[2], 1227895373) or UnitHaveItem(udg_hero[2], 1227895377) or UnitHaveItem(udg_hero[2], 1227895378) or UnitHaveItem(udg_hero[2], 1227895376) then
-		if Ce[2] ~= 3 then
-			RemoveItem(FetchUnitItem(udg_hero[2], 1227895379))
-			RemoveItem(FetchUnitItem(udg_hero[2], 1227895373))
-			RemoveItem(FetchUnitItem(udg_hero[2], 1227895377))
-			RemoveItem(FetchUnitItem(udg_hero[2], 1227895378))
-			RemoveItem(FetchUnitItem(udg_hero[2], 1227895376))
-		end
-	end
-	if GetUnitAbilityLevel(udg_hero[2], 1093677877) > 0 then
-		UnitRemoveAbility(udg_hero[2], 1093677877)
-		UnitAddAbility(udg_hero[2], 1093677876)
-		SetUnitAbilityLevel(udg_hero[2], 1093677876, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(udg_hero[2])), 1093677876 * 5))
-	end
-	AddCharacterABuff(udg_hero[2], udg_xinggeA[2])
-	AddCharacterBBuff(udg_hero[2], udg_xinggeB[2])
-end
-function PlayerReviveC()
-	DestroyTimerDialog(R7[3])
-	Q4 = GetRectCenter(He)
-	ReviveHeroLoc(udg_hero[3], Q4, true)
-	PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_hero[3]), Q4, 0)
-	RemoveLocation(Q4)
-	he[3] = false
-	if UnitHaveItem(udg_hero[3], 1227895379) or UnitHaveItem(udg_hero[3], 1227895373) or UnitHaveItem(udg_hero[3], 1227895377) or UnitHaveItem(udg_hero[3], 1227895378) or UnitHaveItem(udg_hero[3], 1227895376) then
-		if Ce[3] ~= 3 then
-			RemoveItem(FetchUnitItem(udg_hero[3], 1227895379))
-			RemoveItem(FetchUnitItem(udg_hero[3], 1227895373))
-			RemoveItem(FetchUnitItem(udg_hero[3], 1227895377))
-			RemoveItem(FetchUnitItem(udg_hero[3], 1227895378))
-			RemoveItem(FetchUnitItem(udg_hero[3], 1227895376))
-		end
-	end
-	if GetUnitAbilityLevel(udg_hero[3], 1093677877) > 0 then
-		UnitRemoveAbility(udg_hero[3], 1093677877)
-		UnitAddAbility(udg_hero[3], 1093677876)
-		SetUnitAbilityLevel(udg_hero[3], 1093677876, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(udg_hero[3])), 1093677876 * 5))
-	end
-	AddCharacterABuff(udg_hero[3], udg_xinggeA[3])
-	AddCharacterBBuff(udg_hero[3], udg_xinggeB[3])
-end
-function PlayerReviveD()
-	DestroyTimerDialog(R7[4])
-	Q4 = GetRectCenter(He)
-	ReviveHeroLoc(udg_hero[4], Q4, true)
-	PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_hero[4]), Q4, 0)
-	RemoveLocation(Q4)
-	he[4] = false
-	if UnitHaveItem(udg_hero[4], 1227895379) or UnitHaveItem(udg_hero[4], 1227895373) or UnitHaveItem(udg_hero[4], 1227895377) or UnitHaveItem(udg_hero[4], 1227895378) or UnitHaveItem(udg_hero[4], 1227895376) then
-		if Ce[4] ~= 3 then
-			RemoveItem(FetchUnitItem(udg_hero[4], 1227895379))
-			RemoveItem(FetchUnitItem(udg_hero[4], 1227895373))
-			RemoveItem(FetchUnitItem(udg_hero[4], 1227895377))
-			RemoveItem(FetchUnitItem(udg_hero[4], 1227895378))
-			RemoveItem(FetchUnitItem(udg_hero[4], 1227895376))
-		end
-	end
-	if GetUnitAbilityLevel(udg_hero[4], 1093677877) > 0 then
-		UnitRemoveAbility(udg_hero[4], 1093677877)
-		UnitAddAbility(udg_hero[4], 1093677876)
-		SetUnitAbilityLevel(udg_hero[4], 1093677876, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(udg_hero[4])), 1093677876 * 5))
-	end
-	AddCharacterABuff(udg_hero[4], udg_xinggeA[4])
-	AddCharacterBBuff(udg_hero[4], udg_xinggeB[4])
-end
-function PlayerReviveE()
-	DestroyTimerDialog(R7[5])
-	Q4 = GetRectCenter(He)
-	ReviveHeroLoc(udg_hero[5], Q4, true)
-	PanCameraToTimedLocForPlayer(GetOwningPlayer(udg_hero[5]), Q4, 0)
-	RemoveLocation(Q4)
-	he[5] = false
-	if UnitHaveItem(udg_hero[5], 1227895379) or UnitHaveItem(udg_hero[5], 1227895373) or UnitHaveItem(udg_hero[5], 1227895377) or UnitHaveItem(udg_hero[5], 1227895378) or UnitHaveItem(udg_hero[5], 1227895376) then
-		if Ce[5] ~= 3 then
-			RemoveItem(FetchUnitItem(udg_hero[5], 1227895379))
-			RemoveItem(FetchUnitItem(udg_hero[5], 1227895373))
-			RemoveItem(FetchUnitItem(udg_hero[5], 1227895377))
-			RemoveItem(FetchUnitItem(udg_hero[5], 1227895378))
-			RemoveItem(FetchUnitItem(udg_hero[5], 1227895376))
-		end
-	end
-	if GetUnitAbilityLevel(udg_hero[5], 1093677877) > 0 then
-		UnitRemoveAbility(udg_hero[5], 1093677877)
-		UnitAddAbility(udg_hero[5], 1093677876)
-		SetUnitAbilityLevel(udg_hero[5], 1093677876, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(udg_hero[5])), 1093677876 * 5))
-	end
-	AddCharacterABuff(udg_hero[5], udg_xinggeA[5])
-	AddCharacterBBuff(udg_hero[5], udg_xinggeB[5])
-end
+
 
 function CA()
 	udg_counter1 = udg_counter1 + 1
@@ -3620,46 +3347,17 @@ function GameLogic_Trigger()
 	require 'map.rules.选择门派'
 	require 'map.rules.伤害测试'
 	require 'map.rules.查看属性'
+	require 'map.rules.英雄死活'
+	require 'map.rules.离开游戏'
 
 
-	-- up提升游戏难度
-	Sh = CreateTrigger()
-	TriggerRegisterPlayerChatEvent(Sh, Player(0), "up", false)
-	TriggerAddCondition(Sh, Condition(GameNanDu_Condition))
-	TriggerAddAction(Sh, GameNanDu)
-	-- 玩家英雄阵亡
-	Th = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Th, EVENT_PLAYER_UNIT_DEATH)
-	TriggerAddCondition(Th, Condition(Ex))
-	TriggerAddAction(Th, PlayerDeath)
-	-- 玩家英雄复活
-	Uh = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(Uh, udg_revivetimer[1])
-	TriggerAddAction(Uh, PlayerReviveA)
-	Vh = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(Vh, udg_revivetimer[2])
-	TriggerAddAction(Vh, PlayerReviveB)
-	Wh = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(Wh, udg_revivetimer[3])
-	TriggerAddAction(Wh, PlayerReviveC)
-	Xh = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(Xh, udg_revivetimer[4])
-	TriggerAddAction(Xh, PlayerReviveD)
-	Yh = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(Yh, udg_revivetimer[5])
-	TriggerAddAction(Yh, PlayerReviveE)
+
+
 	-- 生成F9信息
 	Zh = CreateTrigger()
 	TriggerRegisterTimerEventSingle(Zh, 5)
 	TriggerAddAction(Zh, Qx)
-	-- 玩家离开游戏
-	fi = CreateTrigger()
-	TriggerRegisterPlayerEventLeave(fi, Player(0))
-	TriggerRegisterPlayerEventLeave(fi, Player(1))
-	TriggerRegisterPlayerEventLeave(fi, Player(2))
-	TriggerRegisterPlayerEventLeave(fi, Player(3))
-	TriggerRegisterPlayerEventLeave(fi, Player(4))
-	TriggerAddAction(fi, PlayerLeave)
+
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(gi, EVENT_PLAYER_UNIT_DEATH)
@@ -4102,9 +3800,7 @@ function GameLogic_Trigger()
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, wuhun)
 	TriggerAddAction(t, JiHuoCanZhang)
-	t = CreateTrigger()
-	TriggerRegisterDialogEvent(t, udg_nan)
-	TriggerAddAction(t, ChooseNanDu_Action)
+
 
 
 
@@ -4116,7 +3812,6 @@ end
 
 require 'map.系统.装备'
 require 'map.系统.套装'
-
 require 'map.系统.镶嵌'
 
 function Equipment_Trigger()

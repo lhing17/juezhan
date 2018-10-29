@@ -174,6 +174,7 @@ function hero.create(jUnit, pick)
     -- 将hero设为player对象的hero属性
     p.hero = h
     h.owner = p
+    h.unit = unit(h.handle)
 
     p:send_message(pick.pick_hint)
     h['悟性'] = h['悟性'] + pick['悟性']

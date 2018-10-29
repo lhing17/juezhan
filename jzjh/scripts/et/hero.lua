@@ -60,6 +60,7 @@ mt.gender = 0
 
 mt['门派'] = {}
 mt['武功'] = {}
+mt['伴侣'] = {}
 
 -- 最大伤害
 mt.max_damage = 0

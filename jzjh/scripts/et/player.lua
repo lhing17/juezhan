@@ -185,6 +185,18 @@ function mt:add_gold(gold)
     self:set_gold(self:get_gold() + gold)
 end
 
+
+function mt:get_lumber()
+    return jass.GetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_LUMBER)
+end
+
+function mt:set_lumber(lumber)
+    jass.SetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_LUMBER, lumber)
+end
+
+function mt:add_lumber(lumber)
+    self:set_lumber(self:get_lumber() + lumber)
+end
 --获取镜头属性
 --	镜头属性
 function mt:getCameraField(key)

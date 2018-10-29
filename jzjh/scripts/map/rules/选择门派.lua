@@ -10,456 +10,78 @@ function WuMenPai_Condition()
 end
 --自由门派
 function WuMenPai_Action()
-    local u = GetLeavingUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    udg_runamen[i] = 11
-    DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15.0, "|CFFff9933玩家" .. (GetPlayerName(p) or "") .. "选择了〓自由门派〓|r")
-    SetPlayerName(p, "〓自由门派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-    DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦），请在NPC郭靖处选择副职")
-    UnitAddAbility(u, 1093678418)
-    AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-    AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-    UnitAddAbility(u, 1093678128)
-    UnitAddAbility(u, 1093678129)
-    UnitAddAbility(u, 1093678130)
-    I7[(i - 1) * 20 + 8] = 1093678418
-    UnitRemoveAbility(u, 1098282348)
-    Q4 = GetRandomLocInRect(He)
-    SetUnitPositionLoc(u, Q4)
-    PanCameraToTimedLocForPlayer(p, Q4, 0)
-    CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-    AdjustPlayerStateBJ(60, p, PLAYER_STATE_RESOURCE_LUMBER)
-    P4[i] = bj_lastCreatedUnit
-    udg_shuxing[i] = udg_shuxing[i] + 5
-    RemoveLocation(Q4)
-    UnitAddItemByIdSwapped(1227896394, u)
-    u = nil
-    p = nil
-end
--- 加入门派的itemid
-function ox()
+    local u = et.unit(jass.GetLeavingUnit())
+    local p = et.player(u:get_owner())
+    local i = p.id
+    h['门派'] = et.lni.denomination['自由门派']
+    d = h['门派']
+    p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
+    p:set_name("〓"..d.name.."〓"..p:get_name())
+    u:add_ability(1093678418)
+    p:send_message("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
+    AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
+    AddCharacterBBuff(p.hero.handle, udg_xinggeB[i])
+    u:remove_ability(1098282348)
+    u:setPoint(get_rect_random(He))
+    p:setCamera(u:get_point())
+    h['伴侣'] = p:create_unit(1853257068, u:get_point())
+    h['悟性'] = h['悟性'] + d['悟性']
+    h['福缘'] = h['福缘'] + d['福缘']
+    h['医术'] = h['医术'] + d['医术']
+    h['根骨'] = h['根骨'] + d['根骨']
+    h['经脉'] = h['经脉'] + d['经脉']
+    h['胆魄'] = h['胆魄'] + d['胆魄']
+    u:add_item(1227896394)
+
+    p:add_lumber(60)
+    h['自由属性'] = h['自由属性'] + d['自由属性']
 
 end
-function JiaRuMenPai()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    if udg_runamen[i] ~= 0 then
-        if GetItemTypeId(GetManipulatedItem()) == 1227897157 and udg_runamen[i] == 11 and GetUnitLevel(u) < 2 and GetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER) >= 60 then
-            udg_runamen[i] = 13
-            DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15.0, "|CFFff9933玩家" .. (GetPlayerName(p) or "") .. "改拜入了〓姑苏慕容〓，大家一起膜拜他|r")
-            SetPlayerName(p, "〓姑苏慕容〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            AdjustPlayerStateBJ(-60, p, PLAYER_STATE_RESOURCE_LUMBER)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你已经加过门派了|r")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894833 then
-        if GetUnitTypeId(u) ~= 1328558130 and GetUnitTypeId(u) ~= 1328558131 then
-            udg_runamen[i] = 1
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓少林派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓少林派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 3
-            jingmai[i] = jingmai[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894834 then
-        if GetUnitTypeId(u) ~= 1328558128 then
-            udg_runamen[i] = 3
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓丐帮〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓丐帮〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            danpo[i] = danpo[i] + 3
-            jingmai[i] = jingmai[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894835 then
-        if GetUnitTypeId(u) ~= 1328558130 then
-            udg_runamen[i] = 4
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓华山派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓华山派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            wuxing[i] = wuxing[i] + 3
-            danpo[i] = danpo[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894836 then
-        if GetUnitTypeId(u) ~= 1328558132 and GetUnitTypeId(u) ~= 1328558131 then
-            udg_runamen[i] = 5
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓全真教〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓全真教〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            jingmai[i] = jingmai[i] + 3
-            fuyuan[i] = fuyuan[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894837 then
-        if GetUnitTypeId(u) ~= 1328558129 and GetUnitTypeId(u) ~= 1328558130 then
-            udg_runamen[i] = 6
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓血刀门〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓血刀门〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 2
-            danpo[i] = danpo[i] + 3
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894838 then
-        if GetUnitTypeId(u) ~= 1328558132 and GetUnitTypeId(u) ~= 1328558128 and GetUnitTypeId(u) ~= 1328558129 then
-            udg_runamen[i] = 7
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓恒山派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓恒山派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            yishu[i] = yishu[i] + 3
-            fuyuan[i] = fuyuan[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894839 then
-        if GetUnitTypeId(u) ~= 1328558132 then
-            udg_runamen[i] = 8
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓峨眉派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓峨眉派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            yishu[i] = yishu[i] + 1
-            jingmai[i] = jingmai[i] + 1
-            fuyuan[i] = fuyuan[i] + 3
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894840 then
-        if GetUnitTypeId(u) ~= 1328558129 then
-            udg_runamen[i] = 10
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓星宿派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓星宿派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            Q4 = GetRandomLocInRect(He)
-            UnitRemoveAbility(u, 1098282348)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            danpo[i] = danpo[i] + 2
-            yishu[i] = yishu[i] + 1
-            jingmai[i] = jingmai[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894841 then
-        if GetUnitTypeId(u) ~= 1328558131 then
-            udg_runamen[i] = 9
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓武当派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓武当派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            UnitRemoveAbility(u, 1098282348)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 1
-            jingmai[i] = jingmai[i] + 2
-            fuyuan[i] = fuyuan[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227894849 then
-        if GetUnitTypeId(u) ~= 1328558128 then
-            udg_runamen[i] = 2
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓古墓派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓古墓派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            wuxing[i] = wuxing[i] + 2
-            jingmai[i] = jingmai[i] + 1
-            fuyuan[i] = fuyuan[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227897166 then
-        udg_runamen[i] = 14
-        DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓明教〓，请在NPC郭靖处选择副职|r")
-        SetPlayerName(p, "〓明教〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-        DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-        UnitAddAbility(u, 1093678418)
-        AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-        AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-        UnitAddAbility(u, 1093678128)
-        UnitAddAbility(u, 1093678129)
-        UnitAddAbility(u, 1093678130)
-        I7[(i - 1) * 20 + 8] = 1093678418
-        UnitRemoveAbility(u, 1098282348)
-        Q4 = GetRandomLocInRect(He)
-        SetUnitPositionLoc(u, Q4)
-        PanCameraToTimedLocForPlayer(p, Q4, 0)
-        CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-        P4[i] = bj_lastCreatedUnit
-        wuxing[i] = wuxing[i] + 3
-        jingmai[i] = jingmai[i] + 2
-        fuyuan[i] = fuyuan[i] + 2
-        RemoveLocation(Q4)
-        UnitAddItemByIdSwapped(1227896394, u)
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227899186 then
-        if GetUnitTypeId(u) ~= 1328558130 and GetUnitTypeId(u) ~= 1328558131 then
-            udg_runamen[i] = 15
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓衡山派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓衡山派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            wuxing[i] = wuxing[i] + 3
-            yishu[i] = yishu[i] + 2
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227899723 then
-        if GetUnitTypeId(u) == 1328558128 or GetUnitTypeId(u) == 1328558129 or GetUnitTypeId(u) == 1328558132 or GetUnitTypeId(u) == 1328558666 then
-            udg_runamen[i] = 16
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓神龙教〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓神龙教〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 2
-            fuyuan[i] = fuyuan[i] + 2
-            danpo[i] = danpo[i] + 1
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            udg_runamen[i] = 17
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓神龙教〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓神龙教〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 2
-            fuyuan[i] = fuyuan[i] + 2
-            danpo[i] = danpo[i] + 1
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        end
-    elseif GetItemTypeId(GetManipulatedItem()) == 1227899736 then
-        if GetUnitTypeId(u) ~= 1328558131 then
-            udg_runamen[i] = 18
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933恭喜加入〓泰山派〓，请在NPC郭靖处选择副职|r")
-            SetPlayerName(p, "〓泰山派〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-            UnitAddAbility(u, 1093678418)
-            AddCharacterABuff(udg_hero[i], udg_xinggeA[i])
-            AddCharacterBBuff(udg_hero[i], udg_xinggeB[i])
-            UnitAddAbility(u, 1093678128)
-            UnitAddAbility(u, 1093678129)
-            UnitAddAbility(u, 1093678130)
-            I7[(i - 1) * 20 + 8] = 1093678418
-            UnitRemoveAbility(u, 1098282348)
-            Q4 = GetRandomLocInRect(He)
-            SetUnitPositionLoc(u, Q4)
-            PanCameraToTimedLocForPlayer(p, Q4, 0)
-            CreateNUnitsAtLoc(1, 1853257068, p, Q4, bj_UNIT_FACING)
-            P4[i] = bj_lastCreatedUnit
-            gengu[i] = gengu[i] + 3
-            wuxing[i] = wuxing[i] + 1
-            yishu[i] = yishu[i] + 1
-            RemoveLocation(Q4)
-            UnitAddItemByIdSwapped(1227896394, u)
-        else
-            DisplayTimedTextToPlayer(p, 0, 0, 15.0, "|CFFff0000你的角色不能加入该门派")
-        end
-    end
-    p = nil
-    u = nil
-end
+
+
+
+
+
 
 local function init()
-
+    -- 加入门派
     et.game:event '单位-捡起物品'(function(self, u, item)
         if u:is_hero() and is_in(GetItemTypeId(GetManipulatedItem()), { 1227894833, 1227894834, 1227894835, 1227894836, 1227894837, 1227894838, 1227894839, 1227894840, 1227894841, 1227897157, 1227894849, 1227897166, 1227899186, 1227899723, 1227899736 }) then
-
+            local p = u:get_owner()
+            local h = p.hero
+            if udg_runamen[i] ~= 0 then
+                p:send_message("|CFFff0000你已经加过门派了|r")
+                return
+            end
+            if et.lni.denomination[GetItemTypeId(GetManipulatedItem())] then
+                local d = et.lni.denomination[GetItemTypeId(GetManipulatedItem())]
+                if not is_in(u.id, d.permit_ids) then
+                    h['门派'] = d
+                    p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
+                    p:set_name("〓"..d.name.."〓"..p:get_name())
+                    u:add_ability(1093678418)
+                    p:send_message("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
+                    AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
+                    AddCharacterBBuff(p.hero.handle, udg_xinggeB[i])
+                    u:remove_ability(1098282348)
+                    u:setPoint(get_rect_random(He))
+                    p:setCamera(u:get_point())
+                    h['伴侣'] = p:create_unit(1853257068, u:get_point())
+                    h['悟性'] = h['悟性'] + d['悟性']
+                    h['福缘'] = h['福缘'] + d['福缘']
+                    h['医术'] = h['医术'] + d['医术']
+                    h['根骨'] = h['根骨'] + d['根骨']
+                    h['经脉'] = h['经脉'] + d['经脉']
+                    h['胆魄'] = h['胆魄'] + d['胆魄']
+                    u:add_item(1227896394)
+                else
+                    p:send_message("|CFFff0000你的角色不能加入该门派")
+                end
+            end
         end
     end)
 
-    -- 加入门派
-    Mh = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Mh, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(Mh, Condition(ox))
-    TriggerAddAction(Mh, JiaRuMenPai)
+
     -- 自由门派
     Mh = CreateTrigger()
     YDWETriggerRegisterLeaveRectSimpleNull(Mh, udg_xuanmenpai)

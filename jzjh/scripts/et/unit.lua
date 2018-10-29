@@ -1226,6 +1226,16 @@ function mt:set_invulnerable(time)
     end)
 end
 
+function mt:add_item(id)
+    if type(id) == 'string' then
+        id = base.string2id(id)
+    end
+    local it = jass.CreateItem(id, self:getX(), self:getY())
+    jass.UnitAddItem(self.handle, it)
+    return it
+end
+
+
 function mt:update()
 
 end

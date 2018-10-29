@@ -1360,6 +1360,16 @@ function unit.register_jass_triggers()
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, nil)
     end
 
+    j_trg = war3.CreateTrigger(function()
+        local item = jass.GetManipulatedItem()
+        local u = unit(jass.GetTriggerUnit())
+        unit:event_notify('单位-使用', u, item)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, nil)
+    end
+
 end
 
 function init()

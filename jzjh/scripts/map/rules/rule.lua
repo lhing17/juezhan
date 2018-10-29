@@ -3026,42 +3026,7 @@ function sQ()
 	u = nil
 	p = nil
 end
---新手大礼包
-function uQ()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896394
-end
-function vQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	if GetRandomInt(1, 12) <= 3 then
-		AdjustPlayerStateBJ(20000, p, PLAYER_STATE_RESOURCE_GOLD)
-		DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得金钱+20000")
-	else
-		if GetRandomInt(1, 9) <= 3 then
-			UnitAddItemById(u, udg_jianghu[GetRandomInt(1, 18)])
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得随机江湖武功")
-		else
-			if GetRandomInt(1, 6) <= 3 then
-				UnitAddAbility(u, 1093679441)
-				DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得神行状态")
-				et.wait(300 * 1000, function()
-					UnitRemoveAbility(u, 1093679441)
-					DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去神行效果")
-				end)				
-			else
-				YDWEGeneralBounsSystemUnitSetBonus(u, 3, 0, 20000)
-				DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00使用新手大礼包获得狂暴状态")
-				et.wait(120 * 1000, function()
-					YDWEGeneralBounsSystemUnitSetBonus(u, 3, 1, 20000)
-					DisplayTextToPlayer(p, 0, 0, "|cFFFF0000失去狂暴效果")
-				end)	
-				
-			end
-		end
-	end
-	u = nil
-	p = nil
-end
+
 --装备打孔
 function xQ()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896398
@@ -3684,11 +3649,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(mr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	TriggerAddCondition(mr, Condition(rQ))
 	TriggerAddAction(mr, sQ)
-	-- 新手大礼包
-	nr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(nr, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(nr, Condition(uQ))
-	TriggerAddAction(nr, vQ)
+
 	-- 装备打孔
 	pr = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(pr, EVENT_PLAYER_UNIT_USE_ITEM)
@@ -3800,10 +3761,6 @@ function GameLogic_Trigger()
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, wuhun)
 	TriggerAddAction(t, JiHuoCanZhang)
-
-
-
-
 	t = CreateTrigger()
 	TriggerRegisterTimerEventPeriodic(t, 1000.0)
 	TriggerAddAction(t, MoJiaoJiuRen)

@@ -19,7 +19,8 @@ mt.def_point = 0
 -- 游戏积分
 mt.game_point = 0
 
-mt['声望'] = 0
+-- 声望
+mt.reputation = 0
 
 mt['武学修为'] = 0
 

@@ -33,7 +33,7 @@ local function init()
         p:send_message("|cFF33FF00绝学领悟力：" .. h['绝学领悟'])
         p:send_message("|cFF33FF00修行：" .. h['历练'])
         p:send_message("|cFF33FF00武学修为：第" ..  h['武学修为'] .. "层")
-        p:send_message("|cFF33FF00江湖声望：" .. h['声望'])
+        p:send_message("|cFF33FF00江湖声望：" .. h.reputation)
         p:send_message("|cFF33FF00守家积分：" .. h.def_point)
     end)
 

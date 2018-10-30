@@ -1498,87 +1498,8 @@ function CollectGuDong_Actions()
 	p = nil
 end
 
-----------守家积分换物品系统开始--------//
-function IsJiFenHuan(it)
-	if GetItemTypeId(it) == 1227896399 or GetItemTypeId(it) == 1227899184 or GetItemTypeId(it) == 1227896403 or GetItemTypeId(it) == 1227896404 or GetItemTypeId(it) == 1227896402 or GetItemTypeId(it) == 1227896405 or GetItemTypeId(it) == 1227896400 or GetItemTypeId(it) == 1227896401 then
-		return true
-	end
-	return false
-end
-function JiFenHuan(u, it, id1, num, id2)
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(it) == id1 then
-		if shoujiajf[i] >= num then
-			shoujiajf[i] = shoujiajf[i] - num
-			if id1 == 1227896403 or id1 == 1227896404 or id1 == 1227896402 or id1 == 1227896405 or id1 == 1227896401 then
-				unitadditembyidswapped(id2, u)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			elseif id1 == 1227896400 then
-				AdjustPlayerStateBJ(20 - udg_nandu * 2, p, PLAYER_STATE_RESOURCE_LUMBER)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得珍稀币+" .. (I2S(20 - udg_nandu * 2) or ""))
-			elseif id1 == 1227896399 then
-				AdjustPlayerStateBJ(5000 - udg_nandu * 500, p, PLAYER_STATE_RESOURCE_GOLD)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得金钱+" .. (I2S(5000 - udg_nandu * 500) or ""))
-			elseif id1 == 1227899184 then
-				unitadditembyidswapped(id2, udg_hero[i])
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			end
-			DisplayTextToPlayer(p, 0, 0, "|cFF00CCff当前剩余守家积分：" .. (I2S(shoujiajf[i]) or ""))
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00守家积分不足")
-		end
-	end
-	p = nil
-end
-function BuyKuanDong()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and IsJiFenHuan(GetManipulatedItem())
-end
-function KuanDongHua()
-	local u = GetTriggerUnit()
-	JiFenHuan(u, GetManipulatedItem(), 1227896399, 20, 300)
-	JiFenHuan(u, GetManipulatedItem(), 1227899184, 50, 1227895892)
-	JiFenHuan(u, GetManipulatedItem(), 1227896403, 200, YaoCao[GetRandomInt(1, 12)])
-	JiFenHuan(u, GetManipulatedItem(), 1227896404, 100, 1227895374)
-	JiFenHuan(u, GetManipulatedItem(), 1227896402, 300, 1227896395)
-	JiFenHuan(u, GetManipulatedItem(), 1227896405, 600, 1227895372)
-	JiFenHuan(u, GetManipulatedItem(), 1227896400, 100, 5)
-	JiFenHuan(u, GetManipulatedItem(), 1227896401, 200, 1227896398)
-	u = nil
-end
-----------江湖声望换物品系统开始--------//
-function IsShengWangHuan(it)
-	if GetItemTypeId(it) == 1227899215 or GetItemTypeId(it) == 1227899216 or GetItemTypeId(it) == 1227899217 or GetItemTypeId(it) == 1227899218 then
-		return true
-	end
-	return false
-end
-function ShengWangHuan(u, it, id1, num, id2)
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(it) == id1 then
-		if shengwang[i] >= num then
-			shengwang[i] = shengwang[i] - num
-			unitadditembyidswapped(id2, u)
-			DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			DisplayTextToPlayer(p, 0, 0, "|cFF00CCff当前剩余江湖声望：" .. (I2S(shengwang[i]) or ""))
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00江湖声望不足")
-		end
-	end
-	p = nil
-end
-function BuyKuanDong_1()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and IsShengWangHuan(GetManipulatedItem())
-end
-function KuanDongHua_1()
-	local u = GetTriggerUnit()
-	ShengWangHuan(u, GetManipulatedItem(), 1227899215, 200, 1227896395)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899216, 4000, 1227896919)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899217, 2000, 1227899219)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899218, 1000, udg_canzhang[GetRandomInt(1, 10)])
-	u = nil
-end
+
+
 function IsWuXueJingYao()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227899219
 end
@@ -3154,6 +3075,7 @@ function GameLogic_Trigger()
 	require 'map.rules.新手礼包'
 	require 'map.rules.游戏胜负'
 	require 'map.rules.生成F9'
+	require 'map.rules.积分商店'
 
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
@@ -3179,16 +3101,7 @@ function GameLogic_Trigger()
 	TriggerAddCondition(oi, Condition(BeforeAttack))
 	TriggerAddAction(oi, SetShiWan)
 
-	-- 积分换物品
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(si, Condition(BuyKuanDong))
-	TriggerAddAction(si, KuanDongHua)
-	-- 声望换物品
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(si, Condition(BuyKuanDong_1))
-	TriggerAddAction(si, KuanDongHua_1)
+
 	-- FIXME 使用武学精要（目前有BUG）
 	si = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_USE_ITEM)

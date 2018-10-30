@@ -134,6 +134,11 @@ function mt:is_dummy()
     return self._is_dummy
 end
 
+function mt:set_owner(p)
+    jass.SetUnitOwner(self.handle, p.handle, true)
+    self.owner = p
+end
+
 --获得名字
 function mt:get_name()
     return self.name or self:get_slk 'Propernames' or self:get_slk 'Name'
@@ -1226,6 +1231,16 @@ function mt:set_invulnerable(time)
     end)
 end
 
+function mt:add_item(id)
+    if type(id) == 'string' then
+        id = base.string2id(id)
+    end
+    local it = jass.CreateItem(id, self:getX(), self:getY())
+    jass.UnitAddItem(self.handle, it)
+    return it
+end
+
+
 function mt:update()
 
 end
@@ -1343,6 +1358,16 @@ function unit.register_jass_triggers()
 
     for i = 1, 16 do
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, nil)
+    end
+
+    j_trg = war3.CreateTrigger(function()
+        local item = jass.GetManipulatedItem()
+        local u = unit(jass.GetTriggerUnit())
+        unit:event_notify('单位-使用', u, item)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, nil)
     end
 
 end

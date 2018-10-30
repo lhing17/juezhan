@@ -1,4 +1,4 @@
-function init()
+local function init()
 
     --基地保护机制
     et.game:event '单位-受到伤害'(function(self, source, target, damage)

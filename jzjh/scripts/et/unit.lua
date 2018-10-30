@@ -139,6 +139,14 @@ function mt:set_owner(p)
     self.owner = p
 end
 
+function mt:create_tag(s, size, zOffset, red, green, blue, transparency)
+    local tag = jass.CreateTextTag()
+    jass.SetTextTagText(tag, s, size * 0.023 / 10)
+    jass.SetTextTagPos(tag, self:getX(), self:getY(), zOffset or 0)
+    jass.SetTextTagColor(tag, math.floor(red * 2.55) or 0, math.floor(green * 2.55) or 255, math.floor(blue * 2.55) or 0, 100 - (transparency or 50))
+    return tag
+end
+
 --获得名字
 function mt:get_name()
     return self.name or self:get_slk 'Propernames' or self:get_slk 'Name'
@@ -238,7 +246,7 @@ function mt:remove()
     self._last_point = et.point(jass.GetUnitX(self.handle), jass.GetUnitY(self.handle))
     self:event_notify('单位-移除', self)
 
---    self:removeAllEffects()
+    --    self:removeAllEffects()
 
     --移除单位的所有Buff
     if self.buffs then
@@ -1239,7 +1247,6 @@ function mt:add_item(id)
     jass.UnitAddItem(self.handle, it)
     return it
 end
-
 
 function mt:update()
 

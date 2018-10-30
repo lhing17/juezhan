@@ -642,8 +642,29 @@ function mt:disable_ability(ability_id)
     self:get_owner():disable_ability(ability_id)
 end
 
-function mt:hasAbility(ability_id)
-    return self:get_ability_level(ability_id) > 1
+function mt:has_ability(ability_id)
+    return self:get_ability_level(ability_id) >= 1
+end
+
+function mt:has_all_abilities(...)
+    arg = { ... }
+    if arg[1] then
+        if type(arg[1]) == 'table' then
+            for _, v in ipairs(arg(1)) do
+                if not self:has_ability(v) then
+                    return false
+                end
+            end
+            return true
+        end
+        for _, v in ipairs(arg) do
+            if not self:has_ability(v) then
+                return false
+            end
+        end
+        return true
+    end
+    return false
 end
 
 --获取技能等级
@@ -1382,8 +1403,6 @@ function unit.register_jass_triggers()
     end
 
 end
-
-
 
 function init()
 

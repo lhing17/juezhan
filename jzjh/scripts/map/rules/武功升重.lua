@@ -13,7 +13,7 @@ function WuGongShengChong(j_unit, ability_id, r)
 	local p = u:get_owner()
 	local i = p.id
 	if level > 0 and level < 7 then
-		if u:hasAbility(1110454576) then
+		if u:has_ability(1110454576) then
 			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (5 + GetUnitAbilityLevel(u, 1093677654) // 2 + 2 * udg_jwjs[i]) * (2 + QiJueCoefficient(u)) // 40)
 		else
 			SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id, LoadInteger(YDHT, GetHandleId(GetOwningPlayer(u)), id) + (3 + udg_xinggeA[i]) * (wuxing[i] + 5 + GetRandomInt(0, R2I(r / 60))) * (4 + 2 * udg_jwjs[i]) * (2 + QiJueCoefficient(u)) // 40)

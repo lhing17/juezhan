@@ -72,6 +72,9 @@ mt.burned_paper = false
 -- 最大伤害
 mt.max_damage = 0
 
+-- 激活残章清单（存技能ID）
+mt.activated = {}
+
 pick_table = {}
 function hero.init_pick_table()
     pick_table[Ls] = {

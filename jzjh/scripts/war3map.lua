@@ -182,7 +182,7 @@ udg_HuanZhuangCD = _array_(false)
 -- 江湖、绝学、绝内的最大武功种类数
 MAX_WU_GONG_NUM = 56
 MAX_BAN_LV_NUM = 14
-wuhun = DialogCreate()
+
 chuansong = DialogCreate()
 wuhun1 = _array_()
 chuansong1 = _array_()

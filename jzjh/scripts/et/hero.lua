@@ -63,6 +63,12 @@ mt['门派'] = {}
 mt['武功'] = {}
 mt['伴侣'] = {}
 
+-- 结拜兄弟
+mt.brother = nil
+
+-- 是否烧过黄纸
+mt.burned_paper = false
+
 -- 最大伤害
 mt.max_damage = 0
 
@@ -156,7 +162,7 @@ function hero.init_pick_table()
 end
 
 
-function mt:getOwner()
+function mt:get_owner()
     return self.owner
 end
 

@@ -4,10 +4,9 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-a = 3
-t = { a = 2, [a] = 3}
+t = { a = nil, b = 3 }
 
+t.b = nil
 for k, v in pairs(t) do
     print(k, v)
-    print(t.a)
 end

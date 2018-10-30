@@ -9,7 +9,7 @@ local function init()
             if GetUnitTypeId(L4[i]) == GetUnitTypeId(u.handle) then
                 pt = get_rect_random(Ge)
                 last_unit = p:create_unit(GetUnitTypeId(u.handle), pt)
-                p:setCamera(pt)
+                p:set_camera(pt)
                 et.hero.create(last_unit.handle, pick_table[u.handle])
                 et.unit(vipbanlv[i]):remove()
                 SelectUnitRemoveForPlayer(u.handle, p.handle)

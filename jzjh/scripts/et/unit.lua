@@ -343,7 +343,7 @@ function mt:has_restriction(restriction)
 end
 
 --设置位置
-function mt:setPoint(point)
+function mt:set_point(point)
     if self:has_restriction '禁锢' then
         return false
     end
@@ -380,7 +380,7 @@ function mt:set_position(where, path, super)
     elseif y > y2 then
         y = y2
     end
-    self:setPoint(et.point(x, y))
+    self:set_point(et.point(x, y))
     return true
 end
 

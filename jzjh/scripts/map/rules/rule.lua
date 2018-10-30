@@ -1498,11 +1498,6 @@ function CollectGuDong_Actions()
 	p = nil
 end
 
-
-
-
-
-
 --遗忘武功
 function YiWangJiNeng()
 	return GetSpellAbilityId() == 1093678417
@@ -2861,67 +2856,7 @@ function aQ()
 		DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5.0, "|cffff0000你已经加入专精了！（每个角色只能选择一种专精，也可以不选择）")
 	end
 end
---结拜系统
-function MaiHuangZhi_Conditions()
-	return GetItemTypeId(GetManipulatedItem()) == 1227894832
-end
-function MaiHuangZhi()
-	unitadditembyidswapped(1227896153, GetTriggerUnit())
-	unitadditembyidswapped(1227896153, GetTriggerUnit())
-end
-function IsHuangZhi()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896153
-end
-function ShaoHuangZhi()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if Bd[i] then
-		DisplayTimedTextToPlayer(p, 0, 0, 20.0, "|cffff0000你已经使用过黄纸了，还是等等另外一个人的响应吧")
-		unitadditembyidswapped(1227896153, GetTriggerUnit())
-	else
-		Bd[i] = true
-		ad = ad + 1
-		bd[ad] = udg_hero[i]
-		if ModuloInteger(ad, 2) == 0 then
-			DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20.0, "|cffff66ff恭喜" .. (GetPlayerName(GetOwningPlayer(bd[ad - 1])) or "") .. "和" .. (GetPlayerName(GetOwningPlayer(bd[ad])) or "") .. "结拜为兄弟")
-		else
-			DisplayTimedTextToPlayer(p, 0, 0, 20.0, "|cffff66ff使用成功，等待另外一位玩家与你结拜....")
-		end
-	end
-	u = nil
-	p = nil
-end
-function kT()
-	return Bd[1 + GetPlayerId(GetTriggerPlayer())]
-end
-function mT()
-	local i = 1 + GetPlayerId(GetTriggerPlayer())
-	local j = 1
-	local x
-	local y
-	for _ in _loop_() do
-		if j > 6 then break end
-		if udg_hero[i] == bd[j] then
-			if ModuloInteger(j, 2) == 0 then
-				if bd[j - 1] ~= nil then
-					x = GetUnitX(bd[j - 1])
-					y = GetUnitY(bd[j - 1])
-					SetUnitPosition(udg_hero[i], x, y)
-					PanCameraToTimedForPlayer(GetTriggerPlayer(), x, y, 0)
-				end
-			else
-				if bd[j + 1] ~= nil then
-					x = GetUnitX(bd[j + 1])
-					y = GetUnitY(bd[j + 1])
-					SetUnitPosition(udg_hero[i], x, y)
-					PanCameraToTimedForPlayer(GetTriggerPlayer(), x, y, 0)
-				end
-			end
-		end
-		j = j + 1
-	end
-end
+
 function qT()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899471 or GetItemTypeId(GetManipulatedItem()) == 1227896659)
 end
@@ -3054,6 +2989,7 @@ function GameLogic_Trigger()
 	require 'map.rules.生成F9'
 	require 'map.rules.积分商店'
 	require 'map.rules.武学精要'
+	require 'map.rules.结拜'
 
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
@@ -3439,27 +3375,6 @@ function GameLogic_Trigger()
 	TriggerAddCondition(t, Condition(HeCheng_Conditions))
 	TriggerAddAction(t, HeCheng_Actions)
 
-
-	-- 买黄纸
-	cs = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(cs, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(cs, Condition(MaiHuangZhi_Conditions))
-	TriggerAddAction(cs, MaiHuangZhi)
-	-- 烧黄纸
-	Ds = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Ds, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(Ds, Condition(IsHuangZhi))
-	TriggerAddAction(Ds, ShaoHuangZhi)
-	-- 跳到结拜兄弟/夫妻处
-	Es = CreateTrigger()
-	TriggerRegisterPlayerChatEvent(Es, Player(0), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(1), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(2), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(3), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(4), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(5), "~", true)
-	TriggerAddCondition(Es, Condition(kT))
-	TriggerAddAction(Es, mT)
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, udg_index)
 	TriggerAddAction(t, ChooseMoShi_Action)

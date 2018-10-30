@@ -287,9 +287,15 @@ function et.point(x, y, z)
     return setmetatable({ x, y, z }, point)
 end
 
-function get_rect_random(j_rect)
+function et.get_rect_random(j_rect)
     x = math.random(jass.GetRectMinX(j_rect), jass.GetRectMaxX(j_rect))
     y = math.random(jass.GetRectMinY(j_rect), jass.GetRectMaxY(j_rect))
+    return et.point(x, y)
+end
+
+function et.get_rect_center(j_rect)
+    x = (jass.GetRectMaxX(j_rect) + jass.GetRectMinX(j_rect))/2
+    y = (jass.GetRectMaxY(j_rect) + jass.GetRectMinY(j_rect))/2
     return et.point(x, y)
 end
 

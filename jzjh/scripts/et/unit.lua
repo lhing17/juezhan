@@ -1196,7 +1196,7 @@ function player.__index:create_unit(id, where, face)
 end
 
 function player.__index:create_dummy(id, where, face)
-    local id = id or self:get_type_id()
+    id = id or self:get_type_id()
     if et.lni.unit then
         local data = et.lni.unit[id]
         if data then
@@ -1252,8 +1252,12 @@ function mt:update()
 
 end
 
+-- TODO 英雄升级时同步level
+
 --初始化
 function unit.init()
+
+    -- TODO 创建单位时设置单位等级
     --全局单位索引
     unit.all_units = {}
     unit.removed_units = setmetatable({}, { __mode = 'kv' })
@@ -1378,6 +1382,8 @@ function unit.register_jass_triggers()
     end
 
 end
+
+
 
 function init()
 

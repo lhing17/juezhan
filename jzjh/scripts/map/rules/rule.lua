@@ -1021,218 +1021,8 @@ function nB()
 	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入桃花岛")
 	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00”源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！“")
 end
---终南山
-function GQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896148 -- INLINED!!
-end
-function HQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 10 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足10级无法传送")
-	else
-		if shengwang[i] < 500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足500无法传送")
-		else
-			loc = GetRectCenter(Te)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入终南山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---少林寺后山
-function lQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896149 -- INLINED!!
-end
-function JQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 25 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足25级无法传送")
-	else
-		if shengwang[i] < 1500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足1500无法传送")
-		else
-			loc = GetRectCenter(ag)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入少林寺后山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---塞外
-function LQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896150 -- INLINED!!
-end
-function MQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 40 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足40级无法传送")
-	else
-		if shengwang[i] < 2500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足2500无法传送")
-		else
-			loc = GetRectCenter(Bg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入塞外")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---光明顶
-function OQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896151 -- INLINED!!
-end
-function PQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 55 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足55级无法传送")
-	else
-		if shengwang[i] < 4000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足4000无法传送")
-		else
-			loc = GetRectCenter(Lg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入光明顶")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---少林寺后山
-function RQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896152 -- INLINED!!
-end
-function SQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 70 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足70级无法传送")
-	else
-		if shengwang[i] < 6000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足6000无法传送")
-		else
-			loc = GetRectCenter(Rg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入少林寺后山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---边疆
-function UQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896385 -- INLINED!!
-end
-function VQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 100 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足100级无法传送")
-	else
-		if shengwang[i] < 9000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足9000无法传送")
-		else
-			loc = GetRectCenter(Zg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入边疆")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---驿站传送
-function IsYiZhan()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899472 or GetItemTypeId(GetManipulatedItem()) == 1227899473 or GetItemTypeId(GetManipulatedItem()) == 1227899474 or GetItemTypeId(GetManipulatedItem()) == 1227899475 or GetItemTypeId(GetManipulatedItem()) == 1227899476 or GetItemTypeId(GetManipulatedItem()) == 1227899477 or GetItemTypeId(GetManipulatedItem()) == 1227899478 or GetItemTypeId(GetManipulatedItem()) == 1227899479 or GetItemTypeId(GetManipulatedItem()) == 1227899480) -- INLINED!!
-end
-function YiZhanChuanSong()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(GetManipulatedItem()) == 1227899472 then
-		SetUnitPosition(udg_hero[i], 3763, -9091)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 3763, -9091, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至牛妖幻境")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899473 then
-		SetUnitPosition(udg_hero[i], 1446, -2317)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 1446, -2317, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至初入江湖")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899474 then
-		SetUnitPosition(udg_hero[i], 1863, 0)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 1863, 0, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至少林寺外")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899475 then
-		SetUnitPosition(udg_hero[i], -1476, 8139)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -1476, 8139, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至光明顶下")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899476 then
-		SetUnitPosition(udg_hero[i], -2400, -3900)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -2400, -3900, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至江南水乡")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899477 then
-		SetUnitPosition(udg_hero[i], -4400, -2950)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -4400, -2950, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至全真三子")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899478 then
-		SetUnitPosition(udg_hero[i], -5960, -160)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -5960, -160, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至雁门关内")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899479 then
-		SetUnitPosition(udg_hero[i], -13000, -15500)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -13000, -15500, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至大辽国")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899480 then
-		SetUnitPosition(udg_hero[i], -9000, -14000)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -9000, -14000, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至聚贤庄")
-	end
-	p = nil
-	u = nil
-end
+
+
 
 --古董价格
 function s5()
@@ -2990,6 +2780,10 @@ function GameLogic_Trigger()
 	require 'map.rules.积分商店'
 	require 'map.rules.武学精要'
 	require 'map.rules.结拜'
+	require 'map.rules.传送'
+
+
+	--TODO 分解文件
 
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
@@ -3257,10 +3051,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(Jt, EVENT_PLAYER_UNIT_ATTACKED)
 	TriggerAddCondition(Jt, Condition(MT))
 	TriggerAddAction(Jt, NT)
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(IsYiZhan))
-	TriggerAddAction(t, YiZhanChuanSong)
+
 	--抽血术
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
@@ -3301,36 +3092,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(qr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	TriggerAddCondition(qr, Condition(AQ))
 	TriggerAddAction(qr, aQ)
-	-- 传送到钟南山
-	tr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(tr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(tr, Condition(GQ))
-	TriggerAddAction(tr, HQ)
-	-- 传送到少林寺后山（25级）
-	ur = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ur, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(ur, Condition(lQ))
-	TriggerAddAction(ur, JQ)
-	-- 传送到塞外
-	vr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(vr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(vr, Condition(LQ))
-	TriggerAddAction(vr, MQ)
-	-- 传送到光明顶
-	wr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(wr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(wr, Condition(OQ))
-	TriggerAddAction(wr, PQ)
-	-- 传送到少林寺后山（70级）
-	xr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(xr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(xr, Condition(RQ))
-	TriggerAddAction(xr, SQ)
-	-- 传送到边疆
-	yr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(yr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(yr, Condition(UQ))
-	TriggerAddAction(yr, VQ)
+
 	-- 学习门派内功
 	br = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(br, EVENT_PLAYER_UNIT_PICKUP_ITEM)

@@ -7,7 +7,7 @@ local function init()
         if not p.hero and is_in(u.handle, pick_list) then
             local i = p.id
             if GetUnitTypeId(L4[i]) == GetUnitTypeId(u.handle) then
-                pt = get_rect_random(Ge)
+                pt = et.get_rect_random(Ge)
                 last_unit = p:create_unit(GetUnitTypeId(u.handle), pt)
                 p:set_camera(pt)
                 et.hero.create(last_unit.handle, pick_table[u.handle])

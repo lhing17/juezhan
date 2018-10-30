@@ -4,9 +4,10 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-t = { a = nil, b = 3 }
-
-t.b = nil
+t = { a = 2 }
+mt = { __index = { b = 3 } }
+setmetatable(t, mt)
 for k, v in pairs(t) do
     print(k, v)
 end
+print(t.b)

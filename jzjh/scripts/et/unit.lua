@@ -643,12 +643,12 @@ function mt:disable_ability(ability_id)
 end
 
 function mt:hasAbility(ability_id)
-    return self:getAbilityLevel(ability_id) > 1
+    return self:get_ability_level(ability_id) > 1
 end
 
 --获取技能等级
 --	技能id
-function mt:getAbilityLevel(ability_id)
+function mt:get_ability_level(ability_id)
     if type(ability_id) == 'string' then
         ability_id = base.string2id(ability_id)
     end
@@ -658,7 +658,7 @@ end
 --设置技能等级
 --	技能id
 --	[技能等级]
-function mt:setAbilityLevel(ability_id, lv)
+function mt:set_ability_level(ability_id, lv)
     if type(ability_id) == 'string' then
         ability_id = base.string2id(ability_id)
     end
@@ -999,7 +999,7 @@ function mt:addSight(r)
     self:add_ability 'A007'
     local handle = japi.EXGetUnitAbility(self.handle, base.string2id 'A007')
     japi.EXSetAbilityDataReal(handle, 2, 108, -r)
-    self:setAbilityLevel('A007', 2)
+    self:set_ability_level('A007', 2)
     self:remove_ability 'A007'
 end
 
@@ -1111,7 +1111,7 @@ local function init_unit(handle, p)
     --设置高度
     u:set_high(u:get_slk('moveHeight', 0))
 
-    if u:getAbilityLevel 'Aloc' ~= 0 then
+    if u:get_ability_level 'Aloc' ~= 0 then
         u:set_class '马甲'
     end
 
@@ -1142,7 +1142,7 @@ function unit.init_unit(handle, p)
             end
         end
     end
-    if u:getAbilityLevel 'Aloc' == 0 then
+    if u:get_ability_level 'Aloc' == 0 then
         u:event_notify('单位-创建', u)
     end
     if data then
@@ -1224,7 +1224,7 @@ function player.__index:create_dummy(id, where, face)
     u._is_dummy = true
     u._dummy_point = et.point(x, y)
     u._dummy_angle = face or 0
-    if u:getAbilityLevel 'Aloc' == 0 then
+    if u:get_ability_level 'Aloc' == 0 then
         u:event_notify('单位-创建', u)
     end
 
@@ -1370,7 +1370,7 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local item = jass.GetManipulatedItem()
         local u = unit(jass.GetTriggerUnit())
-        unit:event_notify('单位-使用', u, item)
+        unit:event_notify('单位-使用物品', u, item)
     end)
 
     for i = 1, 16 do

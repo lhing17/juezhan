@@ -1500,30 +1500,7 @@ end
 
 
 
-function IsWuXueJingYao()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227899219
-end
-function WuXueJingYao()
-	local p = GetOwningPlayer(GetTriggerUnit())
-	local i = 1 + GetPlayerId(p)
-	local u = udg_hero[i]
-	local j = GetRandomInt(1, 8)
-	local level = GetUnitAbilityLevel(u, I7[(i - 1) * 20 + j])
-	if I7[(i - 1) * 20 + j] ~= 1093678418 then
-		IncUnitAbilityLevel(u, I7[(i - 1) * 20 + j])
-		if GetUnitAbilityLevel(u, I7[(i - 1) * 20 + j]) == level then
-			unitadditembyidswapped(1227899219, GetTriggerUnit())
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00随机到九重或无法升重的技能，使用武学精要失败")
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00恭喜技能" .. (GetAbilityName(I7[(i - 1) * 20 + j]) or "") .. "升重")
-		end
-	else
-		unitadditembyidswapped(1227899219, GetTriggerUnit())
-		DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00随机到凌波微步，使用武学精要失败")
-	end
-	u = nil
-	p = nil
-end
+
 
 
 --遗忘武功
@@ -3076,6 +3053,7 @@ function GameLogic_Trigger()
 	require 'map.rules.游戏胜负'
 	require 'map.rules.生成F9'
 	require 'map.rules.积分商店'
+	require 'map.rules.武学精要'
 
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
@@ -3100,14 +3078,6 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerChatEvent(oi, Player(0), "sw", true)
 	TriggerAddCondition(oi, Condition(BeforeAttack))
 	TriggerAddAction(oi, SetShiWan)
-
-
-	-- FIXME 使用武学精要（目前有BUG）
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(si, Condition(IsWuXueJingYao))
-	TriggerAddAction(si, WuXueJingYao)
-
 	--将地图上初始所有单位加入单位组
 	Vi = CreateTrigger()
 	TriggerRegisterTimerEventSingle(Vi, 2.0)

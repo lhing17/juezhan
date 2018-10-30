@@ -9,7 +9,7 @@ end
 --武功升重及掌门称号系统
 function WuGongShengChong(j_unit, ability_id, r)
 	local u = et.unit(j_unit)
-	local level = u:getAbilityLevel(id)
+	local level = u:get_ability_level(id)
 	local p = u:get_owner()
 	local i = p.id
 	if level > 0 and level < 7 then

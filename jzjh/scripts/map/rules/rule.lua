@@ -665,46 +665,7 @@ end
 function ka()
 	GroupRemoveUnit(w7, GetTriggerUnit())
 end
---练功房刷怪
-function na()
-	return GetOwningPlayer(GetFilterUnit()) == Player(7) and IsUnitAliveBJ(GetFilterUnit())
-end
-function qa()
-	if CountUnitsInGroup(wv(Ie, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[1], bj_UNIT_FACING)
-	end
-	if CountUnitsInGroup(wv(Re, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[10], bj_UNIT_FACING)
-	end
-	if CountUnitsInGroup(wv(le, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[2], bj_UNIT_FACING)
-	end
-end
---练功房
-function sa()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895350 -- INLINED!!
-end
-function ua()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房二")
-	SetUnitPosition(GetTriggerUnit(), 4750, -3650)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 4250, -3650, 0)
-end
-function wa()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895351 -- INLINED!!
-end
-function xa()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房三")
-	SetUnitPosition(GetTriggerUnit(), 5920, -4750)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 5920, -4750, 0)
-end
-function za()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895361 -- INLINED!!
-end
-function Aa()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房一")
-	SetUnitPosition(GetTriggerUnit(), 3730, -4690)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 3730, -4690, 0)
-end
+
 
 
 --切换背包
@@ -2587,6 +2548,7 @@ function GameLogic_Trigger()
 	require 'map.rules.武学精要'
 	require 'map.rules.结拜'
 	require 'map.rules.传送'
+	require 'map.rules.练功房'
 
 
 	--TODO 分解文件
@@ -2665,25 +2627,7 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerUnitEventSimple(mj, Player(6), EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(mj, Condition(ja))
 	TriggerAddAction(mj, ka)
-	-- 练功房刷怪
-	nj = CreateTrigger()
-	TriggerRegisterTimerEventPeriodic(nj, 6.0)
-	TriggerAddAction(nj, qa)
-	-- 进入练功房
-	oj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(oj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(oj, Condition(sa))
-	TriggerAddAction(oj, ua)
-	-- 进入练功房
-	pj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(pj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(pj, Condition(wa))
-	TriggerAddAction(pj, xa)
-	-- 进入练功房
-	qj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(qj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(qj, Condition(za))
-	TriggerAddAction(qj, Aa)
+
 	-- 切换背包
 	rj = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(rj, EVENT_PLAYER_UNIT_SPELL_CAST)

@@ -59,9 +59,9 @@ mt['伤害回复'] = 0
 -- 性别 0-女 1-男
 mt.gender = 0
 
-mt['门派'] = {}
-mt['武功'] = {}
-mt['伴侣'] = {}
+mt['门派'] = nil
+mt['武功'] = nil
+mt['伴侣'] = nil
 
 -- 结拜兄弟
 mt.brother = nil
@@ -73,7 +73,10 @@ mt.burned_paper = false
 mt.max_damage = 0
 
 -- 激活残章清单（存技能ID）
-mt.activated = {}
+mt.activated = nil
+
+-- 武魂石激活对话
+mt.wuhun = nil
 
 pick_table = {}
 function hero.init_pick_table()
@@ -164,7 +167,6 @@ function hero.init_pick_table()
     }
 end
 
-
 function mt:get_owner()
     return self.owner
 end
@@ -179,7 +181,6 @@ function hero.create(jUnit, pick)
     print(jass.GetOwningPlayer(jUnit))
     print(et.player(jass.GetOwningPlayer(jUnit)))
     print(et.player[jass.GetOwningPlayer(jUnit)])
-
 
     p = et.player(jass.GetOwningPlayer(jUnit))
     -- 将hero设为player对象的hero属性
@@ -196,12 +197,20 @@ function hero.create(jUnit, pick)
     h['胆魄'] = h['胆魄'] + pick['胆魄']
     h.char_a = pick.char_a
     h.char_b = pick.char_b
+    -- 武功列表
+    h['武功'] = {}
+    -- 激活残章清单
+    h.activated = {}
+
+    h.wuhun = jass.DialogCreate()
+    local t = war3.CreateTrigger(function()
+        et.event_notify(h.wuhun, '对话框-按钮点击', jass.GetTriggerPlayer(), jass.GetClickedButton())
+    end)
+    jass.TriggerRegisterDialogEvent(t, h.wuhun)
+
     RemoveUnit(pick.handle)
     return h
 
 end
-
-
-
 
 return hero

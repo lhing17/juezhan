@@ -5,9 +5,15 @@
 ---
 
 t = { a = 2 }
-mt = { __index = { b = 3 } }
+s = { c = 4}
+mt = { __index = { b = 3} }
 setmetatable(t, mt)
-for k, v in pairs(t) do
-    print(k, v)
-end
+setmetatable(s, mt)
+
+t.b = "c"
+
 print(t.b)
+print(s.b)
+
+
+

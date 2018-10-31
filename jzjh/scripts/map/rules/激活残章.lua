@@ -73,102 +73,40 @@ residual[1227899735] = {
     name = "九阳真经残卷",
 }
 
-
-
-local wuhun = jass.DialogCreate()
-local function add_buttons(u)
-
-end
+local kongfu_list = { 1093678920, 1093679157, 1093678924, 1093678918, 1093679158, 1093679161, 1093678922, 1093678921, 1093678917, 1093678919, 1093682254 }
 --武魂石系统
-function WuHunShi()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    DialogClear(wuhun)
-    RemoveItem(GetManipulatedItem())
-    DialogSetMessage(wuhun, "请选择要激活的残章")
-    if Jd[i] == 0 then
-        wuhun1[1] = DialogAddButtonBJ(wuhun, "反两仪刀法")
+local function add_buttons(u, item)
+    local p = u:get_owner()
+    local h = p.hero
+    jass.DialogClear(h.wuhun)
+    h.wuhun_buttons = {}
+    jass.RemoveItem(item)
+    jass.DialogSetMessage(h.wuhun, "请选择要激活的残章")
+    for _, v in ipairs(kongfu_list) do
+        if not is_in(v, h.activated) then
+            h.wuhun_buttons[v] = jass.DialogAddButton(h.wuhun, jass.GetAbilityName(v), 0)
+        end
     end
-    if Id[i] == 0 then
-        wuhun1[2] = DialogAddButtonBJ(wuhun, "六脉神剑")
-    end
-    if Qd[i] == 0 then
-        wuhun1[3] = DialogAddButtonBJ(wuhun, "打狗棒法")
-    end
-    if ld[i] == 0 then
-        wuhun1[4] = DialogAddButtonBJ(wuhun, "独孤九剑")
-    end
-    if Od[i] == 0 then
-        wuhun1[5] = DialogAddButtonBJ(wuhun, "胡家刀法")
-    end
-    if Pd[i] == 0 then
-        wuhun1[6] = DialogAddButtonBJ(wuhun, "西毒棍法")
-    end
-    if Kd[i] == 0 then
-        wuhun1[7] = DialogAddButtonBJ(wuhun, "辟邪剑法")
-    end
-    if Ld[i] == 0 then
-        wuhun1[8] = DialogAddButtonBJ(wuhun, "野球拳法")
-    end
-    if Nd[i] == 0 then
-        wuhun1[9] = DialogAddButtonBJ(wuhun, "降龙十八掌")
-    end
-    if Md[i] == 0 then
-        wuhun1[10] = DialogAddButtonBJ(wuhun, "黯然销魂掌")
-    end
-    wuhun1[11] = DialogAddButtonBJ(wuhun, "取消")
-    DialogDisplay(p, wuhun, true)
-    u = nil
-    p = nil
-end
-function JiHuoCanZhang()
-    local p = GetTriggerPlayer()
-    local i = 1 + GetPlayerId(p)
-    if GetClickedButton() == wuhun1[1] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了反两仪刀法第1式：行气如虹")
-        Jd[i] = 1
-    end
-    if GetClickedButton() == wuhun1[2] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了六脉神剑第1式：少商剑")
-        Id[i] = 1
-    end
-    if GetClickedButton() == wuhun1[3] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了打狗棒法第1式：恶狗拦路")
-        Qd[i] = 1
-    end
-    if GetClickedButton() == wuhun1[4] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了独孤九剑第1式：破剑式")
-        ld[i] = 1
-    end
-    if GetClickedButton() == wuhun1[5] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了胡家刀法第1式：八方藏刀式")
-        Od[i] = 1
-    end
-    if GetClickedButton() == wuhun1[6] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了西毒棍法第1式：蛇盘青竹")
-        Pd[i] = 1
-    end
-    if GetClickedButton() == wuhun1[7] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了辟邪剑法第1式：流星赶月")
-        Kd[i] = 1
-    end
-    if GetClickedButton() == wuhun1[8] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了野球拳第1式：翻肘裂捶")
-        Ld[i] = 1
-    end
-    if GetClickedButton() == wuhun1[9] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了降龙十八掌第1式：神龙摆尾")
-        Nd[i] = 1
-    end
-    if GetClickedButton() == wuhun1[10] then
-        DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了黯然销魂掌第1式：无中生有")
-        Md[i] = 1
-    end
-    if GetClickedButton() == wuhun1[11] then
-        UnitAddItemById(P4[i], 1227897169)
-    end
-    p = nil
+    h.wuhun_buttons['cancel'] = jass.DialogAddButton(h.wuhun, "取消", 0)
+    jass.DialogDisplay(p.handle, h.wuhun, true)
+
+    et.event_register(h.wuhun, '对话框-按钮点击')(function(dialog, p, bt)
+        for k, v in pairs(h.wuhun_buttons) do
+            if bt == v then
+                if k == 'cancel' then
+                    u:add_item(1227897169)
+                else
+                    table.insert(h.activated, k)
+                    for _, v1 in pairs(residual) do
+                        if v1.kongfu == k then
+                            p:send_message("|CFF00ff33恭喜激活了" .. v1.name)
+                        end
+                    end
+
+                end
+            end
+        end
+    end)
 end
 
 local function init()
@@ -208,12 +146,5 @@ local function init()
 
     end)
 
-    ak = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(ak, EVENT_PLAYER_UNIT_USE_ITEM)
-    TriggerAddCondition(ak, Condition(IsWuHunShi))
-    TriggerAddAction(ak, WuHunShi)
-    t = CreateTrigger()
-    TriggerRegisterDialogEvent(t, wuhun)
-    TriggerAddAction(t, JiHuoCanZhang)
 end
 init()

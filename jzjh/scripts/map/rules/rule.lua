@@ -241,27 +241,6 @@ function SetMaxDamage()
 end
 
 
---F9显示
-function Qx()
-	CreateQuestBJ(0, "|cFFFF00001.53版本更新内容", "|cff00ff00新增元素|n|r|cffffff00开放新门派|r：泰山派|n|cffffff00装备调整|r：七绝护符、天璇护腕、神行鞋和神迹戒变更为神器|n|cff00ff00平衡性调整|n|r|cffffff00门派调整|r：全面平衡各门派伤害和升重速度|n|cffffff00删除了救火任务和青龙团队副本。|n积分兑换金钱和珍稀币随难度不同而不同。|n历练3的声望要求降至3200，十恶不赦基础血量降至30000。|n杀矮子王爆江湖忠，杀南海神尼爆九阴锻骨篇。|n大量游戏细节优化调整。|r|cff00ff00|nBUG修复|n|r|cffffff00修复部分装备不能正确加攻速和移速的BUG。|n修复部分武功属性要求显示不正确的BUG。|r", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(0, "|cFFFF00001.54版本更新内容", "|cff00ff00平衡性调整|n|r|cffffff00降低天柱云气触发概率。|n略微提升泰山十八盘的升重速度和触发概率。|n降低号令天下令的声望加成。|n缩小独孤九剑范围、减少时间、提升伤害。|n泰山派岱宗如何触发概率由100%改为15%。|n略微提高神行鞋爆率。|n其他细节优化。|r|cff00ff00|nBUG修复|n|r|cffffff00修复泰山十八盘+小无相无效的BUG。|n修正剑意和新手帮助的描述错误。|n修复神行鞋无CD的BUG。|r", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(0, "|cFFFF0000人物属性", "招式伤害：影响人物的所有武功的威力，中后期影响较大\n内力：加成武功伤害百分比，中后期影响较大\n真实伤害：造成不受内力影响的实际伤害，前期影响较大\n绝学领悟力：影响绝学的发挥效果和威力\n根骨：影响任务和武功学习条件，同时提高技能暴击力\n悟性：影响任务和武功学习条件，同时决定技能升级的概率\n经脉：影响任务和武功学习条件，同时提高法力回复速度\n福缘：影响任务和武功学习条件，同时提高被动武学触发概率\n胆魄：影响任务和武功学习条件，同时提高杀怪回复能力\n医术：影响任务和武功学习条件，同时提高自然生命回复速度", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(0, "|cFFFF6600人物武功", "门派武功：加入门派后每个英雄都会有3个武功，分别在3、8、15级时自动领悟\n门派心法：每个门派都有两种心法，可以在完成历练2后二选其一修习\n江湖武功：分为武功和心法两大类，需要通过使用武功秘籍获得\n绝学和绝内：后期厉害的大招，也需要通过使用武功秘籍获得\n绝阵：开放部分门派绝阵，请到聚贤庄寻找", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(0, "|cFF00FF00游戏指令", "按键Esc：|cFFCCFF33查看人物属性|r\n输入“sj”：|cFFCCFF33恢复视角|r\n输入“bl”：|cFFCCFF33查看伴侣属性|r\n输入“jy”：|cFFCCFF33将剑意转化为性格属性|r\n输入“up”：|cFFCCFF33非特殊事件模式下提高难度（只能提不能降）|r\n输入“fb”：|cFFCCFF33查询副本重置时间|r\n输入“yx”：|cFFCCFF33查询宝宝携带草药的总药性|r\n游戏开始2分钟内输入“sw”：|cFFCCFF33试玩模式|r\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(0, "|cFF0000FF游戏指令2", "输入“cksx”：|cFFCCFF33查看剩余自由属性点数|r\n输入属性拼音首字母如“gg”：|cFFCCFF33根骨+1|r\n输入属性拼音首字母加数值如“fy5”：|cFFCCFF33福缘+5|r\n输入“ckwq”：|cFFCCFF33查询自制武器属性|r\n输入“ckwg”：|cFFCCFF33查询自创武功|r\n输入“ckjn”：|cFFCCFF33查询人物性格和技能升重进度|r\n输入“ck”：|cFFCCFF33查询技能伤害|r\n输入“ckjf”：|cFFCCFF33查询守家积分|r\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(2, "|cFFFF00CC称号系统", "在游戏中，可以获得两种称号：门派称号和副职称号\n门派称号：如果你的所有门派武学和门派内功均达到6级，可以获得各门派的掌门称号；在获得掌门之前达成一定的条件，获得掌门称号时还可以获得额外的门派称号，具体门派称号的获得方法可以参考论坛的攻略。注意获得门派称号的契机只有一次。\n副职称号：游戏中的七种副职达到一定条件时，可以分别获得相应的副职大师称号，增加与该副职相关的额外能力，具体副职大师称号的获得方法可以参考论坛的攻略", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	--call CreateQuestBJ(2,"|cFFFFFF00武器系统","在游戏中，每一把武器都有自己的耐久度，每击杀一个单位耐久度减1，耐久度为0后武器破损消失\n如果副职选择兵器师，则武器不减少耐久度。\n每个玩家对每一种武器有一定的熟练度，每击杀一个单位增加一定熟练度，不同武器熟练度上限不同，熟练度上升武功的伤害将随之上升\n副职选择兵器师大幅提升武器的熟练度上限\n对某种武器极不熟练时伤害要低于不拿武器时的伤害","ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(2, "|cFFFF0000副职玩法", "玩家可在NPC郭靖处选择自己的副职，加入副职后会获得一些独特的能力\n副职满足一定条件后，可以获得相应的大师称号，获得大师后会额外获得一些能力\n炼丹师：可使用炼丹系统并可多服食五颗丹药\n锻造师：可使用镶嵌和锻造系统\n兵器师：镇妖死亡不掉落，拾取和冶炼兵器不受历练限制\n练气师：每提升一次等级增加4-12点招式伤害或内力或真实伤害\n寻宝师：副本双倍掉落\n鉴定师：爆双倍古董，可以使用古董换书，古董以最高价卖出\n丫鬟：携带两把武器及两件衣服\n精武师：技能升级到九重获得额外自创武学点，可以打出奇武\n更多大师获得方式和作用请到NPC随风而逝de风处查看", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(2, "|cFFFF6600称号系统", "玩家4个门派武功全部达到6级可获得掌门称号\n在获得掌门称号时若达到一定条件，可同时获得其他称号\n有一些称号与掌门无关，具体可参考网站或论坛的攻略\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(2, "|cFF00FF00隐藏门派", "游戏中有两个隐藏门派：姑苏慕容和灵鹫宫\n隐藏门派的选择方式:灵鹫宫选人后输入www.juezhanjianghu.com，慕容世家选人后输入jzjh.uuu9.com或3级前去找慕容复\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	CreateQuestBJ(2, "|cFF0000FF游戏网站", "专区论坛：|cFFCCFF33jzjhbbs.uuu9.com|r\n游戏作者：|cFFCCFF33云杨 Zei_kale|r\n游戏QQ群：|cFFCCFF33159030768, 369925013\n\n关注武侠，支持作者，详情请在网站和论坛查询", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-end
-
-
-
-
-
-
 --玩家英雄阵亡
 function Ex()
 	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER -- INLINED!!
@@ -1042,218 +1021,8 @@ function nB()
 	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入桃花岛")
 	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00”源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！“")
 end
---终南山
-function GQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896148 -- INLINED!!
-end
-function HQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 10 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足10级无法传送")
-	else
-		if shengwang[i] < 500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足500无法传送")
-		else
-			loc = GetRectCenter(Te)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入终南山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---少林寺后山
-function lQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896149 -- INLINED!!
-end
-function JQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 25 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足25级无法传送")
-	else
-		if shengwang[i] < 1500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足1500无法传送")
-		else
-			loc = GetRectCenter(ag)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入少林寺后山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---塞外
-function LQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896150 -- INLINED!!
-end
-function MQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 40 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足40级无法传送")
-	else
-		if shengwang[i] < 2500 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足2500无法传送")
-		else
-			loc = GetRectCenter(Bg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入塞外")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---光明顶
-function OQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896151 -- INLINED!!
-end
-function PQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 55 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足55级无法传送")
-	else
-		if shengwang[i] < 4000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足4000无法传送")
-		else
-			loc = GetRectCenter(Lg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入光明顶")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---少林寺后山
-function RQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896152 -- INLINED!!
-end
-function SQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 70 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足70级无法传送")
-	else
-		if shengwang[i] < 6000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足6000无法传送")
-		else
-			loc = GetRectCenter(Rg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入少林寺后山")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---边疆
-function UQ()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896385 -- INLINED!!
-end
-function VQ()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	local loc = nil
-	if GetUnitLevel(u) < 100 then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000等级不足100级无法传送")
-	else
-		if shengwang[i] < 9000 then
-			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000江湖声望不足9000无法传送")
-		else
-			loc = GetRectCenter(Zg)
-			SetUnitPositionLoc(u, loc)
-			PanCameraToTimedLocForPlayer(p, loc, 0)
-			RemoveLocation(loc)
-			DisplayTextToPlayer(p, 0, 0, "|cff66ff33进入边疆")
-		end
-	end
-	u = nil
-	p = nil
-	loc = nil
-end
---驿站传送
-function IsYiZhan()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899472 or GetItemTypeId(GetManipulatedItem()) == 1227899473 or GetItemTypeId(GetManipulatedItem()) == 1227899474 or GetItemTypeId(GetManipulatedItem()) == 1227899475 or GetItemTypeId(GetManipulatedItem()) == 1227899476 or GetItemTypeId(GetManipulatedItem()) == 1227899477 or GetItemTypeId(GetManipulatedItem()) == 1227899478 or GetItemTypeId(GetManipulatedItem()) == 1227899479 or GetItemTypeId(GetManipulatedItem()) == 1227899480) -- INLINED!!
-end
-function YiZhanChuanSong()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(GetManipulatedItem()) == 1227899472 then
-		SetUnitPosition(udg_hero[i], 3763, -9091)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 3763, -9091, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至牛妖幻境")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899473 then
-		SetUnitPosition(udg_hero[i], 1446, -2317)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 1446, -2317, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至初入江湖")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899474 then
-		SetUnitPosition(udg_hero[i], 1863, 0)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 1863, 0, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至少林寺外")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899475 then
-		SetUnitPosition(udg_hero[i], -1476, 8139)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -1476, 8139, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至光明顶下")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899476 then
-		SetUnitPosition(udg_hero[i], -2400, -3900)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -2400, -3900, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至江南水乡")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899477 then
-		SetUnitPosition(udg_hero[i], -4400, -2950)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -4400, -2950, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至全真三子")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899478 then
-		SetUnitPosition(udg_hero[i], -5960, -160)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -5960, -160, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至雁门关内")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899479 then
-		SetUnitPosition(udg_hero[i], -13000, -15500)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -13000, -15500, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至大辽国")
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227899480 then
-		SetUnitPosition(udg_hero[i], -9000, -14000)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -9000, -14000, 0)
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33传送至聚贤庄")
-	end
-	p = nil
-	u = nil
-end
+
+
 
 --古董价格
 function s5()
@@ -1518,113 +1287,6 @@ function CollectGuDong_Actions()
 	u = nil
 	p = nil
 end
-
-----------守家积分换物品系统开始--------//
-function IsJiFenHuan(it)
-	if GetItemTypeId(it) == 1227896399 or GetItemTypeId(it) == 1227899184 or GetItemTypeId(it) == 1227896403 or GetItemTypeId(it) == 1227896404 or GetItemTypeId(it) == 1227896402 or GetItemTypeId(it) == 1227896405 or GetItemTypeId(it) == 1227896400 or GetItemTypeId(it) == 1227896401 then
-		return true
-	end
-	return false
-end
-function JiFenHuan(u, it, id1, num, id2)
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(it) == id1 then
-		if shoujiajf[i] >= num then
-			shoujiajf[i] = shoujiajf[i] - num
-			if id1 == 1227896403 or id1 == 1227896404 or id1 == 1227896402 or id1 == 1227896405 or id1 == 1227896401 then
-				unitadditembyidswapped(id2, u)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			elseif id1 == 1227896400 then
-				AdjustPlayerStateBJ(20 - udg_nandu * 2, p, PLAYER_STATE_RESOURCE_LUMBER)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得珍稀币+" .. (I2S(20 - udg_nandu * 2) or ""))
-			elseif id1 == 1227896399 then
-				AdjustPlayerStateBJ(5000 - udg_nandu * 500, p, PLAYER_STATE_RESOURCE_GOLD)
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得金钱+" .. (I2S(5000 - udg_nandu * 500) or ""))
-			elseif id1 == 1227899184 then
-				unitadditembyidswapped(id2, udg_hero[i])
-				DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			end
-			DisplayTextToPlayer(p, 0, 0, "|cFF00CCff当前剩余守家积分：" .. (I2S(shoujiajf[i]) or ""))
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00守家积分不足")
-		end
-	end
-	p = nil
-end
-function BuyKuanDong()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and IsJiFenHuan(GetManipulatedItem())
-end
-function KuanDongHua()
-	local u = GetTriggerUnit()
-	JiFenHuan(u, GetManipulatedItem(), 1227896399, 20, 300)
-	JiFenHuan(u, GetManipulatedItem(), 1227899184, 50, 1227895892)
-	JiFenHuan(u, GetManipulatedItem(), 1227896403, 200, YaoCao[GetRandomInt(1, 12)])
-	JiFenHuan(u, GetManipulatedItem(), 1227896404, 100, 1227895374)
-	JiFenHuan(u, GetManipulatedItem(), 1227896402, 300, 1227896395)
-	JiFenHuan(u, GetManipulatedItem(), 1227896405, 600, 1227895372)
-	JiFenHuan(u, GetManipulatedItem(), 1227896400, 100, 5)
-	JiFenHuan(u, GetManipulatedItem(), 1227896401, 200, 1227896398)
-	u = nil
-end
-----------江湖声望换物品系统开始--------//
-function IsShengWangHuan(it)
-	if GetItemTypeId(it) == 1227899215 or GetItemTypeId(it) == 1227899216 or GetItemTypeId(it) == 1227899217 or GetItemTypeId(it) == 1227899218 then
-		return true
-	end
-	return false
-end
-function ShengWangHuan(u, it, id1, num, id2)
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if GetItemTypeId(it) == id1 then
-		if shengwang[i] >= num then
-			shengwang[i] = shengwang[i] - num
-			unitadditembyidswapped(id2, u)
-			DisplayTextToPlayer(p, 0, 0, "|CFF34FF00获得" .. (GetItemName(bj_lastCreatedItem) or ""))
-			DisplayTextToPlayer(p, 0, 0, "|cFF00CCff当前剩余江湖声望：" .. (I2S(shengwang[i]) or ""))
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00江湖声望不足")
-		end
-	end
-	p = nil
-end
-function BuyKuanDong_1()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and IsShengWangHuan(GetManipulatedItem())
-end
-function KuanDongHua_1()
-	local u = GetTriggerUnit()
-	ShengWangHuan(u, GetManipulatedItem(), 1227899215, 200, 1227896395)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899216, 4000, 1227896919)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899217, 2000, 1227899219)
-	ShengWangHuan(u, GetManipulatedItem(), 1227899218, 1000, udg_canzhang[GetRandomInt(1, 10)])
-	u = nil
-end
-function IsWuXueJingYao()
-	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227899219
-end
-function WuXueJingYao()
-	local p = GetOwningPlayer(GetTriggerUnit())
-	local i = 1 + GetPlayerId(p)
-	local u = udg_hero[i]
-	local j = GetRandomInt(1, 8)
-	local level = GetUnitAbilityLevel(u, I7[(i - 1) * 20 + j])
-	if I7[(i - 1) * 20 + j] ~= 1093678418 then
-		IncUnitAbilityLevel(u, I7[(i - 1) * 20 + j])
-		if GetUnitAbilityLevel(u, I7[(i - 1) * 20 + j]) == level then
-			unitadditembyidswapped(1227899219, GetTriggerUnit())
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00随机到九重或无法升重的技能，使用武学精要失败")
-		else
-			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00恭喜技能" .. (GetAbilityName(I7[(i - 1) * 20 + j]) or "") .. "升重")
-		end
-	else
-		unitadditembyidswapped(1227899219, GetTriggerUnit())
-		DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00随机到凌波微步，使用武学精要失败")
-	end
-	u = nil
-	p = nil
-end
-
 
 --遗忘武功
 function YiWangJiNeng()
@@ -1991,201 +1653,7 @@ end
 function BC()
 	ForGroupBJ(wv(bj_mapInitialPlayableArea, Condition(AC)), aC)
 end
--------激活残章-----
-function ActCanZhang(l__ut, it, id1, lwd, id2, id3, id4, s, flag)
-	local p = GetOwningPlayer(l__ut)
-	local i = 1 + GetPlayerId(p)
-	local u = udg_hero[i]
-	if GetUnitAbilityLevel(u, id1) <= 0 then
-		DisplayTextToPlayer(p, 0, 0, "|CFFFF0033你尚未学会该武功，无法激活隐藏招式")
-		unitadditembyidswapped(GetItemTypeId(it), l__ut)
-	else
-		if flag >= 1 then
-			DisplayTextToPlayer(p, 0, 0, "|CFFFF0033你之前已经激活过了")
-			unitadditembyidswapped(GetItemTypeId(it), l__ut)
-		else
-			if juexuelingwu[i] >= lwd and GetUnitAbilityLevel(u, id2) ~= 0 and GetUnitAbilityLevel(u, id3) ~= 0 and GetUnitAbilityLevel(u, id4) ~= 0 then
-				flag = 1
-				DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了" .. (s or ""))
-			else
-				DisplayTextToPlayer(p, 0, 0, "|CFFFF0033条件不足，激活失败")
-				unitadditembyidswapped(GetItemTypeId(it), l__ut)
-			end
-		end
-	end
-	u = nil
-	p = nil
-	return flag
-end
-function CC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896371
-end
-function cC()
-	Jd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678920, 5, 1093678935, 1093678933, 1093679152, "反两仪刀法第1式：行气如虹", Jd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function EC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896370
-end
-function FC()
-	Id[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093679157, 5, 1093678928, 1093678930, 1093679154, "六脉神剑第1式：少商剑", Id[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function HC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896369
-end
-function IC()
-	Qd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678924, 5, 1093679154, 1093678929, 1093682254, "打狗棒法第1式：恶狗拦路", Qd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function JC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896374
-end
-function KC()
-	ld[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678918, 5, 1093679428, 1093679152, 1093678897, "独孤九剑第1式：破剑式", ld[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function MC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896372
-end
-function NC()
-	Od[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093679158, 5, 1093679155, 1093678936, 1093678669, "胡家刀法第1式：八方藏刀式", Od[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function PC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896368
-end
-function QC()
-	Pd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093679161, 5, 1093679156, 1093682226, 1093678931, "西毒棍法第1式：蛇盘青竹", Pd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function SC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896377
-end
-function TC()
-	Kd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678922, 5, 1093678666, 1093678932, 1395666994, "辟邪剑法第1式：流星赶月", Kd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function VC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896376
-end
-function WC()
-	Ld[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678921, 5, 1093678926, 1093682232, 1093678936, "野球拳第1式：翻肘裂捶", Ld[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function YC()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896375
-end
-function ZC()
-	Nd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678917, 5, 1093682232, 1093678927, 1093682254, "降龙十八掌第1式：神龙摆尾", Nd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
-function ec()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896373
-end
-function gc()
-	Md[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093678919, 5, 1093678664, 1093678931, 1093679156, "黯然销魂掌第1式：无中生有", Md[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
---九阳真经残卷
-function isJiuYangCanJuan()
-	return GetItemTypeId(GetManipulatedItem()) == 1227899735
-end
-function jiuYangCanJuan()
-	JYd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ActCanZhang(GetTriggerUnit(), GetManipulatedItem(), 1093682254, 5, 1093682254, 1093679428, 1093678936, "九阳真经残卷", JYd[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-end
---武魂石系统
-function IsWuHunShi()
-	if GetItemTypeId(GetManipulatedItem()) == 1227897169 then
-		if De[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] == false and Ee[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] == false then
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFFFF0033未集齐决战套装或江湖套装，激活失败")
-			return false
-		else
-			return true
-		end
-	end
-	return false
-end
-function WuHunShi()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	DialogClear(wuhun)
-	RemoveItem(GetManipulatedItem())
-	DialogSetMessage(wuhun, "请选择要激活的残章")
-	if Jd[i] == 0 then
-		wuhun1[1] = DialogAddButtonBJ(wuhun, "反两仪刀法")
-	end
-	if Id[i] == 0 then
-		wuhun1[2] = DialogAddButtonBJ(wuhun, "六脉神剑")
-	end
-	if Qd[i] == 0 then
-		wuhun1[3] = DialogAddButtonBJ(wuhun, "打狗棒法")
-	end
-	if ld[i] == 0 then
-		wuhun1[4] = DialogAddButtonBJ(wuhun, "独孤九剑")
-	end
-	if Od[i] == 0 then
-		wuhun1[5] = DialogAddButtonBJ(wuhun, "胡家刀法")
-	end
-	if Pd[i] == 0 then
-		wuhun1[6] = DialogAddButtonBJ(wuhun, "西毒棍法")
-	end
-	if Kd[i] == 0 then
-		wuhun1[7] = DialogAddButtonBJ(wuhun, "辟邪剑法")
-	end
-	if Ld[i] == 0 then
-		wuhun1[8] = DialogAddButtonBJ(wuhun, "野球拳法")
-	end
-	if Nd[i] == 0 then
-		wuhun1[9] = DialogAddButtonBJ(wuhun, "降龙十八掌")
-	end
-	if Md[i] == 0 then
-		wuhun1[10] = DialogAddButtonBJ(wuhun, "黯然销魂掌")
-	end
-	wuhun1[11] = DialogAddButtonBJ(wuhun, "取消")
-	DialogDisplay(p, wuhun, true)
-	u = nil
-	p = nil
-end
-function JiHuoCanZhang()
-	local p = GetTriggerPlayer()
-	local i = 1 + GetPlayerId(p)
-	if GetClickedButton() == wuhun1[1] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了反两仪刀法第1式：行气如虹")
-		Jd[i] = 1
-	end
-	if GetClickedButton() == wuhun1[2] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了六脉神剑第1式：少商剑")
-		Id[i] = 1
-	end
-	if GetClickedButton() == wuhun1[3] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了打狗棒法第1式：恶狗拦路")
-		Qd[i] = 1
-	end
-	if GetClickedButton() == wuhun1[4] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了独孤九剑第1式：破剑式")
-		ld[i] = 1
-	end
-	if GetClickedButton() == wuhun1[5] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了胡家刀法第1式：八方藏刀式")
-		Od[i] = 1
-	end
-	if GetClickedButton() == wuhun1[6] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了西毒棍法第1式：蛇盘青竹")
-		Pd[i] = 1
-	end
-	if GetClickedButton() == wuhun1[7] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了辟邪剑法第1式：流星赶月")
-		Kd[i] = 1
-	end
-	if GetClickedButton() == wuhun1[8] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了野球拳第1式：翻肘裂捶")
-		Ld[i] = 1
-	end
-	if GetClickedButton() == wuhun1[9] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了降龙十八掌第1式：神龙摆尾")
-		Nd[i] = 1
-	end
-	if GetClickedButton() == wuhun1[10] then
-		DisplayTextToPlayer(p, 0, 0, "|CFF00ff33恭喜激活了黯然销魂掌第1式：无中生有")
-		Md[i] = 1
-	end
-	if GetClickedButton() == wuhun1[11] then
-		UnitAddItemById(P4[i], 1227897169)
-	end
-	p = nil
-end
+
 --学习门派内功
 function pR()
 	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895856 -- INLINED!!
@@ -2984,67 +2452,7 @@ function aQ()
 		DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5.0, "|cffff0000你已经加入专精了！（每个角色只能选择一种专精，也可以不选择）")
 	end
 end
---结拜系统
-function MaiHuangZhi_Conditions()
-	return GetItemTypeId(GetManipulatedItem()) == 1227894832
-end
-function MaiHuangZhi()
-	unitadditembyidswapped(1227896153, GetTriggerUnit())
-	unitadditembyidswapped(1227896153, GetTriggerUnit())
-end
-function IsHuangZhi()
-	return GetItemTypeId(GetManipulatedItem()) == 1227896153
-end
-function ShaoHuangZhi()
-	local u = GetTriggerUnit()
-	local p = GetOwningPlayer(u)
-	local i = 1 + GetPlayerId(p)
-	if Bd[i] then
-		DisplayTimedTextToPlayer(p, 0, 0, 20.0, "|cffff0000你已经使用过黄纸了，还是等等另外一个人的响应吧")
-		unitadditembyidswapped(1227896153, GetTriggerUnit())
-	else
-		Bd[i] = true
-		ad = ad + 1
-		bd[ad] = udg_hero[i]
-		if ModuloInteger(ad, 2) == 0 then
-			DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 20.0, "|cffff66ff恭喜" .. (GetPlayerName(GetOwningPlayer(bd[ad - 1])) or "") .. "和" .. (GetPlayerName(GetOwningPlayer(bd[ad])) or "") .. "结拜为兄弟")
-		else
-			DisplayTimedTextToPlayer(p, 0, 0, 20.0, "|cffff66ff使用成功，等待另外一位玩家与你结拜....")
-		end
-	end
-	u = nil
-	p = nil
-end
-function kT()
-	return Bd[1 + GetPlayerId(GetTriggerPlayer())]
-end
-function mT()
-	local i = 1 + GetPlayerId(GetTriggerPlayer())
-	local j = 1
-	local x
-	local y
-	for _ in _loop_() do
-		if j > 6 then break end
-		if udg_hero[i] == bd[j] then
-			if ModuloInteger(j, 2) == 0 then
-				if bd[j - 1] ~= nil then
-					x = GetUnitX(bd[j - 1])
-					y = GetUnitY(bd[j - 1])
-					SetUnitPosition(udg_hero[i], x, y)
-					PanCameraToTimedForPlayer(GetTriggerPlayer(), x, y, 0)
-				end
-			else
-				if bd[j + 1] ~= nil then
-					x = GetUnitX(bd[j + 1])
-					y = GetUnitY(bd[j + 1])
-					SetUnitPosition(udg_hero[i], x, y)
-					PanCameraToTimedForPlayer(GetTriggerPlayer(), x, y, 0)
-				end
-			end
-		end
-		j = j + 1
-	end
-end
+
 function qT()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899471 or GetItemTypeId(GetManipulatedItem()) == 1227896659)
 end
@@ -3174,22 +2582,20 @@ function GameLogic_Trigger()
 	require 'map.rules.离开游戏'
 	require 'map.rules.新手礼包'
 	require 'map.rules.游戏胜负'
+	require 'map.rules.生成F9'
+	require 'map.rules.积分商店'
+	require 'map.rules.武学精要'
+	require 'map.rules.结拜'
+	require 'map.rules.传送'
 
 
-
-
-	-- 生成F9信息
-	Zh = CreateTrigger()
-	TriggerRegisterTimerEventSingle(Zh, 5)
-	TriggerAddAction(Zh, Qx)
+	--TODO 分解文件
 
 	-- 杀进攻怪及练功房怪
 	gi = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(gi, EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(gi, Condition(ey))
 	TriggerAddAction(gi, KillGuai)
-
-
 	-- 首次显示系统窗口信息
 	ki = CreateTrigger()
 	TriggerRegisterTimerEventSingle(ki, 10.0)
@@ -3208,23 +2614,6 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerChatEvent(oi, Player(0), "sw", true)
 	TriggerAddCondition(oi, Condition(BeforeAttack))
 	TriggerAddAction(oi, SetShiWan)
-
-	-- 积分换物品
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(si, Condition(BuyKuanDong))
-	TriggerAddAction(si, KuanDongHua)
-	-- 声望换物品
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(si, Condition(BuyKuanDong_1))
-	TriggerAddAction(si, KuanDongHua_1)
-	-- FIXME 使用武学精要（目前有BUG）
-	si = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(si, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(si, Condition(IsWuXueJingYao))
-	TriggerAddAction(si, WuXueJingYao)
-
 	--将地图上初始所有单位加入单位组
 	Vi = CreateTrigger()
 	TriggerRegisterTimerEventSingle(Vi, 2.0)
@@ -3391,54 +2780,7 @@ function GameLogic_Trigger()
 	rk = CreateTrigger()
 	TriggerRegisterTimerEventPeriodic(rk, 1.0)
 	TriggerAddAction(rk, BC)
-	sk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(sk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(sk, Condition(CC))
-	TriggerAddAction(sk, cC)
-	tk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(tk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(tk, Condition(EC))
-	TriggerAddAction(tk, FC)
-	uk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(uk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(uk, Condition(HC))
-	TriggerAddAction(uk, IC)
-	vk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(vk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(vk, Condition(JC))
-	TriggerAddAction(vk, KC)
-	wk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(wk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(wk, Condition(MC))
-	TriggerAddAction(wk, NC)
-	xk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(xk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(xk, Condition(PC))
-	TriggerAddAction(xk, QC)
-	yk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(yk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(yk, Condition(SC))
-	TriggerAddAction(yk, TC)
-	zk = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(zk, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(zk, Condition(VC))
-	TriggerAddAction(zk, WC)
-	Ak = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Ak, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(Ak, Condition(YC))
-	TriggerAddAction(Ak, ZC)
-	ak = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ak, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(ak, Condition(ec))
-	TriggerAddAction(ak, gc)
-	ak = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ak, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(ak, Condition(isJiuYangCanJuan))
-	TriggerAddAction(ak, jiuYangCanJuan)
-	ak = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ak, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(ak, Condition(IsWuHunShi))
-	TriggerAddAction(ak, WuHunShi)
+
 	Bk = CreateTrigger()
 	YDWESyStemAnyUnitDamagedRegistTrigger(Bk)
 	TriggerAddCondition(Bk, Condition(IsUnitBoss))
@@ -3468,10 +2810,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(Jt, EVENT_PLAYER_UNIT_ATTACKED)
 	TriggerAddCondition(Jt, Condition(MT))
 	TriggerAddAction(Jt, NT)
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(IsYiZhan))
-	TriggerAddAction(t, YiZhanChuanSong)
+
 	--抽血术
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
@@ -3512,36 +2851,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(qr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	TriggerAddCondition(qr, Condition(AQ))
 	TriggerAddAction(qr, aQ)
-	-- 传送到钟南山
-	tr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(tr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(tr, Condition(GQ))
-	TriggerAddAction(tr, HQ)
-	-- 传送到少林寺后山（25级）
-	ur = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(ur, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(ur, Condition(lQ))
-	TriggerAddAction(ur, JQ)
-	-- 传送到塞外
-	vr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(vr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(vr, Condition(LQ))
-	TriggerAddAction(vr, MQ)
-	-- 传送到光明顶
-	wr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(wr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(wr, Condition(OQ))
-	TriggerAddAction(wr, PQ)
-	-- 传送到少林寺后山（70级）
-	xr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(xr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(xr, Condition(RQ))
-	TriggerAddAction(xr, SQ)
-	-- 传送到边疆
-	yr = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(yr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(yr, Condition(UQ))
-	TriggerAddAction(yr, VQ)
+
 	-- 学习门派内功
 	br = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(br, EVENT_PLAYER_UNIT_PICKUP_ITEM)
@@ -3586,33 +2896,10 @@ function GameLogic_Trigger()
 	TriggerAddCondition(t, Condition(HeCheng_Conditions))
 	TriggerAddAction(t, HeCheng_Actions)
 
-
-	-- 买黄纸
-	cs = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(cs, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(cs, Condition(MaiHuangZhi_Conditions))
-	TriggerAddAction(cs, MaiHuangZhi)
-	-- 烧黄纸
-	Ds = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Ds, EVENT_PLAYER_UNIT_USE_ITEM)
-	TriggerAddCondition(Ds, Condition(IsHuangZhi))
-	TriggerAddAction(Ds, ShaoHuangZhi)
-	-- 跳到结拜兄弟/夫妻处
-	Es = CreateTrigger()
-	TriggerRegisterPlayerChatEvent(Es, Player(0), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(1), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(2), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(3), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(4), "~", true)
-	TriggerRegisterPlayerChatEvent(Es, Player(5), "~", true)
-	TriggerAddCondition(Es, Condition(kT))
-	TriggerAddAction(Es, mT)
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, udg_index)
 	TriggerAddAction(t, ChooseMoShi_Action)
-	t = CreateTrigger()
-	TriggerRegisterDialogEvent(t, wuhun)
-	TriggerAddAction(t, JiHuoCanZhang)
+
 	t = CreateTrigger()
 	TriggerRegisterTimerEventPeriodic(t, 1000.0)
 	TriggerAddAction(t, MoJiaoJiuRen)

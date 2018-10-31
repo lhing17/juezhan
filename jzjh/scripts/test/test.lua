@@ -4,10 +4,16 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-a = 3
-t = { a = 2, [a] = 3}
+t = { a = 2 }
+s = { c = 4}
+mt = { __index = { b = 3} }
+setmetatable(t, mt)
+setmetatable(s, mt)
 
-for k, v in pairs(t) do
-    print(k, v)
-    print(t.a)
-end
+t.b = "c"
+
+print(t.b)
+print(s.b)
+
+
+

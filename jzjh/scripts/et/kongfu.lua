@@ -38,7 +38,7 @@ function kongfu:level_up()
         self['重数'] = self['重数'] + 1
         self['经验'] = 0
         self.hint = self['经验'] .. '/' .. self['升重经验'] * self['重数']
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. hero:getOwner().id .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. self['重数'] .. "重")
+        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. hero:get_owner().id .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. self['重数'] .. "重")
     end
 
 end

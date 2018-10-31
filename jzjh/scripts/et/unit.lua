@@ -139,6 +139,14 @@ function mt:set_owner(p)
     self.owner = p
 end
 
+function mt:create_tag(s, size, zOffset, red, green, blue, transparency)
+    local tag = jass.CreateTextTag()
+    jass.SetTextTagText(tag, s, size * 0.023 / 10)
+    jass.SetTextTagPos(tag, self:getX(), self:getY(), zOffset or 0)
+    jass.SetTextTagColor(tag, math.floor(red * 2.55) or 0, math.floor(green * 2.55) or 255, math.floor(blue * 2.55) or 0, 100 - (transparency or 50))
+    return tag
+end
+
 --获得名字
 function mt:get_name()
     return self.name or self:get_slk 'Propernames' or self:get_slk 'Name'
@@ -238,7 +246,7 @@ function mt:remove()
     self._last_point = et.point(jass.GetUnitX(self.handle), jass.GetUnitY(self.handle))
     self:event_notify('单位-移除', self)
 
---    self:removeAllEffects()
+    --    self:removeAllEffects()
 
     --移除单位的所有Buff
     if self.buffs then
@@ -335,7 +343,7 @@ function mt:has_restriction(restriction)
 end
 
 --设置位置
-function mt:setPoint(point)
+function mt:set_point(point)
     if self:has_restriction '禁锢' then
         return false
     end
@@ -372,7 +380,7 @@ function mt:set_position(where, path, super)
     elseif y > y2 then
         y = y2
     end
-    self:setPoint(et.point(x, y))
+    self:set_point(et.point(x, y))
     return true
 end
 
@@ -634,13 +642,34 @@ function mt:disable_ability(ability_id)
     self:get_owner():disable_ability(ability_id)
 end
 
-function mt:hasAbility(ability_id)
-    return self:getAbilityLevel(ability_id) > 1
+function mt:has_ability(ability_id)
+    return self:get_ability_level(ability_id) >= 1
+end
+
+function mt:has_all_abilities(...)
+    arg = { ... }
+    if arg[1] then
+        if type(arg[1]) == 'table' then
+            for _, v in ipairs(arg(1)) do
+                if not self:has_ability(v) then
+                    return false
+                end
+            end
+            return true
+        end
+        for _, v in ipairs(arg) do
+            if not self:has_ability(v) then
+                return false
+            end
+        end
+        return true
+    end
+    return false
 end
 
 --获取技能等级
 --	技能id
-function mt:getAbilityLevel(ability_id)
+function mt:get_ability_level(ability_id)
     if type(ability_id) == 'string' then
         ability_id = base.string2id(ability_id)
     end
@@ -650,7 +679,7 @@ end
 --设置技能等级
 --	技能id
 --	[技能等级]
-function mt:setAbilityLevel(ability_id, lv)
+function mt:set_ability_level(ability_id, lv)
     if type(ability_id) == 'string' then
         ability_id = base.string2id(ability_id)
     end
@@ -991,7 +1020,7 @@ function mt:addSight(r)
     self:add_ability 'A007'
     local handle = japi.EXGetUnitAbility(self.handle, base.string2id 'A007')
     japi.EXSetAbilityDataReal(handle, 2, 108, -r)
-    self:setAbilityLevel('A007', 2)
+    self:set_ability_level('A007', 2)
     self:remove_ability 'A007'
 end
 
@@ -1103,7 +1132,7 @@ local function init_unit(handle, p)
     --设置高度
     u:set_high(u:get_slk('moveHeight', 0))
 
-    if u:getAbilityLevel 'Aloc' ~= 0 then
+    if u:get_ability_level 'Aloc' ~= 0 then
         u:set_class '马甲'
     end
 
@@ -1134,7 +1163,7 @@ function unit.init_unit(handle, p)
             end
         end
     end
-    if u:getAbilityLevel 'Aloc' == 0 then
+    if u:get_ability_level 'Aloc' == 0 then
         u:event_notify('单位-创建', u)
     end
     if data then
@@ -1188,7 +1217,7 @@ function player.__index:create_unit(id, where, face)
 end
 
 function player.__index:create_dummy(id, where, face)
-    local id = id or self:get_type_id()
+    id = id or self:get_type_id()
     if et.lni.unit then
         local data = et.lni.unit[id]
         if data then
@@ -1216,7 +1245,7 @@ function player.__index:create_dummy(id, where, face)
     u._is_dummy = true
     u._dummy_point = et.point(x, y)
     u._dummy_angle = face or 0
-    if u:getAbilityLevel 'Aloc' == 0 then
+    if u:get_ability_level 'Aloc' == 0 then
         u:event_notify('单位-创建', u)
     end
 
@@ -1240,13 +1269,16 @@ function mt:add_item(id)
     return it
 end
 
-
 function mt:update()
 
 end
 
+-- TODO 英雄升级时同步level
+
 --初始化
 function unit.init()
+
+    -- TODO 创建单位时设置单位等级
     --全局单位索引
     unit.all_units = {}
     unit.removed_units = setmetatable({}, { __mode = 'kv' })
@@ -1363,7 +1395,7 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local item = jass.GetManipulatedItem()
         local u = unit(jass.GetTriggerUnit())
-        unit:event_notify('单位-使用', u, item)
+        unit:event_notify('单位-使用物品', u, item)
     end)
 
     for i = 1, 16 do

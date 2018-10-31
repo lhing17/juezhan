@@ -22,8 +22,8 @@ function WuMenPai_Action()
     AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
     AddCharacterBBuff(p.hero.handle, udg_xinggeB[i])
     u:remove_ability(1098282348)
-    u:setPoint(get_rect_random(He))
-    p:setCamera(u:get_point())
+    u:set_point(et.get_rect_random(He))
+    p:set_camera(u:get_point())
     h['伴侣'] = p:create_unit(1853257068, u:get_point())
     h['悟性'] = h['悟性'] + d['悟性']
     h['福缘'] = h['福缘'] + d['福缘']
@@ -64,8 +64,8 @@ local function init()
                     AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
                     AddCharacterBBuff(p.hero.handle, udg_xinggeB[i])
                     u:remove_ability(1098282348)
-                    u:setPoint(get_rect_random(He))
-                    p:setCamera(u:get_point())
+                    u:set_point(et.get_rect_random(He))
+                    p:set_camera(u:get_point())
                     h['伴侣'] = p:create_unit(1853257068, u:get_point())
                     h['悟性'] = h['悟性'] + d['悟性']
                     h['福缘'] = h['福缘'] + d['福缘']

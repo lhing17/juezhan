@@ -124,7 +124,7 @@ function mt:clear_messages()
 end
 
 --设置镜头位置
-function mt:setCamera(where, time)
+function mt:set_camera(where, time)
     if player.self == self then
         local x, y
         if where then

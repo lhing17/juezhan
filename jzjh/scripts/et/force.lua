@@ -17,3 +17,24 @@ function force.pingMinimap(x, y, time, red, green, blue, flag)
         et.player[i]:pingMinimap(x, y, time, red, green, blue, flag)
     end
 end
+
+
+function force.victory()
+    for i = 1, et.player.countAlive() do
+        if not jass.IsNoVictoryCheat() then
+            local p = et.player(i)
+            jass.RemovePlayer(p.handle, jass.PLAYER_GAME_RESULT_VICTORY)
+            if not bj_isSinglePlayer then
+                p:send_message(jass.GetLocalizedString("PLAYER_VICTORIOUS"), 60)
+            end
+            bj_changeLevelShowScores = true
+            CustomVictoryDialogBJ(p.handle)
+        end
+    end
+end
+
+function force.fail()
+    for i = 1, et.player.countAlive() do
+        CustomDefeatBJ(et.player(i), "没有能守护住正派武林!")
+    end
+end

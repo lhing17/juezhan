@@ -2436,58 +2436,7 @@ function DT()
 	YDWEPolledWaitNull((0.18 - 0.01 * I2R(O4)) * 2000.0)
 	ModifyGateBJ(0, Gt)
 end
---爆炸
-function FT()
-	return GetUnitAbilityLevel(GetTriggerUnit(), 1093681749) ~= 0
-end
-function GT()
-	local id = GetHandleId(GetTriggeringTrigger())
-	return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function HT()
-	local id = GetHandleId(GetTriggeringTrigger())
-	SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443, GetEnumUnit())
-	SetWidgetLife(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), GetUnitState(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), UNIT_STATE_LIFE) - 200.0 * I2R(GetUnitLevel(GetEnumUnit())))
-end
-function IT()
-	local u = GetTriggerUnit()
-	local loc = GetUnitLoc(u)
-	AddSpecialEffectLocBJ(loc, "war3mapImported\\ChaosExplosion.mdl")
-	DestroyEffect(bj_lastCreatedEffect)
-	ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(300.0, loc, Condition(GT)), HT)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
--- 流星
-function JT()
-	return GetUnitAbilityLevel(GetAttacker(), 1093681753) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function KT()
-	local u = GetAttacker()
-	local loc = GetUnitLoc(u)
-	CreateNUnitsAtLoc(1, 1697656919, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-	UnitAddAbility(bj_lastCreatedUnit, 1093681754)
-	IssueImmediateOrderById(bj_lastCreatedUnit, 852183)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-	ShowUnitHide(bj_lastCreatedUnit)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
--- 冰缓
-function MT()
-	return GetUnitAbilityLevel(GetAttacker(), 1093681968) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function NT()
-	local u = GetAttacker()
-	local loc = GetUnitLoc(u)
-	CreateNUnitsAtLoc(1, 1697656918, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
+
 --辽国进攻
 function LiaoGuoJinGong_1()
 	local t = GetExpiredTimer()
@@ -2739,21 +2688,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(Ks, EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(Ks, Condition(cT))
 	TriggerAddAction(Ks, DT)
-	-- 爆炸
-	Ht = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Ht, EVENT_PLAYER_UNIT_DEATH)
-	TriggerAddCondition(Ht, Condition(FT))
-	TriggerAddAction(Ht, IT)
-	-- 流星
-	It = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(It, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(It, Condition(JT))
-	TriggerAddAction(It, KT)
-	-- 冰缓
-	Jt = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Jt, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(Jt, Condition(MT))
-	TriggerAddAction(Jt, NT)
+
 
 	--抽血术
 	t = CreateTrigger()

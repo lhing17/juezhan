@@ -211,7 +211,7 @@ function mt:kill(killer)
     if not self:is_dummy() then
         jass.KillUnit(self.handle)
         killer:event_notify('单位-杀死单位', killer, self)
-        self:event_notify('单位-死亡', self, killer)
+        self:event_notify('单位-死亡', killer, self)
     end
 
     --打断施法

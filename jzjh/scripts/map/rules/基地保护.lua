@@ -52,7 +52,7 @@ local function init()
         if jass.GetItemTypeId(item) == 1227896147 then
             if et.player[6]:get_tech(1378889776) <= 29 then
                 et.player[6]:add_tech(1378889776)
-                force.send_message('|cFFFFD700在玩家'..u:get_owner():get_name()..'的无私奉献下，正派武林的高级城防得到加强了')
+                force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的高级城防得到加强了')
                 shoujiajf[u:get_owner().id] = shoujiajf[u:get_owner().id] + 15
                 u:get_owner():send_message("|CFF34FF00守家积分+15")
             else
@@ -65,7 +65,7 @@ local function init()
             if udg_boshu >= 18 then
                 if et.player[6]:get_tech(1378889778) <= 9 then
                     et.player[6]:add_tech(1378889778)
-                    force.send_message('|cFFFFD700在玩家'..u:get_owner():get_name()..'的无私奉献下，正派武林的城防得到加强了')
+                    force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的城防得到加强了')
                     shoujiajf[u:get_owner().id] = shoujiajf[u:get_owner().id] + 15
                     u:get_owner():send_message("|CFF34FF00守家积分+15")
                 else

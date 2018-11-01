@@ -665,46 +665,7 @@ end
 function ka()
 	GroupRemoveUnit(w7, GetTriggerUnit())
 end
---练功房刷怪
-function na()
-	return GetOwningPlayer(GetFilterUnit()) == Player(7) and IsUnitAliveBJ(GetFilterUnit())
-end
-function qa()
-	if CountUnitsInGroup(wv(Ie, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[1], bj_UNIT_FACING)
-	end
-	if CountUnitsInGroup(wv(Re, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[10], bj_UNIT_FACING)
-	end
-	if CountUnitsInGroup(wv(le, Condition(na))) <= 3 then
-		CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[2], bj_UNIT_FACING)
-	end
-end
---练功房
-function sa()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895350 -- INLINED!!
-end
-function ua()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房二")
-	SetUnitPosition(GetTriggerUnit(), 4750, -3650)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 4250, -3650, 0)
-end
-function wa()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895351 -- INLINED!!
-end
-function xa()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房三")
-	SetUnitPosition(GetTriggerUnit(), 5920, -4750)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 5920, -4750, 0)
-end
-function za()
-	return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895361 -- INLINED!!
-end
-function Aa()
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入少林寺练功房一")
-	SetUnitPosition(GetTriggerUnit(), 3730, -4690)
-	PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 3730, -4690, 0)
-end
+
 
 
 --切换背包
@@ -2277,14 +2238,7 @@ function KillGuai()
 	end
 	FlushChildHashtable(YDHT, id * cx)
 end
---魔教救人
-function MoJiaoJiuRen_1()
-	SetUnitPosition(GetEnumUnit(), -910, 750)
-end
-function MoJiaoJiuRen()
-	DisplayTextToForce(GetPlayersAll(), "|CFFCCFF00魔教潜入监狱救走了被抓住的敌人")
-	ForGroupBJ(YDWEGetUnitsInRectOfPlayerNull(udg_jail, Player(6)), MoJiaoJiuRen_1)
-end
+
 --杀怪加声望
 function Xa()
 	return GetPlayerController(GetOwningPlayer(GetKillingUnit())) == MAP_CONTROL_USER
@@ -2475,58 +2429,7 @@ function DT()
 	YDWEPolledWaitNull((0.18 - 0.01 * I2R(O4)) * 2000.0)
 	ModifyGateBJ(0, Gt)
 end
---爆炸
-function FT()
-	return GetUnitAbilityLevel(GetTriggerUnit(), 1093681749) ~= 0
-end
-function GT()
-	local id = GetHandleId(GetTriggeringTrigger())
-	return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function HT()
-	local id = GetHandleId(GetTriggeringTrigger())
-	SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443, GetEnumUnit())
-	SetWidgetLife(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), GetUnitState(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), UNIT_STATE_LIFE) - 200.0 * I2R(GetUnitLevel(GetEnumUnit())))
-end
-function IT()
-	local u = GetTriggerUnit()
-	local loc = GetUnitLoc(u)
-	AddSpecialEffectLocBJ(loc, "war3mapImported\\ChaosExplosion.mdl")
-	DestroyEffect(bj_lastCreatedEffect)
-	ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(300.0, loc, Condition(GT)), HT)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
--- 流星
-function JT()
-	return GetUnitAbilityLevel(GetAttacker(), 1093681753) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function KT()
-	local u = GetAttacker()
-	local loc = GetUnitLoc(u)
-	CreateNUnitsAtLoc(1, 1697656919, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-	UnitAddAbility(bj_lastCreatedUnit, 1093681754)
-	IssueImmediateOrderById(bj_lastCreatedUnit, 852183)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-	ShowUnitHide(bj_lastCreatedUnit)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
--- 冰缓
-function MT()
-	return GetUnitAbilityLevel(GetAttacker(), 1093681968) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function NT()
-	local u = GetAttacker()
-	local loc = GetUnitLoc(u)
-	CreateNUnitsAtLoc(1, 1697656918, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-	RemoveLocation(loc)
-	u = nil
-	loc = nil
-end
+
 --辽国进攻
 function LiaoGuoJinGong_1()
 	local t = GetExpiredTimer()
@@ -2587,6 +2490,9 @@ function GameLogic_Trigger()
 	require 'map.rules.武学精要'
 	require 'map.rules.结拜'
 	require 'map.rules.传送'
+	require 'map.rules.练功房'
+	require 'map.rules.特效'
+	require 'map.rules.魔教救人'
 
 
 	--TODO 分解文件
@@ -2665,25 +2571,7 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerUnitEventSimple(mj, Player(6), EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(mj, Condition(ja))
 	TriggerAddAction(mj, ka)
-	-- 练功房刷怪
-	nj = CreateTrigger()
-	TriggerRegisterTimerEventPeriodic(nj, 6.0)
-	TriggerAddAction(nj, qa)
-	-- 进入练功房
-	oj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(oj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(oj, Condition(sa))
-	TriggerAddAction(oj, ua)
-	-- 进入练功房
-	pj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(pj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(pj, Condition(wa))
-	TriggerAddAction(pj, xa)
-	-- 进入练功房
-	qj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(qj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(qj, Condition(za))
-	TriggerAddAction(qj, Aa)
+
 	-- 切换背包
 	rj = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(rj, EVENT_PLAYER_UNIT_SPELL_CAST)
@@ -2795,21 +2683,7 @@ function GameLogic_Trigger()
 	TriggerRegisterAnyUnitEventBJ(Ks, EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(Ks, Condition(cT))
 	TriggerAddAction(Ks, DT)
-	-- 爆炸
-	Ht = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Ht, EVENT_PLAYER_UNIT_DEATH)
-	TriggerAddCondition(Ht, Condition(FT))
-	TriggerAddAction(Ht, IT)
-	-- 流星
-	It = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(It, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(It, Condition(JT))
-	TriggerAddAction(It, KT)
-	-- 冰缓
-	Jt = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(Jt, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(Jt, Condition(MT))
-	TriggerAddAction(Jt, NT)
+
 
 	--抽血术
 	t = CreateTrigger()
@@ -2900,9 +2774,7 @@ function GameLogic_Trigger()
 	TriggerRegisterDialogEvent(t, udg_index)
 	TriggerAddAction(t, ChooseMoShi_Action)
 
-	t = CreateTrigger()
-	TriggerRegisterTimerEventPeriodic(t, 1000.0)
-	TriggerAddAction(t, MoJiaoJiuRen)
+
 	t = nil
 end
 

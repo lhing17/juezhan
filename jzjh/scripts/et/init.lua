@@ -11,4 +11,5 @@ require 'et.point'
 require 'et.unit'
 require 'et.hero'
 require 'et.selector'
+require 'et.rect'
 

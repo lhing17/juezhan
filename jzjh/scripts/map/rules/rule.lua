@@ -2238,14 +2238,7 @@ function KillGuai()
 	end
 	FlushChildHashtable(YDHT, id * cx)
 end
---魔教救人
-function MoJiaoJiuRen_1()
-	SetUnitPosition(GetEnumUnit(), -910, 750)
-end
-function MoJiaoJiuRen()
-	DisplayTextToForce(GetPlayersAll(), "|CFFCCFF00魔教潜入监狱救走了被抓住的敌人")
-	ForGroupBJ(YDWEGetUnitsInRectOfPlayerNull(udg_jail, Player(6)), MoJiaoJiuRen_1)
-end
+
 --杀怪加声望
 function Xa()
 	return GetPlayerController(GetOwningPlayer(GetKillingUnit())) == MAP_CONTROL_USER
@@ -2498,6 +2491,8 @@ function GameLogic_Trigger()
 	require 'map.rules.结拜'
 	require 'map.rules.传送'
 	require 'map.rules.练功房'
+	require 'map.rules.特效'
+	require 'map.rules.魔教救人'
 
 
 	--TODO 分解文件
@@ -2779,9 +2774,7 @@ function GameLogic_Trigger()
 	TriggerRegisterDialogEvent(t, udg_index)
 	TriggerAddAction(t, ChooseMoShi_Action)
 
-	t = CreateTrigger()
-	TriggerRegisterTimerEventPeriodic(t, 1000.0)
-	TriggerAddAction(t, MoJiaoJiuRen)
+
 	t = nil
 end
 

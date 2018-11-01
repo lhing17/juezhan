@@ -19,3 +19,7 @@ mt.handle = 0
 
 -- 类型
 mt.type = 'effect'
+
+function effect.add_to_point(where)
+
+end

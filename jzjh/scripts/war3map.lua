@@ -182,12 +182,11 @@ udg_HuanZhuangCD = _array_(false)
 -- 江湖、绝学、绝内的最大武功种类数
 MAX_WU_GONG_NUM = 56
 MAX_BAN_LV_NUM = 14
-wuhun = DialogCreate()
+
 chuansong = DialogCreate()
 wuhun1 = _array_()
 chuansong1 = _array_()
 udg_JTX = _array_()
-ceshi = false
 xunwu = _array_(0)
 yangshou = _array_(0)
 udg_yangshou = _array_(0)
@@ -2091,22 +2090,9 @@ function Sw()
 	end
 	Pv = nil
 end
---0秒无敌，用来抵消伤害
-function WuDiQingChu()
-	local t = GetExpiredTimer()
-	local u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
-	SetUnitInvulnerable(u, false)
-	PauseTimer(t)
-	DestroyTimer(t)
-	t = nil
-	u = nil
-end
-function WuDi(u)
-	local t = CreateTimer()
-	SaveUnitHandle(YDHT, GetHandleId(t), 0, u)
-	SetUnitInvulnerable(u, true)
-	TimerStart(t, 0, false, WuDiQingChu)
-	t = nil
+function WuDi(handle)
+    local u = et.unit(handle)
+    u:set_invulnerable(0)
 end
 --使单位晕眩 先天功、铁布衫
 function SetUnitDizzyDoc()
@@ -2765,15 +2751,13 @@ function MenPai_Trigger()
 end
 --地图初始化
 function main1()
-	local t
-	local life
-	local itemID
-	local i
+    local i
 	local cu
 	local Du
 	local v
 	local wu
 	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
+    et.hero.init_pick_table()
 	ConfigureNeutralVictim()
 	ju = Filter(bu)
 	filterIssueHauntOrderAtLocBJ = Filter(IssueHauntOrderAtLocBJFilter)
@@ -3150,7 +3134,7 @@ function main1()
 	CreateDestructables() --创建可破坏物
 	--存储装备属性
 	require 'map.static.attrs'	
-	kongfu.init() --存储武功
+
 	najitest() --纳吉的测试代码
 end
 function main2()
@@ -3845,10 +3829,15 @@ end
 --***************************************************************************
 --===========================================================================
 function main()
-	require 'util.log'
-	require 'et.init'
+    require 'war3.id'
+    require 'util.log'
+    require 'et.init'
+	require 'lni.lni'
 	require 'util.commonutil'
 	require 'map.static.destructables'
+
+    et.unit.init()
+
 
 	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")

@@ -32,27 +32,27 @@ end
 
 --注册事件
 function mt:event(name)
-	return et.event_register(self, name)
+    return et.event_register(self, name)
 end
 
 local et_game = et.game
 
 --发起事件
 function mt:event_dispatch(name, ...)
-	local res = et.event_dispatch(self, name, ...)
-	if res ~= nil then
-		return res
-	end
-	local res = et.event_dispatch(et_game, name, ...)
-	if res ~= nil then
-		return res
-	end
-	return nil
+    local res = et.event_dispatch(self, name, ...)
+    if res ~= nil then
+        return res
+    end
+    local res = et.event_dispatch(et_game, name, ...)
+    if res ~= nil then
+        return res
+    end
+    return nil
 end
 
 function mt:event_notify(name, ...)
-	et.event_notify(self, name, ...)
-	et.event_notify(et_game, name, ...)
+    et.event_notify(self, name, ...)
+    et.event_notify(et_game, name, ...)
 end
 
 -- 获取玩家名字
@@ -84,7 +84,7 @@ end
 -- 小地图信号
 function mt:pingMinimap(x, y, time, red, green, blue, flag)
     if self == player.localplayer then
-        jass.PintMinimapEx(x, y, time, red or 0, green or 255, blue or 0, not not flag)
+        jass.PintMinimapEx(x, y, time or 1, red or 0, green or 255, blue or 0, not not flag)
     end
 end
 
@@ -123,20 +123,84 @@ function mt:clear_messages()
     end
 end
 
+--设置镜头位置
+function mt:set_camera(where, time)
+    if player.self == self then
+        local x, y
+        if where then
+            x, y = where:get_point():get()
+        else
+            x, y = jass.GetCameraTargetPositionX(), jass.GetCameraTargetPositionY()
+        end
+        if time then
+            jass.PanCameraToTimed(x, y, time)
+        else
+            jass.SetCameraPosition(x, y)
+        end
+    end
+end
+
+function mt:get_tech(tech_id)
+    if type(tech_id) == 'string' then
+        tech_id = base.string2id(tech_id)
+    end
+    return jass.GetPlayerTechCount(self.handle, tech_id, true)
+end
+
+function mt:set_tech(tech_id, level)
+    if type(tech_id) == 'string' then
+        tech_id = base.string2id(tech_id)
+    end
+    jass.SetPlayerTechResearched(self.handle, tech_id, level)
+end
+
+function mt:add_tech(tech_id, level)
+    if type(tech_id) == 'string' then
+        tech_id = base.string2id(tech_id)
+    end
+    level = level or 1
+    self:set_tech(tech_id, self:get_tech(tech_id) + level)
+end
+
+
 --设置镜头属性
 --	镜头属性
 --	数值
 --	[持续时间]
 function mt:setCameraField(key, value, time)
-	if self == player.localplayer then
-		jass.SetCameraField(jass[key], value, time or 0)
-	end
+    if self == player.localplayer then
+        jass.SetCameraField(jass[key], value, time or 0)
+    end
 end
 
+function mt:get_gold()
+    return jass.GetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_GOLD)
+end
+
+function mt:set_gold(gold)
+    jass.SetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_GOLD, gold)
+end
+
+function mt:add_gold(gold)
+    self:set_gold(self:get_gold() + gold)
+end
+
+
+function mt:get_lumber()
+    return jass.GetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_LUMBER)
+end
+
+function mt:set_lumber(lumber)
+    jass.SetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_LUMBER, lumber)
+end
+
+function mt:add_lumber(lumber)
+    self:set_lumber(self:get_lumber() + lumber)
+end
 --获取镜头属性
 --	镜头属性
 function mt:getCameraField(key)
-	return math.deg(jass.GetCameraField(jass[key]))
+    return math.deg(jass.GetCameraField(jass[key]))
 end
 
 
@@ -162,7 +226,6 @@ function player.create(id, jPlayer)
     local p = {}
     setmetatable(p, player)
 
-
     p.handle = jPlayer
     dbg.handle_ref(jPlayer)
     player[jPlayer] = p
@@ -178,17 +241,17 @@ end
 --一些常用事件
 function player.regist_jass_triggers()
     --玩家聊天事件
-    local trg = war3.CreateTrigger(function()
-        local player = et.player(jass.GetTriggerPlayer())
-        player:event_notify('玩家-聊天', player, jass.GetEventPlayerChatString())
+    local t = war3.CreateTrigger(function()
+        local p = et.player(jass.GetTriggerPlayer())
+        p:event_notify('玩家-聊天', p, jass.GetEventPlayerChatString())
     end)
 
     for i = 1, 16 do
-        jass.TriggerRegisterPlayerChatEvent(trg, player[i].handle, '', false)
+        jass.TriggerRegisterPlayerChatEvent(t, player[i].handle, '', false)
     end
 
     --玩家离开事件
-    local trg = war3.CreateTrigger(function()
+    t = war3.CreateTrigger(function()
         local p = et.player(jass.GetTriggerPlayer())
         if p:is_player() then
             player.count = player.count - 1
@@ -197,8 +260,19 @@ function player.regist_jass_triggers()
     end)
 
     for i = 1, 16 do
-        jass.TriggerRegisterPlayerEvent(trg, player[i].handle, jass.EVENT_PLAYER_LEAVE)
+        jass.TriggerRegisterPlayerEvent(t, player[i].handle, jass.EVENT_PLAYER_LEAVE)
     end
+
+    t = war3.CreateTrigger(function()
+        local p = et.player(jass.GetTriggerPlayer())
+        p:event_notify('玩家-按下ESC', p)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerEventEndCinematic(t, player[i].handle)
+    end
+
+
 end
 
 local function init()
@@ -206,7 +280,7 @@ local function init()
     player.count = 0
 
     for i = 1, 16 do
-        
+
         player.create(i, jass.Player(i - 1))
 
         if player[i]:is_player() then
@@ -218,19 +292,24 @@ local function init()
 
     --保留2个图标位置
     jass.SetReservedLocalHeroButtons(2)
-    
+
     -- 本地玩家
     -- player.localplayer = et.player(1)
     player.localplayer = et.player(jass.GetLocalPlayer())
     log.debug(('本地玩家[%s][%s]'):format(player.localplayer:get(), player.localplayer:get_name()))
-    
+
     --注册常用事件
     player.regist_jass_triggers()
 
+
+    for k, v in pairs(player) do
+        print(k, v)
+    end
     -- 选择单位事件
     require 'war3.select'
 end
 
 init()
+require 'et.force'
 
 return player

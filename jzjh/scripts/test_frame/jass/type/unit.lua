@@ -18,7 +18,18 @@ mt.type = 'unit'
 -- 是否存活 alive dead removed
 mt.status = 'alive'
 
+-- 默认不隐藏
+mt.hidden = false
 
+mt.x = 0
+mt.y = 0
+
+mt.face = 270
+-- 移动速度
+mt.speed = 300
+
+-- 转向速度（花费时间）
+mt.turn_speed = 2
 
 
 function mt:die()
@@ -29,6 +40,41 @@ function mt:remove()
     self.status = 'removed'
     unit.all_units[self.handle_id] = nil
     unit.removed_units[self.handle_id] = self
+end
+
+function mt:show()
+    self.hidden = false
+end
+
+function mt:hide()
+    self.hidden = true
+end
+
+function mt:set_x(x)
+    self.x = x
+end
+
+function mt:set_y(y)
+    self.y = y
+end
+
+function mt:set_position(x, y)
+    self:set_x(x)
+    self:set_y(y)
+end
+
+function mt:set_facing(face)
+    self.face = face
+end
+
+function mt:set_move_speed(speed)
+    if speed > 522 then
+        speed = 522
+    end
+    if speed < 100 then
+        speed = 100
+    end
+    self.speed = speed
 end
 
 function unit:__tostring()

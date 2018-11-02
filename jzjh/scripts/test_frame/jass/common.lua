@@ -36,7 +36,7 @@ function jass.CreateUnitAtLoc(p, unitid, whichLocation, face)
     end
     assert(p.type == 'player', 'p参数类型错误')
     assert(type(unitid) == 'number', 'unitid参数类型错误')
-    assert(whichLocation.type == 'location', 'x参数类型错误')
+    assert(whichLocation.type == 'location', 'whichLocation参数类型错误')
     assert(type(face) == 'number', 'face参数类型错误')
     return unit.create(p, unitid, whichLocation.x, whichLocation.y, face)
 end
@@ -75,15 +75,90 @@ function jass.RemoveUnit(u)
 end
 
 --native          ShowUnit            takes unit whichUnit, boolean show returns nothing
+function jass.ShowUnit(u, show)
+    if not u then
+        error('调用jass.ShowUnit函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    if show then
+        u:show()
+    else
+        u:hide()
+    end
+end
+
 --
 --native          SetUnitState        takes unit whichUnit, unitstate whichUnitState, real newVal returns nothing
+function jass.SetUnitState(u, state, val)
+    -- TODO
+end
+
 --native          SetUnitX            takes unit whichUnit, real newX returns nothing
+function jass.SetUnitX(u, x)
+    if not u or not x then
+        error('调用jass.SetUnitX函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(x) == 'number', 'x参数类型错误')
+    u:set_x(x)
+end
+
 --native          SetUnitY            takes unit whichUnit, real newY returns nothing
+function jass.SetUnitY(u, y)
+    if not u or not y then
+        error('调用jass.SetUnitY函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(y) == 'number', 'y参数类型错误')
+    u:set_y(y)
+end
+
 --native          SetUnitPosition     takes unit whichUnit, real newX, real newY returns nothing
+function jass.SetUnitPosition(u, x, y)
+    if not u or not x or not y then
+        error('调用jass.SetUnitPosition函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(x) == 'number', 'x参数类型错误')
+    assert(type(y) == 'number', 'y参数类型错误')
+    u:set_position(x, y)
+end
+
 --native          SetUnitPositionLoc  takes unit whichUnit, location whichLocation returns nothing
+function jass.SetUnitPositionLoc(u, whichLocation)
+    if not u or not whichLocation then
+        error('调用jass.SetUnitPositionLoc函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(whichLocation.type == 'location', 'whichLocation参数类型错误')
+    u:set_position(whichLocation.x, whichLocation.y)
+end
+
 --native          SetUnitFacing       takes unit whichUnit, real facingAngle returns nothing
+function jass.SetUnitFacing(u, face)
+    if not u or not face then
+        error('调用jass.SetUnitFacing函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(face) == 'number', 'face参数类型错误')
+    u:set_facing(face)
+end
+
 --native          SetUnitFacingTimed  takes unit whichUnit, real facingAngle, real duration returns nothing
+function jass.SetUnitFacingTimed(u, face, duration)
+    --TODO
+end
+
 --native          SetUnitMoveSpeed    takes unit whichUnit, real newSpeed returns nothing
+function jass.SetUnitMoveSpeed(u, speed)
+    if not u or not speed then
+        error('调用jass.SetUnitMoveSpeed函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(speed) == 'number', 'speed参数类型错误')
+    u:set_move_speed(speed)
+end
+
 --native          SetUnitFlyHeight    takes unit whichUnit, real newHeight, real rate returns nothing
 --native          SetUnitTurnSpeed    takes unit whichUnit, real newTurnSpeed returns nothing
 --native          SetUnitPropWindow   takes unit whichUnit, real newPropWindowAngle returns nothing

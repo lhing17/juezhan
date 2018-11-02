@@ -43,10 +43,37 @@ end
 
 
 --native          CreateUnitAtLocByName   takes player id, string unitname, location whichLocation, real face returns unit
+function jass.CreateUnitAtLocByName(p, unitname, whichLocation, face)
+    error('暂不支持jass.CreateUnitByName函数的调用')
+    return nil
+end
+
 --native          CreateCorpse            takes player whichPlayer, integer unitid, real x, real y, real face returns unit
---
+-- 创建永久性的尸体
+function jass.CreateCorpse(p, unitid, x, y, face)
+    error('暂不支持jass.CreateUnitByName函数的调用')
+    return nil
+end
+
 --native          KillUnit            takes unit whichUnit returns nothing
+function jass.KillUnit(u)
+    if not u then
+        error('调用jass.KillUnit函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    u:die()
+    -- TODO 88秒后remove
+end
+
 --native          RemoveUnit          takes unit whichUnit returns nothing
+function jass.RemoveUnit(u)
+    if not u then
+        error('调用jass.RemoveUnit函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    u:remove()
+end
+
 --native          ShowUnit            takes unit whichUnit, boolean show returns nothing
 --
 --native          SetUnitState        takes unit whichUnit, unitstate whichUnitState, real newVal returns nothing

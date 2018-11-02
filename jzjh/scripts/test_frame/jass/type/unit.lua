@@ -8,11 +8,28 @@
 local common_util = require 'jass.util.common_util'
 local unit = {}
 unit.all_units = {}
+unit.removed_units = {}
 
 local mt = {}
 unit.__index = mt
 
 mt.type = 'unit'
+
+-- 是否存活 alive dead removed
+mt.status = 'alive'
+
+
+
+
+function mt:die()
+    self.status = 'dead'
+end
+
+function mt:remove()
+    self.status = 'removed'
+    unit.all_units[self.handle_id] = nil
+    unit.removed_units[self.handle_id] = self
+end
 
 function unit:__tostring()
     return self.handle_id .. ', ' .. self.type .. ', ' .. self.id .. ', ' .. self.x .. ', ' .. self.y
@@ -27,7 +44,7 @@ function unit.create(p, unitid, x, y, face)
     u.x = x
     u.y = y
     u.face = face
-    table.insert(unit.all_units, u)
+    unit.all_units[u.handle_id] = u
     return u
 end
 

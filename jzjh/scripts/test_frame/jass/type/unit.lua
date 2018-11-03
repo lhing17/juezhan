@@ -77,6 +77,8 @@ function mt:remove()
     self.status = 'removed'
     unit.all_units[self.handle_id] = nil
     unit.removed_units[self.handle_id] = self
+    local p = self:get_owner()
+    p.units[self.handle_id] = nil
 end
 
 function mt:show()
@@ -135,7 +137,10 @@ function mt:set_turn_speed(turn_speed)
 end
 
 function mt:set_owner(p)
+    local op = self.get_owner()
+    op.units[self.handle_id] = nil
     self.owner = p
+    p.units[self.handle_id] = self
 end
 
 function mt:set_color(pc)
@@ -205,6 +210,7 @@ function unit.create(p, unitid, x, y, face)
     u.face = face
     u.scale = {1, 1, 1}
     unit.all_units[u.handle_id] = u
+    p.units[u.handle_id] = u
     return u
 end
 

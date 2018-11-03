@@ -205,7 +205,7 @@ end
 
 
 -- 直接作为方法调用，获取玩家
-function player:__call(i)
+function player.__call(i)
     return player[i]
 end
 

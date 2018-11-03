@@ -3,3 +3,68 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/1 11:31
 ---
+
+local common_util = require 'jass.util.common_util'
+local player = {}
+local MAX_PLAYER_NUM = 16
+
+local mt = {}
+player.__index = mt
+
+-- 是否为观察者
+mt.observer = false
+mt.id = 0
+
+function mt:is_ally(p)
+    return self.force == p.force or self.force == PLAYER_NEUTRAL_PASSIVE or p.force == PLAYER_NEUTRAL_PASSIVE
+end
+
+function mt:is_enemy(p)
+    return not is_ally(p)
+end
+
+function mt:is_in_force(f)
+    return common_util.is_in_table(p, f)
+end
+
+function mt:is_observer()
+    return self.observer
+end
+
+function mt:get_id()
+    return self.id
+end
+
+function mt:get_unit_count()
+    local counter = 0
+    for k, v in pairs(self.units) do
+        counter = counter + 1
+    end
+    return counter
+end
+
+function player.__call(i)
+    return player[i]
+end
+
+function player.get_local()
+    if player.native then
+        return player.native
+    else
+        return player[1]
+    end
+end
+
+function player.init()
+    for i = 1, MAX_PLAYER_NUM do
+        local p = {}
+        p.handle_id = common_util.generate_handle_id()
+        p.id = i - 1
+        p.units = {}
+        setmetatable(p, player)
+        table.insert(player, p)
+    end
+    player.native = player[1]
+end
+
+return player

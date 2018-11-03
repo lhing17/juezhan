@@ -16,4 +16,13 @@ function common.generate_handle_id()
     return id
 end
 
+function common.is_in_table(value, table)
+    for _, v in ipairs(table) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
 return common

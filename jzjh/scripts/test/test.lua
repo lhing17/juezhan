@@ -13,6 +13,7 @@ setmetatable(s, mt)
 t.b = "c"
 
 print(t.b)
+print(getmetatable(t).__index.b)
 print(s.b)
 
 

@@ -160,48 +160,235 @@ function jass.SetUnitMoveSpeed(u, speed)
 end
 
 --native          SetUnitFlyHeight    takes unit whichUnit, real newHeight, real rate returns nothing
+function jass.SetUnitFlyHeight(u, height, rate)
+    -- TODO
+end
 --native          SetUnitTurnSpeed    takes unit whichUnit, real newTurnSpeed returns nothing
+function jass.SetUnitTurnSpeed(u, newTurnSpeed)
+    if not u or not newTurnSpeed then
+        error('调用jass.SetUnitMoveSpeed函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(newTurnSpeed) == 'number', 'newTurnSpeed参数类型错误')
+    u:set_turn_speed(newTurnSpeed)
+end
+
 --native          SetUnitPropWindow   takes unit whichUnit, real newPropWindowAngle returns nothing
+function jass.SetUnitPropWindow(u, newPropWindowAngle)
+    error('暂不支持jass.SetUnitPropWindow函数的调用')
+    return nil
+end
+
+-- 设置主动攻击范围
 --native          SetUnitAcquireRange takes unit whichUnit, real newAcquireRange returns nothing
+function jass.SetUnitAcquireRange(u, newAcquireRange)
+    -- TODO
+end
+
+-- 设置单位警戒范围
 --native          SetUnitCreepGuard   takes unit whichUnit, boolean creepGuard returns nothing
+function jass.SetUnitCreepGuard(u, creepGuard)
+    -- TODO
+end
+
 --
 --native          GetUnitAcquireRange     takes unit whichUnit returns real
+function jass.GetUnitAcquireRange(u)
+    if not u then
+        error('调用jass.GetUnitAcquireRange函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return u:get_acquire_range()
+end
+
 --native          GetUnitTurnSpeed        takes unit whichUnit returns real
+function jass.GetUnitTurnSpeed(u)
+    if not u then
+        error('调用jass.GetUnitTurnSpeed函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return u:get_turn_speed()
+end
+
 --native          GetUnitPropWindow       takes unit whichUnit returns real
+function jass.GetUnitPropWindow(u)
+    error('暂不支持jass.GetUnitPropWindow函数的调用')
+    return nil
+end
+
 --native          GetUnitFlyHeight        takes unit whichUnit returns real
+function jass.GetUnitFlyHeight(u)
+    if not u then
+        error('调用jass.GetUnitFlyHeight函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return u:get_fly_height()
+end
+
 --
 --native          GetUnitDefaultAcquireRange      takes unit whichUnit returns real
+function jass.GetUnitDefaultAcquireRange(u)
+    if not u then
+        error('调用jass.GetUnitDefaultAcquireRange函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return getmetatable(u).__index.acquire_range
+end
+
 --native          GetUnitDefaultTurnSpeed         takes unit whichUnit returns real
+function jass.GetUnitDefaultTurnSpeed(u)
+    if not u then
+        error('调用jass.GetUnitDefaultTurnSpeed函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return getmetatable(u).__index.turn_speed
+end
+
 --native          GetUnitDefaultPropWindow        takes unit whichUnit returns real
+function jass.GetUnitDefaultPropWindow(u)
+    error('暂不支持jass.GetUnitDefaultPropWindow函数的调用')
+    return nil
+end
+
 --native          GetUnitDefaultFlyHeight         takes unit whichUnit returns real
+function jass.GetUnitDefaultFlyHeight(u)
+    if not u then
+        error('调用jass.GetUnitDefaultFlyHeight函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    return getmetatable(u).__index.fly_height
+end
+
 --
 --native          SetUnitOwner        takes unit whichUnit, player whichPlayer, boolean changeColor returns nothing
+function jass.SetUnitOwner(u, p, changeColor)
+    if not u or not p then
+        error('调用jass.SetUnitOwner函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(p.type == 'player', 'p参数类型错误')
+    u:set_owner(p)
+    -- FIXME 通过player获取playercolor
+    if changeColor then
+        u:set_color()
+    end
+end
+
+
 --native          SetUnitColor        takes unit whichUnit, playercolor whichColor returns nothing
+function jass.SetUnitColor(u, whichColor)
+    if not u or not whichColor then
+        error('调用jass.SetUnitColor函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(whichColor.type == 'playercolor', 'p参数类型错误')
+    u:set_color(whichColor)
+end
+
 --
 --native          SetUnitScale        takes unit whichUnit, real scaleX, real scaleY, real scaleZ returns nothing
+function jass.SetUnitScale(u, scaleX, scaleY, scaleZ)
+    if not u or not scaleX or not scaleY or not scaleZ then
+        error('调用jass.SetUnitScale函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(scaleX) == 'number', 'scaleX参数类型错误')
+    assert(type(scaleY) == 'number', 'scaleY参数类型错误')
+    assert(type(scaleZ) == 'number', 'scaleZ参数类型错误')
+    u:set_scale(scaleX, scaleY, scaleZ)
+end
+
 --native          SetUnitTimeScale    takes unit whichUnit, real timeScale returns nothing
+function jass.SetUnitTimeScale(u, timeScale)
+    if not u or not timeScale then
+        error('调用jass.SetUnitTimeScale函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(timeScale) == 'number', 'timeScale参数类型错误')
+    u:set_time_scale(timeScale)
+end
+
+-- 单位动画图像混合时间. 决定身体部件连接的快慢,比如攻击时手臂挥舞的速度. 默认值0.15,增大该值会导致动作僵硬化
 --native          SetUnitBlendTime    takes unit whichUnit, real blendTime returns nothing
+function jass.SetUnitBlendTime(u, blendTime)
+    error('暂不支持jass.SetUnitBlendTime函数的调用')
+    return nil
+end
+
+-- 改变单位着色
 --native          SetUnitVertexColor  takes unit whichUnit, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.SetUnitVertexColor(u, red, green, blue, alpha)
+    if not u or not red or not green or not blue or not alpha then
+        error('调用jass.SetUnitVertexColor函数缺少参数')
+    end
+    assert(u.type == 'unit', 'u参数类型错误')
+    assert(type(red) == 'number', 'red参数类型错误')
+    assert(type(green) == 'number', 'green参数类型错误')
+    assert(type(blue) == 'number', 'blue参数类型错误')
+    assert(type(alpha) == 'number', 'alpha参数类型错误')
+
+end
+
 --
 --native          QueueUnitAnimation          takes unit whichUnit, string whichAnimation returns nothing
 --native          SetUnitAnimation            takes unit whichUnit, string whichAnimation returns nothing
 --native          SetUnitAnimationByIndex     takes unit whichUnit, integer whichAnimation returns nothing
 --native          SetUnitAnimationWithRarity  takes unit whichUnit, string whichAnimation, raritycontrol rarity returns nothing
 --native          AddUnitAnimationProperties  takes unit whichUnit, string animProperties, boolean add returns nothing
+
 --
 --native          SetUnitLookAt       takes unit whichUnit, string whichBone, unit lookAtTarget, real offsetX, real offsetY, real offsetZ returns nothing
 --native          ResetUnitLookAt     takes unit whichUnit returns nothing
+
 --
 --native          SetUnitRescuable    takes unit whichUnit, player byWhichPlayer, boolean flag returns nothing
 --native          SetUnitRescueRange  takes unit whichUnit, real range returns nothing
+
+
 --
 --native          SetHeroStr          takes unit whichHero, integer newStr, boolean permanent returns nothing
---native          SetHeroAgi          takes unit whichHero, integer newAgi, boolean permanent returns nothing
+function jass.SetHeroStr(u, newStr, permanent)
+    if u:is_hero() then
+        u:set_str(newStr)
+    end
+end
+
+--native          SetHeroAgi          takes unit whichHero, integer newAgi, boolean permanent returns
+function jass.SetHeroAgi(u, newAgi, permanent)
+    if u:is_hero() then
+        u:set_agi(newAgi)
+    end
+end
 --native          SetHeroInt          takes unit whichHero, integer newInt, boolean permanent returns nothing
+function jass.SetHeroInt(u, newInt, permanent)
+    if u:is_hero() then
+        u:set_int(newInt)
+    end
+end
+
+
 --
 --native          GetHeroStr          takes unit whichHero, boolean includeBonuses returns integer
+function jass.GetHeroStr()
+    if u:is_hero() then
+        return u:get_str()
+    end
+end
+
 --native          GetHeroAgi          takes unit whichHero, boolean includeBonuses returns integer
+function jass.GetHeroAgi()
+    if u:is_hero() then
+        return u:get_agi()
+    end
+end
+
 --native          GetHeroInt          takes unit whichHero, boolean includeBonuses returns integer
+function jass.GetHeroInt()
+    if u:is_hero() then
+        return u:get_int()
+    end
+end
+
 --
 --native          UnitStripHeroLevel  takes unit whichHero, integer howManyLevels returns boolean
 --

@@ -5,8 +5,8 @@
 ---
 
 t = { a = 2 }
-s = { c = 4}
-mt = { __index = { b = 3} }
+s = { c = 4 }
+mt = { __index = { b = 3 } }
 setmetatable(t, mt)
 setmetatable(s, mt)
 
@@ -16,5 +16,10 @@ print(t.b)
 print(getmetatable(t).__index.b)
 print(s.b)
 
+print(1 >> 2)
 
+name = 'abcde'
+for i = 1, #name do
+    print(string.sub(name, i, i))
+end
 

@@ -8,6 +8,9 @@ local unit = require 'jass.type.unit'
 local player = require 'jass.type.player'
 local force = require 'jass.type.force'
 
+player.init()
+force.init()
+
 local jass = {}
 --        // Unit API
 --        // Facing arguments are specified in degrees
@@ -657,6 +660,1454 @@ end
 --//
 --native CachePlayerHeroData takes player whichPlayer returns nothing
 
+
+--// MathAPI
+
+
+--native Deg2Rad  takes real degrees returns real
+function jass.Deg2Rad(degrees)
+    return math.rad(degrees)
+end
+
+--native Rad2Deg  takes real radians returns real
+function jass.Rad2Deg(radians)
+    return math.deg(radians)
+end
+
+--
+--native Sin      takes real radians returns real
+function jass.Sin(radians)
+    return math.sin(radians)
+end
+
+--native Cos      takes real radians returns real
+function jass.Cos(radians)
+    return math.cos(radians)
+end
+
+--native Tan      takes real radians returns real
+function jass.Tan(radians)
+    return math.tan(radians)
+end
+
+--
+--// Expect values between -1 and 1...returns 0 for invalid input
+--native Asin     takes real y returns real
+function jass.Asin(y)
+    if y >= -1 and y <= 1 then
+        return math.asin(y)
+    end
+    return 0
+end
+
+--native Acos     takes real x returns real
+function jass.Acos(x)
+    return math.acos(x)
+end
+
+--
+--native Atan     takes real x returns real
+function jass.Atan(x)
+    return math.atan(x)
+end
+
+--
+--// Returns 0 if x and y are both 0
+--native Atan2    takes real y, real x returns real
+function jass.Atan2(y, x)
+    if x == 0 and y == 0 then
+        return 0
+    end
+    return math.atan(y, x)
+end
+
+--
+--// Returns 0 if x <= 0
+--native SquareRoot takes real x returns real
+function jass.SquareRoot(x)
+    if x <= 0 then
+        return 0
+    end
+    return math.sqrt(x)
+end
+
+--
+--// computes x to the y power
+--// y == 0.0             => 1
+--// x ==0.0 and y < 0    => 0
+--//
+--native Pow      takes real x, real power returns real
+function jass.Pow(x, power)
+    if y == 0 then
+        return 1
+    end
+    if x == 0.0 and y < 0 then
+        return 0
+    end
+    return x ^ power
+end
+--
+--//============================================================================
+--// String Utility API
+--native I2R  takes integer i returns real
+function jass.I2R(i)
+    return i * 1.0
+end
+
+--native R2I  takes real r returns integer
+function jass.R2I(r)
+    return math.floor(r)
+end
+
+--native I2S  takes integer i returns string
+function jass.I2S(i)
+    return '' .. i
+end
+
+--native R2S  takes real r returns string
+function jass.R2S(r)
+    return '' .. r
+end
+
+--native R2SW takes real r, integer width, integer precision returns string
+function jass.R2SW(r, width, precision)
+    error('暂不支持jass.R2SW函数的调用')
+end
+
+--native S2I  takes string s returns integer
+function jass.S2I(s)
+    return math.floor(tonumber(s))
+end
+
+--native S2R  takes string s returns real
+function jass.S2R(s)
+    return tonumber(s)
+end
+
+--native GetHandleId takes handle h returns integer
+-- TODO TESTME
+function jass.GetHandleId(h)
+    return h.handle_id
+end
+
+--native SubString takes string source, integer start, integer end returns string
+function jass.SubString(source, start, end_)
+    return string.sub(source, start + 1, end_)
+end
+
+--native StringLength takes string s returns integer
+function jass.StringLength(s)
+    return string.len(s)
+end
+
+--native StringCase takes string source, boolean upper returns string
+function jass.StringCase(source, upper)
+    error('暂不支持jass.StringCase函数的调用')
+end
+
+--native StringHash takes string s returns integer
+function jass.StringHash(s)
+    -- FIXME
+    h = 0
+    for i = 1, #s do
+         h = h * 31 + string.byte(string.sub(s, i, i))
+    end
+    return h
+end
+--
+--native GetLocalizedString takes string source returns string
+--native GetLocalizedHotkey takes string source returns integer
+--
+
+-- TODO START
+--//============================================================================
+--// Map Setup API
+--//
+--//  These are native functions for describing the map configuration
+--//  these funcs should only be used in the "config" function of
+--//  a map script. The functions should also be called in this order
+--//  ( i.e. call SetPlayers before SetPlayerColor...
+--//
+--
+--native SetMapName           takes string name returns nothing
+--native SetMapDescription    takes string description returns nothing
+--
+--native SetTeams             takes integer teamcount returns nothing
+--native SetPlayers           takes integer playercount returns nothing
+--
+--native DefineStartLocation      takes integer whichStartLoc, real x, real y returns nothing
+--native DefineStartLocationLoc   takes integer whichStartLoc, location whichLocation returns nothing
+--native SetStartLocPrioCount     takes integer whichStartLoc, integer prioSlotCount returns nothing
+--native SetStartLocPrio          takes integer whichStartLoc, integer prioSlotIndex, integer otherStartLocIndex, startlocprio priority returns nothing
+--native GetStartLocPrioSlot      takes integer whichStartLoc, integer prioSlotIndex returns integer
+--native GetStartLocPrio          takes integer whichStartLoc, integer prioSlotIndex returns startlocprio
+--
+--native SetGameTypeSupported takes gametype whichGameType, boolean value returns nothing
+--native SetMapFlag           takes mapflag whichMapFlag, boolean value returns nothing
+--native SetGamePlacement     takes placement whichPlacementType returns nothing
+--native SetGameSpeed         takes gamespeed whichspeed returns nothing
+--native SetGameDifficulty    takes gamedifficulty whichdifficulty returns nothing
+--native SetResourceDensity   takes mapdensity whichdensity returns nothing
+--native SetCreatureDensity   takes mapdensity whichdensity returns nothing
+--
+--native GetTeams             takes nothing returns integer
+--native GetPlayers           takes nothing returns integer
+--
+--native IsGameTypeSupported  takes gametype whichGameType returns boolean
+--native GetGameTypeSelected  takes nothing returns gametype
+--native IsMapFlagSet         takes mapflag whichMapFlag returns boolean
+--
+--constant native GetGamePlacement     takes nothing returns placement
+--constant native GetGameSpeed         takes nothing returns gamespeed
+--constant native GetGameDifficulty    takes nothing returns gamedifficulty
+--constant native GetResourceDensity   takes nothing returns mapdensity
+--constant native GetCreatureDensity   takes nothing returns mapdensity
+--constant native GetStartLocationX    takes integer whichStartLocation returns real
+--constant native GetStartLocationY    takes integer whichStartLocation returns real
+--constant native GetStartLocationLoc  takes integer whichStartLocation returns location
+--
+--
+--native SetPlayerTeam            takes player whichPlayer, integer whichTeam returns nothing
+--native SetPlayerStartLocation   takes player whichPlayer, integer startLocIndex returns nothing
+--// forces player to have the specified start loc and marks the start loc as occupied
+--// which removes it from consideration for subsequently placed players
+--// ( i.e. you can use this to put people in a fixed loc and then
+--//   use random placement for any unplaced players etc )
+--native ForcePlayerStartLocation takes player whichPlayer, integer startLocIndex returns nothing
+--native SetPlayerColor           takes player whichPlayer, playercolor color returns nothing
+--native SetPlayerAlliance        takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting, boolean value returns nothing
+--native SetPlayerTaxRate         takes player sourcePlayer, player otherPlayer, playerstate whichResource, integer rate returns nothing
+--native SetPlayerRacePreference  takes player whichPlayer, racepreference whichRacePreference returns nothing
+--native SetPlayerRaceSelectable  takes player whichPlayer, boolean value returns nothing
+--native SetPlayerController      takes player whichPlayer, mapcontrol controlType returns nothing
+--native SetPlayerName            takes player whichPlayer, string name returns nothing
+--
+--native SetPlayerOnScoreScreen   takes player whichPlayer, boolean flag returns nothing
+--
+--native GetPlayerTeam            takes player whichPlayer returns integer
+--native GetPlayerStartLocation   takes player whichPlayer returns integer
+--native GetPlayerColor           takes player whichPlayer returns playercolor
+--native GetPlayerSelectable      takes player whichPlayer returns boolean
+--native GetPlayerController      takes player whichPlayer returns mapcontrol
+--native GetPlayerSlotState       takes player whichPlayer returns playerslotstate
+--native GetPlayerTaxRate         takes player sourcePlayer, player otherPlayer, playerstate whichResource returns integer
+--native IsPlayerRacePrefSet      takes player whichPlayer, racepreference pref returns boolean
+--native GetPlayerName            takes player whichPlayer returns string
+--
+--//============================================================================
+--// Timer API
+--//
+--native CreateTimer          takes nothing returns timer
+--native DestroyTimer         takes timer whichTimer returns nothing
+--native TimerStart           takes timer whichTimer, real timeout, boolean periodic, code handlerFunc returns nothing
+--native TimerGetElapsed      takes timer whichTimer returns real
+--native TimerGetRemaining    takes timer whichTimer returns real
+--native TimerGetTimeout      takes timer whichTimer returns real
+--native PauseTimer           takes timer whichTimer returns nothing
+--native ResumeTimer          takes timer whichTimer returns nothing
+--native GetExpiredTimer      takes nothing returns timer
+--
+--//============================================================================
+--// Group API
+--//
+--native CreateGroup                          takes nothing returns group
+--native DestroyGroup                         takes group whichGroup returns nothing
+--native GroupAddUnit                         takes group whichGroup, unit whichUnit returns nothing
+--native GroupRemoveUnit                      takes group whichGroup, unit whichUnit returns nothing
+--native GroupClear                           takes group whichGroup returns nothing
+--native GroupEnumUnitsOfType                 takes group whichGroup, string unitname, boolexpr filter returns nothing
+--native GroupEnumUnitsOfPlayer               takes group whichGroup, player whichPlayer, boolexpr filter returns nothing
+--native GroupEnumUnitsOfTypeCounted          takes group whichGroup, string unitname, boolexpr filter, integer countLimit returns nothing
+--native GroupEnumUnitsInRect                 takes group whichGroup, rect r, boolexpr filter returns nothing
+--native GroupEnumUnitsInRectCounted          takes group whichGroup, rect r, boolexpr filter, integer countLimit returns nothing
+--native GroupEnumUnitsInRange                takes group whichGroup, real x, real y, real radius, boolexpr filter returns nothing
+--native GroupEnumUnitsInRangeOfLoc           takes group whichGroup, location whichLocation, real radius, boolexpr filter returns nothing
+--native GroupEnumUnitsInRangeCounted         takes group whichGroup, real x, real y, real radius, boolexpr filter, integer countLimit returns nothing
+--native GroupEnumUnitsInRangeOfLocCounted    takes group whichGroup, location whichLocation, real radius, boolexpr filter, integer countLimit returns nothing
+--native GroupEnumUnitsSelected               takes group whichGroup, player whichPlayer, boolexpr filter returns nothing
+--
+--native GroupImmediateOrder                  takes group whichGroup, string order returns boolean
+--native GroupImmediateOrderById              takes group whichGroup, integer order returns boolean
+--native GroupPointOrder                      takes group whichGroup, string order, real x, real y returns boolean
+--native GroupPointOrderLoc                   takes group whichGroup, string order, location whichLocation returns boolean
+--native GroupPointOrderById                  takes group whichGroup, integer order, real x, real y returns boolean
+--native GroupPointOrderByIdLoc               takes group whichGroup, integer order, location whichLocation returns boolean
+--native GroupTargetOrder                     takes group whichGroup, string order, widget targetWidget returns boolean
+--native GroupTargetOrderById                 takes group whichGroup, integer order, widget targetWidget returns boolean
+--
+--// This will be difficult to support with potentially disjoint, cell-based regions
+--// as it would involve enumerating all the cells that are covered by a particularregion
+--// a better implementation would be a trigger that adds relevant units as they enter
+--// and removes them if they leave...
+--native ForGroup                 takes group whichGroup, code callback returns nothing
+--native FirstOfGroup             takes group whichGroup returns unit
+--
+--//============================================================================
+--// Force API
+--//
+--native CreateForce              takes nothing returns force
+--native DestroyForce             takes force whichForce returns nothing
+--native ForceAddPlayer           takes force whichForce, player whichPlayer returns nothing
+--native ForceRemovePlayer        takes force whichForce, player whichPlayer returns nothing
+--native ForceClear               takes force whichForce returns nothing
+--native ForceEnumPlayers         takes force whichForce, boolexpr filter returns nothing
+--native ForceEnumPlayersCounted  takes force whichForce, boolexpr filter, integer countLimit returns nothing
+--native ForceEnumAllies          takes force whichForce, player whichPlayer, boolexpr filter returns nothing
+--native ForceEnumEnemies         takes force whichForce, player whichPlayer, boolexpr filter returns nothing
+--native ForForce                 takes force whichForce, code callback returns nothing
+--
+--//============================================================================
+--// Region and Location API
+--//
+--native Rect                     takes real minx, real miny, real maxx, real maxy returns rect
+--native RectFromLoc              takes location min, location max returns rect
+--native RemoveRect               takes rect whichRect returns nothing
+--native SetRect                  takes rect whichRect, real minx, real miny, real maxx, real maxy returns nothing
+--native SetRectFromLoc           takes rect whichRect, location min, location max returns nothing
+--native MoveRectTo               takes rect whichRect, real newCenterX, real newCenterY returns nothing
+--native MoveRectToLoc            takes rect whichRect, location newCenterLoc returns nothing
+--
+--native GetRectCenterX           takes rect whichRect returns real
+--native GetRectCenterY           takes rect whichRect returns real
+--native GetRectMinX              takes rect whichRect returns real
+--native GetRectMinY              takes rect whichRect returns real
+--native GetRectMaxX              takes rect whichRect returns real
+--native GetRectMaxY              takes rect whichRect returns real
+--
+--native CreateRegion             takes nothing returns region
+--native RemoveRegion             takes region whichRegion returns nothing
+--
+--native RegionAddRect            takes region whichRegion, rect r returns nothing
+--native RegionClearRect          takes region whichRegion, rect r returns nothing
+--
+--native RegionAddCell           takes region whichRegion, real x, real y returns nothing
+--native RegionAddCellAtLoc      takes region whichRegion, location whichLocation returns nothing
+--native RegionClearCell         takes region whichRegion, real x, real y returns nothing
+--native RegionClearCellAtLoc    takes region whichRegion, location whichLocation returns nothing
+--
+--native Location                 takes real x, real y returns location
+--native RemoveLocation           takes location whichLocation returns nothing
+--native MoveLocation             takes location whichLocation, real newX, real newY returns nothing
+--native GetLocationX             takes location whichLocation returns real
+--native GetLocationY             takes location whichLocation returns real
+--
+--// This function is asynchronous. The values it returns are not guaranteed synchronous between each player.
+--//  If you attempt to use it in a synchronous manner, it may cause a desync.
+--native GetLocationZ             takes location whichLocation returns real
+--
+--native IsUnitInRegion               takes region whichRegion, unit whichUnit returns boolean
+--native IsPointInRegion              takes region whichRegion, real x, real y returns boolean
+--native IsLocationInRegion           takes region whichRegion, location whichLocation returns boolean
+--
+--// Returns full map bounds, including unplayable borders, in world coordinates
+--native GetWorldBounds           takes nothing returns rect
+--
+--//============================================================================
+--// Native trigger interface
+--//
+--native CreateTrigger    takes nothing returns trigger
+--native DestroyTrigger   takes trigger whichTrigger returns nothing
+--native ResetTrigger     takes trigger whichTrigger returns nothing
+--native EnableTrigger    takes trigger whichTrigger returns nothing
+--native DisableTrigger   takes trigger whichTrigger returns nothing
+--native IsTriggerEnabled takes trigger whichTrigger returns boolean
+--
+--native TriggerWaitOnSleeps   takes trigger whichTrigger, boolean flag returns nothing
+--native IsTriggerWaitOnSleeps takes trigger whichTrigger returns boolean
+--
+--constant native GetFilterUnit       takes nothing returns unit
+--constant native GetEnumUnit         takes nothing returns unit
+--
+--constant native GetFilterDestructable   takes nothing returns destructable
+--constant native GetEnumDestructable     takes nothing returns destructable
+--
+--constant native GetFilterItem           takes nothing returns item
+--constant native GetEnumItem             takes nothing returns item
+--
+--constant native GetFilterPlayer     takes nothing returns player
+--constant native GetEnumPlayer       takes nothing returns player
+--
+--constant native GetTriggeringTrigger    takes nothing returns trigger
+--constant native GetTriggerEventId       takes nothing returns eventid
+--constant native GetTriggerEvalCount     takes trigger whichTrigger returns integer
+--constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
+--
+--native ExecuteFunc          takes string funcName returns nothing
+--
+--//============================================================================
+--// Boolean Expr API ( for compositing trigger conditions and unit filter funcs...)
+--//============================================================================
+--native And              takes boolexpr operandA, boolexpr operandB returns boolexpr
+--native Or               takes boolexpr operandA, boolexpr operandB returns boolexpr
+--native Not              takes boolexpr operand returns boolexpr
+--native Condition        takes code func returns conditionfunc
+--native DestroyCondition takes conditionfunc c returns nothing
+--native Filter           takes code func returns filterfunc
+--native DestroyFilter    takes filterfunc f returns nothing
+--native DestroyBoolExpr  takes boolexpr e returns nothing
+--
+--//============================================================================
+--// Trigger Game Event API
+--//============================================================================
+--
+--native TriggerRegisterVariableEvent takes trigger whichTrigger, string varName, limitop opcode, real limitval returns event
+--
+--// EVENT_GAME_VARIABLE_LIMIT
+--//constant native string GetTriggeringVariableName takes nothing returns string
+--
+--// Creates it's own timer and triggers when it expires
+--native TriggerRegisterTimerEvent takes trigger whichTrigger, real timeout, boolean periodic returns event
+--
+--// Triggers when the timer you tell it about expires
+--native TriggerRegisterTimerExpireEvent takes trigger whichTrigger, timer t returns event
+--
+--native TriggerRegisterGameStateEvent takes trigger whichTrigger, gamestate whichState, limitop opcode, real limitval returns event
+--
+--native TriggerRegisterDialogEvent       takes trigger whichTrigger, dialog whichDialog returns event
+--native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
+--
+--//  EVENT_GAME_STATE_LIMIT
+--constant native GetEventGameState takes nothing returns gamestate
+--
+--native TriggerRegisterGameEvent takes trigger whichTrigger, gameevent whichGameEvent returns event
+--
+--// EVENT_GAME_VICTORY
+--constant native GetWinningPlayer takes nothing returns player
+--
+--
+--native TriggerRegisterEnterRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+--
+--// EVENT_GAME_ENTER_REGION
+--constant native GetTriggeringRegion takes nothing returns region
+--constant native GetEnteringUnit takes nothing returns unit
+--
+--// EVENT_GAME_LEAVE_REGION
+--
+--native TriggerRegisterLeaveRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+--constant native GetLeavingUnit takes nothing returns unit
+--
+--native TriggerRegisterTrackableHitEvent takes trigger whichTrigger, trackable t returns event
+--native TriggerRegisterTrackableTrackEvent takes trigger whichTrigger, trackable t returns event
+--
+--// EVENT_GAME_TRACKABLE_HIT
+--// EVENT_GAME_TRACKABLE_TRACK
+--constant native GetTriggeringTrackable takes nothing returns trackable
+--
+--// EVENT_DIALOG_BUTTON_CLICK
+--constant native GetClickedButton takes nothing returns button
+--constant native GetClickedDialog    takes nothing returns dialog
+--
+--// EVENT_GAME_TOURNAMENT_FINISH_SOON
+--constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real
+--constant native GetTournamentFinishNowRule takes nothing returns integer
+--constant native GetTournamentFinishNowPlayer takes nothing returns player
+--constant native GetTournamentScore takes player whichPlayer returns integer
+--
+--// EVENT_GAME_SAVE
+--constant native GetSaveBasicFilename takes nothing returns string
+--
+--//============================================================================
+--// Trigger Player Based Event API
+--//============================================================================
+--
+--native TriggerRegisterPlayerEvent takes trigger whichTrigger, player  whichPlayer, playerevent whichPlayerEvent returns event
+--
+--// EVENT_PLAYER_DEFEAT
+--// EVENT_PLAYER_VICTORY
+--constant native GetTriggerPlayer takes nothing returns player
+--
+--native TriggerRegisterPlayerUnitEvent takes trigger whichTrigger, player whichPlayer, playerunitevent whichPlayerUnitEvent, boolexpr filter returns event
+--
+--// EVENT_PLAYER_HERO_LEVEL
+--// EVENT_UNIT_HERO_LEVEL
+--constant native GetLevelingUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_HERO_SKILL
+--// EVENT_UNIT_HERO_SKILL
+--constant native GetLearningUnit      takes nothing returns unit
+--constant native GetLearnedSkill      takes nothing returns integer
+--constant native GetLearnedSkillLevel takes nothing returns integer
+--
+--// EVENT_PLAYER_HERO_REVIVABLE
+--constant native GetRevivableUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_HERO_REVIVE_START
+--// EVENT_PLAYER_HERO_REVIVE_CANCEL
+--// EVENT_PLAYER_HERO_REVIVE_FINISH
+--// EVENT_UNIT_HERO_REVIVE_START
+--// EVENT_UNIT_HERO_REVIVE_CANCEL
+--// EVENT_UNIT_HERO_REVIVE_FINISH
+--constant native GetRevivingUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_ATTACKED
+--constant native GetAttacker takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_RESCUED
+--constant native GetRescuer  takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_DEATH
+--constant native GetDyingUnit takes nothing returns unit
+--constant native GetKillingUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_DECAY
+--constant native GetDecayingUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_SELECTED
+--//constant native GetSelectedUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_CONSTRUCT_START
+--constant native GetConstructingStructure takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_CONSTRUCT_FINISH
+--// EVENT_PLAYER_UNIT_CONSTRUCT_CANCEL
+--constant native GetCancelledStructure takes nothing returns unit
+--constant native GetConstructedStructure takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_RESEARCH_START
+--// EVENT_PLAYER_UNIT_RESEARCH_CANCEL
+--// EVENT_PLAYER_UNIT_RESEARCH_FINISH
+--constant native GetResearchingUnit takes nothing returns unit
+--constant native GetResearched takes nothing returns integer
+--
+--// EVENT_PLAYER_UNIT_TRAIN_START
+--// EVENT_PLAYER_UNIT_TRAIN_CANCEL
+--constant native GetTrainedUnitType takes nothing returns integer
+--
+--// EVENT_PLAYER_UNIT_TRAIN_FINISH
+--constant native GetTrainedUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_DETECTED
+--constant native GetDetectedUnit takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_SUMMONED
+--constant native GetSummoningUnit    takes nothing returns unit
+--constant native GetSummonedUnit     takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_LOADED
+--constant native GetTransportUnit    takes nothing returns unit
+--constant native GetLoadedUnit       takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_SELL
+--constant native GetSellingUnit      takes nothing returns unit
+--constant native GetSoldUnit         takes nothing returns unit
+--constant native GetBuyingUnit       takes nothing returns unit
+--
+--// EVENT_PLAYER_UNIT_SELL_ITEM
+--constant native GetSoldItem         takes nothing returns item
+--
+--// EVENT_PLAYER_UNIT_CHANGE_OWNER
+--constant native GetChangingUnit             takes nothing returns unit
+--constant native GetChangingUnitPrevOwner    takes nothing returns player
+--
+--// EVENT_PLAYER_UNIT_DROP_ITEM
+--// EVENT_PLAYER_UNIT_PICKUP_ITEM
+--// EVENT_PLAYER_UNIT_USE_ITEM
+--constant native GetManipulatingUnit takes nothing returns unit
+--constant native GetManipulatedItem  takes nothing returns item
+--
+--// EVENT_PLAYER_UNIT_ISSUED_ORDER
+--constant native GetOrderedUnit takes nothing returns unit
+--constant native GetIssuedOrderId takes nothing returns integer
+--
+--// EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER
+--constant native GetOrderPointX takes nothing returns real
+--constant native GetOrderPointY takes nothing returns real
+--constant native GetOrderPointLoc takes nothing returns location
+--
+--// EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER
+--constant native GetOrderTarget              takes nothing returns widget
+--constant native GetOrderTargetDestructable  takes nothing returns destructable
+--constant native GetOrderTargetItem          takes nothing returns item
+--constant native GetOrderTargetUnit          takes nothing returns unit
+--
+--// EVENT_UNIT_SPELL_CHANNEL
+--// EVENT_UNIT_SPELL_CAST
+--// EVENT_UNIT_SPELL_EFFECT
+--// EVENT_UNIT_SPELL_FINISH
+--// EVENT_UNIT_SPELL_ENDCAST
+--// EVENT_PLAYER_UNIT_SPELL_CHANNEL
+--// EVENT_PLAYER_UNIT_SPELL_CAST
+--// EVENT_PLAYER_UNIT_SPELL_EFFECT
+--// EVENT_PLAYER_UNIT_SPELL_FINISH
+--// EVENT_PLAYER_UNIT_SPELL_ENDCAST
+--constant native GetSpellAbilityUnit         takes nothing returns unit
+--constant native GetSpellAbilityId           takes nothing returns integer
+--constant native GetSpellAbility             takes nothing returns ability
+--constant native GetSpellTargetLoc           takes nothing returns location
+--constant native GetSpellTargetX				takes nothing returns real
+--constant native GetSpellTargetY				takes nothing returns real
+--constant native GetSpellTargetDestructable  takes nothing returns destructable
+--constant native GetSpellTargetItem          takes nothing returns item
+--constant native GetSpellTargetUnit          takes nothing returns unit
+--
+--native TriggerRegisterPlayerAllianceChange takes trigger whichTrigger, player whichPlayer, alliancetype whichAlliance returns event
+--native TriggerRegisterPlayerStateEvent takes trigger whichTrigger, player whichPlayer, playerstate whichState, limitop opcode, real limitval returns event
+--
+--// EVENT_PLAYER_STATE_LIMIT
+--constant native GetEventPlayerState takes nothing returns playerstate
+--
+--native TriggerRegisterPlayerChatEvent takes trigger whichTrigger, player whichPlayer, string chatMessageToDetect, boolean exactMatchOnly returns event
+--
+--// EVENT_PLAYER_CHAT
+--
+--// returns the actual string they typed in ( same as what you registered for
+--// if you required exact match )
+--constant native GetEventPlayerChatString takes nothing returns string
+--
+--// returns the string that you registered for
+--constant native GetEventPlayerChatStringMatched takes nothing returns string
+--
+--native TriggerRegisterDeathEvent takes trigger whichTrigger, widget whichWidget returns event
+--
+--//============================================================================
+--// Trigger Unit Based Event API
+--//============================================================================
+--
+--// returns handle to unit which triggered the most recent event when called from
+--// within a trigger action function...returns null handle when used incorrectly
+--
+--constant native GetTriggerUnit takes nothing returns unit
+--
+--native TriggerRegisterUnitStateEvent takes trigger whichTrigger, unit whichUnit, unitstate whichState, limitop opcode, real limitval returns event
+--
+--// EVENT_UNIT_STATE_LIMIT
+--constant native GetEventUnitState takes nothing returns unitstate
+--
+--native TriggerRegisterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent returns event
+--
+--// EVENT_UNIT_DAMAGED
+--constant native GetEventDamage takes nothing returns real
+--constant native GetEventDamageSource takes nothing returns unit
+--
+--// EVENT_UNIT_DEATH
+--// EVENT_UNIT_DECAY
+--// Use the GetDyingUnit and GetDecayingUnit funcs above
+--
+--// EVENT_UNIT_DETECTED
+--constant native GetEventDetectingPlayer takes nothing returns player
+--
+--native TriggerRegisterFilterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent, boolexpr filter returns event
+--
+--// EVENT_UNIT_ACQUIRED_TARGET
+--// EVENT_UNIT_TARGET_IN_RANGE
+--constant native GetEventTargetUnit takes nothing returns unit
+--
+--// EVENT_UNIT_ATTACKED
+--// Use GetAttacker from the Player Unit Event API Below...
+--
+--// EVENT_UNIT_RESCUEDED
+--// Use GetRescuer from the Player Unit Event API Below...
+--
+--// EVENT_UNIT_CONSTRUCT_CANCEL
+--// EVENT_UNIT_CONSTRUCT_FINISH
+--
+--// See the Player Unit Construction Event API above for event info funcs
+--
+--// EVENT_UNIT_TRAIN_START
+--// EVENT_UNIT_TRAIN_CANCELLED
+--// EVENT_UNIT_TRAIN_FINISH
+--
+--// See the Player Unit Training Event API above for event info funcs
+--
+--// EVENT_UNIT_SELL
+--
+--// See the Player Unit Sell Event API above for event info funcs
+--
+--// EVENT_UNIT_DROP_ITEM
+--// EVENT_UNIT_PICKUP_ITEM
+--// EVENT_UNIT_USE_ITEM
+--// See the Player Unit/Item manipulation Event API above for event info funcs
+--
+--// EVENT_UNIT_ISSUED_ORDER
+--// EVENT_UNIT_ISSUED_POINT_ORDER
+--// EVENT_UNIT_ISSUED_TARGET_ORDER
+--
+--// See the Player Unit Order Event API above for event info funcs
+--
+--native TriggerRegisterUnitInRange takes trigger whichTrigger, unit whichUnit, real range, boolexpr filter returns event
+--
+--native TriggerAddCondition    takes trigger whichTrigger, boolexpr condition returns triggercondition
+--native TriggerRemoveCondition takes trigger whichTrigger, triggercondition whichCondition returns nothing
+--native TriggerClearConditions takes trigger whichTrigger returns nothing
+--
+--native TriggerAddAction     takes trigger whichTrigger, code actionFunc returns triggeraction
+--native TriggerRemoveAction  takes trigger whichTrigger, triggeraction whichAction returns nothing
+--native TriggerClearActions  takes trigger whichTrigger returns nothing
+--native TriggerSleepAction   takes real timeout returns nothing
+--native TriggerWaitForSound  takes sound s, real offset returns nothing
+--native TriggerEvaluate      takes trigger whichTrigger returns boolean
+--native TriggerExecute       takes trigger whichTrigger returns nothing
+--native TriggerExecuteWait   takes trigger whichTrigger returns nothing
+--native TriggerSyncStart     takes nothing returns nothing
+--native TriggerSyncReady     takes nothing returns nothing
+--
+--//============================================================================
+--// Widget API
+--native  GetWidgetLife   takes widget whichWidget returns real
+--native  SetWidgetLife   takes widget whichWidget, real newLife returns nothing
+--native  GetWidgetX      takes widget whichWidget returns real
+--native  GetWidgetY      takes widget whichWidget returns real
+--constant native GetTriggerWidget takes nothing returns widget
+--
+--//============================================================================
+--// Destructable Object API
+--// Facing arguments are specified in degrees
+--native          CreateDestructable          takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+--native          CreateDestructableZ         takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+--native          CreateDeadDestructable      takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+--native          CreateDeadDestructableZ     takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+--native          RemoveDestructable          takes destructable d returns nothing
+--native          KillDestructable            takes destructable d returns nothing
+--native          SetDestructableInvulnerable takes destructable d, boolean flag returns nothing
+--native          IsDestructableInvulnerable  takes destructable d returns boolean
+--native          EnumDestructablesInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
+--native          GetDestructableTypeId       takes destructable d returns integer
+--native          GetDestructableX            takes destructable d returns real
+--native          GetDestructableY            takes destructable d returns real
+--native          SetDestructableLife         takes destructable d, real life returns nothing
+--native          GetDestructableLife         takes destructable d returns real
+--native          SetDestructableMaxLife      takes destructable d, real max returns nothing
+--native          GetDestructableMaxLife      takes destructable d returns real
+--native          DestructableRestoreLife     takes destructable d, real life, boolean birth returns nothing
+--native          QueueDestructableAnimation  takes destructable d, string whichAnimation returns nothing
+--native          SetDestructableAnimation    takes destructable d, string whichAnimation returns nothing
+--native          SetDestructableAnimationSpeed takes destructable d, real speedFactor returns nothing
+--native          ShowDestructable            takes destructable d, boolean flag returns nothing
+--native          GetDestructableOccluderHeight takes destructable d returns real
+--native          SetDestructableOccluderHeight takes destructable d, real height returns nothing
+--native          GetDestructableName         takes destructable d returns string
+--constant native GetTriggerDestructable takes nothing returns destructable
+--
+--//============================================================================
+--// Item API
+--native          CreateItem      takes integer itemid, real x, real y returns item
+--native          RemoveItem      takes item whichItem returns nothing
+--native          GetItemPlayer   takes item whichItem returns player
+--native          GetItemTypeId   takes item i returns integer
+--native          GetItemX        takes item i returns real
+--native          GetItemY        takes item i returns real
+--native          SetItemPosition takes item i, real x, real y returns nothing
+--native          SetItemDropOnDeath  takes item whichItem, boolean flag returns nothing
+--native          SetItemDroppable takes item i, boolean flag returns nothing
+--native          SetItemPawnable takes item i, boolean flag returns nothing
+--native          SetItemPlayer    takes item whichItem, player whichPlayer, boolean changeColor returns nothing
+--native          SetItemInvulnerable takes item whichItem, boolean flag returns nothing
+--native          IsItemInvulnerable  takes item whichItem returns boolean
+--native          SetItemVisible  takes item whichItem, boolean show returns nothing
+--native          IsItemVisible   takes item whichItem returns boolean
+--native          IsItemOwned     takes item whichItem returns boolean
+--native          IsItemPowerup   takes item whichItem returns boolean
+--native          IsItemSellable  takes item whichItem returns boolean
+--native          IsItemPawnable  takes item whichItem returns boolean
+--native          IsItemIdPowerup takes integer itemId returns boolean
+--native          IsItemIdSellable takes integer itemId returns boolean
+--native          IsItemIdPawnable takes integer itemId returns boolean
+--native          EnumItemsInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
+--native          GetItemLevel    takes item whichItem returns integer
+--native          GetItemType     takes item whichItem returns itemtype
+--native          SetItemDropID   takes item whichItem, integer unitId returns nothing
+--constant native GetItemName     takes item whichItem returns string
+--native          GetItemCharges  takes item whichItem returns integer
+--native          SetItemCharges  takes item whichItem, integer charges returns nothing
+--native          GetItemUserData takes item whichItem returns integer
+--native          SetItemUserData takes item whichItem, integer data returns nothing
+--
+
+--// Fog of War API
+--native  SetFogStateRect      takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision returns nothing
+--native  SetFogStateRadius    takes player forWhichPlayer, fogstate whichState, real centerx, real centerY, real radius, boolean useSharedVision returns nothing
+--native  SetFogStateRadiusLoc takes player forWhichPlayer, fogstate whichState, location center, real radius, boolean useSharedVision returns nothing
+--native  FogMaskEnable        takes boolean enable returns nothing
+--native  IsFogMaskEnabled     takes nothing returns boolean
+--native  FogEnable            takes boolean enable returns nothing
+--native  IsFogEnabled         takes nothing returns boolean
+--
+--native CreateFogModifierRect        takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision, boolean afterUnits returns fogmodifier
+--native CreateFogModifierRadius      takes player forWhichPlayer, fogstate whichState, real centerx, real centerY, real radius, boolean useSharedVision, boolean afterUnits returns fogmodifier
+--native CreateFogModifierRadiusLoc   takes player forWhichPlayer, fogstate whichState, location center, real radius, boolean useSharedVision, boolean afterUnits returns fogmodifier
+--native DestroyFogModifier           takes fogmodifier whichFogModifier returns nothing
+--native FogModifierStart             takes fogmodifier whichFogModifier returns nothing
+--native FogModifierStop              takes fogmodifier whichFogModifier returns nothing
+--
+--//============================================================================
+--// Game API
+--native VersionGet takes nothing returns version
+--native VersionCompatible takes version whichVersion returns boolean
+--native VersionSupported takes version whichVersion returns boolean
+--
+--native EndGame takes boolean doScoreScreen returns nothing
+--
+--// Async only!
+--native          ChangeLevel         takes string newLevel, boolean doScoreScreen returns nothing
+--native          RestartGame         takes boolean doScoreScreen returns nothing
+--native          ReloadGame          takes nothing returns nothing
+--// %%% SetCampaignMenuRace is deprecated.  It must remain to support
+--// old maps which use it, but all new maps should use SetCampaignMenuRaceEx
+--native          SetCampaignMenuRace takes race r returns nothing
+--native          SetCampaignMenuRaceEx takes integer campaignIndex returns nothing
+--native          ForceCampaignSelectScreen takes nothing returns nothing
+--
+--native          LoadGame            takes string saveFileName, boolean doScoreScreen returns nothing
+--native          SaveGame            takes string saveFileName returns nothing
+--native          RenameSaveDirectory takes string sourceDirName, string destDirName returns boolean
+--native          RemoveSaveDirectory takes string sourceDirName returns boolean
+--native          CopySaveGame        takes string sourceSaveName, string destSaveName returns boolean
+--native          SaveGameExists      takes string saveName returns boolean
+--native          SyncSelections      takes nothing returns nothing
+--native          SetFloatGameState   takes fgamestate whichFloatGameState, real value returns nothing
+--constant native GetFloatGameState   takes fgamestate whichFloatGameState returns real
+--native          SetIntegerGameState takes igamestate whichIntegerGameState, integer value returns nothing
+--constant native GetIntegerGameState takes igamestate whichIntegerGameState returns integer
+--
+--
+--//============================================================================
+--// Campaign API
+--native  SetTutorialCleared      takes boolean cleared returns nothing
+--native  SetMissionAvailable     takes integer campaignNumber, integer missionNumber, boolean available returns nothing
+--native  SetCampaignAvailable    takes integer campaignNumber, boolean available  returns nothing
+--native  SetOpCinematicAvailable takes integer campaignNumber, boolean available  returns nothing
+--native  SetEdCinematicAvailable takes integer campaignNumber, boolean available  returns nothing
+--native  GetDefaultDifficulty    takes nothing returns gamedifficulty
+--native  SetDefaultDifficulty    takes gamedifficulty g returns nothing
+--native  SetCustomCampaignButtonVisible  takes integer whichButton, boolean visible returns nothing
+--native  GetCustomCampaignButtonVisible  takes integer whichButton returns boolean
+--native  DoNotSaveReplay         takes nothing returns nothing
+--
+--//============================================================================
+--// Dialog API
+--native DialogCreate                 takes nothing returns dialog
+--native DialogDestroy                takes dialog whichDialog returns nothing
+--native DialogClear                  takes dialog whichDialog returns nothing
+--native DialogSetMessage             takes dialog whichDialog, string messageText returns nothing
+--native DialogAddButton              takes dialog whichDialog, string buttonText, integer hotkey returns button
+--native DialogAddQuitButton          takes dialog whichDialog, boolean doScoreScreen, string buttonText, integer hotkey returns button
+--native DialogDisplay                takes player whichPlayer, dialog whichDialog, boolean flag returns nothing
+--
+--// Creates a new or reads in an existing game cache file stored
+--// in the current campaign profile dir
+--//
+--native  ReloadGameCachesFromDisk takes nothing returns boolean
+--
+--native  InitGameCache    takes string campaignFile returns gamecache
+--native  SaveGameCache    takes gamecache whichCache returns boolean
+--
+--native  StoreInteger					takes gamecache cache, string missionKey, string key, integer value returns nothing
+--native  StoreReal						takes gamecache cache, string missionKey, string key, real value returns nothing
+--native  StoreBoolean					takes gamecache cache, string missionKey, string key, boolean value returns nothing
+--native  StoreUnit						takes gamecache cache, string missionKey, string key, unit whichUnit returns boolean
+--native  StoreString						takes gamecache cache, string missionKey, string key, string value returns boolean
+--
+--native SyncStoredInteger        takes gamecache cache, string missionKey, string key returns nothing
+--native SyncStoredReal           takes gamecache cache, string missionKey, string key returns nothing
+--native SyncStoredBoolean        takes gamecache cache, string missionKey, string key returns nothing
+--native SyncStoredUnit           takes gamecache cache, string missionKey, string key returns nothing
+--native SyncStoredString         takes gamecache cache, string missionKey, string key returns nothing
+--
+--native  HaveStoredInteger					takes gamecache cache, string missionKey, string key returns boolean
+--native  HaveStoredReal						takes gamecache cache, string missionKey, string key returns boolean
+--native  HaveStoredBoolean					takes gamecache cache, string missionKey, string key returns boolean
+--native  HaveStoredUnit						takes gamecache cache, string missionKey, string key returns boolean
+--native  HaveStoredString					takes gamecache cache, string missionKey, string key returns boolean
+--
+--native  FlushGameCache						takes gamecache cache returns nothing
+--native  FlushStoredMission					takes gamecache cache, string missionKey returns nothing
+--native  FlushStoredInteger					takes gamecache cache, string missionKey, string key returns nothing
+--native  FlushStoredReal						takes gamecache cache, string missionKey, string key returns nothing
+--native  FlushStoredBoolean					takes gamecache cache, string missionKey, string key returns nothing
+--native  FlushStoredUnit						takes gamecache cache, string missionKey, string key returns nothing
+--native  FlushStoredString					takes gamecache cache, string missionKey, string key returns nothing
+--
+--// Will return 0 if the specified value's data is not found in the cache
+--native  GetStoredInteger				takes gamecache cache, string missionKey, string key returns integer
+--native  GetStoredReal					takes gamecache cache, string missionKey, string key returns real
+--native  GetStoredBoolean				takes gamecache cache, string missionKey, string key returns boolean
+--native  GetStoredString					takes gamecache cache, string missionKey, string key returns string
+--native  RestoreUnit						takes gamecache cache, string missionKey, string key, player forWhichPlayer, real x, real y, real facing returns unit
+--
+--
+--native  InitHashtable    takes nothing returns hashtable
+--
+--native  SaveInteger						takes hashtable table, integer parentKey, integer childKey, integer value returns nothing
+--native  SaveReal						takes hashtable table, integer parentKey, integer childKey, real value returns nothing
+--native  SaveBoolean						takes hashtable table, integer parentKey, integer childKey, boolean value returns nothing
+--native  SaveStr							takes hashtable table, integer parentKey, integer childKey, string value returns boolean
+--native  SavePlayerHandle				takes hashtable table, integer parentKey, integer childKey, player whichPlayer returns boolean
+--native  SaveWidgetHandle				takes hashtable table, integer parentKey, integer childKey, widget whichWidget returns boolean
+--native  SaveDestructableHandle			takes hashtable table, integer parentKey, integer childKey, destructable whichDestructable returns boolean
+--native  SaveItemHandle					takes hashtable table, integer parentKey, integer childKey, item whichItem returns boolean
+--native  SaveUnitHandle					takes hashtable table, integer parentKey, integer childKey, unit whichUnit returns boolean
+--native  SaveAbilityHandle				takes hashtable table, integer parentKey, integer childKey, ability whichAbility returns boolean
+--native  SaveTimerHandle					takes hashtable table, integer parentKey, integer childKey, timer whichTimer returns boolean
+--native  SaveTriggerHandle				takes hashtable table, integer parentKey, integer childKey, trigger whichTrigger returns boolean
+--native  SaveTriggerConditionHandle		takes hashtable table, integer parentKey, integer childKey, triggercondition whichTriggercondition returns boolean
+--native  SaveTriggerActionHandle			takes hashtable table, integer parentKey, integer childKey, triggeraction whichTriggeraction returns boolean
+--native  SaveTriggerEventHandle			takes hashtable table, integer parentKey, integer childKey, event whichEvent returns boolean
+--native  SaveForceHandle					takes hashtable table, integer parentKey, integer childKey, force whichForce returns boolean
+--native  SaveGroupHandle					takes hashtable table, integer parentKey, integer childKey, group whichGroup returns boolean
+--native  SaveLocationHandle				takes hashtable table, integer parentKey, integer childKey, location whichLocation returns boolean
+--native  SaveRectHandle					takes hashtable table, integer parentKey, integer childKey, rect whichRect returns boolean
+--native  SaveBooleanExprHandle			takes hashtable table, integer parentKey, integer childKey, boolexpr whichBoolexpr returns boolean
+--native  SaveSoundHandle					takes hashtable table, integer parentKey, integer childKey, sound whichSound returns boolean
+--native  SaveEffectHandle				takes hashtable table, integer parentKey, integer childKey, effect whichEffect returns boolean
+--native  SaveUnitPoolHandle				takes hashtable table, integer parentKey, integer childKey, unitpool whichUnitpool returns boolean
+--native  SaveItemPoolHandle				takes hashtable table, integer parentKey, integer childKey, itempool whichItempool returns boolean
+--native  SaveQuestHandle					takes hashtable table, integer parentKey, integer childKey, quest whichQuest returns boolean
+--native  SaveQuestItemHandle				takes hashtable table, integer parentKey, integer childKey, questitem whichQuestitem returns boolean
+--native  SaveDefeatConditionHandle		takes hashtable table, integer parentKey, integer childKey, defeatcondition whichDefeatcondition returns boolean
+--native  SaveTimerDialogHandle			takes hashtable table, integer parentKey, integer childKey, timerdialog whichTimerdialog returns boolean
+--native  SaveLeaderboardHandle			takes hashtable table, integer parentKey, integer childKey, leaderboard whichLeaderboard returns boolean
+--native  SaveMultiboardHandle			takes hashtable table, integer parentKey, integer childKey, multiboard whichMultiboard returns boolean
+--native  SaveMultiboardItemHandle		takes hashtable table, integer parentKey, integer childKey, multiboarditem whichMultiboarditem returns boolean
+--native  SaveTrackableHandle				takes hashtable table, integer parentKey, integer childKey, trackable whichTrackable returns boolean
+--native  SaveDialogHandle				takes hashtable table, integer parentKey, integer childKey, dialog whichDialog returns boolean
+--native  SaveButtonHandle				takes hashtable table, integer parentKey, integer childKey, button whichButton returns boolean
+--native  SaveTextTagHandle				takes hashtable table, integer parentKey, integer childKey, texttag whichTexttag returns boolean
+--native  SaveLightningHandle				takes hashtable table, integer parentKey, integer childKey, lightning whichLightning returns boolean
+--native  SaveImageHandle					takes hashtable table, integer parentKey, integer childKey, image whichImage returns boolean
+--native  SaveUbersplatHandle				takes hashtable table, integer parentKey, integer childKey, ubersplat whichUbersplat returns boolean
+--native  SaveRegionHandle				takes hashtable table, integer parentKey, integer childKey, region whichRegion returns boolean
+--native  SaveFogStateHandle				takes hashtable table, integer parentKey, integer childKey, fogstate whichFogState returns boolean
+--native  SaveFogModifierHandle			takes hashtable table, integer parentKey, integer childKey, fogmodifier whichFogModifier returns boolean
+--native  SaveAgentHandle					takes hashtable table, integer parentKey, integer childKey, agent whichAgent returns boolean
+--native  SaveHashtableHandle				takes hashtable table, integer parentKey, integer childKey, hashtable whichHashtable returns boolean
+--
+--
+--native  LoadInteger					takes hashtable table, integer parentKey, integer childKey returns integer
+--native  LoadReal					takes hashtable table, integer parentKey, integer childKey returns real
+--native  LoadBoolean				    takes hashtable table, integer parentKey, integer childKey returns boolean
+--native  LoadStr 					takes hashtable table, integer parentKey, integer childKey returns string
+--native  LoadPlayerHandle			takes hashtable table, integer parentKey, integer childKey returns player
+--native  LoadWidgetHandle			takes hashtable table, integer parentKey, integer childKey returns widget
+--native  LoadDestructableHandle		takes hashtable table, integer parentKey, integer childKey returns destructable
+--native  LoadItemHandle				takes hashtable table, integer parentKey, integer childKey returns item
+--native  LoadUnitHandle				takes hashtable table, integer parentKey, integer childKey returns unit
+--native  LoadAbilityHandle			takes hashtable table, integer parentKey, integer childKey returns ability
+--native  LoadTimerHandle				takes hashtable table, integer parentKey, integer childKey returns timer
+--native  LoadTriggerHandle			takes hashtable table, integer parentKey, integer childKey returns trigger
+--native  LoadTriggerConditionHandle	takes hashtable table, integer parentKey, integer childKey returns triggercondition
+--native  LoadTriggerActionHandle		takes hashtable table, integer parentKey, integer childKey returns triggeraction
+--native  LoadTriggerEventHandle		takes hashtable table, integer parentKey, integer childKey returns event
+--native  LoadForceHandle				takes hashtable table, integer parentKey, integer childKey returns force
+--native  LoadGroupHandle				takes hashtable table, integer parentKey, integer childKey returns group
+--native  LoadLocationHandle			takes hashtable table, integer parentKey, integer childKey returns location
+--native  LoadRectHandle				takes hashtable table, integer parentKey, integer childKey returns rect
+--native  LoadBooleanExprHandle		takes hashtable table, integer parentKey, integer childKey returns boolexpr
+--native  LoadSoundHandle				takes hashtable table, integer parentKey, integer childKey returns sound
+--native  LoadEffectHandle			takes hashtable table, integer parentKey, integer childKey returns effect
+--native  LoadUnitPoolHandle			takes hashtable table, integer parentKey, integer childKey returns unitpool
+--native  LoadItemPoolHandle			takes hashtable table, integer parentKey, integer childKey returns itempool
+--native  LoadQuestHandle				takes hashtable table, integer parentKey, integer childKey returns quest
+--native  LoadQuestItemHandle			takes hashtable table, integer parentKey, integer childKey returns questitem
+--native  LoadDefeatConditionHandle	takes hashtable table, integer parentKey, integer childKey returns defeatcondition
+--native  LoadTimerDialogHandle		takes hashtable table, integer parentKey, integer childKey returns timerdialog
+--native  LoadLeaderboardHandle		takes hashtable table, integer parentKey, integer childKey returns leaderboard
+--native  LoadMultiboardHandle		takes hashtable table, integer parentKey, integer childKey returns multiboard
+--native  LoadMultiboardItemHandle	takes hashtable table, integer parentKey, integer childKey returns multiboarditem
+--native  LoadTrackableHandle			takes hashtable table, integer parentKey, integer childKey returns trackable
+--native  LoadDialogHandle			takes hashtable table, integer parentKey, integer childKey returns dialog
+--native  LoadButtonHandle			takes hashtable table, integer parentKey, integer childKey returns button
+--native  LoadTextTagHandle			takes hashtable table, integer parentKey, integer childKey returns texttag
+--native  LoadLightningHandle			takes hashtable table, integer parentKey, integer childKey returns lightning
+--native  LoadImageHandle				takes hashtable table, integer parentKey, integer childKey returns image
+--native  LoadUbersplatHandle			takes hashtable table, integer parentKey, integer childKey returns ubersplat
+--native  LoadRegionHandle			takes hashtable table, integer parentKey, integer childKey returns region
+--native  LoadFogStateHandle			takes hashtable table, integer parentKey, integer childKey returns fogstate
+--native  LoadFogModifierHandle		takes hashtable table, integer parentKey, integer childKey returns fogmodifier
+--native  LoadHashtableHandle			takes hashtable table, integer parentKey, integer childKey returns hashtable
+--
+--native  HaveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns boolean
+--native  HaveSavedReal						takes hashtable table, integer parentKey, integer childKey returns boolean
+--native  HaveSavedBoolean					takes hashtable table, integer parentKey, integer childKey returns boolean
+--native  HaveSavedString					    takes hashtable table, integer parentKey, integer childKey returns boolean
+--native  HaveSavedHandle     				takes hashtable table, integer parentKey, integer childKey returns boolean
+--
+--native  RemoveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns nothing
+--native  RemoveSavedReal						takes hashtable table, integer parentKey, integer childKey returns nothing
+--native  RemoveSavedBoolean					takes hashtable table, integer parentKey, integer childKey returns nothing
+--native  RemoveSavedString					takes hashtable table, integer parentKey, integer childKey returns nothing
+--native  RemoveSavedHandle					takes hashtable table, integer parentKey, integer childKey returns nothing
+--
+--native  FlushParentHashtable						takes hashtable table returns nothing
+--native  FlushChildHashtable					takes hashtable table, integer parentKey returns nothing
+--
+--
+--//============================================================================
+--// Randomization API
+--native GetRandomInt takes integer lowBound, integer highBound returns integer
+--native GetRandomReal takes real lowBound, real highBound returns real
+--
+--native CreateUnitPool           takes nothing returns unitpool
+--native DestroyUnitPool          takes unitpool whichPool returns nothing
+--native UnitPoolAddUnitType      takes unitpool whichPool, integer unitId, real weight returns nothing
+--native UnitPoolRemoveUnitType   takes unitpool whichPool, integer unitId returns nothing
+--native PlaceRandomUnit          takes unitpool whichPool, player forWhichPlayer, real x, real y, real facing returns unit
+--
+--native CreateItemPool           takes nothing returns itempool
+--native DestroyItemPool          takes itempool whichItemPool returns nothing
+--native ItemPoolAddItemType      takes itempool whichItemPool, integer itemId, real weight returns nothing
+--native ItemPoolRemoveItemType   takes itempool whichItemPool, integer itemId returns nothing
+--native PlaceRandomItem          takes itempool whichItemPool, real x, real y returns item
+--
+--// Choose any random unit/item. (NP means Neutral Passive)
+--native ChooseRandomCreep        takes integer level returns integer
+--native ChooseRandomNPBuilding   takes nothing returns integer
+--native ChooseRandomItem         takes integer level returns integer
+--native ChooseRandomItemEx       takes itemtype whichType, integer level returns integer
+--native SetRandomSeed            takes integer seed returns nothing
+--
+--//============================================================================
+--// Visual API
+--native SetTerrainFog                takes real a, real b, real c, real d, real e returns nothing
+--native ResetTerrainFog              takes nothing returns nothing
+--
+--native SetUnitFog                   takes real a, real b, real c, real d, real e returns nothing
+--native SetTerrainFogEx              takes integer style, real zstart, real zend, real density, real red, real green, real blue returns nothing
+--native DisplayTextToPlayer          takes player toPlayer, real x, real y, string message returns nothing
+--native DisplayTimedTextToPlayer     takes player toPlayer, real x, real y, real duration, string message returns nothing
+--native DisplayTimedTextFromPlayer   takes player toPlayer, real x, real y, real duration, string message returns nothing
+--native ClearTextMessages            takes nothing returns nothing
+--native SetDayNightModels            takes string terrainDNCFile, string unitDNCFile returns nothing
+--native SetSkyModel                  takes string skyModelFile returns nothing
+--native EnableUserControl            takes boolean b returns nothing
+--native EnableUserUI                 takes boolean b returns nothing
+--native SuspendTimeOfDay             takes boolean b returns nothing
+--native SetTimeOfDayScale            takes real r returns nothing
+--native GetTimeOfDayScale            takes nothing returns real
+--native ShowInterface                takes boolean flag, real fadeDuration returns nothing
+--native PauseGame                    takes boolean flag returns nothing
+--native UnitAddIndicator             takes unit whichUnit, integer red, integer green, integer blue, integer alpha returns nothing
+--native AddIndicator                 takes widget whichWidget, integer red, integer green, integer blue, integer alpha returns nothing
+--native PingMinimap                  takes real x, real y, real duration returns nothing
+--native PingMinimapEx                takes real x, real y, real duration, integer red, integer green, integer blue, boolean extraEffects returns nothing
+--native EnableOcclusion              takes boolean flag returns nothing
+--native SetIntroShotText             takes string introText returns nothing
+--native SetIntroShotModel            takes string introModelPath returns nothing
+--native EnableWorldFogBoundary       takes boolean b returns nothing
+--native PlayModelCinematic           takes string modelName returns nothing
+--native PlayCinematic                takes string movieName returns nothing
+--native ForceUIKey                   takes string key returns nothing
+--native ForceUICancel                takes nothing returns nothing
+--native DisplayLoadDialog            takes nothing returns nothing
+--native SetAltMinimapIcon            takes string iconPath returns nothing
+--native DisableRestartMission        takes boolean flag returns nothing
+--
+--native CreateTextTag                takes nothing returns texttag
+--native DestroyTextTag               takes texttag t returns nothing
+--native SetTextTagText               takes texttag t, string s, real height returns nothing
+--native SetTextTagPos                takes texttag t, real x, real y, real heightOffset returns nothing
+--native SetTextTagPosUnit            takes texttag t, unit whichUnit, real heightOffset returns nothing
+--native SetTextTagColor              takes texttag t, integer red, integer green, integer blue, integer alpha returns nothing
+--native SetTextTagVelocity           takes texttag t, real xvel, real yvel returns nothing
+--native SetTextTagVisibility         takes texttag t, boolean flag returns nothing
+--native SetTextTagSuspended          takes texttag t, boolean flag returns nothing
+--native SetTextTagPermanent          takes texttag t, boolean flag returns nothing
+--native SetTextTagAge                takes texttag t, real age returns nothing
+--native SetTextTagLifespan           takes texttag t, real lifespan returns nothing
+--native SetTextTagFadepoint          takes texttag t, real fadepoint returns nothing
+--
+--native SetReservedLocalHeroButtons  takes integer reserved returns nothing
+--native GetAllyColorFilterState      takes nothing returns integer
+--native SetAllyColorFilterState      takes integer state returns nothing
+--native GetCreepCampFilterState      takes nothing returns boolean
+--native SetCreepCampFilterState      takes boolean state returns nothing
+--native EnableMinimapFilterButtons   takes boolean enableAlly, boolean enableCreep returns nothing
+--native EnableDragSelect             takes boolean state, boolean ui returns nothing
+--native EnablePreSelect              takes boolean state, boolean ui returns nothing
+--native EnableSelect                 takes boolean state, boolean ui returns nothing
+--
+--//============================================================================
+--// Trackable API
+--native CreateTrackable      takes string trackableModelPath, real x, real y, real facing returns trackable
+--
+--//============================================================================
+--// Quest API
+--native CreateQuest          takes nothing returns quest
+--native DestroyQuest         takes quest whichQuest returns nothing
+--native QuestSetTitle        takes quest whichQuest, string title returns nothing
+--native QuestSetDescription  takes quest whichQuest, string description returns nothing
+--native QuestSetIconPath     takes quest whichQuest, string iconPath returns nothing
+--
+--native QuestSetRequired     takes quest whichQuest, boolean required   returns nothing
+--native QuestSetCompleted    takes quest whichQuest, boolean completed  returns nothing
+--native QuestSetDiscovered   takes quest whichQuest, boolean discovered returns nothing
+--native QuestSetFailed       takes quest whichQuest, boolean failed     returns nothing
+--native QuestSetEnabled      takes quest whichQuest, boolean enabled    returns nothing
+--
+--native IsQuestRequired     takes quest whichQuest returns boolean
+--native IsQuestCompleted    takes quest whichQuest returns boolean
+--native IsQuestDiscovered   takes quest whichQuest returns boolean
+--native IsQuestFailed       takes quest whichQuest returns boolean
+--native IsQuestEnabled      takes quest whichQuest returns boolean
+--
+--native QuestCreateItem          takes quest whichQuest returns questitem
+--native QuestItemSetDescription  takes questitem whichQuestItem, string description returns nothing
+--native QuestItemSetCompleted    takes questitem whichQuestItem, boolean completed returns nothing
+--
+--native IsQuestItemCompleted     takes questitem whichQuestItem returns boolean
+--
+--native CreateDefeatCondition            takes nothing returns defeatcondition
+--native DestroyDefeatCondition           takes defeatcondition whichCondition returns nothing
+--native DefeatConditionSetDescription    takes defeatcondition whichCondition, string description returns nothing
+--
+--native FlashQuestDialogButton   takes nothing returns nothing
+--native ForceQuestDialogUpdate   takes nothing returns nothing
+--
+--//============================================================================
+--// Timer Dialog API
+--native CreateTimerDialog                takes timer t returns timerdialog
+--native DestroyTimerDialog               takes timerdialog whichDialog returns nothing
+--native TimerDialogSetTitle              takes timerdialog whichDialog, string title returns nothing
+--native TimerDialogSetTitleColor         takes timerdialog whichDialog, integer red, integer green, integer blue, integer alpha returns nothing
+--native TimerDialogSetTimeColor          takes timerdialog whichDialog, integer red, integer green, integer blue, integer alpha returns nothing
+--native TimerDialogSetSpeed              takes timerdialog whichDialog, real speedMultFactor returns nothing
+--native TimerDialogDisplay               takes timerdialog whichDialog, boolean display returns nothing
+--native IsTimerDialogDisplayed           takes timerdialog whichDialog returns boolean
+--native TimerDialogSetRealTimeRemaining  takes timerdialog whichDialog, real timeRemaining returns nothing
+--
+--//============================================================================
+--// Leaderboard API
+--
+--// Create a leaderboard object
+--native CreateLeaderboard                takes nothing returns leaderboard
+--native DestroyLeaderboard               takes leaderboard lb returns nothing
+--
+--native LeaderboardDisplay               takes leaderboard lb, boolean show returns nothing
+--native IsLeaderboardDisplayed           takes leaderboard lb returns boolean
+--
+--native LeaderboardGetItemCount          takes leaderboard lb returns integer
+--
+--native LeaderboardSetSizeByItemCount    takes leaderboard lb, integer count returns nothing
+--native LeaderboardAddItem               takes leaderboard lb, string label, integer value, player p returns nothing
+--native LeaderboardRemoveItem            takes leaderboard lb, integer index returns nothing
+--native LeaderboardRemovePlayerItem      takes leaderboard lb, player p returns nothing
+--native LeaderboardClear                 takes leaderboard lb returns nothing
+--
+--native LeaderboardSortItemsByValue      takes leaderboard lb, boolean ascending returns nothing
+--native LeaderboardSortItemsByPlayer     takes leaderboard lb, boolean ascending returns nothing
+--native LeaderboardSortItemsByLabel      takes leaderboard lb, boolean ascending returns nothing
+--
+--native LeaderboardHasPlayerItem         takes leaderboard lb, player p returns boolean
+--native LeaderboardGetPlayerIndex        takes leaderboard lb, player p returns integer
+--native LeaderboardSetLabel              takes leaderboard lb, string label returns nothing
+--native LeaderboardGetLabelText          takes leaderboard lb returns string
+--
+--native PlayerSetLeaderboard             takes player toPlayer, leaderboard lb returns nothing
+--native PlayerGetLeaderboard             takes player toPlayer returns leaderboard
+--
+--native LeaderboardSetLabelColor         takes leaderboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+--native LeaderboardSetValueColor         takes leaderboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+--native LeaderboardSetStyle              takes leaderboard lb, boolean showLabel, boolean showNames, boolean showValues, boolean showIcons returns nothing
+--
+--native LeaderboardSetItemValue          takes leaderboard lb, integer whichItem, integer val returns nothing
+--native LeaderboardSetItemLabel          takes leaderboard lb, integer whichItem, string val returns nothing
+--native LeaderboardSetItemStyle          takes leaderboard lb, integer whichItem, boolean showLabel, boolean showValue, boolean showIcon returns nothing
+--native LeaderboardSetItemLabelColor     takes leaderboard lb, integer whichItem, integer red, integer green, integer blue, integer alpha returns nothing
+--native LeaderboardSetItemValueColor     takes leaderboard lb, integer whichItem, integer red, integer green, integer blue, integer alpha returns nothing
+--
+--//============================================================================
+--// Multiboard API
+--//============================================================================
+--
+--// Create a multiboard object
+--native CreateMultiboard                 takes nothing returns multiboard
+--native DestroyMultiboard                takes multiboard lb returns nothing
+--
+--native MultiboardDisplay                takes multiboard lb, boolean show returns nothing
+--native IsMultiboardDisplayed            takes multiboard lb returns boolean
+--
+--native MultiboardMinimize               takes multiboard lb, boolean minimize returns nothing
+--native IsMultiboardMinimized            takes multiboard lb returns boolean
+--native MultiboardClear                  takes multiboard lb returns nothing
+--
+--native MultiboardSetTitleText           takes multiboard lb, string label returns nothing
+--native MultiboardGetTitleText           takes multiboard lb returns string
+--native MultiboardSetTitleTextColor      takes multiboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+--
+--native MultiboardGetRowCount            takes multiboard lb returns integer
+--native MultiboardGetColumnCount         takes multiboard lb returns integer
+--
+--native MultiboardSetColumnCount         takes multiboard lb, integer count returns nothing
+--native MultiboardSetRowCount            takes multiboard lb, integer count returns nothing
+--
+--// broadcast settings to all items
+--native MultiboardSetItemsStyle          takes multiboard lb, boolean showValues, boolean showIcons returns nothing
+--native MultiboardSetItemsValue          takes multiboard lb, string value returns nothing
+--native MultiboardSetItemsValueColor     takes multiboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+--native MultiboardSetItemsWidth          takes multiboard lb, real width returns nothing
+--native MultiboardSetItemsIcon           takes multiboard lb, string iconPath returns nothing
+--
+--
+--// funcs for modifying individual items
+--native MultiboardGetItem                takes multiboard lb, integer row, integer column returns multiboarditem
+--native MultiboardReleaseItem            takes multiboarditem mbi returns nothing
+--
+--native MultiboardSetItemStyle           takes multiboarditem mbi, boolean showValue, boolean showIcon returns nothing
+--native MultiboardSetItemValue           takes multiboarditem mbi, string val returns nothing
+--native MultiboardSetItemValueColor      takes multiboarditem mbi, integer red, integer green, integer blue, integer alpha returns nothing
+--native MultiboardSetItemWidth           takes multiboarditem mbi, real width returns nothing
+--native MultiboardSetItemIcon            takes multiboarditem mbi, string iconFileName returns nothing
+--
+--// meant to unequivocally suspend display of existing and
+--// subsequently displayed multiboards
+--//
+--native MultiboardSuppressDisplay        takes boolean flag returns nothing
+--
+--//============================================================================
+--// Camera API
+--native SetCameraPosition            takes real x, real y returns nothing
+--native SetCameraQuickPosition       takes real x, real y returns nothing
+--native SetCameraBounds              takes real x1, real y1, real x2, real y2, real x3, real y3, real x4, real y4 returns nothing
+--native StopCamera                   takes nothing returns nothing
+--native ResetToGameCamera            takes real duration returns nothing
+--native PanCameraTo                  takes real x, real y returns nothing
+--native PanCameraToTimed             takes real x, real y, real duration returns nothing
+--native PanCameraToWithZ             takes real x, real y, real zOffsetDest returns nothing
+--native PanCameraToTimedWithZ        takes real x, real y, real zOffsetDest, real duration returns nothing
+--native SetCinematicCamera           takes string cameraModelFile returns nothing
+--native SetCameraRotateMode          takes real x, real y, real radiansToSweep, real duration returns nothing
+--native SetCameraField               takes camerafield whichField, real value, real duration returns nothing
+--native AdjustCameraField            takes camerafield whichField, real offset, real duration returns nothing
+--native SetCameraTargetController    takes unit whichUnit, real xoffset, real yoffset, boolean inheritOrientation returns nothing
+--native SetCameraOrientController    takes unit whichUnit, real xoffset, real yoffset returns nothing
+--
+--native CreateCameraSetup                    takes nothing returns camerasetup
+--native CameraSetupSetField                  takes camerasetup whichSetup, camerafield whichField, real value, real duration returns nothing
+--native CameraSetupGetField                  takes camerasetup whichSetup, camerafield whichField returns real
+--native CameraSetupSetDestPosition           takes camerasetup whichSetup, real x, real y, real duration returns nothing
+--native CameraSetupGetDestPositionLoc        takes camerasetup whichSetup returns location
+--native CameraSetupGetDestPositionX          takes camerasetup whichSetup returns real
+--native CameraSetupGetDestPositionY          takes camerasetup whichSetup returns real
+--native CameraSetupApply                     takes camerasetup whichSetup, boolean doPan, boolean panTimed returns nothing
+--native CameraSetupApplyWithZ                takes camerasetup whichSetup, real zDestOffset returns nothing
+--native CameraSetupApplyForceDuration        takes camerasetup whichSetup, boolean doPan, real forceDuration returns nothing
+--native CameraSetupApplyForceDurationWithZ   takes camerasetup whichSetup, real zDestOffset, real forceDuration returns nothing
+--
+--native CameraSetTargetNoise             takes real mag, real velocity returns nothing
+--native CameraSetSourceNoise             takes real mag, real velocity returns nothing
+--
+--native CameraSetTargetNoiseEx           takes real mag, real velocity, boolean vertOnly returns nothing
+--native CameraSetSourceNoiseEx           takes real mag, real velocity, boolean vertOnly returns nothing
+--
+--native CameraSetSmoothingFactor         takes real factor returns nothing
+--
+--native SetCineFilterTexture             takes string filename returns nothing
+--native SetCineFilterBlendMode           takes blendmode whichMode returns nothing
+--native SetCineFilterTexMapFlags         takes texmapflags whichFlags returns nothing
+--native SetCineFilterStartUV             takes real minu, real minv, real maxu, real maxv returns nothing
+--native SetCineFilterEndUV               takes real minu, real minv, real maxu, real maxv returns nothing
+--native SetCineFilterStartColor          takes integer red, integer green, integer blue, integer alpha returns nothing
+--native SetCineFilterEndColor            takes integer red, integer green, integer blue, integer alpha returns nothing
+--native SetCineFilterDuration            takes real duration returns nothing
+--native DisplayCineFilter                takes boolean flag returns nothing
+--native IsCineFilterDisplayed            takes nothing returns boolean
+--
+--native SetCinematicScene                takes integer portraitUnitId, playercolor color, string speakerTitle, string text, real sceneDuration, real voiceoverDuration returns nothing
+--native EndCinematicScene                takes nothing returns nothing
+--native ForceCinematicSubtitles          takes boolean flag returns nothing
+--
+--native GetCameraMargin                  takes integer whichMargin returns real
+--
+--// These return values for the local players camera only...
+--constant native GetCameraBoundMinX          takes nothing returns real
+--constant native GetCameraBoundMinY          takes nothing returns real
+--constant native GetCameraBoundMaxX          takes nothing returns real
+--constant native GetCameraBoundMaxY          takes nothing returns real
+--constant native GetCameraField              takes camerafield whichField returns real
+--constant native GetCameraTargetPositionX    takes nothing returns real
+--constant native GetCameraTargetPositionY    takes nothing returns real
+--constant native GetCameraTargetPositionZ    takes nothing returns real
+--constant native GetCameraTargetPositionLoc  takes nothing returns location
+--constant native GetCameraEyePositionX       takes nothing returns real
+--constant native GetCameraEyePositionY       takes nothing returns real
+--constant native GetCameraEyePositionZ       takes nothing returns real
+--constant native GetCameraEyePositionLoc     takes nothing returns location
+--
+--//============================================================================
+--// Sound API
+--//
+--native NewSoundEnvironment          takes string environmentName returns nothing
+--
+--native CreateSound                  takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
+--native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
+--native CreateSoundFromLabel         takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
+--native CreateMIDISound              takes string soundLabel, integer fadeInRate, integer fadeOutRate returns sound
+--
+--native SetSoundParamsFromLabel      takes sound soundHandle, string soundLabel returns nothing
+--native SetSoundDistanceCutoff       takes sound soundHandle, real cutoff returns nothing
+--native SetSoundChannel              takes sound soundHandle, integer channel returns nothing
+--native SetSoundVolume               takes sound soundHandle, integer volume returns nothing
+--native SetSoundPitch                takes sound soundHandle, real pitch returns nothing
+--
+--// the following method must be called immediately after calling "StartSound"
+--native SetSoundPlayPosition         takes sound soundHandle, integer millisecs returns nothing
+--
+--// these calls are only valid if the sound was created with 3d enabled
+--native SetSoundDistances            takes sound soundHandle, real minDist, real maxDist returns nothing
+--native SetSoundConeAngles           takes sound soundHandle, real inside, real outside, integer outsideVolume returns nothing
+--native SetSoundConeOrientation      takes sound soundHandle, real x, real y, real z returns nothing
+--native SetSoundPosition             takes sound soundHandle, real x, real y, real z returns nothing
+--native SetSoundVelocity             takes sound soundHandle, real x, real y, real z returns nothing
+--native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
+--
+--native StartSound                   takes sound soundHandle returns nothing
+--native StopSound                    takes sound soundHandle, boolean killWhenDone, boolean fadeOut returns nothing
+--native KillSoundWhenDone            takes sound soundHandle returns nothing
+--
+--// Music Interface. Note that if music is disabled, these calls do nothing
+--native SetMapMusic                  takes string musicName, boolean random, integer index returns nothing
+--native ClearMapMusic                takes nothing returns nothing
+--
+--native PlayMusic                    takes string musicName returns nothing
+--native PlayMusicEx                  takes string musicName, integer frommsecs, integer fadeinmsecs returns nothing
+--native StopMusic                    takes boolean fadeOut returns nothing
+--native ResumeMusic                  takes nothing returns nothing
+--
+--native PlayThematicMusic            takes string musicFileName returns nothing
+--native PlayThematicMusicEx          takes string musicFileName, integer frommsecs returns nothing
+--native EndThematicMusic             takes nothing returns nothing
+--
+--native SetMusicVolume               takes integer volume returns nothing
+--native SetMusicPlayPosition         takes integer millisecs returns nothing
+--native SetThematicMusicPlayPosition takes integer millisecs returns nothing
+--
+--// other music and sound calls
+--native SetSoundDuration             takes sound soundHandle, integer duration returns nothing
+--native GetSoundDuration             takes sound soundHandle returns integer
+--native GetSoundFileDuration         takes string musicFileName returns integer
+--
+--native VolumeGroupSetVolume         takes volumegroup vgroup, real scale returns nothing
+--native VolumeGroupReset             takes nothing returns nothing
+--
+--native GetSoundIsPlaying            takes sound soundHandle returns boolean
+--native GetSoundIsLoading            takes sound soundHandle returns boolean
+--
+--native RegisterStackedSound         takes sound soundHandle, boolean byPosition, real rectwidth, real rectheight returns nothing
+--native UnregisterStackedSound       takes sound soundHandle, boolean byPosition, real rectwidth, real rectheight returns nothing
+--
+--//============================================================================
+--// Effects API
+--//
+--native AddWeatherEffect             takes rect where, integer effectID returns weathereffect
+--native RemoveWeatherEffect          takes weathereffect whichEffect returns nothing
+--native EnableWeatherEffect          takes weathereffect whichEffect, boolean enable returns nothing
+--
+--native TerrainDeformCrater          takes real x, real y, real radius, real depth, integer duration, boolean permanent returns terraindeformation
+--native TerrainDeformRipple          takes real x, real y, real radius, real depth, integer duration, integer count, real spaceWaves, real timeWaves, real radiusStartPct, boolean limitNeg returns terraindeformation
+--native TerrainDeformWave            takes real x, real y, real dirX, real dirY, real distance, real speed, real radius, real depth, integer trailTime, integer count returns terraindeformation
+--native TerrainDeformRandom          takes real x, real y, real radius, real minDelta, real maxDelta, integer duration, integer updateInterval returns terraindeformation
+--native TerrainDeformStop            takes terraindeformation deformation, integer duration returns nothing
+--native TerrainDeformStopAll         takes nothing returns nothing
+--
+--native AddSpecialEffect             takes string modelName, real x, real y returns effect
+--native AddSpecialEffectLoc          takes string modelName, location where returns effect
+--native AddSpecialEffectTarget       takes string modelName, widget targetWidget, string attachPointName returns effect
+--native DestroyEffect                takes effect whichEffect returns nothing
+--
+--native AddSpellEffect               takes string abilityString, effecttype t, real x, real y returns effect
+--native AddSpellEffectLoc            takes string abilityString, effecttype t,location where returns effect
+--native AddSpellEffectById           takes integer abilityId, effecttype t,real x, real y returns effect
+--native AddSpellEffectByIdLoc        takes integer abilityId, effecttype t,location where returns effect
+--native AddSpellEffectTarget         takes string modelName, effecttype t, widget targetWidget, string attachPoint returns effect
+--native AddSpellEffectTargetById     takes integer abilityId, effecttype t, widget targetWidget, string attachPoint returns effect
+--
+--native AddLightning                 takes string codeName, boolean checkVisibility, real x1, real y1, real x2, real y2 returns lightning
+--native AddLightningEx               takes string codeName, boolean checkVisibility, real x1, real y1, real z1, real x2, real y2, real z2 returns lightning
+--native DestroyLightning             takes lightning whichBolt returns boolean
+--native MoveLightning                takes lightning whichBolt, boolean checkVisibility, real x1, real y1, real x2, real y2 returns boolean
+--native MoveLightningEx              takes lightning whichBolt, boolean checkVisibility, real x1, real y1, real z1, real x2, real y2, real z2 returns boolean
+--native GetLightningColorA           takes lightning whichBolt returns real
+--native GetLightningColorR           takes lightning whichBolt returns real
+--native GetLightningColorG           takes lightning whichBolt returns real
+--native GetLightningColorB           takes lightning whichBolt returns real
+--native SetLightningColor            takes lightning whichBolt, real r, real g, real b, real a returns boolean
+--
+--native GetAbilityEffect             takes string abilityString, effecttype t, integer index returns string
+--native GetAbilityEffectById         takes integer abilityId, effecttype t, integer index returns string
+--native GetAbilitySound              takes string abilityString, soundtype t returns string
+--native GetAbilitySoundById          takes integer abilityId, soundtype t returns string
+--
+--//============================================================================
+--// Terrain API
+--//
+--native GetTerrainCliffLevel         takes real x, real y returns integer
+--native SetWaterBaseColor            takes integer red, integer green, integer blue, integer alpha returns nothing
+--native SetWaterDeforms              takes boolean val returns nothing
+--native GetTerrainType               takes real x, real y returns integer
+--native GetTerrainVariance           takes real x, real y returns integer
+--native SetTerrainType               takes real x, real y, integer terrainType, integer variation, integer area, integer shape returns nothing
+--native IsTerrainPathable            takes real x, real y, pathingtype t returns boolean
+--native SetTerrainPathable           takes real x, real y, pathingtype t, boolean flag returns nothing
+--
+--//============================================================================
+--// Image API
+--//
+--native CreateImage                  takes string file, real sizeX, real sizeY, real sizeZ, real posX, real posY, real posZ, real originX, real originY, real originZ, integer imageType returns image
+--native DestroyImage                 takes image whichImage returns nothing
+--native ShowImage                    takes image whichImage, boolean flag returns nothing
+--native SetImageConstantHeight       takes image whichImage, boolean flag, real height returns nothing
+--native SetImagePosition             takes image whichImage, real x, real y, real z returns nothing
+--native SetImageColor                takes image whichImage, integer red, integer green, integer blue, integer alpha returns nothing
+--native SetImageRender               takes image whichImage, boolean flag returns nothing
+--native SetImageRenderAlways         takes image whichImage, boolean flag returns nothing
+--native SetImageAboveWater           takes image whichImage, boolean flag, boolean useWaterAlpha returns nothing
+--native SetImageType                 takes image whichImage, integer imageType returns nothing
+--
+--//============================================================================
+--// Ubersplat API
+--//
+--native CreateUbersplat              takes real x, real y, string name, integer red, integer green, integer blue, integer alpha, boolean forcePaused, boolean noBirthTime returns ubersplat
+--native DestroyUbersplat             takes ubersplat whichSplat returns nothing
+--native ResetUbersplat               takes ubersplat whichSplat returns nothing
+--native FinishUbersplat              takes ubersplat whichSplat returns nothing
+--native ShowUbersplat                takes ubersplat whichSplat, boolean flag returns nothing
+--native SetUbersplatRender           takes ubersplat whichSplat, boolean flag returns nothing
+--native SetUbersplatRenderAlways     takes ubersplat whichSplat, boolean flag returns nothing
+--
+--//============================================================================
+--// Blight API
+--//
+--native SetBlight                takes player whichPlayer, real x, real y, real radius, boolean addBlight returns nothing
+--native SetBlightRect            takes player whichPlayer, rect r, boolean addBlight returns nothing
+--native SetBlightPoint           takes player whichPlayer, real x, real y, boolean addBlight returns nothing
+--native SetBlightLoc             takes player whichPlayer, location whichLocation, real radius, boolean addBlight returns nothing
+--native CreateBlightedGoldmine   takes player id, real x, real y, real face returns unit
+--native IsPointBlighted          takes real x, real y returns boolean
+--
+--//============================================================================
+--// Doodad API
+--//
+--native SetDoodadAnimation       takes real x, real y, real radius, integer doodadID, boolean nearestOnly, string animName, boolean animRandom returns nothing
+--native SetDoodadAnimationRect   takes rect r, integer doodadID, string animName, boolean animRandom returns nothing
+--
+--//============================================================================
+--// Computer AI interface
+--//
+--native StartMeleeAI         takes player num, string script                 returns nothing
+--native StartCampaignAI      takes player num, string script                 returns nothing
+--native CommandAI            takes player num, integer command, integer data returns nothing
+--native PauseCompAI          takes player p,   boolean pause                 returns nothing
+--native GetAIDifficulty      takes player num                                returns aidifficulty
+--
+--native RemoveGuardPosition  takes unit hUnit                                returns nothing
+--native RecycleGuardPosition takes unit hUnit                                returns nothing
+--native RemoveAllGuardPositions takes player num                             returns nothing
+--
+--//============================================================================
+--native Cheat            takes string cheatStr returns nothing
+--native IsNoVictoryCheat takes nothing returns boolean
+--native IsNoDefeatCheat  takes nothing returns boolean
+--
+--native Preload          takes string filename returns nothing
+--native PreloadEnd       takes real timeout returns nothing
+--
+--native PreloadStart     takes nothing returns nothing
+--native PreloadRefresh   takes nothing returns nothing
+--native PreloadEndEx     takes nothing returns nothing
+--
+--native PreloadGenClear  takes nothing returns nothing
+--native PreloadGenStart  takes nothing returns nothing
+--native PreloadGenEnd    takes string filename returns nothing
+--native Preloader        takes string filename returns nothing
 
 local function init()
     player.init()

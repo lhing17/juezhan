@@ -6,6 +6,7 @@
 
 local common_util = require 'jass.util.common_util'
 local player = {}
+setmetatable(player, player)
 local MAX_PLAYER_NUM = 16
 
 local mt = {}
@@ -14,6 +15,7 @@ player.__index = mt
 -- 是否为观察者
 mt.observer = false
 mt.id = 0
+mt.type = 'player'
 
 function mt:is_ally(p)
     return self.force == p.force or self.force == PLAYER_NEUTRAL_PASSIVE or p.force == PLAYER_NEUTRAL_PASSIVE
@@ -43,7 +45,7 @@ function mt:get_unit_count()
     return counter
 end
 
-function player.__call(i)
+function player:__call(i)
     return player[i]
 end
 

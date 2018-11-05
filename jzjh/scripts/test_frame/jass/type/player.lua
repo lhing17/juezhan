@@ -16,9 +16,10 @@ player.__index = mt
 mt.observer = false
 mt.id = 0
 mt.type = 'player'
+mt.name = '玩家1'
 
 function mt:is_ally(p)
-    return self.force == p.force or self.force == PLAYER_NEUTRAL_PASSIVE or p.force == PLAYER_NEUTRAL_PASSIVE
+    return common_util.is_in_table(p, self.allies)
 end
 
 function mt:is_enemy(p)
@@ -45,6 +46,21 @@ function mt:get_unit_count()
     return counter
 end
 
+function mt:get_name()
+    return self.name
+end
+
+function mt:set_alliance(p, alliance_type)
+    if type(self.allies) == 'table' then
+        --FIXME 是否需要分类别
+        table.insert(self.allies, p)
+    end
+end
+
+function mt:set_state(state, value)
+    p[state] = value
+end
+
 function player:__call(i)
     return player[i]
 end
@@ -65,6 +81,8 @@ function player.init()
         p.units = {}
         setmetatable(p, player)
         table.insert(player, p)
+        p.allies = {}
+        p.name = '玩家' .. i
     end
     player.native = player[1]
 end

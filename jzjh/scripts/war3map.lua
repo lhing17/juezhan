@@ -2758,15 +2758,7 @@ function main1()
 	local wu
 	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
     et.hero.init_pick_table()
-	ConfigureNeutralVictim()
 	ju = Filter(bu)
-	filterIssueHauntOrderAtLocBJ = Filter(IssueHauntOrderAtLocBJFilter)
-	filterEnumDestructablesInCircleBJ = Filter(tu)
-	filterGetUnitsInRectOfPlayer = Filter(GetUnitsInRectOfPlayerFilter)
-	filterGetUnitsOfTypeIdAll = Filter(GetUnitsOfTypeIdAllFilter)
-	filterGetUnitsOfPlayerAndTypeId = Filter(GetUnitsOfPlayerAndTypeIdFilter)
-	filterMeleeTrainedUnitIsHeroBJ = Filter(MeleeTrainedUnitIsHeroBJFilter)
-	filterLivingPlayerUnitsOfTypeId = Filter(LivingPlayerUnitsOfTypeIdFilter)
 
 	udg_baolv[1] = 20
 	udg_baolv[2] = 25

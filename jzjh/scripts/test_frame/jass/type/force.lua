@@ -24,9 +24,9 @@ function force.init()
         player[i].force = force[2]
     end
     -- 中立无敌意
-    table.insert(force[3], player[13])
+    table.insert(force[3], player[16])
     -- 中立敌对
-    table.insert(force[4], player[16])
+    table.insert(force[4], player[13])
 
     for i = 1, 16 do
         table.insert(force[5], player[i])

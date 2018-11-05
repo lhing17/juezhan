@@ -13,7 +13,10 @@ unit.removed_units = {}
 local mt = {}
 unit.__index = mt
 
+mt.handle_id = 0
+mt.id = 0
 mt.type = 'unit'
+mt.name = '单位'
 
 -- 是否存活 alive dead removed
 mt.status = 'alive'
@@ -67,6 +70,8 @@ mt.tmp_agi = 10
 -- 智力
 mt.per_int = 10
 mt.tmp_int = 10
+
+
 
 
 function mt:die()
@@ -190,6 +195,14 @@ end
 
 function mt:get_int()
     return self.per_int
+end
+
+function mt:get_name()
+    return self.name
+end
+
+function mt:get_type_id()
+    return self.id
 end
 
 function unit:__tostring()

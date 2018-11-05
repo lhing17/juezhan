@@ -20,6 +20,7 @@ local location = require 'jass.type.location'
 local version = require 'jass.type.version'
 local rect = require 'jass.type.rect'
 local unitpool = require 'jass.type.unitpool'
+local hashtable = require 'jass.type.hashtable'
 
 -- 状态类，优先初始化
 playerstate.init()
@@ -1710,9 +1711,18 @@ end
 --//============================================================================
 --// Hashtable API
 --native  InitHashtable    takes nothing returns hashtable
+function jass.InitHashtable()
+    return hashtable.create()
+end
 --
 --native  SaveInteger						takes hashtable table, integer parentKey, integer childKey, integer value returns nothing
+function jass.SaveInteger(ht, parentKey, childKey, value)
+    ht:save(parentKey, childKey, 'integer', value)
+end
 --native  SaveReal						takes hashtable table, integer parentKey, integer childKey, real value returns nothing
+function jass.SaveReal(ht, parentKey, childKey, value)
+    ht:save(parentKey, childKey, 'real', value)
+end
 --native  SaveBoolean						takes hashtable table, integer parentKey, integer childKey, boolean value returns nothing
 --native  SaveStr							takes hashtable table, integer parentKey, integer childKey, string value returns boolean
 --native  SavePlayerHandle				takes hashtable table, integer parentKey, integer childKey, player whichPlayer returns boolean

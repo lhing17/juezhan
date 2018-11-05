@@ -19,6 +19,7 @@ local gamespeed = require 'jass.type.gamespeed'
 local location = require 'jass.type.location'
 local version = require 'jass.type.version'
 local rect = require 'jass.type.rect'
+local unitpool = require 'jass.type.unitpool'
 
 -- 状态类，优先初始化
 playerstate.init()
@@ -1704,49 +1705,10 @@ end
 --native DialogAddButton              takes dialog whichDialog, string buttonText, integer hotkey returns button
 --native DialogAddQuitButton          takes dialog whichDialog, boolean doScoreScreen, string buttonText, integer hotkey returns button
 --native DialogDisplay                takes player whichPlayer, dialog whichDialog, boolean flag returns nothing
+
 --
---// Creates a new or reads in an existing game cache file stored
---// in the current campaign profile dir
---//
---native  ReloadGameCachesFromDisk takes nothing returns boolean
---
---native  InitGameCache    takes string campaignFile returns gamecache
---native  SaveGameCache    takes gamecache whichCache returns boolean
---
---native  StoreInteger					takes gamecache cache, string missionKey, string key, integer value returns nothing
---native  StoreReal						takes gamecache cache, string missionKey, string key, real value returns nothing
---native  StoreBoolean					takes gamecache cache, string missionKey, string key, boolean value returns nothing
---native  StoreUnit						takes gamecache cache, string missionKey, string key, unit whichUnit returns boolean
---native  StoreString						takes gamecache cache, string missionKey, string key, string value returns boolean
---
---native SyncStoredInteger        takes gamecache cache, string missionKey, string key returns nothing
---native SyncStoredReal           takes gamecache cache, string missionKey, string key returns nothing
---native SyncStoredBoolean        takes gamecache cache, string missionKey, string key returns nothing
---native SyncStoredUnit           takes gamecache cache, string missionKey, string key returns nothing
---native SyncStoredString         takes gamecache cache, string missionKey, string key returns nothing
---
---native  HaveStoredInteger					takes gamecache cache, string missionKey, string key returns boolean
---native  HaveStoredReal						takes gamecache cache, string missionKey, string key returns boolean
---native  HaveStoredBoolean					takes gamecache cache, string missionKey, string key returns boolean
---native  HaveStoredUnit						takes gamecache cache, string missionKey, string key returns boolean
---native  HaveStoredString					takes gamecache cache, string missionKey, string key returns boolean
---
---native  FlushGameCache						takes gamecache cache returns nothing
---native  FlushStoredMission					takes gamecache cache, string missionKey returns nothing
---native  FlushStoredInteger					takes gamecache cache, string missionKey, string key returns nothing
---native  FlushStoredReal						takes gamecache cache, string missionKey, string key returns nothing
---native  FlushStoredBoolean					takes gamecache cache, string missionKey, string key returns nothing
---native  FlushStoredUnit						takes gamecache cache, string missionKey, string key returns nothing
---native  FlushStoredString					takes gamecache cache, string missionKey, string key returns nothing
---
---// Will return 0 if the specified value's data is not found in the cache
---native  GetStoredInteger				takes gamecache cache, string missionKey, string key returns integer
---native  GetStoredReal					takes gamecache cache, string missionKey, string key returns real
---native  GetStoredBoolean				takes gamecache cache, string missionKey, string key returns boolean
---native  GetStoredString					takes gamecache cache, string missionKey, string key returns string
---native  RestoreUnit						takes gamecache cache, string missionKey, string key, player forWhichPlayer, real x, real y, real facing returns unit
---
---
+--//============================================================================
+--// Hashtable API
 --native  InitHashtable    takes nothing returns hashtable
 --
 --native  SaveInteger						takes hashtable table, integer parentKey, integer childKey, integer value returns nothing
@@ -1856,13 +1818,41 @@ end
 --//============================================================================
 --// Randomization API
 --native GetRandomInt takes integer lowBound, integer highBound returns integer
+function jass.GetRandomInt(lowBound, highBound)
+    return math.random(lowBound, highBound)
+end
+
 --native GetRandomReal takes real lowBound, real highBound returns real
+function jass.GetRandomReal(lowBound, highBound)
+    return lowBound + math.random() * (highBound - lowBound)
+end
+
 --
 --native CreateUnitPool           takes nothing returns unitpool
+function jass.CreateUnitPool()
+    return unitpool.create()
+end
 --native DestroyUnitPool          takes unitpool whichPool returns nothing
+function jass.DestroyUnitPool(up)
+    up:destroy()
+end
+
 --native UnitPoolAddUnitType      takes unitpool whichPool, integer unitId, real weight returns nothing
+function jass.UnitPoolAddUnitType(up, unitId, weight)
+    up:add_unit_type(unitId, weight)
+end
+
 --native UnitPoolRemoveUnitType   takes unitpool whichPool, integer unitId returns nothing
+function jass.UnitPoolRemoveUnitType(up, unitId)
+    up:remove_unit_type(unitId)
+end
+
 --native PlaceRandomUnit          takes unitpool whichPool, player forWhichPlayer, real x, real y, real facing returns unit
+function PlaceRandomUnit(up, p, x, y, facing)
+    local unitId = up:pick_random_unit_type()
+    return unit.create(p, unitId, x, y, facing)
+end
+
 --
 --native CreateItemPool           takes nothing returns itempool
 --native DestroyItemPool          takes itempool whichItemPool returns nothing

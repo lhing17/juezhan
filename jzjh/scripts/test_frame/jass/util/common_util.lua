@@ -7,6 +7,14 @@
 local common = {}
 local handle_id = {}
 
+local math_random = math.random
+-- 重写内置方法
+function math.random(m, n)
+    math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    return math_random(m, n)
+end
+
+
 function common.generate_handle_id()
     local id = 0x100000001
     if #handle_id ~= 0 then

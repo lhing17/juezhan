@@ -23,3 +23,5 @@ for i = 1, #name do
     print(string.sub(name, i, i))
 end
 
+math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+print(math.random()*10)

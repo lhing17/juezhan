@@ -1857,6 +1857,10 @@ end
 --native SetCameraPosition            takes real x, real y returns nothing
 --native SetCameraQuickPosition       takes real x, real y returns nothing
 --native SetCameraBounds              takes real x1, real y1, real x2, real y2, real x3, real y3, real x4, real y4 returns nothing
+function jass.SetCameraBounds(x1, y1, x2, y2, x3, y3, x4, y4)
+
+end
+
 --native StopCamera                   takes nothing returns nothing
 --native ResetToGameCamera            takes real duration returns nothing
 --native PanCameraTo                  takes real x, real y returns nothing
@@ -2038,76 +2042,7 @@ end
 --native IsTerrainPathable            takes real x, real y, pathingtype t returns boolean
 --native SetTerrainPathable           takes real x, real y, pathingtype t, boolean flag returns nothing
 --
---//============================================================================
---// Image API
---//
---native CreateImage                  takes string file, real sizeX, real sizeY, real sizeZ, real posX, real posY, real posZ, real originX, real originY, real originZ, integer imageType returns image
---native DestroyImage                 takes image whichImage returns nothing
---native ShowImage                    takes image whichImage, boolean flag returns nothing
---native SetImageConstantHeight       takes image whichImage, boolean flag, real height returns nothing
---native SetImagePosition             takes image whichImage, real x, real y, real z returns nothing
---native SetImageColor                takes image whichImage, integer red, integer green, integer blue, integer alpha returns nothing
---native SetImageRender               takes image whichImage, boolean flag returns nothing
---native SetImageRenderAlways         takes image whichImage, boolean flag returns nothing
---native SetImageAboveWater           takes image whichImage, boolean flag, boolean useWaterAlpha returns nothing
---native SetImageType                 takes image whichImage, integer imageType returns nothing
---
---//============================================================================
---// Ubersplat API
---//
---native CreateUbersplat              takes real x, real y, string name, integer red, integer green, integer blue, integer alpha, boolean forcePaused, boolean noBirthTime returns ubersplat
---native DestroyUbersplat             takes ubersplat whichSplat returns nothing
---native ResetUbersplat               takes ubersplat whichSplat returns nothing
---native FinishUbersplat              takes ubersplat whichSplat returns nothing
---native ShowUbersplat                takes ubersplat whichSplat, boolean flag returns nothing
---native SetUbersplatRender           takes ubersplat whichSplat, boolean flag returns nothing
---native SetUbersplatRenderAlways     takes ubersplat whichSplat, boolean flag returns nothing
---
---//============================================================================
---// Blight API
---//
---native SetBlight                takes player whichPlayer, real x, real y, real radius, boolean addBlight returns nothing
---native SetBlightRect            takes player whichPlayer, rect r, boolean addBlight returns nothing
---native SetBlightPoint           takes player whichPlayer, real x, real y, boolean addBlight returns nothing
---native SetBlightLoc             takes player whichPlayer, location whichLocation, real radius, boolean addBlight returns nothing
---native CreateBlightedGoldmine   takes player id, real x, real y, real face returns unit
---native IsPointBlighted          takes real x, real y returns boolean
---
---//============================================================================
---// Doodad API
---//
---native SetDoodadAnimation       takes real x, real y, real radius, integer doodadID, boolean nearestOnly, string animName, boolean animRandom returns nothing
---native SetDoodadAnimationRect   takes rect r, integer doodadID, string animName, boolean animRandom returns nothing
---
---//============================================================================
---// Computer AI interface
---//
---native StartMeleeAI         takes player num, string script                 returns nothing
---native StartCampaignAI      takes player num, string script                 returns nothing
---native CommandAI            takes player num, integer command, integer data returns nothing
---native PauseCompAI          takes player p,   boolean pause                 returns nothing
---native GetAIDifficulty      takes player num                                returns aidifficulty
---
---native RemoveGuardPosition  takes unit hUnit                                returns nothing
---native RecycleGuardPosition takes unit hUnit                                returns nothing
---native RemoveAllGuardPositions takes player num                             returns nothing
---
---//============================================================================
---native Cheat            takes string cheatStr returns nothing
---native IsNoVictoryCheat takes nothing returns boolean
---native IsNoDefeatCheat  takes nothing returns boolean
---
---native Preload          takes string filename returns nothing
---native PreloadEnd       takes real timeout returns nothing
---
---native PreloadStart     takes nothing returns nothing
---native PreloadRefresh   takes nothing returns nothing
---native PreloadEndEx     takes nothing returns nothing
---
---native PreloadGenClear  takes nothing returns nothing
---native PreloadGenStart  takes nothing returns nothing
---native PreloadGenEnd    takes string filename returns nothing
---native Preloader        takes string filename returns nothing
+
 
 local function init()
     player.init()

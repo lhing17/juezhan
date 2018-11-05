@@ -13,16 +13,22 @@ sound.__index = mt
 mt.label = '声音'
 mt.fade_in_rate = 20
 mt.fade_out_rate = 20
+mt.looping=false
+mt._3D=false
+mt.stop_when_out_of_range = false
 
 function sound:__tostring()
     return self.label
 end
 
-function sound.create(label, fade_in_rate, fade_out_rate)
+function sound.create(label, looping, is3D, stop_when_out_of_range, fade_in_rate, fade_out_rate)
     local s = {}
     setmetatable(s, sound)
     s.handle_id = common_util.generate_handle_id()
     s.label = label
+    s.looping = looping
+    s._3D = is3D
+    s.stop_when_out_of_range = stop_when_out_of_range
     s.fade_in_rate = fade_in_rate
     s.fade_out_rate = fade_out_rate
     return s

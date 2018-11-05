@@ -2846,11 +2846,6 @@ function main1()
 	else
 		bj_MELEE_MAX_TWINKED_HEROES = bj_MELEE_MAX_TWINKED_HEROES_V1
 	end
-	InitQueuedTriggers()
-	YDWEInitRescuableBehaviorBJNull()
-	InitDNCSounds()
-	InitMapRects()
-	InitSummonableCaps()
 	wu = 0
 	for _ in _loop_() do
 		bj_stockAllowedPermanent[wu] = false

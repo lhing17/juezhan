@@ -4,16 +4,32 @@
 --- DateTime: 2018/11/1 11:34
 ---
 
+
+
+
+
 local unit = require 'jass.type.unit'
 local player = require 'jass.type.player'
 local force = require 'jass.type.force'
 local sound = require 'jass.type.sound'
 local playerstate = require 'jass.type.playerstate'
+local unitstate = require 'jass.type.unitstate'
+local unittype = require 'jass.type.unittype'
+local gamespeed = require 'jass.type.gamespeed'
 local location = require 'jass.type.location'
+local version = require 'jass.type.version'
+local rect = require 'jass.type.rect'
 
+-- 状态类，优先初始化
 playerstate.init()
+unitstate.init()
+unittype.init()
+gamespeed.init()
+version.init()
+
 player.init()
 force.init()
+
 
 local jass = {}
 
@@ -30,6 +46,10 @@ end
 --constant native ConvertPlayerScore          takes integer i returns playerscore
 --constant native ConvertPlayerGameResult     takes integer i returns playergameresult
 --constant native ConvertUnitState            takes integer i returns unitstate
+function jass.ConvertUnitState(i)
+    return unitstate[i]
+end
+
 --constant native ConvertAIDifficulty         takes integer i returns aidifficulty
 --constant native ConvertGameEvent            takes integer i returns gameevent
 --constant native ConvertPlayerEvent          takes integer i returns playerevent
@@ -41,7 +61,15 @@ end
 --constant native ConvertUnitEvent            takes integer i returns unitevent
 --constant native ConvertLimitOp              takes integer i returns limitop
 --constant native ConvertUnitType             takes integer i returns unittype
+function jass.ConvertUnitType(i)
+    return unittype[i]
+end
+
 --constant native ConvertGameSpeed            takes integer i returns gamespeed
+function jass.ConvertGameSpeed(i)
+    return gamespeed[i]
+end
+
 --constant native ConvertPlacement            takes integer i returns placement
 --constant native ConvertStartLocPrio         takes integer i returns startlocprio
 --constant native ConvertGameDifficulty       takes integer i returns gamedifficulty
@@ -61,6 +89,10 @@ end
 --constant native ConvertFogState             takes integer i returns fogstate
 --constant native ConvertEffectType           takes integer i returns effecttype
 --constant native ConvertVersion              takes integer i returns version
+function jass.ConvertVersion(i)
+    return version[i]
+end
+
 --constant native ConvertItemType             takes integer i returns itemtype
 --constant native ConvertAttackType           takes integer i returns attacktype
 --constant native ConvertDamageType           takes integer i returns damagetype
@@ -80,6 +112,13 @@ end
 --        // Looks up the "name" field for any object (unit, item, ability)
 --constant native GetObjectName               takes integer objectId          returns string
 
+
+-- 游戏参数
+local settings = {}
+settings.fog = true
+settings.fog_mask = true
+settings.gamespeed = jass.ConvertGameSpeed(3)
+settings.version = jass.ConvertVersion(2)
 
 
 --        // Unit API
@@ -523,8 +562,17 @@ end
 --constant native GetUnitFacing       takes unit whichUnit returns real
 --constant native GetUnitMoveSpeed    takes unit whichUnit returns real
 --constant native GetUnitDefaultMoveSpeed takes unit whichUnit returns real
+
+
 --constant native GetUnitState        takes unit whichUnit, unitstate whichUnitState returns real
---constant native GetOwningPlayer     takes unit whichUnit returns player
+function jass.GetUnitState(u, whichUnitState)
+    return u:get_unit_state(whichUnitState)
+end
+
+--constant native GetOwningPlayer     takes unit whichUnit returns
+function jass.GetOwningPlayer(u)
+    return u:get_owner()
+end
 --constant native GetUnitTypeId       takes unit whichUnit returns integer
 function jass.GetUnitTypeId(u)
     return u:get_type_id()
@@ -555,6 +603,10 @@ end
 --constant native IsUnitSelected      takes unit whichUnit, player whichPlayer returns boolean
 --constant native IsUnitRace          takes unit whichUnit, race whichRace returns boolean
 --constant native IsUnitType          takes unit whichUnit, unittype whichUnitType returns boolean
+function jass.IsUnitType(u, whichUnitType)
+    return u:is_unit_type(whichUnitType)
+end
+
 --constant native IsUnit              takes unit whichUnit, unit whichSpecifiedUnit returns boolean
 --constant native IsUnitInRange       takes unit whichUnit, unit otherUnit, real distance returns boolean
 --constant native IsUnitInRangeXY     takes unit whichUnit, real x, real y, real distance returns boolean
@@ -930,6 +982,10 @@ end
 --native SetMapFlag           takes mapflag whichMapFlag, boolean value returns nothing
 --native SetGamePlacement     takes placement whichPlacementType returns nothing
 --native SetGameSpeed         takes gamespeed whichspeed returns nothing
+function jass.SetGameSpeed(gamespeed)
+    settings.gamespeed = gamespeed
+end
+
 --native SetGameDifficulty    takes gamedifficulty whichdifficulty returns nothing
 --native SetResourceDensity   takes mapdensity whichdensity returns nothing
 --native SetCreatureDensity   takes mapdensity whichdensity returns nothing
@@ -943,6 +999,10 @@ end
 --
 --constant native GetGamePlacement     takes nothing returns placement
 --constant native GetGameSpeed         takes nothing returns gamespeed
+function jass.GetGameSpeed()
+    return settings.gamespeed
+end
+
 --constant native GetGameDifficulty    takes nothing returns gamedifficulty
 --constant native GetResourceDensity   takes nothing returns mapdensity
 --constant native GetCreatureDensity   takes nothing returns mapdensity
@@ -978,7 +1038,15 @@ end
 --native GetPlayerColor           takes player whichPlayer returns playercolor
 --native GetPlayerSelectable      takes player whichPlayer returns boolean
 --native GetPlayerController      takes player whichPlayer returns mapcontrol
+function jass.GetPlayerController(p)
+    return p:get_controller()
+end
+
 --native GetPlayerSlotState       takes player whichPlayer returns playerslotstate
+function jass.GetPlayerSlotState()
+    return p:get_slot_state()
+end
+
 --native GetPlayerTaxRate         takes player sourcePlayer, player otherPlayer, playerstate whichResource returns integer
 --native IsPlayerRacePrefSet      takes player whichPlayer, racepreference pref returns boolean
 --native GetPlayerName            takes player whichPlayer returns string
@@ -1035,8 +1103,16 @@ end
 --// Force API
 --//
 --native CreateForce              takes nothing returns force
+function jass.CreateForce()
+    return force.create()
+end
+
 --native DestroyForce             takes force whichForce returns nothing
 --native ForceAddPlayer           takes force whichForce, player whichPlayer returns nothing
+function jass.ForceAddPlayer(f, p)
+    f:add_player(p)
+end
+
 --native ForceRemovePlayer        takes force whichForce, player whichPlayer returns nothing
 --native ForceClear               takes force whichForce returns nothing
 --native ForceEnumPlayers         takes force whichForce, boolexpr filter returns nothing
@@ -1049,6 +1125,10 @@ end
 --// Region and Location API
 --//
 --native Rect                     takes real minx, real miny, real maxx, real maxy returns rect
+function jass.Rect(minx, miny, maxx, maxy)
+    return rect.create(minx, miny, maxx, maxy)
+end
+
 --native RectFromLoc              takes location min, location max returns rect
 --native RemoveRect               takes rect whichRect returns nothing
 --native SetRect                  takes rect whichRect, real minx, real miny, real maxx, real maxy returns nothing
@@ -1080,7 +1160,13 @@ function jass.Location(x, y)
 end
 
 --native RemoveLocation           takes location whichLocation returns nothing
+function jass.RemoveLocation(location)
+    location:remove()
+end
 --native MoveLocation             takes location whichLocation, real newX, real newY returns nothing
+function jass.MoveLocation(location, newX, newY)
+    location:move_to(newX, newY)
+end
 --native GetLocationX             takes location whichLocation returns real
 function jass.GetLocationX(location)
     return location:get_x()
@@ -1529,9 +1615,25 @@ end
 --native  SetFogStateRadius    takes player forWhichPlayer, fogstate whichState, real centerx, real centerY, real radius, boolean useSharedVision returns nothing
 --native  SetFogStateRadiusLoc takes player forWhichPlayer, fogstate whichState, location center, real radius, boolean useSharedVision returns nothing
 --native  FogMaskEnable        takes boolean enable returns nothing
+function jass.FogMaskEnable(enable)
+    settings.fog_mask = enable
+end
+
 --native  IsFogMaskEnabled     takes nothing returns boolean
+function jass.IsFogMaskEnabled()
+    return settings.fog_mask
+end
+
 --native  FogEnable            takes boolean enable returns nothing
+function jass.FogEnable(enable)
+    settings.fog = enable
+end
+
 --native  IsFogEnabled         takes nothing returns boolean
+function jass.IsFogEnabled()
+    return settings.fog
+end
+
 --
 --native CreateFogModifierRect        takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision, boolean afterUnits returns fogmodifier
 --native CreateFogModifierRadius      takes player forWhichPlayer, fogstate whichState, real centerx, real centerY, real radius, boolean useSharedVision, boolean afterUnits returns fogmodifier
@@ -1543,6 +1645,10 @@ end
 --//============================================================================
 --// Game API
 --native VersionGet takes nothing returns version
+function jass.VersionGet()
+    return settings.version
+end
+
 --native VersionCompatible takes version whichVersion returns boolean
 --native VersionSupported takes version whichVersion returns boolean
 --
@@ -1799,9 +1905,18 @@ end
 --native GetTimeOfDayScale            takes nothing returns real
 --native ShowInterface                takes boolean flag, real fadeDuration returns nothing
 --native PauseGame                    takes boolean flag returns nothing
+-- 闪动指示器
 --native UnitAddIndicator             takes unit whichUnit, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.UnitAddIndicator(u, red, green, blue, alpha)
+    log.info('向单位'..u:get_name()..'添加闪动指示器，颜色为(rgba)：', red, green, blue, alpha)
+end
+
 --native AddIndicator                 takes widget whichWidget, integer red, integer green, integer blue, integer alpha returns nothing
 --native PingMinimap                  takes real x, real y, real duration returns nothing
+function jass.PingMinimap(x, y, duration)
+    log.info('向小地图发送信号，位置为：', x, y, '，持续时间为：', duration)
+end
+
 --native PingMinimapEx                takes real x, real y, real duration, integer red, integer green, integer blue, boolean extraEffects returns nothing
 --native EnableOcclusion              takes boolean flag returns nothing
 --native SetIntroShotText             takes string introText returns nothing
@@ -1983,6 +2098,10 @@ end
 --native SetCameraBounds              takes real x1, real y1, real x2, real y2, real x3, real y3, real x4, real y4 returns nothing
 function jass.SetCameraBounds(x1, y1, x2, y2, x3, y3, x4, y4)
     log.info('设置镜头边界：', x1, y1, x2, y2, x3, y3, x4, y4)
+    settings.camera_bound_min_x = x1
+    settings.camera_bound_min_y = y1
+    settings.camera_bound_max_x = x2
+    settings.camera_bound_max_y = y2
 end
 
 --native StopCamera                   takes nothing returns nothing
@@ -2042,9 +2161,25 @@ end
 --
 --// These return values for the local players camera only...
 --constant native GetCameraBoundMinX          takes nothing returns real
+function jass.GetCameraBoundMinX()
+    return settings.camera_bound_min_x or -1024
+end
+
 --constant native GetCameraBoundMinY          takes nothing returns real
+function jass.GetCameraBoundMinY()
+    return settings.camera_bound_min_y or -1024
+end
+
 --constant native GetCameraBoundMaxX          takes nothing returns real
+function jass.GetCameraBoundMaxX()
+    return settings.camera_bound_max_x or 1024
+end
+
 --constant native GetCameraBoundMaxY          takes nothing returns real
+function jass.GetCameraBoundMaxY()
+    return settings.camera_bound_max_y or 1024
+end
+
 --constant native GetCameraField              takes camerafield whichField returns real
 --constant native GetCameraTargetPositionX    takes nothing returns real
 --constant native GetCameraTargetPositionY    takes nothing returns real
@@ -2066,9 +2201,13 @@ end
 --native CreateSound                  takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
 --native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
 --native CreateSoundFromLabel         takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
+function jass.CreateSoundFromLabel(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
+    return sound.create(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
+end
+
 --native CreateMIDISound              takes string soundLabel, integer fadeInRate, integer fadeOutRate returns sound
 function jass.CreateMIDISound(soundLabel, fadeInRate, fadeOutRate)
-    return sound.create(soundLabel, fadeInRate, fadeOutRate)
+    return sound.create(soundLabel, false, false, false, fadeInRate, fadeOutRate)
 end
 --
 --native SetSoundParamsFromLabel      takes sound soundHandle, string soundLabel returns nothing

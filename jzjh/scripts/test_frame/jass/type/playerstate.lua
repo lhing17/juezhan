@@ -13,7 +13,7 @@ mt.type = 'playerstate'
 mt.name = ''
 
 function playerstate.init()
-    playerstate_names = {
+    local playerstate_names = {
         'PLAYER_STATE_GAME_RESULT',
         'PLAYER_STATE_RESOURCE_GOLD',
         'PLAYER_STATE_RESOURCE_LUMBER',

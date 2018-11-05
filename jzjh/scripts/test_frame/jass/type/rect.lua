@@ -4,6 +4,27 @@
 --- DateTime: 2018/11/2 9:47
 ---
 
+local common_util = require 'jass.util.common_util'
 local rect = {}
+
+local mt = {}
+rect.__index = mt
+
+mt.type = 'rect'
+mt.min_x = -1024
+mt.max_x = 1024
+mt.min_y = -1024
+mt.max_y = 1024
+
+function rect.create(min_x, min_y, max_x, max_y)
+    local r = setmetatable({}, rect)
+    r.handle_id = common_util.generate_handle_id()
+    r.min_x = min_x
+    r.min_y = min_y
+    r.max_x = max_x
+    r.max_y = max_y
+    rect[r.handle_id] = r
+    return r
+end
 
 return rect

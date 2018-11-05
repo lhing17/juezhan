@@ -4,8 +4,26 @@
 --- DateTime: 2018/11/3 0003 21:58
 ---
 
-local force = {}
+local common_util = require 'jass.util.common_util'
 local player = require('jass.type.player')
+
+local force = {}
+
+local mt = {}
+force.__index = mt
+
+mt.type = 'force'
+
+function mt:add_player(p)
+    table.insert(force, p)
+end
+
+function force.create()
+    local f = setmetatable({}, force)
+    f.handle_id = common_util.generate_handle_id()
+    force[handle_id] = f
+    return f
+end
 
 function force.init()
 

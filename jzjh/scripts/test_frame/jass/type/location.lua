@@ -22,7 +22,7 @@ function mt:get_y()
     return self.y
 end
 
-function mt:move(x, y)
+function mt:move_to(x, y)
     self.x = x
     self.y = y
 end

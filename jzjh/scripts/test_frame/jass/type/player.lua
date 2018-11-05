@@ -5,6 +5,9 @@
 ---
 
 local common_util = require 'jass.util.common_util'
+local mapcontrol = require 'jass.type.mapcontrol'
+local playerslotstate = require 'jass.type.playerslotstate'
+
 local player = {}
 setmetatable(player, player)
 local MAX_PLAYER_NUM = 16
@@ -50,6 +53,14 @@ function mt:get_name()
     return self.name
 end
 
+function mt:get_controller()
+    return self.map_control
+end
+
+function mt:get_slot_state()
+    return self.slot_state
+end
+
 function mt:set_alliance(p, alliance_type)
     if type(self.allies) == 'table' then
         --FIXME 是否需要分类别
@@ -60,6 +71,8 @@ end
 function mt:set_state(state, value)
     p[state] = value
 end
+
+
 
 function player:__call(i)
     return player[i]
@@ -83,6 +96,8 @@ function player.init()
         table.insert(player, p)
         p.allies = {}
         p.name = '玩家' .. i
+        p.map_control = mapcontrol[1]
+        p.slot_state = playerslotstate[2]
     end
     player.native = player[1]
 end

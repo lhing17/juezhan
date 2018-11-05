@@ -18,6 +18,7 @@ mt.id = 0
 mt.type = 'unit'
 mt.name = '单位'
 
+
 -- 是否存活 alive dead removed
 mt.status = 'alive'
 
@@ -205,6 +206,21 @@ function mt:get_type_id()
     return self.id
 end
 
+function mt:get_owner()
+    return self.owner
+end
+
+function mt:is_unit_type(unittype)
+    if not self.unittypes then
+        return false
+    end
+    return common_util.is_in_table(unittype.name, self.unittypes)
+end
+
+function mt:get_unit_state(unitstate)
+    return self[unitstate]
+end
+
 function unit:__tostring()
     return self.handle_id .. ', ' .. self.type .. ', ' .. self.id .. ', ' .. self.x .. ', ' .. self.y
 end
@@ -222,6 +238,7 @@ function unit.create(p, unitid, x, y, face)
     u.y = y
     u.face = face
     u.scale = {1, 1, 1}
+    u.unittypes = {'UNIT_TYPE_GROUND'}
     unit.all_units[u.handle_id] = u
     p.units[u.handle_id] = u
     return u

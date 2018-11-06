@@ -13,21 +13,98 @@ local player = require 'jass.type.player'
 local force = require 'jass.type.force'
 local sound = require 'jass.type.sound'
 local playerstate = require 'jass.type.playerstate'
+local playerslotstate = require 'jass.type.playerslotstate'
 local unitstate = require 'jass.type.unitstate'
 local unittype = require 'jass.type.unittype'
 local gamespeed = require 'jass.type.gamespeed'
+local mapcontrol = require 'jass.type.mapcontrol'
 local location = require 'jass.type.location'
 local version = require 'jass.type.version'
 local rect = require 'jass.type.rect'
 local unitpool = require 'jass.type.unitpool'
 local hashtable = require 'jass.type.hashtable'
 
+local race = require 'jass.type.race'
+local alliancetype = require 'jass.type.alliancetype'
+local racepreference = require 'jass.type.racepreference'
+local igamestate = require 'jass.type.igamestate'
+local fgamestate = require 'jass.type.fgamestate'
+local playerscore = require 'jass.type.playerscore'
+local playergmaeresult = require 'jass.type.playergmaeresult'
+local aidifficultygameevent = require 'jass.type.aidifficultygameevent'
+local playerevent = require 'jass.type.playerevent'
+local playerunitevent = require 'jass.type.playerunitevent'
+local widgetevent = require 'jass.type.widgetevent'
+local dialogevent = require 'jass.type.dialogevent'
+local unitevent = require 'jass.type.unitevent'
+local limitop = require 'jass.type.limitop'
+local placement = require 'jass.type.placement'
+local startlocprio = require 'jass.type.startlocprio'
+local gamedifficulty = require 'jass.type.gamedifficulty'
+local gametype = require 'jass.type.gametype'
+local mapflag = require 'jass.type.mapflag'
+local mapvisibility = require 'jass.type.mapvisibility'
+local mapsetting = require 'jass.type.mapsetting'
+local mapdensity = require 'jass.type.mapdensity'
+local playercolor = require 'jass.type.playercolor'
+local volumegroup = require 'jass.type.volumegroup'
+local camerafield = require 'jass.type.camerafield'
+local blendmode = require 'jass.type.blendmode'
+local raritycontrol = require 'jass.type.raritycontrol'
+local texmapflags = require 'jass.type.texmapflags'
+local fogstate = require 'jass.type.fogstate'
+local effecttype = require 'jass.type.effecttype'
+local itemtype = require 'jass.type.itemtype'
+local attacktype = require 'jass.type.attacktype'
+local damagetype = require 'jass.type.damagetype'
+local weapontype = require 'jass.type.weapontype'
+local soundtype = require 'jass.type.soundtype'
+local pathingtype = require 'jass.type.pathingtype'
+
 -- 状态类，优先初始化
 playerstate.init()
+playerslotstate.init()
 unitstate.init()
 unittype.init()
 gamespeed.init()
+mapcontrol.init()
 version.init()
+race.init()
+alliancetype.init()
+racepreference.init()
+igamestate.init()
+fgamestate.init()
+playerscore.init()
+playergmaeresult.init()
+aidifficultygameevent.init()
+playerevent.init()
+playerunitevent.init()
+widgetevent.init()
+dialogevent.init()
+unitevent.init()
+limitop.init()
+placement.init()
+startlocprio.init()
+gamedifficulty.init()
+gametype.init()
+mapflag.init()
+mapvisibility.init()
+mapsetting.init()
+mapdensity.init()
+playercolor.init()
+volumegroup.init()
+camerafield.init()
+blendmode.init()
+raritycontrol.init()
+texmapflags.init()
+fogstate.init()
+effecttype.init()
+itemtype.init()
+attacktype.init()
+damagetype.init()
+weapontype.init()
+soundtype.init()
+pathingtype.init()
 
 player.init()
 force.init()
@@ -35,33 +112,169 @@ force.init()
 
 local jass = {}
 
+
 --constant native ConvertRace                 takes integer i returns race
+function jass.ConvertRace(i)
+    return race[i]
+end
 --constant native ConvertAllianceType         takes integer i returns alliancetype
+function jass.ConvertAllianceType(i)
+    return alliancetype[i]
+end
 --constant native ConvertRacePref             takes integer i returns racepreference
+function jass.ConvertRacePref(i)
+    return racepreference[i]
+end
 --constant native ConvertIGameState           takes integer i returns igamestate
+function jass.ConvertIGameState(i)
+    return igamestate[i]
+end
 --constant native ConvertFGameState           takes integer i returns fgamestate
+function jass.ConvertFGameState(i)
+    return fgamestate[i]
+end
+--constant native ConvertPlayerState          takes integer i returns playerstate
+function jass.ConvertPlayerState(i)
+    return playerstate[i]
+end
+--constant native ConvertPlayerScore          takes integer i returns playerscore
+function jass.ConvertPlayerScore(i)
+    return playerscore[i]
+end
+--constant native ConvertPlayerGameResult     takes integer i returns playergameresult
+function jass.ConvertPlayerGameResult(i)
+    return playergameresult[i]
+end
+--constant native ConvertAIDifficulty         takes integer i returns aidifficulty
+function jass.ConvertAIDifficulty(i)
+    return aidifficulty[i]
+end
+--constant native ConvertGameEvent            takes integer i returns gameevent
+function jass.ConvertGameEvent(i)
+    return gameevent[i]
+end
+--constant native ConvertPlayerEvent          takes integer i returns playerevent
+function jass.ConvertPlayerEvent(i)
+    return playerevent[i]
+end
+--constant native ConvertPlayerUnitEvent      takes integer i returns playerunitevent
+function jass.ConvertPlayerUnitEvent(i)
+    return playerunitevent[i]
+end
+--constant native ConvertWidgetEvent          takes integer i returns widgetevent
+function jass.ConvertWidgetEvent(i)
+    return widgetevent[i]
+end
+--constant native ConvertDialogEvent          takes integer i returns dialogevent
+function jass.ConvertDialogEvent(i)
+    return dialogevent[i]
+end
+--constant native ConvertUnitEvent            takes integer i returns unitevent
+function jass.ConvertUnitEvent(i)
+    return unitevent[i]
+end
+--constant native ConvertLimitOp              takes integer i returns limitop
+function jass.ConvertLimitOp(i)
+    return limitop[i]
+end
+--constant native ConvertPlacement            takes integer i returns placement
+function jass.ConvertPlacement(i)
+    return placement[i]
+end
+--constant native ConvertStartLocPrio         takes integer i returns startlocprio
+function jass.ConvertStartLocPrio(i)
+    return startlocprio[i]
+end
+--constant native ConvertGameDifficulty       takes integer i returns gamedifficulty
+function jass.ConvertGameDifficulty(i)
+    return gamedifficulty[i]
+end
+--constant native ConvertGameType             takes integer i returns gametype
+function jass.ConvertGameType(i)
+    return gametype[i]
+end
+--constant native ConvertMapFlag              takes integer i returns mapflag
+function jass.ConvertMapFlag(i)
+    return mapflag[i]
+end
+--constant native ConvertMapVisibility        takes integer i returns mapvisibility
+function jass.ConvertMapVisibility(i)
+    return mapvisibility[i]
+end
+--constant native ConvertMapSetting           takes integer i returns mapsetting
+function jass.ConvertMapSetting(i)
+    return mapsetting[i]
+end
+--constant native ConvertMapDensity           takes integer i returns mapdensity
+function jass.ConvertMapDensity(i)
+    return mapdensity[i]
+end
+--constant native ConvertPlayerColor          takes integer i returns playercolor
+function jass.ConvertPlayerColor(i)
+    return playercolor[i]
+end
+--constant native ConvertVolumeGroup          takes integer i returns volumegroup
+function jass.ConvertVolumeGroup(i)
+    return volumegroup[i]
+end
+--constant native ConvertCameraField          takes integer i returns camerafield
+function jass.ConvertCameraField(i)
+    return camerafield[i]
+end
+--constant native ConvertBlendMode            takes integer i returns blendmode
+function jass.ConvertBlendMode(i)
+    return blendmode[i]
+end
+--constant native ConvertRarityControl        takes integer i returns raritycontrol
+function jass.ConvertRarityControl(i)
+    return raritycontrol[i]
+end
+--constant native ConvertTexMapFlags          takes integer i returns texmapflags
+function jass.ConvertTexMapFlags(i)
+    return texmapflags[i]
+end
+--constant native ConvertFogState             takes integer i returns fogstate
+function jass.ConvertFogState(i)
+    return fogstate[i]
+end
+--constant native ConvertEffectType           takes integer i returns effecttype
+function jass.ConvertEffectType(i)
+    return effecttype[i]
+end
+--constant native ConvertItemType             takes integer i returns itemtype
+function jass.ConvertItemType(i)
+    return itemtype[i]
+end
+--constant native ConvertAttackType           takes integer i returns attacktype
+function jass.ConvertAttackType(i)
+    return attacktype[i]
+end
+--constant native ConvertDamageType           takes integer i returns damagetype
+function jass.ConvertDamageType(i)
+    return damagetype[i]
+end
+--constant native ConvertWeaponType           takes integer i returns weapontype
+function jass.ConvertWeaponType(i)
+    return weapontype[i]
+end
+--constant native ConvertSoundType            takes integer i returns soundtype
+function jass.ConvertSoundType(i)
+    return soundtype[i]
+end
+--constant native ConvertPathingType          takes integer i returns pathingtype
+function jass.ConvertPathingType(i)
+    return pathingtype[i]
+end
 --constant native ConvertPlayerState          takes integer i returns playerstate
 function jass.ConvertPlayerState(i)
     return playerstate[i]
 end
 
---constant native ConvertPlayerScore          takes integer i returns playerscore
---constant native ConvertPlayerGameResult     takes integer i returns playergameresult
 --constant native ConvertUnitState            takes integer i returns unitstate
 function jass.ConvertUnitState(i)
     return unitstate[i]
 end
 
---constant native ConvertAIDifficulty         takes integer i returns aidifficulty
---constant native ConvertGameEvent            takes integer i returns gameevent
---constant native ConvertPlayerEvent          takes integer i returns playerevent
-
-
---constant native ConvertPlayerUnitEvent      takes integer i returns playerunitevent
---constant native ConvertWidgetEvent          takes integer i returns widgetevent
---constant native ConvertDialogEvent          takes integer i returns dialogevent
---constant native ConvertUnitEvent            takes integer i returns unitevent
---constant native ConvertLimitOp              takes integer i returns limitop
 --constant native ConvertUnitType             takes integer i returns unittype
 function jass.ConvertUnitType(i)
     return unittype[i]
@@ -72,35 +285,20 @@ function jass.ConvertGameSpeed(i)
     return gamespeed[i]
 end
 
---constant native ConvertPlacement            takes integer i returns placement
---constant native ConvertStartLocPrio         takes integer i returns startlocprio
---constant native ConvertGameDifficulty       takes integer i returns gamedifficulty
---constant native ConvertGameType             takes integer i returns gametype
---constant native ConvertMapFlag              takes integer i returns mapflag
---constant native ConvertMapVisibility        takes integer i returns mapvisibility
---constant native ConvertMapSetting           takes integer i returns mapsetting
---constant native ConvertMapDensity           takes integer i returns mapdensity
 --constant native ConvertMapControl           takes integer i returns mapcontrol
---constant native ConvertPlayerColor          takes integer i returns playercolor
+function jass.ConvertMapControl(i)
+    return mapcontrol[i]
+end
+
 --constant native ConvertPlayerSlotState      takes integer i returns playerslotstate
---constant native ConvertVolumeGroup          takes integer i returns volumegroup
---constant native ConvertCameraField          takes integer i returns camerafield
---constant native ConvertBlendMode            takes integer i returns blendmode
---constant native ConvertRarityControl        takes integer i returns raritycontrol
---constant native ConvertTexMapFlags          takes integer i returns texmapflags
---constant native ConvertFogState             takes integer i returns fogstate
---constant native ConvertEffectType           takes integer i returns effecttype
+function jass.ConvertPlayerSlotState(i)
+    return playerslotstate[i]
+end
 --constant native ConvertVersion              takes integer i returns version
 function jass.ConvertVersion(i)
     return version[i]
 end
 
---constant native ConvertItemType             takes integer i returns itemtype
---constant native ConvertAttackType           takes integer i returns attacktype
---constant native ConvertDamageType           takes integer i returns damagetype
---constant native ConvertWeaponType           takes integer i returns weapontype
---constant native ConvertSoundType            takes integer i returns soundtype
---constant native ConvertPathingType          takes integer i returns pathingtype
 --
 --constant native OrderId                     takes string  orderIdString     returns integer
 --constant native OrderId2String              takes integer orderId           returns string
@@ -1724,105 +1922,402 @@ function jass.SaveReal(ht, parentKey, childKey, value)
     ht:save(parentKey, childKey, 'real', value)
 end
 --native  SaveBoolean						takes hashtable table, integer parentKey, integer childKey, boolean value returns nothing
+function jass.SaveBoolean(ht, parentKey, childKey, value)
+    ht:save(parentKey, childKey, 'boolean', value)
+end
 --native  SaveStr							takes hashtable table, integer parentKey, integer childKey, string value returns boolean
+function jass.SaveStr(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'str', value)
+end
 --native  SavePlayerHandle				takes hashtable table, integer parentKey, integer childKey, player whichPlayer returns boolean
+function jass.SavePlayerHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'player', value)
+end
 --native  SaveWidgetHandle				takes hashtable table, integer parentKey, integer childKey, widget whichWidget returns boolean
+function jass.SaveWidgetHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'widget', value)
+end
 --native  SaveDestructableHandle			takes hashtable table, integer parentKey, integer childKey, destructable whichDestructable returns boolean
+function jass.SaveDestructableHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'destructable', value)
+end
 --native  SaveItemHandle					takes hashtable table, integer parentKey, integer childKey, item whichItem returns boolean
+function jass.SaveItemHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'item', value)
+end
 --native  SaveUnitHandle					takes hashtable table, integer parentKey, integer childKey, unit whichUnit returns boolean
+function jass.SaveUnitHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'unit', value)
+end
 --native  SaveAbilityHandle				takes hashtable table, integer parentKey, integer childKey, ability whichAbility returns boolean
+function jass.SaveAbilityHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'ability', value)
+end
 --native  SaveTimerHandle					takes hashtable table, integer parentKey, integer childKey, timer whichTimer returns boolean
+function jass.SaveTimerHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'timer', value)
+end
 --native  SaveTriggerHandle				takes hashtable table, integer parentKey, integer childKey, trigger whichTrigger returns boolean
+function jass.SaveTriggerHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'trigger', value)
+end
 --native  SaveTriggerConditionHandle		takes hashtable table, integer parentKey, integer childKey, triggercondition whichTriggercondition returns boolean
+function jass.SaveTriggerConditionHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'triggercondition', value)
+end
 --native  SaveTriggerActionHandle			takes hashtable table, integer parentKey, integer childKey, triggeraction whichTriggeraction returns boolean
+function jass.SaveTriggerActionHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'triggeraction', value)
+end
 --native  SaveTriggerEventHandle			takes hashtable table, integer parentKey, integer childKey, event whichEvent returns boolean
+function jass.SaveTriggerEventHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'triggerevent', value)
+end
 --native  SaveForceHandle					takes hashtable table, integer parentKey, integer childKey, force whichForce returns boolean
+function jass.SaveForceHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'force', value)
+end
 --native  SaveGroupHandle					takes hashtable table, integer parentKey, integer childKey, group whichGroup returns boolean
+function jass.SaveGroupHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'group', value)
+end
 --native  SaveLocationHandle				takes hashtable table, integer parentKey, integer childKey, location whichLocation returns boolean
+function jass.SaveLocationHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'location', value)
+end
 --native  SaveRectHandle					takes hashtable table, integer parentKey, integer childKey, rect whichRect returns boolean
+function jass.SaveRectHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'rect', value)
+end
 --native  SaveBooleanExprHandle			takes hashtable table, integer parentKey, integer childKey, boolexpr whichBoolexpr returns boolean
+function jass.SaveBooleanExprHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'booleanexpr', value)
+end
 --native  SaveSoundHandle					takes hashtable table, integer parentKey, integer childKey, sound whichSound returns boolean
+function jass.SaveSoundHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'sound', value)
+end
 --native  SaveEffectHandle				takes hashtable table, integer parentKey, integer childKey, effect whichEffect returns boolean
+function jass.SaveEffectHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'effect', value)
+end
 --native  SaveUnitPoolHandle				takes hashtable table, integer parentKey, integer childKey, unitpool whichUnitpool returns boolean
+function jass.SaveUnitPoolHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'unitpool', value)
+end
 --native  SaveItemPoolHandle				takes hashtable table, integer parentKey, integer childKey, itempool whichItempool returns boolean
+function jass.SaveItemPoolHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'itempool', value)
+end
 --native  SaveQuestHandle					takes hashtable table, integer parentKey, integer childKey, quest whichQuest returns boolean
+function jass.SaveQuestHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'quest', value)
+end
 --native  SaveQuestItemHandle				takes hashtable table, integer parentKey, integer childKey, questitem whichQuestitem returns boolean
+function jass.SaveQuestItemHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'questitem', value)
+end
 --native  SaveDefeatConditionHandle		takes hashtable table, integer parentKey, integer childKey, defeatcondition whichDefeatcondition returns boolean
+function jass.SaveDefeatConditionHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'defeatcondition', value)
+end
 --native  SaveTimerDialogHandle			takes hashtable table, integer parentKey, integer childKey, timerdialog whichTimerdialog returns boolean
+function jass.SaveTimerDialogHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'timerdialog', value)
+end
 --native  SaveLeaderboardHandle			takes hashtable table, integer parentKey, integer childKey, leaderboard whichLeaderboard returns boolean
+function jass.SaveLeaderboardHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'leaderboard', value)
+end
 --native  SaveMultiboardHandle			takes hashtable table, integer parentKey, integer childKey, multiboard whichMultiboard returns boolean
+function jass.SaveMultiboardHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'multiboard', value)
+end
 --native  SaveMultiboardItemHandle		takes hashtable table, integer parentKey, integer childKey, multiboarditem whichMultiboarditem returns boolean
+function jass.SaveMultiboardItemHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'multiboarditem', value)
+end
 --native  SaveTrackableHandle				takes hashtable table, integer parentKey, integer childKey, trackable whichTrackable returns boolean
+function jass.SaveTrackableHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'trackable', value)
+end
 --native  SaveDialogHandle				takes hashtable table, integer parentKey, integer childKey, dialog whichDialog returns boolean
+function jass.SaveDialogHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'dialog', value)
+end
 --native  SaveButtonHandle				takes hashtable table, integer parentKey, integer childKey, button whichButton returns boolean
+function jass.SaveButtonHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'button', value)
+end
 --native  SaveTextTagHandle				takes hashtable table, integer parentKey, integer childKey, texttag whichTexttag returns boolean
+function jass.SaveTextTagHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'texttag', value)
+end
 --native  SaveLightningHandle				takes hashtable table, integer parentKey, integer childKey, lightning whichLightning returns boolean
+function jass.SaveLightningHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'lightning', value)
+end
 --native  SaveImageHandle					takes hashtable table, integer parentKey, integer childKey, image whichImage returns boolean
+function jass.SaveImageHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'image', value)
+end
 --native  SaveUbersplatHandle				takes hashtable table, integer parentKey, integer childKey, ubersplat whichUbersplat returns boolean
+function jass.SaveUbersplatHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'ubersplat', value)
+end
 --native  SaveRegionHandle				takes hashtable table, integer parentKey, integer childKey, region whichRegion returns boolean
+function jass.SaveRegionHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'region', value)
+end
 --native  SaveFogStateHandle				takes hashtable table, integer parentKey, integer childKey, fogstate whichFogState returns boolean
+function jass.SaveFogStateHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'fogstate', value)
+end
 --native  SaveFogModifierHandle			takes hashtable table, integer parentKey, integer childKey, fogmodifier whichFogModifier returns boolean
+function jass.SaveFogModifierHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'fogmodifier', value)
+end
 --native  SaveAgentHandle					takes hashtable table, integer parentKey, integer childKey, agent whichAgent returns boolean
+function jass.SaveAgentHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'agent', value)
+end
 --native  SaveHashtableHandle				takes hashtable table, integer parentKey, integer childKey, hashtable whichHashtable returns boolean
---
---
+function jass.SaveHashtableHandle(ht, parentKey, childKey, value)
+    return ht:save(parentKey, childKey, 'hashtable', value)
+end
+
+
 --native  LoadInteger					takes hashtable table, integer parentKey, integer childKey returns integer
+function jass.LoadInteger(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'integer')
+end
 --native  LoadReal					takes hashtable table, integer parentKey, integer childKey returns real
+function jass.LoadReal(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'real')
+end
 --native  LoadBoolean				    takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.LoadBoolean(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'boolean')
+end
 --native  LoadStr 					takes hashtable table, integer parentKey, integer childKey returns string
+function jass.LoadStr(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'str')
+end
 --native  LoadPlayerHandle			takes hashtable table, integer parentKey, integer childKey returns player
+function jass.LoadPlayerHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'player')
+end
 --native  LoadWidgetHandle			takes hashtable table, integer parentKey, integer childKey returns widget
+function jass.LoadWidgetHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'widget')
+end
 --native  LoadDestructableHandle		takes hashtable table, integer parentKey, integer childKey returns destructable
+function jass.LoadDestructableHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'destructable')
+end
 --native  LoadItemHandle				takes hashtable table, integer parentKey, integer childKey returns item
+function jass.LoadItemHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'item')
+end
 --native  LoadUnitHandle				takes hashtable table, integer parentKey, integer childKey returns unit
+function jass.LoadUnitHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'unit')
+end
 --native  LoadAbilityHandle			takes hashtable table, integer parentKey, integer childKey returns ability
+function jass.LoadAbilityHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'ability')
+end
 --native  LoadTimerHandle				takes hashtable table, integer parentKey, integer childKey returns timer
+function jass.LoadTimerHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'timer')
+end
 --native  LoadTriggerHandle			takes hashtable table, integer parentKey, integer childKey returns trigger
+function jass.LoadTriggerHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'trigger')
+end
 --native  LoadTriggerConditionHandle	takes hashtable table, integer parentKey, integer childKey returns triggercondition
+function jass.LoadTriggerConditionHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'triggercondition')
+end
 --native  LoadTriggerActionHandle		takes hashtable table, integer parentKey, integer childKey returns triggeraction
+function jass.LoadTriggerActionHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'triggeraction')
+end
 --native  LoadTriggerEventHandle		takes hashtable table, integer parentKey, integer childKey returns event
+function jass.LoadTriggerEventHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'triggerevent')
+end
 --native  LoadForceHandle				takes hashtable table, integer parentKey, integer childKey returns force
+function jass.LoadForceHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'force')
+end
 --native  LoadGroupHandle				takes hashtable table, integer parentKey, integer childKey returns group
+function jass.LoadGroupHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'group')
+end
 --native  LoadLocationHandle			takes hashtable table, integer parentKey, integer childKey returns location
+function jass.LoadLocationHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'cation')
+end
 --native  LoadRectHandle				takes hashtable table, integer parentKey, integer childKey returns rect
+function jass.LoadRectHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'rect')
+end
 --native  LoadBooleanExprHandle		takes hashtable table, integer parentKey, integer childKey returns boolexpr
+function jass.LoadBooleanExprHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'booleanexpr')
+end
 --native  LoadSoundHandle				takes hashtable table, integer parentKey, integer childKey returns sound
+function jass.LoadSoundHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'sound')
+end
 --native  LoadEffectHandle			takes hashtable table, integer parentKey, integer childKey returns effect
+function jass.LoadEffectHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'effect')
+end
 --native  LoadUnitPoolHandle			takes hashtable table, integer parentKey, integer childKey returns unitpool
+function jass.LoadUnitPoolHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'unitpool')
+end
 --native  LoadItemPoolHandle			takes hashtable table, integer parentKey, integer childKey returns itempool
+function jass.LoadItemPoolHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'itempool')
+end
 --native  LoadQuestHandle				takes hashtable table, integer parentKey, integer childKey returns quest
+function jass.LoadQuestHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'quest')
+end
 --native  LoadQuestItemHandle			takes hashtable table, integer parentKey, integer childKey returns questitem
+function jass.LoadQuestItemHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'questitem')
+end
 --native  LoadDefeatConditionHandle	takes hashtable table, integer parentKey, integer childKey returns defeatcondition
+function jass.LoadDefeatConditionHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'defeatcondition')
+end
 --native  LoadTimerDialogHandle		takes hashtable table, integer parentKey, integer childKey returns timerdialog
+function jass.LoadTimerDialogHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'timerdialog')
+end
 --native  LoadLeaderboardHandle		takes hashtable table, integer parentKey, integer childKey returns leaderboard
+function jass.LoadLeaderboardHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'leaderboard')
+end
 --native  LoadMultiboardHandle		takes hashtable table, integer parentKey, integer childKey returns multiboard
+function jass.LoadMultiboardHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'multiboard')
+end
 --native  LoadMultiboardItemHandle	takes hashtable table, integer parentKey, integer childKey returns multiboarditem
+function jass.LoadMultiboardItemHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'multiboarditem')
+end
 --native  LoadTrackableHandle			takes hashtable table, integer parentKey, integer childKey returns trackable
+function jass.LoadTrackableHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'trackable')
+end
 --native  LoadDialogHandle			takes hashtable table, integer parentKey, integer childKey returns dialog
+function jass.LoadDialogHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'dialog')
+end
 --native  LoadButtonHandle			takes hashtable table, integer parentKey, integer childKey returns button
+function jass.LoadButtonHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'button')
+end
 --native  LoadTextTagHandle			takes hashtable table, integer parentKey, integer childKey returns texttag
+function jass.LoadTextTagHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'texttag')
+end
 --native  LoadLightningHandle			takes hashtable table, integer parentKey, integer childKey returns lightning
+function jass.LoadLightningHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'lightning')
+end
 --native  LoadImageHandle				takes hashtable table, integer parentKey, integer childKey returns image
+function jass.LoadImageHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'image')
+end
 --native  LoadUbersplatHandle			takes hashtable table, integer parentKey, integer childKey returns ubersplat
+function jass.LoadUbersplatHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'ubersplat')
+end
 --native  LoadRegionHandle			takes hashtable table, integer parentKey, integer childKey returns region
+function jass.LoadRegionHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'region')
+end
 --native  LoadFogStateHandle			takes hashtable table, integer parentKey, integer childKey returns fogstate
+function jass.LoadFogStateHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'fogstate')
+end
 --native  LoadFogModifierHandle		takes hashtable table, integer parentKey, integer childKey returns fogmodifier
+function jass.LoadFogModifierHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'fogmodifier')
+end
 --native  LoadHashtableHandle			takes hashtable table, integer parentKey, integer childKey returns hashtable
+function jass.LoadHashtableHandle(ht, parentKey, childKey)
+    return ht:load(parentKey, childKey, 'hashtable')
+end
+
 --
 --native  HaveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.HaveSavedInteger(ht, parentKey, childKey)
+    return ht:have(parentKey, childKey, 'integer')
+end
+
 --native  HaveSavedReal						takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.HaveSavedReal(ht, parentKey, childKey)
+    return ht:have(parentKey, childKey, 'real')
+end
+
 --native  HaveSavedBoolean					takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.HaveSavedBoolean(ht, parentKey, childKey)
+    return ht:have(parentKey, childKey, 'boolean')
+end
+
 --native  HaveSavedString					    takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.HaveSavedString(ht, parentKey, childKey)
+    return ht:have(parentKey, childKey, 'str')
+end
+
 --native  HaveSavedHandle     				takes hashtable table, integer parentKey, integer childKey returns boolean
+function jass.HaveSavedHandle(ht, parentKey, childKey)
+    return ht:have(parentKey, childKey, 'handle')
+end
+
 --
 --native  RemoveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns nothing
+function jass.RemoveSavedInteger(ht, parentKey, childKey)
+    ht:remove(parentKey, childKey, 'integer')
+end
+
 --native  RemoveSavedReal						takes hashtable table, integer parentKey, integer childKey returns nothing
+function jass.RemoveSavedReal(ht, parentKey, childKey)
+    ht:remove(parentKey, childKey, 'real')
+end
+
 --native  RemoveSavedBoolean					takes hashtable table, integer parentKey, integer childKey returns nothing
+function jass.RemoveSavedBoolean(ht, parentKey, childKey)
+    ht:remove(parentKey, childKey, 'boolean')
+end
+
 --native  RemoveSavedString					takes hashtable table, integer parentKey, integer childKey returns nothing
+function jass.RemoveSavedString(ht, parentKey, childKey)
+    ht:remove(parentKey, childKey, 'str')
+end
+
 --native  RemoveSavedHandle					takes hashtable table, integer parentKey, integer childKey returns nothing
+function jass.RemoveSavedHandle(ht, parentKey, childKey)
+    ht:remove(parentKey, childKey, 'handle')
+end
+
 --
 --native  FlushParentHashtable						takes hashtable table returns nothing
+function jass.FlushParentHashtable(ht)
+    ht:flush_parent()
+end
+
 --native  FlushChildHashtable					takes hashtable table, integer parentKey returns nothing
+function jass.FlushChildHashtable(ht, parentKey)
+    ht:flush_child(parentKey)
+end
 --
 --
 --//============================================================================

@@ -34,6 +34,59 @@ function mt:load(parent_key, child_key, which_type)
     return self[parent_key][child_key][which_type]
 end
 
+function mt:have(parent_key, child_key, which_type)
+    if not self[parent_key] then
+        return false
+    end
+    if not self[parent_key][child_key] then
+        return false
+    end
+    if common_util.is_in_table(which_type, {'integer', 'real', 'str', 'boolean'}) then
+        return self[parent_key][child_key][which_type]
+    end
+    if which_type == 'handle' then
+        for k, _ in pairs(self[parent_key][child_key]) do
+            if not common_util.is_in_table(k, {'integer', 'real', 'str', 'boolean'}) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function mt:remove(parent_key, child_key, which_type)
+    if not self:have(parent_key, child_key, which_type) then
+        return
+    end
+    if common_util.is_in_table(which_type, {'integer', 'real', 'str', 'boolean'}) then
+        self[parent_key][child_key][which_type] = nil
+    end
+    if which_type == 'handle' then
+        for k, _ in pairs(self[parent_key][child_key]) do
+            if not common_util.is_in_table(k, {'integer', 'real', 'str', 'boolean'}) then
+                self[parent_key][child_key][k] = nil
+            end
+        end
+    end
+end
+
+function mt:flush_parent()
+    for k, _ in pairs(self) do
+        if k ~= 'handle_id' then
+            self[k] = nil
+        end
+    end
+end
+
+function mt:flush_child(parent_key)
+    if not self[parent_key] then
+        return
+    end
+    for k, _ in pairs(self[parent_key]) do
+        self[parent_key][k] = nil
+    end
+end
+
 function hashtable.create()
     local ht = setmetatable({}, hashtable)
     ht.handle_id = common_util.generate_handle_id()

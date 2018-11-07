@@ -9,6 +9,7 @@
 
 
 local unit = require 'jass.type.unit'
+local group = require 'jass.type.group'
 local player = require 'jass.type.player'
 local force = require 'jass.type.force'
 local sound = require 'jass.type.sound'
@@ -23,6 +24,7 @@ local version = require 'jass.type.version'
 local rect = require 'jass.type.rect'
 local unitpool = require 'jass.type.unitpool'
 local hashtable = require 'jass.type.hashtable'
+local boolexpr = require 'jass.type.boolexpr'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -60,6 +62,9 @@ local damagetype = require 'jass.type.damagetype'
 local weapontype = require 'jass.type.weapontype'
 local soundtype = require 'jass.type.soundtype'
 local pathingtype = require 'jass.type.pathingtype'
+
+local orderid = require 'jass.util.order_id'
+local base = require 'jass.util.id'
 
 -- 状态类，优先初始化
 playerstate.init()
@@ -108,7 +113,6 @@ pathingtype.init()
 
 player.init()
 force.init()
-
 
 local jass = {}
 
@@ -301,17 +305,45 @@ end
 
 --
 --constant native OrderId                     takes string  orderIdString     returns integer
+function jass.OrderId(orderIdString)
+    return orderid.order2id(orderIdString)
+end
+
 --constant native OrderId2String              takes integer orderId           returns string
+function jass.OrderId2String(orderId)
+    return orderid.id2order(orderId)
+end
+
 --constant native UnitId                      takes string  unitIdString      returns integer
+function jass.UnitId(unitIdString)
+    return base.string2id(unitIdString)
+end
+
 --constant native UnitId2String               takes integer unitId            returns string
+function jass.UnitId2String(unitId)
+    return base.id2string(unitId)
+end
+
 --
 --        // Not currently working correctly...
 --constant native AbilityId                   takes string  abilityIdString   returns integer
+function jass.AbilityId(s)
+    error('暂不支持jass.AbilityId函数的调用')
+end
+
+
 --constant native AbilityId2String            takes integer abilityId         returns string
+function jass.AbilityId2String(abilityId)
+    error('暂不支持jass.AbilityId2String函数的调用')
+end
+
 --
 --        // Looks up the "name" field for any object (unit, item, ability)
 --constant native GetObjectName               takes integer objectId          returns string
-
+function jass.GetObjectName(objectId)
+    -- TODO
+    return "名字"
+end
 
 -- 游戏参数
 local settings = {}
@@ -643,17 +675,15 @@ function jass.SetUnitVertexColor(u, red, green, blue, alpha)
 
 end
 
---
+-- TODO
 --native          QueueUnitAnimation          takes unit whichUnit, string whichAnimation returns nothing
 --native          SetUnitAnimation            takes unit whichUnit, string whichAnimation returns nothing
 --native          SetUnitAnimationByIndex     takes unit whichUnit, integer whichAnimation returns nothing
 --native          SetUnitAnimationWithRarity  takes unit whichUnit, string whichAnimation, raritycontrol rarity returns nothing
 --native          AddUnitAnimationProperties  takes unit whichUnit, string animProperties, boolean add returns nothing
-
 --
 --native          SetUnitLookAt       takes unit whichUnit, string whichBone, unit lookAtTarget, real offsetX, real offsetY, real offsetZ returns nothing
 --native          ResetUnitLookAt     takes unit whichUnit returns nothing
-
 --
 --native          SetUnitRescuable    takes unit whichUnit, player byWhichPlayer, boolean flag returns nothing
 --native          SetUnitRescueRange  takes unit whichUnit, real range returns nothing
@@ -705,25 +735,131 @@ end
 
 --
 --native          UnitStripHeroLevel  takes unit whichHero, integer howManyLevels returns boolean
+function jass.UnitStripHeroLevel(h, level)
+    if h:is_hero() then
+        h:set_level(math.max(h:get_level() - howManyLevels, 1))
+    end
+end
 --
 --native          GetHeroXP           takes unit whichHero returns integer
+function jass.GetHeroXP(h)
+    if h:is_hero() then
+        return h:get_exp()
+    end
+end
+
 --native          SetHeroXP           takes unit whichHero, integer newXpVal,  boolean showEyeCandy returns nothing
+function jass.SetHeroXP(h, exp, showEyeCandy)
+    if h:is_hero() then
+        if exp > h:get_exp() then
+            h:set_exp(exp)
+            if showEyeCandy then
+                log.info('英雄' .. h:get_name() .. '身上金光一闪')
+            end
+        end
+    end
+
+end
+
 --
 --native          GetHeroSkillPoints      takes unit whichHero returns integer
+function jass.GetHeroSkillPoints(h)
+    if h:is_hero() then
+        return h:get_skill_points()
+    end
+end
+
 --native          UnitModifySkillPoints   takes unit whichHero, integer skillPointDelta returns boolean
+function jass.UnitModifySkillPoints(h, delta)
+    if h:is_hero() then
+        h:modify_skill_points(delta)
+    end
+end
+
 --
 --native          AddHeroXP           takes unit whichHero, integer xpToAdd,   boolean showEyeCandy returns nothing
+function jass.AddHeroXP(h, exp, showEyeCandy)
+    if h:is_hero() then
+        h:set_exp(h:get_exp() + exp)
+        if showEyeCandy then
+            log.info('英雄' .. h:get_name() .. '身上金光一闪')
+        end
+    end
+end
+
 --native          SetHeroLevel        takes unit whichHero, integer level,  boolean showEyeCandy returns nothing
+function jass.SetHeroLevel(h, level, showEyeCandy)
+    if h:is_hero() then
+        if level > h:get_level() then
+            h:set_level(level)
+            if showEyeCandy then
+                log.info('英雄' .. h:get_name() .. '身上金光一闪')
+            end
+        end
+    end
+end
+
 --constant native GetHeroLevel        takes unit whichHero returns integer
+function jass.GetHeroLevel(h)
+    if h:is_hero() then
+        return h:get_level()
+    end
+end
+
 --constant native GetUnitLevel        takes unit whichUnit returns integer
+function jass.GetUnitLevel(u)
+    return h:get_level()
+end
+
 --native          GetHeroProperName   takes unit whichHero returns string
+function jass.GetHeroProperName(h)
+    if h:is_hero() then
+        return h:get_name()
+    end
+end
+
 --native          SuspendHeroXP       takes unit whichHero, boolean flag returns nothing
+function jass.SetHeroXP(h, flag)
+    if h:is_hero() then
+        h:set_suspend_exp(flag)
+    end
+end
+
 --native          IsSuspendedXP       takes unit whichHero returns boolean
+function jass.IsSuspendedXP(h)
+    if h:is_hero() then
+        return h:is_suspend_exp()
+    end
+end
+
+-- 英雄学习技能
 --native          SelectHeroSkill     takes unit whichHero, integer abilcode returns nothing
+function jass.SelectHeroSkill(h, abilcode)
+    if h:is_hero() then
+        h:add_ability(abilcode)
+    end
+end
+
 --native          GetUnitAbilityLevel takes unit whichUnit, integer abilcode returns integer
+function jass.GetUnitAbilityLevel(u, abilcode)
+    return u:get_ability_level(abilcode)
+end
+
 --native          DecUnitAbilityLevel takes unit whichUnit, integer abilcode returns integer
+function jass.DecUnitAbilityLevel(u, abilcode)
+    u:set_ability_level(abilcode, math.max(u:get_ability_level(abilcode) - 1, 1))
+end
+
 --native          IncUnitAbilityLevel takes unit whichUnit, integer abilcode returns integer
+function jass.IncUnitAbilityLevel(u, abilcode)
+    u:set_ability_level(abilcode, u:get_ability_level(abilcode) + 1)
+end
+
 --native          SetUnitAbilityLevel takes unit whichUnit, integer abilcode, integer level returns integer
+function jass.SetUnitAbilityLevel(u, abilcode, level)
+    u:set_ability_level(abilcode, level)
+end
+
 --native          ReviveHero          takes unit whichHero, real x, real y, boolean doEyecandy returns boolean
 --native          ReviveHeroLoc       takes unit whichHero, location loc, boolean doEyecandy returns boolean
 --native          SetUnitExploded     takes unit whichUnit, boolean exploded returns nothing
@@ -757,12 +893,32 @@ end
 --native          UnitUseItemTarget       takes unit whichUnit, item whichItem, widget target returns boolean
 --
 --constant native GetUnitX            takes unit whichUnit returns real
+function jass.GetUnitX(u)
+    return u:get_x()
+end
 --constant native GetUnitY            takes unit whichUnit returns real
+function jass.GetUnitY(u)
+    return u:get_y()
+end
 --constant native GetUnitLoc          takes unit whichUnit returns location
---constant native GetUnitFacing       takes unit whichUnit returns real
---constant native GetUnitMoveSpeed    takes unit whichUnit returns real
---constant native GetUnitDefaultMoveSpeed takes unit whichUnit returns real
+function jass.GetUnitLoc(u)
+    return u:get_location()
+end
 
+--constant native GetUnitFacing       takes unit whichUnit returns real
+function jass.GetUnitFacing(u)
+    return u:get_facing()
+end
+
+--constant native GetUnitMoveSpeed    takes unit whichUnit returns real
+function jass.GetUnitMoveSpeed(u)
+    return u:get_move_speed()
+end
+
+--constant native GetUnitDefaultMoveSpeed takes unit whichUnit returns real
+function jass.GetUnitDefaultMoveSpeed(u)
+    return getmetatable(u).__index.speed
+end
 
 --constant native GetUnitState        takes unit whichUnit, unitstate whichUnitState returns real
 function jass.GetUnitState(u, whichUnitState)
@@ -779,7 +935,12 @@ function jass.GetUnitTypeId(u)
 end
 
 --constant native GetUnitRace         takes unit whichUnit returns race
+
+
 --constant native GetUnitName         takes unit whichUnit returns string
+function jass.GetUnitName(u)
+    return u:get_name()
+end
 --constant native GetUnitFoodUsed     takes unit whichUnit returns integer
 --constant native GetUnitFoodMade     takes unit whichUnit returns integer
 --constant native GetFoodMade         takes integer unitId returns integer
@@ -791,6 +952,10 @@ end
 --constant native GetUnitRallyDestructable    takes unit whichUnit returns destructable
 --
 --constant native IsUnitInGroup       takes unit whichUnit, group whichGroup returns boolean
+function jass.IsUnitInGroup(u, g)
+    return g:contains_unit(u)
+end
+
 --constant native IsUnitInForce       takes unit whichUnit, force whichForce returns boolean
 --constant native IsUnitOwnedByPlayer takes unit whichUnit, player whichPlayer returns boolean
 --constant native IsUnitAlly          takes unit whichUnit, player whichPlayer returns boolean
@@ -1268,17 +1433,89 @@ end
 --// Group API
 --//
 --native CreateGroup                          takes nothing returns group
+function jass.CreateGroup()
+    return group.create()
+end
+
 --native DestroyGroup                         takes group whichGroup returns nothing
+function jass.DestroyGroup(g)
+    g:destroy()
+end
+
 --native GroupAddUnit                         takes group whichGroup, unit whichUnit returns nothing
+function jass.GroupAddUnit(g, u)
+    g:add_unit(u)
+end
+
 --native GroupRemoveUnit                      takes group whichGroup, unit whichUnit returns nothing
+function jass.GroupRemoveUnit(g, u)
+    g:remove_unit(u)
+end
+
 --native GroupClear                           takes group whichGroup returns nothing
+function jass.GroupClear()
+    g:clear()
+end
+
 --native GroupEnumUnitsOfType                 takes group whichGroup, string unitname, boolexpr filter returns nothing
+function jass.GroupEnumUnitsOfType(g, unitname, filter)
+    g:enum_units(function(u)
+        for i, v in ipairs(u.unittypes) do
+            if v.name == unitname then
+                return true
+            end
+        end
+        return false
+    end, filter)
+end
+
 --native GroupEnumUnitsOfPlayer               takes group whichGroup, player whichPlayer, boolexpr filter returns nothing
+function jass.GroupEnumUnitsOfPlayer(g, p, filter)
+    g:enum_units(function(u)
+        return u:get_owner() == p
+    end, filter)
+end
+
 --native GroupEnumUnitsOfTypeCounted          takes group whichGroup, string unitname, boolexpr filter, integer countLimit returns nothing
+function jass.GroupEnumUnitsOfTypeCounted(g, unitname, filter, countLimit)
+    g:enum_units(function(u)
+        for i, v in ipairs(u.unittypes) do
+            if v.name == unitname then
+                return true
+            end
+        end
+        return false
+    end, filter, countLimit)
+end
+
 --native GroupEnumUnitsInRect                 takes group whichGroup, rect r, boolexpr filter returns nothing
+function jass.GroupEnumUnitsInRect(g, r, filter)
+    g:enum_units(function(u)
+        return r:contains_unit(u)
+    end, filter)
+end
+
 --native GroupEnumUnitsInRectCounted          takes group whichGroup, rect r, boolexpr filter, integer countLimit returns nothing
+function jass.GroupEnumUnitsInRectCounted(g, r, filter, countLimit)
+    g:enum_units(function(u)
+        return r:contains_unit(u)
+    end, filter, countLimit)
+end
+
 --native GroupEnumUnitsInRange                takes group whichGroup, real x, real y, real radius, boolexpr filter returns nothing
+function jass.GroupEnumUnitsInRange(g, x, y, r, filter)
+    g:enum_units(function(u)
+        return (u:get_x() - x) ^ 2 + (u:get_y() - y) ^ 2 < r ^ 2
+    end, filter)
+end
+
 --native GroupEnumUnitsInRangeOfLoc           takes group whichGroup, location whichLocation, real radius, boolexpr filter returns nothing
+function jass.GroupEnumUnitsInRange(g, loc, r, filter)
+    g:enum_units(function(u)
+        return (u:get_x() - loc:get_x()) ^ 2 + (u:get_y() - loc:get_y()) ^ 2 < r ^ 2
+    end, filter)
+end
+
 --native GroupEnumUnitsInRangeCounted         takes group whichGroup, real x, real y, real radius, boolexpr filter, integer countLimit returns nothing
 --native GroupEnumUnitsInRangeOfLocCounted    takes group whichGroup, location whichLocation, real radius, boolexpr filter, integer countLimit returns nothing
 --native GroupEnumUnitsSelected               takes group whichGroup, player whichPlayer, boolexpr filter returns nothing
@@ -1425,13 +1662,41 @@ end
 --// Boolean Expr API ( for compositing trigger conditions and unit filter funcs...)
 --//============================================================================
 --native And              takes boolexpr operandA, boolexpr operandB returns boolexpr
+function jass.And(operandA, operandB)
+    return operandA:_and(operandB)
+end
 --native Or               takes boolexpr operandA, boolexpr operandB returns boolexpr
+function jass.Or(operandA, operandB)
+    return operandA:_or(operandB)
+end
+
 --native Not              takes boolexpr operand returns boolexpr
+function jass.Not(operand)
+    return operand:_not()
+end
+
 --native Condition        takes code func returns conditionfunc
+function jass.Condition(fun)
+    return boolexpr.create(fun)
+end
+
 --native DestroyCondition takes conditionfunc c returns nothing
+function jass.DestroyCondition(c)
+    return c:destroy()
+end
+
 --native Filter           takes code func returns filterfunc
+function jass.Filter(fun)
+    return boolexpr.create(fun)
+end
 --native DestroyFilter    takes filterfunc f returns nothing
+function jass.DestroyFilter(f)
+    return f:destroy()
+end
 --native DestroyBoolExpr  takes boolexpr e returns nothing
+function jass.DestroyBoolExpr(e)
+    return e:destroy()
+end
 --
 --//============================================================================
 --// Trigger Game Event API
@@ -2403,7 +2668,7 @@ end
 -- 闪动指示器
 --native UnitAddIndicator             takes unit whichUnit, integer red, integer green, integer blue, integer alpha returns nothing
 function jass.UnitAddIndicator(u, red, green, blue, alpha)
-    log.info('向单位'..u:get_name()..'添加闪动指示器，颜色为(rgba)：', red, green, blue, alpha)
+    log.info('向单位' .. u:get_name() .. '添加闪动指示器，颜色为(rgba)：', red, green, blue, alpha)
 end
 
 --native AddIndicator                 takes widget whichWidget, integer red, integer green, integer blue, integer alpha returns nothing

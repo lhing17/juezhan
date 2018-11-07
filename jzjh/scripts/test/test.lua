@@ -4,24 +4,12 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-t = { a = 2 }
-s = { c = 4 }
-mt = { __index = { b = 3 } }
-setmetatable(t, mt)
-setmetatable(s, mt)
+local a = {}
 
-t.b = "c"
-
-print(t.b)
-print(getmetatable(t).__index.b)
-print(s.b)
-
-print(1 >> 2)
-
-name = 'abcde'
-for i = 1, #name do
-    print(string.sub(name, i, i))
+function b()
+    print("aaa")
 end
 
-math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-print(math.random()*10)
+a.b = b
+
+a.b()

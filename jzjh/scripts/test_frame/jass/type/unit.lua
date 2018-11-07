@@ -6,6 +6,7 @@
 
 
 local common_util = require 'jass.util.common_util'
+local location = require 'jass.type.location'
 local unit = {}
 unit.all_units = {}
 unit.removed_units = {}
@@ -67,10 +68,21 @@ mt.per_str = 10
 mt.tmp_str = 0
 -- 敏捷
 mt.per_agi = 10
-mt.tmp_agi = 10
+mt.tmp_agi = 0
 -- 智力
 mt.per_int = 10
-mt.tmp_int = 10
+mt.tmp_int = 0
+
+-- 单位等级
+mt.level = 1
+
+-- 经验
+mt.exp = 0
+-- 是否停止经验获取
+mt.suspend_exp = false
+
+-- 技能点
+mt.skill_points = 0
 
 
 
@@ -170,6 +182,22 @@ function mt:set_vertex_color(red, green, blue, alpha)
     self.alpha = alpha or 128
 end
 
+function mt:set_level(lvl)
+    self.level = lvl
+end
+
+function mt:set_exp(exp)
+    self.exp = exp
+end
+
+function mt:set_suspend_exp(flag)
+    self.suspend_exp = flag
+end
+
+function mt:get_skill_points()
+    return self.skill_points
+end
+
 function mt:get_acquire_range()
     return self.acquire_range
 end
@@ -210,6 +238,25 @@ function mt:get_owner()
     return self.owner
 end
 
+function mt:get_level()
+    return self.level
+end
+
+function mt:get_exp()
+    return self.exp
+end
+
+function mt:is_suspend_exp()
+    return self.suspend_exp
+end
+
+function mt:modify_skill_points(delta)
+    self.skill_points = self.skill_points + delta
+    if self.skill_points < 0 then
+        self.skill_points = 0
+    end
+end
+
 function mt:is_unit_type(unittype)
     if not self.unittypes then
         return false
@@ -219,6 +266,45 @@ end
 
 function mt:get_unit_state(unitstate)
     return self[unitstate]
+end
+
+function mt:add_ability(abilityId)
+    if not self.abilities[abilityId] then
+        self.abilities[abilityId] = setmetatable({}, {__index={level=1}})
+    end
+end
+
+function mt:get_ability_level(abilityId)
+    if not self.abilities[abilityId] then
+        return 0
+    end
+    return self.abilities[abilityId].level or 0
+end
+
+function mt:set_ability_level(abilityId, level)
+    if not self.abilities[abilityId] then
+        return
+    end
+    self.abilities[abilityId].level = level
+end
+
+function mt:get_x()
+    return self.x
+end
+function mt:get_y()
+    return self.y
+end
+
+function mt:get_location()
+    return location.create(self.x, self.y)
+end
+
+function mt:get_facing()
+    return self.face
+end
+
+function mt:get_move_speed()
+    return self.speed
 end
 
 function unit:__tostring()
@@ -239,6 +325,7 @@ function unit.create(p, unitid, x, y, face)
     u.face = face
     u.scale = {1, 1, 1}
     u.unittypes = {'UNIT_TYPE_GROUND'}
+    u.abilities = {}
     unit.all_units[u.handle_id] = u
     p.units[u.handle_id] = u
     return u

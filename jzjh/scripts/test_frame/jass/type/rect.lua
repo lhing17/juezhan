@@ -16,6 +16,10 @@ mt.max_x = 1024
 mt.min_y = -1024
 mt.max_y = 1024
 
+function mt:contains_unit(u)
+    return u.get_x() > self.min_x and u.get_x() < self.max_x and u.get_y() > self.min_y and u.get_y() < self.max_y
+end
+
 function rect.create(min_x, min_y, max_x, max_y)
     local r = setmetatable({}, rect)
     r.handle_id = common_util.generate_handle_id()

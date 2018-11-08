@@ -53,6 +53,19 @@ function mt:enum_units(base_condition, br, count_limit)
     end
 end
 
+function mt:foreach(callback)
+    for _, v in pairs(self.units) do
+        group.enum_unit = v
+        callback()
+    end
+end
+
+function mt:get_first()
+    for _, v in pairs(self.units) do
+        return v
+    end
+end
+
 function group.create()
     local g = setmetatable({}, group)
     g.handle_id = common_util.generate_handle_id()

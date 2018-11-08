@@ -84,6 +84,9 @@ mt.suspend_exp = false
 -- 技能点
 mt.skill_points = 0
 
+-- 是否被选中
+mt.selected = false
+
 
 
 
@@ -305,6 +308,14 @@ end
 
 function mt:get_move_speed()
     return self.speed
+end
+
+function mt:is_selected()
+    return self.selected
+end
+
+function mt:set_selected(flag)
+    self.selected = flag
 end
 
 function unit:__tostring()

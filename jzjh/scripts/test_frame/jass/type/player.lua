@@ -9,6 +9,8 @@ local mapcontrol = require 'jass.type.mapcontrol'
 local playerslotstate = require 'jass.type.playerslotstate'
 
 local player = {}
+player.all_players = {}
+
 setmetatable(player, player)
 local MAX_PLAYER_NUM = 16
 
@@ -30,7 +32,7 @@ function mt:is_enemy(p)
 end
 
 function mt:is_in_force(f)
-    return common_util.is_in_table(p, f)
+    return common_util.is_in_table(p, f.players)
 end
 
 function mt:is_observer()
@@ -93,7 +95,7 @@ function player.init()
         p.id = i - 1
         p.units = {}
         setmetatable(p, player)
-        table.insert(player, p)
+        player.all_players[p.handle_id] = p
         p.allies = {}
         p.name = '玩家' .. i
         p.map_control = mapcontrol[1]

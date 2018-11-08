@@ -3,6 +3,66 @@
 --- Created by lhing17.
 --- DateTime: 2018/11/2 9:44
 ---
+
+local common_util = require 'jass.util.common_util'
+local event = require 'jass.type.event'
 local trigger = {}
+trigger.all_triggers = {}
+
+-- 正在触发的触发器
+trigger.triggering = nil
+
+
+local mt = {}
+trigger.__index = mt
+
+mt.type = 'trigger'
+mt.enabled = true
+
+function mt:destroy()
+    trigger.all_triggers[self.handle_id] = nil
+end
+
+function mt:enable()
+    self.enabled = true
+end
+
+function mt:is_enabled()
+    return self.enabled
+end
+
+function mt:disable()
+    self.enabled = false
+end
+
+function mt:register_player_event(p, pe)
+    local e = event.create_player_event(p, pe)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+function mt:register_player_unit_event(p, pue, filter)
+    local e = event.create_player_unit_event(p, pue, filter)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+function mt:register_unit_event(u, ue, filter)
+    local e = event.create_unit_event(u, ue, filter)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+
+
+function trigger.create()
+    local t = setmetatable({}, trigger)
+    t.handle_id = common_util.generate_handle_id()
+    trigger.all_triggers[t.handle_id] = t
+    t.registered_events = {}
+    t.conditions = {}
+    t.actions = {}
+    return t
+end
 
 return trigger

@@ -121,3 +121,18 @@
 --native PreloadGenStart  takes nothing returns nothing
 --native PreloadGenEnd    takes string filename returns nothing
 --native Preloader        takes string filename returns nothing
+
+
+--//============================================================================
+--// Trigger API
+--//
+--
+--native TriggerRegisterUnitStateEvent takes trigger whichTrigger, unit whichUnit, unitstate whichState, limitop opcode, real limitval returns event
+--
+--// EVENT_UNIT_STATE_LIMIT
+--constant native GetEventUnitState takes nothing returns unitstate
+
+
+--
+--native TriggerRegisterDeathEvent takes trigger whichTrigger, widget whichWidget returns event
+--

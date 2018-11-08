@@ -4,6 +4,7 @@
 --- DateTime: 2018/11/06 11:47
 ---
 
+local common_util = require 'jass.util.common_util'
 local playerevent = {}
 
 local mt = {}
@@ -13,11 +14,20 @@ mt.type = 'playerevent'
 mt.name = ''
 
 function playerevent.init()
-	local playerevent_names={}
-	for i = 1, #playerevent_names do
-		local pl = {}
-		pl.name = playerevent_names[i]
-		setmetatable(pl, playerevent)
-		table.insert(playerevent, pl)
-	end
+    local playerevent_names = {
+        'EVENT_PLAYER_STATE_LIMIT',
+        'EVENT_PLAYER_ALLIANCE_CHANGED',
+        'EVENT_PLAYER_DEFEAT',
+        'EVENT_PLAYER_VICTORY',
+        'EVENT_PLAYER_LEAVE',
+        'EVENT_PLAYER_CHAT',
+        'EVENT_PLAYER_END_CINEMATIC',
+    }
+    for i = 11, #playerevent_names + 10 do
+        local pl = {}
+        pl.name = playerevent_names[i]
+        pl.handle_id = common_util.generate_handle_id()
+        setmetatable(pl, playerevent)
+        table.insert(playerevent, pl)
+    end
 end

@@ -22,9 +22,11 @@ local mapcontrol = require 'jass.type.mapcontrol'
 local location = require 'jass.type.location'
 local version = require 'jass.type.version'
 local rect = require 'jass.type.rect'
+local region = require 'jass.type.region'
 local unitpool = require 'jass.type.unitpool'
 local hashtable = require 'jass.type.hashtable'
 local boolexpr = require 'jass.type.boolexpr'
+local trigger = require 'jass.type.trigger'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -112,7 +114,6 @@ soundtype.init()
 pathingtype.init()
 
 player.init()
-force.init()
 
 local jass = {}
 
@@ -1510,15 +1511,32 @@ function jass.GroupEnumUnitsInRange(g, x, y, r, filter)
 end
 
 --native GroupEnumUnitsInRangeOfLoc           takes group whichGroup, location whichLocation, real radius, boolexpr filter returns nothing
-function jass.GroupEnumUnitsInRange(g, loc, r, filter)
+function jass.GroupEnumUnitsInRangeOfLoc(g, loc, r, filter)
     g:enum_units(function(u)
         return (u:get_x() - loc:get_x()) ^ 2 + (u:get_y() - loc:get_y()) ^ 2 < r ^ 2
     end, filter)
 end
 
 --native GroupEnumUnitsInRangeCounted         takes group whichGroup, real x, real y, real radius, boolexpr filter, integer countLimit returns nothing
+function jass.GroupEnumUnitsInRangeCounted(g, x, y, r, filter, countLimit)
+    g:enum_units(function(u)
+        return (u:get_x() - x) ^ 2 + (u:get_y() - y) ^ 2 < r ^ 2
+    end, filter, countLimit)
+end
+
 --native GroupEnumUnitsInRangeOfLocCounted    takes group whichGroup, location whichLocation, real radius, boolexpr filter, integer countLimit returns nothing
+function jass.GroupEnumUnitsInRangeOfLocCounted(g, loc, r, filter, countLimit)
+    g:enum_units(function(u)
+        return (u:get_x() - loc:get_x()) ^ 2 + (u:get_y() - loc:get_y()) ^ 2 < r ^ 2
+    end, filter, countLimit)
+end
+
 --native GroupEnumUnitsSelected               takes group whichGroup, player whichPlayer, boolexpr filter returns nothing
+function jass.GroupEnumUnitsSelected(g, p, filter)
+    g.enum_units(function(u)
+        return u:get_owner() == p and u:is_selected()
+    end, filter)
+end
 --
 --native GroupImmediateOrder                  takes group whichGroup, string order returns boolean
 --native GroupImmediateOrderById              takes group whichGroup, integer order returns boolean
@@ -1534,7 +1552,15 @@ end
 --// a better implementation would be a trigger that adds relevant units as they enter
 --// and removes them if they leave...
 --native ForGroup                 takes group whichGroup, code callback returns nothing
+function jass.ForGroup(g, callback)
+    g:foreach(callback)
+end
+
 --native FirstOfGroup             takes group whichGroup returns unit
+function jass.FirstOfGroup(g)
+    return g:get_first()
+end
+
 --
 --//============================================================================
 --// Force API
@@ -1545,18 +1571,54 @@ function jass.CreateForce()
 end
 
 --native DestroyForce             takes force whichForce returns nothing
+function jass.DestroyForce(f)
+    return f:destroy()
+end
+
 --native ForceAddPlayer           takes force whichForce, player whichPlayer returns nothing
 function jass.ForceAddPlayer(f, p)
     f:add_player(p)
 end
 
 --native ForceRemovePlayer        takes force whichForce, player whichPlayer returns nothing
+function jass.ForceRemovePlayer(f, p)
+    f:remove(p)
+end
+
 --native ForceClear               takes force whichForce returns nothing
+function jass.ForceClear(f)
+    return f:clear()
+end
+
 --native ForceEnumPlayers         takes force whichForce, boolexpr filter returns nothing
+function jass.ForceEnumPlayers(f, filter)
+    f:enum_players(nil, filter)
+end
+
 --native ForceEnumPlayersCounted  takes force whichForce, boolexpr filter, integer countLimit returns nothing
+function jass.ForceEnumPlayersCounted(f, filter, countLimit)
+    f:enum_players(nil, filter, countLimit)
+end
+
 --native ForceEnumAllies          takes force whichForce, player whichPlayer, boolexpr filter returns nothing
+function jass.ForceEnumAllies(f, p, filter)
+    f:enum_players(function(_p)
+        return p:is_ally(_p)
+    end, filter)
+end
+
 --native ForceEnumEnemies         takes force whichForce, player whichPlayer, boolexpr filter returns nothing
+function jass.ForceEnumEnemies(f, p, filter)
+    f:enum_players(function(_p)
+        return p:is_enemy(_p)
+    end, filter)
+end
+
 --native ForForce                 takes force whichForce, code callback returns nothing
+function jass.ForForce(f, callback)
+    f:foreach(callback)
+end
+
 --
 --//============================================================================
 --// Region and Location API
@@ -1567,24 +1629,88 @@ function jass.Rect(minx, miny, maxx, maxy)
 end
 
 --native RectFromLoc              takes location min, location max returns rect
+function jass.RectFromLoc(min, max)
+    return rect.create(min:get_x(), min:get_y(), max:get_x(), max:get_y())
+end
+
 --native RemoveRect               takes rect whichRect returns nothing
+function jass.RemoveRect(r)
+    r:remove()
+end
+
 --native SetRect                  takes rect whichRect, real minx, real miny, real maxx, real maxy returns nothing
+function jass.SetRect(r, minx, miny, maxx, maxy)
+    r:set(minx, miny, maxx, maxy)
+end
+
 --native SetRectFromLoc           takes rect whichRect, location min, location max returns nothing
+function jass.SetRecFromLoc(r, min, max)
+    r:set(r, min:get_x(), min:get_y(), max:get_x(), max:get_y())
+end
+
 --native MoveRectTo               takes rect whichRect, real newCenterX, real newCenterY returns nothing
+function jass.MoveRectTo(r, newCenterX, newCenterY)
+    r:move_to(newCenterX, newCenterY)
+end
+
 --native MoveRectToLoc            takes rect whichRect, location newCenterLoc returns nothing
+function jass.MoveRectToLoc(r, loc)
+    r:move_to(loc:get_x(), loc:get_y())
+end
+
 --
 --native GetRectCenterX           takes rect whichRect returns real
+function jass.GetRectCenterX(r)
+    return r:get_center_x()
+end
+
 --native GetRectCenterY           takes rect whichRect returns real
+function jass.GetRectCenterY(r)
+    return r:get_center_y()
+end
+
 --native GetRectMinX              takes rect whichRect returns real
+function jass.GetRectMinX(r)
+    return r:get_min_x()
+end
+
 --native GetRectMinY              takes rect whichRect returns real
+function jass.GetRectMinY(r)
+    return r:get_min_y()
+end
+
 --native GetRectMaxX              takes rect whichRect returns real
+function jass.GetRectMaxX(r)
+    return r:get_max_x()
+end
+
 --native GetRectMaxY              takes rect whichRect returns real
+function jass.GetRectMaxY(r)
+    return r:get_max_y()
+end
+
 --
 --native CreateRegion             takes nothing returns region
+function jass.CreateRegion()
+    return region.create()
+end
+
 --native RemoveRegion             takes region whichRegion returns nothing
+function jass.RemoveRect(r)
+    return r:remove()
+end
+
 --
 --native RegionAddRect            takes region whichRegion, rect r returns nothing
+function jass.RegionAddRect(rn, rt)
+    rn:add_rect(rt)
+end
+
 --native RegionClearRect          takes region whichRegion, rect r returns nothing
+function jass.RegionClearRect(rn, rt)
+    rn:remove_rect(rt)
+end
+
 --
 --native RegionAddCell           takes region whichRegion, real x, real y returns nothing
 --native RegionAddCellAtLoc      takes region whichRegion, location whichLocation returns nothing
@@ -1630,17 +1756,45 @@ end
 --// Native trigger interface
 --//
 --native CreateTrigger    takes nothing returns trigger
+function jass.CreateTrigger()
+    return trigger.create()
+end
+
 --native DestroyTrigger   takes trigger whichTrigger returns nothing
+function jass.DestroyTrigger(t)
+    t:destroy()
+end
+
 --native ResetTrigger     takes trigger whichTrigger returns nothing
 --native EnableTrigger    takes trigger whichTrigger returns nothing
+function jass.EnableTrigger(t)
+    t:enable()
+end
+
 --native DisableTrigger   takes trigger whichTrigger returns nothing
+function jass.DisableTrigger(t)
+    t:disable()
+end
+
 --native IsTriggerEnabled takes trigger whichTrigger returns boolean
+function jass.IsTriggerEnabled(t)
+    return t:is_enabled()
+end
+
 --
 --native TriggerWaitOnSleeps   takes trigger whichTrigger, boolean flag returns nothing
 --native IsTriggerWaitOnSleeps takes trigger whichTrigger returns boolean
 --
 --constant native GetFilterUnit       takes nothing returns unit
+function jass.GetFilterUnit()
+    return group.filter_unit
+end
+
 --constant native GetEnumUnit         takes nothing returns unit
+function jass.GetEnumUnit()
+    return group.enum_unit
+end
+
 --
 --constant native GetFilterDestructable   takes nothing returns destructable
 --constant native GetEnumDestructable     takes nothing returns destructable
@@ -1649,7 +1803,15 @@ end
 --constant native GetEnumItem             takes nothing returns item
 --
 --constant native GetFilterPlayer     takes nothing returns player
+function jass.GetFilterPlayer()
+    return force.filter_player
+end
+
 --constant native GetEnumPlayer       takes nothing returns player
+function jass.GetEnumPlayer()
+    return force.enum_player
+end
+
 --
 --constant native GetTriggeringTrigger    takes nothing returns trigger
 --constant native GetTriggerEventId       takes nothing returns eventid
@@ -1657,6 +1819,10 @@ end
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
 --
 --native ExecuteFunc          takes string funcName returns nothing
+function jass.ExecuteFunc(funcName)
+    _ENV[funcName]()
+end
+
 --
 --//============================================================================
 --// Boolean Expr API ( for compositing trigger conditions and unit filter funcs...)
@@ -1763,25 +1929,54 @@ end
 --//============================================================================
 --
 --native TriggerRegisterPlayerEvent takes trigger whichTrigger, player  whichPlayer, playerevent whichPlayerEvent returns event
+function jass.TriggerRegisterPlayerEvent(t, p, pe)
+    return t:register_player_event(p, pe)
+end
+
 --
 --// EVENT_PLAYER_DEFEAT
 --// EVENT_PLAYER_VICTORY
 --constant native GetTriggerPlayer takes nothing returns player
+function jass.GetTriggerPlayer()
+    return trigger.player
+end
+
 --
 --native TriggerRegisterPlayerUnitEvent takes trigger whichTrigger, player whichPlayer, playerunitevent whichPlayerUnitEvent, boolexpr filter returns event
+function jass.TriggerRegisterPlayerUnitEvent(t, p, pue, filter)
+    return t:register_player_unit_event(p, pue, filter)
+end
+
 --
 --// EVENT_PLAYER_HERO_LEVEL
 --// EVENT_UNIT_HERO_LEVEL
 --constant native GetLevelingUnit takes nothing returns unit
+function jass.GetLevelingUnit()
+    return trigger.leveling_unit
+end
 --
 --// EVENT_PLAYER_HERO_SKILL
 --// EVENT_UNIT_HERO_SKILL
 --constant native GetLearningUnit      takes nothing returns unit
+function jass.GetLearningUnit()
+    return trigger.learning_unit
+end
+
 --constant native GetLearnedSkill      takes nothing returns integer
+function jass.GetLearnedSkill()
+    return trigger.learned_skill
+end
+
 --constant native GetLearnedSkillLevel takes nothing returns integer
+function jass.GetLearnedSkillLevel()
+    return trigger.learned_skill_level
+end
 --
 --// EVENT_PLAYER_HERO_REVIVABLE
 --constant native GetRevivableUnit takes nothing returns unit
+function jass.GetRevivableUnit()
+    return trigger.revivable_unit
+end
 --
 --// EVENT_PLAYER_HERO_REVIVE_START
 --// EVENT_PLAYER_HERO_REVIVE_CANCEL
@@ -1790,87 +1985,198 @@ end
 --// EVENT_UNIT_HERO_REVIVE_CANCEL
 --// EVENT_UNIT_HERO_REVIVE_FINISH
 --constant native GetRevivingUnit takes nothing returns unit
+function jass.GetRevivingUnit()
+    return trigger.reviving_unit
+end
 --
 --// EVENT_PLAYER_UNIT_ATTACKED
 --constant native GetAttacker takes nothing returns unit
+function jass.GetAttacker()
+    return trigger.attacker
+end
 --
 --// EVENT_PLAYER_UNIT_RESCUED
 --constant native GetRescuer  takes nothing returns unit
+function jass.GetRescuer()
+    return trigger.rescuer
+end
+
 --
 --// EVENT_PLAYER_UNIT_DEATH
 --constant native GetDyingUnit takes nothing returns unit
+function jass.GetDyingUnit()
+    return trigger.dying_unit
+end
 --constant native GetKillingUnit takes nothing returns unit
+function jass.GetKillingUnit()
+    return trigger.killer
+end
 --
 --// EVENT_PLAYER_UNIT_DECAY
 --constant native GetDecayingUnit takes nothing returns unit
+function jass.GetDecayingUnit()
+    return trigger.decaying_unit
+end
 --
 --// EVENT_PLAYER_UNIT_SELECTED
 --//constant native GetSelectedUnit takes nothing returns unit
+function jass.GetSelectedUnit()
+    return trigger.selected_unit
+end
 --
 --// EVENT_PLAYER_UNIT_CONSTRUCT_START
 --constant native GetConstructingStructure takes nothing returns unit
+function jass.GetConstructingStructure()
+    return trigger.constructing_structure
+end
+
 --
 --// EVENT_PLAYER_UNIT_CONSTRUCT_FINISH
 --// EVENT_PLAYER_UNIT_CONSTRUCT_CANCEL
 --constant native GetCancelledStructure takes nothing returns unit
+function jass.GetCancelledStructure()
+    return trigger.cancelled_structure
+end
 --constant native GetConstructedStructure takes nothing returns unit
+function jass.GetConstructedStructure()
+    return trigger.constructed_structure
+end
 --
 --// EVENT_PLAYER_UNIT_RESEARCH_START
 --// EVENT_PLAYER_UNIT_RESEARCH_CANCEL
 --// EVENT_PLAYER_UNIT_RESEARCH_FINISH
 --constant native GetResearchingUnit takes nothing returns unit
+function jass.GetResearchingUnit()
+    return trigger.researching_unit
+end
 --constant native GetResearched takes nothing returns integer
+function jass.GetResearched()
+    return trigger.researched
+end
 --
 --// EVENT_PLAYER_UNIT_TRAIN_START
 --// EVENT_PLAYER_UNIT_TRAIN_CANCEL
 --constant native GetTrainedUnitType takes nothing returns integer
+function jass.GetTrainedUnitType()
+    return trigger.trained_unit_type
+end
 --
 --// EVENT_PLAYER_UNIT_TRAIN_FINISH
 --constant native GetTrainedUnit takes nothing returns unit
+function jass.GetTrainedUnit()
+    return trigger.trained_unit
+end
 --
 --// EVENT_PLAYER_UNIT_DETECTED
 --constant native GetDetectedUnit takes nothing returns unit
+function jass.GetDetectedUnit()
+    return trigger.detected_unit
+end
 --
 --// EVENT_PLAYER_UNIT_SUMMONED
 --constant native GetSummoningUnit    takes nothing returns unit
+function jass.GetSummoningUnit()
+    return trigger.summoning_unit
+end
 --constant native GetSummonedUnit     takes nothing returns unit
+function jass.GetSummonedUnit()
+    return trigger.summoned_unit
+end
 --
 --// EVENT_PLAYER_UNIT_LOADED
 --constant native GetTransportUnit    takes nothing returns unit
+function jass.GetTransportUnit()
+    return trigger.transport_unit
+end
 --constant native GetLoadedUnit       takes nothing returns unit
+function jass.GetLoadedUnit()
+    return trigger.loaded_unit
+end
 --
 --// EVENT_PLAYER_UNIT_SELL
 --constant native GetSellingUnit      takes nothing returns unit
+function jass.GetSellingUnit()
+    return trigger.selling_unit
+end
 --constant native GetSoldUnit         takes nothing returns unit
+function jass.GetSoldUnit()
+    return trigger.sold_unit
+end
 --constant native GetBuyingUnit       takes nothing returns unit
+function jass.GetBuyingUnit()
+    return trigger.buying_unit
+end
 --
 --// EVENT_PLAYER_UNIT_SELL_ITEM
 --constant native GetSoldItem         takes nothing returns item
+function jass.GetSoldItem()
+    return trigger.sold_item
+end
 --
 --// EVENT_PLAYER_UNIT_CHANGE_OWNER
 --constant native GetChangingUnit             takes nothing returns unit
+function jass.GetChangingUnit()
+    return trigger.changing_unit
+end
 --constant native GetChangingUnitPrevOwner    takes nothing returns player
+function jass.GetChangingUnitPrevOwner()
+    return trigger.changing_unit_prev_owner
+end
 --
 --// EVENT_PLAYER_UNIT_DROP_ITEM
 --// EVENT_PLAYER_UNIT_PICKUP_ITEM
 --// EVENT_PLAYER_UNIT_USE_ITEM
 --constant native GetManipulatingUnit takes nothing returns unit
+function jass.GetManipulatingUnit()
+    return trigger.manipulating_unit
+end
 --constant native GetManipulatedItem  takes nothing returns item
+function jass.GetManipulatedItem()
+    return trigger.manipulated_item
+end
 --
 --// EVENT_PLAYER_UNIT_ISSUED_ORDER
 --constant native GetOrderedUnit takes nothing returns unit
+function jass.GetOrderedUnit()
+    return trigger.ordered_unit
+end
 --constant native GetIssuedOrderId takes nothing returns integer
+function jass.GetIssuedOrderId()
+    return trigger.issued_order_id
+end
 --
 --// EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER
 --constant native GetOrderPointX takes nothing returns real
+function jass.GetOrderPointX()
+    return trigger.order_point_x
+end
 --constant native GetOrderPointY takes nothing returns real
+function jass.GetOrderPointY()
+    return trigger.order_point_y
+end
 --constant native GetOrderPointLoc takes nothing returns location
+function jass.GetOrderPointLoc()
+    return trigger.order_point_loc
+end
 --
 --// EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER
 --constant native GetOrderTarget              takes nothing returns widget
+function jass.GetOrderTarget()
+    return trigger.order_target
+end
 --constant native GetOrderTargetDestructable  takes nothing returns destructable
+function jass.GetOrderTargetDestructable()
+    return trigger.order_target_destructable
+end
 --constant native GetOrderTargetItem          takes nothing returns item
+function jass.GetOrderTargetItem()
+    return trigger.order_target_item
+end
 --constant native GetOrderTargetUnit          takes nothing returns unit
+function jass.GetOrderTargetUnit()
+    return trigger.order_target_unit
+end
+
 --
 --// EVENT_UNIT_SPELL_CHANNEL
 --// EVENT_UNIT_SPELL_CAST
@@ -1883,14 +2189,42 @@ end
 --// EVENT_PLAYER_UNIT_SPELL_FINISH
 --// EVENT_PLAYER_UNIT_SPELL_ENDCAST
 --constant native GetSpellAbilityUnit         takes nothing returns unit
+function jass.GetSpellAbilityUnit()
+    return trigger.spell_ability_unit
+end
 --constant native GetSpellAbilityId           takes nothing returns integer
+function jass.GetSpellAbilityId()
+    return trigger.spell_ability_id
+end
 --constant native GetSpellAbility             takes nothing returns ability
+function jass.GetSpellAbility()
+    return trigger.spell_ability
+end
 --constant native GetSpellTargetLoc           takes nothing returns location
+function jass.GetSpellTargetLoc()
+    return trigger.spell_target_loc
+end
 --constant native GetSpellTargetX				takes nothing returns real
+function jass.GetSpellTargetX()
+    return trigger.spell_target_x
+end
 --constant native GetSpellTargetY				takes nothing returns real
+function jass.GetSpellTargetY()
+    return trigger.spell_target_y
+end
 --constant native GetSpellTargetDestructable  takes nothing returns destructable
+function jass.GetSpellTargetDestructable()
+    return trigger.spell_target_destructable
+end
 --constant native GetSpellTargetItem          takes nothing returns item
+function jass.GetSpellTargetItem()
+    return trigger.spell_target_item
+end
 --constant native GetSpellTargetUnit          takes nothing returns unit
+function jass.GetSpellTargetUnit()
+    return trigger.spell_target_unit
+end
+
 --
 --native TriggerRegisterPlayerAllianceChange takes trigger whichTrigger, player whichPlayer, alliancetype whichAlliance returns event
 --native TriggerRegisterPlayerStateEvent takes trigger whichTrigger, player whichPlayer, playerstate whichState, limitop opcode, real limitval returns event
@@ -1908,9 +2242,7 @@ end
 --
 --// returns the string that you registered for
 --constant native GetEventPlayerChatStringMatched takes nothing returns string
---
---native TriggerRegisterDeathEvent takes trigger whichTrigger, widget whichWidget returns event
---
+
 --//============================================================================
 --// Trigger Unit Based Event API
 --//============================================================================
@@ -1919,17 +2251,24 @@ end
 --// within a trigger action function...returns null handle when used incorrectly
 --
 --constant native GetTriggerUnit takes nothing returns unit
---
---native TriggerRegisterUnitStateEvent takes trigger whichTrigger, unit whichUnit, unitstate whichState, limitop opcode, real limitval returns event
---
---// EVENT_UNIT_STATE_LIMIT
---constant native GetEventUnitState takes nothing returns unitstate
+function jass.GetTriggerUnit()
+    return trigger.unit
+end
 --
 --native TriggerRegisterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent returns event
+function jass.TriggerRegisterUnitEvent(t, u, ue)
+    return t:register_unit_event(u, ue)
+end
 --
 --// EVENT_UNIT_DAMAGED
 --constant native GetEventDamage takes nothing returns real
+function jass.GetEventDamage()
+    return trigger.event_damage
+end
 --constant native GetEventDamageSource takes nothing returns unit
+function jass.GetEventDamageSource()
+    return trigger.event_damage_source
+end
 --
 --// EVENT_UNIT_DEATH
 --// EVENT_UNIT_DECAY
@@ -1937,12 +2276,21 @@ end
 --
 --// EVENT_UNIT_DETECTED
 --constant native GetEventDetectingPlayer takes nothing returns player
+function jass.GetEventDetectingPlayer()
+    return trigger.detecting_player
+end
 --
 --native TriggerRegisterFilterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent, boolexpr filter returns event
+function jass.TriggerRegisterFilterUnitEvent(t, u, ue, filter)
+    return t:register_unit_event(u, ue, filter)
+end
 --
 --// EVENT_UNIT_ACQUIRED_TARGET
 --// EVENT_UNIT_TARGET_IN_RANGE
 --constant native GetEventTargetUnit takes nothing returns unit
+function jass.GetEventTargetUnit()
+    return trigger.target_unit
+end
 --
 --// EVENT_UNIT_ATTACKED
 --// Use GetAttacker from the Player Unit Event API Below...
@@ -3091,11 +3439,5 @@ end
 --native SetTerrainPathable           takes real x, real y, pathingtype t, boolean flag returns nothing
 --
 
-
-local function init()
-    player.init()
-    force.init()
-end
-init()
 
 return jass

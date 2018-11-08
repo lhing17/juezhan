@@ -8,6 +8,8 @@ local common_util = require 'jass.util.common_util'
 local player = require('jass.type.player')
 
 local force = {}
+force.filter_player = nil
+force.enum_player = nil
 
 local mt = {}
 force.__index = mt
@@ -15,46 +17,52 @@ force.__index = mt
 mt.type = 'force'
 
 function mt:add_player(p)
-    table.insert(force, p)
+    self.players[p.handle_id] = p
+end
+
+function mt:destroy()
+    force[self.handle_id] = nil
+end
+
+function mt:remove(p)
+    self.players[p.handle_id] = nil
+end
+
+function mt:clear()
+    for k, _ in pairs(self) do
+        self[k] = nil
+    end
+end
+
+function mt:enum_players(base_condition, filter, count)
+    local counter = 0
+    for _, v in pairs(player.all_players) do
+        if not base_condition or base_condition(v) then
+            force.filter_player = v
+            if filter.fun() then
+                if count and counter >= count then
+                    return
+                end
+                self:add_player(v)
+                counter = counter + 1
+            end
+        end
+    end
+end
+
+function mt:foreach(callback)
+    for _, v in pairs(self.players) do
+        force.enum_player = v
+        callback()
+    end
 end
 
 function force.create()
     local f = setmetatable({}, force)
     f.handle_id = common_util.generate_handle_id()
-    force[handle_id] = f
+    force[f.handle_id] = f
+    f.players = {}
     return f
-end
-
-function force.init()
-
-    force[1] = setmetatable({}, force)
-    force[2] = setmetatable({}, force)
-    force[3] = setmetatable({}, force)
-    force[4] = setmetatable({}, force)
-    force[5] = setmetatable({}, force)
-
-    for i = 1, 6 do
-        table.insert(force[1], player[i])
-        player[i].force = force[1]
-    end
-    for i = 7, 12 do
-        table.insert(force[2], player[i])
-        player[i].force = force[2]
-    end
-    -- 中立无敌意
-    table.insert(force[3], player[16])
-    -- 中立敌对
-    table.insert(force[4], player[13])
-
-    for i = 1, 16 do
-        table.insert(force[5], player[i])
-        player[i].force = force[5]
-    end
-
-    force.PLAYER_NEUTRAL_PASSIVE = force[3]
-    force.PLAYER_NEUTRAL_AGGRESSIVE = force[4]
-    force.PLAYER_FORCE_ALL = force[5]
-
 end
 
 return force

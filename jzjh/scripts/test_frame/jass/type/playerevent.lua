@@ -28,7 +28,7 @@ function playerevent.init()
         pl.name = playerevent_names[i]
         pl.handle_id = common_util.generate_handle_id()
         setmetatable(pl, playerevent)
-        table.insert(playerevent, pl)
+        playerevent[i] = pl
     end
 end
 

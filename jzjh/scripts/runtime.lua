@@ -8,13 +8,15 @@ base = {}
 --判断是否是发布版本
 base.release = not pcall(require, 'lua.currentpath')
 
+base.version = 1.0
+
 --打开控制台
 if not base.release then
 	console.enable = true
 end
 
 --重载print,自动转换编码
-print = console.write
+-- print = console.write
 
 runtime.handle_level = 2
 runtime.sleep = true

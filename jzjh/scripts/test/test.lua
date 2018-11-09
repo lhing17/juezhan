@@ -4,7 +4,7 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-local a = {}
+local a = {b = "a"}
 
-a.b = false
+a.b()
 

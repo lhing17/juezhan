@@ -6,4 +6,9 @@
 
 local ability = {}
 
+local mt = {}
+ability.__index = mt
+
+mt.type='ability'
+
 return ability

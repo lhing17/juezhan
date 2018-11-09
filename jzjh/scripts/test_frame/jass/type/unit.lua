@@ -95,7 +95,6 @@ mt.selected = false
 
 mt.point_value = 100
 
-
 function mt:die()
     self.status = 'dead'
 end
@@ -207,7 +206,7 @@ function mt:set_color(pc)
 end
 
 function mt:set_scale(x, y, z)
-    self.scale = {x or 1, y or 1, z or 1}
+    self.scale = { x or 1, y or 1, z or 1 }
 end
 
 function mt:set_time_scale(scale)
@@ -313,8 +312,26 @@ end
 
 function mt:add_ability(abilityId)
     if not self.abilities[abilityId] then
-        self.abilities[abilityId] = setmetatable({}, {__index={level=1}})
+        self.abilities[abilityId] = setmetatable({}, { __index = { level = 1, permanent = false } })
+        return true
     end
+    return false
+end
+
+function mt:remove_ability(abilityId)
+    if not self.abilities[abilityId] then
+        return false
+    end
+    self.abilities[abilityId] = nil
+    return true
+end
+
+function mt:make_ability_permanent(flag, abilityId)
+    if not self.abilities[abilityId] then
+        return false
+    end
+    self.abilities[abilityId].permanent = flag
+    return true
 end
 
 function mt:get_ability_level(abilityId)
@@ -374,8 +391,8 @@ function unit.create(p, unitid, x, y, face)
     u.x = x
     u.y = y
     u.face = face
-    u.scale = {1, 1, 1}
-    u.unittypes = {'UNIT_TYPE_GROUND'}
+    u.scale = { 1, 1, 1 }
+    u.unittypes = { 'UNIT_TYPE_GROUND' }
     u.abilities = {}
     unit.all_units[u.handle_id] = u
     p.units[u.handle_id] = u

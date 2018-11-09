@@ -4,11 +4,87 @@
 --- DateTime: 2018/11/2 9:45
 ---
 
+local common_util = require 'jass.util.common_util'
 local timer = {}
+timer.all_timers = {}
+timer.expired = nil
 
 local mt = {}
 
 timer.__index = mt
 mt.type = 'timer'
+mt.time = 0
+mt.status = 'pause'
+mt.elapsed = 0
+mt.remained = 0
+mt.timeout = 0
+
+function mt:destroy()
+    timer.all_timers[self.handle_id] = nil
+end
+
+function mt:start(timeout, periodic, callback)
+    self.elapsed = 0
+    self.remained = timeout
+    self.timeout = timeout
+    self.periodic = periodic
+    self.callback = callback
+    self.status = 'running'
+end
+
+function mt:get_elapsed()
+    return self.elapsed
+end
+
+function mt:get_remained()
+    return self.remained
+end
+
+function mt:get_timeout()
+    return self.timeout
+end
+
+function mt:pause()
+    self.status = 'pause'
+end
+
+function mt:resume()
+    self.status = 'running'
+end
+
+
+function mt:update(dt)
+    self.elapsed = self.elapsed + dt
+    self.remained = self.remained - dt
+    if not self.periodic then
+        if self.remained <= 0 then
+            self.status = 'expired'
+            timer.expired = self
+            self.callback()
+        end
+    end
+    if self.periodic then
+        while self.remained <= 0 do
+            self.remained = self.remained + self.timeout
+            self.elapsed = self.elapsed - self.timeout
+            timer.expired = self
+            self.callback()
+        end
+    end
+end
+
+-- 所有timer时间向前走dt秒
+function timer.update(dt)
+    for _, v in pairs(timer.all_timers) do
+        v:update(dt)
+    end
+end
+
+function timer.create()
+    local t = setmetatable({}, timer)
+    t.handle_id = common_util.generate_handle_id()
+    timer.all_timers[t.handle_id] = t
+    return t
+end
 
 return timer

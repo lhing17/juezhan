@@ -269,7 +269,7 @@ function player.regist_jass_triggers()
     end)
 
     for i = 1, 16 do
-        jass.TriggerRegisterPlayerEventEndCinematic(t, player[i].handle)
+        jass.TriggerRegisterPlayerEvent(t, player[i].handle, EVENT_PLAYER_END_CINEMATIC)
     end
 
 
@@ -295,16 +295,13 @@ local function init()
 
     -- 本地玩家
     -- player.localplayer = et.player(1)
-    player.localplayer = et.player(jass.GetLocalPlayer())
+    player.localplayer = et.player[jass.GetLocalPlayer()]
+    print(et.player[jass.GetLocalPlayer()])
     log.debug(('本地玩家[%s][%s]'):format(player.localplayer:get(), player.localplayer:get_name()))
 
     --注册常用事件
     player.regist_jass_triggers()
 
-
-    for k, v in pairs(player) do
-        print(k, v)
-    end
     -- 选择单位事件
     require 'war3.select'
 end

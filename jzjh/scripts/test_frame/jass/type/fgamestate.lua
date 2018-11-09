@@ -13,12 +13,12 @@ mt.type = 'fgamestate'
 mt.name = ''
 
 function fgamestate.init()
-	local fgamestate_names={}
-	for i = 1, #fgamestate_names do
+	local fgamestate_names={'GAME_STATE_TIME_OF_DAY'}
+	for i = 2, #fgamestate_names+1 do
 		local fg = {}
-		fg.name = fgamestate_names[i]
+		fg.name = fgamestate_names[i-1]
 		setmetatable(fg, fgamestate)
-		table.insert(fgamestate, fg)
+		fgamestate[i] = fg
 	end
 end
 

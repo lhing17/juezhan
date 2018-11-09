@@ -80,6 +80,10 @@ function player:__call(i)
     return player[i]
 end
 
+function player:__tostring()
+    return self.handle_id ..':'.. self.name
+end
+
 function player.get_local()
     if player.native then
         return player.native
@@ -96,6 +100,7 @@ function player.init()
         p.units = {}
         setmetatable(p, player)
         player.all_players[p.handle_id] = p
+        player[i] = p
         p.allies = {}
         p.name = '玩家' .. i
         p.map_control = mapcontrol[1]

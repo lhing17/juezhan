@@ -39,7 +39,7 @@ function mt:enum_players(base_condition, filter, count)
     for _, v in pairs(player.all_players) do
         if not base_condition or base_condition(v) then
             force.filter_player = v
-            if filter.fun() then
+            if not filter or filter.fun() then
                 if count and counter >= count then
                     return
                 end

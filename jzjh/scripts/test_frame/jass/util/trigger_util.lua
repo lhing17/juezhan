@@ -5,6 +5,7 @@
 ---
 local common_util = require 'jass.util.common_util'
 local trigger = require 'jass.type.trigger'
+local playerevent = require 'jass.type.playerevent'
 local group = require 'jass.type.group'
 local trigger_util = {}
 
@@ -33,6 +34,31 @@ function trigger_util.trig_player_event(p, pe)
                 trigger.player = p
                 trigger_util.evaluate(t.conditions)
                 trigger_util.execute(t.actions)
+            end
+        end
+    end
+end
+
+function trigger_util.trig_player_chat_event(p, message)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == playerevent[16] then
+                trigger.triggering = t
+                trigger.player = p
+                local flag = false
+                if e.message == '' then
+                    flag = true
+                end
+                if e.message ~= '' and e.exact and e.message == message then
+                    flag = true
+                end
+                if e.message ~= '' and not e.exact and string.find(e.message, message) then
+                    flag = truet
+                end
+                if flag then
+                    trigger_util.evaluate(t.conditions)
+                    trigger_util.execute(t.actions)
+                end
             end
         end
     end

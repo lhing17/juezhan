@@ -163,3 +163,9 @@
 --native GetTerrainType               takes real x, real y returns integer
 --native GetTerrainVariance           takes real x, real y returns integer
 --native SetTerrainType               takes real x, real y, integer terrainType, integer variation, integer area, integer shape returns nothing
+
+local common_unsupported = {}
+
+common_unsupported.unsupported_list = {'RemoveGuardPosition'}
+
+return common_unsupported

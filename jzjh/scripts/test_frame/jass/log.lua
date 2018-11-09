@@ -7,7 +7,7 @@
 local log = {}
 
 log.path = 'F:\\log.txt'
-log.level = 'info'
+log.level = 'debug'
 
 local level = {
     debug = 1,
@@ -20,7 +20,16 @@ local function write(...)
     local mode = "a+b"
     local file = io.open(log.path, mode)
     if file then
-        if file:write(...) == nil then
+        args = { ... }
+        flag = true
+        for _, v in ipairs(args) do
+            if type(v) ~= 'string' then
+                v = tostring(v)
+            end
+            flag = file:write(v) and flag
+            file:write('\t')
+        end
+        if not flag then
             return false
         end
         file:write('\n')

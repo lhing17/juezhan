@@ -43,6 +43,12 @@ function mt:register_player_event(p, pe)
     return e
 end
 
+function mt:register_player_chat_event(p, message, exact)
+    local e = event.create_player_chat_event(p, message, exact)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
 function mt:register_player_unit_event(p, pue, filter)
     local e = event.create_player_unit_event(p, pue, filter)
     self.registered_events[e.handle_id] = e

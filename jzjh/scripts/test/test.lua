@@ -4,16 +4,7 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-t = { a = 2 }
-s = { c = 4}
-mt = { __index = { b = 3} }
-setmetatable(t, mt)
-setmetatable(s, mt)
+local a = {b = "a"}
 
-t.b = "c"
-
-print(t.b)
-print(s.b)
-
-
+a.b()
 

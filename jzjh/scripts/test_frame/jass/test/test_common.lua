@@ -5,9 +5,11 @@
 ---
 
 local jass = require 'jass.common'
+local player = require 'jass.type.player'
 
 local function test_CreateUnit()
-    u = jass.CreateUnit({type = 'player'}, 12345, 100, 100, 270)
+    print(player(1))
+    u = jass.CreateUnit(player(1), 12345, 100, 100, 270)
     print(u)
 end
 
@@ -17,14 +19,47 @@ local function test_CreateUnitByName()
 end
 
 local function test_CreateUnitAtLoc()
-    u = jass.CreateUnitAtLoc({type = 'player'}, 12345, {type='location', x=150, y=150}, 270)
+    u = jass.CreateUnitAtLoc(player(1), 12345, {type='location', x=150, y=150}, 270)
     print(u)
+end
+
+local function test_I2R()
+    print(jass.I2R(1))
+end
+
+local function test_R2I()
+    print(jass.R2I(1.1))
+end
+
+local function test_S2R()
+    print(jass.S2R('1.1'))
+    print(jass.S2R('1.s'))
+end
+
+local function test_S2I()
+    print(jass.S2I('1.1'))
+    s, message = pcall(jass.S2I,'1.s')
+    print(s, message)
+end
+
+local function test_SubString()
+    print(jass.SubString('wx 3', 2, 2))
+end
+
+local function test_StringHash()
+    print(jass.StringHash('abcde'))
 end
 
 local function main()
     test_CreateUnit()
     test_CreateUnitByName()
     test_CreateUnitAtLoc()
+    test_I2R()
+    test_R2I()
+    test_S2R()
+    test_S2I()
+    test_SubString()
+    test_StringHash()
 end
 
 main()

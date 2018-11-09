@@ -1099,8 +1099,8 @@ end
 
 
 require 'util.maxspeed'
-require 'map.系统.弹幕'
-require 'map.系统.武器'
+--require 'map.系统.武器'
+--require 'map.系统.弹幕'
 --重写创造物品的函数
 function createitemloc(id, loc)
 	local it = nil
@@ -1575,7 +1575,7 @@ function SetCamera()
 	l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
 	Qu()
 end
-require 'map.系统.万能属性'
+--require 'map.系统.万能属性'
 function kv()
 	local i = 0
 	local m = 0
@@ -2128,8 +2128,8 @@ function SetUnitDizzy(Unit, Size, ExFile)
 	tm = nil
 end
 
-require 'map.rules.伤害公式'
-require 'map.rules.武功升重'
+--require 'map.rules.伤害公式'
+--require 'map.rules.武功升重'
 
 
 --BOSS AI放技能
@@ -2166,7 +2166,7 @@ function BossFangJiNeng()
 	uc = nil
 end
 
-require 'map.系统.万能buff'
+--require 'map.系统.万能buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
 	CreateTimerDialogBJ(t, title)
@@ -2251,12 +2251,12 @@ function clearTimer(tm)
 end
 
 require 'map.rules.rule'
-require 'map.系统.副本'
-require 'map.系统.历练'
-require 'map.系统.任务'
-require 'map.系统.神器'
-require 'map.系统.炼丹'
-require 'map.系统.桃花岛'
+--require 'map.系统.副本'
+--require 'map.系统.历练'
+--require 'map.系统.任务'
+--require 'map.系统.神器'
+--require 'map.系统.炼丹'
+--require 'map.系统.桃花岛'
 
 require 'util.najitest'
 
@@ -2265,19 +2265,19 @@ require 'util.najitest'
 
 
 
-require 'map.系统.挑战场'
-
-require 'map.门派.自创武学.init'
-require 'map.门派.阵法.init'
-
-require 'map.系统.自制武器'
-
-require 'map.门派.奇武.init'
-
-require 'map.系统.剑意'
-require 'map.系统.四圣兽'
-
-require 'map.门派.掌门技.init'
+--require 'map.系统.挑战场'
+--
+--require 'map.门派.自创武学.init'
+--require 'map.门派.阵法.init'
+--
+--require 'map.系统.自制武器'
+--
+--require 'map.门派.奇武.init'
+--
+--require 'map.系统.剑意'
+--require 'map.系统.四圣兽'
+--
+--require 'map.门派.掌门技.init'
 
 require 'map.static.environment'
 require 'map.static.detail'
@@ -2758,15 +2758,7 @@ function main1()
 	local wu
 	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
     et.hero.init_pick_table()
-	ConfigureNeutralVictim()
 	ju = Filter(bu)
-	filterIssueHauntOrderAtLocBJ = Filter(IssueHauntOrderAtLocBJFilter)
-	filterEnumDestructablesInCircleBJ = Filter(tu)
-	filterGetUnitsInRectOfPlayer = Filter(GetUnitsInRectOfPlayerFilter)
-	filterGetUnitsOfTypeIdAll = Filter(GetUnitsOfTypeIdAllFilter)
-	filterGetUnitsOfPlayerAndTypeId = Filter(GetUnitsOfPlayerAndTypeIdFilter)
-	filterMeleeTrainedUnitIsHeroBJ = Filter(MeleeTrainedUnitIsHeroBJFilter)
-	filterLivingPlayerUnitsOfTypeId = Filter(LivingPlayerUnitsOfTypeIdFilter)
 
 	udg_baolv[1] = 20
 	udg_baolv[2] = 25
@@ -2854,11 +2846,6 @@ function main1()
 	else
 		bj_MELEE_MAX_TWINKED_HEROES = bj_MELEE_MAX_TWINKED_HEROES_V1
 	end
-	InitQueuedTriggers()
-	YDWEInitRescuableBehaviorBJNull()
-	InitDNCSounds()
-	InitMapRects()
-	InitSummonableCaps()
 	wu = 0
 	for _ in _loop_() do
 		bj_stockAllowedPermanent[wu] = false
@@ -3839,7 +3826,14 @@ function main()
     et.unit.init()
 
 
-	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
+            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
+            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
+            -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
+            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
+            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
 	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
 	SetTerrainFogEx(0, 3000.0, 5000.0, 0.5, 0.0, 0.0, 0.0)
 	NewSoundEnvironment("Default")

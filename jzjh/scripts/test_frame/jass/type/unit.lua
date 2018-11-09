@@ -20,11 +20,17 @@ mt.type = 'unit'
 mt.name = '单位'
 
 
--- 是否存活 alive dead removed
+-- 是否存活 alive dead removed invulnerable
 mt.status = 'alive'
 
 -- 默认不隐藏
 mt.hidden = false
+
+-- 暂停状态，默认未暂停
+mt.paused = false
+
+-- 是否开启碰撞
+mt.pathing = true
 
 mt.x = 0
 mt.y = 0
@@ -87,11 +93,41 @@ mt.skill_points = 0
 -- 是否被选中
 mt.selected = false
 
-
+mt.point_value = 100
 
 
 function mt:die()
     self.status = 'dead'
+end
+
+function mt:revive(x, y)
+    if self.status == 'dead' then
+        self.status = 'alive'
+        self.x = x
+        self.y = y
+        return true
+    end
+    return false
+end
+
+function mt:set_invulnerable(flag)
+    if flag then
+        self.status = 'invulnerable'
+    else
+        self.status = 'alive'
+    end
+end
+
+function mt:set_paused(flag)
+    self.paused = flag
+end
+
+function mt:is_paused()
+    return self.paused
+end
+
+function mt:set_pathing(flag)
+    self.pathing = flag
 end
 
 function mt:remove()
@@ -247,6 +283,10 @@ end
 
 function mt:get_exp()
     return self.exp
+end
+
+function mt:get_point_value()
+    return self.point_value
 end
 
 function mt:is_suspend_exp()

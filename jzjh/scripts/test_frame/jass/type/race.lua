@@ -21,3 +21,5 @@ function race.init()
 		table.insert(race, ra)
 	end
 end
+
+return race

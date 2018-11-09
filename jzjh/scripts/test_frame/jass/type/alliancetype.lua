@@ -21,3 +21,5 @@ function alliancetype.init()
 		table.insert(alliancetype, al)
 	end
 end
+
+return alliancetype

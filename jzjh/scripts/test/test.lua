@@ -6,10 +6,5 @@
 
 local a = {}
 
-function b()
-    print("aaa")
-end
+a.b = false
 
-a.b = b
-
-a.b()

@@ -121,6 +121,19 @@
 --native PreloadGenStart  takes nothing returns nothing
 --native PreloadGenEnd    takes string filename returns nothing
 --native Preloader        takes string filename returns nothing
+-- TODO
+--native          QueueUnitAnimation          takes unit whichUnit, string whichAnimation returns nothing
+--native          SetUnitAnimation            takes unit whichUnit, string whichAnimation returns nothing
+--native          SetUnitAnimationByIndex     takes unit whichUnit, integer whichAnimation returns nothing
+--native          SetUnitAnimationWithRarity  takes unit whichUnit, string whichAnimation, raritycontrol rarity returns nothing
+--native          AddUnitAnimationProperties  takes unit whichUnit, string animProperties, boolean add returns nothing
+--
+--native          SetUnitLookAt       takes unit whichUnit, string whichBone, unit lookAtTarget, real offsetX, real offsetY, real offsetZ returns nothing
+--native          ResetUnitLookAt     takes unit whichUnit returns nothing
+--
+--native          SetUnitRescuable    takes unit whichUnit, player byWhichPlayer, boolean flag returns nothing
+--native          SetUnitRescueRange  takes unit whichUnit, real range returns nothing
+--native        SetUnitPointValueByType takes integer unitType, integer newPointValue returns nothing
 
 
 --//============================================================================
@@ -136,3 +149,17 @@
 --
 --native TriggerRegisterDeathEvent takes trigger whichTrigger, widget whichWidget returns event
 --
+--native TriggerWaitForSound  takes sound s, real offset returns nothing
+--native TriggerExecuteWait   takes trigger whichTrigger returns nothing
+
+--native          SetUnitExploded     takes unit whichUnit, boolean exploded returns nothing
+
+--//============================================================================
+--// Terrain API
+--//
+--native GetTerrainCliffLevel         takes real x, real y returns integer
+--native SetWaterBaseColor            takes integer red, integer green, integer blue, integer alpha returns nothing
+--native SetWaterDeforms              takes boolean val returns nothing
+--native GetTerrainType               takes real x, real y returns integer
+--native GetTerrainVariance           takes real x, real y returns integer
+--native SetTerrainType               takes real x, real y, integer terrainType, integer variation, integer area, integer shape returns nothing

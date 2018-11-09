@@ -14,11 +14,11 @@ mt.name = ''
 
 function gamespeed.init()
     local gamespeed_names = {
-        'MAP_SPEED_SLOWEST'
-        'MAP_SPEED_SLOW'
-        'MAP_SPEED_NORMAL'
-        'MAP_SPEED_FAST'
-        'MAP_SPEED_FASTEST'
+        'MAP_SPEED_SLOWEST',
+        'MAP_SPEED_SLOW',
+        'MAP_SPEED_NORMAL',
+        'MAP_SPEED_FAST',
+        'MAP_SPEED_FASTEST',
     }
     for i = 1, #gamespeed_names do
         local gs = {}

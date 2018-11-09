@@ -7,6 +7,7 @@
 local common_util = require 'jass.util.common_util'
 local unit = require 'jass.type.unit'
 local group = {}
+group.all_groups = {}
 group.filter_unit = nil
 group.enum_unit = nil
 
@@ -16,7 +17,7 @@ group.__index = mt
 mt.type='group'
 
 function mt:destroy()
-    group[self.handle_id] = nil
+    group.all_groups[self.handle_id] = nil
 end
 
 function mt:clear()
@@ -70,7 +71,7 @@ function group.create()
     local g = setmetatable({}, group)
     g.handle_id = common_util.generate_handle_id()
     g.units = {}
-    group[g.handle_id] = g
+    group.all_groups[g.handle_id] = g
     return g
 end
 

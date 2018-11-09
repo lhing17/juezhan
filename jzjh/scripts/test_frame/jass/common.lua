@@ -27,6 +27,7 @@ local unitpool = require 'jass.type.unitpool'
 local hashtable = require 'jass.type.hashtable'
 local boolexpr = require 'jass.type.boolexpr'
 local trigger = require 'jass.type.trigger'
+local item = require 'jass.type.item'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -304,7 +305,6 @@ function jass.ConvertVersion(i)
     return version[i]
 end
 
---
 --constant native OrderId                     takes string  orderIdString     returns integer
 function jass.OrderId(orderIdString)
     return orderid.order2id(orderIdString)
@@ -325,7 +325,6 @@ function jass.UnitId2String(unitId)
     return base.id2string(unitId)
 end
 
---
 --        // Not currently working correctly...
 --constant native AbilityId                   takes string  abilityIdString   returns integer
 function jass.AbilityId(s)
@@ -338,7 +337,6 @@ function jass.AbilityId2String(abilityId)
     error('暂不支持jass.AbilityId2String函数的调用')
 end
 
---
 --        // Looks up the "name" field for any object (unit, item, ability)
 --constant native GetObjectName               takes integer objectId          returns string
 function jass.GetObjectName(objectId)
@@ -434,7 +432,6 @@ function jass.ShowUnit(u, show)
     end
 end
 
---
 --native          SetUnitState        takes unit whichUnit, unitstate whichUnitState, real newVal returns nothing
 function jass.SetUnitState(u, state, val)
     -- TODO
@@ -538,7 +535,6 @@ function jass.SetUnitCreepGuard(u, creepGuard)
     -- TODO
 end
 
---
 --native          GetUnitAcquireRange     takes unit whichUnit returns real
 function jass.GetUnitAcquireRange(u)
     if not u then
@@ -572,7 +568,6 @@ function jass.GetUnitFlyHeight(u)
     return u:get_fly_height()
 end
 
---
 --native          GetUnitDefaultAcquireRange      takes unit whichUnit returns real
 function jass.GetUnitDefaultAcquireRange(u)
     if not u then
@@ -606,7 +601,6 @@ function jass.GetUnitDefaultFlyHeight(u)
     return getmetatable(u).__index.fly_height
 end
 
---
 --native          SetUnitOwner        takes unit whichUnit, player whichPlayer, boolean changeColor returns nothing
 function jass.SetUnitOwner(u, p, changeColor)
     if not u or not p then
@@ -632,7 +626,6 @@ function jass.SetUnitColor(u, whichColor)
     u:set_color(whichColor)
 end
 
---
 --native          SetUnitScale        takes unit whichUnit, real scaleX, real scaleY, real scaleZ returns nothing
 function jass.SetUnitScale(u, scaleX, scaleY, scaleZ)
     if not u or not scaleX or not scaleY or not scaleZ then
@@ -676,21 +669,6 @@ function jass.SetUnitVertexColor(u, red, green, blue, alpha)
 
 end
 
--- TODO
---native          QueueUnitAnimation          takes unit whichUnit, string whichAnimation returns nothing
---native          SetUnitAnimation            takes unit whichUnit, string whichAnimation returns nothing
---native          SetUnitAnimationByIndex     takes unit whichUnit, integer whichAnimation returns nothing
---native          SetUnitAnimationWithRarity  takes unit whichUnit, string whichAnimation, raritycontrol rarity returns nothing
---native          AddUnitAnimationProperties  takes unit whichUnit, string animProperties, boolean add returns nothing
---
---native          SetUnitLookAt       takes unit whichUnit, string whichBone, unit lookAtTarget, real offsetX, real offsetY, real offsetZ returns nothing
---native          ResetUnitLookAt     takes unit whichUnit returns nothing
---
---native          SetUnitRescuable    takes unit whichUnit, player byWhichPlayer, boolean flag returns nothing
---native          SetUnitRescueRange  takes unit whichUnit, real range returns nothing
-
-
---
 --native          SetHeroStr          takes unit whichHero, integer newStr, boolean permanent returns nothing
 function jass.SetHeroStr(u, newStr, permanent)
     if u:is_hero() then
@@ -711,8 +689,6 @@ function jass.SetHeroInt(u, newInt, permanent)
     end
 end
 
-
---
 --native          GetHeroStr          takes unit whichHero, boolean includeBonuses returns integer
 function jass.GetHeroStr()
     if u:is_hero() then
@@ -734,14 +710,12 @@ function jass.GetHeroInt()
     end
 end
 
---
 --native          UnitStripHeroLevel  takes unit whichHero, integer howManyLevels returns boolean
 function jass.UnitStripHeroLevel(h, level)
     if h:is_hero() then
         h:set_level(math.max(h:get_level() - howManyLevels, 1))
     end
 end
---
 --native          GetHeroXP           takes unit whichHero returns integer
 function jass.GetHeroXP(h)
     if h:is_hero() then
@@ -762,7 +736,6 @@ function jass.SetHeroXP(h, exp, showEyeCandy)
 
 end
 
---
 --native          GetHeroSkillPoints      takes unit whichHero returns integer
 function jass.GetHeroSkillPoints(h)
     if h:is_hero() then
@@ -777,7 +750,6 @@ function jass.UnitModifySkillPoints(h, delta)
     end
 end
 
---
 --native          AddHeroXP           takes unit whichHero, integer xpToAdd,   boolean showEyeCandy returns nothing
 function jass.AddHeroXP(h, exp, showEyeCandy)
     if h:is_hero() then
@@ -862,20 +834,65 @@ function jass.SetUnitAbilityLevel(u, abilcode, level)
 end
 
 --native          ReviveHero          takes unit whichHero, real x, real y, boolean doEyecandy returns boolean
+function jass.ReviveHero(h, x, y, doEyecandy)
+    local flag = h:revive(x, y)
+    if flag and doEyecandy then
+        log.info('英雄' .. h:get_name() .. '身上复活金光一闪')
+    end
+    return flag
+end
+
 --native          ReviveHeroLoc       takes unit whichHero, location loc, boolean doEyecandy returns boolean
---native          SetUnitExploded     takes unit whichUnit, boolean exploded returns nothing
---native          SetUnitInvulnerable takes unit whichUnit, boolean flag returns nothing
+function jass.ReviveHeroLoc(h, loc, doEyecandy)
+    jass.ReviveHero(h, loc:get_x(), loc:get_y(), doEyecandy)
+end
+
+
+--native          SetUnitInvulnerable takes unit whichUnit, boolean flag returns
+function jass.SetUnitInvulnerable(u, flag)
+    u:set_invulnerable(flag)
+end
+
 --native          PauseUnit           takes unit whichUnit, boolean flag returns nothing
+function jass.PauseUnit(u, flag)
+    u:set_paused(flag)
+end
+
 --native          IsUnitPaused        takes unit whichHero returns boolean
+function jass.IsUnitPaused(u)
+    return u:is_paused()
+end
+
+-- 打开/关闭单位碰撞
 --native          SetUnitPathing      takes unit whichUnit, boolean flag returns nothing
---
+function jass.SetUnitPathing(u, flag)
+    u:set_pathing(flag)
+end
+
 --native          ClearSelection      takes nothing returns nothing
+function jass.ClearSelection()
+    local g = group.create()
+    g:enum_units(function(u)
+        return u:get_owner() == player.native
+    end, nil)
+    for _, v in pairs(g.units) do
+        v:set_selected(false)
+    end
+    g:destroy()
+end
+
 --native          SelectUnit          takes unit whichUnit, boolean flag returns nothing
---
+function jass.SelectUnit(u, flag)
+    u:set_selected(flag)
+end
+
 --native          GetUnitPointValue       takes unit whichUnit returns integer
+function jass.GetUnitPointValue(u)
+    return u:get_point_value()
+end
+--TODO
 --native          GetUnitPointValueByType takes integer unitType returns integer
---//native        SetUnitPointValueByType takes integer unitType, integer newPointValue returns nothing
---
+
 --native          UnitAddItem             takes unit whichUnit, item whichItem returns boolean
 --native          UnitAddItemById         takes unit whichUnit, integer itemId returns item
 --native          UnitAddItemToSlotById   takes unit whichUnit, integer itemId, integer itemSlot returns boolean
@@ -884,15 +901,12 @@ end
 --native          UnitHasItem             takes unit whichUnit, item whichItem returns boolean
 --native          UnitItemInSlot          takes unit whichUnit, integer itemSlot returns item
 --native          UnitInventorySize       takes unit whichUnit returns integer
---
 --native          UnitDropItemPoint       takes unit whichUnit, item whichItem, real x, real y returns boolean
 --native          UnitDropItemSlot        takes unit whichUnit, item whichItem, integer slot returns boolean
 --native          UnitDropItemTarget      takes unit whichUnit, item whichItem, widget target returns boolean
---
 --native          UnitUseItem             takes unit whichUnit, item whichItem returns boolean
 --native          UnitUseItemPoint        takes unit whichUnit, item whichItem, real x, real y returns boolean
 --native          UnitUseItemTarget       takes unit whichUnit, item whichItem, widget target returns boolean
---
 --constant native GetUnitX            takes unit whichUnit returns real
 function jass.GetUnitX(u)
     return u:get_x()
@@ -947,11 +961,9 @@ end
 --constant native GetFoodMade         takes integer unitId returns integer
 --constant native GetFoodUsed         takes integer unitId returns integer
 --native          SetUnitUseFood      takes unit whichUnit, boolean useFood returns nothing
---
 --constant native GetUnitRallyPoint           takes unit whichUnit returns location
 --constant native GetUnitRallyUnit            takes unit whichUnit returns unit
 --constant native GetUnitRallyDestructable    takes unit whichUnit returns destructable
---
 --constant native IsUnitInGroup       takes unit whichUnit, group whichGroup returns boolean
 function jass.IsUnitInGroup(u, g)
     return g:contains_unit(u)
@@ -979,18 +991,14 @@ end
 --constant native IsUnitInRangeLoc    takes unit whichUnit, location whichLocation, real distance returns boolean
 --constant native IsUnitHidden        takes unit whichUnit returns boolean
 --constant native IsUnitIllusion      takes unit whichUnit returns boolean
---
 --constant native IsUnitInTransport   takes unit whichUnit, unit whichTransport returns boolean
 --constant native IsUnitLoaded        takes unit whichUnit returns boolean
---
 --constant native IsHeroUnitId        takes integer unitId returns boolean
 --constant native IsUnitIdType        takes integer unitId, unittype whichUnitType returns boolean
---
 --native UnitShareVision              takes unit whichUnit, player whichPlayer, boolean share returns nothing
 --native UnitSuspendDecay             takes unit whichUnit, boolean suspend returns nothing
 --native UnitAddType                  takes unit whichUnit, unittype whichUnitType returns boolean
 --native UnitRemoveType               takes unit whichUnit, unittype whichUnitType returns boolean
---
 --native UnitAddAbility               takes unit whichUnit, integer abilityId returns boolean
 --native UnitRemoveAbility            takes unit whichUnit, integer abilityId returns boolean
 --native UnitMakeAbilityPermanent     takes unit whichUnit, boolean permanent, integer abilityId returns boolean
@@ -1012,10 +1020,8 @@ end
 --native UnitSetUpgradeProgress       takes unit whichUnit, integer upgradePercentage returns nothing
 --native UnitPauseTimedLife           takes unit whichUnit, boolean flag returns nothing
 --native UnitSetUsesAltIcon           takes unit whichUnit, boolean flag returns nothing
---
 --native UnitDamagePoint              takes unit whichUnit, real delay, real radius, real x, real y, real amount, boolean attack, boolean ranged, attacktype attackType, damagetype damageType, weapontype weaponType returns boolean
 --native UnitDamageTarget             takes unit whichUnit, widget target, real amount, boolean attack, boolean ranged, attacktype attackType, damagetype damageType, weapontype weaponType returns boolean
---
 --native IssueImmediateOrder          takes unit whichUnit, string order returns boolean
 function jass.IssueImmediateOrder(u, order)
     log.info('单位' .. u:get_name() .. '发布了命令：', order)
@@ -1034,41 +1040,33 @@ end
 --native IssueInstantTargetOrderById  takes unit whichUnit, integer order, widget targetWidget, widget instantTargetWidget returns boolean
 --native IssueBuildOrder              takes unit whichPeon, string unitToBuild, real x, real y returns boolean
 --native IssueBuildOrderById          takes unit whichPeon, integer unitId, real x, real y returns boolean
---
 --native IssueNeutralImmediateOrder       takes player forWhichPlayer, unit neutralStructure, string unitToBuild returns boolean
 --native IssueNeutralImmediateOrderById   takes player forWhichPlayer,unit neutralStructure, integer unitId returns boolean
 --native IssueNeutralPointOrder           takes player forWhichPlayer,unit neutralStructure, string unitToBuild, real x, real y returns boolean
 --native IssueNeutralPointOrderById       takes player forWhichPlayer,unit neutralStructure, integer unitId, real x, real y returns boolean
 --native IssueNeutralTargetOrder          takes player forWhichPlayer,unit neutralStructure, string unitToBuild, widget target returns boolean
 --native IssueNeutralTargetOrderById      takes player forWhichPlayer,unit neutralStructure, integer unitId, widget target returns boolean
---
 --native GetUnitCurrentOrder          takes unit whichUnit returns integer
---
 --native SetResourceAmount            takes unit whichUnit, integer amount returns nothing
 --native AddResourceAmount            takes unit whichUnit, integer amount returns nothing
 --native GetResourceAmount            takes unit whichUnit returns integer
---
 --native WaygateGetDestinationX       takes unit waygate returns real
 --native WaygateGetDestinationY       takes unit waygate returns real
 --native WaygateSetDestination        takes unit waygate, real x, real y returns nothing
 --native WaygateActivate              takes unit waygate, boolean activate returns nothing
 --native WaygateIsActive              takes unit waygate returns boolean
---
 --native AddItemToAllStock            takes integer itemId, integer currentStock, integer stockMax returns nothing
 --native AddItemToStock               takes unit whichUnit, integer itemId, integer currentStock, integer stockMax returns nothing
 --native AddUnitToAllStock            takes integer unitId, integer currentStock, integer stockMax returns nothing
 --native AddUnitToStock               takes unit whichUnit, integer unitId, integer currentStock, integer stockMax returns nothing
---
 --native RemoveItemFromAllStock       takes integer itemId returns nothing
 --native RemoveItemFromStock          takes unit whichUnit, integer itemId returns nothing
 --native RemoveUnitFromAllStock       takes integer unitId returns nothing
 --native RemoveUnitFromStock          takes unit whichUnit, integer unitId returns nothing
---
 --native SetAllItemTypeSlots          takes integer slots returns nothing
 --native SetAllUnitTypeSlots          takes integer slots returns nothing
 --native SetItemTypeSlots             takes unit whichUnit, integer slots returns nothing
 --native SetUnitTypeSlots             takes unit whichUnit, integer slots returns nothing
---
 --native GetUnitUserData              takes unit whichUnit returns integer
 --native SetUnitUserData              takes unit whichUnit, integer data returns nothing
 
@@ -1110,7 +1108,6 @@ end
 --constant native IsLocationFoggedToPlayer    takes location whichLocation, player whichPlayer returns boolean
 --constant native IsMaskedToPlayer            takes real x, real y, player whichPlayer returns boolean
 --constant native IsLocationMaskedToPlayer    takes location whichLocation, player whichPlayer returns boolean
---
 --constant native GetPlayerRace           takes player whichPlayer returns race
 --constant native GetPlayerId             takes player whichPlayer returns integer
 function jass.GetPlayerId(p)
@@ -1130,24 +1127,19 @@ end
 --constant native GetPlayerState          takes player whichPlayer, playerstate whichPlayerState returns integer
 --constant native GetPlayerScore          takes player whichPlayer, playerscore whichPlayerScore returns integer
 --constant native GetPlayerAlliance       takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting returns boolean
---
 --constant native GetPlayerHandicap       takes player whichPlayer returns real
 --constant native GetPlayerHandicapXP     takes player whichPlayer returns real
 --constant native SetPlayerHandicap       takes player whichPlayer, real handicap returns nothing
 --constant native SetPlayerHandicapXP     takes player whichPlayer, real handicap returns nothing
---
 --constant native SetPlayerTechMaxAllowed takes player whichPlayer, integer techid, integer maximum returns nothing
 --constant native GetPlayerTechMaxAllowed takes player whichPlayer, integer techid returns integer
 --constant native AddPlayerTechResearched takes player whichPlayer, integer techid, integer levels returns nothing
 --constant native SetPlayerTechResearched takes player whichPlayer, integer techid, integer setToLevel returns nothing
 --constant native GetPlayerTechResearched takes player whichPlayer, integer techid, boolean specificonly returns boolean
 --constant native GetPlayerTechCount      takes player whichPlayer, integer techid, boolean specificonly returns integer
---
 --native SetPlayerUnitsOwner takes player whichPlayer, integer newOwner returns nothing
 --native CripplePlayer takes player whichPlayer, force toWhichPlayers, boolean flag returns nothing
---
 --native SetPlayerAbilityAvailable        takes player whichPlayer, integer abilid, boolean avail returns nothing
---
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
     log.info(p:get_name() .. '的属性' .. whichPlayerState .. '设置为：' .. value)
@@ -1156,7 +1148,6 @@ function jass.SetPlayerState(p, whichPlayerState, value)
 end
 
 --native RemovePlayer     takes player whichPlayer, playergameresult gameResult returns nothing
---
 --// Used to store hero level data for the scorescreen
 --// before units are moved to neutral passive in melee games
 --//
@@ -1176,7 +1167,6 @@ function jass.Rad2Deg(radians)
     return math.deg(radians)
 end
 
---
 --native Sin      takes real radians returns real
 function jass.Sin(radians)
     return math.sin(radians)
@@ -1192,7 +1182,6 @@ function jass.Tan(radians)
     return math.tan(radians)
 end
 
---
 --// Expect values between -1 and 1...returns 0 for invalid input
 --native Asin     takes real y returns real
 function jass.Asin(y)
@@ -1207,13 +1196,11 @@ function jass.Acos(x)
     return math.acos(x)
 end
 
---
 --native Atan     takes real x returns real
 function jass.Atan(x)
     return math.atan(x)
 end
 
---
 --// Returns 0 if x and y are both 0
 --native Atan2    takes real y, real x returns real
 function jass.Atan2(y, x)
@@ -1223,7 +1210,6 @@ function jass.Atan2(y, x)
     return math.atan(y, x)
 end
 
---
 --// Returns 0 if x <= 0
 --native SquareRoot takes real x returns real
 function jass.SquareRoot(x)
@@ -1233,7 +1219,6 @@ function jass.SquareRoot(x)
     return math.sqrt(x)
 end
 
---
 --// computes x to the y power
 --// y == 0.0             => 1
 --// x ==0.0 and y < 0    => 0
@@ -1248,7 +1233,6 @@ function jass.Pow(x, power)
     end
     return x ^ power
 end
---
 --//============================================================================
 --// String Utility API
 --native I2R  takes integer i returns real
@@ -1316,10 +1300,8 @@ function jass.StringHash(s)
     end
     return h
 end
---
 --native GetLocalizedString takes string source returns string
 --native GetLocalizedHotkey takes string source returns integer
---
 
 -- TODO START
 --//============================================================================
@@ -1330,20 +1312,16 @@ end
 --//  a map script. The functions should also be called in this order
 --//  ( i.e. call SetPlayers before SetPlayerColor...
 --//
---
 --native SetMapName           takes string name returns nothing
 --native SetMapDescription    takes string description returns nothing
---
 --native SetTeams             takes integer teamcount returns nothing
 --native SetPlayers           takes integer playercount returns nothing
---
 --native DefineStartLocation      takes integer whichStartLoc, real x, real y returns nothing
 --native DefineStartLocationLoc   takes integer whichStartLoc, location whichLocation returns nothing
 --native SetStartLocPrioCount     takes integer whichStartLoc, integer prioSlotCount returns nothing
 --native SetStartLocPrio          takes integer whichStartLoc, integer prioSlotIndex, integer otherStartLocIndex, startlocprio priority returns nothing
 --native GetStartLocPrioSlot      takes integer whichStartLoc, integer prioSlotIndex returns integer
 --native GetStartLocPrio          takes integer whichStartLoc, integer prioSlotIndex returns startlocprio
---
 --native SetGameTypeSupported takes gametype whichGameType, boolean value returns nothing
 --native SetMapFlag           takes mapflag whichMapFlag, boolean value returns nothing
 --native SetGamePlacement     takes placement whichPlacementType returns nothing
@@ -1355,14 +1333,11 @@ end
 --native SetGameDifficulty    takes gamedifficulty whichdifficulty returns nothing
 --native SetResourceDensity   takes mapdensity whichdensity returns nothing
 --native SetCreatureDensity   takes mapdensity whichdensity returns nothing
---
 --native GetTeams             takes nothing returns integer
 --native GetPlayers           takes nothing returns integer
---
 --native IsGameTypeSupported  takes gametype whichGameType returns boolean
 --native GetGameTypeSelected  takes nothing returns gametype
 --native IsMapFlagSet         takes mapflag whichMapFlag returns boolean
---
 --constant native GetGamePlacement     takes nothing returns placement
 --constant native GetGameSpeed         takes nothing returns gamespeed
 function jass.GetGameSpeed()
@@ -1375,7 +1350,6 @@ end
 --constant native GetStartLocationX    takes integer whichStartLocation returns real
 --constant native GetStartLocationY    takes integer whichStartLocation returns real
 --constant native GetStartLocationLoc  takes integer whichStartLocation returns location
---
 --
 --native SetPlayerTeam            takes player whichPlayer, integer whichTeam returns nothing
 --native SetPlayerStartLocation   takes player whichPlayer, integer startLocIndex returns nothing
@@ -1396,9 +1370,7 @@ end
 --native SetPlayerRaceSelectable  takes player whichPlayer, boolean value returns nothing
 --native SetPlayerController      takes player whichPlayer, mapcontrol controlType returns nothing
 --native SetPlayerName            takes player whichPlayer, string name returns nothing
---
 --native SetPlayerOnScoreScreen   takes player whichPlayer, boolean flag returns nothing
---
 --native GetPlayerTeam            takes player whichPlayer returns integer
 --native GetPlayerStartLocation   takes player whichPlayer returns integer
 --native GetPlayerColor           takes player whichPlayer returns playercolor
@@ -1416,7 +1388,6 @@ end
 --native GetPlayerTaxRate         takes player sourcePlayer, player otherPlayer, playerstate whichResource returns integer
 --native IsPlayerRacePrefSet      takes player whichPlayer, racepreference pref returns boolean
 --native GetPlayerName            takes player whichPlayer returns string
---
 --//============================================================================
 --// Timer API
 --//
@@ -1429,7 +1400,6 @@ end
 --native PauseTimer           takes timer whichTimer returns nothing
 --native ResumeTimer          takes timer whichTimer returns nothing
 --native GetExpiredTimer      takes nothing returns timer
---
 --//============================================================================
 --// Group API
 --//
@@ -1537,7 +1507,6 @@ function jass.GroupEnumUnitsSelected(g, p, filter)
         return u:get_owner() == p and u:is_selected()
     end, filter)
 end
---
 --native GroupImmediateOrder                  takes group whichGroup, string order returns boolean
 --native GroupImmediateOrderById              takes group whichGroup, integer order returns boolean
 --native GroupPointOrder                      takes group whichGroup, string order, real x, real y returns boolean
@@ -1546,7 +1515,6 @@ end
 --native GroupPointOrderByIdLoc               takes group whichGroup, integer order, location whichLocation returns boolean
 --native GroupTargetOrder                     takes group whichGroup, string order, widget targetWidget returns boolean
 --native GroupTargetOrderById                 takes group whichGroup, integer order, widget targetWidget returns boolean
---
 --// This will be difficult to support with potentially disjoint, cell-based regions
 --// as it would involve enumerating all the cells that are covered by a particularregion
 --// a better implementation would be a trigger that adds relevant units as they enter
@@ -1561,7 +1529,6 @@ function jass.FirstOfGroup(g)
     return g:get_first()
 end
 
---
 --//============================================================================
 --// Force API
 --//
@@ -1619,7 +1586,6 @@ function jass.ForForce(f, callback)
     f:foreach(callback)
 end
 
---
 --//============================================================================
 --// Region and Location API
 --//
@@ -1658,7 +1624,6 @@ function jass.MoveRectToLoc(r, loc)
     r:move_to(loc:get_x(), loc:get_y())
 end
 
---
 --native GetRectCenterX           takes rect whichRect returns real
 function jass.GetRectCenterX(r)
     return r:get_center_x()
@@ -1689,7 +1654,6 @@ function jass.GetRectMaxY(r)
     return r:get_max_y()
 end
 
---
 --native CreateRegion             takes nothing returns region
 function jass.CreateRegion()
     return region.create()
@@ -1700,7 +1664,6 @@ function jass.RemoveRect(r)
     return r:remove()
 end
 
---
 --native RegionAddRect            takes region whichRegion, rect r returns nothing
 function jass.RegionAddRect(rn, rt)
     rn:add_rect(rt)
@@ -1711,12 +1674,10 @@ function jass.RegionClearRect(rn, rt)
     rn:remove_rect(rt)
 end
 
---
 --native RegionAddCell           takes region whichRegion, real x, real y returns nothing
 --native RegionAddCellAtLoc      takes region whichRegion, location whichLocation returns nothing
 --native RegionClearCell         takes region whichRegion, real x, real y returns nothing
 --native RegionClearCellAtLoc    takes region whichRegion, location whichLocation returns nothing
---
 --native Location                 takes real x, real y returns location
 function jass.Location(x, y)
     return location.create(x, y)
@@ -1740,18 +1701,14 @@ function jass.GetLocationY(location)
     return location:get_y()
 end
 
---
 --// This function is asynchronous. The values it returns are not guaranteed synchronous between each player.
 --//  If you attempt to use it in a synchronous manner, it may cause a desync.
 --native GetLocationZ             takes location whichLocation returns real
---
 --native IsUnitInRegion               takes region whichRegion, unit whichUnit returns boolean
 --native IsPointInRegion              takes region whichRegion, real x, real y returns boolean
 --native IsLocationInRegion           takes region whichRegion, location whichLocation returns boolean
---
 --// Returns full map bounds, including unplayable borders, in world coordinates
 --native GetWorldBounds           takes nothing returns rect
---
 --//============================================================================
 --// Native trigger interface
 --//
@@ -1781,10 +1738,8 @@ function jass.IsTriggerEnabled(t)
     return t:is_enabled()
 end
 
---
 --native TriggerWaitOnSleeps   takes trigger whichTrigger, boolean flag returns nothing
 --native IsTriggerWaitOnSleeps takes trigger whichTrigger returns boolean
---
 --constant native GetFilterUnit       takes nothing returns unit
 function jass.GetFilterUnit()
     return group.filter_unit
@@ -1795,13 +1750,10 @@ function jass.GetEnumUnit()
     return group.enum_unit
 end
 
---
 --constant native GetFilterDestructable   takes nothing returns destructable
 --constant native GetEnumDestructable     takes nothing returns destructable
---
 --constant native GetFilterItem           takes nothing returns item
 --constant native GetEnumItem             takes nothing returns item
---
 --constant native GetFilterPlayer     takes nothing returns player
 function jass.GetFilterPlayer()
     return force.filter_player
@@ -1812,18 +1764,15 @@ function jass.GetEnumPlayer()
     return force.enum_player
 end
 
---
 --constant native GetTriggeringTrigger    takes nothing returns trigger
 --constant native GetTriggerEventId       takes nothing returns eventid
 --constant native GetTriggerEvalCount     takes trigger whichTrigger returns integer
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
---
 --native ExecuteFunc          takes string funcName returns nothing
 function jass.ExecuteFunc(funcName)
     _ENV[funcName]()
 end
 
---
 --//============================================================================
 --// Boolean Expr API ( for compositing trigger conditions and unit filter funcs...)
 --//============================================================================
@@ -1863,77 +1812,55 @@ end
 function jass.DestroyBoolExpr(e)
     return e:destroy()
 end
---
 --//============================================================================
 --// Trigger Game Event API
 --//============================================================================
---
 --native TriggerRegisterVariableEvent takes trigger whichTrigger, string varName, limitop opcode, real limitval returns event
---
 --// EVENT_GAME_VARIABLE_LIMIT
 --//constant native string GetTriggeringVariableName takes nothing returns string
---
 --// Creates it's own timer and triggers when it expires
 --native TriggerRegisterTimerEvent takes trigger whichTrigger, real timeout, boolean periodic returns event
---
 --// Triggers when the timer you tell it about expires
 --native TriggerRegisterTimerExpireEvent takes trigger whichTrigger, timer t returns event
---
 --native TriggerRegisterGameStateEvent takes trigger whichTrigger, gamestate whichState, limitop opcode, real limitval returns event
---
 --native TriggerRegisterDialogEvent       takes trigger whichTrigger, dialog whichDialog returns event
 --native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
---
 --//  EVENT_GAME_STATE_LIMIT
 --constant native GetEventGameState takes nothing returns gamestate
---
 --native TriggerRegisterGameEvent takes trigger whichTrigger, gameevent whichGameEvent returns event
---
 --// EVENT_GAME_VICTORY
 --constant native GetWinningPlayer takes nothing returns player
 --
---
 --native TriggerRegisterEnterRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
---
 --// EVENT_GAME_ENTER_REGION
 --constant native GetTriggeringRegion takes nothing returns region
 --constant native GetEnteringUnit takes nothing returns unit
---
 --// EVENT_GAME_LEAVE_REGION
---
 --native TriggerRegisterLeaveRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
 --constant native GetLeavingUnit takes nothing returns unit
---
 --native TriggerRegisterTrackableHitEvent takes trigger whichTrigger, trackable t returns event
 --native TriggerRegisterTrackableTrackEvent takes trigger whichTrigger, trackable t returns event
---
 --// EVENT_GAME_TRACKABLE_HIT
 --// EVENT_GAME_TRACKABLE_TRACK
 --constant native GetTriggeringTrackable takes nothing returns trackable
---
 --// EVENT_DIALOG_BUTTON_CLICK
 --constant native GetClickedButton takes nothing returns button
 --constant native GetClickedDialog    takes nothing returns dialog
---
 --// EVENT_GAME_TOURNAMENT_FINISH_SOON
 --constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real
 --constant native GetTournamentFinishNowRule takes nothing returns integer
 --constant native GetTournamentFinishNowPlayer takes nothing returns player
 --constant native GetTournamentScore takes player whichPlayer returns integer
---
 --// EVENT_GAME_SAVE
 --constant native GetSaveBasicFilename takes nothing returns string
---
 --//============================================================================
 --// Trigger Player Based Event API
 --//============================================================================
---
 --native TriggerRegisterPlayerEvent takes trigger whichTrigger, player  whichPlayer, playerevent whichPlayerEvent returns event
 function jass.TriggerRegisterPlayerEvent(t, p, pe)
     return t:register_player_event(p, pe)
 end
 
---
 --// EVENT_PLAYER_DEFEAT
 --// EVENT_PLAYER_VICTORY
 --constant native GetTriggerPlayer takes nothing returns player
@@ -1941,20 +1868,17 @@ function jass.GetTriggerPlayer()
     return trigger.player
 end
 
---
 --native TriggerRegisterPlayerUnitEvent takes trigger whichTrigger, player whichPlayer, playerunitevent whichPlayerUnitEvent, boolexpr filter returns event
 function jass.TriggerRegisterPlayerUnitEvent(t, p, pue, filter)
     return t:register_player_unit_event(p, pue, filter)
 end
 
---
 --// EVENT_PLAYER_HERO_LEVEL
 --// EVENT_UNIT_HERO_LEVEL
 --constant native GetLevelingUnit takes nothing returns unit
 function jass.GetLevelingUnit()
     return trigger.leveling_unit
 end
---
 --// EVENT_PLAYER_HERO_SKILL
 --// EVENT_UNIT_HERO_SKILL
 --constant native GetLearningUnit      takes nothing returns unit
@@ -1971,13 +1895,11 @@ end
 function jass.GetLearnedSkillLevel()
     return trigger.learned_skill_level
 end
---
 --// EVENT_PLAYER_HERO_REVIVABLE
 --constant native GetRevivableUnit takes nothing returns unit
 function jass.GetRevivableUnit()
     return trigger.revivable_unit
 end
---
 --// EVENT_PLAYER_HERO_REVIVE_START
 --// EVENT_PLAYER_HERO_REVIVE_CANCEL
 --// EVENT_PLAYER_HERO_REVIVE_FINISH
@@ -1988,20 +1910,17 @@ end
 function jass.GetRevivingUnit()
     return trigger.reviving_unit
 end
---
 --// EVENT_PLAYER_UNIT_ATTACKED
 --constant native GetAttacker takes nothing returns unit
 function jass.GetAttacker()
     return trigger.attacker
 end
---
 --// EVENT_PLAYER_UNIT_RESCUED
 --constant native GetRescuer  takes nothing returns unit
 function jass.GetRescuer()
     return trigger.rescuer
 end
 
---
 --// EVENT_PLAYER_UNIT_DEATH
 --constant native GetDyingUnit takes nothing returns unit
 function jass.GetDyingUnit()
@@ -2011,26 +1930,22 @@ end
 function jass.GetKillingUnit()
     return trigger.killer
 end
---
 --// EVENT_PLAYER_UNIT_DECAY
 --constant native GetDecayingUnit takes nothing returns unit
 function jass.GetDecayingUnit()
     return trigger.decaying_unit
 end
---
 --// EVENT_PLAYER_UNIT_SELECTED
 --//constant native GetSelectedUnit takes nothing returns unit
 function jass.GetSelectedUnit()
     return trigger.selected_unit
 end
---
 --// EVENT_PLAYER_UNIT_CONSTRUCT_START
 --constant native GetConstructingStructure takes nothing returns unit
 function jass.GetConstructingStructure()
     return trigger.constructing_structure
 end
 
---
 --// EVENT_PLAYER_UNIT_CONSTRUCT_FINISH
 --// EVENT_PLAYER_UNIT_CONSTRUCT_CANCEL
 --constant native GetCancelledStructure takes nothing returns unit
@@ -2041,7 +1956,6 @@ end
 function jass.GetConstructedStructure()
     return trigger.constructed_structure
 end
---
 --// EVENT_PLAYER_UNIT_RESEARCH_START
 --// EVENT_PLAYER_UNIT_RESEARCH_CANCEL
 --// EVENT_PLAYER_UNIT_RESEARCH_FINISH
@@ -2053,26 +1967,22 @@ end
 function jass.GetResearched()
     return trigger.researched
 end
---
 --// EVENT_PLAYER_UNIT_TRAIN_START
 --// EVENT_PLAYER_UNIT_TRAIN_CANCEL
 --constant native GetTrainedUnitType takes nothing returns integer
 function jass.GetTrainedUnitType()
     return trigger.trained_unit_type
 end
---
 --// EVENT_PLAYER_UNIT_TRAIN_FINISH
 --constant native GetTrainedUnit takes nothing returns unit
 function jass.GetTrainedUnit()
     return trigger.trained_unit
 end
---
 --// EVENT_PLAYER_UNIT_DETECTED
 --constant native GetDetectedUnit takes nothing returns unit
 function jass.GetDetectedUnit()
     return trigger.detected_unit
 end
---
 --// EVENT_PLAYER_UNIT_SUMMONED
 --constant native GetSummoningUnit    takes nothing returns unit
 function jass.GetSummoningUnit()
@@ -2082,7 +1992,6 @@ end
 function jass.GetSummonedUnit()
     return trigger.summoned_unit
 end
---
 --// EVENT_PLAYER_UNIT_LOADED
 --constant native GetTransportUnit    takes nothing returns unit
 function jass.GetTransportUnit()
@@ -2092,7 +2001,6 @@ end
 function jass.GetLoadedUnit()
     return trigger.loaded_unit
 end
---
 --// EVENT_PLAYER_UNIT_SELL
 --constant native GetSellingUnit      takes nothing returns unit
 function jass.GetSellingUnit()
@@ -2106,13 +2014,11 @@ end
 function jass.GetBuyingUnit()
     return trigger.buying_unit
 end
---
 --// EVENT_PLAYER_UNIT_SELL_ITEM
 --constant native GetSoldItem         takes nothing returns item
 function jass.GetSoldItem()
     return trigger.sold_item
 end
---
 --// EVENT_PLAYER_UNIT_CHANGE_OWNER
 --constant native GetChangingUnit             takes nothing returns unit
 function jass.GetChangingUnit()
@@ -2122,7 +2028,6 @@ end
 function jass.GetChangingUnitPrevOwner()
     return trigger.changing_unit_prev_owner
 end
---
 --// EVENT_PLAYER_UNIT_DROP_ITEM
 --// EVENT_PLAYER_UNIT_PICKUP_ITEM
 --// EVENT_PLAYER_UNIT_USE_ITEM
@@ -2134,7 +2039,6 @@ end
 function jass.GetManipulatedItem()
     return trigger.manipulated_item
 end
---
 --// EVENT_PLAYER_UNIT_ISSUED_ORDER
 --constant native GetOrderedUnit takes nothing returns unit
 function jass.GetOrderedUnit()
@@ -2144,7 +2048,6 @@ end
 function jass.GetIssuedOrderId()
     return trigger.issued_order_id
 end
---
 --// EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER
 --constant native GetOrderPointX takes nothing returns real
 function jass.GetOrderPointX()
@@ -2158,7 +2061,6 @@ end
 function jass.GetOrderPointLoc()
     return trigger.order_point_loc
 end
---
 --// EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER
 --constant native GetOrderTarget              takes nothing returns widget
 function jass.GetOrderTarget()
@@ -2177,7 +2079,6 @@ function jass.GetOrderTargetUnit()
     return trigger.order_target_unit
 end
 
---
 --// EVENT_UNIT_SPELL_CHANNEL
 --// EVENT_UNIT_SPELL_CAST
 --// EVENT_UNIT_SPELL_EFFECT
@@ -2225,41 +2126,31 @@ function jass.GetSpellTargetUnit()
     return trigger.spell_target_unit
 end
 
---
 --native TriggerRegisterPlayerAllianceChange takes trigger whichTrigger, player whichPlayer, alliancetype whichAlliance returns event
 --native TriggerRegisterPlayerStateEvent takes trigger whichTrigger, player whichPlayer, playerstate whichState, limitop opcode, real limitval returns event
---
 --// EVENT_PLAYER_STATE_LIMIT
 --constant native GetEventPlayerState takes nothing returns playerstate
---
 --native TriggerRegisterPlayerChatEvent takes trigger whichTrigger, player whichPlayer, string chatMessageToDetect, boolean exactMatchOnly returns event
---
 --// EVENT_PLAYER_CHAT
---
 --// returns the actual string they typed in ( same as what you registered for
 --// if you required exact match )
 --constant native GetEventPlayerChatString takes nothing returns string
---
 --// returns the string that you registered for
 --constant native GetEventPlayerChatStringMatched takes nothing returns string
 
 --//============================================================================
 --// Trigger Unit Based Event API
 --//============================================================================
---
 --// returns handle to unit which triggered the most recent event when called from
 --// within a trigger action function...returns null handle when used incorrectly
---
 --constant native GetTriggerUnit takes nothing returns unit
 function jass.GetTriggerUnit()
     return trigger.unit
 end
---
 --native TriggerRegisterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent returns event
 function jass.TriggerRegisterUnitEvent(t, u, ue)
     return t:register_unit_event(u, ue)
 end
---
 --// EVENT_UNIT_DAMAGED
 --constant native GetEventDamage takes nothing returns real
 function jass.GetEventDamage()
@@ -2269,78 +2160,80 @@ end
 function jass.GetEventDamageSource()
     return trigger.event_damage_source
 end
---
 --// EVENT_UNIT_DEATH
 --// EVENT_UNIT_DECAY
 --// Use the GetDyingUnit and GetDecayingUnit funcs above
---
 --// EVENT_UNIT_DETECTED
 --constant native GetEventDetectingPlayer takes nothing returns player
 function jass.GetEventDetectingPlayer()
     return trigger.detecting_player
 end
---
 --native TriggerRegisterFilterUnitEvent takes trigger whichTrigger, unit whichUnit, unitevent whichEvent, boolexpr filter returns event
 function jass.TriggerRegisterFilterUnitEvent(t, u, ue, filter)
     return t:register_unit_event(u, ue, filter)
 end
---
 --// EVENT_UNIT_ACQUIRED_TARGET
 --// EVENT_UNIT_TARGET_IN_RANGE
 --constant native GetEventTargetUnit takes nothing returns unit
 function jass.GetEventTargetUnit()
     return trigger.target_unit
 end
---
 --// EVENT_UNIT_ATTACKED
 --// Use GetAttacker from the Player Unit Event API Below...
---
 --// EVENT_UNIT_RESCUEDED
 --// Use GetRescuer from the Player Unit Event API Below...
---
 --// EVENT_UNIT_CONSTRUCT_CANCEL
 --// EVENT_UNIT_CONSTRUCT_FINISH
---
 --// See the Player Unit Construction Event API above for event info funcs
---
 --// EVENT_UNIT_TRAIN_START
 --// EVENT_UNIT_TRAIN_CANCELLED
 --// EVENT_UNIT_TRAIN_FINISH
---
 --// See the Player Unit Training Event API above for event info funcs
---
 --// EVENT_UNIT_SELL
---
 --// See the Player Unit Sell Event API above for event info funcs
---
 --// EVENT_UNIT_DROP_ITEM
 --// EVENT_UNIT_PICKUP_ITEM
 --// EVENT_UNIT_USE_ITEM
 --// See the Player Unit/Item manipulation Event API above for event info funcs
---
 --// EVENT_UNIT_ISSUED_ORDER
 --// EVENT_UNIT_ISSUED_POINT_ORDER
 --// EVENT_UNIT_ISSUED_TARGET_ORDER
---
 --// See the Player Unit Order Event API above for event info funcs
---
 --native TriggerRegisterUnitInRange takes trigger whichTrigger, unit whichUnit, real range, boolexpr filter returns event
---
 --native TriggerAddCondition    takes trigger whichTrigger, boolexpr condition returns triggercondition
+function jass.TriggerAddCondition(t, filter)
+    return t:add_condition(filter)
+end
 --native TriggerRemoveCondition takes trigger whichTrigger, triggercondition whichCondition returns nothing
+function jass.TriggerRemoveCondition(t, tc)
+    t:remove_condition(tc)
+end
 --native TriggerClearConditions takes trigger whichTrigger returns nothing
---
+function jass.TriggerClearConditions(t)
+    t:clear_conditions()
+end
 --native TriggerAddAction     takes trigger whichTrigger, code actionFunc returns triggeraction
+function jass.TriggerAddAction(t, fun)
+    return t:add_action(fun)
+end
 --native TriggerRemoveAction  takes trigger whichTrigger, triggeraction whichAction returns nothing
+function jass.TriggerRemoveAction(t, ta)
+    t:remove_action(ta)
+end
 --native TriggerClearActions  takes trigger whichTrigger returns nothing
+function jass.TriggerClearActions(t)
+    t:clear_actions()
+end
 --native TriggerSleepAction   takes real timeout returns nothing
---native TriggerWaitForSound  takes sound s, real offset returns nothing
+function jass.TriggerSleepAction(timeout)
+    log.warn('请不要使用jass.TriggerSleepAction函数，使用timer进行替换')
+end
+
 --native TriggerEvaluate      takes trigger whichTrigger returns boolean
 --native TriggerExecute       takes trigger whichTrigger returns nothing
---native TriggerExecuteWait   takes trigger whichTrigger returns nothing
+
 --native TriggerSyncStart     takes nothing returns nothing
 --native TriggerSyncReady     takes nothing returns nothing
---
 --//============================================================================
 --// Widget API
 --native  GetWidgetLife   takes widget whichWidget returns real
@@ -2348,7 +2241,6 @@ end
 --native  GetWidgetX      takes widget whichWidget returns real
 --native  GetWidgetY      takes widget whichWidget returns real
 --constant native GetTriggerWidget takes nothing returns widget
---
 --//============================================================================
 --// Destructable Object API
 --// Facing arguments are specified in degrees
@@ -2362,6 +2254,7 @@ end
 --native          IsDestructableInvulnerable  takes destructable d returns boolean
 --native          EnumDestructablesInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
 --native          GetDestructableTypeId       takes destructable d returns integer
+
 function jass.GetDestructableTypeId(d)
     return d:get_type_id()
 end
@@ -2387,25 +2280,90 @@ end
 --native          SetDestructableOccluderHeight takes destructable d, real height returns nothing
 --native          GetDestructableName         takes destructable d returns string
 --constant native GetTriggerDestructable takes nothing returns destructable
---
 --//============================================================================
 --// Item API
 --native          CreateItem      takes integer itemid, real x, real y returns item
+function jass.CreateItem(itemid, x, y)
+    return item.create(itemid, x, y)
+end
+
 --native          RemoveItem      takes item whichItem returns nothing
+function jass.RemoveItem(it)
+    it:remove()
+end
+
 --native          GetItemPlayer   takes item whichItem returns player
+function jass.GetItemPlayer(it)
+    return it:get_owner()
+end
+
 --native          GetItemTypeId   takes item i returns integer
+function jass.GetItemTypeId(it)
+    return it:get_type_id()
+end
+
 --native          GetItemX        takes item i returns real
+function jass.GetItemX(it)
+    return it:get_x()
+end
 --native          GetItemY        takes item i returns real
+function jass.GetItemY(it)
+    return it:get_y()
+end
+
 --native          SetItemPosition takes item i, real x, real y returns nothing
+function jass.SetItemPosition(it, x, y)
+    it:set_position(x, y)
+end
+
 --native          SetItemDropOnDeath  takes item whichItem, boolean flag returns nothing
+function jass.SetItemDropOnDeath(it, flag)
+    it:set_drop_on_death(flag)
+end
+
 --native          SetItemDroppable takes item i, boolean flag returns nothing
+function jass.SetItemDroppable(it, flag)
+    it:set_droppable(flag)
+end
+
 --native          SetItemPawnable takes item i, boolean flag returns nothing
+function jass.SetItemPawnable(it, flag)
+    it:set_pawnable(flag)
+end
+
 --native          SetItemPlayer    takes item whichItem, player whichPlayer, boolean changeColor returns nothing
+function jass.SetItemPlayer(it, p, changeColor)
+    it:set_owner(p)
+    if changeColor then
+        item:set_color()
+    end
+end
+
 --native          SetItemInvulnerable takes item whichItem, boolean flag returns nothing
+function jass.SetItemInvulnerable(it, flag)
+    it:set_invulnerable(flag)
+end
+
 --native          IsItemInvulnerable  takes item whichItem returns boolean
+function jass.IsItemInvulnerable(it)
+    return it:is_invulnerable()
+end
+
 --native          SetItemVisible  takes item whichItem, boolean show returns nothing
+function jass.SetItemVisible(it, flag)
+    it:show(flag)
+end
+
 --native          IsItemVisible   takes item whichItem returns boolean
+function jass.IsItemVisible(it)
+    return it:is_visible()
+end
+
 --native          IsItemOwned     takes item whichItem returns boolean
+function jass.IsItemOwned(it)
+    return it:get_owner() ~= nil
+end
+
 --native          IsItemPowerup   takes item whichItem returns boolean
 --native          IsItemSellable  takes item whichItem returns boolean
 --native          IsItemPawnable  takes item whichItem returns boolean
@@ -2421,7 +2379,6 @@ end
 --native          SetItemCharges  takes item whichItem, integer charges returns nothing
 --native          GetItemUserData takes item whichItem returns integer
 --native          SetItemUserData takes item whichItem, integer data returns nothing
---
 
 --// Fog of War API
 --native  SetFogStateRect      takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision returns nothing
@@ -2447,14 +2404,12 @@ function jass.IsFogEnabled()
     return settings.fog
 end
 
---
 --native CreateFogModifierRect        takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision, boolean afterUnits returns fogmodifier
 --native CreateFogModifierRadius      takes player forWhichPlayer, fogstate whichState, real centerx, real centerY, real radius, boolean useSharedVision, boolean afterUnits returns fogmodifier
 --native CreateFogModifierRadiusLoc   takes player forWhichPlayer, fogstate whichState, location center, real radius, boolean useSharedVision, boolean afterUnits returns fogmodifier
 --native DestroyFogModifier           takes fogmodifier whichFogModifier returns nothing
 --native FogModifierStart             takes fogmodifier whichFogModifier returns nothing
 --native FogModifierStop              takes fogmodifier whichFogModifier returns nothing
---
 --//============================================================================
 --// Game API
 --native VersionGet takes nothing returns version
@@ -2464,9 +2419,7 @@ end
 
 --native VersionCompatible takes version whichVersion returns boolean
 --native VersionSupported takes version whichVersion returns boolean
---
 --native EndGame takes boolean doScoreScreen returns nothing
---
 --// Async only!
 --native          ChangeLevel         takes string newLevel, boolean doScoreScreen returns nothing
 --native          RestartGame         takes boolean doScoreScreen returns nothing
@@ -2476,7 +2429,6 @@ end
 --native          SetCampaignMenuRace takes race r returns nothing
 --native          SetCampaignMenuRaceEx takes integer campaignIndex returns nothing
 --native          ForceCampaignSelectScreen takes nothing returns nothing
---
 --native          LoadGame            takes string saveFileName, boolean doScoreScreen returns nothing
 --native          SaveGame            takes string saveFileName returns nothing
 --native          RenameSaveDirectory takes string sourceDirName, string destDirName returns boolean
@@ -2494,7 +2446,6 @@ end
 --native          SetIntegerGameState takes igamestate whichIntegerGameState, integer value returns nothing
 --constant native GetIntegerGameState takes igamestate whichIntegerGameState returns integer
 --
---
 --//============================================================================
 --// Campaign API
 --native  SetTutorialCleared      takes boolean cleared returns nothing
@@ -2507,7 +2458,6 @@ end
 --native  SetCustomCampaignButtonVisible  takes integer whichButton, boolean visible returns nothing
 --native  GetCustomCampaignButtonVisible  takes integer whichButton returns boolean
 --native  DoNotSaveReplay         takes nothing returns nothing
---
 --//============================================================================
 --// Dialog API
 --native DialogCreate                 takes nothing returns dialog
@@ -2518,14 +2468,12 @@ end
 --native DialogAddQuitButton          takes dialog whichDialog, boolean doScoreScreen, string buttonText, integer hotkey returns button
 --native DialogDisplay                takes player whichPlayer, dialog whichDialog, boolean flag returns nothing
 
---
 --//============================================================================
 --// Hashtable API
 --native  InitHashtable    takes nothing returns hashtable
 function jass.InitHashtable()
     return hashtable.create()
 end
---
 --native  SaveInteger						takes hashtable table, integer parentKey, integer childKey, integer value returns nothing
 function jass.SaveInteger(ht, parentKey, childKey, value)
     ht:save(parentKey, childKey, 'integer', value)
@@ -2869,7 +2817,6 @@ function jass.LoadHashtableHandle(ht, parentKey, childKey)
     return ht:load(parentKey, childKey, 'hashtable')
 end
 
---
 --native  HaveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns boolean
 function jass.HaveSavedInteger(ht, parentKey, childKey)
     return ht:have(parentKey, childKey, 'integer')
@@ -2895,7 +2842,6 @@ function jass.HaveSavedHandle(ht, parentKey, childKey)
     return ht:have(parentKey, childKey, 'handle')
 end
 
---
 --native  RemoveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns nothing
 function jass.RemoveSavedInteger(ht, parentKey, childKey)
     ht:remove(parentKey, childKey, 'integer')
@@ -2921,7 +2867,6 @@ function jass.RemoveSavedHandle(ht, parentKey, childKey)
     ht:remove(parentKey, childKey, 'handle')
 end
 
---
 --native  FlushParentHashtable						takes hashtable table returns nothing
 function jass.FlushParentHashtable(ht)
     ht:flush_parent()
@@ -2931,7 +2876,6 @@ end
 function jass.FlushChildHashtable(ht, parentKey)
     ht:flush_child(parentKey)
 end
---
 --
 --//============================================================================
 --// Randomization API
@@ -2945,7 +2889,6 @@ function jass.GetRandomReal(lowBound, highBound)
     return lowBound + math.random() * (highBound - lowBound)
 end
 
---
 --native CreateUnitPool           takes nothing returns unitpool
 function jass.CreateUnitPool()
     return unitpool.create()
@@ -2971,25 +2914,21 @@ function PlaceRandomUnit(up, p, x, y, facing)
     return unit.create(p, unitId, x, y, facing)
 end
 
---
 --native CreateItemPool           takes nothing returns itempool
 --native DestroyItemPool          takes itempool whichItemPool returns nothing
 --native ItemPoolAddItemType      takes itempool whichItemPool, integer itemId, real weight returns nothing
 --native ItemPoolRemoveItemType   takes itempool whichItemPool, integer itemId returns nothing
 --native PlaceRandomItem          takes itempool whichItemPool, real x, real y returns item
---
 --// Choose any random unit/item. (NP means Neutral Passive)
 --native ChooseRandomCreep        takes integer level returns integer
 --native ChooseRandomNPBuilding   takes nothing returns integer
 --native ChooseRandomItem         takes integer level returns integer
 --native ChooseRandomItemEx       takes itemtype whichType, integer level returns integer
 --native SetRandomSeed            takes integer seed returns nothing
---
 --//============================================================================
 --// Visual API
 --native SetTerrainFog                takes real a, real b, real c, real d, real e returns nothing
 --native ResetTerrainFog              takes nothing returns nothing
---
 --native SetUnitFog                   takes real a, real b, real c, real d, real e returns nothing
 --native SetTerrainFogEx              takes integer style, real zstart, real zend, real density, real red, real green, real blue returns nothing
 function jass.SetTerrainFogEx(style, zstart, zend, density, red, green, blue)
@@ -3037,7 +2976,6 @@ end
 --native DisplayLoadDialog            takes nothing returns nothing
 --native SetAltMinimapIcon            takes string iconPath returns nothing
 --native DisableRestartMission        takes boolean flag returns nothing
---
 --native CreateTextTag                takes nothing returns texttag
 --native DestroyTextTag               takes texttag t returns nothing
 --native SetTextTagText               takes texttag t, string s, real height returns nothing
@@ -3051,7 +2989,6 @@ end
 --native SetTextTagAge                takes texttag t, real age returns nothing
 --native SetTextTagLifespan           takes texttag t, real lifespan returns nothing
 --native SetTextTagFadepoint          takes texttag t, real fadepoint returns nothing
---
 --native SetReservedLocalHeroButtons  takes integer reserved returns nothing
 --native GetAllyColorFilterState      takes nothing returns integer
 --native SetAllyColorFilterState      takes integer state returns nothing
@@ -3061,11 +2998,9 @@ end
 --native EnableDragSelect             takes boolean state, boolean ui returns nothing
 --native EnablePreSelect              takes boolean state, boolean ui returns nothing
 --native EnableSelect                 takes boolean state, boolean ui returns nothing
---
 --//============================================================================
 --// Trackable API
 --native CreateTrackable      takes string trackableModelPath, real x, real y, real facing returns trackable
---
 --//============================================================================
 --// Quest API
 --native CreateQuest          takes nothing returns quest
@@ -3073,32 +3008,25 @@ end
 --native QuestSetTitle        takes quest whichQuest, string title returns nothing
 --native QuestSetDescription  takes quest whichQuest, string description returns nothing
 --native QuestSetIconPath     takes quest whichQuest, string iconPath returns nothing
---
 --native QuestSetRequired     takes quest whichQuest, boolean required   returns nothing
 --native QuestSetCompleted    takes quest whichQuest, boolean completed  returns nothing
 --native QuestSetDiscovered   takes quest whichQuest, boolean discovered returns nothing
 --native QuestSetFailed       takes quest whichQuest, boolean failed     returns nothing
 --native QuestSetEnabled      takes quest whichQuest, boolean enabled    returns nothing
---
 --native IsQuestRequired     takes quest whichQuest returns boolean
 --native IsQuestCompleted    takes quest whichQuest returns boolean
 --native IsQuestDiscovered   takes quest whichQuest returns boolean
 --native IsQuestFailed       takes quest whichQuest returns boolean
 --native IsQuestEnabled      takes quest whichQuest returns boolean
---
 --native QuestCreateItem          takes quest whichQuest returns questitem
 --native QuestItemSetDescription  takes questitem whichQuestItem, string description returns nothing
 --native QuestItemSetCompleted    takes questitem whichQuestItem, boolean completed returns nothing
---
 --native IsQuestItemCompleted     takes questitem whichQuestItem returns boolean
---
 --native CreateDefeatCondition            takes nothing returns defeatcondition
 --native DestroyDefeatCondition           takes defeatcondition whichCondition returns nothing
 --native DefeatConditionSetDescription    takes defeatcondition whichCondition, string description returns nothing
---
 --native FlashQuestDialogButton   takes nothing returns nothing
 --native ForceQuestDialogUpdate   takes nothing returns nothing
---
 --//============================================================================
 --// Timer Dialog API
 --native CreateTimerDialog                takes timer t returns timerdialog
@@ -3110,72 +3038,54 @@ end
 --native TimerDialogDisplay               takes timerdialog whichDialog, boolean display returns nothing
 --native IsTimerDialogDisplayed           takes timerdialog whichDialog returns boolean
 --native TimerDialogSetRealTimeRemaining  takes timerdialog whichDialog, real timeRemaining returns nothing
---
 --//============================================================================
 --// Leaderboard API
---
 --// Create a leaderboard object
 --native CreateLeaderboard                takes nothing returns leaderboard
 --native DestroyLeaderboard               takes leaderboard lb returns nothing
---
 --native LeaderboardDisplay               takes leaderboard lb, boolean show returns nothing
 --native IsLeaderboardDisplayed           takes leaderboard lb returns boolean
---
 --native LeaderboardGetItemCount          takes leaderboard lb returns integer
---
 --native LeaderboardSetSizeByItemCount    takes leaderboard lb, integer count returns nothing
 --native LeaderboardAddItem               takes leaderboard lb, string label, integer value, player p returns nothing
 --native LeaderboardRemoveItem            takes leaderboard lb, integer index returns nothing
 --native LeaderboardRemovePlayerItem      takes leaderboard lb, player p returns nothing
 --native LeaderboardClear                 takes leaderboard lb returns nothing
---
 --native LeaderboardSortItemsByValue      takes leaderboard lb, boolean ascending returns nothing
 --native LeaderboardSortItemsByPlayer     takes leaderboard lb, boolean ascending returns nothing
 --native LeaderboardSortItemsByLabel      takes leaderboard lb, boolean ascending returns nothing
---
 --native LeaderboardHasPlayerItem         takes leaderboard lb, player p returns boolean
 --native LeaderboardGetPlayerIndex        takes leaderboard lb, player p returns integer
 --native LeaderboardSetLabel              takes leaderboard lb, string label returns nothing
 --native LeaderboardGetLabelText          takes leaderboard lb returns string
---
 --native PlayerSetLeaderboard             takes player toPlayer, leaderboard lb returns nothing
 --native PlayerGetLeaderboard             takes player toPlayer returns leaderboard
---
 --native LeaderboardSetLabelColor         takes leaderboard lb, integer red, integer green, integer blue, integer alpha returns nothing
 --native LeaderboardSetValueColor         takes leaderboard lb, integer red, integer green, integer blue, integer alpha returns nothing
 --native LeaderboardSetStyle              takes leaderboard lb, boolean showLabel, boolean showNames, boolean showValues, boolean showIcons returns nothing
---
 --native LeaderboardSetItemValue          takes leaderboard lb, integer whichItem, integer val returns nothing
 --native LeaderboardSetItemLabel          takes leaderboard lb, integer whichItem, string val returns nothing
 --native LeaderboardSetItemStyle          takes leaderboard lb, integer whichItem, boolean showLabel, boolean showValue, boolean showIcon returns nothing
 --native LeaderboardSetItemLabelColor     takes leaderboard lb, integer whichItem, integer red, integer green, integer blue, integer alpha returns nothing
 --native LeaderboardSetItemValueColor     takes leaderboard lb, integer whichItem, integer red, integer green, integer blue, integer alpha returns nothing
---
 --//============================================================================
 --// Multiboard API
 --//============================================================================
---
 --// Create a multiboard object
 --native CreateMultiboard                 takes nothing returns multiboard
 --native DestroyMultiboard                takes multiboard lb returns nothing
---
 --native MultiboardDisplay                takes multiboard lb, boolean show returns nothing
 --native IsMultiboardDisplayed            takes multiboard lb returns boolean
---
 --native MultiboardMinimize               takes multiboard lb, boolean minimize returns nothing
 --native IsMultiboardMinimized            takes multiboard lb returns boolean
 --native MultiboardClear                  takes multiboard lb returns nothing
---
 --native MultiboardSetTitleText           takes multiboard lb, string label returns nothing
 --native MultiboardGetTitleText           takes multiboard lb returns string
 --native MultiboardSetTitleTextColor      takes multiboard lb, integer red, integer green, integer blue, integer alpha returns nothing
---
 --native MultiboardGetRowCount            takes multiboard lb returns integer
 --native MultiboardGetColumnCount         takes multiboard lb returns integer
---
 --native MultiboardSetColumnCount         takes multiboard lb, integer count returns nothing
 --native MultiboardSetRowCount            takes multiboard lb, integer count returns nothing
---
 --// broadcast settings to all items
 --native MultiboardSetItemsStyle          takes multiboard lb, boolean showValues, boolean showIcons returns nothing
 --native MultiboardSetItemsValue          takes multiboard lb, string value returns nothing
@@ -3183,22 +3093,18 @@ end
 --native MultiboardSetItemsWidth          takes multiboard lb, real width returns nothing
 --native MultiboardSetItemsIcon           takes multiboard lb, string iconPath returns nothing
 --
---
 --// funcs for modifying individual items
 --native MultiboardGetItem                takes multiboard lb, integer row, integer column returns multiboarditem
 --native MultiboardReleaseItem            takes multiboarditem mbi returns nothing
---
 --native MultiboardSetItemStyle           takes multiboarditem mbi, boolean showValue, boolean showIcon returns nothing
 --native MultiboardSetItemValue           takes multiboarditem mbi, string val returns nothing
 --native MultiboardSetItemValueColor      takes multiboarditem mbi, integer red, integer green, integer blue, integer alpha returns nothing
 --native MultiboardSetItemWidth           takes multiboarditem mbi, real width returns nothing
 --native MultiboardSetItemIcon            takes multiboarditem mbi, string iconFileName returns nothing
---
 --// meant to unequivocally suspend display of existing and
 --// subsequently displayed multiboards
 --//
 --native MultiboardSuppressDisplay        takes boolean flag returns nothing
---
 --//============================================================================
 --// Camera API
 --native SetCameraPosition            takes real x, real y returns nothing
@@ -3224,7 +3130,6 @@ end
 --native AdjustCameraField            takes camerafield whichField, real offset, real duration returns nothing
 --native SetCameraTargetController    takes unit whichUnit, real xoffset, real yoffset, boolean inheritOrientation returns nothing
 --native SetCameraOrientController    takes unit whichUnit, real xoffset, real yoffset returns nothing
---
 --native CreateCameraSetup                    takes nothing returns camerasetup
 --native CameraSetupSetField                  takes camerasetup whichSetup, camerafield whichField, real value, real duration returns nothing
 --native CameraSetupGetField                  takes camerasetup whichSetup, camerafield whichField returns real
@@ -3236,15 +3141,11 @@ end
 --native CameraSetupApplyWithZ                takes camerasetup whichSetup, real zDestOffset returns nothing
 --native CameraSetupApplyForceDuration        takes camerasetup whichSetup, boolean doPan, real forceDuration returns nothing
 --native CameraSetupApplyForceDurationWithZ   takes camerasetup whichSetup, real zDestOffset, real forceDuration returns nothing
---
 --native CameraSetTargetNoise             takes real mag, real velocity returns nothing
 --native CameraSetSourceNoise             takes real mag, real velocity returns nothing
---
 --native CameraSetTargetNoiseEx           takes real mag, real velocity, boolean vertOnly returns nothing
 --native CameraSetSourceNoiseEx           takes real mag, real velocity, boolean vertOnly returns nothing
---
 --native CameraSetSmoothingFactor         takes real factor returns nothing
---
 --native SetCineFilterTexture             takes string filename returns nothing
 --native SetCineFilterBlendMode           takes blendmode whichMode returns nothing
 --native SetCineFilterTexMapFlags         takes texmapflags whichFlags returns nothing
@@ -3255,18 +3156,15 @@ end
 --native SetCineFilterDuration            takes real duration returns nothing
 --native DisplayCineFilter                takes boolean flag returns nothing
 --native IsCineFilterDisplayed            takes nothing returns boolean
---
 --native SetCinematicScene                takes integer portraitUnitId, playercolor color, string speakerTitle, string text, real sceneDuration, real voiceoverDuration returns nothing
 --native EndCinematicScene                takes nothing returns nothing
 --native ForceCinematicSubtitles          takes boolean flag returns nothing
---
 --native GetCameraMargin                  takes integer whichMargin returns real
 function jass.GetCameraMargin(whichMargin)
     -- FIXME need fix?
     return 0
 end
 
---
 --// These return values for the local players camera only...
 --constant native GetCameraBoundMinX          takes nothing returns real
 function jass.GetCameraBoundMinX()
@@ -3297,7 +3195,6 @@ end
 --constant native GetCameraEyePositionY       takes nothing returns real
 --constant native GetCameraEyePositionZ       takes nothing returns real
 --constant native GetCameraEyePositionLoc     takes nothing returns location
---
 --//============================================================================
 --// Sound API
 --//
@@ -3305,7 +3202,6 @@ end
 function jass.NewSoundEnvironment(environmentName)
     log.info('新建声音环境：', environmentName)
 end
---
 --native CreateSound                  takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
 --native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
 --native CreateSoundFromLabel         takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
@@ -3317,16 +3213,13 @@ end
 function jass.CreateMIDISound(soundLabel, fadeInRate, fadeOutRate)
     return sound.create(soundLabel, false, false, false, fadeInRate, fadeOutRate)
 end
---
 --native SetSoundParamsFromLabel      takes sound soundHandle, string soundLabel returns nothing
 --native SetSoundDistanceCutoff       takes sound soundHandle, real cutoff returns nothing
 --native SetSoundChannel              takes sound soundHandle, integer channel returns nothing
 --native SetSoundVolume               takes sound soundHandle, integer volume returns nothing
 --native SetSoundPitch                takes sound soundHandle, real pitch returns nothing
---
 --// the following method must be called immediately after calling "StartSound"
 --native SetSoundPlayPosition         takes sound soundHandle, integer millisecs returns nothing
---
 --// these calls are only valid if the sound was created with 3d enabled
 --native SetSoundDistances            takes sound soundHandle, real minDist, real maxDist returns nothing
 --native SetSoundConeAngles           takes sound soundHandle, real inside, real outside, integer outsideVolume returns nothing
@@ -3334,7 +3227,6 @@ end
 --native SetSoundPosition             takes sound soundHandle, real x, real y, real z returns nothing
 --native SetSoundVelocity             takes sound soundHandle, real x, real y, real z returns nothing
 --native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
---
 --native StartSound                   takes sound soundHandle returns nothing
 function jass.StartSound(soundHandle)
     log.info('开始播放声音' .. soundHandle)
@@ -3348,7 +3240,6 @@ function jass.StopSound(soundHandle, killWhenDone, fadeOut)
 end
 
 --native KillSoundWhenDone            takes sound soundHandle returns nothing
---
 --// Music Interface. Note that if music is disabled, these calls do nothing
 --native SetMapMusic                  takes string musicName, boolean random, integer index returns nothing
 function jass.SetMapMusic(musicName, random, index)
@@ -3356,60 +3247,48 @@ function jass.SetMapMusic(musicName, random, index)
 end
 
 --native ClearMapMusic                takes nothing returns nothing
---
 --native PlayMusic                    takes string musicName returns nothing
 --native PlayMusicEx                  takes string musicName, integer frommsecs, integer fadeinmsecs returns nothing
 --native StopMusic                    takes boolean fadeOut returns nothing
 --native ResumeMusic                  takes nothing returns nothing
---
 --native PlayThematicMusic            takes string musicFileName returns nothing
 --native PlayThematicMusicEx          takes string musicFileName, integer frommsecs returns nothing
 --native EndThematicMusic             takes nothing returns nothing
---
 --native SetMusicVolume               takes integer volume returns nothing
 --native SetMusicPlayPosition         takes integer millisecs returns nothing
 --native SetThematicMusicPlayPosition takes integer millisecs returns nothing
---
 --// other music and sound calls
 --native SetSoundDuration             takes sound soundHandle, integer duration returns nothing
 --native GetSoundDuration             takes sound soundHandle returns integer
 --native GetSoundFileDuration         takes string musicFileName returns integer
---
 --native VolumeGroupSetVolume         takes volumegroup vgroup, real scale returns nothing
 --native VolumeGroupReset             takes nothing returns nothing
---
 --native GetSoundIsPlaying            takes sound soundHandle returns boolean
 --native GetSoundIsLoading            takes sound soundHandle returns boolean
---
 --native RegisterStackedSound         takes sound soundHandle, boolean byPosition, real rectwidth, real rectheight returns nothing
 --native UnregisterStackedSound       takes sound soundHandle, boolean byPosition, real rectwidth, real rectheight returns nothing
---
 --//============================================================================
 --// Effects API
 --//
 --native AddWeatherEffect             takes rect where, integer effectID returns weathereffect
 --native RemoveWeatherEffect          takes weathereffect whichEffect returns nothing
 --native EnableWeatherEffect          takes weathereffect whichEffect, boolean enable returns nothing
---
 --native TerrainDeformCrater          takes real x, real y, real radius, real depth, integer duration, boolean permanent returns terraindeformation
 --native TerrainDeformRipple          takes real x, real y, real radius, real depth, integer duration, integer count, real spaceWaves, real timeWaves, real radiusStartPct, boolean limitNeg returns terraindeformation
 --native TerrainDeformWave            takes real x, real y, real dirX, real dirY, real distance, real speed, real radius, real depth, integer trailTime, integer count returns terraindeformation
 --native TerrainDeformRandom          takes real x, real y, real radius, real minDelta, real maxDelta, integer duration, integer updateInterval returns terraindeformation
 --native TerrainDeformStop            takes terraindeformation deformation, integer duration returns nothing
 --native TerrainDeformStopAll         takes nothing returns nothing
---
 --native AddSpecialEffect             takes string modelName, real x, real y returns effect
 --native AddSpecialEffectLoc          takes string modelName, location where returns effect
 --native AddSpecialEffectTarget       takes string modelName, widget targetWidget, string attachPointName returns effect
 --native DestroyEffect                takes effect whichEffect returns nothing
---
 --native AddSpellEffect               takes string abilityString, effecttype t, real x, real y returns effect
 --native AddSpellEffectLoc            takes string abilityString, effecttype t,location where returns effect
 --native AddSpellEffectById           takes integer abilityId, effecttype t,real x, real y returns effect
 --native AddSpellEffectByIdLoc        takes integer abilityId, effecttype t,location where returns effect
 --native AddSpellEffectTarget         takes string modelName, effecttype t, widget targetWidget, string attachPoint returns effect
 --native AddSpellEffectTargetById     takes integer abilityId, effecttype t, widget targetWidget, string attachPoint returns effect
---
 --native AddLightning                 takes string codeName, boolean checkVisibility, real x1, real y1, real x2, real y2 returns lightning
 --native AddLightningEx               takes string codeName, boolean checkVisibility, real x1, real y1, real z1, real x2, real y2, real z2 returns lightning
 --native DestroyLightning             takes lightning whichBolt returns boolean
@@ -3420,24 +3299,19 @@ end
 --native GetLightningColorG           takes lightning whichBolt returns real
 --native GetLightningColorB           takes lightning whichBolt returns real
 --native SetLightningColor            takes lightning whichBolt, real r, real g, real b, real a returns boolean
---
 --native GetAbilityEffect             takes string abilityString, effecttype t, integer index returns string
 --native GetAbilityEffectById         takes integer abilityId, effecttype t, integer index returns string
 --native GetAbilitySound              takes string abilityString, soundtype t returns string
 --native GetAbilitySoundById          takes integer abilityId, soundtype t returns string
---
---//============================================================================
---// Terrain API
---//
---native GetTerrainCliffLevel         takes real x, real y returns integer
---native SetWaterBaseColor            takes integer red, integer green, integer blue, integer alpha returns nothing
---native SetWaterDeforms              takes boolean val returns nothing
---native GetTerrainType               takes real x, real y returns integer
---native GetTerrainVariance           takes real x, real y returns integer
---native SetTerrainType               takes real x, real y, integer terrainType, integer variation, integer area, integer shape returns nothing
+
 --native IsTerrainPathable            takes real x, real y, pathingtype t returns boolean
+function jass.IsTerrainPathable(x, y, t)
+    return true
+end
 --native SetTerrainPathable           takes real x, real y, pathingtype t, boolean flag returns nothing
---
+function jass.SetTerrainPathable(x, y, t, flag)
+
+end
 
 
 return jass

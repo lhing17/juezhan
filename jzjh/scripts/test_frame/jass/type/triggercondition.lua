@@ -13,10 +13,11 @@ triggercondition.__index = mt
 
 mt.type='triggercondition'
 
-function triggercondition.create()
+function triggercondition.create(filter)
     local tc = setmetatable({}, triggercondition)
     tc.handle_id = common_util.generate_handle_id()
     triggercondition.all_conditions[tc.handle_id] = tc
+    triggercondition.boolexpr = filter
     return tc
 end
 

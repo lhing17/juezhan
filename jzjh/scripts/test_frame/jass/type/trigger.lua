@@ -6,6 +6,8 @@
 
 local common_util = require 'jass.util.common_util'
 local event = require 'jass.type.event'
+local triggercondition = require 'jass.type.triggercondition'
+local triggeraction = require 'jass.type.triggeraction'
 local trigger = {}
 trigger.all_triggers = {}
 
@@ -53,7 +55,37 @@ function mt:register_unit_event(u, ue, filter)
     return e
 end
 
+function mt:add_contion(filter)
+    local tc = triggercondition.create(filter)
+    self.conditions[tc.handle_id] = tc
+    return tc
+end
 
+function mt:remove_condition(tc)
+    self.conditions[tc.handle_id] = nil
+end
+
+function mt:clear_conditions()
+    for k, _ in pairs(self.conditions) do
+        self.conditions[k] = nil
+    end
+end
+
+function mt:add_action(fun)
+    local ta = triggeraction.create(fun)
+    self.actions[ta.handle_id] = ta
+    return ta
+end
+
+function mt:remove_action(ta)
+    self.actions[ta.handle_id] = nil
+end
+
+function mt:clear_actions()
+    for k, _ in pairs(self.actions) do
+        self.actions[k] = nil
+    end
+end
 
 function trigger.create()
     local t = setmetatable({}, trigger)

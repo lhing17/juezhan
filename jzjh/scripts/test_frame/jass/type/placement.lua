@@ -21,3 +21,5 @@ function placement.init()
 		table.insert(placement, pl)
 	end
 end
+
+return placement

@@ -21,3 +21,5 @@ function igamestate.init()
 		table.insert(igamestate, ig)
 	end
 end
+
+return igamestate

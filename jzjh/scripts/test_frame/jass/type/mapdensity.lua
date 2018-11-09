@@ -21,3 +21,5 @@ function mapdensity.init()
 		table.insert(mapdensity, ma)
 	end
 end
+
+return mapdensity

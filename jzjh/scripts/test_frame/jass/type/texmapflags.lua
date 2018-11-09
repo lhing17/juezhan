@@ -21,3 +21,5 @@ function texmapflags.init()
 		table.insert(texmapflags, te)
 	end
 end
+
+return texmapflags

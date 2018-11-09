@@ -21,3 +21,5 @@ function aidifficultygameevent.init()
 		table.insert(aidifficultygameevent, ai)
 	end
 end
+
+return aidifficultygameevent

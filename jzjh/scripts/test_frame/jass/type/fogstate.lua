@@ -21,3 +21,5 @@ function fogstate.init()
 		table.insert(fogstate, fo)
 	end
 end
+
+return fogstate

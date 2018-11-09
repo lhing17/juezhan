@@ -21,3 +21,5 @@ function attacktype.init()
 		table.insert(attacktype, at)
 	end
 end
+
+return attacktype

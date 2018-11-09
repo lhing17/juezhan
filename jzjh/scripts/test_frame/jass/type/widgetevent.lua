@@ -21,3 +21,5 @@ function widgetevent.init()
 		table.insert(widgetevent, wi)
 	end
 end
+
+return widgetevent

@@ -21,3 +21,5 @@ function playerscore.init()
 		table.insert(playerscore, pl)
 	end
 end
+
+return playerscore

@@ -21,3 +21,5 @@ function itemtype.init()
 		table.insert(itemtype, it)
 	end
 end
+
+return itemtype

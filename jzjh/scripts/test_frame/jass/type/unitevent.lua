@@ -21,3 +21,5 @@ function unitevent.init()
 		table.insert(unitevent, un)
 	end
 end
+
+return unitevent

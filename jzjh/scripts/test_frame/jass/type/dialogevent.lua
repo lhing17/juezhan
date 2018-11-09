@@ -21,3 +21,5 @@ function dialogevent.init()
 		table.insert(dialogevent, di)
 	end
 end
+
+return dialogevent

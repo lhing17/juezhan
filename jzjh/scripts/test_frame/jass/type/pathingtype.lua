@@ -21,3 +21,5 @@ function pathingtype.init()
 		table.insert(pathingtype, pa)
 	end
 end
+
+return pathingtype

@@ -21,3 +21,5 @@ function raritycontrol.init()
 		table.insert(raritycontrol, ra)
 	end
 end
+
+return raritycontrol

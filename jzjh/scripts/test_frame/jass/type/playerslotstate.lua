@@ -30,3 +30,5 @@ end
 
 return playerslotstate
 
+
+return playerslotstate

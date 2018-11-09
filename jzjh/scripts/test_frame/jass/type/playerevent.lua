@@ -31,3 +31,5 @@ function playerevent.init()
         table.insert(playerevent, pl)
     end
 end
+
+return playerevent

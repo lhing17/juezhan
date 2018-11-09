@@ -21,3 +21,5 @@ function blendmode.init()
 		table.insert(blendmode, bl)
 	end
 end
+
+return blendmode

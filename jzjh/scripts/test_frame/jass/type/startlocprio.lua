@@ -21,3 +21,5 @@ function startlocprio.init()
 		table.insert(startlocprio, st)
 	end
 end
+
+return startlocprio

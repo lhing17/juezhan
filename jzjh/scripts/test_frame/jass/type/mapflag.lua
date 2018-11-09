@@ -21,3 +21,5 @@ function mapflag.init()
 		table.insert(mapflag, ma)
 	end
 end
+
+return mapflag

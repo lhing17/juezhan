@@ -21,3 +21,5 @@ function gametype.init()
 		table.insert(gametype, ga)
 	end
 end
+
+return gametype

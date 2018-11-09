@@ -21,3 +21,5 @@ function racepreference.init()
 		table.insert(racepreference, ra)
 	end
 end
+
+return racepreference

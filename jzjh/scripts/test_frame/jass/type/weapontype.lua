@@ -21,3 +21,5 @@ function weapontype.init()
 		table.insert(weapontype, we)
 	end
 end
+
+return weapontype

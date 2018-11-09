@@ -21,3 +21,5 @@ function mapsetting.init()
 		table.insert(mapsetting, ma)
 	end
 end
+
+return mapsetting

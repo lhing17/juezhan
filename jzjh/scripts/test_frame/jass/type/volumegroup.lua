@@ -21,3 +21,5 @@ function volumegroup.init()
 		table.insert(volumegroup, vo)
 	end
 end
+
+return volumegroup

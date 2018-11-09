@@ -21,3 +21,5 @@ function fgamestate.init()
 		table.insert(fgamestate, fg)
 	end
 end
+
+return fgamestate

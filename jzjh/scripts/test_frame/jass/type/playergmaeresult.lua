@@ -21,3 +21,5 @@ function playergmaeresult.init()
 		table.insert(playergmaeresult, pl)
 	end
 end
+
+return playergmaeresult

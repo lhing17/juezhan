@@ -21,3 +21,5 @@ function soundtype.init()
 		table.insert(soundtype, so)
 	end
 end
+
+return soundtype

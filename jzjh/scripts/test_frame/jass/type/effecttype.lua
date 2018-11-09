@@ -21,3 +21,5 @@ function effecttype.init()
 		table.insert(effecttype, ef)
 	end
 end
+
+return effecttype

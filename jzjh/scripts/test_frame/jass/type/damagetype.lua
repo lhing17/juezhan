@@ -21,3 +21,5 @@ function damagetype.init()
 		table.insert(damagetype, da)
 	end
 end
+
+return damagetype

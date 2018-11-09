@@ -21,3 +21,5 @@ function playercolor.init()
 		table.insert(playercolor, pl)
 	end
 end
+
+return playercolor

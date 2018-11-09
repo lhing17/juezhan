@@ -21,3 +21,5 @@ function camerafield.init()
 		table.insert(camerafield, ca)
 	end
 end
+
+return camerafield

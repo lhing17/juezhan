@@ -21,3 +21,5 @@ function gamedifficulty.init()
 		table.insert(gamedifficulty, ga)
 	end
 end
+
+return gamedifficulty

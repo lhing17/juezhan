@@ -21,3 +21,5 @@ function mapvisibility.init()
 		table.insert(mapvisibility, ma)
 	end
 end
+
+return mapvisibility

@@ -57,3 +57,5 @@ function playerunitevent.init()
         table.insert(playerunitevent, pl)
     end
 end
+
+return playerunitevent

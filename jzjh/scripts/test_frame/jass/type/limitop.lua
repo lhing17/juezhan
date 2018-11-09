@@ -21,3 +21,5 @@ function limitop.init()
 		table.insert(limitop, li)
 	end
 end
+
+return limitop

@@ -28,6 +28,8 @@ local hashtable = require 'jass.type.hashtable'
 local boolexpr = require 'jass.type.boolexpr'
 local trigger = require 'jass.type.trigger'
 local item = require 'jass.type.item'
+local timer = require 'jass.type.timer'
+local dialog = require 'jass.type.dialog'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -35,8 +37,9 @@ local racepreference = require 'jass.type.racepreference'
 local igamestate = require 'jass.type.igamestate'
 local fgamestate = require 'jass.type.fgamestate'
 local playerscore = require 'jass.type.playerscore'
-local playergmaeresult = require 'jass.type.playergmaeresult'
-local aidifficultygameevent = require 'jass.type.aidifficultygameevent'
+local playergameresult = require 'jass.type.playergameresult'
+local aidifficulty = require 'jass.type.aidifficulty'
+local gameevent = require 'jass.type.gameevent'
 local playerevent = require 'jass.type.playerevent'
 local playerunitevent = require 'jass.type.playerunitevent'
 local widgetevent = require 'jass.type.widgetevent'
@@ -83,8 +86,8 @@ racepreference.init()
 igamestate.init()
 fgamestate.init()
 playerscore.init()
-playergmaeresult.init()
-aidifficultygameevent.init()
+playergameresult.init()
+aidifficulty.init()
 playerevent.init()
 playerunitevent.init()
 widgetevent.init()
@@ -117,7 +120,16 @@ pathingtype.init()
 player.init()
 
 local jass = {}
+local unsupported = require 'jass.common_unsupported'
+local common_util = require 'jass.util.common_util'
+local log = require 'jass.log'
 
+setmetatable(jass, {__index = function(t, key)
+    if common_util.is_in_table(key, unsupported.unsupported_list) then
+        log.warn('调用了不支持的函数'..key)
+        return function() end
+    end
+end})
 
 --constant native ConvertRace                 takes integer i returns race
 function jass.ConvertRace(i)
@@ -344,12 +356,18 @@ function jass.GetObjectName(objectId)
     return "名字"
 end
 
--- 游戏参数
+-- 游戏设置参数
 local settings = {}
 settings.fog = true
 settings.fog_mask = true
 settings.gamespeed = jass.ConvertGameSpeed(3)
 settings.version = jass.ConvertVersion(2)
+-- 英雄头像数量
+settings.reserved_local_hero_buttons = 6
+
+-- 游戏变量
+local variables = {}
+variables.time_of_day = 0
 
 
 --        // Unit API
@@ -1000,8 +1018,20 @@ end
 --native UnitAddType                  takes unit whichUnit, unittype whichUnitType returns boolean
 --native UnitRemoveType               takes unit whichUnit, unittype whichUnitType returns boolean
 --native UnitAddAbility               takes unit whichUnit, integer abilityId returns boolean
+function jass.UnitAddAbility(u, abilityId)
+    return u:add_ability(abilityId)
+end
+
 --native UnitRemoveAbility            takes unit whichUnit, integer abilityId returns boolean
+function jass.UnitRemoveAbility(u, abilityId)
+    return u:remove_ability(u, abilityId)
+end
+
 --native UnitMakeAbilityPermanent     takes unit whichUnit, boolean permanent, integer abilityId returns boolean
+function jass.UnitMakeAbilityPermanent(u, permanent, abilityId)
+    return u:make_ability_permanent(permanent, abilityId)
+end
+
 --native UnitRemoveBuffs              takes unit whichUnit, boolean removePositive, boolean removeNegative returns nothing
 --native UnitRemoveBuffsEx            takes unit whichUnit, boolean removePositive, boolean removeNegative, boolean magic, boolean physical, boolean timedLife, boolean aura, boolean autoDispel returns nothing
 --native UnitHasBuffsEx               takes unit whichUnit, boolean removePositive, boolean removeNegative, boolean magic, boolean physical, boolean timedLife, boolean aura, boolean autoDispel returns boolean
@@ -1142,7 +1172,7 @@ end
 --native SetPlayerAbilityAvailable        takes player whichPlayer, integer abilid, boolean avail returns nothing
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
-    log.info(p:get_name() .. '的属性' .. whichPlayerState .. '设置为：' .. value)
+    log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. value)
     -- TODO
 
 end
@@ -1388,18 +1418,51 @@ end
 --native GetPlayerTaxRate         takes player sourcePlayer, player otherPlayer, playerstate whichResource returns integer
 --native IsPlayerRacePrefSet      takes player whichPlayer, racepreference pref returns boolean
 --native GetPlayerName            takes player whichPlayer returns string
+function jass.GetPlayerName(p)
+    return p:get_name()
+end
 --//============================================================================
 --// Timer API
 --//
 --native CreateTimer          takes nothing returns timer
+function jass.CreateTimer()
+    return timer.create()
+end
+
 --native DestroyTimer         takes timer whichTimer returns nothing
+function jass.DestroyTimer(t)
+    t:destroy()
+end
+
 --native TimerStart           takes timer whichTimer, real timeout, boolean periodic, code handlerFunc returns nothing
+function jass.TimerStart(t, timeout, periodic, callback)
+    t:start(timeout, periodic, callback)
+end
+
 --native TimerGetElapsed      takes timer whichTimer returns real
+function jass.TimerGetElapsed(t)
+    return t:get_elapsed()
+end
 --native TimerGetRemaining    takes timer whichTimer returns real
+function jass.TimerGetRemaining(t)
+    return t:get_remaining()
+end
 --native TimerGetTimeout      takes timer whichTimer returns real
+function jass.TimerGetTimeout(t)
+    return t:get_timeout()
+end
 --native PauseTimer           takes timer whichTimer returns nothing
+function jass.PauseTimer(t)
+    t:pause()
+end
 --native ResumeTimer          takes timer whichTimer returns nothing
+function jass.ResumeTimer(t)
+    t:resume()
+end
 --native GetExpiredTimer      takes nothing returns timer
+function jass.GetExpiredTimer()
+    return timer.expired
+end
 --//============================================================================
 --// Group API
 --//
@@ -2131,6 +2194,10 @@ end
 --// EVENT_PLAYER_STATE_LIMIT
 --constant native GetEventPlayerState takes nothing returns playerstate
 --native TriggerRegisterPlayerChatEvent takes trigger whichTrigger, player whichPlayer, string chatMessageToDetect, boolean exactMatchOnly returns event
+function jass.TriggerRegisterPlayerChatEvent(t, p, message, exactMatchOnly)
+    t:register_player_chat_event(p, message, exactMatchOnly)
+end
+
 --// EVENT_PLAYER_CHAT
 --// returns the actual string they typed in ( same as what you registered for
 --// if you required exact match )
@@ -2438,9 +2505,10 @@ end
 --native          SyncSelections      takes nothing returns nothing
 --native          SetFloatGameState   takes fgamestate whichFloatGameState, real value returns nothing
 --constant native GetFloatGameState   takes fgamestate whichFloatGameState returns real
-function jass.GetFloatGameState(fgamestate)
-    -- TODO 昼夜更替
-
+function jass.GetFloatGameState(fgs)
+    if fgs.name == 'GAME_STATE_TIME_OF_DAY' then
+        return variables.time_of_day
+    end
 end
 
 --native          SetIntegerGameState takes igamestate whichIntegerGameState, integer value returns nothing
@@ -2461,6 +2529,9 @@ end
 --//============================================================================
 --// Dialog API
 --native DialogCreate                 takes nothing returns dialog
+function jass.DialogCreate()
+    return dialog.create()
+end
 --native DialogDestroy                takes dialog whichDialog returns nothing
 --native DialogClear                  takes dialog whichDialog returns nothing
 --native DialogSetMessage             takes dialog whichDialog, string messageText returns nothing
@@ -2990,6 +3061,9 @@ end
 --native SetTextTagLifespan           takes texttag t, real lifespan returns nothing
 --native SetTextTagFadepoint          takes texttag t, real fadepoint returns nothing
 --native SetReservedLocalHeroButtons  takes integer reserved returns nothing
+function jass.SetReservedLocalHeroButtons(i)
+    settings.reserved_local_hero_buttons = i
+end
 --native GetAllyColorFilterState      takes nothing returns integer
 --native SetAllyColorFilterState      takes integer state returns nothing
 --native GetCreepCampFilterState      takes nothing returns boolean
@@ -3229,12 +3303,13 @@ end
 --native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
 --native StartSound                   takes sound soundHandle returns nothing
 function jass.StartSound(soundHandle)
-    log.info('开始播放声音' .. soundHandle)
+    print(soundHandle)
+    log.info('开始播放声音' , soundHandle)
 end
 
 --native StopSound                    takes sound soundHandle, boolean killWhenDone, boolean fadeOut returns nothing
 function jass.StopSound(soundHandle, killWhenDone, fadeOut)
-    log.info('停止播放声音' .. soundHandle)
+    log.info('停止播放声音' , soundHandle)
     log.info('声音结束再停止：', killWhenDone)
     log.info('逐渐变弱：', fadeOut)
 end

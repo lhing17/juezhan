@@ -29,6 +29,3 @@ function playerslotstate.init()
 end
 
 return playerslotstate
-
-
-return playerslotstate

@@ -4,8 +4,9 @@
 --- DateTime: 2018/11/9 9:58
 ---
 
-SCRIPT_PATH = 'F:\\personal\\heroaltar\\juezhan\\jzjh'
-package.path = package.path .. ';'..SCRIPT_PATH..'\\?.lua'
-package.path = package.path .. ';'..SCRIPT_PATH..'\\scripts\\test_frame\\?.lua'
+SCRIPT_PATH = 'F:\\personal\\heroaltar\\juezhan\\jzjh\\'
+package.path = package.path .. ';'..SCRIPT_PATH..'?.lua'
+package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\?.lua'
+package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\test_frame\\?.lua'
 
-require('main')
+require('scripts.main')

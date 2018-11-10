@@ -124,12 +124,13 @@ local unsupported = require 'jass.common_unsupported'
 local common_util = require 'jass.util.common_util'
 local log = require 'jass.log'
 
-setmetatable(jass, {__index = function(t, key)
+setmetatable(jass, { __index = function(t, key)
     if common_util.is_in_table(key, unsupported.unsupported_list) then
-        log.warn('调用了不支持的函数'..key)
-        return function() end
+        log.warn('调用了不支持的函数' .. key)
+        return function()
+        end
     end
-end})
+end })
 
 --constant native ConvertRace                 takes integer i returns race
 function jass.ConvertRace(i)
@@ -364,6 +365,9 @@ settings.gamespeed = jass.ConvertGameSpeed(3)
 settings.version = jass.ConvertVersion(2)
 -- 英雄头像数量
 settings.reserved_local_hero_buttons = 6
+
+settings.all_item_type_slots = 11
+settings.all_unit_type_slots = 11
 
 -- 游戏变量
 local variables = {}
@@ -1094,7 +1098,13 @@ end
 --native RemoveUnitFromAllStock       takes integer unitId returns nothing
 --native RemoveUnitFromStock          takes unit whichUnit, integer unitId returns nothing
 --native SetAllItemTypeSlots          takes integer slots returns nothing
+function jass.SetAllItemTypeSlots(slots)
+    settings.all_item_type_slots = slots
+end
 --native SetAllUnitTypeSlots          takes integer slots returns nothing
+function jass.SetAllUnitTypeSlots(slots)
+    settings.all_unit_type_slots = slots
+end
 --native SetItemTypeSlots             takes unit whichUnit, integer slots returns nothing
 --native SetUnitTypeSlots             takes unit whichUnit, integer slots returns nothing
 --native GetUnitUserData              takes unit whichUnit returns integer
@@ -1162,10 +1172,22 @@ end
 --constant native SetPlayerHandicap       takes player whichPlayer, real handicap returns nothing
 --constant native SetPlayerHandicapXP     takes player whichPlayer, real handicap returns nothing
 --constant native SetPlayerTechMaxAllowed takes player whichPlayer, integer techid, integer maximum returns nothing
+function jass.SetPlayerTechMaxAllowed(p, techid, maximum)
+    log.debug('玩家' .. p:get_name() .. '的科技' .. techid .. '最大允许等级设置为：', maximum)
+    p:set_tech_max_allowed(techid, maximum)
+end
 --constant native GetPlayerTechMaxAllowed takes player whichPlayer, integer techid returns integer
+function jass.GetPlayerTechMaxAllowed(p, techid)
+    return p:get_tech_max_allowed()
+end
 --constant native AddPlayerTechResearched takes player whichPlayer, integer techid, integer levels returns nothing
 --constant native SetPlayerTechResearched takes player whichPlayer, integer techid, integer setToLevel returns nothing
 --constant native GetPlayerTechResearched takes player whichPlayer, integer techid, boolean specificonly returns boolean
+function jass.GetPlayerTechResearched(p, techid, specificonly)
+    local result = p:is_tech_researched(techid)
+    log.debug('玩家' .. p:get_name() .. '的科技' .. techid .. '是否已研究：', result)
+    return result
+end
 --constant native GetPlayerTechCount      takes player whichPlayer, integer techid, boolean specificonly returns integer
 --native SetPlayerUnitsOwner takes player whichPlayer, integer newOwner returns nothing
 --native CripplePlayer takes player whichPlayer, force toWhichPlayers, boolean flag returns nothing
@@ -1527,6 +1549,7 @@ function jass.GroupEnumUnitsInRect(g, r, filter)
     g:enum_units(function(u)
         return r:contains_unit(u)
     end, filter)
+
 end
 
 --native GroupEnumUnitsInRectCounted          takes group whichGroup, rect r, boolexpr filter, integer countLimit returns nothing
@@ -1772,6 +1795,11 @@ end
 --native IsLocationInRegion           takes region whichRegion, location whichLocation returns boolean
 --// Returns full map bounds, including unplayable borders, in world coordinates
 --native GetWorldBounds           takes nothing returns rect
+function jass.GetWorldBounds()
+    r = rect.create(jass.GetCameraBoundMinX(), jass.GetCameraBoundMinY(), jass.GetCameraBoundMaxX(), jass.GetCameraBoundMaxY())
+    log.error('获得当前世界范围', r)
+    return r
+end
 --//============================================================================
 --// Native trigger interface
 --//
@@ -1833,6 +1861,7 @@ end
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
 --native ExecuteFunc          takes string funcName returns nothing
 function jass.ExecuteFunc(funcName)
+    log.debug('通过ExecuteFunc执行函数' .. funcName)
     _ENV[funcName]()
 end
 
@@ -1883,6 +1912,13 @@ end
 --//constant native string GetTriggeringVariableName takes nothing returns string
 --// Creates it's own timer and triggers when it expires
 --native TriggerRegisterTimerEvent takes trigger whichTrigger, real timeout, boolean periodic returns event
+function jass.TriggerRegisterTimerEvent(t, timeout, periodic)
+    log.warn('请使用TimerStart代替TriggerRegisterTimerEvent')
+    tm = timer.create()
+    tm:start(timeout, periodic, nil)
+    return t:register_timer_expire_event(tm)
+end
+
 --// Triggers when the timer you tell it about expires
 --native TriggerRegisterTimerExpireEvent takes trigger whichTrigger, timer t returns event
 function jass.TriggerRegisterTimerExpireEvent(t, tm)
@@ -1904,11 +1940,18 @@ end
 --constant native GetWinningPlayer takes nothing returns player
 --
 --native TriggerRegisterEnterRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+function jass.TriggerRegisterEnterRegion(t, r, filter)
+    return t:register_enter_region(r, filter)
+end
 --// EVENT_GAME_ENTER_REGION
 --constant native GetTriggeringRegion takes nothing returns region
 --constant native GetEnteringUnit takes nothing returns unit
 --// EVENT_GAME_LEAVE_REGION
 --native TriggerRegisterLeaveRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+function jass.TriggerRegisterLeaveRegion(t, r, filter)
+    return t:register_leave_region(r, filter)
+end
+
 --constant native GetLeavingUnit takes nothing returns unit
 --native TriggerRegisterTrackableHitEvent takes trigger whichTrigger, trackable t returns event
 --native TriggerRegisterTrackableTrackEvent takes trigger whichTrigger, trackable t returns event
@@ -3313,12 +3356,12 @@ end
 --native StartSound                   takes sound soundHandle returns nothing
 function jass.StartSound(soundHandle)
     print(soundHandle)
-    log.info('开始播放声音' , soundHandle)
+    log.info('开始播放声音', soundHandle)
 end
 
 --native StopSound                    takes sound soundHandle, boolean killWhenDone, boolean fadeOut returns nothing
 function jass.StopSound(soundHandle, killWhenDone, fadeOut)
-    log.info('停止播放声音' , soundHandle)
+    log.info('停止播放声音', soundHandle)
     log.info('声音结束再停止：', killWhenDone)
     log.info('逐渐变弱：', fadeOut)
 end
@@ -3396,6 +3439,5 @@ end
 function jass.SetTerrainPathable(x, y, t, flag)
 
 end
-
 
 return jass

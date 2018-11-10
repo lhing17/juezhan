@@ -16,8 +16,12 @@ mt.max_x = 1024
 mt.min_y = -1024
 mt.max_y = 1024
 
+function rect:__tostring()
+    return self.min_x .. ',' .. self.min_y .. ',' .. self.max_x ..',' .. self.max_y
+end
+
 function mt:contains_unit(u)
-    return u.get_x() > self.min_x and u.get_x() < self.max_x and u.get_y() > self.min_y and u.get_y() < self.max_y
+    return u:get_x() > self.min_x and u:get_x() < self.max_x and u:get_y() > self.min_y and u:get_y() < self.max_y
 end
 
 function mt:remove()

@@ -74,6 +74,27 @@ function mt:set_state(state, value)
     p[state] = value
 end
 
+function mt:is_tech_researched(techid)
+    if not self.techs[techid] then
+        return false
+    end
+    return self.techs[techid].level > 0
+end
+
+function mt:set_tech_max_allowed(techid, max)
+    if not self.techs[techid] then
+        self.techs[techid] = {}
+    end
+    self.techs[techid].max_allowed = max
+end
+
+function mt:get_tech_max_allowed(techid)
+    if not self.techs[techid] then
+        return 100
+    end
+    return self.techs[techid].max_allowed
+end
+
 
 
 function player:__call(i)
@@ -102,6 +123,7 @@ function player.init()
         player.all_players[p.handle_id] = p
         player[i] = p
         p.allies = {}
+        p.techs = {}
         p.name = '玩家' .. i
         p.map_control = mapcontrol[1]
         p.slot_state = playerslotstate[2]

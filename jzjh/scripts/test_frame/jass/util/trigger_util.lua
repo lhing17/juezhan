@@ -337,5 +337,38 @@ function trigger_util.trig_game_state_event(time_of_day)
     end
 end
 
+function trigger_util.trig_enter_region(u, r)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == gameevent[5] then
+                trigger.triggering = t
+                trigger.triggering_region = r
+                trigger.unit = u
+                if r == e.region and e.filter.fun() then
+                    trigger_util.evaluate(t.conditions)
+                    trigger_util.execute(t.actions)
+                end
+            end
+        end
+    end
+end
+
+function trigger_util.trig_leave_region(u, r)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == gameevent[6] then
+                trigger.triggering = t
+                trigger.triggering_region = r
+                trigger.unit = u
+                if r == e.region and e.filter.fun() then
+                    trigger_util.evaluate(t.conditions)
+                    trigger_util.execute(t.actions)
+                end
+            end
+        end
+    end
+end
+
+
 return trigger_util
 

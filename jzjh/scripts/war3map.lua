@@ -3844,7 +3844,7 @@ function main()
 	InitBlizzard()
 
 	ExecuteFunc("jasshelper__initstructs282632015")
-	ExecuteFunc("UniMissileSystem3D__Init")
+	--ExecuteFunc("UniMissileSystem3D__Init")
 	ExecuteFunc("init")
 	ExecuteFunc("YDTriggerSaveLoadSystem__Init")
 	ExecuteFunc("InitializeYD")

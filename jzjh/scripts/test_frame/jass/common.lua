@@ -9,6 +9,7 @@
 
 
 local unit = require 'jass.type.unit'
+local destructable = require 'jass.type.destructable'
 local group = require 'jass.type.group'
 local player = require 'jass.type.player'
 local force = require 'jass.type.force'
@@ -2374,10 +2375,26 @@ end
 --// Destructable Object API
 --// Facing arguments are specified in degrees
 --native          CreateDestructable          takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+function jass.CreateDestructable(objectid, x, y, face, scale, variation)
+    return destructable.create(objectid, x, y, 0, face, scale, variation, false)
+end
+
 --native          CreateDestructableZ         takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+function jass.CreateDestructableZ(objectid, x, y, z, face, scale, variation)
+    return destructable.create(objectid, x, y, z, face, scale, variation, false)
+end
 --native          CreateDeadDestructable      takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+function jass.CreateDeadDestructable(objectid, x, y, face, scale, variation)
+    return destructable.create(objectid, x, y, 0, face, scale, variation, true)
+end
 --native          CreateDeadDestructableZ     takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+function jass.CreateDeadDestructableZ(objectid, x, y, z, face, scale, variation)
+    return destructable.create(objectid, x, y, z, face, scale, variation, true)
+end
 --native          RemoveDestructable          takes destructable d returns nothing
+function jass.RemoveDestructable(d)
+    d:remove()
+end
 --native          KillDestructable            takes destructable d returns nothing
 --native          SetDestructableInvulnerable takes destructable d, boolean flag returns nothing
 --native          IsDestructableInvulnerable  takes destructable d returns boolean
@@ -2502,6 +2519,10 @@ end
 --native          EnumItemsInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
 --native          GetItemLevel    takes item whichItem returns integer
 --native          GetItemType     takes item whichItem returns itemtype
+function jass.GetItemType(it)
+    return it:get_type()
+end
+
 --native          SetItemDropID   takes item whichItem, integer unitId returns nothing
 --constant native GetItemName     takes item whichItem returns string
 --native          GetItemCharges  takes item whichItem returns integer

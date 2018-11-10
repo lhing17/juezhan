@@ -2717,7 +2717,7 @@ function InitKillingTaskCreatures()
 end
 function InitGlobalVariables()
 	--初始化名门
-	require 'et.名门'
+--	require 'et.名门'
 	InitBosses() --初始化BOSS
 	InitHerbs() --初始化草药
 	InitEquipments() --初始化装备
@@ -3114,10 +3114,10 @@ function main1()
 	InitGlobalVariables() --初始化全局变量
 
 	--键盘输入系统
-	require 'map.系统.keyinput'
+--	require 'map.系统.keyinput'
 
-	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
-	MonsterCome() --决战江湖1.52之圣兽来了
+--	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
+--	MonsterCome() --决战江湖1.52之圣兽来了
 	CreateDestructables() --创建可破坏物
 	--存储装备属性
 	require 'map.static.attrs'	
@@ -3164,11 +3164,11 @@ function Trig____________________001Actions()
 	ShowUnit(gg_unit_N007_0055, true)
 	main1()
 	--Function not found: call InitTrig_AM_1_Orig()
-	if DzAPI_Map_HasMallItem(Player(0), "QS8K6F5NV2") == true then
-		DoNothing()
-	else
-		DoNothing()
-	end
+	--if DzAPI_Map_HasMallItem(Player(0), "QS8K6F5NV2") == true then
+	--	DoNothing()
+	--else
+	--	DoNothing()
+	--end
 end
 --===========================================================================
 function InitTrig____________________001()

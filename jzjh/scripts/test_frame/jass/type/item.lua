@@ -5,6 +5,7 @@
 ---
 
 local common_util = require 'jass.util.common_util'
+local itemtype = require 'jass.type.itemtype'
 local item = {}
 
 local mt = {}
@@ -31,6 +32,8 @@ mt.pawnable = true
 mt.hidden = false
 
 mt.powerup = false
+
+mt.itemtype = itemtype[0]
 
 function mt:remove()
     self.status = 'removed'
@@ -99,6 +102,10 @@ end
 
 function mt:is_visible()
     return not self.hidden
+end
+
+function mt:get_type()
+    return self.itemtype
 end
 
 function item.create(id, x, y)

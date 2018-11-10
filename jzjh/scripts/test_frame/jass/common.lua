@@ -1885,7 +1885,16 @@ end
 --native TriggerRegisterTimerEvent takes trigger whichTrigger, real timeout, boolean periodic returns event
 --// Triggers when the timer you tell it about expires
 --native TriggerRegisterTimerExpireEvent takes trigger whichTrigger, timer t returns event
+function jass.TriggerRegisterTimerExpireEvent(t, tm)
+    log.warn('请使用TimerStart代替TriggerRegisterTimerExpireEvent')
+    return t:register_timer_expire_event(tm)
+end
 --native TriggerRegisterGameStateEvent takes trigger whichTrigger, gamestate whichState, limitop opcode, real limitval returns event
+function jass.TriggerRegisterGameStateEvent(t, whichState, opcode, limitval)
+    log.debug('注册游戏状态变化事件:', whichState, opcode, limitval)
+    return t:register_game_state_event(whichState, opcode, limitval)
+end
+
 --native TriggerRegisterDialogEvent       takes trigger whichTrigger, dialog whichDialog returns event
 --native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
 --//  EVENT_GAME_STATE_LIMIT

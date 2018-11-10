@@ -61,6 +61,18 @@ function mt:register_unit_event(u, ue, filter)
     return e
 end
 
+function mt:register_timer_expire_event(t)
+    local e = event.create_timer_expire_event(t)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+function mt:register_game_state_event(state, opcode, value)
+    local e = event.create_game_state_event(state, opcode, value)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
 function mt:add_contion(filter)
     local tc = triggercondition.create(filter)
     self.conditions[tc.handle_id] = tc

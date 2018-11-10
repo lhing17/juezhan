@@ -12,14 +12,25 @@ limitop.__index = mt
 mt.type = 'limitop'
 mt.name = ''
 
+function limitop:__tostring()
+    return self.name
+end
+
 function limitop.init()
-	local limitop_names={}
-	for i = 1, #limitop_names do
-		local li = {}
-		li.name = limitop_names[i]
-		setmetatable(li, limitop)
-		table.insert(limitop, li)
-	end
+    local limitop_names = {
+        'LESS_THAN',
+        'LESS_THAN_OR_EQUAL',
+        'EQUAL',
+        'GREATER_THAN_OR_EQUAL',
+        'GREATER_THAN',
+        'NOT_EQUAL',
+    }
+    for i = 0, #limitop_names - 1 do
+        local li = {}
+        li.name = limitop_names[i + 1]
+        setmetatable(li, limitop)
+        limitop[i] = li
+    end
 end
 
 return limitop

@@ -16,8 +16,5 @@ end
 
 function et.lni_loader(name)
 	et.lni[name] = lni:packager(name, storm.load)
-	print('读取lni文件'..name)
-	for k, v in pairs(et.lni[name]) do
-		print(k, v)
-	end
+	log.info('读取lni文件'..name)
 end

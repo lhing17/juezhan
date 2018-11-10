@@ -7,6 +7,8 @@
 local log = {}
 
 log.path = 'F:\\log.txt'
+log.warn_path = 'F:\\warn.txt'
+log.error_path = 'F:\\error.txt'
 log.level = 'debug'
 
 local level = {
@@ -16,9 +18,9 @@ local level = {
     error = 4,
 }
 
-local function write(...)
+local function write(path, ...)
     local mode = "a+b"
-    local file = io.open(log.path, mode)
+    local file = io.open(path, mode)
     if file then
         args = { ... }
         flag = true
@@ -43,28 +45,30 @@ end
 function log.debug(...)
     if level[log.level] <= level.debug then
         print('[DEBUG]', os.date('%X'), ...)
-        write('[DEBUG]', os.date('%X'), ...)
+        write(log.path, '[DEBUG]', os.date('%X'), ...)
     end
 end
 
 function log.info(...)
     if level[log.level] <= level.info then
         print('[INFO]', os.date('%X'), ...)
-        write('[INFO]', os.date('%X'), ...)
+        write(log.path, '[INFO]', os.date('%X'), ...)
     end
 end
 
 function log.warn(...)
     if level[log.level] <= level.warn then
         print('[WARN]', os.date('%X'), ...)
-        write('[WARN]', os.date('%X'), ...)
+        write(log.path,'[WARN]', os.date('%X'), ...)
+        write(log.warn_path,'[WARN]', os.date('%X'), ...)
     end
 end
 
 function log.error(...)
     if level[log.level] <= level.error then
         print('[ERROR]', os.date('%X'), ...)
-        write('[ERROR]', os.date('%X'), ...)
+        write(log.path, '[ERROR]', os.date('%X'), ...)
+        write(log.error_path, '[ERROR]', os.date('%X'), ...)
     end
 end
 

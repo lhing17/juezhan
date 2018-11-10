@@ -3149,32 +3149,7 @@ end
 --===========================================================================
 -- Trigger: 未命名触发器 001
 --===========================================================================
-function Trig____________________001Actions()
-	SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	ShowUnit(gg_unit_n00E_0066, false)
-	ShowUnit(gg_unit_nvl2_0005, false)
-	ShowUnit(gg_unit_n00M_0131, false)
-	ShowUnit(gg_unit_n00N_0132, false)
-	ShowUnit(gg_unit_N00I_0116, true)
-	ShowUnit(gg_unit_N007_0055, true)
-	main1()
-	--Function not found: call InitTrig_AM_1_Orig()
-	--if DzAPI_Map_HasMallItem(Player(0), "QS8K6F5NV2") == true then
-	--	DoNothing()
-	--else
-	--	DoNothing()
-	--end
-end
 --===========================================================================
-function InitTrig____________________001()
-	gg_trg____________________001 = CreateTrigger()
-	TriggerAddAction(gg_trg____________________001, Trig____________________001Actions)
-end
 --===========================================================================
 -- Trigger: 未命名触发器 004
 --===========================================================================
@@ -3850,7 +3825,7 @@ function main()
 	ExecuteFunc("InitializeYD")
 	ExecuteFunc("YDWEGeneralBounsSystem__Initialize")
 	ExecuteFunc("YDWELogarithm__onInit")
-	ExecuteFunc("YDWESync__onInit")
+	-- ExecuteFunc("YDWESync__onInit")
 	ExecuteFunc("YDWEPreloadSL__Init")
 	ExecuteFunc("YDWEStringFormula__Init")
 	ExecuteFunc("YDWETimerPattern__Init")
@@ -3858,7 +3833,19 @@ function main()
 
 	InitGlobals()
 	--Function not found: call InitTrig_import_lua()
-	InitTrig____________________001()
+    SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    ShowUnit(gg_unit_n00E_0066, false)
+    ShowUnit(gg_unit_nvl2_0005, false)
+    ShowUnit(gg_unit_n00M_0131, false)
+    ShowUnit(gg_unit_n00N_0132, false)
+    ShowUnit(gg_unit_N00I_0116, true)
+    ShowUnit(gg_unit_N007_0055, true)
+    main1()
 	InitTrig____________________004()
 	InitTrig____________________005()
 	InitTrig____________________002()
@@ -3875,7 +3862,7 @@ function main()
 	InitTrig_SH()
 	InitTrig_AM_1()
 	InitTrig_AM_2()
-	ConditionalTriggerExecute(gg_trg____________________001) -- INLINED!!
+    log.info('main函数执行完毕')
 end
 --***************************************************************************
 --*
@@ -4060,7 +4047,7 @@ function jasshelper__initstructs282632015()
 	TriggerAddAction(st___prototype16[1], sa___prototype16_SetUnitMoveSpeedEx)
 	TriggerAddCondition(st___prototype16[1], Condition(sa___prototype16_SetUnitMoveSpeedEx))
 
-	ExecuteFunc("s__ModSpeed_Init___onInit")
+	-- ExecuteFunc("s__ModSpeed_Init___onInit")
 
 	ExecuteFunc("s__YDWEStringFormula__ItemIdMatrix_onInit")
 	ExecuteFunc("s__YDWEStringFormula__FormulaMatrix_onInit")

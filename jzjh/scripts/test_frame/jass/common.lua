@@ -1801,7 +1801,7 @@ end
 --native GetWorldBounds           takes nothing returns rect
 function jass.GetWorldBounds()
     r = rect.create(jass.GetCameraBoundMinX(), jass.GetCameraBoundMinY(), jass.GetCameraBoundMaxX(), jass.GetCameraBoundMaxY())
-    log.error('获得当前世界范围', r)
+    log.debug('获得当前世界范围', r)
     return r
 end
 --//============================================================================

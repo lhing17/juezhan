@@ -105,30 +105,6 @@ end
 
 
 --万能装备系统
-function Cun(id, name, s11, i11, s12, i12, s13, i13, s14, i14)
-	local it = CreateItem(id, 0, 0)
-	local l__hp = R2I(GetWidgetLife(it))
-	local lv = 0
-	if HaveSavedInteger(YDHT, id, id) == false then
-		SaveInteger(YDHT, id, id, id)
-	end
-	if StringLength(s11) > 0 and i11 > 0 then
-		SaveReal(YDHT, id, StringHash(s11), i11)
-	end
-	if StringLength(s12) > 0 and i12 > 0 then
-		SaveReal(YDHT, id, StringHash(s12), i12)
-	end
-	if StringLength(s13) > 0 and i13 > 0 then
-		SaveReal(YDHT, id, StringHash(s13), i13)
-	end
-	if StringLength(s14) > 0 and i14 > 0 then
-		SaveReal(YDHT, id, StringHash(s14), i14)
-	end
-	SaveReal(YDHT, id, StringHash("升级概率"), 100.0)
-	RemoveItem(it)
-	it = nil
-end
-
 function Cuns()
 	et.lni_loader('weapon')	
 	et.lni_loader('clothes')	
@@ -136,10 +112,6 @@ function Cuns()
 	et.lni_loader('shoe')	
 	et.lni_loader('accessory')	
 	et.lni_loader('deputy')	
-
-	for k, v in pairs(et.lni.weapon) do
-		print(k, v)
-	end
 end
 
 Cuns()

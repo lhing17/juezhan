@@ -6,6 +6,8 @@
 local common_util = require 'jass.util.common_util'
 local trigger = require 'jass.type.trigger'
 local playerevent = require 'jass.type.playerevent'
+local gameevent = require 'jass.type.gameevent'
+local fgamestate = require 'jass.type.fgamestate'
 local group = require 'jass.type.group'
 local trigger_util = {}
 
@@ -53,7 +55,7 @@ function trigger_util.trig_player_chat_event(p, message)
                     flag = true
                 end
                 if e.message ~= '' and not e.exact and string.find(e.message, message) then
-                    flag = truet
+                    flag = true
                 end
                 if flag then
                     trigger_util.evaluate(t.conditions)
@@ -286,4 +288,54 @@ function trigger_util.trig_unit_event(u, ue, tab)
         end
     end
 end
+
+function trigger_util.trig_timer_expire_event(tm)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == gameevent[4] and e.timer == tm then
+                trigger.triggering = t
+                trigger.expired_timer = tm
+                trigger_util.evaluate(t.conditions)
+                trigger_util.execute(t.actions)
+            end
+        end
+    end
+end
+
+function trigger_util.trig_game_state_event(time_of_day)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == gameevent[3] then
+                trigger.triggering = t
+                local flag = false
+                if e.state == fgamestate[2] then
+                    if e.opcode.name == 'LESS_THAN' and time_of_day < e.value then
+                        flag = true
+                    end
+                    if e.opcode.name == 'LESS_THAN_OR_EQUAL' and time_of_day <= e.value then
+                        flag = true
+                    end
+                    if e.opcode.name == 'EQUAL' and time_of_day == e.value then
+                        flag = true
+                    end
+                    if e.opcode.name == 'GREATER_THAN_OR_EQUAL' and time_of_day >= e.value then
+                        flag = true
+                    end
+                    if e.opcode.name == 'GREATER_THAN' and time_of_day > e.value then
+                        flag = true
+                    end
+                    if e.opcode.name == 'NOT_EQUAL' and time_of_day ~= e.value then
+                        flag = true
+                    end
+                end
+                if flag then
+                    trigger_util.evaluate(t.conditions)
+                    trigger_util.execute(t.actions)
+                end
+            end
+        end
+    end
+end
+
 return trigger_util
+

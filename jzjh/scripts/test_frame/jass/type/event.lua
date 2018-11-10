@@ -6,6 +6,7 @@
 
 local common_util = require 'jass.util.common_util'
 local playerevent = require 'jass.type.playerevent'
+local gameevent = require 'jass.type.gameevent'
 local event = {}
 
 local mt = {}
@@ -46,8 +47,6 @@ function event.create_player_unit_event(p, pue, filter)
     return e
 end
 
-
-
 function event.create_unit_event(u, ue, filter)
     local e = setmetatable({}, event)
     e.handle_id = common_util.generate_handle_id()
@@ -55,6 +54,28 @@ function event.create_unit_event(u, ue, filter)
     e.event_id = ue
     e.unit = u
     e.filter = filter
+    event[e.handle_id] = e
+    return e
+end
+
+function event.create_timer_expire_event(t)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'gameevent'
+    e.event_id = gameevent[4]
+    e.timer = t
+    event[e.handle_id] = e
+    return e
+end
+
+function event.create_game_state_event(state, opcode, value)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'gameevent'
+    e.event_id = gameevent[3]
+    e.state = state
+    e.opcode = opcode
+    e.value = value
     event[e.handle_id] = e
     return e
 end

@@ -12,6 +12,10 @@ fgamestate.__index = mt
 mt.type = 'fgamestate'
 mt.name = ''
 
+function fgamestate:__tostring()
+	return self.name
+end
+
 function fgamestate.init()
 	local fgamestate_names={'GAME_STATE_TIME_OF_DAY'}
 	for i = 2, #fgamestate_names+1 do

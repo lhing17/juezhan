@@ -13,14 +13,24 @@ mt.type = 'gameevent'
 mt.name = ''
 
 function gameevent.init()
-    local gameevent_names={
-        
+    local gameevent_names = {
+        'EVENT_GAME_VICTORY',
+        'EVENT_GAME_END_LEVEL',
+        'EVENT_GAME_VARIABLE_LIMIT',
+        'EVENT_GAME_STATE_LIMIT',
+        'EVENT_GAME_TIMER_EXPIRED',
+        'EVENT_GAME_ENTER_REGION',
+        'EVENT_GAME_LEAVE_REGION',
+        'EVENT_GAME_TRACKABLE_HIT',
+        'EVENT_GAME_TRACKABLE_TRACK',
+        'EVENT_GAME_SHOW_SKILL',
+        'EVENT_GAME_BUILD_SUBMENU',
     }
-    for i = 1, #gameevent_names do
+    for i = 0, #gameevent_names - 1 do
         local ge = {}
-        ge.name = gameevent_names[i]
+        ge.name = gameevent_names[i + 1]
         setmetatable(ge, gameevent)
-        table.insert(gameevent,ge )
+        gameevent[i] = ge
     end
 end
 

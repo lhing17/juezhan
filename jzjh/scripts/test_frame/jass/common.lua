@@ -1165,6 +1165,9 @@ end
 
 
 --constant native GetPlayerState          takes player whichPlayer, playerstate whichPlayerState returns integer
+function jass.GetPlayerState(p, whichPlayerState)
+    return p:get_state(whichPlayerState)
+end
 --constant native GetPlayerScore          takes player whichPlayer, playerscore whichPlayerScore returns integer
 --constant native GetPlayerAlliance       takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting returns boolean
 --constant native GetPlayerHandicap       takes player whichPlayer returns real
@@ -1195,7 +1198,7 @@ end
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
     log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. value)
-    -- TODO
+    p:set_state(whichPlayerState, value)
 
 end
 
@@ -2349,7 +2352,14 @@ function jass.TriggerSleepAction(timeout)
 end
 
 --native TriggerEvaluate      takes trigger whichTrigger returns boolean
+function jass.TriggerEvaluate(t)
+    return t:evaluate()
+end
+
 --native TriggerExecute       takes trigger whichTrigger returns nothing
+function jass.TriggerExecute(t)
+    t:execute()
+end
 
 --native TriggerSyncStart     takes nothing returns nothing
 --native TriggerSyncReady     takes nothing returns nothing
@@ -3329,21 +3339,45 @@ function jass.NewSoundEnvironment(environmentName)
     log.info('新建声音环境：', environmentName)
 end
 --native CreateSound                  takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
+function jass.CreateSound(fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, eaxSetting)
+    return sound.create(fileName, nil, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, eaxSetting)
+end
+
 --native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
+function jass.CreateSoundFilenameWithLabel(fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, SLKEntryName)
+    return sound.create(fileName, nil, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, SLKEntryName)
+end
+
 --native CreateSoundFromLabel         takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
 function jass.CreateSoundFromLabel(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
-    return sound.create(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
+    return sound.create(nil, soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, '')
 end
 
 --native CreateMIDISound              takes string soundLabel, integer fadeInRate, integer fadeOutRate returns sound
 function jass.CreateMIDISound(soundLabel, fadeInRate, fadeOutRate)
-    return sound.create(soundLabel, false, false, false, fadeInRate, fadeOutRate)
+    return sound.create(nil, soundLabel, false, false, false, fadeInRate, fadeOutRate, '')
 end
 --native SetSoundParamsFromLabel      takes sound soundHandle, string soundLabel returns nothing
+function jass.SetSoundParamsFromLabel(soundHandle, soundLabel)
+    -- FIXME
+    soundHandle:set_label(soundLabel)
+end
+
 --native SetSoundDistanceCutoff       takes sound soundHandle, real cutoff returns nothing
 --native SetSoundChannel              takes sound soundHandle, integer channel returns nothing
+function jass.SetSoundChannel(soundHandle, channel)
+    soundHandle:set_channel(channel)
+end
+
 --native SetSoundVolume               takes sound soundHandle, integer volume returns nothing
+function jass.SetSoundVolume(soundHandle, volume)
+    soundHandle:set_volume(volume)
+end
 --native SetSoundPitch                takes sound soundHandle, real pitch returns nothing
+function jass.SetSoundPitch(soundHandle, pitch)
+    soundHandle:set_pitch(pitch)
+end
+
 --// the following method must be called immediately after calling "StartSound"
 --native SetSoundPlayPosition         takes sound soundHandle, integer millisecs returns nothing
 --// these calls are only valid if the sound was created with 3d enabled
@@ -3351,6 +3385,10 @@ end
 --native SetSoundConeAngles           takes sound soundHandle, real inside, real outside, integer outsideVolume returns nothing
 --native SetSoundConeOrientation      takes sound soundHandle, real x, real y, real z returns nothing
 --native SetSoundPosition             takes sound soundHandle, real x, real y, real z returns nothing
+function jass.SetSoundPosition(soundHandle, x, y, z)
+
+end
+
 --native SetSoundVelocity             takes sound soundHandle, real x, real y, real z returns nothing
 --native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
 --native StartSound                   takes sound soundHandle returns nothing
@@ -3386,6 +3424,9 @@ end
 --native SetThematicMusicPlayPosition takes integer millisecs returns nothing
 --// other music and sound calls
 --native SetSoundDuration             takes sound soundHandle, integer duration returns nothing
+function jass.SetSoundDuration(soundHandle, duration)
+    soundHandle:set_duration(duration)
+end
 --native GetSoundDuration             takes sound soundHandle returns integer
 --native GetSoundFileDuration         takes string musicFileName returns integer
 --native VolumeGroupSetVolume         takes volumegroup vgroup, real scale returns nothing

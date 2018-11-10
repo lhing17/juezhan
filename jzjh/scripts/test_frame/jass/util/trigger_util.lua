@@ -13,7 +13,7 @@ local trigger_util = {}
 
 -- @param boolexpr array triggercondition
 function trigger_util.evaluate(conditions)
-    flag = true
+    local flag = true
     for _, v in pairs(conditions) do
         if v.fun then
             flag = flag and v.boolexpr.fun()

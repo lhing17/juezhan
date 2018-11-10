@@ -88,6 +88,22 @@ function mt:register_leave_region(r, filter)
     return e
 end
 
+function mt:evaluate()
+    local flag = true
+    for _, v in pairs(self.conditions) do
+        if v.fun then
+            flag = flag and v.boolexpr.fun()
+        end
+    end
+    return flag
+end
+
+function mt:execute()
+    for _, v in pairs(self.actions) do
+        v.fun()
+    end
+end
+
 function mt:add_condition(filter)
     local tc = triggercondition.create(filter)
     self.conditions[tc.handle_id] = tc

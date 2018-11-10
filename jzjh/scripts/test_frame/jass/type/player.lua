@@ -63,6 +63,13 @@ function mt:get_slot_state()
     return self.slot_state
 end
 
+function mt:get_state(state)
+    if not self[state] then
+        return 0
+    end
+    return self[state]
+end
+
 function mt:set_alliance(p, alliance_type)
     if type(self.allies) == 'table' then
         --FIXME 是否需要分类别
@@ -71,7 +78,7 @@ function mt:set_alliance(p, alliance_type)
 end
 
 function mt:set_state(state, value)
-    p[state] = value
+    self[state] = value
 end
 
 function mt:is_tech_researched(techid)

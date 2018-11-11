@@ -239,8 +239,6 @@ function InitEnvironment()
 	createitem(1227897138, -1799.6, -1810.2)
 end
 function MapStartCreateUnitsAndInitEnvironments()
-	CreateUnitsForPlayer_5()
-	CreateUnitsForPlayer_12()
-	CreateUnitsForPlayer_15()
+
 	InitEnvironment()
 end

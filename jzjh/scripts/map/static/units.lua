@@ -1,10 +1,13 @@
---***************************************************************************
---*
---*  Unit Creation
---*
---***************************************************************************
+local unit_creation = {}
+
+
+local function CreateUnit(p, id, x, y, facing)
+	local et_p = et.player[p]
+	return et_p:create_unit(id, et.point(x, y), facing)
+end
+
 --===========================================================================
-function CreateBuildingsForPlayer5()
+local function CreateBuildingsForPlayer5()
 	local p = Player(5)
 	local u
 	u = CreateUnit(p, 1851945829, -13024.0, -15264.0, 270.0)
@@ -14,7 +17,7 @@ function CreateBuildingsForPlayer5()
 	u = CreateUnit(p, 1851945829, 544.0, -13024.0, 270.0)
 end
 --===========================================================================
-function CreateUnitsForPlayer5()
+local function CreateUnitsForPlayer5()
 	local p = Player(5)
 	local u
 	u = CreateUnit(p, 1865429572, -101.7, -1403.0, 105.88)
@@ -29,7 +32,7 @@ function CreateUnitsForPlayer5()
 	u = CreateUnit(p, 1865429067, -1309.2, -1901.3, 303.52)
 end
 --===========================================================================
-function CreateUnitsForPlayer6()
+local function CreateUnitsForPlayer6()
 	local p = Player(6)
 	local u
 	local unitID
@@ -39,7 +42,7 @@ function CreateUnitsForPlayer6()
 	u = CreateUnit(p, 1311780921, 445.4, -223.3, 225.0)
 end
 --===========================================================================
-function CreateNeutralHostile()
+local function CreateNeutralHostile()
 	local p = Player(PLAYER_NEUTRAL_AGGRESSIVE)
 	local u
 	local unitID
@@ -71,7 +74,7 @@ function CreateNeutralHostile()
 	gg_unit_n00N_0132 = CreateUnit(p, 1848651854, -3272.5, -15268.8, 90.0)
 end
 --===========================================================================
-function CreateNeutralPassive()
+local function CreateNeutralPassive()
 	local p = Player(PLAYER_NEUTRAL_PASSIVE)
 	local u
 	local unitID
@@ -145,17 +148,9 @@ function CreateNeutralPassive()
 	u = CreateUnit(p, 1751871081, -12586.0, -13906.9, 0.0)
 	u = CreateUnit(p, 1865429580, 1781.6, -4106.0, 270.0)
 end
---===========================================================================
-function CreateAllUnits()
-	CreateBuildingsForPlayer5() -- INLINED!!
-	CreateNeutralHostile()
-	CreateNeutralPassive()
-	CreateUnitsForPlayer5()
-	CreateUnitsForPlayer6()
-end
 
 --基地和传送石
-function CreateUnitsForPlayer_5()
+local function CreateUnitsForPlayer_5()
 	local p = Player(5)
 	local u = nil
 	udg_ZhengPaiWL = CreateUnit(p, 1852207725, -768.0, -768.0, 270.0)
@@ -170,7 +165,7 @@ function CreateUnitsForPlayer_5()
 	u = nil
 end
 --中立敌对
-function CreateUnitsForPlayer_12()
+local function CreateUnitsForPlayer_12()
 	local p = Player(12)
 	local u = nil
 	u = CreateUnit(p, 1853320308, 1456.2, -2702.9, 345.717)
@@ -651,7 +646,7 @@ function CreateUnitsForPlayer_12()
 	u = nil
 	p = nil
 end
-function CreateUnitsForPlayer_15()
+local function CreateUnitsForPlayer_15()
 	local p = Player(15)
 	local u = nil
 	u = CreateUnit(p, 1852010352, -6336.0, -1536.0, 270.0)
@@ -746,7 +741,19 @@ function CreateUnitsForPlayer_15()
 	Et = CreateUnit(p, 1865429315, -9636.7, -400.7, 28.58)
 	Ft = CreateUnit(p, 1865429320, -8902.4, -26.0, 141.62)
 	u = CreateUnit(p, 1865429322, -2032.3, -1442.2, 179.83)
-	ShowUnitHide(gg_unit_nvl2_0005)
+	ShowUnitHide(gg_unit_nvl2_0005.handle)
 	u = nil
 	p = nil
 end
+
+function unit_creation.init()
+	CreateBuildingsForPlayer5() -- INLINED!!
+	CreateNeutralHostile()
+	CreateNeutralPassive()
+	CreateUnitsForPlayer5()
+	CreateUnitsForPlayer6()
+	CreateUnitsForPlayer_5()
+	CreateUnitsForPlayer_12()
+	CreateUnitsForPlayer_15()
+end
+return unit_creation

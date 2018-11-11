@@ -1163,7 +1163,7 @@ function InitGlobals()
 	udg_HuanZhuangCD = {false, false, false, false, false, false, false}
 end
 
-require 'map.static.units'
+
 --***************************************************************************
 --*
 --*  Custom Script Code
@@ -3796,7 +3796,8 @@ function main()
     require 'et.init'
 	require 'lni.lni'
 	require 'util.commonutil'
-	require 'map.static.destructables'
+    local unit_creation = require 'map.static.units'
+    require 'map.static.destructables'
 
     et.unit.init()
 
@@ -3815,7 +3816,9 @@ function main()
 	SetAmbientDaySound("VillageDay")
 	SetAmbientNightSound("VillageNight")
 	SetMapMusic("Music", true, 0)
-	CreateAllUnits()
+
+    unit_creation.init()
+
 	InitBlizzard()
 
 	ExecuteFunc("jasshelper__initstructs282632015")
@@ -3839,12 +3842,12 @@ function main()
     SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
     SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
     SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-    ShowUnit(gg_unit_n00E_0066, false)
-    ShowUnit(gg_unit_nvl2_0005, false)
-    ShowUnit(gg_unit_n00M_0131, false)
-    ShowUnit(gg_unit_n00N_0132, false)
-    ShowUnit(gg_unit_N00I_0116, true)
-    ShowUnit(gg_unit_N007_0055, true)
+    ShowUnit(gg_unit_n00E_0066.handle, false)
+    ShowUnit(gg_unit_nvl2_0005.handle, false)
+    ShowUnit(gg_unit_n00M_0131.handle, false)
+    ShowUnit(gg_unit_n00N_0132.handle, false)
+    ShowUnit(gg_unit_N00I_0116.handle, true)
+    ShowUnit(gg_unit_N007_0055.handle, true)
     main1()
 	InitTrig____________________004()
 	InitTrig____________________005()

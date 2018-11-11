@@ -2251,7 +2251,7 @@ function clearTimer(tm)
 end
 
 require 'map.rules.rule'
---require 'map.系统.副本'
+require 'map.系统.副本'
 --require 'map.系统.历练'
 --require 'map.系统.任务'
 --require 'map.系统.神器'
@@ -2279,7 +2279,7 @@ require 'util.najitest'
 --
 --require 'map.门派.掌门技.init'
 
-require 'map.static.environment'
+
 require 'map.static.detail'
 
 
@@ -2756,7 +2756,7 @@ function main1()
 	local Du
 	local v
 	local wu
-	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
+
     et.hero.init_pick_table()
 	ju = Filter(bu)
 
@@ -3791,32 +3791,19 @@ end
 --***************************************************************************
 --===========================================================================
 function main()
+    -- ID字符串互转
     require 'war3.id'
     require 'util.log'
     require 'et.init'
+    -- 读取lni文件
 	require 'lni.lni'
 	require 'util.commonutil'
-    local unit_creation = require 'map.static.units'
     require 'map.static.destructables'
+    local unit_creation = require 'map.static.units'
+    local environment = require 'map.static.environment'
 
     et.unit.init()
-
-
-	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
-            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
-            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
-            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
-            -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
-            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
-            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
-            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
-	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
-	SetTerrainFogEx(0, 3000.0, 5000.0, 0.5, 0.0, 0.0, 0.0)
-	NewSoundEnvironment("Default")
-	SetAmbientDaySound("VillageDay")
-	SetAmbientNightSound("VillageNight")
-	SetMapMusic("Music", true, 0)
-
+    environment.init() -- 创建单位并初始化环境
     unit_creation.init()
 
 	InitBlizzard()

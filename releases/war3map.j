@@ -8075,8 +8075,9 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
             call SetPlayerName(p, "〓慕容家主〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
             set udg_zhangmen[i]=true
             set udg_whichzhangmen[i]=13
-            // 慕容龙城，搭配斗转
-            if ( GetUnitAbilityLevel(u, 'A07Q') >= 1 ) then // +斗转星移
+            // 慕容龙城，搭配斗转，前3个技能7级以上
+            if GetUnitAbilityLevel(u, 'A02K') >= 7 and GetUnitAbilityLevel(u, 'A0CC') >= 7 and GetUnitAbilityLevel(u, 'A02M') >= 7 and GetUnitAbilityLevel(u, 'A07Q') >= 1  then // +斗转星移
+                call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：慕容龙城")
                 call ModifyHeroStat(0, u, 0, 200)
                 call ModifyHeroStat(1, u, 0, 250)
                 call ModifyHeroStat(2, u, 0, 200)

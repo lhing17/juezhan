@@ -7863,11 +7863,11 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
             set udg_zhangmen[i]=true
             set udg_whichzhangmen[i]=2
             if GetUnitAbilityLevel(u, 'A07L') >= 1 and GetUnitAbilityLevel(u, 'A07E') >= 1 and UnitHaveItem(u , 'I097') then
-                if GetUnitAbilityLevel(u, 'A07L') < 3 and GetUnitAbilityLevel(u, 'A07E') < 3 then
+                if GetUnitAbilityLevel(u, 'A07L') >= 3 and GetUnitAbilityLevel(u, 'A07E') >= 3 then
                     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：北丐")
                     call ModifyHeroStat(0, u, 0, 480)
-                    call SetUnitAbilityLevel(u, 'A07L', IMinBJ(GetUnitAbilityLevel(u, 'A07L') + 3, 9))
-                    call SetUnitAbilityLevel(u, 'A07E', IMinBJ(GetUnitAbilityLevel(u, 'A07E') + 3, 9))
+                    call SetUnitAbilityLevel(u, 'A07L', IMinBJ(GetUnitAbilityLevel(u, 'A07L') + 4, 9))
+                    call SetUnitAbilityLevel(u, 'A07E', IMinBJ(GetUnitAbilityLevel(u, 'A07E') + 4, 9))
                     call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07L' * 5, GetUnitAbilityLevel(u, 'A07L'))
                     call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07E' * 5, GetUnitAbilityLevel(u, 'A07E'))
                     call SetPlayerName(p, "〓北丐〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
@@ -9595,7 +9595,7 @@ function Qx takes nothing returns nothing
 	call CreateQuestBJ(2, "|cFFFF0000副职玩法", "玩家可在NPC郭靖处选择自己的副职，加入副职后会获得一些独特的能力\n副职满足一定条件后，可以获得相应的大师称号，获得大师后会额外获得一些能力\n炼丹师：可使用炼丹系统并可多服食五颗丹药\n锻造师：可使用镶嵌和锻造系统\n兵器师：镇妖死亡不掉落，拾取和冶炼兵器不受历练限制\n练气师：每提升一次等级增加4-12点招式伤害或内力或真实伤害\n寻宝师：副本双倍掉落\n鉴定师：爆双倍古董，可以使用古董换书，古董以最高价卖出\n丫鬟：携带两把武器及两件衣服\n精武师：技能升级到九重获得额外自创武学点，可以打出奇武\n更多大师获得方式和作用请到NPC随风而逝de风处查看", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	call CreateQuestBJ(2, "|cFFFF6600称号系统", "玩家4个门派武功全部达到6级可获得掌门称号\n在获得掌门称号时若达到一定条件，可同时获得其他称号\n有一些称号与掌门无关，具体可参考网站或论坛的攻略\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 	call CreateQuestBJ(2, "|cFF00FF00隐藏门派", "游戏中有两个隐藏门派：姑苏慕容和灵鹫宫\n隐藏门派的选择方式:灵鹫宫选人后输入www.juezhanjianghu.com，慕容世家选人后输入jzjh.uuu9.com或3级前去找慕容复\n", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
-	call CreateQuestBJ(2, "|cFF0000FF游戏网站", "17玩吧：|cFFCCFF33www.17wanba.cc|r\n专区论坛：|cFFCCFF33jzjhbbs.uuu9.com|r\n游戏作者：|cFFCCFF33云杨 Zei_kale|r\n游戏QQ群：|cFFCCFF33159030768, 369925013\n\n关注武侠，支持作者，详情请在网站和论坛查询", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
+	call CreateQuestBJ(2, "|cFF0000FF游戏网站", "游久网论坛：|cFFCCFF33jzjhbbs.uuu9.com|r\n游戏作者：|cFFCCFF33云杨 Zei_kale|r\n游戏QQ群：|cFFCCFF33159030768, 369925013\n\n关注武侠，支持作者，详情请在网站和论坛查询", "ReplaceableTextures\\CommandButtons\\BTNAmbush.blp")
 endfunction
 //ESC查看人物属性
 function RenWuShuXing takes nothing returns nothing
@@ -12861,9 +12861,13 @@ function aQ takes nothing returns nothing
 			set Ce[i]=1
 			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00恭喜成为炼丹师，获得医术+5")
 		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I08S' ) then
-			set gengu[i]=( gengu[i] + 5 )
-			set Ce[i]=2
-			call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00恭喜成为锻造师，获得根骨+5")
+            if ( GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O002' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O003' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O023' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O02H' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O02I' ) then
+                set gengu[i]=( gengu[i] + 5 )
+                set Ce[i]=2
+                call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00恭喜成为锻造师，获得根骨+5")
+            else
+                call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00女性角色不可加入该副职")
+            endif
 		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I08T' ) then
 			set danpo[i]=( danpo[i] + 5 )
 			set Ce[i]=3
@@ -12894,7 +12898,6 @@ function aQ takes nothing returns nothing
 				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00男性角色不可加入该副职")
 			endif
 		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I0CG' ) then
-			if ( GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O002' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O003' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O023' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O02H' and GetUnitTypeId(udg_hero[( 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())) )]) != 'O02I' ) then
 				set Ce[i]=8
 				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00恭喜成为精武师，获得全属性+1")
 				set danpo[i]=danpo[i] + 1
@@ -12903,9 +12906,6 @@ function aQ takes nothing returns nothing
 				set fuyuan[i]=fuyuan[i] + 1
 				set jingmai[i]=jingmai[i] + 1
 				set yishu[i]=yishu[i] + 1
-			else
-				call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffffff00女性角色不可加入该副职")
-			endif
 		endif
 	else
 		call DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 5., "|cffff0000你已经加入专精了！（每个角色只能选择一种专精，也可以不选择）")

@@ -1113,6 +1113,8 @@ local function init_unit(handle, p)
     dbg.gchash(u, handle)
     u.gchash = handle
     --保存到全局单位表中
+    u.name = jass.GetUnitName(handle)
+
     u.handle = handle
     u.id = base.id2string(jass.GetUnitTypeId(handle))
     u.owner = p or player[jass.GetOwningPlayer(handle)]

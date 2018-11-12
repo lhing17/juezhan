@@ -4,7 +4,10 @@
 --- DateTime: 2018/11/5 11:47
 ---
 
+local common_util = require 'jass.util.common_util'
 local destructable = {}
+destructable.all_destructables = {}
+destructable.removed_destructables = {}
 
 local mt = {}
 destructable.__index = mt
@@ -14,6 +17,9 @@ mt.type = 'destructable'
 mt.id = 0
 mt.x = 0
 mt.y = 0
+mt.z = 0
+
+mt.status = 'alive' --alive dead removed
 
 function mt:get_id()
     return self.id
@@ -27,7 +33,33 @@ function mt:get_y()
     return self.y
 end
 
-return destructable
+function mt:get_z()
+    return self.z
+end
 
+function mt:remove()
+    self.status = 'removed'
+    destructable.all_destructables[self.handle_id] = nil
+    destructable.removed_destructables[self.handle_id] = self
+end
+
+function destructable.create(id, x, y, z, face, scale, variation, is_dead)
+    local d = setmetatable({}, destructable)
+    d.id = id
+    d.handle_id = common_util.generate_handle_id()
+    d.x = x
+    d.y = y
+    d.z = z
+    d.scale = scale
+    d.variation = variation
+    if is_dead then
+        d.status = 'dead'
+    else
+        d.status = 'alive'
+    end
+    destructable.all_destructables[d.handle_id] = d
+    return d
+
+end
 
 return destructable

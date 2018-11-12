@@ -80,4 +80,26 @@ function event.create_game_state_event(state, opcode, value)
     return e
 end
 
+function event.create_enter_region_event(r, filter)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'gameevent'
+    e.event_id = gameevent[5]
+    e.region = r
+    e.filter = filter
+    event[e.handle_id] = e
+    return e
+end
+
+function event.create_leave_region_event(r, filter)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'gameevent'
+    e.event_id = gameevent[6]
+    e.region = r
+    e.filter = filter
+    event[e.handle_id] = e
+    return e
+end
+
 return event

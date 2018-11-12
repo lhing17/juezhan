@@ -1163,7 +1163,7 @@ function InitGlobals()
 	udg_HuanZhuangCD = {false, false, false, false, false, false, false}
 end
 
-require 'map.static.units'
+
 --***************************************************************************
 --*
 --*  Custom Script Code
@@ -2251,7 +2251,7 @@ function clearTimer(tm)
 end
 
 require 'map.rules.rule'
---require 'map.系统.副本'
+require 'map.系统.副本'
 --require 'map.系统.历练'
 --require 'map.系统.任务'
 --require 'map.系统.神器'
@@ -2279,7 +2279,7 @@ require 'util.najitest'
 --
 --require 'map.门派.掌门技.init'
 
-require 'map.static.environment'
+
 require 'map.static.detail'
 
 
@@ -2717,7 +2717,7 @@ function InitKillingTaskCreatures()
 end
 function InitGlobalVariables()
 	--初始化名门
-	require 'et.名门'
+--	require 'et.名门'
 	InitBosses() --初始化BOSS
 	InitHerbs() --初始化草药
 	InitEquipments() --初始化装备
@@ -2756,7 +2756,7 @@ function main1()
 	local Du
 	local v
 	local wu
-	MapStartCreateUnitsAndInitEnvironments() -- 创建单位并初始化环境
+
     et.hero.init_pick_table()
 	ju = Filter(bu)
 
@@ -3114,10 +3114,10 @@ function main1()
 	InitGlobalVariables() --初始化全局变量
 
 	--键盘输入系统
-	require 'map.系统.keyinput'
+--	require 'map.系统.keyinput'
 
-	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
-	MonsterCome() --决战江湖1.52之圣兽来了
+--	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
+--	MonsterCome() --决战江湖1.52之圣兽来了
 	CreateDestructables() --创建可破坏物
 	--存储装备属性
 	require 'map.static.attrs'	
@@ -3149,32 +3149,7 @@ end
 --===========================================================================
 -- Trigger: 未命名触发器 001
 --===========================================================================
-function Trig____________________001Actions()
-	SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
-	ShowUnit(gg_unit_n00E_0066, false)
-	ShowUnit(gg_unit_nvl2_0005, false)
-	ShowUnit(gg_unit_n00M_0131, false)
-	ShowUnit(gg_unit_n00N_0132, false)
-	ShowUnit(gg_unit_N00I_0116, true)
-	ShowUnit(gg_unit_N007_0055, true)
-	main1()
-	--Function not found: call InitTrig_AM_1_Orig()
-	if DzAPI_Map_HasMallItem(Player(0), "QS8K6F5NV2") == true then
-		DoNothing()
-	else
-		DoNothing()
-	end
-end
 --===========================================================================
-function InitTrig____________________001()
-	gg_trg____________________001 = CreateTrigger()
-	TriggerAddAction(gg_trg____________________001, Trig____________________001Actions)
-end
 --===========================================================================
 -- Trigger: 未命名触发器 004
 --===========================================================================
@@ -3816,41 +3791,31 @@ end
 --***************************************************************************
 --===========================================================================
 function main()
+    -- ID字符串互转
     require 'war3.id'
     require 'util.log'
     require 'et.init'
+    -- 读取lni文件
 	require 'lni.lni'
 	require 'util.commonutil'
-	require 'map.static.destructables'
+    require 'map.static.destructables'
+    local unit_creation = require 'map.static.units'
+    local environment = require 'map.static.environment'
 
     et.unit.init()
+    environment.init() -- 创建单位并初始化环境
+    unit_creation.init()
 
-
-	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
-            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
-            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
-            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
-            -15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
-            15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
-            15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
-            -15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
-	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
-	SetTerrainFogEx(0, 3000.0, 5000.0, 0.5, 0.0, 0.0, 0.0)
-	NewSoundEnvironment("Default")
-	SetAmbientDaySound("VillageDay")
-	SetAmbientNightSound("VillageNight")
-	SetMapMusic("Music", true, 0)
-	CreateAllUnits()
 	InitBlizzard()
 
 	ExecuteFunc("jasshelper__initstructs282632015")
-	ExecuteFunc("UniMissileSystem3D__Init")
+	--ExecuteFunc("UniMissileSystem3D__Init")
 	ExecuteFunc("init")
 	ExecuteFunc("YDTriggerSaveLoadSystem__Init")
 	ExecuteFunc("InitializeYD")
 	ExecuteFunc("YDWEGeneralBounsSystem__Initialize")
 	ExecuteFunc("YDWELogarithm__onInit")
-	ExecuteFunc("YDWESync__onInit")
+	-- ExecuteFunc("YDWESync__onInit")
 	ExecuteFunc("YDWEPreloadSL__Init")
 	ExecuteFunc("YDWEStringFormula__Init")
 	ExecuteFunc("YDWETimerPattern__Init")
@@ -3858,7 +3823,19 @@ function main()
 
 	InitGlobals()
 	--Function not found: call InitTrig_import_lua()
-	InitTrig____________________001()
+    SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(1), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(2), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(3), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(4), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    SetPlayerStateBJ(Player(5), PLAYER_STATE_RESOURCE_FOOD_CAP, 50)
+    ShowUnit(gg_unit_n00E_0066.handle, false)
+    ShowUnit(gg_unit_nvl2_0005.handle, false)
+    ShowUnit(gg_unit_n00M_0131.handle, false)
+    ShowUnit(gg_unit_n00N_0132.handle, false)
+    ShowUnit(gg_unit_N00I_0116.handle, true)
+    ShowUnit(gg_unit_N007_0055.handle, true)
+    main1()
 	InitTrig____________________004()
 	InitTrig____________________005()
 	InitTrig____________________002()
@@ -3875,7 +3852,7 @@ function main()
 	InitTrig_SH()
 	InitTrig_AM_1()
 	InitTrig_AM_2()
-	ConditionalTriggerExecute(gg_trg____________________001) -- INLINED!!
+    log.info('main函数执行完毕')
 end
 --***************************************************************************
 --*
@@ -4060,7 +4037,7 @@ function jasshelper__initstructs282632015()
 	TriggerAddAction(st___prototype16[1], sa___prototype16_SetUnitMoveSpeedEx)
 	TriggerAddCondition(st___prototype16[1], Condition(sa___prototype16_SetUnitMoveSpeedEx))
 
-	ExecuteFunc("s__ModSpeed_Init___onInit")
+	-- ExecuteFunc("s__ModSpeed_Init___onInit")
 
 	ExecuteFunc("s__YDWEStringFormula__ItemIdMatrix_onInit")
 	ExecuteFunc("s__YDWEStringFormula__FormulaMatrix_onInit")

@@ -13,13 +13,23 @@ mt.type = 'itemtype'
 mt.name = ''
 
 function itemtype.init()
-	local itemtype_names={}
-	for i = 1, #itemtype_names do
-		local it = {}
-		it.name = itemtype_names[i]
-		setmetatable(it, itemtype)
-		table.insert(itemtype, it)
-	end
+    local itemtype_names = {
+        'ITEM_TYPE_PERMANENT',
+        'ITEM_TYPE_CHARGED',
+        'ITEM_TYPE_POWERUP',
+        'ITEM_TYPE_ARTIFACT',
+        'ITEM_TYPE_PURCHASABLE',
+        'ITEM_TYPE_CAMPAIGN',
+        'ITEM_TYPE_MISCELLANEOUS',
+        'ITEM_TYPE_UNKNOWN',
+        'ITEM_TYPE_ANY',
+    }
+    for i = 0, #itemtype_names - 1 do
+        local it = {}
+        it.name = itemtype_names[i + 1]
+        setmetatable(it, itemtype)
+        itemtype[i] = it
+    end
 end
 
 return itemtype

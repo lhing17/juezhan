@@ -21,6 +21,10 @@ trigger.__index = mt
 mt.type = 'trigger'
 mt.enabled = true
 
+function trigger:__tostring()
+    return 'trigger'..self.handle_id
+end
+
 function mt:destroy()
     trigger.all_triggers[self.handle_id] = nil
 end
@@ -73,7 +77,34 @@ function mt:register_game_state_event(state, opcode, value)
     return e
 end
 
-function mt:add_contion(filter)
+function mt:register_enter_region(r, filter)
+    local e = event.create_enter_region_event(r, filter)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+function mt:register_leave_region(r, filter)
+    local e = event.create_leave_region_event(r, filter)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+function mt:evaluate()
+    local flag = true
+    for _, v in pairs(self.conditions) do
+        if v.fun then
+            flag = flag and v.boolexpr.fun()
+        end
+    end
+    return flag
+end
+
+function mt:execute()
+    for _, v in pairs(self.actions) do
+        v.fun()
+    end
+end
+
+function mt:add_condition(filter)
     local tc = triggercondition.create(filter)
     self.conditions[tc.handle_id] = tc
     return tc

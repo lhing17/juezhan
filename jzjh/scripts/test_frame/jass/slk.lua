@@ -5,7 +5,39 @@
 ---
 
 local slk = {}
+local lni = require 'jass.util.lni-loader'
+local storm = require 'jass.storm'
 
-slk.unit = {}
+local function lni_loader(name)
+    slk[name] = lni:packager(name, storm.load)
+    print('读取lni文件' .. name)
+    for k, v in pairs(slk[name]) do
+        if v._parent ~= k then
+            if (slk[name][v._parent]) then
+                for k1, v1 in pairs(slk[name][v._parent]) do
+                    if not v[k1] then
+                        slk[name][k][k1] = v1
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function init()
+    lni:set_marco('TableSearcher', '$MapPath$table\\')
+    lni:set_marco('MapPath', 'D:\\MPQEditor\\jzjh1.6\\juezhan\\jzjh\\')
+    --lni_loader('ability')
+    lni_loader('buff')
+    lni_loader('destructable')
+    lni_loader('doodad')
+    lni_loader('imp')
+    lni_loader('item')
+    lni_loader('misc')
+    lni_loader('unit')
+    --lni_loader('upgrade')
+
+end
+init()
 
 return slk

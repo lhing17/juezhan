@@ -9,6 +9,7 @@
 
 
 local unit = require 'jass.type.unit'
+local destructable = require 'jass.type.destructable'
 local group = require 'jass.type.group'
 local player = require 'jass.type.player'
 local force = require 'jass.type.force'
@@ -124,12 +125,13 @@ local unsupported = require 'jass.common_unsupported'
 local common_util = require 'jass.util.common_util'
 local log = require 'jass.log'
 
-setmetatable(jass, {__index = function(t, key)
+setmetatable(jass, { __index = function(t, key)
     if common_util.is_in_table(key, unsupported.unsupported_list) then
-        log.warn('调用了不支持的函数'..key)
-        return function() end
+        log.warn('调用了不支持的函数' .. key)
+        return function()
+        end
     end
-end})
+end })
 
 --constant native ConvertRace                 takes integer i returns race
 function jass.ConvertRace(i)
@@ -364,6 +366,9 @@ settings.gamespeed = jass.ConvertGameSpeed(3)
 settings.version = jass.ConvertVersion(2)
 -- 英雄头像数量
 settings.reserved_local_hero_buttons = 6
+
+settings.all_item_type_slots = 11
+settings.all_unit_type_slots = 11
 
 -- 游戏变量
 local variables = {}
@@ -1094,7 +1099,13 @@ end
 --native RemoveUnitFromAllStock       takes integer unitId returns nothing
 --native RemoveUnitFromStock          takes unit whichUnit, integer unitId returns nothing
 --native SetAllItemTypeSlots          takes integer slots returns nothing
+function jass.SetAllItemTypeSlots(slots)
+    settings.all_item_type_slots = slots
+end
 --native SetAllUnitTypeSlots          takes integer slots returns nothing
+function jass.SetAllUnitTypeSlots(slots)
+    settings.all_unit_type_slots = slots
+end
 --native SetItemTypeSlots             takes unit whichUnit, integer slots returns nothing
 --native SetUnitTypeSlots             takes unit whichUnit, integer slots returns nothing
 --native GetUnitUserData              takes unit whichUnit returns integer
@@ -1155,6 +1166,9 @@ end
 
 
 --constant native GetPlayerState          takes player whichPlayer, playerstate whichPlayerState returns integer
+function jass.GetPlayerState(p, whichPlayerState)
+    return p:get_state(whichPlayerState)
+end
 --constant native GetPlayerScore          takes player whichPlayer, playerscore whichPlayerScore returns integer
 --constant native GetPlayerAlliance       takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting returns boolean
 --constant native GetPlayerHandicap       takes player whichPlayer returns real
@@ -1162,10 +1176,22 @@ end
 --constant native SetPlayerHandicap       takes player whichPlayer, real handicap returns nothing
 --constant native SetPlayerHandicapXP     takes player whichPlayer, real handicap returns nothing
 --constant native SetPlayerTechMaxAllowed takes player whichPlayer, integer techid, integer maximum returns nothing
+function jass.SetPlayerTechMaxAllowed(p, techid, maximum)
+    log.debug('玩家' .. p:get_name() .. '的科技' .. techid .. '最大允许等级设置为：', maximum)
+    p:set_tech_max_allowed(techid, maximum)
+end
 --constant native GetPlayerTechMaxAllowed takes player whichPlayer, integer techid returns integer
+function jass.GetPlayerTechMaxAllowed(p, techid)
+    return p:get_tech_max_allowed()
+end
 --constant native AddPlayerTechResearched takes player whichPlayer, integer techid, integer levels returns nothing
 --constant native SetPlayerTechResearched takes player whichPlayer, integer techid, integer setToLevel returns nothing
 --constant native GetPlayerTechResearched takes player whichPlayer, integer techid, boolean specificonly returns boolean
+function jass.GetPlayerTechResearched(p, techid, specificonly)
+    local result = p:is_tech_researched(techid)
+    log.debug('玩家' .. p:get_name() .. '的科技' .. techid .. '是否已研究：', result)
+    return result
+end
 --constant native GetPlayerTechCount      takes player whichPlayer, integer techid, boolean specificonly returns integer
 --native SetPlayerUnitsOwner takes player whichPlayer, integer newOwner returns nothing
 --native CripplePlayer takes player whichPlayer, force toWhichPlayers, boolean flag returns nothing
@@ -1173,7 +1199,7 @@ end
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
     log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. value)
-    -- TODO
+    p:set_state(whichPlayerState, value)
 
 end
 
@@ -1527,6 +1553,7 @@ function jass.GroupEnumUnitsInRect(g, r, filter)
     g:enum_units(function(u)
         return r:contains_unit(u)
     end, filter)
+
 end
 
 --native GroupEnumUnitsInRectCounted          takes group whichGroup, rect r, boolexpr filter, integer countLimit returns nothing
@@ -1772,6 +1799,11 @@ end
 --native IsLocationInRegion           takes region whichRegion, location whichLocation returns boolean
 --// Returns full map bounds, including unplayable borders, in world coordinates
 --native GetWorldBounds           takes nothing returns rect
+function jass.GetWorldBounds()
+    r = rect.create(jass.GetCameraBoundMinX(), jass.GetCameraBoundMinY(), jass.GetCameraBoundMaxX(), jass.GetCameraBoundMaxY())
+    log.debug('获得当前世界范围', r)
+    return r
+end
 --//============================================================================
 --// Native trigger interface
 --//
@@ -1833,6 +1865,7 @@ end
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
 --native ExecuteFunc          takes string funcName returns nothing
 function jass.ExecuteFunc(funcName)
+    log.debug('通过ExecuteFunc执行函数' .. funcName)
     _ENV[funcName]()
 end
 
@@ -1883,6 +1916,13 @@ end
 --//constant native string GetTriggeringVariableName takes nothing returns string
 --// Creates it's own timer and triggers when it expires
 --native TriggerRegisterTimerEvent takes trigger whichTrigger, real timeout, boolean periodic returns event
+function jass.TriggerRegisterTimerEvent(t, timeout, periodic)
+    log.warn('请使用TimerStart代替TriggerRegisterTimerEvent')
+    tm = timer.create()
+    tm:start(timeout, periodic, nil)
+    return t:register_timer_expire_event(tm)
+end
+
 --// Triggers when the timer you tell it about expires
 --native TriggerRegisterTimerExpireEvent takes trigger whichTrigger, timer t returns event
 function jass.TriggerRegisterTimerExpireEvent(t, tm)
@@ -1904,11 +1944,18 @@ end
 --constant native GetWinningPlayer takes nothing returns player
 --
 --native TriggerRegisterEnterRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+function jass.TriggerRegisterEnterRegion(t, r, filter)
+    return t:register_enter_region(r, filter)
+end
 --// EVENT_GAME_ENTER_REGION
 --constant native GetTriggeringRegion takes nothing returns region
 --constant native GetEnteringUnit takes nothing returns unit
 --// EVENT_GAME_LEAVE_REGION
 --native TriggerRegisterLeaveRegion takes trigger whichTrigger, region whichRegion, boolexpr filter returns event
+function jass.TriggerRegisterLeaveRegion(t, r, filter)
+    return t:register_leave_region(r, filter)
+end
+
 --constant native GetLeavingUnit takes nothing returns unit
 --native TriggerRegisterTrackableHitEvent takes trigger whichTrigger, trackable t returns event
 --native TriggerRegisterTrackableTrackEvent takes trigger whichTrigger, trackable t returns event
@@ -2306,7 +2353,14 @@ function jass.TriggerSleepAction(timeout)
 end
 
 --native TriggerEvaluate      takes trigger whichTrigger returns boolean
+function jass.TriggerEvaluate(t)
+    return t:evaluate()
+end
+
 --native TriggerExecute       takes trigger whichTrigger returns nothing
+function jass.TriggerExecute(t)
+    t:execute()
+end
 
 --native TriggerSyncStart     takes nothing returns nothing
 --native TriggerSyncReady     takes nothing returns nothing
@@ -2321,10 +2375,26 @@ end
 --// Destructable Object API
 --// Facing arguments are specified in degrees
 --native          CreateDestructable          takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+function jass.CreateDestructable(objectid, x, y, face, scale, variation)
+    return destructable.create(objectid, x, y, 0, face, scale, variation, false)
+end
+
 --native          CreateDestructableZ         takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+function jass.CreateDestructableZ(objectid, x, y, z, face, scale, variation)
+    return destructable.create(objectid, x, y, z, face, scale, variation, false)
+end
 --native          CreateDeadDestructable      takes integer objectid, real x, real y, real face, real scale, integer variation returns destructable
+function jass.CreateDeadDestructable(objectid, x, y, face, scale, variation)
+    return destructable.create(objectid, x, y, 0, face, scale, variation, true)
+end
 --native          CreateDeadDestructableZ     takes integer objectid, real x, real y, real z, real face, real scale, integer variation returns destructable
+function jass.CreateDeadDestructableZ(objectid, x, y, z, face, scale, variation)
+    return destructable.create(objectid, x, y, z, face, scale, variation, true)
+end
 --native          RemoveDestructable          takes destructable d returns nothing
+function jass.RemoveDestructable(d)
+    d:remove()
+end
 --native          KillDestructable            takes destructable d returns nothing
 --native          SetDestructableInvulnerable takes destructable d, boolean flag returns nothing
 --native          IsDestructableInvulnerable  takes destructable d returns boolean
@@ -2449,6 +2519,10 @@ end
 --native          EnumItemsInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
 --native          GetItemLevel    takes item whichItem returns integer
 --native          GetItemType     takes item whichItem returns itemtype
+function jass.GetItemType(it)
+    return it:get_type()
+end
+
 --native          SetItemDropID   takes item whichItem, integer unitId returns nothing
 --constant native GetItemName     takes item whichItem returns string
 --native          GetItemCharges  takes item whichItem returns integer
@@ -3286,21 +3360,45 @@ function jass.NewSoundEnvironment(environmentName)
     log.info('新建声音环境：', environmentName)
 end
 --native CreateSound                  takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
+function jass.CreateSound(fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, eaxSetting)
+    return sound.create(fileName, nil, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, eaxSetting)
+end
+
 --native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
+function jass.CreateSoundFilenameWithLabel(fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, SLKEntryName)
+    return sound.create(fileName, nil, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, SLKEntryName)
+end
+
 --native CreateSoundFromLabel         takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
 function jass.CreateSoundFromLabel(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
-    return sound.create(soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate)
+    return sound.create(nil, soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, '')
 end
 
 --native CreateMIDISound              takes string soundLabel, integer fadeInRate, integer fadeOutRate returns sound
 function jass.CreateMIDISound(soundLabel, fadeInRate, fadeOutRate)
-    return sound.create(soundLabel, false, false, false, fadeInRate, fadeOutRate)
+    return sound.create(nil, soundLabel, false, false, false, fadeInRate, fadeOutRate, '')
 end
 --native SetSoundParamsFromLabel      takes sound soundHandle, string soundLabel returns nothing
+function jass.SetSoundParamsFromLabel(soundHandle, soundLabel)
+    -- FIXME
+    soundHandle:set_label(soundLabel)
+end
+
 --native SetSoundDistanceCutoff       takes sound soundHandle, real cutoff returns nothing
 --native SetSoundChannel              takes sound soundHandle, integer channel returns nothing
+function jass.SetSoundChannel(soundHandle, channel)
+    soundHandle:set_channel(channel)
+end
+
 --native SetSoundVolume               takes sound soundHandle, integer volume returns nothing
+function jass.SetSoundVolume(soundHandle, volume)
+    soundHandle:set_volume(volume)
+end
 --native SetSoundPitch                takes sound soundHandle, real pitch returns nothing
+function jass.SetSoundPitch(soundHandle, pitch)
+    soundHandle:set_pitch(pitch)
+end
+
 --// the following method must be called immediately after calling "StartSound"
 --native SetSoundPlayPosition         takes sound soundHandle, integer millisecs returns nothing
 --// these calls are only valid if the sound was created with 3d enabled
@@ -3308,17 +3406,21 @@ end
 --native SetSoundConeAngles           takes sound soundHandle, real inside, real outside, integer outsideVolume returns nothing
 --native SetSoundConeOrientation      takes sound soundHandle, real x, real y, real z returns nothing
 --native SetSoundPosition             takes sound soundHandle, real x, real y, real z returns nothing
+function jass.SetSoundPosition(soundHandle, x, y, z)
+
+end
+
 --native SetSoundVelocity             takes sound soundHandle, real x, real y, real z returns nothing
 --native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
 --native StartSound                   takes sound soundHandle returns nothing
 function jass.StartSound(soundHandle)
     print(soundHandle)
-    log.info('开始播放声音' , soundHandle)
+    log.info('开始播放声音', soundHandle)
 end
 
 --native StopSound                    takes sound soundHandle, boolean killWhenDone, boolean fadeOut returns nothing
 function jass.StopSound(soundHandle, killWhenDone, fadeOut)
-    log.info('停止播放声音' , soundHandle)
+    log.info('停止播放声音', soundHandle)
     log.info('声音结束再停止：', killWhenDone)
     log.info('逐渐变弱：', fadeOut)
 end
@@ -3343,6 +3445,9 @@ end
 --native SetThematicMusicPlayPosition takes integer millisecs returns nothing
 --// other music and sound calls
 --native SetSoundDuration             takes sound soundHandle, integer duration returns nothing
+function jass.SetSoundDuration(soundHandle, duration)
+    soundHandle:set_duration(duration)
+end
 --native GetSoundDuration             takes sound soundHandle returns integer
 --native GetSoundFileDuration         takes string musicFileName returns integer
 --native VolumeGroupSetVolume         takes volumegroup vgroup, real scale returns nothing
@@ -3396,6 +3501,5 @@ end
 function jass.SetTerrainPathable(x, y, t, flag)
 
 end
-
 
 return jass

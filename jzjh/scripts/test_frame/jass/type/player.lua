@@ -63,6 +63,13 @@ function mt:get_slot_state()
     return self.slot_state
 end
 
+function mt:get_state(state)
+    if not self[state] then
+        return 0
+    end
+    return self[state]
+end
+
 function mt:set_alliance(p, alliance_type)
     if type(self.allies) == 'table' then
         --FIXME 是否需要分类别
@@ -71,7 +78,28 @@ function mt:set_alliance(p, alliance_type)
 end
 
 function mt:set_state(state, value)
-    p[state] = value
+    self[state] = value
+end
+
+function mt:is_tech_researched(techid)
+    if not self.techs[techid] then
+        return false
+    end
+    return self.techs[techid].level > 0
+end
+
+function mt:set_tech_max_allowed(techid, max)
+    if not self.techs[techid] then
+        self.techs[techid] = {}
+    end
+    self.techs[techid].max_allowed = max
+end
+
+function mt:get_tech_max_allowed(techid)
+    if not self.techs[techid] then
+        return 100
+    end
+    return self.techs[techid].max_allowed
 end
 
 
@@ -102,6 +130,7 @@ function player.init()
         player.all_players[p.handle_id] = p
         player[i] = p
         p.allies = {}
+        p.techs = {}
         p.name = '玩家' .. i
         p.map_control = mapcontrol[1]
         p.slot_state = playerslotstate[2]

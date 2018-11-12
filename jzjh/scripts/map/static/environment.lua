@@ -1,6 +1,21 @@
-function InitEnvironment()
+local environment = {}
+
+function environment.init()
 	local we
-	local d	
+	SetCameraBounds(-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
+			-15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM),
+			15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+			15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
+			-15616.0 + GetCameraMargin(CAMERA_MARGIN_LEFT),
+			15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP),
+			15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT),
+			-15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+	SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
+	SetTerrainFogEx(0, 3000.0, 5000.0, 0.5, 0.0, 0.0, 0.0)
+	NewSoundEnvironment("Default")
+	SetAmbientDaySound("VillageDay")
+	SetAmbientNightSound("VillageNight")
+	SetMapMusic("Music", true, 0)
 	wh = CreateSound("Sound\\Ambient\\DoodadEffects\\Seagull1.wav", false, false, false, 10, 10, "DefaultEAXON")
 	SetSoundParamsFromLabel(wh, "SeagullSound")
 	SetSoundDuration(wh, 3593)
@@ -238,9 +253,4 @@ function InitEnvironment()
 	createitem(1227897138, -1894.2, -1812.9)
 	createitem(1227897138, -1799.6, -1810.2)
 end
-function MapStartCreateUnitsAndInitEnvironments()
-	CreateUnitsForPlayer_5()
-	CreateUnitsForPlayer_12()
-	CreateUnitsForPlayer_15()
-	InitEnvironment()
-end
+return environment

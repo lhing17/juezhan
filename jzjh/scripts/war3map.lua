@@ -1099,8 +1099,8 @@ end
 
 
 require 'util.maxspeed'
---require 'map.系统.武器'
---require 'map.系统.弹幕'
+require 'map.系统.武器'
+require 'map.系统.弹幕'
 --重写创造物品的函数
 function createitemloc(id, loc)
 	local it = nil
@@ -1575,7 +1575,7 @@ function SetCamera()
 	l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
 	Qu()
 end
---require 'map.系统.万能属性'
+require 'map.系统.万能属性'
 function kv()
 	local i = 0
 	local m = 0
@@ -2128,8 +2128,8 @@ function SetUnitDizzy(Unit, Size, ExFile)
 	tm = nil
 end
 
---require 'map.rules.伤害公式'
---require 'map.rules.武功升重'
+require 'map.rules.伤害公式'
+require 'map.rules.武功升重'
 
 
 --BOSS AI放技能
@@ -2166,7 +2166,7 @@ function BossFangJiNeng()
 	uc = nil
 end
 
---require 'map.系统.万能buff'
+require 'map.系统.万能buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
 	CreateTimerDialogBJ(t, title)
@@ -2252,11 +2252,11 @@ end
 
 require 'map.rules.rule'
 require 'map.系统.副本'
---require 'map.系统.历练'
---require 'map.系统.任务'
---require 'map.系统.神器'
---require 'map.系统.炼丹'
---require 'map.系统.桃花岛'
+require 'map.系统.历练'
+require 'map.系统.任务'
+require 'map.系统.神器'
+require 'map.系统.炼丹'
+require 'map.系统.桃花岛'
 
 require 'util.najitest'
 
@@ -2265,19 +2265,19 @@ require 'util.najitest'
 
 
 
---require 'map.系统.挑战场'
+require 'map.系统.挑战场'
 --
---require 'map.门派.自创武学.init'
---require 'map.门派.阵法.init'
+require 'map.门派.自创武学.init'
+require 'map.门派.阵法.init'
 --
---require 'map.系统.自制武器'
+require 'map.系统.自制武器'
 --
---require 'map.门派.奇武.init'
+require 'map.门派.奇武.init'
 --
---require 'map.系统.剑意'
---require 'map.系统.四圣兽'
+require 'map.系统.剑意'
+require 'map.系统.四圣兽'
 --
---require 'map.门派.掌门技.init'
+require 'map.门派.掌门技.init'
 
 
 require 'map.static.detail'

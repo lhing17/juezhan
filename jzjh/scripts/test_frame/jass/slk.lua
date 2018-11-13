@@ -4,6 +4,8 @@
 --- DateTime: 2018/11/9 15:53
 ---
 
+local path = 'F:\\personal\\heroaltar\\juezhan\\jzjh\\'
+
 local slk = {}
 local lni = require 'jass.util.lni-loader'
 local storm = require 'jass.storm'
@@ -26,7 +28,7 @@ end
 
 local function init()
     lni:set_marco('TableSearcher', '$MapPath$table\\')
-    lni:set_marco('MapPath', 'D:\\MPQEditor\\jzjh1.6\\juezhan\\jzjh\\')
+    lni:set_marco('MapPath', path)
     --lni_loader('ability')
     lni_loader('buff')
     lni_loader('destructable')

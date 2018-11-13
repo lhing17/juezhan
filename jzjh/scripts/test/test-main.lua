@@ -8,5 +8,19 @@ SCRIPT_PATH = 'F:\\personal\\heroaltar\\juezhan\\jzjh\\'
 package.path = package.path .. ';'..SCRIPT_PATH..'?.lua'
 package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\?.lua'
 package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\test_frame\\?.lua'
+package.cpath = package.cpath .. ';'..SCRIPT_PATH..'scripts\\test_frame\\jass\\clib\\?.dll'
+
+local clib = require('clib')
+local o_require = require
+
+function require(modname)
+    flag, r = pcall(o_require, modname)
+    if not flag then
+        r = o_require(clib.u2g(modname))
+    end
+    return r
+end
+
+
 
 require('scripts.main')

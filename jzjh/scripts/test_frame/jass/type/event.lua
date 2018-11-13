@@ -7,6 +7,7 @@
 local common_util = require 'jass.util.common_util'
 local playerevent = require 'jass.type.playerevent'
 local gameevent = require 'jass.type.gameevent'
+local dialogevent = require 'jass.type.dialogevent'
 local event = {}
 
 local mt = {}
@@ -32,6 +33,16 @@ function event.create_player_chat_event(p, message, exact)
     e.player = p
     e.message = message
     e.exact = exact
+    event[e.handle_id] = e
+    return e
+end
+
+function event.create_dialog_event(d)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'dialogevent'
+    e.event_id = dialogevent[91]
+    e.dialog = d
     event[e.handle_id] = e
     return e
 end

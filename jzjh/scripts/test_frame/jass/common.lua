@@ -1936,6 +1936,10 @@ function jass.TriggerRegisterGameStateEvent(t, whichState, opcode, limitval)
 end
 
 --native TriggerRegisterDialogEvent       takes trigger whichTrigger, dialog whichDialog returns event
+function jass.TriggerRegisterDialogEvent(t, d)
+    t:register_dialog_event(d)
+end
+
 --native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
 --//  EVENT_GAME_STATE_LIMIT
 --constant native GetEventGameState takes nothing returns gamestate
@@ -1964,6 +1968,10 @@ end
 --constant native GetTriggeringTrackable takes nothing returns trackable
 --// EVENT_DIALOG_BUTTON_CLICK
 --constant native GetClickedButton takes nothing returns button
+function jass.GetClickedButton()
+    return trigger.clicked_button
+end
+
 --constant native GetClickedDialog    takes nothing returns dialog
 --// EVENT_GAME_TOURNAMENT_FINISH_SOON
 --constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real

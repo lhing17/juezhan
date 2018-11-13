@@ -88,6 +88,12 @@ function mt:register_leave_region(r, filter)
     return e
 end
 
+function mt:register_dialog_event(d)
+    local e = event.create_dialog_event(d)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
 function mt:evaluate()
     local flag = true
     for _, v in pairs(self.conditions) do

@@ -13,13 +13,13 @@ mt.type = 'dialogevent'
 mt.name = ''
 
 function dialogevent.init()
-	local dialogevent_names={}
-	for i = 1, #dialogevent_names do
-		local di = {}
-		di.name = dialogevent_names[i]
-		setmetatable(di, dialogevent)
-		table.insert(dialogevent, di)
-	end
+    local dialogevent_names = { 'EVENT_DIALOG_BUTTON_CLICK', 'EVENT_DIALOG_CLICK', }
+    for i = 90, 89 + #dialogevent_names do
+        local di = {}
+        di.name = dialogevent_names[i - 89]
+        setmetatable(di, dialogevent)
+        dialogevent[i] = di
+    end
 end
 
 return dialogevent

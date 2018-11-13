@@ -12,7 +12,7 @@
 ]===]
 
 local function init()
-    local test_creep = et.unit(gg_unit_N00I_0116)
+    local test_creep = gg_unit_N00I_0116
     local test_damage = 0
     local is_testing = false
     -- 伤害测试

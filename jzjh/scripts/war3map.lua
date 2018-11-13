@@ -2258,7 +2258,7 @@ require 'map.系统.神器'
 require 'map.系统.炼丹'
 require 'map.系统.桃花岛'
 
-require 'util.najitest'
+
 
 -- 包含门派库
 ----------少林开始--------//
@@ -3114,7 +3114,7 @@ function main1()
 	InitGlobalVariables() --初始化全局变量
 
 	--键盘输入系统
---	require 'map.系统.keyinput'
+	require 'map.系统.keyinput'
 
 --	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
 --	MonsterCome() --决战江湖1.52之圣兽来了
@@ -3786,6 +3786,9 @@ function main()
     require 'map.static.destructables'
     local unit_creation = require 'map.static.units'
     local environment = require 'map.static.environment'
+
+    -- naji测试
+    require 'util.najitest'
 
     et.unit.init()
     environment.init() -- 创建单位并初始化环境

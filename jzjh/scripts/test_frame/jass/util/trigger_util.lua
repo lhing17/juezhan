@@ -49,6 +49,8 @@ function trigger_util.trig_player_chat_event(p, message)
             if e.event_id == playerevent[16] then
                 trigger.triggering = t
                 trigger.player = p
+                trigger.player_chat_string = message
+                trigger.player_chat_string_matched = e.message
                 local flag = false
                 if e.message == '' then
                     flag = true
@@ -59,7 +61,8 @@ function trigger_util.trig_player_chat_event(p, message)
                 if e.message ~= '' and not e.exact and string.find(e.message, message) then
                     flag = true
                 end
-                if flag then
+                if flag and p == e.player then
+
                     if trigger_util.evaluate(t.conditions) then
                         trigger_util.execute(t.actions)
                     end

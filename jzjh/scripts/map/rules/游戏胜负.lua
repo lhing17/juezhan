@@ -52,7 +52,7 @@ local function init()
     end)
 
     --游戏失败
-    local u = et.unit(udg_ZhengPaiWL)
+    local u = udg_ZhengPaiWL
     u:event '单位-死亡' (function(self, killer, killed)
         force.send_message("|CFFFF00B2决战江湖1.55的游戏总评分：" .. ae .. "分（战败）")
         force.fail()

@@ -1639,8 +1639,9 @@ function OL()
 	t8 = true
 	RemoveUnit(GetTriggerUnit())
 	DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 30, "|cFFFFCC33韦小宝想邀请你同他赌一局，你是否愿意呢？|cFF33FFFF15秒钟内操作键盘选择  \n↑：同意并将身上的钱全部下注\n←：同意并将身上50%的钱下注\n→：同意并将身上25%的钱下注\n↓：拒绝")
-	YDWEPolledWaitNull(15.0)
-	t8 = false
+	et.wait(15, function()
+		t8 = false
+	end)
 end
 function QL()
 	return GetTriggerPlayer() == s8 and t8

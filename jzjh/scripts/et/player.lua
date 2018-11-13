@@ -200,12 +200,12 @@ end
 --获取镜头属性
 --	镜头属性
 function mt:getCameraField(key)
-    return math.deg(jass.GetCameraField(jass[key]))
+    return jass.GetCameraField(jass[key])
 end
 
 
 -- 直接作为方法调用，获取玩家
-function player.__call(i)
+function player:__call(i)
     return player[i]
 end
 
@@ -242,7 +242,7 @@ end
 function player.regist_jass_triggers()
     --玩家聊天事件
     local t = war3.CreateTrigger(function()
-        local p = et.player(jass.GetTriggerPlayer())
+        local p = et.player[jass.GetTriggerPlayer()]
         p:event_notify('玩家-聊天', p, jass.GetEventPlayerChatString())
     end)
 

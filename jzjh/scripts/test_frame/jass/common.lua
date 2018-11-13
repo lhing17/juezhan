@@ -31,6 +31,7 @@ local trigger = require 'jass.type.trigger'
 local item = require 'jass.type.item'
 local timer = require 'jass.type.timer'
 local dialog = require 'jass.type.dialog'
+local effect = require 'jass.type.effect'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -132,6 +133,9 @@ setmetatable(jass, { __index = function(t, key)
         end
     end
 end })
+
+
+
 
 --constant native ConvertRace                 takes integer i returns race
 function jass.ConvertRace(i)
@@ -319,6 +323,477 @@ function jass.ConvertVersion(i)
     return version[i]
 end
 
+jass.FALSE = false
+jass.TRUE = true
+jass.JASS_MAX_ARRAY_SIZE = 8192
+
+jass.PLAYER_NEUTRAL_PASSIVE = 15
+jass.PLAYER_NEUTRAL_AGGRESSIVE = 12
+
+jass.PLAYER_COLOR_RED = jass.ConvertPlayerColor(0)
+jass.PLAYER_COLOR_BLUE = jass.ConvertPlayerColor(1)
+jass.PLAYER_COLOR_CYAN = jass.ConvertPlayerColor(2)
+jass.PLAYER_COLOR_PURPLE = jass.ConvertPlayerColor(3)
+jass.PLAYER_COLOR_YELLOW = jass.ConvertPlayerColor(4)
+jass.PLAYER_COLOR_ORANGE = jass.ConvertPlayerColor(5)
+jass.PLAYER_COLOR_GREEN = jass.ConvertPlayerColor(6)
+jass.PLAYER_COLOR_PINK = jass.ConvertPlayerColor(7)
+jass.PLAYER_COLOR_LIGHT_GRAY = jass.ConvertPlayerColor(8)
+jass.PLAYER_COLOR_LIGHT_BLUE = jass.ConvertPlayerColor(9)
+jass.PLAYER_COLOR_AQUA = jass.ConvertPlayerColor(10)
+jass.PLAYER_COLOR_BROWN = jass.ConvertPlayerColor(11)
+jass.RACE_HUMAN = jass.ConvertRace(1)
+jass.RACE_ORC = jass.ConvertRace(2)
+jass.RACE_UNDEAD = jass.ConvertRace(3)
+jass.RACE_NIGHTELF = jass.ConvertRace(4)
+jass.RACE_DEMON = jass.ConvertRace(5)
+jass.RACE_OTHER = jass.ConvertRace(7)
+jass.PLAYER_GAME_RESULT_VICTORY = jass.ConvertPlayerGameResult(0)
+jass.PLAYER_GAME_RESULT_DEFEAT = jass.ConvertPlayerGameResult(1)
+jass.PLAYER_GAME_RESULT_TIE = jass.ConvertPlayerGameResult(2)
+jass.PLAYER_GAME_RESULT_NEUTRAL = jass.ConvertPlayerGameResult(3)
+jass.ALLIANCE_PASSIVE = jass.ConvertAllianceType(0)
+jass.ALLIANCE_HELP_REQUEST = jass.ConvertAllianceType(1)
+jass.ALLIANCE_HELP_RESPONSE = jass.ConvertAllianceType(2)
+jass.ALLIANCE_SHARED_XP = jass.ConvertAllianceType(3)
+jass.ALLIANCE_SHARED_SPELLS = jass.ConvertAllianceType(4)
+jass.ALLIANCE_SHARED_VISION = jass.ConvertAllianceType(5)
+jass.ALLIANCE_SHARED_CONTROL = jass.ConvertAllianceType(6)
+jass.ALLIANCE_SHARED_ADVANCED_CONTROL = jass.ConvertAllianceType(7)
+jass.ALLIANCE_RESCUABLE = jass.ConvertAllianceType(8)
+jass.ALLIANCE_SHARED_VISION_FORCED = jass.ConvertAllianceType(9)
+jass.VERSION_REIGN_OF_CHAOS = jass.ConvertVersion(0)
+jass.VERSION_FROZEN_THRONE = jass.ConvertVersion(1)
+jass.ATTACK_TYPE_NORMAL = jass.ConvertAttackType(0)
+jass.ATTACK_TYPE_MELEE = jass.ConvertAttackType(1)
+jass.ATTACK_TYPE_PIERCE = jass.ConvertAttackType(2)
+jass.ATTACK_TYPE_SIEGE = jass.ConvertAttackType(3)
+jass.ATTACK_TYPE_MAGIC = jass.ConvertAttackType(4)
+jass.ATTACK_TYPE_CHAOS = jass.ConvertAttackType(5)
+jass.ATTACK_TYPE_HERO = jass.ConvertAttackType(6)
+jass.DAMAGE_TYPE_UNKNOWN = jass.ConvertDamageType(0)
+jass.DAMAGE_TYPE_NORMAL = jass.ConvertDamageType(4)
+jass.DAMAGE_TYPE_ENHANCED = jass.ConvertDamageType(5)
+jass.DAMAGE_TYPE_FIRE = jass.ConvertDamageType(8)
+jass.DAMAGE_TYPE_COLD = jass.ConvertDamageType(9)
+jass.DAMAGE_TYPE_LIGHTNING = jass.ConvertDamageType(10)
+jass.DAMAGE_TYPE_POISON = jass.ConvertDamageType(11)
+jass.DAMAGE_TYPE_DISEASE = jass.ConvertDamageType(12)
+jass.DAMAGE_TYPE_DIVINE = jass.ConvertDamageType(13)
+jass.DAMAGE_TYPE_MAGIC = jass.ConvertDamageType(14)
+jass.DAMAGE_TYPE_SONIC = jass.ConvertDamageType(15)
+jass.DAMAGE_TYPE_ACID = jass.ConvertDamageType(16)
+jass.DAMAGE_TYPE_FORCE = jass.ConvertDamageType(17)
+jass.DAMAGE_TYPE_DEATH = jass.ConvertDamageType(18)
+jass.DAMAGE_TYPE_MIND = jass.ConvertDamageType(19)
+jass.DAMAGE_TYPE_PLANT = jass.ConvertDamageType(20)
+jass.DAMAGE_TYPE_DEFENSIVE = jass.ConvertDamageType(21)
+jass.DAMAGE_TYPE_DEMOLITION = jass.ConvertDamageType(22)
+jass.DAMAGE_TYPE_SLOW_POISON = jass.ConvertDamageType(23)
+jass.DAMAGE_TYPE_SPIRIT_LINK = jass.ConvertDamageType(24)
+jass.DAMAGE_TYPE_SHADOW_STRIKE = jass.ConvertDamageType(25)
+jass.DAMAGE_TYPE_UNIVERSAL = jass.ConvertDamageType(26)
+jass.WEAPON_TYPE_WHOKNOWS = jass.ConvertWeaponType(0)
+jass.WEAPON_TYPE_METAL_LIGHT_CHOP = jass.ConvertWeaponType(1)
+jass.WEAPON_TYPE_METAL_MEDIUM_CHOP = jass.ConvertWeaponType(2)
+jass.WEAPON_TYPE_METAL_HEAVY_CHOP = jass.ConvertWeaponType(3)
+jass.WEAPON_TYPE_METAL_LIGHT_SLICE = jass.ConvertWeaponType(4)
+jass.WEAPON_TYPE_METAL_MEDIUM_SLICE = jass.ConvertWeaponType(5)
+jass.WEAPON_TYPE_METAL_HEAVY_SLICE = jass.ConvertWeaponType(6)
+jass.WEAPON_TYPE_METAL_MEDIUM_BASH = jass.ConvertWeaponType(7)
+jass.WEAPON_TYPE_METAL_HEAVY_BASH = jass.ConvertWeaponType(8)
+jass.WEAPON_TYPE_METAL_MEDIUM_STAB = jass.ConvertWeaponType(9)
+jass.WEAPON_TYPE_METAL_HEAVY_STAB = jass.ConvertWeaponType(10)
+jass.WEAPON_TYPE_WOOD_LIGHT_SLICE = jass.ConvertWeaponType(11)
+jass.WEAPON_TYPE_WOOD_MEDIUM_SLICE = jass.ConvertWeaponType(12)
+jass.WEAPON_TYPE_WOOD_HEAVY_SLICE = jass.ConvertWeaponType(13)
+jass.WEAPON_TYPE_WOOD_LIGHT_BASH = jass.ConvertWeaponType(14)
+jass.WEAPON_TYPE_WOOD_MEDIUM_BASH = jass.ConvertWeaponType(15)
+jass.WEAPON_TYPE_WOOD_HEAVY_BASH = jass.ConvertWeaponType(16)
+jass.WEAPON_TYPE_WOOD_LIGHT_STAB = jass.ConvertWeaponType(17)
+jass.WEAPON_TYPE_WOOD_MEDIUM_STAB = jass.ConvertWeaponType(18)
+jass.WEAPON_TYPE_CLAW_LIGHT_SLICE = jass.ConvertWeaponType(19)
+jass.WEAPON_TYPE_CLAW_MEDIUM_SLICE = jass.ConvertWeaponType(20)
+jass.WEAPON_TYPE_CLAW_HEAVY_SLICE = jass.ConvertWeaponType(21)
+jass.WEAPON_TYPE_AXE_MEDIUM_CHOP = jass.ConvertWeaponType(22)
+jass.WEAPON_TYPE_ROCK_HEAVY_BASH = jass.ConvertWeaponType(23)
+jass.PATHING_TYPE_ANY = jass.ConvertPathingType(0)
+jass.PATHING_TYPE_WALKABILITY = jass.ConvertPathingType(1)
+jass.PATHING_TYPE_FLYABILITY = jass.ConvertPathingType(2)
+jass.PATHING_TYPE_BUILDABILITY = jass.ConvertPathingType(3)
+jass.PATHING_TYPE_PEONHARVESTPATHING = jass.ConvertPathingType(4)
+jass.PATHING_TYPE_BLIGHTPATHING = jass.ConvertPathingType(5)
+jass.PATHING_TYPE_FLOATABILITY = jass.ConvertPathingType(6)
+jass.PATHING_TYPE_AMPHIBIOUSPATHING = jass.ConvertPathingType(7)
+jass.RACE_PREF_HUMAN = jass.ConvertRacePref(1)
+jass.RACE_PREF_ORC = jass.ConvertRacePref(2)
+jass.RACE_PREF_NIGHTELF = jass.ConvertRacePref(4)
+jass.RACE_PREF_UNDEAD = jass.ConvertRacePref(8)
+jass.RACE_PREF_DEMON = jass.ConvertRacePref(16)
+jass.RACE_PREF_RANDOM = jass.ConvertRacePref(32)
+jass.RACE_PREF_USER_SELECTABLE = jass.ConvertRacePref(64)
+jass.MAP_CONTROL_USER = jass.ConvertMapControl(0)
+jass.MAP_CONTROL_COMPUTER = jass.ConvertMapControl(1)
+jass.MAP_CONTROL_RESCUABLE = jass.ConvertMapControl(2)
+jass.MAP_CONTROL_NEUTRAL = jass.ConvertMapControl(3)
+jass.MAP_CONTROL_CREEP = jass.ConvertMapControl(4)
+jass.MAP_CONTROL_NONE = jass.ConvertMapControl(5)
+jass.GAME_TYPE_MELEE = jass.ConvertGameType(1)
+jass.GAME_TYPE_FFA = jass.ConvertGameType(2)
+jass.GAME_TYPE_USE_MAP_SETTINGS = jass.ConvertGameType(4)
+jass.GAME_TYPE_BLIZ = jass.ConvertGameType(8)
+jass.GAME_TYPE_ONE_ON_ONE = jass.ConvertGameType(16)
+jass.GAME_TYPE_TWO_TEAM_PLAY = jass.ConvertGameType(32)
+jass.GAME_TYPE_THREE_TEAM_PLAY = jass.ConvertGameType(64)
+jass.GAME_TYPE_FOUR_TEAM_PLAY = jass.ConvertGameType(128)
+jass.MAP_FOG_HIDE_TERRAIN = jass.ConvertMapFlag(1)
+jass.MAP_FOG_MAP_EXPLORED = jass.ConvertMapFlag(2)
+jass.MAP_FOG_ALWAYS_VISIBLE = jass.ConvertMapFlag(4)
+jass.MAP_USE_HANDICAPS = jass.ConvertMapFlag(8)
+jass.MAP_OBSERVERS = jass.ConvertMapFlag(16)
+jass.MAP_OBSERVERS_ON_DEATH = jass.ConvertMapFlag(32)
+jass.MAP_FIXED_COLORS = jass.ConvertMapFlag(128)
+jass.MAP_LOCK_RESOURCE_TRADING = jass.ConvertMapFlag(256)
+jass.MAP_RESOURCE_TRADING_ALLIES_ONLY = jass.ConvertMapFlag(512)
+jass.MAP_LOCK_ALLIANCE_CHANGES = jass.ConvertMapFlag(1024)
+jass.MAP_ALLIANCE_CHANGES_HIDDEN = jass.ConvertMapFlag(2048)
+jass.MAP_CHEATS = jass.ConvertMapFlag(4096)
+jass.MAP_CHEATS_HIDDEN = jass.ConvertMapFlag(8192)
+jass.MAP_LOCK_SPEED = jass.ConvertMapFlag(8192 * 2)
+jass.MAP_LOCK_RANDOM_SEED = jass.ConvertMapFlag(8192 * 4)
+jass.MAP_SHARED_ADVANCED_CONTROL = jass.ConvertMapFlag(8192 * 8)
+jass.MAP_RANDOM_HERO = jass.ConvertMapFlag(8192 * 16)
+jass.MAP_RANDOM_RACES = jass.ConvertMapFlag(8192 * 32)
+jass.MAP_RELOADED = jass.ConvertMapFlag(8192 * 64)
+jass.MAP_PLACEMENT_RANDOM = jass.ConvertPlacement(0)
+jass.MAP_PLACEMENT_FIXED = jass.ConvertPlacement(1)
+jass.MAP_PLACEMENT_USE_MAP_SETTINGS = jass.ConvertPlacement(2)
+jass.MAP_PLACEMENT_TEAMS_TOGETHER = jass.ConvertPlacement(3)
+jass.MAP_LOC_PRIO_LOW = jass.ConvertStartLocPrio(0)
+jass.MAP_LOC_PRIO_HIGH = jass.ConvertStartLocPrio(1)
+jass.MAP_LOC_PRIO_NOT = jass.ConvertStartLocPrio(2)
+jass.MAP_DENSITY_NONE = jass.ConvertMapDensity(0)
+jass.MAP_DENSITY_LIGHT = jass.ConvertMapDensity(1)
+jass.MAP_DENSITY_MEDIUM = jass.ConvertMapDensity(2)
+jass.MAP_DENSITY_HEAVY = jass.ConvertMapDensity(3)
+jass.MAP_DIFFICULTY_EASY = jass.ConvertGameDifficulty(0)
+jass.MAP_DIFFICULTY_NORMAL = jass.ConvertGameDifficulty(1)
+jass.MAP_DIFFICULTY_HARD = jass.ConvertGameDifficulty(2)
+jass.MAP_DIFFICULTY_INSANE = jass.ConvertGameDifficulty(3)
+jass.MAP_SPEED_SLOWEST = jass.ConvertGameSpeed(0)
+jass.MAP_SPEED_SLOW = jass.ConvertGameSpeed(1)
+jass.MAP_SPEED_NORMAL = jass.ConvertGameSpeed(2)
+jass.MAP_SPEED_FAST = jass.ConvertGameSpeed(3)
+jass.MAP_SPEED_FASTEST = jass.ConvertGameSpeed(4)
+jass.PLAYER_SLOT_STATE_EMPTY = jass.ConvertPlayerSlotState(0)
+jass.PLAYER_SLOT_STATE_PLAYING = jass.ConvertPlayerSlotState(1)
+jass.PLAYER_SLOT_STATE_LEFT = jass.ConvertPlayerSlotState(2)
+jass.SOUND_VOLUMEGROUP_UNITMOVEMENT = jass.ConvertVolumeGroup(0)
+jass.SOUND_VOLUMEGROUP_UNITSOUNDS = jass.ConvertVolumeGroup(1)
+jass.SOUND_VOLUMEGROUP_COMBAT = jass.ConvertVolumeGroup(2)
+jass.SOUND_VOLUMEGROUP_SPELLS = jass.ConvertVolumeGroup(3)
+jass.SOUND_VOLUMEGROUP_UI = jass.ConvertVolumeGroup(4)
+jass.SOUND_VOLUMEGROUP_MUSIC = jass.ConvertVolumeGroup(5)
+jass.SOUND_VOLUMEGROUP_AMBIENTSOUNDS = jass.ConvertVolumeGroup(6)
+jass.SOUND_VOLUMEGROUP_FIRE = jass.ConvertVolumeGroup(7)
+
+jass.GAME_STATE_DIVINE_INTERVENTION = jass.ConvertIGameState(0)
+jass.GAME_STATE_DISCONNECTED = jass.ConvertIGameState(1)
+jass.GAME_STATE_TIME_OF_DAY = jass.ConvertFGameState(2)
+jass.PLAYER_STATE_GAME_RESULT = jass.ConvertPlayerState(0)
+
+jass.PLAYER_STATE_RESOURCE_GOLD = jass.ConvertPlayerState(1)
+jass.PLAYER_STATE_RESOURCE_LUMBER = jass.ConvertPlayerState(2)
+jass.PLAYER_STATE_RESOURCE_HERO_TOKENS = jass.ConvertPlayerState(3)
+jass.PLAYER_STATE_RESOURCE_FOOD_CAP = jass.ConvertPlayerState(4)
+jass.PLAYER_STATE_RESOURCE_FOOD_USED = jass.ConvertPlayerState(5)
+jass.PLAYER_STATE_FOOD_CAP_CEILING = jass.ConvertPlayerState(6)
+jass.PLAYER_STATE_GIVES_BOUNTY = jass.ConvertPlayerState(7)
+jass.PLAYER_STATE_ALLIED_VICTORY = jass.ConvertPlayerState(8)
+jass.PLAYER_STATE_PLACED = jass.ConvertPlayerState(9)
+jass.PLAYER_STATE_OBSERVER_ON_DEATH = jass.ConvertPlayerState(10)
+jass.PLAYER_STATE_OBSERVER = jass.ConvertPlayerState(11)
+jass.PLAYER_STATE_UNFOLLOWABLE = jass.ConvertPlayerState(12)
+jass.PLAYER_STATE_GOLD_UPKEEP_RATE = jass.ConvertPlayerState(13)
+jass.PLAYER_STATE_LUMBER_UPKEEP_RATE = jass.ConvertPlayerState(14)
+jass.PLAYER_STATE_GOLD_GATHERED = jass.ConvertPlayerState(15)
+jass.PLAYER_STATE_LUMBER_GATHERED = jass.ConvertPlayerState(16)
+jass.PLAYER_STATE_NO_CREEP_SLEEP = jass.ConvertPlayerState(25)
+jass.UNIT_STATE_LIFE = jass.ConvertUnitState(0)
+jass.UNIT_STATE_MAX_LIFE = jass.ConvertUnitState(1)
+jass.UNIT_STATE_MANA = jass.ConvertUnitState(2)
+jass.UNIT_STATE_MAX_MANA = jass.ConvertUnitState(3)
+jass.AI_DIFFICULTY_NEWBIE = jass.ConvertAIDifficulty(0)
+jass.AI_DIFFICULTY_NORMAL = jass.ConvertAIDifficulty(1)
+jass.AI_DIFFICULTY_INSANE = jass.ConvertAIDifficulty(2)
+jass.PLAYER_SCORE_UNITS_TRAINED = jass.ConvertPlayerScore(0)
+jass.PLAYER_SCORE_UNITS_KILLED = jass.ConvertPlayerScore(1)
+jass.PLAYER_SCORE_STRUCT_BUILT = jass.ConvertPlayerScore(2)
+jass.PLAYER_SCORE_STRUCT_RAZED = jass.ConvertPlayerScore(3)
+jass.PLAYER_SCORE_TECH_PERCENT = jass.ConvertPlayerScore(4)
+jass.PLAYER_SCORE_FOOD_MAXPROD = jass.ConvertPlayerScore(5)
+jass.PLAYER_SCORE_FOOD_MAXUSED = jass.ConvertPlayerScore(6)
+jass.PLAYER_SCORE_HEROES_KILLED = jass.ConvertPlayerScore(7)
+jass.PLAYER_SCORE_ITEMS_GAINED = jass.ConvertPlayerScore(8)
+jass.PLAYER_SCORE_MERCS_HIRED = jass.ConvertPlayerScore(9)
+jass.PLAYER_SCORE_GOLD_MINED_TOTAL = jass.ConvertPlayerScore(10)
+jass.PLAYER_SCORE_GOLD_MINED_UPKEEP = jass.ConvertPlayerScore(11)
+jass.PLAYER_SCORE_GOLD_LOST_UPKEEP = jass.ConvertPlayerScore(12)
+jass.PLAYER_SCORE_GOLD_LOST_TAX = jass.ConvertPlayerScore(13)
+jass.PLAYER_SCORE_GOLD_GIVEN = jass.ConvertPlayerScore(14)
+jass.PLAYER_SCORE_GOLD_RECEIVED = jass.ConvertPlayerScore(15)
+jass.PLAYER_SCORE_LUMBER_TOTAL = jass.ConvertPlayerScore(16)
+jass.PLAYER_SCORE_LUMBER_LOST_UPKEEP = jass.ConvertPlayerScore(17)
+jass.PLAYER_SCORE_LUMBER_LOST_TAX = jass.ConvertPlayerScore(18)
+jass.PLAYER_SCORE_LUMBER_GIVEN = jass.ConvertPlayerScore(19)
+jass.PLAYER_SCORE_LUMBER_RECEIVED = jass.ConvertPlayerScore(20)
+jass.PLAYER_SCORE_UNIT_TOTAL = jass.ConvertPlayerScore(21)
+jass.PLAYER_SCORE_HERO_TOTAL = jass.ConvertPlayerScore(22)
+jass.PLAYER_SCORE_RESOURCE_TOTAL = jass.ConvertPlayerScore(23)
+jass.PLAYER_SCORE_TOTAL = jass.ConvertPlayerScore(24)
+jass.EVENT_GAME_VICTORY = jass.ConvertGameEvent(0)
+jass.EVENT_GAME_END_LEVEL = jass.ConvertGameEvent(1)
+jass.EVENT_GAME_VARIABLE_LIMIT = jass.ConvertGameEvent(2)
+jass.EVENT_GAME_STATE_LIMIT = jass.ConvertGameEvent(3)
+jass.EVENT_GAME_TIMER_EXPIRED = jass.ConvertGameEvent(4)
+jass.EVENT_GAME_ENTER_REGION = jass.ConvertGameEvent(5)
+jass.EVENT_GAME_LEAVE_REGION = jass.ConvertGameEvent(6)
+jass.EVENT_GAME_TRACKABLE_HIT = jass.ConvertGameEvent(7)
+jass.EVENT_GAME_TRACKABLE_TRACK = jass.ConvertGameEvent(8)
+jass.EVENT_GAME_SHOW_SKILL = jass.ConvertGameEvent(9)
+jass.EVENT_GAME_BUILD_SUBMENU = jass.ConvertGameEvent(10)
+jass.EVENT_PLAYER_STATE_LIMIT = jass.ConvertPlayerEvent(11)
+jass.EVENT_PLAYER_ALLIANCE_CHANGED = jass.ConvertPlayerEvent(12)
+jass.EVENT_PLAYER_DEFEAT = jass.ConvertPlayerEvent(13)
+jass.EVENT_PLAYER_VICTORY = jass.ConvertPlayerEvent(14)
+jass.EVENT_PLAYER_LEAVE = jass.ConvertPlayerEvent(15)
+jass.EVENT_PLAYER_CHAT = jass.ConvertPlayerEvent(16)
+jass.EVENT_PLAYER_END_CINEMATIC = jass.ConvertPlayerEvent(17)
+jass.EVENT_PLAYER_UNIT_ATTACKED = jass.ConvertPlayerUnitEvent(18)
+jass.EVENT_PLAYER_UNIT_RESCUED = jass.ConvertPlayerUnitEvent(19)
+
+jass.EVENT_PLAYER_UNIT_DEATH = jass.ConvertPlayerUnitEvent(20)
+jass.EVENT_PLAYER_UNIT_DECAY = jass.ConvertPlayerUnitEvent(21)
+
+jass.EVENT_PLAYER_UNIT_DETECTED = jass.ConvertPlayerUnitEvent(22)
+jass.EVENT_PLAYER_UNIT_HIDDEN = jass.ConvertPlayerUnitEvent(23)
+
+jass.EVENT_PLAYER_UNIT_SELECTED = jass.ConvertPlayerUnitEvent(24)
+jass.EVENT_PLAYER_UNIT_DESELECTED = jass.ConvertPlayerUnitEvent(25)
+
+jass.EVENT_PLAYER_UNIT_CONSTRUCT_START = jass.ConvertPlayerUnitEvent(26)
+jass.EVENT_PLAYER_UNIT_CONSTRUCT_CANCEL = jass.ConvertPlayerUnitEvent(27)
+jass.EVENT_PLAYER_UNIT_CONSTRUCT_FINISH = jass.ConvertPlayerUnitEvent(28)
+
+jass.EVENT_PLAYER_UNIT_UPGRADE_START = jass.ConvertPlayerUnitEvent(29)
+jass.EVENT_PLAYER_UNIT_UPGRADE_CANCEL = jass.ConvertPlayerUnitEvent(30)
+jass.EVENT_PLAYER_UNIT_UPGRADE_FINISH = jass.ConvertPlayerUnitEvent(31)
+
+jass.EVENT_PLAYER_UNIT_TRAIN_START = jass.ConvertPlayerUnitEvent(32)
+jass.EVENT_PLAYER_UNIT_TRAIN_CANCEL = jass.ConvertPlayerUnitEvent(33)
+jass.EVENT_PLAYER_UNIT_TRAIN_FINISH = jass.ConvertPlayerUnitEvent(34)
+
+jass.EVENT_PLAYER_UNIT_RESEARCH_START = jass.ConvertPlayerUnitEvent(35)
+jass.EVENT_PLAYER_UNIT_RESEARCH_CANCEL = jass.ConvertPlayerUnitEvent(36)
+jass.EVENT_PLAYER_UNIT_RESEARCH_FINISH = jass.ConvertPlayerUnitEvent(37)
+jass.EVENT_PLAYER_UNIT_ISSUED_ORDER = jass.ConvertPlayerUnitEvent(38)
+jass.EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER = jass.ConvertPlayerUnitEvent(39)
+jass.EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER = jass.ConvertPlayerUnitEvent(40)
+jass.EVENT_PLAYER_UNIT_ISSUED_UNIT_ORDER = jass.ConvertPlayerUnitEvent(40)
+
+jass.EVENT_PLAYER_HERO_LEVEL = jass.ConvertPlayerUnitEvent(41)
+jass.EVENT_PLAYER_HERO_SKILL = jass.ConvertPlayerUnitEvent(42)
+
+jass.EVENT_PLAYER_HERO_REVIVABLE = jass.ConvertPlayerUnitEvent(43)
+
+jass.EVENT_PLAYER_HERO_REVIVE_START = jass.ConvertPlayerUnitEvent(44)
+jass.EVENT_PLAYER_HERO_REVIVE_CANCEL = jass.ConvertPlayerUnitEvent(45)
+jass.EVENT_PLAYER_HERO_REVIVE_FINISH = jass.ConvertPlayerUnitEvent(46)
+jass.EVENT_PLAYER_UNIT_SUMMON = jass.ConvertPlayerUnitEvent(47)
+jass.EVENT_PLAYER_UNIT_DROP_ITEM = jass.ConvertPlayerUnitEvent(48)
+jass.EVENT_PLAYER_UNIT_PICKUP_ITEM = jass.ConvertPlayerUnitEvent(49)
+jass.EVENT_PLAYER_UNIT_USE_ITEM = jass.ConvertPlayerUnitEvent(50)
+
+jass.EVENT_PLAYER_UNIT_LOADED = jass.ConvertPlayerUnitEvent(51)
+
+jass.EVENT_UNIT_DAMAGED = jass.ConvertUnitEvent(52)
+jass.EVENT_UNIT_DEATH = jass.ConvertUnitEvent(53)
+jass.EVENT_UNIT_DECAY = jass.ConvertUnitEvent(54)
+jass.EVENT_UNIT_DETECTED = jass.ConvertUnitEvent(55)
+jass.EVENT_UNIT_HIDDEN = jass.ConvertUnitEvent(56)
+jass.EVENT_UNIT_SELECTED = jass.ConvertUnitEvent(57)
+jass.EVENT_UNIT_DESELECTED = jass.ConvertUnitEvent(58)
+
+jass.EVENT_UNIT_STATE_LIMIT = jass.ConvertUnitEvent(59)
+
+jass.EVENT_UNIT_ACQUIRED_TARGET = jass.ConvertUnitEvent(60)
+jass.EVENT_UNIT_TARGET_IN_RANGE = jass.ConvertUnitEvent(61)
+jass.EVENT_UNIT_ATTACKED = jass.ConvertUnitEvent(62)
+jass.EVENT_UNIT_RESCUED = jass.ConvertUnitEvent(63)
+
+jass.EVENT_UNIT_CONSTRUCT_CANCEL = jass.ConvertUnitEvent(64)
+jass.EVENT_UNIT_CONSTRUCT_FINISH = jass.ConvertUnitEvent(65)
+
+jass.EVENT_UNIT_UPGRADE_START = jass.ConvertUnitEvent(66)
+jass.EVENT_UNIT_UPGRADE_CANCEL = jass.ConvertUnitEvent(67)
+jass.EVENT_UNIT_UPGRADE_FINISH = jass.ConvertUnitEvent(68)
+jass.EVENT_UNIT_TRAIN_START = jass.ConvertUnitEvent(69)
+jass.EVENT_UNIT_TRAIN_CANCEL = jass.ConvertUnitEvent(70)
+jass.EVENT_UNIT_TRAIN_FINISH = jass.ConvertUnitEvent(71)
+
+jass.EVENT_UNIT_RESEARCH_START = jass.ConvertUnitEvent(72)
+jass.EVENT_UNIT_RESEARCH_CANCEL = jass.ConvertUnitEvent(73)
+jass.EVENT_UNIT_RESEARCH_FINISH = jass.ConvertUnitEvent(74)
+
+jass.EVENT_UNIT_ISSUED_ORDER = jass.ConvertUnitEvent(75)
+jass.EVENT_UNIT_ISSUED_POINT_ORDER = jass.ConvertUnitEvent(76)
+jass.EVENT_UNIT_ISSUED_TARGET_ORDER = jass.ConvertUnitEvent(77)
+
+jass.EVENT_UNIT_HERO_LEVEL = jass.ConvertUnitEvent(78)
+jass.EVENT_UNIT_HERO_SKILL = jass.ConvertUnitEvent(79)
+
+jass.EVENT_UNIT_HERO_REVIVABLE = jass.ConvertUnitEvent(80)
+jass.EVENT_UNIT_HERO_REVIVE_START = jass.ConvertUnitEvent(81)
+jass.EVENT_UNIT_HERO_REVIVE_CANCEL = jass.ConvertUnitEvent(82)
+jass.EVENT_UNIT_HERO_REVIVE_FINISH = jass.ConvertUnitEvent(83)
+
+jass.EVENT_UNIT_SUMMON = jass.ConvertUnitEvent(84)
+
+jass.EVENT_UNIT_DROP_ITEM = jass.ConvertUnitEvent(85)
+jass.EVENT_UNIT_PICKUP_ITEM = jass.ConvertUnitEvent(86)
+jass.EVENT_UNIT_USE_ITEM = jass.ConvertUnitEvent(87)
+
+jass.EVENT_UNIT_LOADED = jass.ConvertUnitEvent(88)
+
+jass.EVENT_WIDGET_DEATH = jass.ConvertWidgetEvent(89)
+
+jass.EVENT_DIALOG_BUTTON_CLICK = jass.ConvertDialogEvent(90)
+jass.EVENT_DIALOG_CLICK = jass.ConvertDialogEvent(91)
+
+jass.EVENT_GAME_LOADED = jass.ConvertGameEvent(256)
+jass.EVENT_GAME_TOURNAMENT_FINISH_SOON = jass.ConvertGameEvent(257)
+jass.EVENT_GAME_TOURNAMENT_FINISH_NOW = jass.ConvertGameEvent(258)
+jass.EVENT_GAME_SAVE = jass.ConvertGameEvent(259)
+
+jass.EVENT_PLAYER_ARROW_LEFT_DOWN = jass.ConvertPlayerEvent(261)
+jass.EVENT_PLAYER_ARROW_LEFT_UP = jass.ConvertPlayerEvent(262)
+jass.EVENT_PLAYER_ARROW_RIGHT_DOWN = jass.ConvertPlayerEvent(263)
+jass.EVENT_PLAYER_ARROW_RIGHT_UP = jass.ConvertPlayerEvent(264)
+jass.EVENT_PLAYER_ARROW_DOWN_DOWN = jass.ConvertPlayerEvent(265)
+jass.EVENT_PLAYER_ARROW_DOWN_UP = jass.ConvertPlayerEvent(266)
+jass.EVENT_PLAYER_ARROW_UP_DOWN = jass.ConvertPlayerEvent(267)
+jass.EVENT_PLAYER_ARROW_UP_UP = jass.ConvertPlayerEvent(268)
+
+jass.EVENT_PLAYER_UNIT_SELL = jass.ConvertPlayerUnitEvent(269)
+jass.EVENT_PLAYER_UNIT_CHANGE_OWNER = jass.ConvertPlayerUnitEvent(270)
+jass.EVENT_PLAYER_UNIT_SELL_ITEM = jass.ConvertPlayerUnitEvent(271)
+jass.EVENT_PLAYER_UNIT_SPELL_CHANNEL = jass.ConvertPlayerUnitEvent(272)
+jass.EVENT_PLAYER_UNIT_SPELL_CAST = jass.ConvertPlayerUnitEvent(273)
+jass.EVENT_PLAYER_UNIT_SPELL_EFFECT = jass.ConvertPlayerUnitEvent(274)
+jass.EVENT_PLAYER_UNIT_SPELL_FINISH = jass.ConvertPlayerUnitEvent(275)
+jass.EVENT_PLAYER_UNIT_SPELL_ENDCAST = jass.ConvertPlayerUnitEvent(276)
+jass.EVENT_PLAYER_UNIT_PAWN_ITEM = jass.ConvertPlayerUnitEvent(277)
+
+jass.EVENT_UNIT_SELL = jass.ConvertUnitEvent(286)
+jass.EVENT_UNIT_CHANGE_OWNER = jass.ConvertUnitEvent(287)
+jass.EVENT_UNIT_SELL_ITEM = jass.ConvertUnitEvent(288)
+jass.EVENT_UNIT_SPELL_CHANNEL = jass.ConvertUnitEvent(289)
+jass.EVENT_UNIT_SPELL_CAST = jass.ConvertUnitEvent(290)
+jass.EVENT_UNIT_SPELL_EFFECT = jass.ConvertUnitEvent(291)
+jass.EVENT_UNIT_SPELL_FINISH = jass.ConvertUnitEvent(292)
+jass.EVENT_UNIT_SPELL_ENDCAST = jass.ConvertUnitEvent(293)
+jass.EVENT_UNIT_PAWN_ITEM = jass.ConvertUnitEvent(294)
+
+jass.LESS_THAN = jass.ConvertLimitOp(0)
+jass.LESS_THAN_OR_EQUAL = jass.ConvertLimitOp(1)
+jass.EQUAL = jass.ConvertLimitOp(2)
+jass.GREATER_THAN_OR_EQUAL = jass.ConvertLimitOp(3)
+jass.GREATER_THAN = jass.ConvertLimitOp(4)
+jass.NOT_EQUAL = jass.ConvertLimitOp(5)
+
+jass.UNIT_TYPE_HERO = jass.ConvertUnitType(0)
+jass.UNIT_TYPE_DEAD = jass.ConvertUnitType(1)
+jass.UNIT_TYPE_STRUCTURE = jass.ConvertUnitType(2)
+
+jass.UNIT_TYPE_FLYING = jass.ConvertUnitType(3)
+jass.UNIT_TYPE_GROUND = jass.ConvertUnitType(4)
+
+jass.UNIT_TYPE_ATTACKS_FLYING = jass.ConvertUnitType(5)
+jass.UNIT_TYPE_ATTACKS_GROUND = jass.ConvertUnitType(6)
+
+jass.UNIT_TYPE_MELEE_ATTACKER = jass.ConvertUnitType(7)
+jass.UNIT_TYPE_RANGED_ATTACKER = jass.ConvertUnitType(8)
+
+jass.UNIT_TYPE_GIANT = jass.ConvertUnitType(9)
+jass.UNIT_TYPE_SUMMONED = jass.ConvertUnitType(10)
+jass.UNIT_TYPE_STUNNED = jass.ConvertUnitType(11)
+jass.UNIT_TYPE_PLAGUED = jass.ConvertUnitType(12)
+jass.UNIT_TYPE_SNARED = jass.ConvertUnitType(13)
+
+jass.UNIT_TYPE_UNDEAD = jass.ConvertUnitType(14)
+jass.UNIT_TYPE_MECHANICAL = jass.ConvertUnitType(15)
+jass.UNIT_TYPE_PEON = jass.ConvertUnitType(16)
+jass.UNIT_TYPE_SAPPER = jass.ConvertUnitType(17)
+jass.UNIT_TYPE_TOWNHALL = jass.ConvertUnitType(18)
+jass.UNIT_TYPE_ANCIENT = jass.ConvertUnitType(19)
+
+jass.UNIT_TYPE_TAUREN = jass.ConvertUnitType(20)
+jass.UNIT_TYPE_POISONED = jass.ConvertUnitType(21)
+jass.UNIT_TYPE_POLYMORPHED = jass.ConvertUnitType(22)
+jass.UNIT_TYPE_SLEEPING = jass.ConvertUnitType(23)
+jass.UNIT_TYPE_RESISTANT = jass.ConvertUnitType(24)
+jass.UNIT_TYPE_ETHEREAL = jass.ConvertUnitType(25)
+jass.UNIT_TYPE_MAGIC_IMMUNE = jass.ConvertUnitType(26)
+
+jass.ITEM_TYPE_PERMANENT = jass.ConvertItemType(0)
+jass.ITEM_TYPE_CHARGED = jass.ConvertItemType(1)
+jass.ITEM_TYPE_POWERUP = jass.ConvertItemType(2)
+jass.ITEM_TYPE_ARTIFACT = jass.ConvertItemType(3)
+jass.ITEM_TYPE_PURCHASABLE = jass.ConvertItemType(4)
+jass.ITEM_TYPE_CAMPAIGN = jass.ConvertItemType(5)
+jass.ITEM_TYPE_MISCELLANEOUS = jass.ConvertItemType(6)
+jass.ITEM_TYPE_UNKNOWN = jass.ConvertItemType(7)
+jass.ITEM_TYPE_ANY = jass.ConvertItemType(8)
+
+jass.ITEM_TYPE_TOME = jass.ConvertItemType(2)
+
+jass.CAMERA_FIELD_TARGET_DISTANCE = jass.ConvertCameraField(0)
+jass.CAMERA_FIELD_FARZ = jass.ConvertCameraField(1)
+jass.CAMERA_FIELD_ANGLE_OF_ATTACK = jass.ConvertCameraField(2)
+jass.CAMERA_FIELD_FIELD_OF_VIEW = jass.ConvertCameraField(3)
+jass.CAMERA_FIELD_ROLL = jass.ConvertCameraField(4)
+jass.CAMERA_FIELD_ROTATION = jass.ConvertCameraField(5)
+jass.CAMERA_FIELD_ZOFFSET = jass.ConvertCameraField(6)
+
+jass.BLEND_MODE_NONE = jass.ConvertBlendMode(0)
+jass.BLEND_MODE_DONT_CARE = jass.ConvertBlendMode(0)
+jass.BLEND_MODE_KEYALPHA = jass.ConvertBlendMode(1)
+jass.BLEND_MODE_BLEND = jass.ConvertBlendMode(2)
+jass.BLEND_MODE_ADDITIVE = jass.ConvertBlendMode(3)
+jass.BLEND_MODE_MODULATE = jass.ConvertBlendMode(4)
+jass.BLEND_MODE_MODULATE_2X = jass.ConvertBlendMode(5)
+jass.RARITY_FREQUENT = jass.ConvertRarityControl(0)
+jass.RARITY_RARE = jass.ConvertRarityControl(1)
+jass.TEXMAP_FLAG_NONE = jass.ConvertTexMapFlags(0)
+jass.TEXMAP_FLAG_WRAP_U = jass.ConvertTexMapFlags(1)
+jass.TEXMAP_FLAG_WRAP_V = jass.ConvertTexMapFlags(2)
+jass.TEXMAP_FLAG_WRAP_UV = jass.ConvertTexMapFlags(3)
+jass.FOG_OF_WAR_MASKED = jass.ConvertFogState(1)
+jass.FOG_OF_WAR_FOGGED = jass.ConvertFogState(2)
+jass.FOG_OF_WAR_VISIBLE = jass.ConvertFogState(4)
+jass.CAMERA_MARGIN_LEFT = 0
+jass.CAMERA_MARGIN_RIGHT = 1
+jass.CAMERA_MARGIN_TOP = 2
+jass.CAMERA_MARGIN_BOTTOM = 3
+jass.EFFECT_TYPE_TARGET = jass.ConvertEffectType(1)
+jass.EFFECT_TYPE_CASTER = jass.ConvertEffectType(2)
+jass.EFFECT_TYPE_SPECIAL = jass.ConvertEffectType(3)
+jass.EFFECT_TYPE_AREA_EFFECT = jass.ConvertEffectType(4)
+jass.EFFECT_TYPE_MISSILE = jass.ConvertEffectType(5)
+jass.EFFECT_TYPE_LIGHTNING = jass.ConvertEffectType(6)
+jass.SOUND_TYPE_EFFECT = jass.ConvertSoundType(0)
+jass.SOUND_TYPE_EFFECT_LOOPED = jass.ConvertSoundType(1)
+
 --constant native OrderId                     takes string  orderIdString     returns integer
 function jass.OrderId(orderIdString)
     return orderid.order2id(orderIdString)
@@ -373,6 +848,14 @@ settings.all_unit_type_slots = 11
 -- 游戏变量
 local variables = {}
 variables.time_of_day = 0
+--FIXME 更合适的值
+variables[camerafield[0]] = 2000
+variables[camerafield[1]] = 3000
+variables[camerafield[2]] = 180
+variables[camerafield[3]] = 300
+variables[camerafield[4]] = 0
+variables[camerafield[5]] = 0
+variables[camerafield[6]] = 0
 
 
 --        // Unit API
@@ -1860,7 +2343,13 @@ function jass.GetEnumPlayer()
 end
 
 --constant native GetTriggeringTrigger    takes nothing returns trigger
+function jass.GetTriggeringTrigger()
+    return trigger.triggering
+end
 --constant native GetTriggerEventId       takes nothing returns eventid
+function jass.GetTriggerEventId()
+    return trigger.event_id
+end
 --constant native GetTriggerEvalCount     takes trigger whichTrigger returns integer
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
 --native ExecuteFunc          takes string funcName returns nothing
@@ -1936,6 +2425,10 @@ function jass.TriggerRegisterGameStateEvent(t, whichState, opcode, limitval)
 end
 
 --native TriggerRegisterDialogEvent       takes trigger whichTrigger, dialog whichDialog returns event
+function jass.TriggerRegisterDialogEvent(t, d)
+    t:register_dialog_event(d)
+end
+
 --native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
 --//  EVENT_GAME_STATE_LIMIT
 --constant native GetEventGameState takes nothing returns gamestate
@@ -1964,6 +2457,10 @@ end
 --constant native GetTriggeringTrackable takes nothing returns trackable
 --// EVENT_DIALOG_BUTTON_CLICK
 --constant native GetClickedButton takes nothing returns button
+function jass.GetClickedButton()
+    return trigger.clicked_button
+end
+
 --constant native GetClickedDialog    takes nothing returns dialog
 --// EVENT_GAME_TOURNAMENT_FINISH_SOON
 --constant native GetTournamentFinishSoonTimeRemaining takes nothing returns real
@@ -2258,8 +2755,15 @@ end
 --// returns the actual string they typed in ( same as what you registered for
 --// if you required exact match )
 --constant native GetEventPlayerChatString takes nothing returns string
+function jass.GetEventPlayerChatString()
+    return trigger.player_chat_string
+end
+
 --// returns the string that you registered for
 --constant native GetEventPlayerChatStringMatched takes nothing returns string
+function jass.GetEventPlayerChatStringMatched()
+    return trigger.player_chat_string_matched
+end
 
 --//============================================================================
 --// Trigger Unit Based Event API
@@ -3090,7 +3594,15 @@ function jass.SetTerrainFogEx(style, zstart, zend, density, red, green, blue)
 end
 
 --native DisplayTextToPlayer          takes player toPlayer, real x, real y, string message returns nothing
+function jass.DisplayTextToPlayer(p, x, y, message)
+    jass.DisplayTimedTextToPlayer(p, x, y, 15, message)
+end
+
 --native DisplayTimedTextToPlayer     takes player toPlayer, real x, real y, real duration, string message returns nothing
+function jass.DisplayTimedTextToPlayer(p, x, y, duration, message)
+    log.info('向用户'..p:get_name()..'输出文本，位置为：', x, ',', y, '持续时间为：', duration, '消息为：\n', message)
+end
+
 --native DisplayTimedTextFromPlayer   takes player toPlayer, real x, real y, real duration, string message returns nothing
 --native ClearTextMessages            takes nothing returns nothing
 --native SetDayNightModels            takes string terrainDNCFile, string unitDNCFile returns nothing
@@ -3284,6 +3796,11 @@ end
 --native SetCinematicCamera           takes string cameraModelFile returns nothing
 --native SetCameraRotateMode          takes real x, real y, real radiansToSweep, real duration returns nothing
 --native SetCameraField               takes camerafield whichField, real value, real duration returns nothing
+function jass.SetCameraField(whichField, value, duration)
+    log.debug('将摄像机镜头属性'..whichField.name..'设置为:', value, '过渡时间为：', duration)
+    variables[whichField] = value
+end
+
 --native AdjustCameraField            takes camerafield whichField, real offset, real duration returns nothing
 --native SetCameraTargetController    takes unit whichUnit, real xoffset, real yoffset, boolean inheritOrientation returns nothing
 --native SetCameraOrientController    takes unit whichUnit, real xoffset, real yoffset returns nothing
@@ -3344,6 +3861,12 @@ function jass.GetCameraBoundMaxY()
 end
 
 --constant native GetCameraField              takes camerafield whichField returns real
+function jass.GetCameraField(whichField)
+    r = variables[whichField]
+    log.debug('获取摄像机参数' .. whichField.name .. '，结果为' .. r)
+    return r
+end
+
 --constant native GetCameraTargetPositionX    takes nothing returns real
 --constant native GetCameraTargetPositionY    takes nothing returns real
 --constant native GetCameraTargetPositionZ    takes nothing returns real
@@ -3469,9 +3992,28 @@ end
 --native TerrainDeformStop            takes terraindeformation deformation, integer duration returns nothing
 --native TerrainDeformStopAll         takes nothing returns nothing
 --native AddSpecialEffect             takes string modelName, real x, real y returns effect
+function jass.AddSpecialEffect(modelName, x, y)
+    log.info('向位置', x, y, '添加特效，模型为：', modelName)
+    return effect.create_for_position(modelName, x, y)
+end
+
 --native AddSpecialEffectLoc          takes string modelName, location where returns effect
+function jass.AddSpecialEffectLoc(modelName, loc)
+    return jass.AddSpecialEffect(modelName, loc:get_x(), loc:get_y())
+end
+
 --native AddSpecialEffectTarget       takes string modelName, widget targetWidget, string attachPointName returns effect
+function jass.AddSpecialEffectTarget(modelName, target, attachPointName)
+    log.info('向单位', target, '添加特效，模型为：', modelName, '附着点为：', attachPointName)
+    return effect.create_for_widget(modelName, target, attachPointName)
+end
+
+
 --native DestroyEffect                takes effect whichEffect returns nothing
+function jass.DestroyEffect(e)
+    e:destroy()
+end
+
 --native AddSpellEffect               takes string abilityString, effecttype t, real x, real y returns effect
 --native AddSpellEffectLoc            takes string abilityString, effecttype t,location where returns effect
 --native AddSpellEffectById           takes integer abilityId, effecttype t,real x, real y returns effect

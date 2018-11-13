@@ -1099,8 +1099,8 @@ end
 
 
 require 'util.maxspeed'
---require 'map.系统.武器'
---require 'map.系统.弹幕'
+require 'map.系统.武器'
+require 'map.系统.弹幕'
 --重写创造物品的函数
 function createitemloc(id, loc)
 	local it = nil
@@ -1575,7 +1575,7 @@ function SetCamera()
 	l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
 	Qu()
 end
---require 'map.系统.万能属性'
+require 'map.系统.万能属性'
 function kv()
 	local i = 0
 	local m = 0
@@ -2128,8 +2128,8 @@ function SetUnitDizzy(Unit, Size, ExFile)
 	tm = nil
 end
 
---require 'map.rules.伤害公式'
---require 'map.rules.武功升重'
+require 'map.rules.伤害公式'
+require 'map.rules.武功升重'
 
 
 --BOSS AI放技能
@@ -2166,7 +2166,7 @@ function BossFangJiNeng()
 	uc = nil
 end
 
---require 'map.系统.万能buff'
+require 'map.系统.万能buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
 	CreateTimerDialogBJ(t, title)
@@ -2252,32 +2252,32 @@ end
 
 require 'map.rules.rule'
 require 'map.系统.副本'
---require 'map.系统.历练'
---require 'map.系统.任务'
---require 'map.系统.神器'
---require 'map.系统.炼丹'
---require 'map.系统.桃花岛'
+require 'map.系统.历练'
+require 'map.系统.任务'
+require 'map.系统.神器'
+require 'map.系统.炼丹'
+require 'map.系统.桃花岛'
 
-require 'util.najitest'
+
 
 -- 包含门派库
 ----------少林开始--------//
 
 
 
---require 'map.系统.挑战场'
+require 'map.系统.挑战场'
 --
---require 'map.门派.自创武学.init'
---require 'map.门派.阵法.init'
+require 'map.门派.自创武学.init'
+require 'map.门派.阵法.init'
 --
---require 'map.系统.自制武器'
+require 'map.系统.自制武器'
 --
---require 'map.门派.奇武.init'
+require 'map.门派.奇武.init'
 --
---require 'map.系统.剑意'
---require 'map.系统.四圣兽'
+require 'map.系统.剑意'
+require 'map.系统.四圣兽'
 --
---require 'map.门派.掌门技.init'
+require 'map.门派.掌门技.init'
 
 
 require 'map.static.detail'
@@ -2298,7 +2298,7 @@ function Zw()
 	SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0.0)
 	PlayMusicBJ(xh)
 	 -- 英雄选择列表
-	pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
+
 	y7 ={1969,
 		1970498413,
 		1852798821,
@@ -2757,7 +2757,7 @@ function main1()
 	local v
 	local wu
 
-    et.hero.init_pick_table()
+    pick_table = et.hero.init_pick_table()
 	ju = Filter(bu)
 
 	udg_baolv[1] = 20
@@ -3114,7 +3114,7 @@ function main1()
 	InitGlobalVariables() --初始化全局变量
 
 	--键盘输入系统
---	require 'map.系统.keyinput'
+	require 'map.系统.keyinput'
 
 --	SmeltingWeaponSystem() --决战江湖1.4之大辽金匠
 --	MonsterCome() --决战江湖1.52之圣兽来了
@@ -3149,21 +3149,6 @@ end
 --===========================================================================
 -- Trigger: 未命名触发器 001
 --===========================================================================
---===========================================================================
---===========================================================================
--- Trigger: 未命名触发器 004
---===========================================================================
-function Trig____________________004Actions()
-	main2()
-	YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(), 0, 0, 300)
-	YDWESetLocalVariableReal("R", YDWELogarithm__Log2(0.01 * 1.0) * 0.30103) -- INLINED!!
-end
---===========================================================================
-function InitTrig____________________004()
-	gg_trg____________________004 = CreateTrigger()
-	TriggerRegisterTimerEventSingle(gg_trg____________________004, 0.0)
-	TriggerAddAction(gg_trg____________________004, Trig____________________004Actions)
-end
 --===========================================================================
 -- Trigger: 未命名触发器 005
 --===========================================================================
@@ -3802,6 +3787,9 @@ function main()
     local unit_creation = require 'map.static.units'
     local environment = require 'map.static.environment'
 
+    -- naji测试
+    require 'util.najitest'
+
     et.unit.init()
     environment.init() -- 创建单位并初始化环境
     unit_creation.init()
@@ -3836,7 +3824,7 @@ function main()
     ShowUnit(gg_unit_N00I_0116.handle, true)
     ShowUnit(gg_unit_N007_0055.handle, true)
     main1()
-	InitTrig____________________004()
+    main2()
 	InitTrig____________________005()
 	InitTrig____________________002()
 	InitTrig____________________003()

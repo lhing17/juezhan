@@ -166,6 +166,13 @@
 
 local common_unsupported = {}
 
-common_unsupported.unsupported_list = {'RemoveGuardPosition', 'AddWeatherEffect', 'EnableWeatherEffect', 'RegisterStackedSound'}
+common_unsupported.unsupported_list =
+{'RemoveGuardPosition',
+ 'AddWeatherEffect',
+ 'EnableWeatherEffect',
+ 'RegisterStackedSound',
+ 'SetUnitAnimation',
+ 'ResetUnitAnimation',
+}
 
 return common_unsupported

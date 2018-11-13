@@ -4,7 +4,8 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-local a = {b = "a"}
 
-a.b()
+local clib = require ('clib')
+print(clib.u2g('中国'))
+print(clib.g2u('中国'))
 

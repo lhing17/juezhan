@@ -7,6 +7,7 @@ local common_util = require 'jass.util.common_util'
 local trigger = require 'jass.type.trigger'
 local playerevent = require 'jass.type.playerevent'
 local gameevent = require 'jass.type.gameevent'
+local dialogevent = require 'jass.type.dialogevent'
 local fgamestate = require 'jass.type.fgamestate'
 local group = require 'jass.type.group'
 local trigger_util = {}
@@ -15,7 +16,7 @@ local trigger_util = {}
 function trigger_util.evaluate(conditions)
     local flag = true
     for _, v in pairs(conditions) do
-        if v.fun then
+        if v.boolexpr then
             flag = flag and v.boolexpr.fun()
         end
     end
@@ -34,8 +35,10 @@ function trigger_util.trig_player_event(p, pe)
             if e.event_id == pe then
                 trigger.triggering = t
                 trigger.player = p
-                trigger_util.evaluate(t.conditions)
-                trigger_util.execute(t.actions)
+                trigger.event_id = e.event_id
+                if trigger_util.evaluate(t.conditions) then
+                    trigger_util.execute(t.actions)
+                end
             end
         end
     end
@@ -45,8 +48,11 @@ function trigger_util.trig_player_chat_event(p, message)
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
             if e.event_id == playerevent[16] then
+                trigger.event_id = e.event_id
                 trigger.triggering = t
                 trigger.player = p
+                trigger.player_chat_string = message
+                trigger.player_chat_string_matched = e.message
                 local flag = false
                 if e.message == '' then
                     flag = true
@@ -57,9 +63,11 @@ function trigger_util.trig_player_chat_event(p, message)
                 if e.message ~= '' and not e.exact and string.find(e.message, message) then
                     flag = true
                 end
-                if flag then
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                if flag and p == e.player then
+
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
@@ -71,9 +79,10 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
 
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
-            if e.event_id == pue then
+            if e.player == p and e.event_id == pue then
                 group.filter_unit = u
                 if not e.filter or e.filter() then
+                    trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.player = p
                     trigger.unit = u
@@ -201,8 +210,9 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
                             trigger.spell_target_destructable = tab.spell_target
                         end
                     end
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
@@ -217,6 +227,7 @@ function trigger_util.trig_unit_event(u, ue, tab)
             if e.event_id == ue then
                 group.filter_unit = u
                 if not e.filter or e.filter() then
+                    trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.unit = u
                     if ue.name == 'EVENT_UNIT_DAMAGED' then
@@ -232,7 +243,7 @@ function trigger_util.trig_unit_event(u, ue, tab)
                     if ue.name == 'EVENT_UNIT_DETECTED' then
                         trigger.detecting_player = tab.detecting_player
                     end
-                    if common_util.is_in_table(ue.name, {'EVENT_UNIT_ACQUIRED_TARGET','EVENT_UNIT_TARGET_IN_RANGE'}) then
+                    if common_util.is_in_table(ue.name, { 'EVENT_UNIT_ACQUIRED_TARGET', 'EVENT_UNIT_TARGET_IN_RANGE' }) then
                         trigger.target_unit = tab.target_unit
                     end
                     if ue.name == 'EVENT_UNIT_ATTACKED' then
@@ -281,8 +292,9 @@ function trigger_util.trig_unit_event(u, ue, tab)
                             trigger.order_target_destructable = tab.order_target
                         end
                     end
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
@@ -294,9 +306,11 @@ function trigger_util.trig_timer_expire_event(tm)
         for _, e in pairs(t.registered_events) do
             if e.event_id == gameevent[4] and e.timer == tm then
                 trigger.triggering = t
+                trigger.event_id = e.event_id
                 trigger.expired_timer = tm
-                trigger_util.evaluate(t.conditions)
-                trigger_util.execute(t.actions)
+                if trigger_util.evaluate(t.conditions) then
+                    trigger_util.execute(t.actions)
+                end
             end
         end
     end
@@ -307,6 +321,7 @@ function trigger_util.trig_game_state_event(time_of_day)
         for _, e in pairs(t.registered_events) do
             if e.event_id == gameevent[3] then
                 trigger.triggering = t
+                trigger.event_id = e.event_id
                 local flag = false
                 if e.state == fgamestate[2] then
                     if e.opcode.name == 'LESS_THAN' and time_of_day < e.value then
@@ -329,8 +344,9 @@ function trigger_util.trig_game_state_event(time_of_day)
                     end
                 end
                 if flag then
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
@@ -343,10 +359,12 @@ function trigger_util.trig_enter_region(u, r)
             if e.event_id == gameevent[5] then
                 trigger.triggering = t
                 trigger.triggering_region = r
+                trigger.event_id = e.event_id
                 trigger.unit = u
                 if r == e.region and e.filter.fun() then
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
@@ -359,16 +377,34 @@ function trigger_util.trig_leave_region(u, r)
             if e.event_id == gameevent[6] then
                 trigger.triggering = t
                 trigger.triggering_region = r
+                trigger.event_id = e.event_id
                 trigger.unit = u
                 if r == e.region and e.filter.fun() then
-                    trigger_util.evaluate(t.conditions)
-                    trigger_util.execute(t.actions)
+                    if trigger_util.evaluate(t.conditions) then
+                        trigger_util.execute(t.actions)
+                    end
                 end
             end
         end
     end
 end
 
+-- param p:触发单位 db:触发按钮
+function trigger_util.trig_dialog_event(p, db)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == dialogevent[91] then
+                trigger.triggering = t
+                trigger.player = p
+                trigger.clicked_button = db
+                trigger.event_id = e.event_id
+                if trigger_util.evaluate(t.conditions) then
+                    trigger_util.execute(t.actions)
+                end
+            end
+        end
+    end
+end
 
 return trigger_util
 

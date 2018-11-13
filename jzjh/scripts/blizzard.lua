@@ -1128,27 +1128,7 @@ end
 -- We can't do game-time waits, so this simulates one by starting a timer
 -- and polling until the timer expires.
 function PolledWait(duration)
-	local t
-	local timeRemaining
-
-	if duration > 0 then
-		t = CreateTimer()
-		TimerStart(t, duration, false, nil)
-		for _ in _loop_() do
-			timeRemaining = TimerGetRemaining(t)
-			if timeRemaining <= 0 then break end
-
-			-- If we have a bit of time left, skip past 10% of the remaining
-			-- duration instead of checking every interval, to minimize the
-			-- polling on long waits.
-			if timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD then
-				TriggerSleepAction(0.1 * timeRemaining)
-			else
-				TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
-			end
-		end
-		DestroyTimer(t)
-	end
+	error('不要使用PolledWait函数')
 end
 
 --===========================================================================

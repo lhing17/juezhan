@@ -13,13 +13,21 @@ mt.type = 'camerafield'
 mt.name = ''
 
 function camerafield.init()
-	local camerafield_names={}
-	for i = 1, #camerafield_names do
-		local ca = {}
-		ca.name = camerafield_names[i]
-		setmetatable(ca, camerafield)
-		table.insert(camerafield, ca)
-	end
+    local camerafield_names = {
+        'CAMERA_FIELD_TARGET_DISTANCE ',
+        'CAMERA_FIELD_FARZ',
+        'CAMERA_FIELD_ANGLE_OF_ATTACK ',
+        'CAMERA_FIELD_FIELD_OF_VIEW',
+        'CAMERA_FIELD_ROLL',
+        'CAMERA_FIELD_ROTATION',
+        'CAMERA_FIELD_ZOFFSET',
+    }
+    for i = 0, #camerafield_names - 1 do
+        local ca = {}
+        ca.name = camerafield_names[i + 1]
+        setmetatable(ca, camerafield)
+        camerafield[i] = ca
+    end
 end
 
 return camerafield

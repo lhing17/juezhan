@@ -1,5 +1,7 @@
 --library WuQiQiHeSystem:
 
+local log = require 'jass.log'
+
 --武器等级
 function WeaponLevel(itemid)
 	--call BJDebugMsg("什么情况3")
@@ -183,7 +185,8 @@ function BuyWeapon()
 		SaveInteger(YDHT, GetHandleId(GetManipulatedItem()), 0, WeaponNaiJiu(GetManipulatedItem()) // 2)
 	end
 end
-function init()
+local function init()
+	log.debug('加载系统武器模块')
 	local t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddCondition(t, Condition(WeaponPoSun_Condition))
@@ -194,3 +197,5 @@ function init()
 	TriggerAddAction(t, BuyWeapon)
 	t = nil
 end
+
+init()

@@ -36,7 +36,7 @@ function mt:get_elapsed()
     return self.elapsed
 end
 
-function mt:get_remained()
+function mt:get_remaining()
     return self.remained
 end
 

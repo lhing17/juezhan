@@ -2,8 +2,10 @@
 --键盘输入系统
 --========================================================================
 local player = require 'et.player'
+local log = require('jass.log')
 
-function KeyInput(game, p, s)
+function KeyInput(p, s)
+	log.debug('执行KeyInput函数，参数为：', p, s)
 	local it = nil
 	local i = p.id
 	local j = 0
@@ -11,10 +13,10 @@ function KeyInput(game, p, s)
 	local str = nil
 	local shanghai = _array_(0.0)
 	if s == "+" then
-		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:GetCameraField('CAMERA_FIELD_TARGET_DISTANCE') + 200, 1)
+		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:getCameraField('CAMERA_FIELD_TARGET_DISTANCE') + 200, 1)
 	end
 	if s == "-" then
-		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:GetCameraField('CAMERA_FIELD_TARGET_DISTANCE') - 200, 1)
+		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:getCameraField('CAMERA_FIELD_TARGET_DISTANCE') - 200, 1)
 	end
 	if s == "hg" then
 		SetUnitPosition(udg_hero[i], -1174, -678)
@@ -542,5 +544,5 @@ function KeyInput(game, p, s)
 end
 
 et.game:event '玩家-聊天' (function(self, player, str)
-	KeyInput(self, player, str)
+	KeyInput(player, str)
 end)

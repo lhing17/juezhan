@@ -7863,7 +7863,6 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
             set udg_zhangmen[i]=true
             set udg_whichzhangmen[i]=2
             if GetUnitAbilityLevel(u, 'A07L') >= 1 and GetUnitAbilityLevel(u, 'A07E') >= 1 and UnitHaveItem(u , 'I097') then
-                if GetUnitAbilityLevel(u, 'A07L') >= 3 and GetUnitAbilityLevel(u, 'A07E') >= 3 then
                     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：北丐")
                     call ModifyHeroStat(0, u, 0, 480)
                     call SetUnitAbilityLevel(u, 'A07L', IMinBJ(GetUnitAbilityLevel(u, 'A07L') + 4, 9))
@@ -7871,9 +7870,8 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
                     call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07L' * 5, GetUnitAbilityLevel(u, 'A07L'))
                     call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07E' * 5, GetUnitAbilityLevel(u, 'A07E'))
                     call SetPlayerName(p, "〓北丐〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
-                endif
-                // 降龙打狗5级以上，拥有擒龙控鹤
-                if GetUnitAbilityLevel(u, 'A07L') >= 5 and GetUnitAbilityLevel(u, 'A07E') >= 5 and GetUnitAbilityLevel(u, 'A03V') > 0  then
+                // 降龙3级以上，拥有擒龙控鹤
+                if GetUnitAbilityLevel(u, 'A07E') >= 3 and GetUnitAbilityLevel(u, 'A03V') > 0  then
                     call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：北乔峰")
                     call ModifyHeroStat(0, u, 0, 500)
                     call ModifyHeroStat(1, u, 0, 500)
@@ -7972,6 +7970,19 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
             	call ModifyHeroStat(1, u, 0, 720)
             	call SetPlayerName(p, "〓扫地神僧〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
         	endif
+            // 拥有易筋A09D、洗髓A080，称号达摩，毕业技能到9级
+            if GetUnitAbilityLevel(u, 'A09D') >= 1 and GetUnitAbilityLevel(u, 'A09D') >= 1 then
+                call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：达摩")
+            	call SetPlayerName(p, "〓达摩〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
+                call ModifyHeroStat(0, u, 0, 200)
+                call ModifyHeroStat(1, u, 0, 220)
+                call ModifyHeroStat(2, u, 0, 200)
+                if ( GetUnitAbilityLevel(u, 'A05O') >= 6 ) then
+            		call SetUnitAbilityLevel(u, 'A05O', 9)
+        		elseif ( GetUnitAbilityLevel(u, 'S000') >= 6 ) then
+            		call SetUnitAbilityLevel(u, 'S000', 9)
+        		endif
+            endif
         elseif GetUnitAbilityLevel(u, 'A04D') >= 6 and GetUnitAbilityLevel(u, 'A08S') >= 6 and GetUnitAbilityLevel(u, 'A08R') >= 6 and ( GetUnitAbilityLevel(u, 'A08Q') >= 6 or GetUnitAbilityLevel(u, 'A08V') >= 6 ) then
             call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：武当掌门")
             call ModifyHeroStat(0, u, 0, 240)
@@ -8011,6 +8022,7 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
             if GetUnitAbilityLevel(u, 'A07T') >= 1 and GetUnitAbilityLevel(u, 'A07J') >= 1 then
 	            call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：君子剑")
             	call ModifyHeroStat(0, u, 0, 600)
+                call SetUnitAbilityLevel(u, 'A07J', IMinBJ(GetUnitAbilityLevel(u, 'A07J') + 4, 9))// 辟邪剑法加4级
             	call SetPlayerName(p, "〓君子剑〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
             endif
             // 令狐冲，学会独孤九剑，吸星，易筋经
@@ -8019,7 +8031,7 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
                 call ModifyHeroStat(0, u, 0, 250)
                 call ModifyHeroStat(1, u, 0, 250)
                 call ModifyHeroStat(2, u, 0, 100)
-                call SetUnitAbilityLevel(u, 'A07F', IMinBJ(GetUnitAbilityLevel(u, 'A07F') + 4, 9))// 独孤九剑加4级
+                call SetUnitAbilityLevel(u, 'A07F', IMinBJ(GetUnitAbilityLevel(u, 'A07F') + 5, 9))// 独孤九剑加5级
                 call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07F' * 5, GetUnitAbilityLevel(u, 'A07F'))
                 call SetPlayerName(p, "〓令狐冲〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
             endif
@@ -8229,9 +8241,9 @@ function WuGongShengChong takes unit u,integer id,real r returns nothing
         elseif s__ZiZhiWuGong_name[zizhiwugong[i]] == "虾米神拳" and GetUnitAbilityLevel(u, 'A036') >= 1 and GetUnitAbilityLevel(u, 'A07I') >= 5 and udg_runamen[i] == 11 then
 			call DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" + I2S(i) + "获得了称号：小虾米")
             call SetPlayerName(p, "〓小虾米〓" + LoadStr(YDHT, GetHandleId(p), GetHandleId(p)))
-			call ModifyHeroStat(0, u, 0, 600)
-            call ModifyHeroStat(1, u, 0, 600)
-            call ModifyHeroStat(2, u, 0, 600)
+			call ModifyHeroStat(0, u, 0, 1000)
+            call ModifyHeroStat(1, u, 0, 1000)
+            call ModifyHeroStat(2, u, 0, 1000)
             call SetUnitAbilityLevel(u, 'A07I', 9)
             call SaveInteger(YDHT, GetHandleId(GetOwningPlayer(u)), 'A07I' * 5, GetUnitAbilityLevel(u, 'A07I'))
             set udg_zhangmen[i]=true
@@ -23194,7 +23206,7 @@ function ChooseVIP takes nothing returns nothing
     		call UnitRemoveAbility(udg_hero[i], 'A042')
 			call DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15., "|CFFff9933感谢玩家" + GetPlayerName(p) + "对决战江湖的杰出贡献|r")
         endif
-        // if vipnum_1[i] == "101493" then
+        // if vipnum_1[i] == "1" then
         //     set udg_vip[i]=2
 		// 	set wugongshu[i]=11
 		// 	call UnitRemoveAbility(udg_hero[i], 'A040')

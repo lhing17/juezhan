@@ -16,7 +16,7 @@ local trigger_util = {}
 function trigger_util.evaluate(conditions)
     local flag = true
     for _, v in pairs(conditions) do
-        if v.fun then
+        if v.boolexpr then
             flag = flag and v.boolexpr.fun()
         end
     end
@@ -35,6 +35,7 @@ function trigger_util.trig_player_event(p, pe)
             if e.event_id == pe then
                 trigger.triggering = t
                 trigger.player = p
+                trigger.event_id = e.event_id
                 if trigger_util.evaluate(t.conditions) then
                     trigger_util.execute(t.actions)
                 end
@@ -47,6 +48,7 @@ function trigger_util.trig_player_chat_event(p, message)
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
             if e.event_id == playerevent[16] then
+                trigger.event_id = e.event_id
                 trigger.triggering = t
                 trigger.player = p
                 trigger.player_chat_string = message
@@ -77,9 +79,10 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
 
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
-            if e.event_id == pue then
+            if e.player == p and e.event_id == pue then
                 group.filter_unit = u
                 if not e.filter or e.filter() then
+                    trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.player = p
                     trigger.unit = u
@@ -224,6 +227,7 @@ function trigger_util.trig_unit_event(u, ue, tab)
             if e.event_id == ue then
                 group.filter_unit = u
                 if not e.filter or e.filter() then
+                    trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.unit = u
                     if ue.name == 'EVENT_UNIT_DAMAGED' then
@@ -302,6 +306,7 @@ function trigger_util.trig_timer_expire_event(tm)
         for _, e in pairs(t.registered_events) do
             if e.event_id == gameevent[4] and e.timer == tm then
                 trigger.triggering = t
+                trigger.event_id = e.event_id
                 trigger.expired_timer = tm
                 if trigger_util.evaluate(t.conditions) then
                     trigger_util.execute(t.actions)
@@ -316,6 +321,7 @@ function trigger_util.trig_game_state_event(time_of_day)
         for _, e in pairs(t.registered_events) do
             if e.event_id == gameevent[3] then
                 trigger.triggering = t
+                trigger.event_id = e.event_id
                 local flag = false
                 if e.state == fgamestate[2] then
                     if e.opcode.name == 'LESS_THAN' and time_of_day < e.value then
@@ -353,6 +359,7 @@ function trigger_util.trig_enter_region(u, r)
             if e.event_id == gameevent[5] then
                 trigger.triggering = t
                 trigger.triggering_region = r
+                trigger.event_id = e.event_id
                 trigger.unit = u
                 if r == e.region and e.filter.fun() then
                     if trigger_util.evaluate(t.conditions) then
@@ -370,6 +377,7 @@ function trigger_util.trig_leave_region(u, r)
             if e.event_id == gameevent[6] then
                 trigger.triggering = t
                 trigger.triggering_region = r
+                trigger.event_id = e.event_id
                 trigger.unit = u
                 if r == e.region and e.filter.fun() then
                     if trigger_util.evaluate(t.conditions) then
@@ -389,6 +397,7 @@ function trigger_util.trig_dialog_event(p, db)
                 trigger.triggering = t
                 trigger.player = p
                 trigger.clicked_button = db
+                trigger.event_id = e.event_id
                 if trigger_util.evaluate(t.conditions) then
                     trigger_util.execute(t.actions)
                 end

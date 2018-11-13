@@ -10,11 +10,15 @@ debug.handles = {}
 debug.gchashes = {}
 
 function debug.handle_ref(handle)
-    table.insert(debug.handles, handle)
+    debug.handles[handle.handle_id] = handle
 end
 
 function debug.gchash(class, handle)
     debug.gchashes[class] = handle
+end
+
+function debug.handle_unref(handle)
+    debug.handles[handle.handle_id] = nil
 end
 
 return debug

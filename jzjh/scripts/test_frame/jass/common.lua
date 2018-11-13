@@ -31,6 +31,7 @@ local trigger = require 'jass.type.trigger'
 local item = require 'jass.type.item'
 local timer = require 'jass.type.timer'
 local dialog = require 'jass.type.dialog'
+local effect = require 'jass.type.effect'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -2342,7 +2343,13 @@ function jass.GetEnumPlayer()
 end
 
 --constant native GetTriggeringTrigger    takes nothing returns trigger
+function jass.GetTriggeringTrigger()
+    return trigger.triggering
+end
 --constant native GetTriggerEventId       takes nothing returns eventid
+function jass.GetTriggerEventId()
+    return trigger.event_id
+end
 --constant native GetTriggerEvalCount     takes trigger whichTrigger returns integer
 --constant native GetTriggerExecCount     takes trigger whichTrigger returns integer
 --native ExecuteFunc          takes string funcName returns nothing
@@ -3587,7 +3594,15 @@ function jass.SetTerrainFogEx(style, zstart, zend, density, red, green, blue)
 end
 
 --native DisplayTextToPlayer          takes player toPlayer, real x, real y, string message returns nothing
+function jass.DisplayTextToPlayer(p, x, y, message)
+    jass.DisplayTimedTextToPlayer(p, x, y, 15, message)
+end
+
 --native DisplayTimedTextToPlayer     takes player toPlayer, real x, real y, real duration, string message returns nothing
+function jass.DisplayTimedTextToPlayer(p, x, y, duration, message)
+    log.info('向用户'..p:get_name()..'输出文本，位置为：', x, ',', y, '持续时间为：', duration, '消息为：\n', message)
+end
+
 --native DisplayTimedTextFromPlayer   takes player toPlayer, real x, real y, real duration, string message returns nothing
 --native ClearTextMessages            takes nothing returns nothing
 --native SetDayNightModels            takes string terrainDNCFile, string unitDNCFile returns nothing
@@ -3977,9 +3992,28 @@ end
 --native TerrainDeformStop            takes terraindeformation deformation, integer duration returns nothing
 --native TerrainDeformStopAll         takes nothing returns nothing
 --native AddSpecialEffect             takes string modelName, real x, real y returns effect
+function jass.AddSpecialEffect(modelName, x, y)
+    log.info('向位置', x, y, '添加特效，模型为：', modelName)
+    return effect.create_for_position(modelName, x, y)
+end
+
 --native AddSpecialEffectLoc          takes string modelName, location where returns effect
+function jass.AddSpecialEffectLoc(modelName, loc)
+    return jass.AddSpecialEffect(modelName, loc:get_x(), loc:get_y())
+end
+
 --native AddSpecialEffectTarget       takes string modelName, widget targetWidget, string attachPointName returns effect
+function jass.AddSpecialEffectTarget(modelName, target, attachPointName)
+    log.info('向单位', target, '添加特效，模型为：', modelName, '附着点为：', attachPointName)
+    return effect.create_for_widget(modelName, target, attachPointName)
+end
+
+
 --native DestroyEffect                takes effect whichEffect returns nothing
+function jass.DestroyEffect(e)
+    e:destroy()
+end
+
 --native AddSpellEffect               takes string abilityString, effecttype t, real x, real y returns effect
 --native AddSpellEffectLoc            takes string abilityString, effecttype t,location where returns effect
 --native AddSpellEffectById           takes integer abilityId, effecttype t,real x, real y returns effect

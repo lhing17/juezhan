@@ -544,6 +544,5 @@ function KeyInput(p, s)
 end
 
 et.game:event '玩家-聊天' (function(self, player, str)
-	print(player, str)
 	KeyInput(player, str)
 end)

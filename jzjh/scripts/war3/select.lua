@@ -32,11 +32,14 @@ local j_trg = war3.CreateTrigger(function()
 	if not u then
 		return
 	end
-	local player = et.player(jass.GetTriggerPlayer())
+	local p = et.player(jass.GetTriggerPlayer())
+
+	print(p, u)
+
 	if jass.GetTriggerEventId() == jass.EVENT_PLAYER_UNIT_SELECTED then
-		player:event_notify('玩家-选择单位', player, u)
+		p:event_notify('玩家-选择单位', p, u)
 	else
-		player:event_notify('玩家-取消选择单位', player, u)
+		p:event_notify('玩家-取消选择单位', p, u)
 	end
 end)
 for i = 1, 16 do

@@ -1,29 +1,28 @@
 
 
 local function init()
-
+    local pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
     --选择英雄
     et.game:event '玩家-选择单位'(function(trg, p, u)
-        if not p.hero and is_in(u.handle, pick_list) then
+        if not p.hero and is_in(u, pick_list) then
             local i = p.id
-            if GetUnitTypeId(L4[i]) == GetUnitTypeId(u.handle) then
+            if p.selecting and p.selecting == u then
                 pt = et.get_rect_random(Ge)
                 last_unit = p:create_unit(GetUnitTypeId(u.handle), pt)
                 p:set_camera(pt)
-                et.hero.create(last_unit.handle, pick_table[u.handle])
-                et.unit(vipbanlv[i]):remove()
+                et.hero.create(last_unit.handle, pick_table[u])
+                vipbanlv[i]:remove()
                 SelectUnitRemoveForPlayer(u.handle, p.handle)
                 SelectUnitAddForPlayer(last_unit.handle, p.handle)
                 udg_hashero[i] = true
                 AddSpecialEffectTargetUnitBJ("overhead", last_unit.handle, "Abilities\\Spells\\Other\\Awaken\\Awaken.mdl")
                 DestroyEffect(bj_lastCreatedEffect)
                 udg_hero[i] = last_unit.handle
-                RemoveLocation(Q4)
                 p:send_message("|CFFFF0000请从天下门派处选择你喜欢的门派后方可离开此地|r")
                 p:send_message("|CFFFF0000输入-random可随机选择门派并获得额外60个木头，选取方式请到F9中寻找|r")
             else
-                L4[i] = u.handle
-                p:send_message(pick_table[u.handle].select_hint)
+                p.selecting = u
+                p:send_message(pick_table[u].select_hint)
                 SetUnitAnimation(u.handle, "attack")
                 et.wait(2, function()
                     ResetUnitAnimation(u.handle)

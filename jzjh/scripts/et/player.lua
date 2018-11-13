@@ -206,7 +206,6 @@ end
 
 -- 直接作为方法调用，获取玩家
 function player:__call(i)
-    print('调用player:__call')
     return player[i]
 end
 

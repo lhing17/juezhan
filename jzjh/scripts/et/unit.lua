@@ -13,7 +13,7 @@ setmetatable(unit, unit)
 et.unit = unit
 
 function unit:__tostring()
-    return ('%s|%s|%s'):format('unit', self:get_name(), self:get_owner().base_name)
+    return ('%s|%s|%s|%s'):format('unit', self.id, self:get_name(), self:get_owner().base_name)
 end
 
 --结构
@@ -184,6 +184,7 @@ function mt:set_data(key, value)
     self.user_data[key] = value
 end
 
+
 --获取数据
 --	索引
 function mt:get_data(key)
@@ -259,18 +260,18 @@ function mt:remove()
         end
     end
 
-    --移除单位的所有技能
-    for skill in self:each_skill() do
-        skill:remove()
-    end
+    ----移除单位的所有技能
+    --for skill in self:each_skill() do
+    --    skill:remove()
+    --end
 
     --移除单位身上的物品
-    for i = 1, 6 do
-        local it = self:find_skill(i, '物品')
-        if it then
-            it:remove()
-        end
-    end
+    --for i = 1, 6 do
+    --    local it = self:find_skill(i, '物品')
+    --    if it then
+    --        it:remove()
+    --    end
+    --end
 
     --移除单位身上的计时器
     if self._timers then

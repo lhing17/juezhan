@@ -2298,7 +2298,7 @@ function Zw()
 	SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0.0)
 	PlayMusicBJ(xh)
 	 -- 英雄选择列表
-	pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
+
 	y7 ={1969,
 		1970498413,
 		1852798821,
@@ -2757,7 +2757,7 @@ function main1()
 	local v
 	local wu
 
-    et.hero.init_pick_table()
+    pick_table = et.hero.init_pick_table()
 	ju = Filter(bu)
 
 	udg_baolv[1] = 20

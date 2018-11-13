@@ -13,6 +13,10 @@ local function test_chat()
 
     trigger_util.trig_player_chat_event(et.player(1).handle, "+")
     trigger_util.trig_player_chat_event(et.player(1).handle, "+")
+    trigger_util.trig_player_chat_event(et.player(1).handle, "-")
+    trigger_util.trig_player_chat_event(et.player(1).handle, "hg")
+    trigger_util.trig_player_chat_event(et.player(1).handle, "q")
+    trigger_util.trig_player_chat_event(et.player(1).handle, "3")
 
 end
 

@@ -950,6 +950,7 @@ function jass.SetUnitX(u, x)
     end
     assert(u.type == 'unit', 'u参数类型错误')
     assert(type(x) == 'number', 'x参数类型错误')
+    log.debug('设置单位', u, '的x坐标为', x)
     u:set_x(x)
 end
 
@@ -960,6 +961,7 @@ function jass.SetUnitY(u, y)
     end
     assert(u.type == 'unit', 'u参数类型错误')
     assert(type(y) == 'number', 'y参数类型错误')
+    log.debug('设置单位', u, '的y坐标为', y)
     u:set_y(y)
 end
 
@@ -1287,7 +1289,7 @@ end
 
 --constant native GetUnitLevel        takes unit whichUnit returns integer
 function jass.GetUnitLevel(u)
-    return h:get_level()
+    return u:get_level()
 end
 
 --native          GetHeroProperName   takes unit whichHero returns string
@@ -1930,7 +1932,7 @@ function jass.GetPlayerController(p)
 end
 
 --native GetPlayerSlotState       takes player whichPlayer returns playerslotstate
-function jass.GetPlayerSlotState()
+function jass.GetPlayerSlotState(p)
     return p:get_slot_state()
 end
 
@@ -3622,7 +3624,7 @@ end
 
 --native DisplayTimedTextToPlayer     takes player toPlayer, real x, real y, real duration, string message returns nothing
 function jass.DisplayTimedTextToPlayer(p, x, y, duration, message)
-    log.info('向用户'..p:get_name()..'输出文本，位置为：', x, ',', y, '持续时间为：', duration, '消息为：\n', message)
+    log.info('向用户' .. p:get_name() .. '输出文本，位置为：', x, ',', y, '持续时间为：', duration, '消息为：\n', message)
 end
 
 --native DisplayTimedTextFromPlayer   takes player toPlayer, real x, real y, real duration, string message returns nothing
@@ -3819,7 +3821,7 @@ end
 --native SetCameraRotateMode          takes real x, real y, real radiansToSweep, real duration returns nothing
 --native SetCameraField               takes camerafield whichField, real value, real duration returns nothing
 function jass.SetCameraField(whichField, value, duration)
-    log.debug('将摄像机镜头属性'..whichField.name..'设置为:', value, '过渡时间为：', duration)
+    log.debug('将摄像机镜头属性' .. whichField.name .. '设置为:', value, '过渡时间为：', duration)
     variables[whichField] = value
 end
 

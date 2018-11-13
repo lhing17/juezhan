@@ -592,7 +592,7 @@ end
 
 --获取等级
 function mt:get_level()
-    return self.level
+    return jass.GetUnitLevel(self.handle)
 end
 
 --技能(War3)
@@ -1276,12 +1276,10 @@ function mt:update()
 
 end
 
--- TODO 英雄升级时同步level
 
 --初始化
 function unit.init()
 
-    -- TODO 创建单位时设置单位等级
     --全局单位索引
     unit.all_units = {}
     unit.removed_units = setmetatable({}, { __mode = 'kv' })

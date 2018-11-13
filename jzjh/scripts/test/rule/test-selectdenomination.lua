@@ -9,10 +9,11 @@ local trigger_util = require 'jass.util.trigger_util'
 local item = require 'jass.type.item'
 require 'war3.id'
 
+--@Tested
 local function test_selectdenomination()
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
-    local it = item.create(base.string2id('I001'), x, y)
+    local it = item.create(base.string2id('I001'), 0, 0)
     et.player(1).hero.handle.hero=true
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, {manipulated_item=it})
     for k, v in pairs(et.player(1).hero) do

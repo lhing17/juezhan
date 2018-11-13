@@ -141,8 +141,8 @@ function player.init()
         p.techs = {}
         p.ability_availability = {}
         p.name = '玩家' .. i
-        p.map_control = mapcontrol[1]
-        p.slot_state = playerslotstate[2]
+        p.map_control = mapcontrol[0]
+        p.slot_state = playerslotstate[1]
     end
     player.native = player[1]
 end

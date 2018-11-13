@@ -8,11 +8,11 @@ local mapcontrol = {}
 local mt = {}
 mapcontrol.__index = mt
 
-mt.type='mapcontrol'
+mt.type = 'mapcontrol'
 mt.name = ''
 
 function mapcontrol.init()
-    local mapcontrol_names ={
+    local mapcontrol_names = {
         'MAP_CONTROL_USER',
         'MAP_CONTROL_COMPUTER',
         'MAP_CONTROL_RESCUABLE',
@@ -20,14 +20,13 @@ function mapcontrol.init()
         'MAP_CONTROL_CREEP',
         'MAP_CONTROL_NONE',
     }
-    for i = 1, #mapcontrol_names do
+    for i = 0, #mapcontrol_names - 1 do
         local mc = {}
-        mc.name = mapcontrol_names[i]
+        mc.name = mapcontrol_names[i + 1]
         setmetatable(mc, mapcontrol)
-        table.insert(mapcontrol, mc)
+        mapcontrol[i] = mc
     end
 
 end
-
 
 return mapcontrol

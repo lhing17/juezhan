@@ -73,7 +73,7 @@ end
 
 -- 判断是否为真人玩家
 function mt:is_player()
-    return jass.GetPlayerController(self.handle) == jass.MAP_CONTROL_USER and jass.GetPlayerSlotState(self.handle) == jass.Player_SLOT_STATE_PLAYING
+    return jass.GetPlayerController(self.handle) == jass.MAP_CONTROL_USER and jass.GetPlayerSlotState(self.handle) == jass.PLAYER_SLOT_STATE_PLAYING
 end
 
 -- 判断是否为本地玩家

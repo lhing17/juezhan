@@ -14,17 +14,17 @@ mt.name = ''
 
 function playerslotstate.init()
     local playerslotstate_names = {
-
+        'PLAYER_SLOT_STATE_EMPTY',
+        'PLAYER_SLOT_STATE_PLAYING',
+        'PLAYER_SLOT_STATE_LEFT',
     }
-    for i = 1, #playerslotstate_names do
+    for i = 0, #playerslotstate_names - 1 do
         local pss = {
-            'PLAYER_SLOT_STATE_EMPTY',
-            'PLAYER_SLOT_STATE_PLAYING',
-            'PLAYER_SLOT_STATE_LEFT',
+
         }
-        pss.name = playerslotstate_names[i]
+        pss.name = playerslotstate_names[i + 1]
         setmetatable(pss, playerslotstate)
-        table.insert(playerslotstate, pss)
+        playerslotstate[i] = pss
     end
 end
 

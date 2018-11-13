@@ -94,6 +94,7 @@ local function init()
         local h = p.hero
         local te = teleport[jass.GetItemTypeId(item)]
         if u:is_hero() and p:is_player() and te then
+            print(u:get_level())
             if u:get_level() < te.level then
                 p:send_message("|cFFFF0000等级不足"..te.level.."级无法传送")
             else

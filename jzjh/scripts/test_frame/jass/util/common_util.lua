@@ -11,6 +11,9 @@ local math_random = math.random
 -- 重写内置方法
 function math.random(m, n)
     math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    if not m and not n then
+        return math_random()
+    end
     return math_random(m, n)
 end
 

@@ -9,20 +9,20 @@ local unitstate = {}
 local mt = {}
 unitstate.__index = mt
 
-mt.type='unitstate'
+mt.type = 'unitstate'
 
 function unitstate.init()
-    local unitstate_names ={
+    local unitstate_names = {
         'UNIT_STATE_LIFE',
         'UNIT_STATE_MAX_LIFE',
         'UNIT_STATE_MANA',
         'UNIT_STATE_MAX_MANA',
     }
-    for i = 1, #unitstate_names do
+    for i = 0, #unitstate_names - 1 do
         local us = {}
-        us.name = unitstate_names[i]
+        us.name = unitstate_names[i + 1]
         setmetatable(us, unitstate)
-        table.insert(unitstate, us)
+        unitstate[i] = us
     end
 
 

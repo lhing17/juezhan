@@ -1359,18 +1359,19 @@ function YDWEAnyUnitDamagedEnumUnit()
 end
 
 function YDWESyStemAnyUnitDamagedRegistTrigger(trg)
-	if trg == nil then
-		return
-	end
-
-	if YDWETriggerEvent__DamageEventNumber == 0 then
-		yd_DamageEventTrigger = CreateTrigger()
-		TriggerAddAction(yd_DamageEventTrigger, YDWEAnyUnitDamagedTriggerAction)
-		YDWEAnyUnitDamagedEnumUnit()
-	end
-
-	YDWETriggerEvent__DamageEventQueue[YDWETriggerEvent__DamageEventNumber] = trg
-	YDWETriggerEvent__DamageEventNumber = YDWETriggerEvent__DamageEventNumber + 1
+	-- FIXME
+	--if trg == nil then
+	--	return
+	--end
+    --
+	--if YDWETriggerEvent__DamageEventNumber == 0 then
+	--	yd_DamageEventTrigger = CreateTrigger()
+	--	TriggerAddAction(yd_DamageEventTrigger, YDWEAnyUnitDamagedTriggerAction)
+	--	YDWEAnyUnitDamagedEnumUnit()
+	--end
+    --
+	--YDWETriggerEvent__DamageEventQueue[YDWETriggerEvent__DamageEventNumber] = trg
+	--YDWETriggerEvent__DamageEventNumber = YDWETriggerEvent__DamageEventNumber + 1
 end
 --===========================================================================  
 --�ƶ���Ʒ�¼� 

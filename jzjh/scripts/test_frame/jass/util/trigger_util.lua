@@ -224,7 +224,7 @@ function trigger_util.trig_unit_event(u, ue, tab)
 
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
-            if e.event_id == ue then
+            if e.event_id == ue and u == e.unit then
                 group.filter_unit = u
                 if not e.filter or e.filter.fun() then
                     trigger.event_id = e.event_id

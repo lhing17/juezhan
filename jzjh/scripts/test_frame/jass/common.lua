@@ -940,7 +940,8 @@ end
 
 --native          SetUnitState        takes unit whichUnit, unitstate whichUnitState, real newVal returns nothing
 function jass.SetUnitState(u, state, val)
-    -- TODO
+    log.info('单位', u, '的状态', state.name, '设置为', val)
+    u:set_unit_state(state, val)
 end
 
 --native          SetUnitX            takes unit whichUnit, real newX returns nothing
@@ -1410,7 +1411,15 @@ end
 --native          UnitRemoveItem          takes unit whichUnit, item whichItem returns nothing
 --native          UnitRemoveItemFromSlot  takes unit whichUnit, integer itemSlot returns item
 --native          UnitHasItem             takes unit whichUnit, item whichItem returns boolean
+function jass.UnitHasItem(u, it)
+    return u:has_item(it)
+end
+
 --native          UnitItemInSlot          takes unit whichUnit, integer itemSlot returns item
+function jass.UnitItemInSlot(u, i)
+    return u:get_item_in_slot(i)
+end
+
 --native          UnitInventorySize       takes unit whichUnit returns integer
 --native          UnitDropItemPoint       takes unit whichUnit, item whichItem, real x, real y returns boolean
 --native          UnitDropItemSlot        takes unit whichUnit, item whichItem, integer slot returns boolean
@@ -1483,7 +1492,15 @@ end
 --constant native IsUnitInForce       takes unit whichUnit, force whichForce returns boolean
 --constant native IsUnitOwnedByPlayer takes unit whichUnit, player whichPlayer returns boolean
 --constant native IsUnitAlly          takes unit whichUnit, player whichPlayer returns boolean
+function jass.IsUnitAlly(u, p)
+    return jass.IsPlayerAlly(jass.GetOwningPlayer(u), p)
+end
+
 --constant native IsUnitEnemy         takes unit whichUnit, player whichPlayer returns boolean
+function jass.IsUnitEnemy(u, p)
+    return jass.IsPlayerEnemy(jass.GetOwningPlayer(u), p)
+end
+
 --constant native IsUnitVisible       takes unit whichUnit, player whichPlayer returns boolean
 --constant native IsUnitDetected      takes unit whichUnit, player whichPlayer returns boolean
 --constant native IsUnitInvisible     takes unit whichUnit, player whichPlayer returns boolean
@@ -1536,6 +1553,13 @@ end
 --native UnitIsSleeping               takes unit whichUnit returns boolean
 --native UnitWakeUp                   takes unit whichUnit returns nothing
 --native UnitApplyTimedLife           takes unit whichUnit, integer buffId, real duration returns nothing
+function jass.UnitApplyTimedLife(u, buffId, duration)
+    log.debug('单位', u, '为有时限的单位，buffId为', buffId, '，时限为', duration)
+    jass.TimerStart(jass.CreateTimer(), duration, false, function()
+        u:remove()
+    end)
+end
+
 --native UnitIgnoreAlarm              takes unit whichUnit, boolean flag returns boolean
 --native UnitIgnoreAlarmToggled       takes unit whichUnit returns boolean
 --native UnitResetCooldown            takes unit whichUnit returns nothing
@@ -3568,6 +3592,7 @@ end
 
 --native GetRandomReal takes real lowBound, real highBound returns real
 function jass.GetRandomReal(lowBound, highBound)
+    log.debug('取随机实数，范围为：', lowBound, '~', highBound)
     return lowBound + math.random() * (highBound - lowBound)
 end
 
@@ -3651,10 +3676,14 @@ end
 --native AddIndicator                 takes widget whichWidget, integer red, integer green, integer blue, integer alpha returns nothing
 --native PingMinimap                  takes real x, real y, real duration returns nothing
 function jass.PingMinimap(x, y, duration)
-    log.info('向小地图发送信号，位置为：', x, y, '，持续时间为：', duration)
+    log.info('向所有玩家小地图发送信号，位置为：', x, y, '，持续时间为：', duration)
 end
 
 --native PingMinimapEx                takes real x, real y, real duration, integer red, integer green, integer blue, boolean extraEffects returns nothing
+function jass.PingMinimapEx(x, y, duration, red, green, blue, extraEffects)
+    log.info('向所有玩家小地图发送信号，位置为：', x, y, '，颜色为', red, green, blue, '，持续时间为：', duration, '，是否有额外特效', extraEffects)
+end
+
 --native EnableOcclusion              takes boolean flag returns nothing
 --native SetIntroShotText             takes string introText returns nothing
 --native SetIntroShotModel            takes string introModelPath returns nothing
@@ -4035,7 +4064,9 @@ end
 
 --native DestroyEffect                takes effect whichEffect returns nothing
 function jass.DestroyEffect(e)
-    e:destroy()
+    if e then
+        e:destroy()
+    end
 end
 
 --native AddSpellEffect               takes string abilityString, effecttype t, real x, real y returns effect

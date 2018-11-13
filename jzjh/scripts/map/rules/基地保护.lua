@@ -2,15 +2,16 @@ local function init()
 
     --基地保护机制
     et.game:event '单位-受到伤害'(function(self, source, target, damage)
-        if target.handle == udg_ZhengPaiWL and damage > target:get_max_life() * 0.03 then
+        if target == udg_ZhengPaiWL and damage > target:get_max_life() * 0.03 then
             target:set_invulnerable(0)
-            target:set_life_percent(target.get_life_percent - 3)
+            target:set_life_percent(target:get_life_percent() - 3)
         end
     end)
 
     --云大救家
     et.game:event '单位-受攻击'(function(self, source, target)
-        if target.handle == udg_ZhengPaiWL then
+        print(source, target)
+        if target == udg_ZhengPaiWL then
             if target:get_life_percent() <= 25 and not udg_yunyangxianshen then
                 udg_yunyangxianshen = true
                 u = et.player[6]:create_unit(1214409837, target:get_point() + { 0, 200 }, 90)

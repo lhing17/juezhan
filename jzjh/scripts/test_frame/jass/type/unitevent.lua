@@ -13,13 +13,51 @@ mt.type = 'unitevent'
 mt.name = ''
 
 function unitevent.init()
-	local unitevent_names={}
-	for i = 1, #unitevent_names do
-		local un = {}
-		un.name = unitevent_names[i]
-		setmetatable(un, unitevent)
-		table.insert(unitevent, un)
-	end
+    local unitevent_names = {
+        'EVENT_UNIT_DAMAGED',
+        'EVENT_UNIT_DEATH',
+        'EVENT_UNIT_DECAY',
+        'EVENT_UNIT_DETECTED',
+        'EVENT_UNIT_HIDDEN',
+        'EVENT_UNIT_SELECTED',
+        'EVENT_UNIT_DESELECTED',
+        'EVENT_UNIT_STATE_LIMIT',
+        'EVENT_UNIT_ACQUIRED_TARGET',
+        'EVENT_UNIT_TARGET_IN_RANGE',
+        'EVENT_UNIT_ATTACKED',
+        'EVENT_UNIT_RESCUED',
+        'EVENT_UNIT_CONSTRUCT_CANCEL',
+        'EVENT_UNIT_CONSTRUCT_FINISH',
+        'EVENT_UNIT_UPGRADE_START',
+        'EVENT_UNIT_UPGRADE_CANCEL',
+        'EVENT_UNIT_UPGRADE_FINISH',
+        'EVENT_UNIT_TRAIN_START',
+        'EVENT_UNIT_TRAIN_CANCEL',
+        'EVENT_UNIT_TRAIN_FINISH',
+        'EVENT_UNIT_RESEARCH_START',
+        'EVENT_UNIT_RESEARCH_CANCEL',
+        'EVENT_UNIT_RESEARCH_FINISH',
+        'EVENT_UNIT_ISSUED_ORDER',
+        'EVENT_UNIT_ISSUED_POINT_ORDER',
+        'EVENT_UNIT_ISSUED_TARGET_ORDER',
+        'EVENT_UNIT_HERO_LEVEL',
+        'EVENT_UNIT_HERO_SKILL',
+        'EVENT_UNIT_HERO_REVIVABLE',
+        'EVENT_UNIT_HERO_REVIVE_START',
+        'EVENT_UNIT_HERO_REVIVE_CANCEL',
+        'EVENT_UNIT_HERO_REVIVE_FINISH',
+        'EVENT_UNIT_SUMMON',
+        'EVENT_UNIT_DROP_ITEM',
+        'EVENT_UNIT_PICKUP_ITEM',
+        'EVENT_UNIT_USE_ITEM',
+        'EVENT_UNIT_LOADED',
+    }
+    for i = 52, #unitevent_names + 51 do
+        local un = {}
+        un.name = unitevent_names[i - 51]
+        setmetatable(un, unitevent)
+        unitevent[i] = un
+    end
 end
 
 return unitevent

@@ -28,7 +28,7 @@ function mt:is_ally(p)
 end
 
 function mt:is_enemy(p)
-    return not is_ally(p)
+    return not self:is_ally(p)
 end
 
 function mt:is_in_force(f)
@@ -141,7 +141,11 @@ function player.init()
         p.techs = {}
         p.ability_availability = {}
         p.name = '玩家' .. i
-        p.map_control = mapcontrol[0]
+        if i<=5 then
+            p.map_control = mapcontrol[0]
+        else
+            p.map_control = mapcontrol[1]
+        end
         p.slot_state = playerslotstate[1]
     end
     player.native = player[1]

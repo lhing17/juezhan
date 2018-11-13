@@ -28,7 +28,7 @@ function mt:move_to(x, y)
 end
 
 function mt:remove()
-    location[l.handle_id] = nil
+    location[self.handle_id] = nil
 end
 
 function location.create(x, y)

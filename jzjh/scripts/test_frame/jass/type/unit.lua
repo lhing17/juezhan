@@ -7,6 +7,7 @@
 
 local common_util = require 'jass.util.common_util'
 local location = require 'jass.type.location'
+local unitstate = require 'jass.type.unitstate'
 local unit = {}
 unit.all_units = {}
 unit.removed_units = {}
@@ -310,12 +311,24 @@ function mt:get_unit_state(unitstate)
     return self[unitstate]
 end
 
+function mt:set_unit_state(unitstate, value)
+    self[unitstate] = value
+end
+
 function mt:add_ability(abilityId)
     if not self.abilities[abilityId] then
         self.abilities[abilityId] = setmetatable({}, { __index = { level = 1, permanent = false } })
         return true
     end
     return false
+end
+
+function mt:has_item(it)
+    return common_util.is_in_table(it, self.items)
+end
+
+function mt:get_item_in_slot(i)
+    return self.items[i + 1]
 end
 
 function mt:add_item(it)
@@ -400,9 +413,13 @@ function unit.create(p, unitid, x, y, face)
     u.y = y
     u.face = face
     u.scale = { 1, 1, 1 }
-    u.unittypes = { 'UNIT_TYPE_GROUND',  'UNIT_TYPE_HERO' }
+    u.unittypes = { 'UNIT_TYPE_GROUND', 'UNIT_TYPE_HERO' }
     u.abilities = {}
     u.items = {}
+    u[unitstate[0]] = 1000
+    u[unitstate[1]] = 1000
+    u[unitstate[2]] = 1000
+    u[unitstate[3]] = 1000
     unit.all_units[u.handle_id] = u
     p.units[u.handle_id] = u
     return u

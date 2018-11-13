@@ -84,7 +84,7 @@ end
 -- 小地图信号
 function mt:pingMinimap(x, y, time, red, green, blue, flag)
     if self == player.localplayer then
-        jass.PintMinimapEx(x, y, time or 1, red or 0, green or 255, blue or 0, not not flag)
+        jass.PingMinimapEx(x, y, time or 1, red or 0, green or 255, blue or 0, not not flag)
     end
 end
 

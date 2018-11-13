@@ -481,7 +481,7 @@ function mt:get_life_percent()
 end
 
 function mt:set_life_percent(percent)
-    self.set_life(self.get_max_life() * math.max(0, percent) * 0.01)
+    self:set_life(self:get_max_life() * math.max(0, percent) * 0.01)
 end
 
 --大小

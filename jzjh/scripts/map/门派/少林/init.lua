@@ -1,7 +1,8 @@
 require 'map.门派.少林.韦陀棍法'
 --达摩剑法
 function qc()
-	return GetEventDamage() == 0.15
+	print(et.unit(GetEventDamageSource()):get_owner():is_player())
+	return GetEventDamage() == 0.15 and et.unit(GetEventDamageSource()):get_owner():is_player()
 end
 function rc()
 	return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetEventDamageSource())) and IsUnitAliveBJ(GetFilterUnit())
@@ -34,6 +35,9 @@ function ucFunc()
 	local shxishu = 1.0
 	local shanghai = 0.0
 	local loc2 = GetUnitLoc(uc)
+	if not u then
+		return
+	end
 	if GetUnitAbilityLevel(u, 1395666992) ~= 0 then
 		shxishu = shxishu + 0.4
 	end
@@ -380,10 +384,10 @@ function ShaoLin_Trigger()
 	TriggerAddCondition(t, Condition(Cc))
 	TriggerAddAction(t, cc)
 
-	t = CreateTrigger()
-	YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	TriggerAddCondition(t, Condition(Ec))
-	TriggerAddAction(t, Hc)
+	--t = CreateTrigger()
+	--YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	--TriggerAddCondition(t, Condition(Ec))
+	--TriggerAddAction(t, Hc)
 
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
@@ -400,10 +404,10 @@ function ShaoLin_Trigger()
 	TriggerAddCondition(t, Condition(Oc))
 	TriggerAddAction(t, Pc)
 
-	t = CreateTrigger()
-	YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	TriggerAddCondition(t, Condition(Rc))
-	TriggerAddAction(t, Sc)
+	--t = CreateTrigger()
+	--YDWESyStemAnyUnitDamagedRegistTrigger(t)
+	--TriggerAddCondition(t, Condition(Rc))
+	--TriggerAddAction(t, Sc)
 end
 
 ShaoLin_Trigger() --少林武功触发

@@ -1400,6 +1400,9 @@ end
 --native          GetUnitPointValueByType takes integer unitType returns integer
 
 --native          UnitAddItem             takes unit whichUnit, item whichItem returns boolean
+function jass.UnitAddItem(u, it)
+    u:add_item(it)
+end
 --native          UnitAddItemById         takes unit whichUnit, integer itemId returns item
 --native          UnitAddItemToSlotById   takes unit whichUnit, integer itemId, integer itemSlot returns boolean
 --native          UnitRemoveItem          takes unit whichUnit, item whichItem returns nothing
@@ -1679,6 +1682,10 @@ end
 --native SetPlayerUnitsOwner takes player whichPlayer, integer newOwner returns nothing
 --native CripplePlayer takes player whichPlayer, force toWhichPlayers, boolean flag returns nothing
 --native SetPlayerAbilityAvailable        takes player whichPlayer, integer abilid, boolean avail returns nothing
+function jass.SetPlayerAbilityAvailable(p, abilid, avail)
+    p:set_ability_available(abilid, avail)
+end
+
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
     log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. value)
@@ -1909,6 +1916,9 @@ end
 --native SetPlayerRaceSelectable  takes player whichPlayer, boolean value returns nothing
 --native SetPlayerController      takes player whichPlayer, mapcontrol controlType returns nothing
 --native SetPlayerName            takes player whichPlayer, string name returns nothing
+function jass.SetPlayerName(p, name)
+    p:set_name(name)
+end
 --native SetPlayerOnScoreScreen   takes player whichPlayer, boolean flag returns nothing
 --native GetPlayerTeam            takes player whichPlayer returns integer
 --native GetPlayerStartLocation   takes player whichPlayer returns integer
@@ -2377,6 +2387,9 @@ end
 
 --native Condition        takes code func returns conditionfunc
 function jass.Condition(fun)
+    if not fun then
+        log.error('trigger的Condition为nil')
+    end
     return boolexpr.create(fun)
 end
 
@@ -3021,7 +3034,10 @@ end
 --native          IsItemIdSellable takes integer itemId returns boolean
 --native          IsItemIdPawnable takes integer itemId returns boolean
 --native          EnumItemsInRect     takes rect r, boolexpr filter, code actionFunc returns nothing
---native          GetItemLevel    takes item whichItem returns integer
+--native          GetItemLevel    takes item whichItem returns
+function jass.GetItemLevel(it)
+    return it:get_level()
+end
 --native          GetItemType     takes item whichItem returns itemtype
 function jass.GetItemType(it)
     return it:get_type()
@@ -3032,7 +3048,13 @@ end
 --native          GetItemCharges  takes item whichItem returns integer
 --native          SetItemCharges  takes item whichItem, integer charges returns nothing
 --native          GetItemUserData takes item whichItem returns integer
+function jass.GetItemUserData(it)
+    return it:get_user_data()
+end
 --native          SetItemUserData takes item whichItem, integer data returns nothing
+function jass.SetItemUserData(it, data)
+    it:set_user_data(data)
+end
 
 --// Fog of War API
 --native  SetFogStateRect      takes player forWhichPlayer, fogstate whichState, rect where, boolean useSharedVision returns nothing

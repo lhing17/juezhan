@@ -2778,9 +2778,9 @@ function GameLogic_Trigger()
 	t = nil
 end
 
---require 'map.系统.装备'
---require 'map.系统.套装'
---require 'map.系统.镶嵌'
+require 'map.系统.装备'
+require 'map.系统.套装'
+require 'map.系统.镶嵌'
 
 function Equipment_Trigger()
 	require('map.rules.基地保护')

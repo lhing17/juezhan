@@ -81,7 +81,7 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
         for _, e in pairs(t.registered_events) do
             if e.player == p and e.event_id == pue then
                 group.filter_unit = u
-                if not e.filter or e.filter() then
+                if not e.filter or e.filter.fun() then
                     trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.player = p
@@ -165,7 +165,7 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
                         trigger.changing_unit_prev_owner = p
                     end
                     if common_util.is_in_table(pue.name, { 'EVENT_PLAYER_UNIT_DROP_ITEM', 'EVENT_PLAYER_UNIT_PICKUP_ITEM', 'EVENT_PLAYER_UNIT_USE_ITEM' }) then
-                        trigger.manipulating_unit = tab.u
+                        trigger.manipulating_unit = u
                         trigger.manipulated_item = tab.manipulated_item
                     end
                     if pue.name == 'EVENT_PLAYER_UNIT_ISSUED_ORDER' then
@@ -226,7 +226,7 @@ function trigger_util.trig_unit_event(u, ue, tab)
         for _, e in pairs(t.registered_events) do
             if e.event_id == ue then
                 group.filter_unit = u
-                if not e.filter or e.filter() then
+                if not e.filter or e.filter.fun() then
                     trigger.event_id = e.event_id
                     trigger.triggering = t
                     trigger.unit = u

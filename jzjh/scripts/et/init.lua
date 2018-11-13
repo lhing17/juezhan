@@ -12,4 +12,5 @@ require 'et.unit'
 require 'et.hero'
 require 'et.selector'
 require 'et.rect'
+require 'et.denomination'
 

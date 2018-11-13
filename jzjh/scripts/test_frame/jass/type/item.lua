@@ -35,6 +35,13 @@ mt.powerup = false
 
 mt.itemtype = itemtype[0]
 
+mt.user_data = 0
+mt.level = 1
+
+function item:__tostring()
+    return ('%s|%s|%s|%s'):format(self.type, tostring(self.id), self.status, self.handle_id)
+end
+
 function mt:remove()
     self.status = 'removed'
     item.all_items[self.handle_id] = nil
@@ -51,6 +58,18 @@ end
 
 function mt:get_y()
     return self.y
+end
+
+function mt:get_user_data()
+    return self.user_data
+end
+
+function mt:set_user_data(data)
+    self.user_data = data
+end
+
+function mt:get_level()
+    return self.level
 end
 
 function mt:set_position(x, y)

@@ -318,6 +318,14 @@ function mt:add_ability(abilityId)
     return false
 end
 
+function mt:add_item(it)
+    if #self.items >= 6 then
+        return false
+    end
+    table.insert(self.items, it)
+    return true
+end
+
 function mt:remove_ability(abilityId)
     if not self.abilities[abilityId] then
         return false
@@ -392,8 +400,9 @@ function unit.create(p, unitid, x, y, face)
     u.y = y
     u.face = face
     u.scale = { 1, 1, 1 }
-    u.unittypes = { 'UNIT_TYPE_GROUND' }
+    u.unittypes = { 'UNIT_TYPE_GROUND',  'UNIT_TYPE_HERO' }
     u.abilities = {}
+    u.items = {}
     unit.all_units[u.handle_id] = u
     p.units[u.handle_id] = u
     return u

@@ -3790,6 +3790,7 @@ function main()
     -- naji测试
     require 'util.najitest'
 
+    et.denomination.create()
     et.unit.init()
     environment.init() -- 创建单位并初始化环境
     unit_creation.init()

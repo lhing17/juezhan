@@ -81,6 +81,10 @@ function mt:set_state(state, value)
     self[state] = value
 end
 
+function mt:set_name(name)
+    self.name = name
+end
+
 function mt:is_tech_researched(techid)
     if not self.techs[techid] then
         return false
@@ -100,6 +104,10 @@ function mt:get_tech_max_allowed(techid)
         return 100
     end
     return self.techs[techid].max_allowed
+end
+
+function mt:set_ability_available(id, flag)
+    self.ability_availability[id] = flag
 end
 
 
@@ -131,6 +139,7 @@ function player.init()
         player[i] = p
         p.allies = {}
         p.techs = {}
+        p.ability_availability = {}
         p.name = '玩家' .. i
         p.map_control = mapcontrol[1]
         p.slot_state = playerslotstate[2]

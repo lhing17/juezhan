@@ -46,14 +46,13 @@ function unittype.init()
         'UNIT_TYPE_ETHEREAL',
         'UNIT_TYPE_MAGIC_IMMUNE',
     }
-    for i = 1, #unittype_names do
+    for i = 0, #unittype_names - 1 do
         local ut = {}
-        ut.name = unittype_names[i]
+        ut.name = unittype_names[i + 1]
         setmetatable(ut, unittype)
-        table.insert(unittype, ut)
+        unittype[i] = ut
     end
 
 end
-
 
 return unittype

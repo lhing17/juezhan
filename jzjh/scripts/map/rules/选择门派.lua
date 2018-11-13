@@ -40,24 +40,25 @@ end
 
 local function init()
     -- 加入门派
-    et.game:event '单位-捡起物品'(function(self, u, item)
+    et.game:event '单位-捡起物品' (function(self, u, item)
         if u:is_hero() and is_in(GetItemTypeId(GetManipulatedItem()), { 1227894833, 1227894834, 1227894835, 1227894836, 1227894837, 1227894838, 1227894839, 1227894840, 1227894841, 1227897157, 1227894849, 1227897166, 1227899186, 1227899723, 1227899736 }) then
             local p = u:get_owner()
             local h = p.hero
-            if udg_runamen[i] ~= 0 then
+            if udg_runamen[p.id] ~= 0 then
                 p:send_message("|CFFff0000你已经加过门派了|r")
                 return
             end
+
             if et.lni.denomination[GetItemTypeId(GetManipulatedItem())] then
                 local d = et.lni.denomination[GetItemTypeId(GetManipulatedItem())]
-                if not is_in(u.id, d.permit_ids) then
+                if not d.permit_ids or not is_in(u.id, d.permit_ids) then
                     h['门派'] = d
                     p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
                     p:set_name("〓"..d.name.."〓"..p:get_name())
                     u:add_ability(1093678418)
                     p:send_message("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-                    AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
-                    AddCharacterBBuff(p.hero.handle, udg_xinggeB[i])
+                    AddCharacterABuff(p.hero.handle, udg_xinggeA[p.id])
+                    AddCharacterBBuff(p.hero.handle, udg_xinggeB[p.id])
                     u:remove_ability(1098282348)
                     u:set_point(et.get_rect_random(He))
                     p:set_camera(u:get_point())

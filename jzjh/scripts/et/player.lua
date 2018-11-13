@@ -68,7 +68,7 @@ end
 
 -- 设置玩家名字
 function mt:set_name(name)
-    jass.setPlayerName(self.handle, name)
+    jass.SetPlayerName(self.handle, name)
 end
 
 -- 判断是否为真人玩家

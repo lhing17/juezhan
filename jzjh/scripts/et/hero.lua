@@ -78,6 +78,9 @@ mt.activated = nil
 -- 武魂石激活对话
 mt.wuhun = nil
 
+function hero:__tostring()
+    return '英雄handle:'..tostring(self.handle)..'owner:'..tostring(self.owner)
+end
 
 function hero.init_pick_table()
     local pick_table = {}
@@ -118,7 +121,7 @@ function hero.init_pick_table()
     }
     pick_table[Os] = {
         ['name'] = '浪云',
-        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
+        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00浪云|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00浪云|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+3 经脉+5 医术+2\n|r\n',
         ['handle'] = Os,
         ['根骨'] = 3,
@@ -129,7 +132,7 @@ function hero.init_pick_table()
     }
     pick_table[Ps] = {
         ['name'] = '魔君',
-        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
+        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00魔君|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙|r\n\n',
         ['select_hint'] = '|CFFCCFF00魔君|r\n可加入门派：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r\n',
         ['handle'] = Ps,
         ['根骨'] = 5,
@@ -140,7 +143,7 @@ function hero.init_pick_table()
     }
     pick_table[LanXin] = {
         ['name'] = '兰馨',
-        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
+        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00兰馨|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
         ['handle'] = LanXin,
         ['悟性'] = 3,
@@ -154,7 +157,7 @@ function hero.init_pick_table()
     }
     pick_table[XuanJin] = {
         ['name'] = '瑾轩',
-        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
+        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00瑾轩|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
         ['handle'] = XuanJin,
         ['悟性'] = 3,
@@ -178,11 +181,6 @@ function hero.create(jUnit, pick)
     setmetatable(h, hero)
     h.handle = jUnit
     -- 获取player对象
-
-    print(jUnit)
-    print(jass.GetOwningPlayer(jUnit))
-    print(et.player(jass.GetOwningPlayer(jUnit)))
-    print(et.player[jass.GetOwningPlayer(jUnit)])
 
     p = et.player(jass.GetOwningPlayer(jUnit))
     -- 将hero设为player对象的hero属性

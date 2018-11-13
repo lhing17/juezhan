@@ -33,7 +33,7 @@ local function init()
 
     --可加入门派
     et.game:event '玩家-选择单位'(function(trg, p, u)
-        if u.handle == Rs and udg_runamen[p.id] == 0 then
+        if u == Rs and udg_runamen[p.id] == 0 then
             if base.string2id(p.hero.unit.id) == 1328558130 then
                 p:send_message("当前可加入以下门派：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教|r\n")
             elseif base.string2id(p.hero.unit.id) == 1328558129 then

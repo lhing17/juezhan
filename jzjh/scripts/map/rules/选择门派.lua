@@ -38,11 +38,6 @@ function WuMenPai_Action()
 
 end
 
-
-
-
-
-
 local function init()
     -- 加入门派
     et.game:event '单位-捡起物品'(function(self, u, item)
@@ -80,8 +75,6 @@ local function init()
             end
         end
     end)
-
-
     -- 自由门派
     Mh = CreateTrigger()
     YDWETriggerRegisterLeaveRectSimpleNull(Mh, udg_xuanmenpai)

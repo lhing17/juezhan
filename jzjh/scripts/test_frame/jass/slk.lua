@@ -4,7 +4,9 @@
 --- DateTime: 2018/11/9 15:53
 ---
 
-local path = 'F:\\personal\\heroaltar\\juezhan\\jzjh\\'
+
+local config = require 'jass.config'
+local SCRIPT_PATH = config.SCRIPT_PATH
 
 local slk = {}
 local lni = require 'jass.util.lni-loader'
@@ -28,7 +30,7 @@ end
 
 local function init()
     lni:set_marco('TableSearcher', '$MapPath$table\\')
-    lni:set_marco('MapPath', path)
+    lni:set_marco('MapPath', SCRIPT_PATH)
     --lni_loader('ability')
     lni_loader('buff')
     lni_loader('destructable')

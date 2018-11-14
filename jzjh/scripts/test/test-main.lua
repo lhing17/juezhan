@@ -4,8 +4,10 @@
 --- DateTime: 2018/11/9 9:58
 ---
 
--- 修改SCRIPT_PATH即可
-SCRIPT_PATH = 'F:\\personal\\heroaltar\\juezhan\\jzjh\\'
+
+local config = require 'test_frame.jass.config'
+local SCRIPT_PATH = config.SCRIPT_PATH
+
 
 
 package.path = package.path .. ';'..SCRIPT_PATH..'?.lua'

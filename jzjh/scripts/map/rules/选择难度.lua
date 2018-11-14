@@ -6,7 +6,7 @@
 --调整游戏难度
 function GameNanDu_Condition()
     --非特殊事件模式、非生存模式
-    return udg_teshushijian == false and udg_shengchun == false
+    return is_in(game.config.mode, {'normal', 'fast'})
 end
 function GameNanDu()
     local t = GetTriggeringTrigger()

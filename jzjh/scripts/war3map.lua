@@ -237,10 +237,7 @@ chilian = _array_(false)
 udg_tiebushancengshu = 0
 udg_nandu = 0
 udg_shifoufomie = false
-udg_teshushijian = false
-udg_shengchun = false
 udg_yunyangxianshen = false
-udg_sutong = false
 taohuakai = false
 
 udg_gudongA = 0
@@ -331,7 +328,6 @@ x7 = 0
 y7 = _array_(0)
 z7 = _array_()
 A7 = _array_()
-ShiFouShuaGuai = false
 B7 = 0
 b7 = _array_()
 C7 = _array_()
@@ -2396,10 +2392,7 @@ function Zw()
 		end
 	end
 	et.wait(40 * 1000, function()
-		StartTimerBJ(A7[3], false, 120.0)
-		CreateTimerDialogBJ(bj_lastStartedTimer, "邪教进攻倒计时：")
-		TimerDialogDisplay(bj_lastCreatedTimerDialog, true)
-		z7[3] = bj_lastCreatedTimerDialog
+
 		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖1.53|r")
 		DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30, "|cfffff000游戏初期您可以完成难度为一星到二星的任务来提升角色的能力，游戏前期金钱较匮乏，可以在守家积分商店使用积分兑换金钱，关于游戏的各个系统，请查看F9任务面板，欢迎前往游戏专区论坛jzjhbbs.uuu9.com查看游戏攻略以及提出您的宝贵意见|R")
 		et.wait(40 * 1000, function()
@@ -3030,7 +3023,6 @@ function main1()
 		A7[i] = CreateTimer()
 		i = i + 1
 	end
-	ShiFouShuaGuai = true
 	i = 0
 	for _ in _loop_() do
 		if i > 100 then break end
@@ -3781,6 +3773,8 @@ function main()
     require 'war3.id'
     require 'util.log'
     require 'et.init'
+    require 'game.config' -- 游戏配置
+
     -- 读取lni文件
 	require 'lni.lni'
 	require 'util.commonutil'

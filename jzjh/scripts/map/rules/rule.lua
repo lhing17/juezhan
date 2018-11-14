@@ -44,24 +44,19 @@ end
 function ChooseMoShi_Action()
 	if GetClickedButton() == udg_index0 then
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了普通模式")
-		udg_teshushijian = false
-		udg_shengchun = false
+		game.config.mode = 'normal'
 	end
 	if GetClickedButton() == udg_index1 then
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了特殊事件模式")
-		udg_teshushijian = true
-		udg_shengchun = false
+		game.config.mode = 'special'
 	end
 	if GetClickedButton() == udg_index2 then
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了生存模式")
-		udg_teshushijian = false
-		udg_shengchun = true
+		game.config.mode = 'survive'
 	end
 	if GetClickedButton() == udg_index3 then
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FFFF主机选择了快速通关模式")
-		udg_teshushijian = false
-		udg_shengchun = false
-		udg_sutong = true
+		game.config.mode = 'fast'
 	end
 end
 --试玩模式
@@ -69,7 +64,7 @@ function BeforeAttack()
 	return hd == false
 end
 function SetShiWan()
-	ShiFouShuaGuai = false
+	game.config.pawn = false
 	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFF00FF00玩家一选择了试玩模式，怪物不会进攻主城，大家可以尽情的去体验玩法了")
 end
 
@@ -301,372 +296,13 @@ function EA()
 		end
 	end
 end
-function GA()
-	return ShiFouShuaGuai
-end
---BOSS成长
-function BOSSChengZhang()
-	local t = GetExpiredTimer()
-	if udg_boss[udg_boshu // 4] ~= nil then
-		if IsUnitAliveBJ(udg_boss[udg_boshu // 4]) then
-			if GetUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682242) == 0 then
-				UnitAddAbility(udg_boss[udg_boshu // 4], 1093682242)
-				DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教BOSS" .. (GetUnitName(udg_boss[udg_boshu // 4]) or "") .. "已加强")
-			else
-				if GetUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682242) < 10 then
-					IncUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682242)
-					DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教BOSS" .. (GetUnitName(udg_boss[udg_boshu // 4]) or "") .. "已加强")
-				end
-			end
-			if GetUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682000) == 0 then
-				UnitAddAbility(udg_boss[udg_boshu // 4], 1093682000)
-			else
-				if GetUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682000) < 6 then
-					IncUnitAbilityLevel(udg_boss[udg_boshu // 4], 1093682000)
-				else
-					UnitAddAbility(udg_boss[udg_boshu // 4], 1093681969)
-				end
-			end
-		else
-			PauseTimer(t)
-			DestroyTimer(t)
-		end
-	else
-		PauseTimer(t)
-		DestroyTimer(t)
-	end
-	t = nil
-end
---玩家等级大于波数*4
-function LevelGuoGao()
-	local i = 0
-	local totallevel = 0
-	local r = 0.0
-	for _ in _loop_() do
-		if i > 11 then break end
-		if udg_hero[i] ~= nil then
-			totallevel = totallevel + GetUnitLevel(udg_hero[i])
-		end
-		i = i + 1
-	end
-	if udg_teshushijian and I2R(totallevel) > udg_boshu * 4 * I2R(GetNumPlayer()) then
-		return true
-	end
-	return false
-end
--- 下一波怪的警告
-function NextWaveWarning()
-	if udg_boshu == 9 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能神圣护甲和10倍暴击")
-	elseif udg_boshu == 11 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能咆哮和重击")
-	elseif udg_boshu == 12 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪为空军")
-	elseif udg_boshu == 13 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能噬血术")
-	elseif udg_boshu == 14 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪为绞肉车，死亡后会产生小蜘蛛")
-	elseif udg_boshu == 15 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪为空军，拥有技能20倍暴击")
-	elseif udg_boshu == 16 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能精灵之火")
-	elseif udg_boshu == 17 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能狂战士和30倍暴击")
-	elseif udg_boshu == 18 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪血量很高，并拥有技能嘲讽")
-	elseif udg_boshu == 19 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能狂热")
-	elseif udg_boshu == 20 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能变相移动")
-	elseif udg_boshu == 21 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能反魔法外壳")
-	elseif udg_boshu == 22 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能重击")
-	elseif udg_boshu == 23 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能90%闪避")
-	elseif udg_boshu == 24 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能卡布恩（自爆）")
-	elseif udg_boshu == 25 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能闪电攻击")
-	elseif udg_boshu == 26 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪拥有技能神圣护甲")
-	elseif udg_boshu == 27 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：下一波怪血量很高，并拥有技能永久献祭和重生")
-	elseif udg_boshu == 28 then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033※警告※：本波为最后一波进攻，本波结束后教主即将出现")
-	end
-end
-function BOSSAttack(t)
-	if ModuloInteger(udg_boshu, 4) == 0 and udg_boshu < 28 and udg_shengchun == false then
-		CreateNUnitsAtLocFacingLocBJ(1, u7[udg_boshu // 4], Player(6), v7[8], v7[3])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[3])
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
-	end
-	if ModuloInteger(udg_boshu, 4) == 0 and udg_boshu < 30 and udg_shengchun == false then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教派出BOSS前来进攻，请准备防御")
-		CreateNUnitsAtLocFacingLocBJ(1, u7[udg_boshu // 4], Player(6), v7[6], v7[4])
-		if udg_boshu == 4 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681970)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681970, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681973)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681973, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681975)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681975, IMinBJ(udg_nandu * 2, 9))
-		elseif udg_boshu == 8 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681990)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681990, IMinBJ(udg_nandu * 2, 9))
-			--call UnitAddAbility(bj_lastCreatedUnit,'A0CM')
-			--call SetUnitAbilityLevel(bj_lastCreatedUnit,'A0CM',IMinBJ(udg_nandu*2,9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093682241)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682241, IMinBJ(udg_nandu * 2, 9))
-		elseif udg_boshu == 12 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681993)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681993, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681994)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681994, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681998)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681998, IMinBJ(udg_nandu * 2, 9))
-		elseif udg_boshu == 16 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681976)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681976, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681977)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681977, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093681986)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681986, IMinBJ(udg_nandu * 2, 9))
-		elseif udg_boshu == 20 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681992)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681992, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093682245)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682245, IMinBJ(udg_nandu * 2, 9))
-		elseif udg_boshu == 24 then
-			UnitAddAbility(bj_lastCreatedUnit, 1093681995)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681995, IMinBJ(udg_nandu * 2, 9))
-			UnitAddAbility(bj_lastCreatedUnit, 1093682248)
-			SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682248, IMinBJ(udg_nandu * 2, 9))
-		end
-		udg_boss[udg_boshu // 4] = bj_lastCreatedUnit
-		TimerStart(t, 20, true, BOSSChengZhang)
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-	elseif ModuloInteger(udg_boshu, 4) ~= 0 and udg_boshu < 28 and udg_shengchun == false then
-		if LevelGuoGao() then
-			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，邪教派出BOSS前来进攻，请准备防御")
-			CreateNUnitsAtLocFacingLocBJ(1, u7[udg_boshu // 4 + 1], Player(6), v7[6], v7[4])
-			udg_boss[udg_boshu // 4] = bj_lastCreatedUnit
-			TimerStart(t, 20, true, BOSSChengZhang)
-			GroupAddUnit(w7, bj_lastCreatedUnit)
-			IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		end
-	end
-end
---刷怪
-function HA()
-	local t = CreateTimer()
-	if udg_boshu == 4 and udg_teshushijian == true then
-		ChooseNanDu()
-	end
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教势力：第" .. (I2S(udg_boshu) or "") .. "|CFFFF0033波")
-	NextWaveWarning() --下波警告
-	if LevelGuoGao() then
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
-	end
-	StopMusic(false)
-	PlayMusicBJ(yh) -- 切换BGM
-	EnableTrigger(Yi) -- 刷正面的进攻怪
-	YDWEPolledWaitNull(40.0)
-	if O4 > 1 then -- 游戏人数>1
-		EnableTrigger(Zi) -- 刷背面的进攻怪
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
-	end
-	YDWEPolledWaitNull(20.0)
-	if famous_num > 0 then
-		ConditionalTriggerExecute(dj)
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033名门高手开始进攻，大家要小心应付了！")
-	end
-	DisableTrigger(Yi)
-	YDWEPolledWaitNull(10.0)
-	if O4 > 1 then
-		DisableTrigger(Zi)
-	end
-	YDWEPolledWaitNull(10.0)
-	BOSSAttack(t)
-	udg_boshu = udg_boshu + 1
-	StopMusic(false)
-	PlayMusicBJ(xh)
-	if udg_sutong == false then
-		YDWEPolledWaitNull(145 - GetNumPlayer() * 10)
-	end
-	if udg_boshu >= 29 and udg_shengchun == false then
-		StopMusic(false)
-		PlayMusicBJ(zh)
-		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
-		CreateNUnitsAtLocFacingLocBJ(1, u7[8], Player(6), v7[6], v7[4])
-		udg_boss[udg_boshu // 4] = bj_lastCreatedUnit
-		TimerStart(t, 20, true, BOSSChengZhang)
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-	else
-		if udg_shengchun then
-			AddPlayerTechResearched(Player(12), 1378889780, 1)
-			AddPlayerTechResearched(Player(6), 1378889780, 1)
-		end
-		if x7 >= 1 then
-			TriggerExecute(ij)
-		else
-			TriggerExecute(hj)
-		end
-	end
-	t = nil
-end
-function JiaJiNeng(u)
-	if udg_boshu >= 8 then
-		UnitAddAbility(u, 1093682008)
-		if udg_boshu >= 18 then
-			UnitAddAbility(u, 1093682009)
-			if udg_boshu >= 28 then
-				UnitAddAbility(u, 1093682010)
-			end
-		end
-	end
-end
-function FrontAttack()
-	if udg_shengchun == false then
-		CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[6], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[7], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[5], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		if LevelGuoGao() then
-			CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[6], v7[4])
-			GroupAddUnit(w7, bj_lastCreatedUnit)
-			IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-			CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[7], v7[4])
-			GroupAddUnit(w7, bj_lastCreatedUnit)
-			IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-			CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu], Player(6), v7[5], v7[4])
-			GroupAddUnit(w7, bj_lastCreatedUnit)
-			IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		end
-	else
-		CreateNUnitsAtLocFacingLocBJ(1, 1848651827, Player(6), v7[6], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		JiaJiNeng(bj_lastCreatedUnit)
-		CreateNUnitsAtLocFacingLocBJ(1, 1848651827, Player(6), v7[7], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		JiaJiNeng(bj_lastCreatedUnit)
-		CreateNUnitsAtLocFacingLocBJ(1, 1848651827, Player(6), v7[5], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		JiaJiNeng(bj_lastCreatedUnit)
-	end
-end
-function BackAttack()
-	if udg_shengchun == false then
-		CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu + 1], Player(6), v7[8], v7[3])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[3])
-		if LevelGuoGao() then
-			CreateNUnitsAtLocFacingLocBJ(1, y7[udg_boshu + 1], Player(6), v7[8], v7[3])
-			GroupAddUnit(w7, bj_lastCreatedUnit)
-			IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[3])
-		end
-	else
-		CreateNUnitsAtLocFacingLocBJ(1, 1848651827, Player(6), v7[8], v7[3])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[3])
-		JiaJiNeng(bj_lastCreatedUnit)
-	end
-end
-function MA()
-	return ShiFouShuaGuai
-end
-function NA()
-	local r1 = 0
-	local r2 = 0
-	if famous_num == 1 then
-		r1 = 1.26
-		r2 = 1.4
-	elseif famous_num == 2 then
-		r1 = 1.28
-		r2 = 1.43
-	elseif famous_num == 3 then
-		r1 = 1.3
-		r2 = 1.46
-	elseif famous_num == 4 then
-		r1 = 1.32
-		r2 = 1.49
-	elseif famous_num == 5 then
-		r1 = 1.34
-		r2 = 1.52
-	end
-	for i = 1, famous_num do
-		rr3 = r1 ^ udg_boshu
-		rr4 = r2 ^ udg_boshu
-		rand = GetRandomInt(1, 11)
-		CreateNUnitsAtLocFacingLocBJ(1, et.famous[rand].id, Player(6), v7[GetRandomInt(5, 8)], v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
-		IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-		SetHeroLevelBJ(bj_lastCreatedUnit, 4 * udg_boshu, false)
-		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
-		YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (udg_boshu - 1) * et.famous[rand]["防御成长"] * 9 // 10 * famous_num)
-		--call YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit,1,0,R2I(I2R(et.famous[rand]["法力成长"])*rr4))
-		unitadditembyidswapped(Ae[udg_boshu], bj_lastCreatedUnit)
-	end
-end
-function PA()
-	DestroyTimerDialog(z7[1])
-	ConditionalTriggerExecute(Xi)
-end
-function RA()
-	DestroyTimerDialog(z7[2])
-	ConditionalTriggerExecute(Xi)
-end
-function TA()
-	DestroyTimerDialog(z7[3])
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
-	if udg_teshushijian == true then
-		ChooseNanDu()
-	end
-	ConditionalTriggerExecute(Xi)
-end
-function VA()
-	StartTimerBJ(A7[1], false, 30.0 + I2R(ie))
-	CreateTimerDialogBJ(bj_lastStartedTimer, "邪教下次进攻时间")
-	z7[1] = bj_lastCreatedTimerDialog
-	ie = 0
-end
-function XA()
-	StartTimerBJ(A7[2], false, x7 * 60.0 + 30.0 + I2R(ie))
-	CreateTimerDialogBJ(bj_lastStartedTimer, "邪教下次进攻时间")
-	z7[2] = bj_lastCreatedTimerDialog
-	ie = 0
-	x7 = 0
-end
-function ZA()
-	return GetItemTypeId(GetManipulatedItem()) == 1227894853
-end
-function ea()
-	x7 = x7 + 1
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFF00FF4C在武林弟子的奋力帮助下，邪教的进攻势力被延缓了，大家有1分钟的时间，赶紧去做任务吧~")
-	PlaySoundOnUnitBJ(Dh, 100, GetTriggerUnit())
-	shoujiajf[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] = shoujiajf[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] + 10
-	DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF00FF4C守家积分+10")
-end
+
 function ja()
 	return IsUnitInGroup(GetTriggerUnit(), w7)
 end
 function ka()
 	GroupRemoveUnit(w7, GetTriggerUnit())
 end
-
-
 
 --切换背包
 function Ba()
@@ -2452,7 +2088,7 @@ function LiaoGuoJinGong_1()
 end
 function LiaoGuoJinGong()
 	local t
-	if Sd[1] ~= 2 and Sd[2] ~= 2 and Sd[3] ~= 2 and Sd[4] ~= 2 and Sd[5] ~= 2 and udg_teshushijian then
+	if Sd[1] ~= 2 and Sd[2] ~= 2 and Sd[3] ~= 2 and Sd[4] ~= 2 and Sd[5] ~= 2 and game.config.mode == 'special' then
 		t = CreateTimer()
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※边境入侵※")
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，辽国派出骑兵前来进攻，请准备防御")
@@ -2462,7 +2098,7 @@ function LiaoGuoJinGong()
 end
 --灵鹫宫进攻：触发条件，有玩家选择了灵鹫宫
 function LingJiuGongJinGong()
-	if (udg_runamen[1] == 12 or udg_runamen[2] == 12 or udg_runamen[3] == 12 or udg_runamen[4] == 12 or udg_runamen[5] == 12) and udg_teshushijian then
+	if (udg_runamen[1] == 12 or udg_runamen[2] == 12 or udg_runamen[3] == 12 or udg_runamen[4] == 12 or udg_runamen[5] == 12) and game.config.mode == 'special' then
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※灵鹫宫劫※")
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，灵鹫宫派出高手前来进攻，请准备防御")
 		CreateNUnitsAtLocFacingLocBJ(1, 1852270642, Player(6), Location(1800, -100), v7[4])
@@ -2532,43 +2168,7 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerUnitEventSimple(Wi, Player(12), EVENT_PLAYER_UNIT_DEATH)
 	TriggerRegisterPlayerUnitEventSimple(Wi, Player(15), EVENT_PLAYER_UNIT_DEATH)
 	TriggerAddAction(Wi, EA)
-	--刷进攻怪
-	Xi = CreateTrigger()
-	TriggerAddCondition(Xi, Condition(GA))
-	TriggerAddAction(Xi, HA)
-	--刷正面的进攻怪
-	Yi = CreateTrigger()
-	DisableTrigger(Yi)
-	TriggerRegisterTimerEventPeriodic(Yi, 3.0)
-	TriggerAddAction(Yi, FrontAttack)
-	--刷背面的进攻怪
-	Zi = CreateTrigger()
-	DisableTrigger(Zi)
-	TriggerRegisterTimerEventPeriodic(Zi, 2.0)
-	TriggerAddAction(Zi, BackAttack)
-	-- 刷名门
-	dj = CreateTrigger()
-	TriggerAddCondition(dj, Condition(MA))
-	TriggerAddAction(dj, NA)
-	-- 时间到刷怪
-	ej = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(ej, A7[1])
-	TriggerAddAction(ej, PA)
-	fj = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(fj, A7[2])
-	TriggerAddAction(fj, RA)
-	gj = CreateTrigger()
-	TriggerRegisterTimerExpireEvent(gj, A7[3])
-	TriggerAddAction(gj, TA)
-	hj = CreateTrigger()
-	TriggerAddAction(hj, VA)
-	ij = CreateTrigger()
-	TriggerAddAction(ij, XA)
-	-- 停怪
-	jj = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(jj, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(jj, Condition(ZA))
-	TriggerAddAction(jj, ea)
+
 	-- 将死亡单位从单位组移除
 	mj = CreateTrigger()
 	TriggerRegisterPlayerUnitEventSimple(mj, Player(6), EVENT_PLAYER_UNIT_DEATH)

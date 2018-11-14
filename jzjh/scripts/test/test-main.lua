@@ -4,6 +4,7 @@
 --- DateTime: 2018/11/9 9:58
 ---
 
+-- 请使用resources文件下的lua
 
 local config = require 'test_frame.jass.config'
 local SCRIPT_PATH = config.SCRIPT_PATH

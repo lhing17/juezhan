@@ -5,12 +5,17 @@
 ---
 
 local trigger_util = require 'jass.util.trigger_util'
+local item = require 'jass.type.item'
 local test_util = {}
 
 function test_util.player1_select_hero()
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
     return et.player(1).hero
+end
+
+function test_util.create_item(id)
+    return item.create(id, 0, 0)
 end
 
 return test_util

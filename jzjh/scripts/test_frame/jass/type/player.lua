@@ -7,6 +7,7 @@
 local common_util = require 'jass.util.common_util'
 local mapcontrol = require 'jass.type.mapcontrol'
 local playerslotstate = require 'jass.type.playerslotstate'
+local playercolor = require 'jass.type.playercolor'
 
 local player = {}
 player.all_players = {}
@@ -23,6 +24,10 @@ mt.id = 0
 mt.type = 'player'
 mt.name = '玩家1'
 mt.team = 1
+
+function mt:get_color()
+    return self.color or playercolor[0]
+end
 
 function mt:is_ally(p)
     return common_util.is_in_table(p, self.allies)
@@ -130,14 +135,12 @@ function mt:set_ability_available(id, flag)
     self.ability_availability[id] = flag
 end
 
-
-
 function player:__call(i)
     return player[i]
 end
 
 function player:__tostring()
-    return self.handle_id ..':'.. self.name
+    return self.handle_id .. ':' .. self.name
 end
 
 function player.get_local()
@@ -160,8 +163,9 @@ function player.init()
         p.allies = {}
         p.techs = {}
         p.ability_availability = {}
+        p.color = playercolor[i - 1]
         p.name = '玩家' .. i
-        if i<=5 then
+        if i <= 5 then
             p.map_control = mapcontrol[0]
             p.team = 1
         else

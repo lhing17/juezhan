@@ -194,16 +194,14 @@ function mt:set_turn_speed(turn_speed)
 end
 
 function mt:set_owner(p)
-    local op = self.get_owner()
+    local op = self:get_owner()
     op.units[self.handle_id] = nil
     self.owner = p
     p.units[self.handle_id] = self
 end
 
 function mt:set_color(pc)
-    if pc.color then
-        self.color = pc.color
-    end
+    self.color = pc or self:get_owner():get_color()
 end
 
 function mt:set_scale(x, y, z)

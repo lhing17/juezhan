@@ -13,13 +13,26 @@ mt.type = 'playercolor'
 mt.name = ''
 
 function playercolor.init()
-	local playercolor_names={}
-	for i = 1, #playercolor_names do
-		local pl = {}
-		pl.name = playercolor_names[i]
-		setmetatable(pl, playercolor)
-		table.insert(playercolor, pl)
-	end
+    local playercolor_names = {
+        'PLAYER_COLOR_RED',
+        'PLAYER_COLOR_BLUE',
+        'PLAYER_COLOR_CYAN',
+        'PLAYER_COLOR_PURPLE',
+        'PLAYER_COLOR_YELLOW',
+        'PLAYER_COLOR_ORANGE',
+        'PLAYER_COLOR_GREEN',
+        'PLAYER_COLOR_PINK',
+        'PLAYER_COLOR_LIGHT_GRAY',
+        'PLAYER_COLOR_LIGHT_BLUE',
+        'PLAYER_COLOR_AQUA',
+        'PLAYER_COLOR_BROWN',
+    }
+    for i = 0, #playercolor_names - 1 do
+        local pl = {}
+        pl.name = playercolor_names[i + 1]
+        setmetatable(pl, playercolor)
+        playercolor[i] = pl
+    end
 end
 
 return playercolor

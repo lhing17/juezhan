@@ -60,7 +60,9 @@ function mt:update(dt)
         if self.remained <= 0 then
             self.status = 'expired'
             timer.expired = self
-            self.callback()
+            if self.callback then
+                self.callback()
+            end
         end
     end
     if self.periodic then
@@ -68,7 +70,9 @@ function mt:update(dt)
             self.remained = self.remained + self.timeout
             self.elapsed = self.elapsed - self.timeout
             timer.expired = self
-            self.callback()
+            if self.callback then
+                self.callback()
+            end
         end
     end
 end

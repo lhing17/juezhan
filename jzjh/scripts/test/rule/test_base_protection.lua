@@ -5,11 +5,13 @@
 ---
 require 'test.test-main'
 local trigger_util = require 'jass.util.trigger_util'
+local item = require 'jass.type.item'
+local test_util = require 'test.util.test_util'
 require 'war3.id'
 
+--@Tested
 local function test_base_protection()
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
+    local h = test_util.player1_select_hero()
     local tab = {
         event_damage = 100,
         event_damage_source = jass.CreateUnit(jass.Player(6), base.string2id('ugho'), 0, 0, 270)
@@ -21,5 +23,17 @@ local function test_base_protection()
     }
     trigger_util.trig_player_unit_event(jass.Player(5), jass.EVENT_PLAYER_UNIT_ATTACKED, udg_ZhengPaiWL.handle, tab)
 
+    local dp = h.def_point
+    print('测试升级城防', dp)
+    local it = item.create(1227896147, 0, 0)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
+    assert(h.def_point - dp == 15, '守家积分增加不正确')
+
+    dp = h.def_point
+    print('测试升级高级城防', dp)
+    local it = item.create(1227896917, 0, 0)
+    udg_boshu = 19
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
+    assert(h.def_point - dp == 15, '守家积分增加不正确')
 end
 test_base_protection()

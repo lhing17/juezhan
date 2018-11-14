@@ -11,6 +11,7 @@ local cur_index = 0
 local free_queue = {}
 local timer = {}
 
+-- 从队尾分配
 local function alloc_queue()
 	local n = #free_queue
 	if n > 0 then
@@ -22,6 +23,7 @@ local function alloc_queue()
 	end
 end
 
+-- 将到期时间的计时器加入到队列中
 local function m_timeout(self, timeout)
 	local ti = cur_frame + timeout
 	local q = timer[ti]
@@ -37,6 +39,7 @@ local function m_wakeup(self)
 	if self.removed then
 		return
 	end
+	-- 执行回调函数
 	self:on_timer()
 	if self.removed or self.pause_remaining then
 		return
@@ -88,6 +91,7 @@ jass.TimerStart(jtimer, 0.01, true, function ()
 		cur_frame = cur_frame - 1
 	end
 	max_frame = max_frame + delta
+	-- 每0.01秒执行10次
 	while cur_frame < max_frame do
 		cur_frame = cur_frame + 1
 		on_tick()
@@ -138,6 +142,7 @@ function api:resume()
 	end
 end
 
+-- 以毫秒为单位，最低为1
 function et.wait(timeout, on_timer)
 	local timeout = math_max(math_floor(timeout) or 1, 1)
 	local t = setmetatable({

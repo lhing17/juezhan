@@ -22,6 +22,7 @@ mt.observer = false
 mt.id = 0
 mt.type = 'player'
 mt.name = '玩家1'
+mt.team = 1
 
 function mt:is_ally(p)
     return common_util.is_in_table(p, self.allies)
@@ -49,6 +50,10 @@ function mt:get_unit_count()
         counter = counter + 1
     end
     return counter
+end
+
+function mt:get_team()
+    return self.team
 end
 
 function mt:get_name()
@@ -83,6 +88,21 @@ end
 
 function mt:set_name(name)
     self.name = name
+end
+
+function mt:get_tech_count(techid)
+    if not self.techs[techid] or not self.techs[techid].level then
+        return 0
+    end
+    return self.techs[techid].level
+end
+
+function mt:set_tech_level(techid, level)
+    self.techs[techid] = self.techs[techid] or {}
+    if self.techs[techid].level and self.techs[techid].level > level then
+        return
+    end
+    self.techs[techid].level = level
 end
 
 function mt:is_tech_researched(techid)
@@ -143,8 +163,10 @@ function player.init()
         p.name = '玩家' .. i
         if i<=5 then
             p.map_control = mapcontrol[0]
+            p.team = 1
         else
             p.map_control = mapcontrol[1]
+            p.team = 2
         end
         p.slot_state = playerslotstate[1]
     end

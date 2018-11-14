@@ -30,9 +30,12 @@ local function init()
                 jass.SetUnitPositionLoc(GetAttacker(), GetRectCenter(udg_jail))
                 force.send_message("|CFFCCFFCC正派武林将攻击单位抓进了监狱")
             end
-            local group = et.selector():in_range(target:get_point(), 800):add_filter(function(u)
+            local selector = et.selector()
+            selector = selector:in_range(target:get_point(), 800)
+            selector = selector:add_filter(function(u)
                 return u:is_ally(target) and u:is_hero()
-            end)            :get()
+            end)
+            local group = selector:get()
             if #group > 0 then
                 target:add_ability(1093677139)
                 et.wait(5000, function()
@@ -46,15 +49,15 @@ local function init()
     et.game:event '单位-捡起物品'(function(self, u, item)
         -- 购买基地无敌
         if jass.GetItemTypeId(item) == 1227896664 then
-            DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00ff33在正义之士的庇护下，武林暂时无敌了（20秒后解除）")
+            force.send_message("|cff00ff33在正义之士的庇护下，武林暂时无敌了（20秒后解除）")
             u:set_invulnerable(20)
         end
         -- 购买城防
         if jass.GetItemTypeId(item) == 1227896147 then
             if et.player[6]:get_tech(1378889776) <= 29 then
                 et.player[6]:add_tech(1378889776)
-                force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的高级城防得到加强了')
-                shoujiajf[u:get_owner().id] = shoujiajf[u:get_owner().id] + 15
+                force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的城防得到加强了')
+                u:get_owner().hero.def_point = u:get_owner().hero.def_point + 15
                 u:get_owner():send_message("|CFF34FF00守家积分+15")
             else
                 u:get_owner():add_gold(20000)
@@ -66,8 +69,8 @@ local function init()
             if udg_boshu >= 18 then
                 if et.player[6]:get_tech(1378889778) <= 9 then
                     et.player[6]:add_tech(1378889778)
-                    force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的城防得到加强了')
-                    shoujiajf[u:get_owner().id] = shoujiajf[u:get_owner().id] + 15
+                    force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的高级城防得到加强了')
+                    u:get_owner().hero.def_point = u:get_owner().hero.def_point + 15
                     u:get_owner():send_message("|CFF34FF00守家积分+15")
                 else
                     u:get_owner():add_gold(50000)

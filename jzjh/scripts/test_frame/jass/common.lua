@@ -1698,6 +1698,10 @@ function jass.GetPlayerTechMaxAllowed(p, techid)
 end
 --constant native AddPlayerTechResearched takes player whichPlayer, integer techid, integer levels returns nothing
 --constant native SetPlayerTechResearched takes player whichPlayer, integer techid, integer setToLevel returns nothing
+function jass.SetPlayerTechResearched(p, techid, level)
+    return p:set_tech_level(techid, level)
+end
+
 --constant native GetPlayerTechResearched takes player whichPlayer, integer techid, boolean specificonly returns boolean
 function jass.GetPlayerTechResearched(p, techid, specificonly)
     local result = p:is_tech_researched(techid)
@@ -1705,6 +1709,10 @@ function jass.GetPlayerTechResearched(p, techid, specificonly)
     return result
 end
 --constant native GetPlayerTechCount      takes player whichPlayer, integer techid, boolean specificonly returns integer
+function jass.GetPlayerTechCount(p, techid, specificonly)
+    return p:get_tech_count(techid)
+end
+
 --native SetPlayerUnitsOwner takes player whichPlayer, integer newOwner returns nothing
 --native CripplePlayer takes player whichPlayer, force toWhichPlayers, boolean flag returns nothing
 --native SetPlayerAbilityAvailable        takes player whichPlayer, integer abilid, boolean avail returns nothing
@@ -1947,6 +1955,10 @@ function jass.SetPlayerName(p, name)
 end
 --native SetPlayerOnScoreScreen   takes player whichPlayer, boolean flag returns nothing
 --native GetPlayerTeam            takes player whichPlayer returns integer
+function jass.GetPlayerTeam(p)
+    return p:get_team()
+end
+
 --native GetPlayerStartLocation   takes player whichPlayer returns integer
 --native GetPlayerColor           takes player whichPlayer returns playercolor
 --native GetPlayerSelectable      takes player whichPlayer returns boolean
@@ -2135,7 +2147,7 @@ end
 
 --native FirstOfGroup             takes group whichGroup returns unit
 function jass.FirstOfGroup(g)
-    return g:get_first()
+    return g:get_first() or 0
 end
 
 --//============================================================================

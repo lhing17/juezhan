@@ -31,7 +31,9 @@ function mt:add_unit(u)
 end
 
 function mt:remove_unit(u)
-    self.units[u.handle_id] = nil
+    if u then
+        self.units[u.handle_id] = nil
+    end
 end
 
 function mt:contains_unit(u)
@@ -43,7 +45,7 @@ function mt:enum_units(base_condition, br, count_limit)
     for _, v in pairs(unit.all_units) do
         if base_condition(v) then
             group.filter_unit = v
-            if br.fun() then
+            if not br or br.fun() then
                 if count_limit and counter >= count_limit then
                     return
                 end

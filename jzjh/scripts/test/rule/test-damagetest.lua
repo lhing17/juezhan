@@ -7,7 +7,7 @@
 require 'test.test-main'
 local trigger_util = require 'jass.util.trigger_util'
 local test_util = require 'test.util.test_util'
-local timer = require 'jass.type.timer'
+
 
 
 -- @Tested
@@ -26,7 +26,7 @@ local function test_damage_test()
         }
         trigger_util.trig_unit_event(gg_unit_N00I_0116.handle, jass.EVENT_UNIT_DAMAGED, tab)
     end
-    timer.update(10)
+    test_util.update_timer(nil, 10)
 
 end
 

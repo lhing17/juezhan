@@ -6,6 +6,7 @@
 
 local trigger_util = require 'jass.util.trigger_util'
 local item = require 'jass.type.item'
+local timer = require 'jass.type.timer'
 local test_util = {}
 
 function test_util.player1_select_hero()
@@ -16,6 +17,16 @@ end
 
 function test_util.create_item(id)
     return item.create(id, 0, 0)
+end
+
+function test_util.update_timer(tm, dt)
+    if not tm then
+        timer.update(dt)
+    else
+        tm:update(dt)
+    end
+
+
 end
 
 return test_util

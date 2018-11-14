@@ -10,13 +10,13 @@ local function init()
     -- 新手大礼包
     et.game:event '单位-使用物品'(function(self, u, item)
         if u:get_owner():is_player() and GetItemTypeId(item) == 1227896394 then
-            rand = math.random(0, 4)
-            p = u:get_owner()
+            local rand = commonutil.random(0, 4)
+            local p = u:get_owner()
             if rand < 1 then
                 p:add_gold(20000)
                 p:send_message("|cFFFFCC00使用新手大礼包获得金钱+20000")
             elseif rand < 2 then
-                UnitAddItemById(u.handle, udg_jianghu[GetRandomInt(1, 18)])
+                u:add_item(udg_jianghu[GetRandomInt(1, 18)])
                 p:send_message("|cFFFFCC00使用新手大礼包获得随机江湖武功")
             elseif rand < 3 then
                 u:add_ability(1093679441)
@@ -26,6 +26,7 @@ local function init()
                     p:send_message("|cFFFF0000失去神行效果")
                 end)
             else
+                -- TODO 替换万能属性系统调用
                 YDWEGeneralBounsSystemUnitSetBonus(u.handle, 3, 0, 20000)
                 p:send_message("|cFFFFCC00使用新手大礼包获得狂暴状态")
                 et.wait(120 * 1000, function()

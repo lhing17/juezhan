@@ -3368,171 +3368,171 @@ end
 
 --native  LoadInteger					takes hashtable table, integer parentKey, integer childKey returns integer
 function jass.LoadInteger(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'integer')
+    return ht:load(parentKey, childKey, 'integer') or 0
 end
 --native  LoadReal					takes hashtable table, integer parentKey, integer childKey returns real
 function jass.LoadReal(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'real')
+    return ht:load(parentKey, childKey, 'real') or 0
 end
 --native  LoadBoolean				    takes hashtable table, integer parentKey, integer childKey returns boolean
 function jass.LoadBoolean(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'boolean')
+    return ht:load(parentKey, childKey, 'boolean') or false
 end
 --native  LoadStr 					takes hashtable table, integer parentKey, integer childKey returns string
 function jass.LoadStr(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'str')
+    return ht:load(parentKey, childKey, 'str') or ''
 end
 --native  LoadPlayerHandle			takes hashtable table, integer parentKey, integer childKey returns player
 function jass.LoadPlayerHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'player')
+    return ht:load(parentKey, childKey, 'player') or nil
 end
 --native  LoadWidgetHandle			takes hashtable table, integer parentKey, integer childKey returns widget
 function jass.LoadWidgetHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'widget')
+    return ht:load(parentKey, childKey, 'widget') or nil
 end
 --native  LoadDestructableHandle		takes hashtable table, integer parentKey, integer childKey returns destructable
 function jass.LoadDestructableHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'destructable')
+    return ht:load(parentKey, childKey, 'destructable') or nil
 end
 --native  LoadItemHandle				takes hashtable table, integer parentKey, integer childKey returns item
 function jass.LoadItemHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'item')
+    return ht:load(parentKey, childKey, 'item') or nil
 end
 --native  LoadUnitHandle				takes hashtable table, integer parentKey, integer childKey returns unit
 function jass.LoadUnitHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'unit')
+    return ht:load(parentKey, childKey, 'unit') or nil
 end
 --native  LoadAbilityHandle			takes hashtable table, integer parentKey, integer childKey returns ability
 function jass.LoadAbilityHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'ability')
+    return ht:load(parentKey, childKey, 'ability') or nil
 end
 --native  LoadTimerHandle				takes hashtable table, integer parentKey, integer childKey returns timer
 function jass.LoadTimerHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'timer')
+    return ht:load(parentKey, childKey, 'timer') or nil
 end
 --native  LoadTriggerHandle			takes hashtable table, integer parentKey, integer childKey returns trigger
 function jass.LoadTriggerHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'trigger')
+    return ht:load(parentKey, childKey, 'trigger') or nil
 end
 --native  LoadTriggerConditionHandle	takes hashtable table, integer parentKey, integer childKey returns triggercondition
 function jass.LoadTriggerConditionHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'triggercondition')
+    return ht:load(parentKey, childKey, 'triggercondition') or nil
 end
 --native  LoadTriggerActionHandle		takes hashtable table, integer parentKey, integer childKey returns triggeraction
 function jass.LoadTriggerActionHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'triggeraction')
+    return ht:load(parentKey, childKey, 'triggeraction') or nil
 end
 --native  LoadTriggerEventHandle		takes hashtable table, integer parentKey, integer childKey returns event
 function jass.LoadTriggerEventHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'triggerevent')
+    return ht:load(parentKey, childKey, 'triggerevent') or nil
 end
 --native  LoadForceHandle				takes hashtable table, integer parentKey, integer childKey returns force
 function jass.LoadForceHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'force')
+    return ht:load(parentKey, childKey, 'force') or nil
 end
 --native  LoadGroupHandle				takes hashtable table, integer parentKey, integer childKey returns group
 function jass.LoadGroupHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'group')
+    return ht:load(parentKey, childKey, 'group') or nil
 end
 --native  LoadLocationHandle			takes hashtable table, integer parentKey, integer childKey returns location
 function jass.LoadLocationHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'cation')
+    return ht:load(parentKey, childKey, 'cation') or nil
 end
 --native  LoadRectHandle				takes hashtable table, integer parentKey, integer childKey returns rect
 function jass.LoadRectHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'rect')
+    return ht:load(parentKey, childKey, 'rect') or nil
 end
 --native  LoadBooleanExprHandle		takes hashtable table, integer parentKey, integer childKey returns boolexpr
 function jass.LoadBooleanExprHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'booleanexpr')
+    return ht:load(parentKey, childKey, 'booleanexpr') or nil
 end
 --native  LoadSoundHandle				takes hashtable table, integer parentKey, integer childKey returns sound
 function jass.LoadSoundHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'sound')
+    return ht:load(parentKey, childKey, 'sound') or nil
 end
 --native  LoadEffectHandle			takes hashtable table, integer parentKey, integer childKey returns effect
 function jass.LoadEffectHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'effect')
+    return ht:load(parentKey, childKey, 'effect') or nil
 end
 --native  LoadUnitPoolHandle			takes hashtable table, integer parentKey, integer childKey returns unitpool
 function jass.LoadUnitPoolHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'unitpool')
+    return ht:load(parentKey, childKey, 'unitpool') or nil
 end
 --native  LoadItemPoolHandle			takes hashtable table, integer parentKey, integer childKey returns itempool
 function jass.LoadItemPoolHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'itempool')
+    return ht:load(parentKey, childKey, 'itempool') or nil
 end
 --native  LoadQuestHandle				takes hashtable table, integer parentKey, integer childKey returns quest
 function jass.LoadQuestHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'quest')
+    return ht:load(parentKey, childKey, 'quest') or nil
 end
 --native  LoadQuestItemHandle			takes hashtable table, integer parentKey, integer childKey returns questitem
 function jass.LoadQuestItemHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'questitem')
+    return ht:load(parentKey, childKey, 'questitem') or nil
 end
 --native  LoadDefeatConditionHandle	takes hashtable table, integer parentKey, integer childKey returns defeatcondition
 function jass.LoadDefeatConditionHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'defeatcondition')
+    return ht:load(parentKey, childKey, 'defeatcondition') or nil
 end
 --native  LoadTimerDialogHandle		takes hashtable table, integer parentKey, integer childKey returns timerdialog
 function jass.LoadTimerDialogHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'timerdialog')
+    return ht:load(parentKey, childKey, 'timerdialog') or nil
 end
 --native  LoadLeaderboardHandle		takes hashtable table, integer parentKey, integer childKey returns leaderboard
 function jass.LoadLeaderboardHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'leaderboard')
+    return ht:load(parentKey, childKey, 'leaderboard') or nil
 end
 --native  LoadMultiboardHandle		takes hashtable table, integer parentKey, integer childKey returns multiboard
 function jass.LoadMultiboardHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'multiboard')
+    return ht:load(parentKey, childKey, 'multiboard') or nil
 end
 --native  LoadMultiboardItemHandle	takes hashtable table, integer parentKey, integer childKey returns multiboarditem
 function jass.LoadMultiboardItemHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'multiboarditem')
+    return ht:load(parentKey, childKey, 'multiboarditem') or nil
 end
 --native  LoadTrackableHandle			takes hashtable table, integer parentKey, integer childKey returns trackable
 function jass.LoadTrackableHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'trackable')
+    return ht:load(parentKey, childKey, 'trackable') or nil
 end
 --native  LoadDialogHandle			takes hashtable table, integer parentKey, integer childKey returns dialog
 function jass.LoadDialogHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'dialog')
+    return ht:load(parentKey, childKey, 'dialog') or nil
 end
 --native  LoadButtonHandle			takes hashtable table, integer parentKey, integer childKey returns button
 function jass.LoadButtonHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'button')
+    return ht:load(parentKey, childKey, 'button') or nil
 end
 --native  LoadTextTagHandle			takes hashtable table, integer parentKey, integer childKey returns texttag
 function jass.LoadTextTagHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'texttag')
+    return ht:load(parentKey, childKey, 'texttag') or nil
 end
 --native  LoadLightningHandle			takes hashtable table, integer parentKey, integer childKey returns lightning
 function jass.LoadLightningHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'lightning')
+    return ht:load(parentKey, childKey, 'lightning') or nil
 end
 --native  LoadImageHandle				takes hashtable table, integer parentKey, integer childKey returns image
 function jass.LoadImageHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'image')
+    return ht:load(parentKey, childKey, 'image') or nil
 end
 --native  LoadUbersplatHandle			takes hashtable table, integer parentKey, integer childKey returns ubersplat
 function jass.LoadUbersplatHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'ubersplat')
+    return ht:load(parentKey, childKey, 'ubersplat') or nil
 end
 --native  LoadRegionHandle			takes hashtable table, integer parentKey, integer childKey returns region
 function jass.LoadRegionHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'region')
+    return ht:load(parentKey, childKey, 'region') or nil
 end
 --native  LoadFogStateHandle			takes hashtable table, integer parentKey, integer childKey returns fogstate
 function jass.LoadFogStateHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'fogstate')
+    return ht:load(parentKey, childKey, 'fogstate') or nil
 end
 --native  LoadFogModifierHandle		takes hashtable table, integer parentKey, integer childKey returns fogmodifier
 function jass.LoadFogModifierHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'fogmodifier')
+    return ht:load(parentKey, childKey, 'fogmodifier') or nil
 end
 --native  LoadHashtableHandle			takes hashtable table, integer parentKey, integer childKey returns hashtable
 function jass.LoadHashtableHandle(ht, parentKey, childKey)
-    return ht:load(parentKey, childKey, 'hashtable')
+    return ht:load(parentKey, childKey, 'hashtable') or nil
 end
 
 --native  HaveSavedInteger					takes hashtable table, integer parentKey, integer childKey returns boolean
@@ -3604,8 +3604,9 @@ end
 
 --native GetRandomReal takes real lowBound, real highBound returns real
 function jass.GetRandomReal(lowBound, highBound)
-    log.debug('取随机实数，范围为：', lowBound, '~', highBound)
-    return lowBound + math.random() * (highBound - lowBound)
+    local r = lowBound + math.random() * (highBound - lowBound)
+    log.debug('取随机实数，范围为：', lowBound, '~', highBound, '，结果为：', r)
+    return r
 end
 
 --native CreateUnitPool           takes nothing returns unitpool

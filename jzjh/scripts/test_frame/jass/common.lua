@@ -3667,6 +3667,9 @@ end
 
 --native DisplayTimedTextFromPlayer   takes player toPlayer, real x, real y, real duration, string message returns nothing
 --native ClearTextMessages            takes nothing returns nothing
+function jass.ClearTextMessages()
+    log.info('清空所有用户的输出文本')
+end
 --native SetDayNightModels            takes string terrainDNCFile, string unitDNCFile returns nothing
 function jass.SetDayNightModels(terrainDNCFile, unitDNCFile)
     log.info('设置环境光照和单位光照：', terrainDNCFile, unitDNCFile)

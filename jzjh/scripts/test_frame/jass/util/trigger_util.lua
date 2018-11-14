@@ -32,7 +32,7 @@ end
 function trigger_util.trig_player_event(p, pe)
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
-            if e.event_id == pe then
+            if e.event_id == pe and e.player == p then
                 trigger.triggering = t
                 trigger.player = p
                 trigger.event_id = e.event_id

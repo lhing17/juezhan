@@ -3,82 +3,37 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/10/31 17:11
 ---
---爆炸
-function FT()
-    return GetUnitAbilityLevel(GetTriggerUnit(), 1093681749) ~= 0
-end
-function GT()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function HT()
-    local id = GetHandleId(GetTriggeringTrigger())
-    SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443, GetEnumUnit())
-    SetWidgetLife(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), GetUnitState(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443), UNIT_STATE_LIFE) - 200.0 * I2R(GetUnitLevel(GetEnumUnit())))
-end
-function IT()
-    local u = GetTriggerUnit()
-    local loc = GetUnitLoc(u)
-    AddSpecialEffectLocBJ(loc, "war3mapImported\\ChaosExplosion.mdl")
-    DestroyEffect(bj_lastCreatedEffect)
-    ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(300.0, loc, Condition(GT)), HT)
-    RemoveLocation(loc)
-    u = nil
-    loc = nil
-end
--- 流星
-function JT()
-    return GetUnitAbilityLevel(GetAttacker(), 1093681753) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function KT()
-    local u = GetAttacker()
-    local loc = GetUnitLoc(u)
-    CreateNUnitsAtLoc(1, 1697656919, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-    UnitAddAbility(bj_lastCreatedUnit, 1093681754)
-    IssueImmediateOrderById(bj_lastCreatedUnit, 852183)
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-    ShowUnitHide(bj_lastCreatedUnit)
-    RemoveLocation(loc)
-    u = nil
-    loc = nil
-end
--- 冰缓
-function MT()
-    return GetUnitAbilityLevel(GetAttacker(), 1093681968) ~= 0 and GetRandomInt(1, 70) <= 5
-end
-function NT()
-    local u = GetAttacker()
-    local loc = GetUnitLoc(u)
-    CreateNUnitsAtLoc(1, 1697656918, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 15.0)
-    RemoveLocation(loc)
-    u = nil
-    loc = nil
-end
+
+
 local function init()
-    et.game:event '单位-死亡' (function(self, killer, killed)
+    --爆炸
+    et.game:event '单位-死亡'(function(self, killer, killed)
         if killer:has_ability(1093681749) then
+            et.effect.add_to_point("war3mapImported\\ChaosExplosion.mdl", killed:get_point()):destroy()
+            local group = et.selector():in_range(killed:get_point(), 300):add_filter(function(ut)
+                return ut:is_enemy(killed) and ut:is_alive()
+            end)            :get()
+            for _, v in pairs(group) do
+                v:set_life(v:get_life() - 200 * v:get_level())
+            end
 
         end
     end)
-    et.game:event '单位-受攻击' (function(self, source, target)
 
+    et.game:event '单位-受攻击'(function(self, source, target)
+        -- 流星
+        if source:has_ability(1093681753) and commonutil.random_int(1, 70) <= 5 then
+            local last = source:get_owner():create_unit(1697656919, source:get_point())
+            last:add_ability(1093681754)
+            last:issue_order(852183)
+            last:set_lifetime(15)
+            last:show(false)
+        end
+        -- 冰缓
+        if source:has_ability(1093681968) and commonutil.random_int(1, 70) <= 5 then
+            local last = source:get_owner():create_unit(1697656918, source:get_point())
+            last:set_lifetime(15)
+        end
     end)
-
-    -- 爆炸
-    Ht = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Ht, EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(Ht, Condition(FT))
-    TriggerAddAction(Ht, IT)
-    -- 流星
-    It = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(It, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(It, Condition(JT))
-    TriggerAddAction(It, KT)
-    -- 冰缓
-    Jt = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Jt, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(Jt, Condition(MT))
-    TriggerAddAction(Jt, NT)
 end
 init()

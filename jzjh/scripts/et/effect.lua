@@ -8,6 +8,7 @@ local point = require 'et.point'
 
 local effect = {}
 
+
 et.effect = effect
 setmetatable(effect, effect)
 
@@ -20,6 +21,15 @@ mt.handle = 0
 -- 类型
 mt.type = 'effect'
 
-function effect.add_to_point(where)
 
+function mt:destroy()
+    effect[self.handle] = nil
+    jass.DestroyEffect(self.handle)
+end
+
+function effect.add_to_point(model_name, where)
+    local e = setmetatable({}, effect)
+    e.handle = jass.AddSpecialEffect(model_name, where[1], where[2])
+    effect[e.handle] = e
+    return e.handle
 end

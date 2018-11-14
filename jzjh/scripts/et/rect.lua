@@ -3,6 +3,49 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/1 10:17
 ---
+
+local rect = {}
+et.rect = rect
+
+setmetatable(rect, rect)
+
+local mt = {}
+rect.__index = mt
+
+mt.type = 'rect'
+mt.min_x = 0
+mt.max_x = 0
+mt.min_y = 0
+mt.max_y = 0
+
+function mt:get_min_x()
+    return self.min_x
+end
+
+function mt:get_min_y()
+    return self.min_y
+end
+
+function mt:get_max_x()
+    return self.max_x
+end
+
+function mt:get_max_y()
+    return self.max_y
+end
+
+function rect:__call(j_rect)
+    if not rect[j_rect] then
+        rect[j_rect] = setmetatable({}, rect)
+        rect[j_rect].min_x = jass.GetRectMinX(j_rect)
+        rect[j_rect].min_y = jass.GetRectMinY(j_rect)
+        rect[j_rect].max_x = jass.GetRectMaxX(j_rect)
+        rect[j_rect].max_y = jass.GetRectMaxY(j_rect)
+    end
+    return rect[j_rect]
+end
+
+
 function et.get_rect_random(j_rect)
     x = math.random(jass.GetRectMinX(j_rect), jass.GetRectMaxX(j_rect))
     y = math.random(jass.GetRectMinY(j_rect), jass.GetRectMaxY(j_rect))
@@ -14,3 +57,5 @@ function et.get_rect_center(j_rect)
     y = (jass.GetRectMaxY(j_rect) + jass.GetRectMinY(j_rect))/2
     return et.point(x, y)
 end
+
+return rect

@@ -5,21 +5,15 @@
 ---
 
 --魔教救人
-function MoJiaoJiuRen_1()
-    SetUnitPosition(GetEnumUnit(), -910, 750)
-end
-function MoJiaoJiuRen()
-
-    ForGroupBJ(YDWEGetUnitsInRectOfPlayerNull(udg_jail, Player(6)), MoJiaoJiuRen_1)
-end
-
 local function init()
-    et.wait(1000.0, function()
+    et.loop(1000.0, function()
         force.send_message("|CFFCCFF00魔教潜入监狱救走了被抓住的敌人")
-            local function in_rect(u)
-                return u:getX() < jass
-            end
-            local group = et.selector():add_filter():get()
+        local group = et.selector():add_filter(function(u)
+            return u:in_rect(et.rect(udg_jail)) and u:get_owner() == et.player(7)
+        end)            :get()
+        for _, v in pairs(group) do
+            v:set_point(et.point(-910, 750))
+        end
     end)
 
 end

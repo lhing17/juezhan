@@ -343,11 +343,13 @@ function mt:has_restriction(restriction)
     return false
 end
 
+function mt:in_rect(rect)
+    local x, y = self:get_point():get()
+    return x > rect:get_min_x() and x < rect:get_max_x() and y > rect:get_min_y() and y < rect:get_max_y()
+end
+
 --设置位置
 function mt:set_point(point)
-    if self:has_restriction '禁锢' then
-        return false
-    end
     local x, y = point:get()
     jass.SetUnitX(self.handle, x)
     jass.SetUnitY(self.handle, y)
@@ -363,9 +365,6 @@ end
 --	[无视地形阻挡]
 --	[无视地图边界]
 function mt:set_position(where, path, super)
-    if self:has_restriction '禁锢' then
-        return false
-    end
     if where:get_point():is_block(path, super) then
         return false
     end
@@ -711,6 +710,23 @@ function mt:makePermanent(ability_id)
     jass.UnitMakeAbilityPermanent(self.handle, true, ability_id)
 end
 
+
+
+local id2order = setmetatable({}, { __index = function(self, k)
+    log.info('OrderId2String', k)
+    local order = jass.OrderId2String(k)
+    if order then
+        log.error(('%s = 0x%X,'):format(order, k))
+        self[k] = order
+    else
+        self[k] = ''
+    end
+    return order
+end })
+for k, v in pairs(order2id) do
+    id2order[v] = k
+end
+
 --命令
 mt.script_order = false
 
@@ -720,6 +736,12 @@ mt.script_order = false
 function mt:issue_order(order, target)
     local res
     self.script_order = true
+
+    -- 如果传的是id，转为order
+    if type(order) == 'number' then
+        order = id2order(order)
+    end
+
     if not target then
         res = jass.IssueImmediateOrder(self.handle, order)
     elseif target.owner then
@@ -735,21 +757,6 @@ function mt:issue_order(order, target)
     end
     self.script_order = false
     return res
-end
-
-local id2order = setmetatable({}, { __index = function(self, k)
-    log.info('OrderId2String', k)
-    local order = jass.OrderId2String(k)
-    if order then
-        log.error(('%s = 0x%X,'):format(order, k))
-        self[k] = order
-    else
-        self[k] = ''
-    end
-    return order
-end })
-for k, v in pairs(order2id) do
-    id2order[v] = k
 end
 
 --获得命令
@@ -1009,6 +1016,10 @@ function mt:is_visible(dest)
         dest = dest:get_owner()
     end
     return jass.IsUnitVisible(self.handle, dest.handle)
+end
+
+function mt:show(flag)
+    jass.ShowUnit(self.handle, flag)
 end
 
 --设置索敌范围

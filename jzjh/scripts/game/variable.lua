@@ -7,6 +7,6 @@
 game = game or {}
 game.variable = {
     wave = 1, -- 波数
-    player_count = 5, -- 游戏人数
     stop_time = 0, -- 停怪时间，以分钟为单位
+    attack_creeps = {}, -- 所有进攻怪
 }

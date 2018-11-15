@@ -271,7 +271,7 @@ function EA()
 					--call BJDebugMsg(I2S(q7[s7]))
 					if GetUnitTypeId(GetTriggerUnit()) ~= 1848651824 then
 						CreateNUnitsAtLoc(1, 1848651824, Player(12), m7[0], bj_UNIT_FACING)
-						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(O4)) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
+						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(et.player.countAlive())) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
 						r7[s7] = bj_lastCreatedUnit
 						return
 					else
@@ -282,7 +282,7 @@ function EA()
 				else
 					if GetUnitTypeId(GetTriggerUnit()) ~= 1848651824 then
 						CreateNUnitsAtLoc(1, 1848651824, Player(12), m7[0], bj_UNIT_FACING)
-						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(O4)) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
+						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(et.player.countAlive())) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
 						r7[s7] = bj_lastCreatedUnit
 						return
 					else
@@ -298,10 +298,10 @@ function EA()
 end
 
 function ja()
-	return IsUnitInGroup(GetTriggerUnit(), w7)
+	return game.variable.attack_creeps[jass.GetTriggerUnit()]
 end
 function ka()
-	GroupRemoveUnit(w7, GetTriggerUnit())
+	game.variable.attack_creeps[jass.GetTriggerUnit()] = nil
 end
 
 --切换背包
@@ -1769,7 +1769,7 @@ end
 
 --抽血术
 function ChouXie_Condition()
-	return IsUnitInGroup(GetAttacker(), w7) and GetPlayerTechCountSimple(1378889777, Player(6)) == 50 and GetTriggerUnit() ~= udg_ZhengPaiWL and GetUnitTypeId(GetTriggerUnit()) ~= 1214409837 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429574 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429575
+	return game.variable.attack_creeps[jass.GetAttacker()] and GetPlayerTechCountSimple(1378889777, Player(6)) == 50 and GetTriggerUnit() ~= udg_ZhengPaiWL and GetUnitTypeId(GetTriggerUnit()) ~= 1214409837 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429574 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429575
 end
 function ChouXie_Action()
 	if GetRandomInt(1, 100) <= 20 then
@@ -1816,11 +1816,11 @@ function KillGuai()
 			i = 1
 			for _ in _loop_() do
 				if i >= 6 then break end
-				shoujiajf[i] = shoujiajf[i] + 15 * (10 - GetNumPlayer()) // 10
+				shoujiajf[i] = shoujiajf[i] + 15 * (10 - et.player.countAlive()) // 10
 				i = i + 1
 			end
 			ae = ae + (10 + GetPlayerTechCountSimple(1378889777, Player(6)))
-			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀名门高手，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 15 * (10 - GetNumPlayer()) // 10) or ""))
+			DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀名门高手，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 15 * (10 - et.player.countAlive()) // 10) or ""))
 			SaveLocationHandle(YDHT, id * cx, 392811314, GetUnitLoc(GetTriggerUnit()))
 			if GetRandomInt(1, 50) <= 5 then
 				createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
@@ -1850,11 +1850,11 @@ function KillGuai()
 				i = 1
 				for _ in _loop_() do
 					if i >= 6 then break end
-					shoujiajf[i] = shoujiajf[i] + 30 * (10 - GetNumPlayer()) // 10
+					shoujiajf[i] = shoujiajf[i] + 30 * (10 - et.player.countAlive()) // 10
 					i = i + 1
 				end
 				ae = ae + (10 + GetPlayerTechCountSimple(1378889777, Player(6)))
-				DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀BOSS，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 30 * (10 - GetNumPlayer()) // 10) or ""))
+				DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀BOSS，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 30 * (10 - et.player.countAlive()) // 10) or ""))
 				ae = ae + (30 + GetPlayerTechCountSimple(1378889777, Player(6)))
 				if GetRandomInt(1, 100) <= 50 then
 					udg_shuxing[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = udg_shuxing[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + 1
@@ -2065,7 +2065,7 @@ function cT()
 end
 function DT()
 	ModifyGateBJ(1, Gt)
-	YDWEPolledWaitNull((0.18 - 0.01 * I2R(O4)) * 2000.0)
+	YDWEPolledWaitNull((0.18 - 0.01 * I2R(et.player.countAlive())) * 2000.0)
 	ModifyGateBJ(0, Gt)
 end
 
@@ -2076,7 +2076,7 @@ function LiaoGuoJinGong_1()
 	local jmax = 40
 	if j < jmax then
 		CreateNUnitsAtLocFacingLocBJ(1, 1751871081, Player(6), Location(-5600, 100), v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
+		game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
 		IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
 		SaveInteger(YDHT, GetHandleId(t), 0, j + 1)
 	else
@@ -2102,13 +2102,13 @@ function LingJiuGongJinGong()
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※灵鹫宫劫※")
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，灵鹫宫派出高手前来进攻，请准备防御")
 		CreateNUnitsAtLocFacingLocBJ(1, 1852270642, Player(6), Location(1800, -100), v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
+		game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
 		IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
 		CreateNUnitsAtLocFacingLocBJ(1, 1852207984, Player(6), Location(1800, -100), v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
+		game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
 		IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
 		CreateNUnitsAtLocFacingLocBJ(1, 1852663652, Player(6), Location(1800, -100), v7[4])
-		GroupAddUnit(w7, bj_lastCreatedUnit)
+		game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
 		IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
 	end
 end

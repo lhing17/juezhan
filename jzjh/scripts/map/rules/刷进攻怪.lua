@@ -9,7 +9,7 @@
 local function pawn_attack_creep(id, from, to_rect)
     local p = et.player(7)
     local last = p:create_unit(id, et.point(jass.GetLocationX(from), jass.GetLocationY(from)))
-    jass.GroupAddUnit(w7, last.handle)
+    game.variable.attack_creeps[last.handle] = last
     last:issue_order(851983, et.get_rect_center(to_rect))
     return last
 end
@@ -17,20 +17,18 @@ end
 --判断玩家总等级是否大于波数*4
 local function excessive_level()
     local totallevel = 0
-    for i = 0, 10 do
-        if udg_hero[i] ~= nil then
-            totallevel = totallevel + GetUnitLevel(udg_hero[i])
-        end
+    for i = 1, et.player.countAlive() do
+        totallevel = totallevel + et.player(i).hero.handle:get_level()
     end
-    return game.config.mode == 'special' and totallevel > game.variable.wave * 4 * GetNumPlayer()
+    return game.config.mode == 'special' and totallevel > game.variable.wave * 4 * et.player.countAlive()
 end
 local function attacker_add_skill(u)
     if game.variable.wave >= 8 then
-        UnitAddAbility(u, 1093682008)
+        u:add_ability(1093682008)
     elseif game.variable.wave >= 18 then
-        UnitAddAbility(u, 1093682009)
+        u:add_ability(1093682009)
     elseif game.variable.wave >= 28 then
-        UnitAddAbility(u, 1093682010)
+        u:add_ability(1093682010)
     end
 end
 -- 正面刷怪
@@ -55,24 +53,27 @@ end
 
 -- 背面刷怪
 local function back_attack()
-    et.timer(2000, 15, function()
-        if game.config.mode ~= 'survive' then
-            pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
-            if excessive_level() then
-                pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
-            end
-        else
-            local last = pawn_attack_creep(1848651827, v7[8], Je)
-            attacker_add_skill(last.handle)
-        end
-    end)
-    force.send_message("|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
+    if et.player.countAlive() > 1 then
+        et.wait(40 * 1000, function()
+            et.timer(2000, 15, function()
+                if game.config.mode ~= 'survive' then
+                    pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
+                    if excessive_level() then
+                        pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
+                    end
+                else
+                    local last = pawn_attack_creep(1848651827, v7[8], Je)
+                    attacker_add_skill(last)
+                end
+            end)
+            force.send_message("|CFFFF0033邪教趁我方不备，偷偷地从背后杀过来了")
+        end)
+    end
 end
 
 
 --BOSS成长
 local function boss_grow_up()
-    local t = jass.GetExpiredTimer()
     if udg_boss[game.variable.wave // 4] then
         local u = et.unit(udg_boss[game.variable.wave // 4])
         if u:is_alive() then
@@ -94,13 +95,7 @@ local function boss_grow_up()
                     u:add_ability(1093681969)
                 end
             end
-        else
-            jass.PauseTimer(t)
-            jass.DestroyTimer(t)
         end
-    else
-        jass.PauseTimer(t)
-        jass.DestroyTimer(t)
     end
 end
 
@@ -131,73 +126,49 @@ local function show_next_wave_warning()
         force.send_message(wave_warning[game.variable.wave])
     end
 end
-local function BOSSAttack(t)
-    if ModuloInteger(game.variable.wave, 4) == 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
-        CreateNUnitsAtLocFacingLocBJ(1, u7[game.variable.wave // 4], Player(6), v7[8], v7[3])
-        GroupAddUnit(w7, bj_lastCreatedUnit)
-        IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[3])
-        force.send_message("|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
-    end
-    if ModuloInteger(game.variable.wave, 4) == 0 and game.variable.wave < 30 and game.config.mode ~= 'survive' then
-        force.send_message("|CFFFF0033邪教派出BOSS前来进攻，请准备防御")
-        CreateNUnitsAtLocFacingLocBJ(1, u7[game.variable.wave // 4], Player(6), v7[6], v7[4])
-        if game.variable.wave == 4 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681970)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681970, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681973)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681973, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681975)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681975, IMinBJ(udg_nandu * 2, 9))
-        elseif game.variable.wave == 8 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681990)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681990, IMinBJ(udg_nandu * 2, 9))
-            --call UnitAddAbility(bj_lastCreatedUnit,'A0CM')
-            --call SetUnitAbilityLevel(bj_lastCreatedUnit,'A0CM',IMinBJ(udg_nandu*2,9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093682241)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682241, IMinBJ(udg_nandu * 2, 9))
-        elseif game.variable.wave == 12 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681993)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681993, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681994)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681994, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681998)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681998, IMinBJ(udg_nandu * 2, 9))
-        elseif game.variable.wave == 16 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681976)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681976, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681977)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681977, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093681986)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681986, IMinBJ(udg_nandu * 2, 9))
-        elseif game.variable.wave == 20 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681992)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681992, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093682245)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682245, IMinBJ(udg_nandu * 2, 9))
-        elseif game.variable.wave == 24 then
-            UnitAddAbility(bj_lastCreatedUnit, 1093681995)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093681995, IMinBJ(udg_nandu * 2, 9))
-            UnitAddAbility(bj_lastCreatedUnit, 1093682248)
-            SetUnitAbilityLevel(bj_lastCreatedUnit, 1093682248, IMinBJ(udg_nandu * 2, 9))
+
+local boss_skill_list = {}
+
+boss_skill_list[1852007794] = { 1093681970, 1093681973, 1093681975 }
+boss_skill_list[1852335457] = { 1093681990, 1093682241 }
+boss_skill_list[1852599148] = { 1093681993, 1093681994, 1093681998 }
+boss_skill_list[1852140645] = { 1093681976, 1093681977, 1093681986 }
+boss_skill_list[1852141168] = { 1093681992, 1093682245 }
+boss_skill_list[1851941985] = { 1093681995, 1093682248 }
+boss_skill_list[1848651826] = {}
+boss_skill_list[1851942003] = {}
+
+local function boss_attack()
+    et.wait(80 * 1000, function()
+        local id = u7[game.variable.wave // 4]
+        if math.fmod(game.variable.wave, 4) == 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
+            pawn_attack_creep(id, v7[8], Je)
+            force.send_message("|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
         end
-        udg_boss[game.variable.wave // 4] = bj_lastCreatedUnit
-        TimerStart(t, 20, true, boss_grow_up)
-        GroupAddUnit(w7, bj_lastCreatedUnit)
-        IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-    elseif ModuloInteger(game.variable.wave, 4) ~= 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
-        if excessive_level() then
-            force.send_message("|CFFFF0033由于激活特殊事件，邪教派出BOSS前来进攻，请准备防御")
-            CreateNUnitsAtLocFacingLocBJ(1, u7[game.variable.wave // 4 + 1], Player(6), v7[6], v7[4])
-            udg_boss[game.variable.wave // 4] = bj_lastCreatedUnit
-            TimerStart(t, 20, true, boss_grow_up)
-            GroupAddUnit(w7, bj_lastCreatedUnit)
-            IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
+        if ModuloInteger(game.variable.wave, 4) == 0 and game.variable.wave < 30 and game.config.mode ~= 'survive' then
+            force.send_message("|CFFFF0033邪教派出BOSS前来进攻，请准备防御")
+            local boss = pawn_attack_creep(id, v7[6], Ke)
+            if boss_skill_list[id] then
+                for _, v in ipairs(boss_skill_list[id]) do
+                    boss:add_ability(v, IMinBJ(udg_nandu * 2, 9))
+                end
+            end
+            udg_boss[game.variable.wave // 4] = boss
+            et.timer(20 * 1000, 5, boss_grow_up)
+        elseif math.fmod(game.variable.wave, 4) ~= 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
+            if excessive_level() then
+                force.send_message("|CFFFF0033由于激活特殊事件，邪教派出BOSS前来进攻，请准备防御")
+                local boss = pawn_attack_creep(id, v7[6], Ke)
+                udg_boss[game.variable.wave // 4] = boss
+                et.timer(20 * 1000, 5, boss_grow_up)
+            end
         end
-    end
+    end)
+
 end
 
 local function famous_attack()
-    et.wait(20 * 1000, function()
+    et.wait(60 * 1000, function()
         if famous_num > 0 then
             if game.config.pawn then
                 local r1 = 0
@@ -221,15 +192,12 @@ local function famous_attack()
                 for i = 1, famous_num do
                     rr3 = r1 ^ game.variable.wave
                     rr4 = r2 ^ game.variable.wave
-                    rand = GetRandomInt(1, 11)
-                    CreateNUnitsAtLocFacingLocBJ(1, et.famous[rand].id, Player(6), v7[GetRandomInt(5, 8)], v7[4])
-                    GroupAddUnit(w7, bj_lastCreatedUnit)
-                    IssuePointOrderByIdLoc(bj_lastCreatedUnit, 851983, v7[4])
-                    SetHeroLevelBJ(bj_lastCreatedUnit, 4 * game.variable.wave, false)
+                    rand = jass.GetRandomInt(1, 11)
+                    local famous = pawn_attack_creep(et.famous[rand].id, v7[GetRandomInt(5, 8)], Ke)
+                    famous:set_level(4 * game.variable.wave)
                     YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
                     YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * famous_num)
-                    --call YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit,1,0,R2I(I2R(et.famous[rand]["法力成长"])*rr4))
-                    unitadditembyidswapped(Ae[game.variable.wave], bj_lastCreatedUnit)
+                    famous:add_item(Ae[game.variable.wave])
                 end
             end
             force.send_message("|CFFFF0033名门高手开始进攻，大家要小心应付了！")
@@ -237,61 +205,62 @@ local function famous_attack()
     end)
 end
 
---刷怪
+-- 实际执行刷怪的逻辑
 function do_pawn()
-    if game.config.pawn then
-        local t = CreateTimer()
-        if game.variable.wave == 5 and game.config.mode == 'special' then
-            ChooseNanDu()
-        end
-        force.send_message("|CFFFF0033邪教势力：第" .. game.variable.wave or "" .. "|CFFFF0033波")
-        show_next_wave_warning() --下波警告
-        if excessive_level() then
-            force.send_message("|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
-        end
-        jass.StopMusic(false)
-        jass.PlayMusic(game.music.attack_bgm) -- 切换BGM
-        front_attack()-- 刷正面的进攻怪
-        et.wait(40 * 1000, function()
-            -- 游戏人数>1
-            if O4 > 1 then
-                back_attack() -- 刷背面的进攻怪
-            end
-            famous_attack()
-            et.wait(40 * 1000, function()
-                BOSSAttack(t)
-                game.variable.wave = game.variable.wave + 1
-                jass.StopMusic(false)
-                jass.PlayMusic(game.music.normal_bgm)
-                if game.config.mode ~= 'fast' then
-                    YDWEPolledWaitNull(145 - GetNumPlayer() * 10)
-                end
-                if game.variable.wave >= 29 and game.config.mode ~= 'survive' then
-                    jass.StopMusic(false)
-                    jass.PlayMusic(game.music.final_bgm)
-                    force.send_message("|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
-                    local last = pawn_attack_creep(u7[8], v7[6], Ke)
-                    udg_boss[game.variable.wave // 4] = last.handle
-                    TimerStart(t, 20, true, boss_grow_up)
-                else
-                    if game.config.mode == 'survive' then
-                        AddPlayerTechResearched(Player(12), 1378889780, 1)
-                        AddPlayerTechResearched(Player(6), 1378889780, 1)
-                    end
-                    et.timerdialog(game.variable.stop_time * 60.0 + 30.0, "邪教下次进攻时间")
-                    et.wait((game.variable.stop_time * 60.0 + 30.0) * 1000, function()
-                        do_pawn()
-                    end)
-                    game.variable.stop_time = 0
-                end
-            end)
-        end)
+    -- 试玩模式下不刷怪
+    if not game.config.pawn then
+        return
     end
+    local t = CreateTimer()
+    -- 特殊事件模式第5波再次选择难度
+    if game.variable.wave == 5 and game.config.mode == 'special' then
+        ChooseNanDu()
+    end
+
+    force.send_message("|CFFFF0033邪教势力：第" .. game.variable.wave or "" .. "|CFFFF0033波")
+    show_next_wave_warning() --下波警告
+    if excessive_level() then
+        force.send_message("|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
+    end
+    jass.StopMusic(false)
+    jass.PlayMusic(game.music.attack_bgm) -- 切换BGM
+    front_attack()-- 刷正面的进攻怪
+    back_attack() -- 刷背面的进攻怪
+    famous_attack() -- 刷名门
+    boss_attack(t) -- 刷BOSS
+    et.wait(80 * 1000, function()
+        game.variable.wave = game.variable.wave + 1
+        jass.StopMusic(false)
+        jass.PlayMusic(game.music.normal_bgm)
+        if game.config.mode ~= 'fast' then
+            YDWEPolledWaitNull(145 - et.player.countAlive() * 10)
+        end
+        if game.variable.wave >= 29 and game.config.mode ~= 'survive' then
+            jass.StopMusic(false)
+            jass.PlayMusic(game.music.final_bgm)
+            force.send_message("|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
+            local last = pawn_attack_creep(u7[8], v7[6], Ke)
+            udg_boss[game.variable.wave // 4] = last.handle
+            et.timer(20 * 1000, 5, boss_grow_up)
+        else
+            if game.config.mode == 'survive' then
+                jass.AddPlayerTechResearched(Player(12), 1378889780, 1)
+                jass.AddPlayerTechResearched(Player(6), 1378889780, 1)
+            end
+            et.timerdialog(game.variable.stop_time * 60.0 + 30.0, "邪教下次进攻时间")
+            et.wait((game.variable.stop_time * 60.0 + 30.0) * 1000, function()
+                do_pawn()
+            end)
+            game.variable.stop_time = 0
+        end
+    end)
 end
 
-
 local function init()
+
+    -- 游戏开始后40秒开始进攻倒计时
     et.wait(40 * 1000, function()
+        et.timerdialog(120, "邪教进攻倒计时：")
         et.wait(120 * 1000, function()
             force.send_message("|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
             if game.config.mode == 'special' then
@@ -299,7 +268,6 @@ local function init()
             end
             do_pawn()
         end)
-        et.timerdialog(120, "邪教进攻倒计时：")
     end)
 
     -- 停怪
@@ -313,7 +281,6 @@ local function init()
             h.def_point = h.def_point + 10
             p:send_message("|CFF00FF4C守家积分+10")
         end
-
     end)
 end
 

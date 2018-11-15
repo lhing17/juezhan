@@ -296,7 +296,6 @@ udg_hashero = _array_(false)
 udg_baoji = _array_(false)
 udg_yiwang = _array_(false)
 udg_hero = _array_()
-O4 = 0
 P4 = _array_()
 R4 = _array_()
 S4 = _array_()
@@ -1409,22 +1408,7 @@ function GetGeoNormRandomReal(r1, r2)
 	local rr9 = (rr3 + rr4 + rr5 + rr6 + rr7 + rr8) / 6.0
 	return Pow(10.0, rr9)
 end
---返回玩家数
-function GetNumPlayer()
-	local i = 0
-	local p = nil
-	local n = 0
-	for _ in _loop_() do
-		if i > 11 then break end
-		p = Player(i)
-		if GetPlayerController(p) == MAP_CONTROL_USER and GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING then
-			n = n + 1
-		end
-		i = i + 1
-	end
-	p = nil
-	return n
-end
+
 function UnitTypeNotNull(u, i)
 	return IsUnitType(u, i) ~= nil
 end
@@ -3009,7 +2993,6 @@ function main1()
 	udg_index = DialogCreate()
 	udg_nan = DialogCreate()
 	udg_shanghaidanweizu = CreateGroup()
-	w7 = CreateGroup()
 	i = 0
 	for _ in _loop_() do
 		if i > 5 then break end

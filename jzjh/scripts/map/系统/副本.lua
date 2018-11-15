@@ -183,10 +183,10 @@ function Rl()
 	i = 0
 	for _ in _loop_() do
 		if i >= 5 then break end
-		AdjustPlayerStateBJ(16 * (10 - GetNumPlayer()) // 10, Player(i), PLAYER_STATE_RESOURCE_LUMBER)
+		AdjustPlayerStateBJ(16 * (10 - et.player.countAlive()) // 10, Player(i), PLAYER_STATE_RESOURCE_LUMBER)
 		i = i + 1
 	end
-	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀林朝英，每位玩家奖励珍稀" .. (I2S(16 * (10 - GetNumPlayer()) // 10) or "") .. "个")
+	DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀林朝英，每位玩家奖励珍稀" .. (I2S(16 * (10 - et.player.countAlive()) // 10) or "") .. "个")
 	loc2 = pu(loc, GetRandomReal(30.0, 200.0), GetRandomReal(0, 360.0))
 	createitemloc(gudong[GetRandomInt(4, 6)], loc2)
 	RemoveLocation(loc2)
@@ -1329,7 +1329,7 @@ function KK()
 			unitadditembyidswapped(1227897163, u)
 		end
 	elseif GetUnitTypeId(uc) == 1852601907 then
-		if GetRandomInt(0, 100) <= 100 - GetNumPlayer() * 10 then
+		if GetRandomInt(0, 100) <= 100 - et.player.countAlive() * 10 then
 			AdjustPlayerStateBJ(2, Player(0), PLAYER_STATE_RESOURCE_LUMBER)
 			AdjustPlayerStateBJ(2, Player(1), PLAYER_STATE_RESOURCE_LUMBER)
 			AdjustPlayerStateBJ(2, Player(2), PLAYER_STATE_RESOURCE_LUMBER)

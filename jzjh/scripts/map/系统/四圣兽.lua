@@ -219,7 +219,7 @@ function IsSiShengChallengeSuccess()
 		SetUnitPositionLocFacingLocBJ(u, v7[GetRandomInt(5, 7)], v7[4])
 		SetUnitOwner(u, Player(6), true)
 		SetUnitLifePercentBJ(u, 100.0)
-		GroupAddUnit(w7, u)
+		game.variable.attack_creeps[u] = et.unit(u)
 		IssuePointOrderByIdLoc(u, 851983, v7[4])
 		PauseTimer(t)
 		DestroyTimer(t)
@@ -268,7 +268,7 @@ function ChallengeSiSheng(item_id, unit_id, unit_name, it)
 		--集体传送过去
 		j = 1
 		for _ in _loop_() do
-			if j > GetNumPlayer() then break end
+			if j > et.player.countAlive() then break end
 			SetUnitPosition(udg_hero[j], 2000, -10750)
 			PanCameraToTimedForPlayer(Player(j - 1), 2000, -10750, 0)
 			j = j + 1
@@ -291,8 +291,8 @@ function TiaoZhanSiShengShou()
 	local u = GetTriggerUnit()
 	local p = GetOwningPlayer(u)
 	local i = 1 + GetPlayerId(p)
-	if GetNumPlayer() < 2 then
-		--if GetNumPlayer() < 2 then
+	if et.player.countAlive() < 2 then
+		--if et.player.countAlive() < 2 then
 		DisplayTimedTextToPlayer(p, 0, 0, 15, "|cFFFFFF00游戏人数不少于2人方可使用团队副本")
 		AdjustPlayerStateBJ(50000, p, PLAYER_STATE_RESOURCE_GOLD)
 	else

@@ -40,8 +40,6 @@ mt.char_a = 0
 -- B类性格
 mt.char_b = 0
 
-mt['副职'] = {}
-
 mt['历练'] = 0
 mt['历练系数'] = 1
 
@@ -94,6 +92,7 @@ function hero.init_pick_table()
         ['医术'] = 3,
         ['char_a'] = GetRandomInt(1, 3),
         ['char_b'] = GetRandomInt(3, 5),
+        gender = 0,
     }
     pick_table[Ns] = {
         ['name'] = '潇侠',
@@ -106,6 +105,7 @@ function hero.init_pick_table()
         ['福缘'] = 5,
         ['char_a'] = GetRandomInt(2, 4),
         ['char_b'] = GetRandomInt(2, 4),
+        gender = 1,
     }
     pick_table[Qs] = {
         ['name'] = '莫言',
@@ -118,6 +118,7 @@ function hero.init_pick_table()
         ['医术'] = 2,
         ['char_a'] = GetRandomInt(3, 5),
         ['char_b'] = GetRandomInt(1, 3),
+        gender = 0,
     }
     pick_table[Os] = {
         ['name'] = '浪云',
@@ -129,6 +130,7 @@ function hero.init_pick_table()
         ['医术'] = 2,
         ['char_a'] = GetRandomInt(2, 4),
         ['char_b'] = GetRandomInt(2, 4),
+        gender = 1,
     }
     pick_table[Ps] = {
         ['name'] = '魔君',
@@ -140,6 +142,7 @@ function hero.init_pick_table()
         ['经脉'] = 3,
         ['char_a'] = GetRandomInt(1, 3),
         ['char_b'] = GetRandomInt(3, 5),
+        gender = 1,
     }
     pick_table[LanXin] = {
         ['name'] = '兰馨',
@@ -154,6 +157,7 @@ function hero.init_pick_table()
         ['医术'] = 3,
         ['char_a'] = GetRandomInt(3, 5),
         ['char_b'] = GetRandomInt(3, 5),
+        gender = 0,
     }
     pick_table[XuanJin] = {
         ['name'] = '瑾轩',
@@ -168,12 +172,24 @@ function hero.init_pick_table()
         ['医术'] = 3,
         ['char_a'] = GetRandomInt(3, 5),
         ['char_b'] = GetRandomInt(3, 5),
+        gender = 1,
     }
     return pick_table
 end
 
 function mt:get_owner()
     return self.owner
+end
+
+function mt:join_part_time(pt)
+    h['悟性'] = h['悟性'] + pt['悟性']
+    h['福缘'] = h['福缘'] + pt['福缘']
+    h['医术'] = h['医术'] + pt['医术']
+    h['根骨'] = h['根骨'] + pt['根骨']
+    h['经脉'] = h['经脉'] + pt['经脉']
+    h['胆魄'] = h['胆魄'] + pt['胆魄']
+    h:get_owner():send_message(pt.hint, 5)
+    h.part_times[pt.name] = {level = 1} -- 1级兼职 5级为宗师
 end
 
 function hero.create(jUnit, pick)
@@ -197,10 +213,18 @@ function hero.create(jUnit, pick)
     h['胆魄'] = h['胆魄'] + pick['胆魄']
     h.char_a = pick.char_a
     h.char_b = pick.char_b
+
+    -- 性别
+    h.gender = pick.gender
     -- 武功列表
     h['武功'] = {}
     -- 激活残章清单
     h.activated = {}
+
+    -- 副职
+    h.part_times = {}
+
+
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

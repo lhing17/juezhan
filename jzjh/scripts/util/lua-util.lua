@@ -20,3 +20,10 @@ end
 function table_equals(t1, t2)
     return contains(t1, t2) and contains(t2, t1)
 end
+
+function is_empty(tab)
+    if tab == nil then
+        return true
+    end
+    return next(tab) == nil
+end

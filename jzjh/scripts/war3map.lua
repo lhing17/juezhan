@@ -1658,30 +1658,7 @@ function FetchUnitItem(u, j)
 	return nil
 end
 
-function DuoMianBan(mb, zv, Av, Iv)
-	local cv = 0
-	local Dv = 0
-	local Ev = MultiboardGetRowCount(mb)
-	local Fv = MultiboardGetColumnCount(mb)
-	local Gv = nil
-	for _ in _loop_() do
-		cv = cv + 1
-		if cv > Ev then break end
-		if Av == 0 or Av == cv then
-			Dv = 0
-			for _ in _loop_() do
-				Dv = Dv + 1
-				if Dv > Fv then break end
-				if zv == 0 or zv == Dv then
-					Gv = MultiboardGetItem(mb, cv - 1, Dv - 1)
-					MultiboardSetItemValue(Gv, Iv)
-					MultiboardReleaseItem(Gv)
-				end
-			end
-		end
-	end
-	Gv = nil
-end
+
 --符合条件执行g4[i]触发
 function Lv()
 	local i = 0
@@ -3762,6 +3739,7 @@ function main()
     require 'util.najitest'
 
     et.denomination.create()
+    et.part_time.init()
     et.unit.init()
     environment.init() -- 创建单位并初始化环境
     unit_creation.init()

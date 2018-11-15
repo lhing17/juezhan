@@ -10,13 +10,13 @@ function na()
 end
 function qa()
     if CountUnitsInGroup(wv(Ie, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[1], bj_UNIT_FACING)
+        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[1], bj_UNIT_FACING)
     end
     if CountUnitsInGroup(wv(Re, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[10], bj_UNIT_FACING)
+        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[10], bj_UNIT_FACING)
     end
     if CountUnitsInGroup(wv(le, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(udg_boshu, 1), 28)], Player(7), v7[2], bj_UNIT_FACING)
+        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[2], bj_UNIT_FACING)
     end
 end
 

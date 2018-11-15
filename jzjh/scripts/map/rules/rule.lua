@@ -1790,11 +1790,11 @@ function KillGuai()
 	if GetOwningPlayer(GetTriggerUnit()) == Player(7) then
 		if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896391) then
 			T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-			U7 = T7 * (30.0 * (I2R(udg_boshu + 1) / 1.0))
+			U7 = T7 * (30.0 * (I2R(game.variable.wave + 1) / 1.0))
 			AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
 		else
 			T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-			U7 = T7 * (15.0 * (I2R(udg_boshu + 1) / 1.0))
+			U7 = T7 * (15.0 * (I2R(game.variable.wave + 1) / 1.0))
 			AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
 		end
 		if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896393) then
@@ -1803,14 +1803,14 @@ function KillGuai()
 			end
 		end
 		if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896390) then
-			shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + udg_boshu // 5
+			shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + game.variable.wave // 5
 		end
 		if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896392) then
 			AddHeroXP(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], GetUnitLevel(GetTriggerUnit()) * 20, true)
 		end
 	else
 		T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-		U7 = T7 * (25.0 * (I2R(udg_boshu + 1) / 1.0))
+		U7 = T7 * (25.0 * (I2R(game.variable.wave + 1) / 1.0))
 		AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
 		if GetUnitPointValue(GetTriggerUnit()) == 102 then
 			i = 1
@@ -1888,7 +1888,7 @@ function Ya()
 	local i = 1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))
 	local x
 	local y
-	shengwang[i] = shengwang[i] + udg_boshu // 7 + 1
+	shengwang[i] = shengwang[i] + game.variable.wave // 7 + 1
 	if ModuloInteger(GetUnitPointValue(u), 10) == 1 then
 		shengwang[i] = shengwang[i] + 8
 	end
@@ -1898,7 +1898,7 @@ function Ya()
 			zd = 0
 			x = GetUnitX(u)
 			y = GetUnitY(u)
-			createitem(gudong[GetRandomInt(1, 6 + udg_boshu // 5)], x, y)
+			createitem(gudong[GetRandomInt(1, 6 + game.variable.wave // 5)], x, y)
 		end
 	end
 	u = nil

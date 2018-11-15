@@ -63,7 +63,7 @@ local function init()
         end
         -- 购买高级城防
         if jass.GetItemTypeId(item) == 1227896917 then
-            if udg_boshu >= 18 then
+            if game.variable.wave >= 18 then
                 if et.player[6]:get_tech(1378889778) <= 9 then
                     et.player[6]:add_tech(1378889778)
                     force.send_message('|cFFFFD700在玩家' .. u:get_owner():get_name() .. '的无私奉献下，正派武林的高级城防得到加强了')

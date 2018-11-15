@@ -321,10 +321,8 @@ udg_counter1 = 0
 q7 = _array_(0)
 r7 = _array_()
 s7 = 0
-udg_boshu = 0
 u7 = _array_(0)
 v7 = _array_()
-x7 = 0
 y7 = _array_(0)
 z7 = _array_()
 A7 = _array_()
@@ -531,7 +529,6 @@ ee = _array_()
 shoujiajf = _array_(0)
 ge = _array_(false)
 he = _array_(false)
-ie = 0
 je = _array_()
 ke = _array_()
 me = _array_()
@@ -561,9 +558,6 @@ Ce = _array_(0)
 ce = _array_(0)
 De = _array_(false)
 Ee = _array_(false)
-xh = "war3mapImported\\yanmenguanqian4.mp3"
-yh = "war3mapImported\\wulindahui3.mp3"
-zh = "Sound\\Music\\mp3Music\\War2IntroMusic.mp3"
 Kt = 0
 Lt = 0
 Mt = _array_(0)
@@ -2293,7 +2287,7 @@ function Zw()
 	SetPlayerHandicapXP(Player(3), 0.43)
 	SetPlayerHandicapXP(Player(4), 0.43)
 	SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0.0)
-	PlayMusicBJ(xh)
+	PlayMusicBJ(game.music.normal_bgm)
 	 -- 英雄选择列表
 
 	y7 ={1969,
@@ -3015,7 +3009,6 @@ function main1()
 	udg_index = DialogCreate()
 	udg_nan = DialogCreate()
 	udg_shanghaidanweizu = CreateGroup()
-	udg_boshu = 1
 	w7 = CreateGroup()
 	i = 0
 	for _ in _loop_() do
@@ -3773,7 +3766,7 @@ function main()
     require 'war3.id'
     require 'util.log'
     require 'et.init'
-    require 'game.config' -- 游戏配置
+    require 'game.init' -- 游戏配置
 
     -- 读取lni文件
 	require 'lni.lni'

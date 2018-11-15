@@ -32,7 +32,7 @@ local function test_base_protection()
     dp = h.def_point
     print('测试升级高级城防', dp)
     local it = item.create(1227896917, 0, 0)
-    udg_boshu = 19
+    game.variable.wave = 19
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
     assert(h.def_point - dp == 15, '守家积分增加不正确')
 end

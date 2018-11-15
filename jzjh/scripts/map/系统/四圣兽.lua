@@ -254,7 +254,7 @@ function ChallengeSiSheng(item_id, unit_id, unit_name, it)
 		CreateNUnitsAtLoc(1, unit_id, Player(12), loc, bj_UNIT_FACING)
 		SaveUnitHandle(YDHT, GetHandleId(t), 2, bj_lastCreatedUnit)
 		SaveStr(YDHT, GetHandleId(t), 3, unit_name)
-		x7 = x7 + 10 --停怪10分钟
+		game.variable.stop_time = game.variable.stop_time + 10 --停怪10分钟
 		DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFFFFFF00有玩家作死挑战" .. (unit_name or "") .. "圣兽，下波怪进攻前将停怪10分钟，请在10分钟内杀死" .. (unit_name or "") .. "圣兽，否则10分钟后它将进攻基地！！！")
 		if unit_id == 1865429316 then
 			udg_qinglong = bj_lastCreatedUnit

@@ -161,6 +161,19 @@ function et.loop(timeout, on_timer)
 	return t
 end
 
+-- 显示一个timerdialog，时间到了之后销毁
+function et.timerdialog(timeout, title)
+	local t = jass.CreateTimer()
+	local td = jass.CreateTimerDialog(t)
+	jass.TimerStart(t, timeout, false, function()
+		jass.DestroyTimerDialog(td)
+		jass.PauseTimer(t)
+		jass.DestroyTimer(t)
+	end)
+	jass.TimerDialogSetTitle(td, title)
+	jass.TimerDialogDisplay(td, true)
+end
+
 function et.timer(timeout, count, on_timer)
 	if count == 0 then
 		return et.loop(timeout, on_timer)

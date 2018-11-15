@@ -647,7 +647,7 @@ function gP()
 	return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896624
 end
 function hP()
-	ie = ie + 60
+	game.variable.stop_time = game.variable.stop_time + 1
 	DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 10.0, "|cFFFFCC00使用通犀地龙丸成功|r|cFF99FFCC延迟下波进攻怪物60秒|r")
 end
 --白云熊胆丸

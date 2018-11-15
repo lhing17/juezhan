@@ -517,7 +517,7 @@ function KeyInput(p, s)
 		shoujiajf[i] = shoujiajf[i] + 1000
 	end
 	if s == "boshu" then
-		udg_boshu = udg_boshu + 1
+		game.variable.wave = game.variable.wave + 1
 		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000已跳转至下一波")
 	end
 	if s == "ChuBoss1" then

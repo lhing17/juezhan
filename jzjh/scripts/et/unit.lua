@@ -116,6 +116,10 @@ function mt:get_type_id()
     return self.id
 end
 
+function mt:get_point_value()
+    return jass.GetUnitPointValue(self.handle)
+end
+
 function mt:is_type(type)
     return self.unit_type == type
 end

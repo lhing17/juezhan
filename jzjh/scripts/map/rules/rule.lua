@@ -76,60 +76,8 @@ function Ex()
 end
 
 
-function CA()
-	udg_counter1 = udg_counter1 + 1
-	q7[udg_counter1] = GetUnitTypeId(GetEnumUnit())
-	r7[udg_counter1] = GetEnumUnit()
-	m7[udg_counter1] = GetUnitLoc(GetEnumUnit())
-end
-function cA()
-	m7[0] = GetRectCenter(Ge)
-	nn7 = CountUnitsInGroup(AddPlayerUnitIntoGroup(Player(12), nil))
-	o7 = CountUnitsInGroup(AddPlayerUnitIntoGroup(Player(15), nil))
-	ForGroupBJ(AddPlayerUnitIntoGroup(Player(12), nil), CA)
-	ForGroupBJ(AddPlayerUnitIntoGroup(Player(15), nil), CA)
-end
---怪物死后重新刷怪
-function EA()
-	--圣兽死后不刷新
-	if GetTriggerUnit() ~= udg_qinglong and GetTriggerUnit() ~= udg_baihu and GetTriggerUnit() ~= udg_zhuque and GetTriggerUnit() ~= udg_xuanwu and GetTriggerUnit() ~= gg_unit_n00M_0131 then
-		YDWEPolledWaitNull(0.02)
-		s7 = 1
-		--call BJDebugMsg(GetUnitName(GetTriggerUnit()))
-		--call BJDebugMsg(I2S(GetUnitTypeId(GetTriggerUnit())))
-		for _ in _loop_() do
-			if s7 > nn7 + o7 then break end
-			if GetTriggerUnit() == r7[s7] then
-				if s7 <= nn7 then
-					--call BJDebugMsg("s7="+I2S(s7))
-					--call BJDebugMsg(I2S(q7[s7]))
-					if GetUnitTypeId(GetTriggerUnit()) ~= 1848651824 then
-						CreateNUnitsAtLoc(1, 1848651824, Player(12), m7[0], bj_UNIT_FACING)
-						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(et.player.countAlive())) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
-						r7[s7] = bj_lastCreatedUnit
-						return
-					else
-						CreateNUnitsAtLoc(1, q7[s7], Player(12), m7[s7], bj_UNIT_FACING)
-						r7[s7] = bj_lastCreatedUnit
-						return
-					end
-				else
-					if GetUnitTypeId(GetTriggerUnit()) ~= 1848651824 then
-						CreateNUnitsAtLoc(1, 1848651824, Player(12), m7[0], bj_UNIT_FACING)
-						UnitApplyTimedLifeBJ((0.18 - 0.01 * I2R(et.player.countAlive())) * I2R(GetUnitPointValueByType(GetUnitTypeId(GetTriggerUnit()))), 1112820806, bj_lastCreatedUnit)
-						r7[s7] = bj_lastCreatedUnit
-						return
-					else
-						CreateNUnitsAtLoc(1, q7[s7], Player(15), m7[s7], bj_UNIT_FACING)
-						r7[s7] = bj_lastCreatedUnit
-						return
-					end
-				end
-			end
-			s7 = s7 + 1
-		end
-	end
-end
+
+
 
 function ja()
 	return game.variable.attack_creeps[jass.GetTriggerUnit()]
@@ -1045,52 +993,7 @@ end
 
 
 --===========================================================================
---合成物品
-function HeCheng_Conditions()
-	--call BJDebugMsg(I2S(GetUnitTypeId(GetTriggerUnit())))
-	return Ce[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] == 2 or GetItemTypeId(GetManipulatedItem()) == 1227897145 or GetItemTypeId(GetManipulatedItem()) == 1227897153 or GetItemTypeId(GetManipulatedItem()) == 1227897154 or GetItemTypeId(GetManipulatedItem()) == 1227897156
-end
-function HeCheng_Actions()
-	--二合一
-	--if GetItemTypeId(GetManipulatedItem()) == 'I09C' or GetItemTypeId(GetManipulatedItem()) == 'I09P' then
-	--   	call YDWENewItemsFormula( 'I09C', 1, 'I09P', 1, 'ches', 0, 'ches', 0, 'ches', 0, 'ches', 0, 'I00B' )
-	--endif
-	--if GetItemTypeId(GetManipulatedItem()) == 'I098' or GetItemTypeId(GetManipulatedItem()) == 'I09P' then
-	--   	call YDWENewItemsFormula( 'I098', 1, 'I09P', 1, 'ches', 0, 'ches', 0, 'ches', 0, 'ches', 0, 'I00D' )
-	--endif
-	if GetItemTypeId(GetManipulatedItem()) == 1227894850 or GetItemTypeId(GetManipulatedItem()) == 1227894852 then
-		YDWENewItemsFormula(1227894850, 1, 1227894852, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227894852)
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227895379 or GetItemTypeId(GetManipulatedItem()) == 1227897168 then
-		YDWENewItemsFormula(1227895379, 1, 1227897168, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227895373)
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227895373 or GetItemTypeId(GetManipulatedItem()) == 1227897168 then
-		YDWENewItemsFormula(1227895373, 1, 1227897168, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227895377)
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227895377 or GetItemTypeId(GetManipulatedItem()) == 1227897168 then
-		YDWENewItemsFormula(1227895377, 1, 1227897168, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227895378)
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227895378 or GetItemTypeId(GetManipulatedItem()) == 1227897168 then
-		YDWENewItemsFormula(1227895378, 1, 1227897168, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227895376)
-	end
-	if GetItemTypeId(GetManipulatedItem()) == 1227897145 or GetItemTypeId(GetManipulatedItem()) == 1227897153 then
-		YDWENewItemsFormula(1227897145, 1, 1227897153, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227897155)
-	end
-	--三合一
-	if GetItemTypeId(GetManipulatedItem()) == 1227896115 or GetItemTypeId(GetManipulatedItem()) == 1227896120 or GetItemTypeId(GetManipulatedItem()) == 1227896129 then
-		YDWENewItemsFormula(1227896115, 1, 1227896120, 1, 1227896129, 1, 1667786099, 0, 1667786099, 0, 1667786099, 0, 1227896131)
-	end
-	--四合一
-	--五合一
-	--六合一
-	if GetItemTypeId(GetManipulatedItem()) == 1227895376 or GetItemTypeId(GetManipulatedItem()) == 1227897168 then
-		YDWENewItemsFormula(1227895376, 1, 1227897168, 1, 1227897168, 1, 1227897168, 1, 1227897168, 1, 1227897168, 1, 1227896918)
-	end
---call BJDebugMsg(GetItemName(GetLastCombinedItem())+"A")
---if GetItemType(GetLastCombinedItem())==ITEM_TYPE_ARTIFACT then
---    call SaveInteger(YDHT,GetHandleId(GetLastCombinedItem()),0,WeaponNaiJiu(GetLastCombinedItem()))
---   endif
-end
+
 --锻造大师补属性
 function DZDSBuShuXing(u)
 	local ii7 = 0
@@ -1645,6 +1548,8 @@ function GameLogic_Trigger()
 	require 'map.rules.刷进攻怪'
 	require 'map.rules.系统窗口'
 	require 'map.rules.古董系统'
+	require 'map.rules.加入副职'
+	require 'map.rules.合成物品'
 
 	--TODO 分解文件
 
@@ -1659,15 +1564,8 @@ function GameLogic_Trigger()
 	TriggerRegisterPlayerChatEvent(oi, Player(0), "sw", true)
 	TriggerAddCondition(oi, Condition(BeforeAttack))
 	TriggerAddAction(oi, SetShiWan)
-	--将地图上初始所有单位加入单位组
-	Vi = CreateTrigger()
-	TriggerRegisterTimerEventSingle(Vi, 2.0)
-	TriggerAddAction(Vi, cA)
-	--怪物死后重新刷怪
-	Wi = CreateTrigger()
-	TriggerRegisterPlayerUnitEventSimple(Wi, Player(12), EVENT_PLAYER_UNIT_DEATH)
-	TriggerRegisterPlayerUnitEventSimple(Wi, Player(15), EVENT_PLAYER_UNIT_DEATH)
-	TriggerAddAction(Wi, EA)
+
+
 
 	-- 将死亡单位从单位组移除
 	mj = CreateTrigger()
@@ -1837,11 +1735,7 @@ function GameLogic_Trigger()
 	TriggerAddAction(br, MuRongNeiGong)
 
 
-	-- 合成物品
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(HeCheng_Conditions))
-	TriggerAddAction(t, HeCheng_Actions)
+
 
 	t = CreateTrigger()
 	TriggerRegisterDialogEvent(t, udg_index)

@@ -90,6 +90,13 @@ function api:is_not(u)
     end)
 end
 
+-- 属于某个玩家
+function api:of_player(p)
+    return self:add_filter(function(dest)
+        return dest:get_owner() == p
+    end)
+end
+
 --是敌人
 --	参考单位/玩家
 function api:is_enemy(u)
@@ -97,6 +104,7 @@ function api:is_enemy(u)
         return dest:is_enemy(u)
     end)
 end
+
 
 --是友军
 --	参考单位/玩家

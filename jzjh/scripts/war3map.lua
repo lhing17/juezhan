@@ -313,13 +313,7 @@ danpo = _array_(0)
 yishu = _array_(0)
 udg_runamen = _array_(0)
 k7 = 0
-m7 = _array_()
-nn7 = 0
-o7 = 0
-udg_counter1 = 0
-q7 = _array_(0)
-r7 = _array_()
-s7 = 0
+
 u7 = _array_(0)
 v7 = _array_()
 y7 = _array_(0)

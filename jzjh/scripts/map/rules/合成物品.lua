@@ -49,11 +49,41 @@ function HeCheng_Actions()
     --    call SaveInteger(YDHT,GetHandleId(GetLastCombinedItem()),0,WeaponNaiJiu(GetLastCombinedItem()))
     --   endif
 end
+--为合成的武器增加耐久度
+function WuPinHeCheng()
+    local it = bj_lastCombinedItem -- INLINED!!
+    local i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
+    if Ce[i] == 2 and LoadBoolean(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetItemTypeId(it)) == false and udg_dzds[i] <= 5 then
+        udg_dzds[i] = udg_dzds[i] + 1
+        DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|CFF66FF00恭喜您锻造成功第" .. (I2S(udg_dzds[i]) or "") .. "件装备，锻造成功5件装备可以获得锻造大师哦")
+        SaveBoolean(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetItemTypeId(it), true)
+    end
+    if Ce[i] == 2 and udg_dzds[i] >= 5 and udg_dzdsbool[i] == false then
+        udg_dzdsbool[i] = true
+        DZDSBuShuXing(udg_hero[i])
+        if udg_zhangmen[i] == true then
+        else
+            SaveStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit())), "〓锻造大师〓" .. (LoadStr(YDHT, GetHandleId(GetOwningPlayer(GetTriggerUnit())), GetHandleId(GetOwningPlayer(GetTriggerUnit()))) or ""))
+        end
+        DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 15, "|CFF66FF00恭喜" .. (GetPlayerName(GetOwningPlayer(GetTriggerUnit())) or "") .. "获得锻造大师")
+        SetPlayerName(GetOwningPlayer(GetTriggerUnit()), "〓锻造大师〓" .. (GetPlayerName(GetOwningPlayer(GetTriggerUnit())) or ""))
+    end
+    --call BJDebugMsg(GetItemName(it))
+    if GetItemType(it) == ITEM_TYPE_ARTIFACT then
+        SaveInteger(YDHT, GetHandleId(it), 0, WeaponNaiJiu(it))
+    end
+    it = nil
+end
 local function init()
     -- 合成物品
     local t = CreateTrigger()
     TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     TriggerAddCondition(t, Condition(HeCheng_Conditions))
     TriggerAddAction(t, HeCheng_Actions)
+
+    -- 为合成的物品补属性
+    t = CreateTrigger()
+    YDWESyStemItemCombineRegistTrigger(t)
+    TriggerAddAction(t, WuPinHeCheng)
 end
 init()

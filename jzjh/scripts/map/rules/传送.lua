@@ -114,5 +114,22 @@ local function init()
             p:send_message("|CFF00ff33传送至"..po.name)
         end
     end)
+
+    --传送至桃花岛
+    function mB()
+        return GetItemTypeId(GetManipulatedItem()) == 1227897174 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
+    end
+    function nB()
+        SetUnitPosition(GetTriggerUnit(), 9631, 1139)
+        PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 9631, 1139, 0)
+        DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入桃花岛")
+        DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00”源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！“")
+    end
+
+    -- 传送至桃花岛
+    Cj = CreateTrigger()
+    TriggerRegisterAnyUnitEventBJ(Cj, EVENT_PLAYER_UNIT_USE_ITEM)
+    TriggerAddCondition(Cj, Condition(mB))
+    TriggerAddAction(Cj, nB)
 end
 init()

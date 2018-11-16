@@ -3,6 +3,12 @@
 --- Created by Administrator.
 --- DateTime: 2018/10/29 0029 20:40
 ---
+
+--玩家英雄阵亡
+function Ex()
+    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER -- INLINED!!
+end
+
 function PlayerDeath()
     local u = GetTriggerUnit()
     local p = GetOwningPlayer(u)

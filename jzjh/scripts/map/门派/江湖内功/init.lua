@@ -367,14 +367,7 @@ function JiangHuNeiGong_Trigger()
 	TriggerRegisterAnyUnitEventBJ(In, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	TriggerAddCondition(In, Condition(QI))
 	TriggerAddAction(In, RI)
-	-- 特殊事件——辽国进攻
-	t = CreateTrigger()
-	TriggerRegisterTimerEventSingle(t, 2100.0)
-	TriggerAddAction(t, LiaoGuoJinGong)
-	-- 特殊事件——灵鹫宫进攻
-	t = CreateTrigger()
-	TriggerRegisterTimerEventSingle(t, 3000.0)
-	TriggerAddAction(t, LingJiuGongJinGong)
+
 	t = nil
 end
 

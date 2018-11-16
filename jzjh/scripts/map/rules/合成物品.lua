@@ -3,6 +3,68 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/15 20:58
 ---
+
+--锻造大师补属性
+function DZDSBuShuXing(u)
+    local ii7 = 0
+    local ii8 = 0
+    local ii9 = 0
+    local it = nil
+    local j = 1
+    local i = 1 + GetPlayerId(GetOwningPlayer(u))
+    for _ in _loop_() do
+        if j >= 7 then
+            break
+        end
+        it = UnitItemInSlotBJ(u, j)
+        ii7 = ModuloInteger(GetItemUserData(it) // 100, 10)
+        ii8 = ModuloInteger(GetItemUserData(it) // 10, 10)
+        ii9 = ModuloInteger(GetItemUserData(it) // 1, 10)
+        --call BJDebugMsg("第"+I2S(j)+"格子物品的数值为"+I2S(ii7*100+ii8*10+ii9))
+        if ii7 == 1 then
+            gengu[i] = gengu[i] + 2
+        elseif ii7 == 2 then
+            wuxing[i] = wuxing[i] + 2
+        elseif ii7 == 3 then
+            jingmai[i] = jingmai[i] + 2
+        elseif ii7 == 4 then
+            fuyuan[i] = fuyuan[i] + 2
+        elseif ii7 == 5 then
+            danpo[i] = danpo[i] + 2
+        elseif ii7 == 6 then
+            yishu[i] = yishu[i] + 2
+        end
+        if ii8 == 1 then
+            gengu[i] = gengu[i] + 2
+        elseif ii8 == 2 then
+            wuxing[i] = wuxing[i] + 2
+        elseif ii8 == 3 then
+            jingmai[i] = jingmai[i] + 2
+        elseif ii8 == 4 then
+            fuyuan[i] = fuyuan[i] + 2
+        elseif ii8 == 5 then
+            danpo[i] = danpo[i] + 2
+        elseif ii8 == 6 then
+            yishu[i] = yishu[i] + 2
+        end
+        if ii9 == 1 then
+            gengu[i] = gengu[i] + 2
+        elseif ii9 == 2 then
+            wuxing[i] = wuxing[i] + 2
+        elseif ii9 == 3 then
+            jingmai[i] = jingmai[i] + 2
+        elseif ii9 == 4 then
+            fuyuan[i] = fuyuan[i] + 2
+        elseif ii9 == 5 then
+            danpo[i] = danpo[i] + 2
+        elseif ii9 == 6 then
+            yishu[i] = yishu[i] + 2
+        end
+        j = j + 1
+    end
+    it = nil
+end
+
 --合成物品
 function HeCheng_Conditions()
     --call BJDebugMsg(I2S(GetUnitTypeId(GetTriggerUnit())))

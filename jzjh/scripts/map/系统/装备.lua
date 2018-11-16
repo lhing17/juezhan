@@ -916,3 +916,58 @@ function ItemChongFu()
 	u = nil
 	p = nil
 end
+
+function Equipment_Trigger()
+
+	local t = CreateTrigger()
+	--鸟拿东西显示附加属性
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(Zy))
+	TriggerAddAction(t, dz)
+	--英雄拿东西显示附加属性
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(fz))
+	TriggerAddAction(t, gz)
+	--英雄放下东西显示失去附加属性
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
+	TriggerAddCondition(t, Condition(iz))
+	TriggerAddAction(t, jz)
+	--英雄穿上装备
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(mz))
+	TriggerAddAction(t, nz)
+	--英雄脱下装备
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
+	TriggerAddCondition(t, Condition(pz))
+	TriggerAddAction(t, qz)
+	--只能穿一件衣服或武器的判断
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(Mz))
+	TriggerAddAction(t, ItemChongFu)
+	--集齐套装
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(Pz))
+	TriggerAddAction(t, Qz)
+	--失去套装
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
+	TriggerAddCondition(t, Condition(Sz))
+	TriggerAddAction(t, Tz)
+
+	require 'map.系统.养武'
+
+	--镶嵌宝石系统
+	t = CreateTrigger()
+	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+	TriggerAddCondition(t, Condition(kA))
+	TriggerAddAction(t, mA)
+	t = nil
+
+end

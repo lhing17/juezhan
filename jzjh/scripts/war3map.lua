@@ -2076,42 +2076,6 @@ end
 
 require 'map.rules.伤害公式'
 require 'map.rules.武功升重'
-
-
---BOSS AI放技能
-function IsUnitBoss()
-	return GetUnitPointValue(GetTriggerUnit()) == 101
-end
-function BossFangJiNeng()
-	local u = GetTriggerUnit()
-	local uc = GetEventDamageSource()
-	local x = GetUnitX(uc)
-	local y = GetUnitY(uc)
-	if GetRandomInt(1, 100) < 50 then
-		if GetUnitTypeId(GetTriggerUnit()) == u7[1] then
-			IssuePointOrderById(u, 852600, x, y)
-		elseif GetUnitTypeId(GetTriggerUnit()) == u7[2] then
-			if GetRandomInt(1, 3) == 1 then
-				IssueTargetOrderById(u, 852600, uc)
-			elseif GetRandomInt(1, 2) == 1 then
-				IssueImmediateOrderById(u, 852177)
-			else
-				IssueImmediateOrderById(u, 852178)
-			end
-		elseif GetUnitTypeId(GetTriggerUnit()) == u7[3] then
-			IssuePointOrderById(u, 852600, x, y)
-		elseif GetUnitTypeId(GetTriggerUnit()) == u7[4] then
-			IssuePointOrderById(u, 852600, x, y)
-		elseif GetUnitTypeId(GetTriggerUnit()) == u7[5] then
-			IssueTargetOrder(u, "chemicalrage", u)
-		elseif GetUnitTypeId(GetTriggerUnit()) == u7[6] then
-			IssueTargetOrder(u, "devour", u)
-		end
-	end
-	u = nil
-	uc = nil
-end
-
 require 'map.系统.万能buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
@@ -2196,7 +2160,7 @@ function clearTimer(tm)
 	DestroyTimer(tm)
 end
 
-require 'map.rules.rule'
+
 require 'map.系统.副本'
 require 'map.系统.历练'
 require 'map.系统.任务'
@@ -3065,7 +3029,8 @@ function main1()
 	najitest() --纳吉的测试代码
 end
 function main2()
-	GameLogic_Trigger() -- 游戏逻辑触发器
+    require 'map.rules.rule' -- 游戏逻辑触发器
+
 	GameDetail_Trigger() -- 游戏细节处理
 	Equipment_Trigger() --装备属性触发器
 	MenPai_Trigger() --门派触发器

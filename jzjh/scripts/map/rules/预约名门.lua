@@ -4,25 +4,21 @@
 --- DateTime: 2018/11/16 12:52
 ---
 
-function qT()
-    return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and (GetItemTypeId(GetManipulatedItem()) == 1227899471 or GetItemTypeId(GetManipulatedItem()) == 1227896659)
-end
-function rT()
-    if GetItemTypeId(GetManipulatedItem()) == 1227896659 then
-        famous_num = 5
-        DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30.0, "|cff00ffff有玩家开始预约名门挑战，本波进攻怪物将会增加名门高手，大家要小心应付了！")
-    end
-    if GetItemTypeId(GetManipulatedItem()) == 1227899471 then
-        famous_num = 0
-        DisplayTimedTextToForce(bj_FORCE_ALL_PLAYERS, 30.0, "|cff00ffff有玩家取消了预约名门挑战，下波进攻怪物将不会增加名门高手，大家要小心应付了！")
-    end
-end
-
 local function init()
     -- 预约名门和取消预约
-    Gs = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Gs, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(Gs, Condition(qT))
-    TriggerAddAction(Gs, rT)
+    et.game:event '单位-捡起物品'(function(self, u, item)
+        local p = u:get_owner()
+        if p:is_player() and is_in(jass.GetItemTypeId(item), { 1227899471, 1227896659 }) then
+            if jass.GetItemTypeId(item) == 1227896659 then
+                game.variable.famous_num = 5
+                force.send_message("|cff00ffff有玩家开始预约名门挑战，本波进攻怪物将会增加名门高手，大家要小心应付了！", 30)
+            end
+            if jass.GetItemTypeId(item) == 1227899471 then
+                game.variable.famous_num = 0
+                force.send_message("|cff00ffff有玩家取消了预约名门挑战，下波进攻怪物将不会增加名门高手，大家可以放轻松了！", 30)
+            end
+        end
+    end)
+
 end
 init()

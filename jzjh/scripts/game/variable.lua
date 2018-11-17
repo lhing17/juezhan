@@ -9,4 +9,5 @@ game.variable = {
     wave = 1, -- 波数
     stop_time = 0, -- 停怪时间，以分钟为单位
     attack_creeps = {}, -- 所有进攻怪
+    famous_num = 5, -- 名门人数
 }

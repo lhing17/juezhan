@@ -6,15 +6,14 @@
 
 --魔教救人
 local function init()
-    et.loop(1000.0, function()
+    et.loop(1000 * 1000, function()
         force.send_message("|CFFCCFF00魔教潜入监狱救走了被抓住的敌人")
         local group = et.selector():add_filter(function(u)
             return u:in_rect(et.rect(udg_jail)) and u:get_owner() == et.player(7)
         end)            :get()
         for _, v in pairs(group) do
-            v:set_point(et.point(-910, 750))
+            v:set_point(game.point.release)
         end
     end)
-
 end
 init()

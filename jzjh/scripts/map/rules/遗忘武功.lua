@@ -130,6 +130,13 @@ function jB()
 end
 local function init()
     -- 遗忘武功
+
+    et.game:event '单位-技能生效' (function(u, id, target)
+        if id == 1093678417 then
+
+        end
+    end)
+
     Bj = CreateTrigger()
     TriggerRegisterAnyUnitEventBJ(Bj, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     TriggerAddCondition(Bj, Condition(YiWangJiNeng))

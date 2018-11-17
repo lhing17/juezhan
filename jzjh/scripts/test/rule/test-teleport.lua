@@ -5,6 +5,7 @@
 ---
 
 require 'test.test-main'
+local test_util = require 'test.util.test_util'
 local trigger_util = require 'jass.util.trigger_util'
 local item = require 'jass.type.item'
 
@@ -12,14 +13,17 @@ local function test_teleport()
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
     local it = item.create(1227896148, 0, 0)
-    et.player(1).hero.handle.hero=true
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, {manipulated_item=it})
+    et.player(1).hero.handle.hero = true
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
     et.player(1).hero.handle.level = 10
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, {manipulated_item=it})
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
     et.player(1).hero.reputation = 500
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, {manipulated_item=it})
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
     it = item.create(1227899472, 0, 0)
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, {manipulated_item=it})
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
+    it = test_util.create_item(1227897174)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })
+
 end
 
 test_teleport()

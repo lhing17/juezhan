@@ -536,8 +536,7 @@ re10 = _array_()
 re11 = _array_()
 se = _array_()
 te = _array_(0)
--- 名门数量
-famous_num = 5
+
 ve = _array_(0)
 xe = _array_(0)
 ye = _array_(0)

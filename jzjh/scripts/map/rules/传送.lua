@@ -87,6 +87,11 @@ post[1227899480] = {
     name = '聚贤庄',
     point = et.point(-9000, -14000),
 }
+post[1227897174] = {
+    name = '桃花岛',
+    point = et.point(9631, 1139),
+    extra_message = "|cFFFFCC00“源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！”",
+}
 
 local function init()
     et.game:event '单位-捡起物品' (function(self, u, item)
@@ -111,25 +116,12 @@ local function init()
         local po = post[jass.GetItemTypeId(item)]
         if u:is_hero() and p:is_player() and po then
             u:set_point(po.point)
+            p:set_camera(po.point)
             p:send_message("|CFF00ff33传送至"..po.name)
+            if po.extra_message then
+                p:send_message(po.extra_message)
+            end
         end
     end)
-
-    --传送至桃花岛
-    function mB()
-        return GetItemTypeId(GetManipulatedItem()) == 1227897174 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-    end
-    function nB()
-        SetUnitPosition(GetTriggerUnit(), 9631, 1139)
-        PanCameraToTimedForPlayer(GetOwningPlayer(GetTriggerUnit()), 9631, 1139, 0)
-        DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00进入桃花岛")
-        DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFFCC00”源思英年,巴巴西洛普,雪陆文出；源思英年,巴巴西洛普,雪陆文出！“")
-    end
-
-    -- 传送至桃花岛
-    Cj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Cj, EVENT_PLAYER_UNIT_USE_ITEM)
-    TriggerAddCondition(Cj, Condition(mB))
-    TriggerAddAction(Cj, nB)
 end
 init()

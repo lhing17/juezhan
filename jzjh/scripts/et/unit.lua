@@ -1401,7 +1401,7 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local item = jass.GetManipulatedItem()
         local u = unit(jass.GetTriggerUnit())
-        unit:event_notify('单位-捡起物品', u, item)
+        u:event_notify('单位-捡起物品', u, item)
     end)
 
     for i = 1, 16 do
@@ -1411,12 +1411,24 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local item = jass.GetManipulatedItem()
         local u = unit(jass.GetTriggerUnit())
-        unit:event_notify('单位-使用物品', u, item)
+        u:event_notify('单位-使用物品', u, item)
     end)
 
     for i = 1, 16 do
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, nil)
     end
+
+    j_trg = war3.CreateTrigger(function()
+        local u = unit(jass.GetTriggerUnit())
+        local id = jass.GetSpellAbilityId()
+        local target = jass.GetSpellTargetUnit() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
+        u:event_notify('单位-技能生效', u, id ,target)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_SPELL_EFFECT, nil)
+    end
+
 
 end
 

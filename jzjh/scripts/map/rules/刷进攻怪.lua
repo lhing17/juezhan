@@ -169,34 +169,34 @@ end
 
 local function famous_attack()
     et.wait(60 * 1000, function()
-        if famous_num > 0 then
+        if game.variable.famous_num > 0 then
             if game.config.pawn then
                 local r1 = 0
                 local r2 = 0
-                if famous_num == 1 then
+                if game.variable.famous_num == 1 then
                     r1 = 1.26
                     r2 = 1.4
-                elseif famous_num == 2 then
+                elseif game.variable.famous_num == 2 then
                     r1 = 1.28
                     r2 = 1.43
-                elseif famous_num == 3 then
+                elseif game.variable.famous_num == 3 then
                     r1 = 1.3
                     r2 = 1.46
-                elseif famous_num == 4 then
+                elseif game.variable.famous_num == 4 then
                     r1 = 1.32
                     r2 = 1.49
-                elseif famous_num == 5 then
+                elseif game.variable.famous_num == 5 then
                     r1 = 1.34
                     r2 = 1.52
                 end
-                for i = 1, famous_num do
+                for i = 1, game.variable.famous_num do
                     rr3 = r1 ^ game.variable.wave
                     rr4 = r2 ^ game.variable.wave
                     rand = jass.GetRandomInt(1, 11)
                     local famous = pawn_attack_creep(et.famous[rand].id, v7[GetRandomInt(5, 8)], Ke)
                     famous:set_level(4 * game.variable.wave)
                     YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
-                    YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * famous_num)
+                    YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * game.variable.famous_num)
                     famous:add_item(Ae[game.variable.wave])
                 end
             end

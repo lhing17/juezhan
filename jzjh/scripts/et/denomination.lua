@@ -27,6 +27,8 @@ function denomination.create()
     et.lni_loader('denomination')
     for k, v in pairs(et.lni.denomination) do
         v.name = k
+    end
+    for k, v in pairs(et.lni.denomination) do
         if v.item_id then
             et.lni.denomination[v.item_id] = v
         end

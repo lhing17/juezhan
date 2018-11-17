@@ -32,6 +32,7 @@ local item = require 'jass.type.item'
 local timer = require 'jass.type.timer'
 local dialog = require 'jass.type.dialog'
 local effect = require 'jass.type.effect'
+local multiboard = require 'jass.type.multiboard'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -1290,6 +1291,9 @@ end
 
 --constant native GetUnitLevel        takes unit whichUnit returns integer
 function jass.GetUnitLevel(u)
+    if not u then
+        return 0
+    end
     return u:get_level()
 end
 
@@ -3811,34 +3815,132 @@ end
 --//============================================================================
 --// Create a multiboard object
 --native CreateMultiboard                 takes nothing returns multiboard
+function jass.CreateMultiboard()
+    return multiboard.create()
+end
 --native DestroyMultiboard                takes multiboard lb returns nothing
+function jass.DestroyMultiboard(lb)
+    lb:destroy()
+end
+
 --native MultiboardDisplay                takes multiboard lb, boolean show returns nothing
+function jass.MultiboardDisplay(lb, show)
+    log.info('将多面板的显示状态设置为', show)
+    lb:show(show)
+end
+
 --native IsMultiboardDisplayed            takes multiboard lb returns boolean
+function jass.IsMultiboardDisplayed(lb)
+    return lb:is_displayed()
+end
+
 --native MultiboardMinimize               takes multiboard lb, boolean minimize returns nothing
+function jass.MultiboardMinimize(lb, minimize)
+    lb:minimize(minimize)
+end
+
 --native IsMultiboardMinimized            takes multiboard lb returns boolean
+function jass.IsMultiboardMinimized(lb)
+    return lb:is_minimized()
+end
+
 --native MultiboardClear                  takes multiboard lb returns nothing
+function jass.MultiboardClear(lb)
+    lb:clear()
+end
+
 --native MultiboardSetTitleText           takes multiboard lb, string label returns nothing
+function jass.MultiboardSetTitleText(lb, label)
+    lb:set_title_text(label)
+end
 --native MultiboardGetTitleText           takes multiboard lb returns string
+function jass.MultiboardGetTitleText()
+    return lb:get_title_text()
+end
 --native MultiboardSetTitleTextColor      takes multiboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.MultiboardSetTitleTextColor(lb, r, g, b, a)
+    lb:set_title_text_color(r, g, b, a)
+end
+
 --native MultiboardGetRowCount            takes multiboard lb returns integer
+function jass.MultiboardGetRowCount(lb)
+    return lb:get_row_count()
+end
+
 --native MultiboardGetColumnCount         takes multiboard lb returns integer
+function jass.MultiboardGetColumnCount(lb)
+    return lb:get_column_count()
+end
+
 --native MultiboardSetColumnCount         takes multiboard lb, integer count returns nothing
+function jass.MultiboardSetColumnCount(lb, count)
+    lb:set_column_count(count)
+end
+
 --native MultiboardSetRowCount            takes multiboard lb, integer count returns nothing
+function jass.MultiboardSetRowCount(lb, count)
+    lb:set_row_count(count)
+end
+
 --// broadcast settings to all items
 --native MultiboardSetItemsStyle          takes multiboard lb, boolean showValues, boolean showIcons returns nothing
+function jass.MultiboardSetItemsStyle(lb, showValues, showIcons)
+
+end
+
 --native MultiboardSetItemsValue          takes multiboard lb, string value returns nothing
+function jass.MultiboardSetItemsValue(lb, value)
+    lb:set_items_value(value)
+end
+
 --native MultiboardSetItemsValueColor     takes multiboard lb, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.MultiboardSetItemsValueColor(lb, r, g, b, a)
+    lb:set_items_value_color(r, g, b, a)
+end
+
 --native MultiboardSetItemsWidth          takes multiboard lb, real width returns nothing
+function jass.MultiboardSetItemsWidth(lb, width)
+    lb:set_items_width(width)
+end
 --native MultiboardSetItemsIcon           takes multiboard lb, string iconPath returns nothing
+function jass.MultiboardSetItemsIcon(lb, iconPath)
+    lb:set_items_icon(iconPath)
+end
 --
 --// funcs for modifying individual items
 --native MultiboardGetItem                takes multiboard lb, integer row, integer column returns multiboarditem
+function jass.MultiboardGetItem(lb, row, column)
+    return lb:get_item(row, column)
+end
 --native MultiboardReleaseItem            takes multiboarditem mbi returns nothing
+function jass.MultiboardReleaseItem(mbi)
+    mbi:release()
+end
+
 --native MultiboardSetItemStyle           takes multiboarditem mbi, boolean showValue, boolean showIcon returns nothing
+function jass.MultiboardSetItemStyle(mbi, showValue, showIcon)
+    mbi:set_style(showValue, showIcon)
+end
+
 --native MultiboardSetItemValue           takes multiboarditem mbi, string val returns nothing
+function jass.MultiboardSetItemValue(mbi, val)
+    mbi:set_value(val)
+end
 --native MultiboardSetItemValueColor      takes multiboarditem mbi, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.MultiboardSetItemValueColor(mbi, r, g, b, a)
+    mbi:set_value_color(r, g, b, a)
+end
+
 --native MultiboardSetItemWidth           takes multiboarditem mbi, real width returns nothing
+function jass.MultiboardSetItemWidth(mbi, width)
+    mbi:set_width(width)
+end
+
 --native MultiboardSetItemIcon            takes multiboarditem mbi, string iconFileName returns nothing
+function jass.MultiboardSetItemIcon(mbi, iconFileName)
+    mbi:set_icon(iconFileName)
+end
+
 --// meant to unequivocally suspend display of existing and
 --// subsequently displayed multiboards
 --//

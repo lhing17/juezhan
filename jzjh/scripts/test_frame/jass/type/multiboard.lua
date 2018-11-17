@@ -4,6 +4,134 @@
 --- DateTime: 2018/11/2 9:49
 ---
 
+local common_util = require 'jass.util.common_util'
+local multiboarditem = require 'jass.type.multiboarditem'
 local multiboard = {}
+multiboard.all_multiboards = {}
+
+local mt = {}
+multiboard.__index = mt
+mt.type = 'multiboard'
+mt.shown = false
+mt.minimized = false
+mt.title_text = ''
+mt.title_text_color = { 128, 128, 128, 128 }
+mt.row_count = 3
+mt.column_count = 3
+mt.items_show_value = true
+mt.items_show_icon = true
+mt.items_value = ''
+mt.items_value_color = { 128, 128, 128, 128 }
+mt.items_icon = ''
+mt.items_width = 0.05
+
+function mt:set_items_width(width)
+    self.items_width = width
+    for _, v in pairs(self.items) do
+        v:set_width(width)
+    end
+end
+
+function mt:set_items_style(show_value, show_icon)
+    self.items_show_value = show_value
+    self.items_show_icon = show_icon
+    for _, v in pairs(self.items) do
+        v:set_style(show_value, show_icon)
+    end
+end
+
+function mt:set_items_value(value)
+    self.items_value = value
+    for _, v in pairs(self.items) do
+        v:set_value(value)
+    end
+end
+
+function mt:set_items_value_color(r, g, b, a)
+    self.items_value_color = {r, g, b, a}
+    for _, v in pairs(self.items) do
+        v:set_value_color(r, g, b, a)
+    end
+end
+
+function mt:set_items_icon(icon)
+    self.items_icon = icon
+    for _, v in pairs(self.items) do
+        v:set_icon(icon)
+    end
+end
+
+function mt:clear()
+    self.title_text = nil
+    self.title_text_color = nil
+    for k, v in pairs(self.items) do
+        v:destroy()
+        self.items[k] = nil
+    end
+end
+
+function mt:get_item(row, column)
+    return self.items[row * self.column_count + column + 1] or multiboarditem.create(self, row, column)
+end
+
+function mt:release_item(item)
+    self.items[item.row * self.column_count + item.column + 1] = item
+end
+
+function mt:set_title_text(text)
+    self.title_text = text
+end
+
+function mt:get_title_text()
+    return self.title_text
+end
+
+function mt:set_title_text_color(r, g, b, a)
+    self.title_text_color = { r, g, b, a }
+end
+
+function mt:set_row_count(count)
+    self.row_count = count
+end
+
+function mt:set_column_count(count)
+    self.column_count = count
+end
+
+function mt:get_row_count()
+    return self.row_count
+end
+
+function mt:get_column_count()
+    return self.column_count
+end
+
+function mt:is_minimized()
+    return self.minimized
+end
+
+function mt:minimize(flag)
+    self.minimized = flag
+end
+
+function mt:is_displayed()
+    return self.shown
+end
+
+function mt:show(flag)
+    self.shown = flag
+end
+
+function mt:destroy()
+    multiboard.all_multiboards[self.handle_id] = nil
+end
+
+function multiboard.create()
+    local mb = setmetatable({}, multiboard)
+    mb.handle_id = common_util.generate_handle_id()
+    mb.items = {}
+    multiboard.all_multiboards[mb.handle_id] = mb
+    return mb
+end
 
 return multiboard

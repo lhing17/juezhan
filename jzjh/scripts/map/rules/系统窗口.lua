@@ -132,71 +132,73 @@ local function init()
             end
         end
         MultiboardDisplay(bj_lastCreatedMultiboard, true)
-    end)
-    -- 刷新系统窗口信息
 
-    et.loop(4, function()
-        for i = 1, 5 do
-            local s = get_num_string(udg_MaxDamage[i])
-            MultiboardSetTitleText(bj_lastCreatedMultiboard, "|cFFFFCC33这并不是系统窗口")
-            DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
-            if Ce[i] == 1 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
-            elseif Ce[i] == 2 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
-            elseif Ce[i] == 3 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
-            elseif Ce[i] == 4 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
-            elseif Ce[i] == 5 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
-            elseif Ce[i] == 6 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
-            elseif Ce[i] == 7 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
-            elseif Ce[i] == 8 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
-            else
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
+        -- 刷新系统窗口信息
+
+        et.loop(4, function()
+            for i = 1, 5 do
+                local s = get_num_string(udg_MaxDamage[i])
+                MultiboardSetTitleText(bj_lastCreatedMultiboard, "|cFFFFCC33萌萌哒系统窗口")
+                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
+                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
+                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
+                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
+                if Ce[i] == 1 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
+                elseif Ce[i] == 2 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
+                elseif Ce[i] == 3 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
+                elseif Ce[i] == 4 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
+                elseif Ce[i] == 5 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
+                elseif Ce[i] == 6 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
+                elseif Ce[i] == 7 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
+                elseif Ce[i] == 8 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
+                else
+                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
+                end
+                if I7[20 * (i - 1) + 1] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
+                end
+                if I7[20 * (i - 1) + 2] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
+                end
+                if I7[20 * (i - 1) + 3] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
+                end
+                if I7[20 * (i - 1) + 4] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
+                end
+                if I7[20 * (i - 1) + 5] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
+                end
+                if I7[20 * (i - 1) + 6] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
+                end
+                if I7[20 * (i - 1) + 7] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
+                end
+                if I7[20 * (i - 1) + 8] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
+                end
+                if I7[20 * (i - 1) + 9] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
+                end
+                if I7[20 * (i - 1) + 10] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
+                end
+                if I7[20 * (i - 1) + 11] ~= 1095067243 then
+                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
+                end
             end
-            if I7[20 * (i - 1) + 1] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
-            end
-            if I7[20 * (i - 1) + 2] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
-            end
-            if I7[20 * (i - 1) + 3] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
-            end
-            if I7[20 * (i - 1) + 4] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
-            end
-            if I7[20 * (i - 1) + 5] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
-            end
-            if I7[20 * (i - 1) + 6] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
-            end
-            if I7[20 * (i - 1) + 7] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
-            end
-            if I7[20 * (i - 1) + 8] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
-            end
-            if I7[20 * (i - 1) + 9] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
-            end
-            if I7[20 * (i - 1) + 10] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
-            end
-            if I7[20 * (i - 1) + 11] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
-            end
-        end
+        end)
     end)
+
 
     --最大伤害
     function wy()

@@ -24,6 +24,24 @@ mt.id = 0
 mt.type = 'player'
 mt.name = '玩家1'
 mt.team = 1
+mt.handicap = 1 -- 障碍
+mt.handicap_xp = 1 -- 经验障碍
+
+function mt:set_handicap(handicap)
+    self.handicap = handicap
+end
+
+function mt:get_handicap()
+    return self.handicap
+end
+
+function mt:set_handicap_xp(handicap_xp)
+    self.handicap_xp = handicap_xp
+end
+
+function mt:get_handicap_xp(handicap_xp)
+    return self.handicap_xp
+end
 
 function mt:get_color()
     return self.color or playercolor[0]

@@ -14,4 +14,5 @@ require 'et.selector'
 require 'et.rect'
 require 'et.denomination'
 require 'et.part_time'
+require 'et.famous'
 

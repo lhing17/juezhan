@@ -12,6 +12,7 @@ function test_newbee_gift()
     local h = test_util.player1_select_hero()
     local it = test_util.create_item(1227896394)
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, h.handle, { manipulated_item = it })
+
     print('120秒后')
     test_util.update_timer(nil, 120)
 

@@ -2208,7 +2208,7 @@ function Zw()
 	PlayMusicBJ(game.music.normal_bgm)
 	 -- 英雄选择列表
 
-	y7 ={1969,
+	y7 ={1969711215,
 		1970498413,
 		1852798821,
 		1851879023,
@@ -2248,7 +2248,7 @@ function Zw()
 		1848651826,
 		1851942003,
 	}
-	SetUnitLifePercentBJ(gg_unit_N007_0055, 5)
+	SetUnitLifePercentBJ(gg_unit_N007_0055.handle, 5)
 	AddSpecialEffectTargetUnitBJ("overhead", Ts, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 	AddSpecialEffectTargetUnitBJ("overhead", Ft, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 	AddSpecialEffectTargetUnitBJ("overhead", Ss, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
@@ -2279,6 +2279,7 @@ function Zw()
 	v7[9] = GetRectCenter(Ge)
 	v7[10] = GetRectCenter(Re)
 	v7[11] = GetRectCenter(ff)
+    print(v7[5], v7[6], v7[7])
 	C7[1] = ft
 	C7[2] = gt
 	C7[3] = ht
@@ -3010,9 +3011,9 @@ function main1()
 	end
 	Fe = CreateGroup()
 	--刚进入地图
-	lh = CreateTrigger()
-	TriggerRegisterTimerEventSingle(lh, 0.1)
-	TriggerAddAction(lh, Zw)
+    et.wait(100, function()
+        Zw()
+    end)
 
 	InitGlobalVariables() --初始化全局变量
 

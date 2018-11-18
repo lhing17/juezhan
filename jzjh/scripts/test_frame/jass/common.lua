@@ -30,9 +30,12 @@ local boolexpr = require 'jass.type.boolexpr'
 local trigger = require 'jass.type.trigger'
 local item = require 'jass.type.item'
 local timer = require 'jass.type.timer'
+local timerdialog = require 'jass.type.timerdialog'
 local dialog = require 'jass.type.dialog'
+local button = require 'jass.type.button'
 local effect = require 'jass.type.effect'
 local multiboard = require 'jass.type.multiboard'
+local texttag = require 'jass.type.texttag'
 
 local race = require 'jass.type.race'
 local alliancetype = require 'jass.type.alliancetype'
@@ -1556,6 +1559,10 @@ end
 --native UnitCanSleepPerm             takes unit whichUnit returns boolean
 --native UnitIsSleeping               takes unit whichUnit returns boolean
 --native UnitWakeUp                   takes unit whichUnit returns nothing
+function jass.UnitWakeUp(u)
+    u:wakeup()
+end
+
 --native UnitApplyTimedLife           takes unit whichUnit, integer buffId, real duration returns nothing
 function jass.UnitApplyTimedLife(u, buffId, duration)
     log.debug('单位', u, '为有时限的单位，buffId为', buffId, '，时限为', duration)
@@ -1580,7 +1587,13 @@ end
 
 --native IssueImmediateOrderById      takes unit whichUnit, integer order returns boolean
 --native IssuePointOrder              takes unit whichUnit, string order, real x, real y returns boolean
+function jass.IssuePointOrder(u, order, x, y)
+    log.info('单位', u, '向地点', x, y, '发布命令', order)
+end
 --native IssuePointOrderLoc           takes unit whichUnit, string order, location whichLocation returns boolean
+function jass.IssuePointOrderLoc(u, order, loc)
+    jass.IssuePointOrder(u, order, loc:get_x(), loc:get_y())
+end
 --native IssuePointOrderById          takes unit whichUnit, integer order, real x, real y returns boolean
 --native IssuePointOrderByIdLoc       takes unit whichUnit, integer order, location whichLocation returns boolean
 --native IssueTargetOrder             takes unit whichUnit, string order, widget targetWidget returns boolean
@@ -1688,9 +1701,24 @@ end
 --constant native GetPlayerScore          takes player whichPlayer, playerscore whichPlayerScore returns integer
 --constant native GetPlayerAlliance       takes player sourcePlayer, player otherPlayer, alliancetype whichAllianceSetting returns boolean
 --constant native GetPlayerHandicap       takes player whichPlayer returns real
+function jass.GetPlayerHandicap(p)
+    return p:get_handicap()
+end
+
 --constant native GetPlayerHandicapXP     takes player whichPlayer returns real
+function jass.GetPlayerHandicapXP(p)
+    return p:get_handicap_xp()
+end
 --constant native SetPlayerHandicap       takes player whichPlayer, real handicap returns nothing
+function jass.SetPlayerHandicap(p, handicap)
+    p:set_handicap(handicap)
+end
+
 --constant native SetPlayerHandicapXP     takes player whichPlayer, real handicap returns nothing
+function jass.SetPlayerHandicapXP(p, handicap)
+    p:set_handicap_xp(handicap)
+end
+
 --constant native SetPlayerTechMaxAllowed takes player whichPlayer, integer techid, integer maximum returns nothing
 function jass.SetPlayerTechMaxAllowed(p, techid, maximum)
     log.debug('玩家' .. p:get_name() .. '的科技' .. techid .. '最大允许等级设置为：', maximum)
@@ -3184,11 +3212,37 @@ function jass.DialogCreate()
     return dialog.create()
 end
 --native DialogDestroy                takes dialog whichDialog returns nothing
+function jass.DialogDestroy(d)
+    d:destroy()
+end
 --native DialogClear                  takes dialog whichDialog returns nothing
+function jass.DialogClear(d)
+    d:clear()
+end
 --native DialogSetMessage             takes dialog whichDialog, string messageText returns nothing
+function jass.DialogSetMessage(d, message)
+    d:set_message(message)
+end
+
 --native DialogAddButton              takes dialog whichDialog, string buttonText, integer hotkey returns button
+function jass.DialogAddButton(d, buttonText, hotkey)
+    local b = button.create(buttonText, hotkey, false, false)
+    d:add_button(b)
+    return b
+end
+
 --native DialogAddQuitButton          takes dialog whichDialog, boolean doScoreScreen, string buttonText, integer hotkey returns button
+function jass.DialogAddQuitButton(d, doScoreScreen, buttonText, hotkey)
+    local b = button.create(buttonText, hotkey, true, doScoreScreen)
+    d:add_button(b)
+    return b
+end
+
 --native DialogDisplay                takes player whichPlayer, dialog whichDialog, boolean flag returns nothing
+function jass.DialogDisplay(p, d, flag)
+    d:show_to(p, flag)
+end
+
 
 --//============================================================================
 --// Hashtable API
@@ -3716,18 +3770,66 @@ end
 --native SetAltMinimapIcon            takes string iconPath returns nothing
 --native DisableRestartMission        takes boolean flag returns nothing
 --native CreateTextTag                takes nothing returns texttag
+function jass.CreateTextTag()
+    return texttag.create()
+end
 --native DestroyTextTag               takes texttag t returns nothing
+function jass.DestroyTextTag(tt)
+    tt:destroy()
+end
 --native SetTextTagText               takes texttag t, string s, real height returns nothing
+function jass.SetTextTagText(tt, s, h)
+    tt:set_text(s, h)
+end
 --native SetTextTagPos                takes texttag t, real x, real y, real heightOffset returns nothing
+function jass.SetTextTagPos(tt, x, y, z)
+    tt:set_pos(x, y, z)
+end
 --native SetTextTagPosUnit            takes texttag t, unit whichUnit, real heightOffset returns nothing
+function jass.SetTextTagPosUnit(tt, u, z)
+    tt:set_pos(u.x, u.y, z)
+end
+
 --native SetTextTagColor              takes texttag t, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.SetTextTagColor(tt, r, g, b, a)
+    tt:set_color(r, g, b, a)
+end
+
 --native SetTextTagVelocity           takes texttag t, real xvel, real yvel returns nothing
+function jass.SetTextTagVelocity(tt, xvel, yvel)
+    tt:set_velocity(xvel, yvel)
+end
+
 --native SetTextTagVisibility         takes texttag t, boolean flag returns nothing
+function jass.SetTextTagVisibility(tt, flag)
+    tt:show(flag)
+end
+
 --native SetTextTagSuspended          takes texttag t, boolean flag returns nothing
+function jass.SetTextTagSuspended(tt, flag)
+    tt:suspend(flag)
+end
+
 --native SetTextTagPermanent          takes texttag t, boolean flag returns nothing
+function jass.SetTextTagPermanent(tt, flag)
+    tt:set_permanent(flag)
+end
+
 --native SetTextTagAge                takes texttag t, real age returns nothing
+function jass.SetTextTagAge(tt, age)
+    tt:set_age(age)
+end
+
 --native SetTextTagLifespan           takes texttag t, real lifespan returns nothing
+function jass.SetTextTagLifespan(tt, lifespan)
+    tt:set_life_span(lifespan)
+end
+
 --native SetTextTagFadepoint          takes texttag t, real fadepoint returns nothing
+function jass.SetTextTagFadepoint(tt, fadepoint)
+    tt:set_fade_point(fadepoint)
+end
+
 --native SetReservedLocalHeroButtons  takes integer reserved returns nothing
 function jass.SetReservedLocalHeroButtons(i)
     settings.reserved_local_hero_buttons = i
@@ -3772,14 +3874,48 @@ end
 --//============================================================================
 --// Timer Dialog API
 --native CreateTimerDialog                takes timer t returns timerdialog
+function jass.CreateTimerDialog(t)
+    return timerdialog.create(t)
+end
 --native DestroyTimerDialog               takes timerdialog whichDialog returns nothing
+function jass.DestroyTimerDialog(td)
+    td:destroy()
+end
+
 --native TimerDialogSetTitle              takes timerdialog whichDialog, string title returns nothing
+function jass.TimerDialogSetTitle(td, title)
+    td:set_title(title)
+end
+
 --native TimerDialogSetTitleColor         takes timerdialog whichDialog, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.TimerDialogSetTitleColor(td, r, g, b, a)
+    td:set_title_color(r, g, b, a)
+end
+
 --native TimerDialogSetTimeColor          takes timerdialog whichDialog, integer red, integer green, integer blue, integer alpha returns nothing
+function jass.TimerDialogSetTimeColor(td, r, g, b, a)
+    td:set_time_color(r, g, b, a)
+end
+
 --native TimerDialogSetSpeed              takes timerdialog whichDialog, real speedMultFactor returns nothing
+function jass.TimerDialogSetSpeed(td, speed)
+    td:set_speed(speed)
+end
+
 --native TimerDialogDisplay               takes timerdialog whichDialog, boolean display returns nothing
+function jass.TimerDialogDisplay(td, display)
+    td:show(display)
+end
 --native IsTimerDialogDisplayed           takes timerdialog whichDialog returns boolean
+function jass.IsTimerDialogDisplayed(td)
+    return td:is_displayed()
+end
+
 --native TimerDialogSetRealTimeRemaining  takes timerdialog whichDialog, real timeRemaining returns nothing
+function jass.TimerDialogSetRealTimeRemaining(td, timeRemaining)
+    td:set_time_remaining(timeRemaining)
+end
+
 --//============================================================================
 --// Leaderboard API
 --// Create a leaderboard object
@@ -4106,6 +4242,8 @@ end
 
 --native SetSoundVelocity             takes sound soundHandle, real x, real y, real z returns nothing
 --native AttachSoundToUnit            takes sound soundHandle, unit whichUnit returns nothing
+
+
 --native StartSound                   takes sound soundHandle returns nothing
 function jass.StartSound(soundHandle)
     print(soundHandle)
@@ -4128,8 +4266,15 @@ end
 
 --native ClearMapMusic                takes nothing returns nothing
 --native PlayMusic                    takes string musicName returns nothing
+function jass.PlayMusic(musicName)
+    log.info('播放音乐：', musicName)
+end
 --native PlayMusicEx                  takes string musicName, integer frommsecs, integer fadeinmsecs returns nothing
 --native StopMusic                    takes boolean fadeOut returns nothing
+function jass.StopMusic(fadeOut)
+    log.info('停止音乐，是否渐变停止：', fadeOut)
+end
+
 --native ResumeMusic                  takes nothing returns nothing
 --native PlayThematicMusic            takes string musicFileName returns nothing
 --native PlayThematicMusicEx          takes string musicFileName, integer frommsecs returns nothing

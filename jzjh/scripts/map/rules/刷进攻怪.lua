@@ -18,7 +18,9 @@ end
 local function excessive_level()
     local totallevel = 0
     for i = 1, et.player.countAlive() do
-        totallevel = totallevel + et.player(i).hero.handle:get_level()
+        if et.player(i).hero then
+            totallevel = totallevel + et.player(i).hero.handle:get_level()
+        end
     end
     return game.config.mode == 'special' and totallevel > game.variable.wave * 4 * et.player.countAlive()
 end
@@ -195,8 +197,8 @@ local function famous_attack()
                     rand = jass.GetRandomInt(1, 11)
                     local famous = pawn_attack_creep(et.famous[rand].id, v7[GetRandomInt(5, 8)], Ke)
                     famous:set_level(4 * game.variable.wave)
-                    YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
-                    YDWEGeneralBounsSystemUnitSetBonus(bj_lastCreatedUnit, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * game.variable.famous_num)
+                    YDWEGeneralBounsSystemUnitSetBonus(famous.handle, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
+                    YDWEGeneralBounsSystemUnitSetBonus(famous.handle, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * game.variable.famous_num)
                     famous:add_item(Ae[game.variable.wave])
                 end
             end
@@ -232,27 +234,31 @@ function do_pawn()
         game.variable.wave = game.variable.wave + 1
         jass.StopMusic(false)
         jass.PlayMusic(game.music.normal_bgm)
+        local wait_time = 0
         if game.config.mode ~= 'fast' then
-            YDWEPolledWaitNull(145 - et.player.countAlive() * 10)
+            wait_time = 145 - et.player.countAlive() * 10
         end
-        if game.variable.wave >= 29 and game.config.mode ~= 'survive' then
-            jass.StopMusic(false)
-            jass.PlayMusic(game.music.final_bgm)
-            force.send_message("|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
-            local last = pawn_attack_creep(u7[8], v7[6], Ke)
-            udg_boss[game.variable.wave // 4] = last.handle
-            et.timer(20 * 1000, 5, boss_grow_up)
-        else
-            if game.config.mode == 'survive' then
-                jass.AddPlayerTechResearched(Player(12), 1378889780, 1)
-                jass.AddPlayerTechResearched(Player(6), 1378889780, 1)
+        et.wait(wait_time * 1000, function ()
+            if game.variable.wave >= 29 and game.config.mode ~= 'survive' then
+                jass.StopMusic(false)
+                jass.PlayMusic(game.music.final_bgm)
+                force.send_message("|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
+                local last = pawn_attack_creep(u7[8], v7[6], Ke)
+                udg_boss[game.variable.wave // 4] = last.handle
+                et.timer(20 * 1000, 5, boss_grow_up)
+            else
+                if game.config.mode == 'survive' then
+                    jass.AddPlayerTechResearched(Player(12), 1378889780, 1)
+                    jass.AddPlayerTechResearched(Player(6), 1378889780, 1)
+                end
+                et.timerdialog(game.variable.stop_time * 60.0 + 30.0, "邪教下次进攻时间")
+                et.wait((game.variable.stop_time * 60.0 + 30.0) * 1000, function()
+                    do_pawn()
+                end)
+                game.variable.stop_time = 0
             end
-            et.timerdialog(game.variable.stop_time * 60.0 + 30.0, "邪教下次进攻时间")
-            et.wait((game.variable.stop_time * 60.0 + 30.0) * 1000, function()
-                do_pawn()
-            end)
-            game.variable.stop_time = 0
-        end
+        end)
+
     end)
 end
 

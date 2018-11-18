@@ -27,13 +27,19 @@ function playerstate.init()
         'PLAYER_STATE_OBSERVER_ON_DEATH',
         'PLAYER_STATE_OBSERVER',
         'PLAYER_STATE_UNFOLLOWABLE',
+        'PLAYER_STATE_GOLD_UPKEEP_RATE',
+        'PLAYER_STATE_LUMBER_UPKEEP_RATE',
+        'PLAYER_STATE_GOLD_GATHERED',
+        'PLAYER_STATE_LUMBER_GATHERED',
+        'PLAYER_STATE_NO_CREEP_SLEEP',
     }
-    for i = 1, #playerstate_names do
+    for i = 0, #playerstate_names - 1 do
         local ps = {}
-        ps.name = playerstate_names[i]
+        ps.name = playerstate_names[i+1]
         setmetatable(ps, playerstate)
-        table.insert(playerstate, ps)
+        playerstate[i] = ps
     end
+    playerstate[25] = playerstate[17]
 
 end
 

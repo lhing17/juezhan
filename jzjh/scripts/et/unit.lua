@@ -160,6 +160,7 @@ end
 --	数据项名称
 --	[如果未找到,返回的默认值]
 function mt:get_slk(name, default)
+
     local unit_data = slk.unit[self.id]
     if not unit_data then
         log.error('单位数据未找到', self.id)
@@ -740,10 +741,9 @@ mt.script_order = false
 function mt:issue_order(order, target)
     local res
     self.script_order = true
-
     -- 如果传的是id，转为order
     if type(order) == 'number' then
-        order = id2order(order)
+        order = id2order[order]
     end
 
     if not target then

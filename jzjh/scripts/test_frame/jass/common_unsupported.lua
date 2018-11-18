@@ -173,6 +173,8 @@ common_unsupported.unsupported_list =
  'RegisterStackedSound',
  'SetUnitAnimation',
  'ResetUnitAnimation',
+ 'SetCreepCampFilterState',
+ 'AttachSoundToUnit'
 }
 
 return common_unsupported

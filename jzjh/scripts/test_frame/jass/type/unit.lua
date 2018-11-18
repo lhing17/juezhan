@@ -96,6 +96,12 @@ mt.selected = false
 
 mt.point_value = 100
 
+mt.sleeping = false
+
+function mt:wakeup()
+    self.sleeping = false
+end
+
 function mt:die()
     self.status = 'dead'
 end

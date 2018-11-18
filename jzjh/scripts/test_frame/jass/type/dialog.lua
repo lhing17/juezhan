@@ -11,11 +11,40 @@ dialog.all_dialogs = {}
 local mt = {}
 dialog.__index = mt
 
-mt.type='dialog'
+mt.type = 'dialog'
+mt.message = ''
+
+function mt:clear()
+    self.message = ''
+    self.buttons = {}
+    self.shown_to = {}
+end
+
+function mt:show_to(p, flag)
+    if flag then
+        self.shown_to[p.handle_id] = p
+    else
+        self.shown_to[p.handle_id] = nil
+    end
+end
+
+function mt:destroy()
+    dialog.all_dialogs[self.handle_id] = nil
+end
+
+function mt:add_button(b)
+    self.buttons[b.handle_id] = b
+end
+
+function mt:set_message(message)
+    self.message = message
+end
 
 function dialog.create()
     local d = setmetatable({}, dialog)
     d.handle_id = common_util.generate_handle_id()
+    d.buttons = {}
+    d.shown_to = {}
     dialog.all_dialogs[d.handle_id] = d
     return d
 end

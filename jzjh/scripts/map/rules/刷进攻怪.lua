@@ -213,13 +213,12 @@ function do_pawn()
     if not game.config.pawn then
         return
     end
-    local t = CreateTimer()
     -- 特殊事件模式第5波再次选择难度
     if game.variable.wave == 5 and game.config.mode == 'special' then
         ChooseNanDu()
     end
 
-    force.send_message("|CFFFF0033邪教势力：第" .. game.variable.wave or "" .. "|CFFFF0033波")
+    force.send_message("|CFFFF0033邪教势力：第" .. game.variable.wave .. "波")
     show_next_wave_warning() --下波警告
     if excessive_level() then
         force.send_message("|CFFFF0033激活特殊事件|cFFDDA0DD※邪教全力进攻※")
@@ -229,7 +228,7 @@ function do_pawn()
     front_attack()-- 刷正面的进攻怪
     back_attack() -- 刷背面的进攻怪
     famous_attack() -- 刷名门
-    boss_attack(t) -- 刷BOSS
+    boss_attack() -- 刷BOSS
     et.wait(80 * 1000, function()
         game.variable.wave = game.variable.wave + 1
         jass.StopMusic(false)
@@ -238,7 +237,8 @@ function do_pawn()
         if game.config.mode ~= 'fast' then
             wait_time = 145 - et.player.countAlive() * 10
         end
-        et.wait(wait_time * 1000, function ()
+        log.debug('wait_time', wait_time)
+        et.wait(wait_time * 1000, function()
             if game.variable.wave >= 29 and game.config.mode ~= 'survive' then
                 jass.StopMusic(false)
                 jass.PlayMusic(game.music.final_bgm)
@@ -251,6 +251,7 @@ function do_pawn()
                     jass.AddPlayerTechResearched(Player(12), 1378889780, 1)
                     jass.AddPlayerTechResearched(Player(6), 1378889780, 1)
                 end
+                log.debug("邪教下次进攻时间:", game.variable.stop_time * 60.0 + 30.0)
                 et.timerdialog(game.variable.stop_time * 60.0 + 30.0, "邪教下次进攻时间")
                 et.wait((game.variable.stop_time * 60.0 + 30.0) * 1000, function()
                     do_pawn()
@@ -266,6 +267,7 @@ local function init()
 
     -- 游戏开始后40秒开始进攻倒计时
     et.wait(40 * 1000, function()
+        log.debug("邪教进攻倒计时：")
         et.timerdialog(120, "邪教进攻倒计时：")
         et.wait(120 * 1000, function()
             force.send_message("|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")

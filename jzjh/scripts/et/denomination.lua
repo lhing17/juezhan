@@ -28,10 +28,14 @@ function denomination.create()
     for k, v in pairs(et.lni.denomination) do
         v.name = k
     end
+    local temp = {}
     for k, v in pairs(et.lni.denomination) do
         if v.item_id then
-            et.lni.denomination[v.item_id] = v
+            temp[v.item_id] = v
         end
+    end
+    for k, v in pairs(temp) do
+        et.lni.denomination[k] = temp[k]
     end
     for k, v in pairs(et.lni.denomination) do
         setmetatable(v, denomination)

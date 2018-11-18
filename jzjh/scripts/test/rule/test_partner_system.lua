@@ -9,12 +9,15 @@ local trigger_util = require 'jass.util.trigger_util'
 local test_util = require 'test.util.test_util'
 
 local function test_partner_system()
-    --for k, v in pairs(et.lni.partner) do
-    --    print(k, v)
-    --    for k1, v1 in pairs(v) do
-    --        print('\t', k1, v1)
-    --    end
-    --end
+    local counter = 0
+    for k, v in pairs(et.lni.partner) do
+        print(k, v)
+        for k1, v1 in pairs(v) do
+            print('\t', k1, v1)
+        end
+        counter = counter + 1
+    end
+    print('counter', counter)
     local h = test_util.player1_select_hero()
     local tab = {
         manipulated_item = test_util.create_item(1227899731)
@@ -22,6 +25,9 @@ local function test_partner_system()
     trigger_util.trig_player_event(et.player(1).handle, jass.EVENT_PLAYER_END_CINEMATIC)
     trigger_util.trig_player_unit_event(h:get_owner().handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, h.handle, tab)
     trigger_util.trig_player_event(et.player(1).handle, jass.EVENT_PLAYER_END_CINEMATIC)
+    tab = {
+        manipulated_item = test_util.create_item(1227895863)
+    }
     trigger_util.trig_player_unit_event(h:get_owner().handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, h.handle, tab)
     trigger_util.trig_player_event(et.player(1).handle, jass.EVENT_PLAYER_END_CINEMATIC)
 

@@ -10,13 +10,17 @@ local function init()
     for k, v in pairs(et.lni.partner) do
         v.name = k
     end
+    local temp = {}
     for k, v in pairs(et.lni.partner) do
         if v.item_id then
-            et.lni.partner[base.string2id(v.item_id)] = v
+            temp[base.string2id(v.item_id)] = v
         end
         if v.unit_id then
-            et.lni.partner[base.string2id(v.unit_id)] = v
+            temp[base.string2id(v.unit_id)] = v
         end
+    end
+    for k, v in pairs(temp) do
+        et.lni.partner[k] = temp[k]
     end
     et.game:event '单位-使用物品'(function(self, u, item)
         print(u:is_hero(), u:get_owner():is_player(), et.lni.partner[jass.GetItemTypeId(item)])

@@ -1,5 +1,6 @@
 
 
+-- TODO 将kongfu改造成lni文件读取
 kongfu = {}
 setmetatable(kongfu,kongfu)
 et.kongfu = kongfu
@@ -28,7 +29,7 @@ mt.conditions = {
 
 function CunWuGong(num, id1, id2, s, dp1, fy1, gg1, jm1, wx1, ys1)
 	kongfu[num] = {}
-	kongfu[num].id = num
+	kongfu[num].num = num
 	kongfu[num].itemid = id1
 	kongfu[num].abilityid = id2
 	kongfu[num].type = s
@@ -40,6 +41,7 @@ function CunWuGong(num, id1, id2, s, dp1, fy1, gg1, jm1, wx1, ys1)
 		['福缘'] = fy1,
 		['胆魄'] = dp1,
 	}
+	kongfu[id1] = kongfu[num]
 end
 
 function kongfu.init()

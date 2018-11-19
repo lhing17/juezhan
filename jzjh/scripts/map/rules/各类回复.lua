@@ -4,91 +4,74 @@
 --- DateTime: 2018/11/15 21:41
 ---
 
---杀怪回血
-function Ma()
-    return GetPlayerController(GetOwningPlayer(GetKillingUnit())) == MAP_CONTROL_USER
-end
-function KillGuaiJiaXie()
-    if GetUnitAbilityLevel(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1093677914) < 1 then
-        SetWidgetLife(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], GetUnitState(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], UNIT_STATE_LIFE) + (shaguaihufui[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + I2R(danpo[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 2000.0 * GetUnitState(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], UNIT_STATE_MAX_LIFE)))
-    end
-end
---每秒回血回蓝
-function YiShuHuiXie()
-    c7 = 1
-    for _ in _loop_() do
-        if c7 > 5 then break end
-        if GetPlayerController(Player(-1 + c7)) == MAP_CONTROL_USER and UnitHasBuffBJ(udg_hero[c7], 1110454580) == false then
-            SetUnitLifePercentBJ(udg_hero[c7], GetUnitLifePercent(udg_hero[c7]) + I2R(yishu[c7]) / 2000.0 + 10 * GetUnitAbilityLevel(udg_hero[c7], 1093682228) + guixihuixie[c7])
-            if UnitHaveItem(udg_hero[c7], 1227895108) then
-                SetUnitLifePercentBJ(udg_hero[c7], GetUnitLifePercent(udg_hero[c7]) + 6)
-            end
-            SetUnitLifeBJ(udg_hero[c7], GetUnitState(udg_hero[c7], UNIT_STATE_LIFE) + shengminghuifu[c7])
-            SetUnitManaBJ(udg_hero[c7], GetUnitStateSwap(UNIT_STATE_MANA, udg_hero[c7]) + 0.3 * I2R(yishu[c7]) + falihuifu[c7] + 5 * GetUnitAbilityLevel(udg_hero[c7], 1093682228))
-        end
-        c7 = c7 + 1
-    end
-end
---伤害回复
-function Ra()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER -- INLINED!!
-end
-function Sa()
-    if GetUnitAbilityLevel(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], 1093677914) < 1 then
-        SetWidgetLife(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], GetUnitState(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], UNIT_STATE_LIFE) + (shanghaihuifu[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] / 10.0 + I2R(danpo[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))]) / 1500.0 * GetUnitState(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], UNIT_STATE_MAX_LIFE)))
-    end
-end
---伤害吸收
-function Ua()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function Va()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local r = (1 - RMinBJ(udg_shanghaixishou[i], 0.8)) * GetEventDamage()
-    if not udg_hero[i] then
-        return
-    end
-    SetWidgetLife(udg_hero[i], GetUnitState(udg_hero[i], UNIT_STATE_LIFE) + RMinBJ(udg_shanghaixishou[i], 0.8) * GetEventDamage())
-    if UnitHasBuffBJ(GetTriggerUnit(), 1110454340) and GetUnitAbilityLevel(GetTriggerUnit(), 1093678930) ~= 0 then
-        SetWidgetLife(udg_hero[i], GetUnitState(udg_hero[i], UNIT_STATE_LIFE) + 0.3 * GetEventDamage())
-    end
-    if UnitHaveItem(udg_hero[i], 1227897178) then
-        if GetUnitAbilityLevel(udg_hero[i], 1093677903) ~= 0 then
-            r = r / 3
-        end
-        if GetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD) >= R2I(r) // 20 then
-            AdjustPlayerStateBJ( - R2I(r) // 20, p, PLAYER_STATE_RESOURCE_GOLD)
-            SetWidgetLife(udg_hero[i], RMinBJ(GetUnitState(udg_hero[i], UNIT_STATE_LIFE) + r, GetUnitState(udg_hero[i], UNIT_STATE_MAX_LIFE)))
-        else
-            AdjustPlayerStateBJ(GetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD) * -1, p, PLAYER_STATE_RESOURCE_GOLD)
-            SetWidgetLife(udg_hero[i], RMinBJ(GetUnitState(udg_hero[i], UNIT_STATE_LIFE) + 5 * I2R(GetPlayerState(p, PLAYER_STATE_RESOURCE_GOLD)), GetUnitState(udg_hero[i], UNIT_STATE_MAX_LIFE)))
-        end
-    end
-    u = nil
-    p = nil
-end
-
 local function init()
     -- 杀怪回血
-    wj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(wj, EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(wj, Condition(Ma))
-    TriggerAddAction(wj, KillGuaiJiaXie)
-    -- 每秒回血回蓝
-    xj = CreateTrigger()
-    TriggerRegisterTimerEventPeriodic(xj, 1.0)
-    TriggerAddAction(xj, YiShuHuiXie)
+    et.game:event '单位-杀死单位'(function(self, killer, killed)
+        if killer:get_owner():is_player() and killer:get_owner().hero then
+            local h = killer:get_owner().hero
+            local hu = et.unit(h.handle)
+            -- 没有枯荣禅功
+            if not hu:has_ability(1093677914) then
+                hu:set_life(hu:get_life() + h['杀怪回复'] + h['胆魄'] / 2000 * hu:get_max_life())
+            end
+        end
+    end)
+
+    --每秒回血回蓝
+    et.loop(1000, function()
+        for i = 1, 5 do
+            local p = et.player(i)
+            local h = p.hero
+            if h then
+                local hu = et.unit(h.handle)
+                if p:is_hero() and not h:has_buff(1110454580) then
+                    hu:set_life_percent(hu:get_life_percent() + h['医术'] / 2000 + 10 * hu:get_ability_level(1093682228) + guixihuixie[p.id])
+                    if hu:has_item(1227895108) then
+                        hu:set_life_percent(hu:get_life_percent() + 6)
+                    end
+                    hu:set_life(hu:get_life() + h['生命回复'])
+                    hu:set_mana(hu:get_mana() + 0.3 * h['医术'] + h['法力回复'] + 5 * hu:get_ability_level(1093682228))
+                end
+            end
+        end
+    end)
+
     -- 攻击回复（伤害回复）
-    yj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(yj, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(yj, Condition(Ra))
-    TriggerAddAction(yj, Sa)
+    et.game:event '单位-受攻击'(function(self, source, target)
+        if target:is_hero() and target:get_owner():is_player() then
+            if not target:has_ability(1093677914) then
+                local h = target:get_owner().hero
+                target:set_life(target:get_life() + h['伤害回复'] / 10 + h['胆魄'] / 1500 * hu:get_max_life())
+            end
+        end
+    end)
+
     -- 伤害吸收
-    zj = CreateTrigger()
-    YDWESyStemAnyUnitDamagedRegistTrigger(zj)
-    TriggerAddCondition(zj, Condition(Ua))
-    TriggerAddAction(zj, Va)
+    et.game:event '单位-受到伤害'(function(self, source, target, damage)
+        if target:is_hero() then
+            local p = target:get_owner()
+            local h = p.hero
+            if not h then
+                return
+            end
+            local r = (1 - math.min(h['伤害吸收'], 0.8)) * damage
+            target:set_life(target:get_life() + math.min(h['伤害吸收'], 0.8) * damage)
+            if target:has_buff(1110454340) and target:has_ability(1093678930) then
+                target:set_life(target:get_life() + 0.3 * damage)
+            end
+            if target:has_item(1227897178) then
+                if target:has_ability(1093677903) then
+                    r = r / 3
+                end
+                if p:get_gold() >= r / 20 then
+                    p:add_gold(math.floor(-r / 20))
+                    target:set_life(math.min(target:get_life() + r, target:get_max_life()))
+                else
+                    target:set_life(math.min(target:get_life() + 5 * p:get_gold(), target:get_max_life()))
+                    p:set_gold(0)
+                end
+            end
+        end
+    end)
 end
 init()

@@ -651,6 +651,10 @@ function mt:has_ability(ability_id)
     return self:get_ability_level(ability_id) >= 1
 end
 
+function mt:has_buff(buff_id)
+    return self:has_ability(buff_id)
+end
+
 function mt:has_all_abilities(...)
     arg = { ... }
     if arg[1] then
@@ -714,8 +718,6 @@ function mt:makePermanent(ability_id)
     local ability_id = base.string2id(ability_id)
     jass.UnitMakeAbilityPermanent(self.handle, true, ability_id)
 end
-
-
 
 local id2order = setmetatable({}, { __index = function(self, k)
     log.info('OrderId2String', k)
@@ -1278,6 +1280,17 @@ function mt:set_invulnerable(time)
     end)
 end
 
+function mt:has_item(id)
+    if id ~= 0 then
+        for i = 0, 5 do
+            if jass.UnitItemInSlot(self.handle, i) and jass.GetItemTypeId(jass.UnitItemInSlot(self.handle, i)) == id then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function mt:add_item(id)
     if type(id) == 'string' then
         id = base.string2id(id)
@@ -1422,7 +1435,7 @@ function unit.register_jass_triggers()
         local u = unit(jass.GetTriggerUnit())
         local id = jass.GetSpellAbilityId()
         local target = jass.GetSpellTargetUnit() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
-        u:event_notify('单位-技能生效', u, id ,target)
+        u:event_notify('单位-技能生效', u, id, target)
     end)
 
     for i = 1, 16 do

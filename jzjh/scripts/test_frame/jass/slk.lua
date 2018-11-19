@@ -39,6 +39,18 @@ local function init()
     lni_loader('item')
     lni_loader('misc')
     lni_loader('unit')
+    file = io.open("F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\generator\\dest.txt")
+    for line in file:lines() do
+        print(line)
+    end
+
+
+    --for k, v in pairs(slk.unit) do
+    --    print(k, v)
+    --    for k1, v1 in pairs(v) do
+    --        print('\t', k1, v1)
+    --    end
+    --end
     --lni_loader('upgrade')
 
 end

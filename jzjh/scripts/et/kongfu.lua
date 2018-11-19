@@ -7,6 +7,7 @@
 local kongfu = {}
 
 setmetatable(kongfu, kongfu)
+et.kongfu = kongfu
 
 local mt = {}
 
@@ -28,8 +29,14 @@ mt.hero = hero
 
 mt.hint = '/'
 
-function kongfu:level_up()
-    hero = mt.hero
+function kongfu.create(ability_id)
+    local kf = setmetatable({}, kongfu)
+    kf.ability_id = ability_id
+    return kf
+end
+
+function mt:level_up()
+    hero = self.hero
     w1 = math.random(0, self['升重经验'] /60) + 5 + hero['悟性']
     w2 = 3 + hero.char_a
     w3 = 5

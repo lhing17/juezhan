@@ -76,6 +76,9 @@ mt.activated = nil
 -- 武魂石激活对话
 mt.wuhun = nil
 
+-- 最大武功数
+mt.kufong_limit = 11
+
 function hero:__tostring()
     return '英雄handle:'..tostring(self.handle)..'owner:'..tostring(self.owner)
 end
@@ -196,6 +199,14 @@ function mt:join_part_time(pt)
     self.part_times[pt.name] = {level = 1} -- 1级兼职 5级为宗师
 end
 
+function mt:get_kongfu_num()
+    local counter = 0
+    for k, v in pairs(self['武功']) do
+        counter = counter + 1
+    end
+    return counter
+end
+
 function hero.create(jUnit, pick)
     local h = {}
     setmetatable(h, hero)
@@ -222,6 +233,9 @@ function hero.create(jUnit, pick)
     h.gender = pick.gender
     -- 武功列表
     h['武功'] = {}
+
+    -- 已经遗忘的武功
+    h['遗忘武功'] = {}
     -- 激活残章清单
     h.activated = {}
 

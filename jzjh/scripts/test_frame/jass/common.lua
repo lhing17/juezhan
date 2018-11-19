@@ -1203,21 +1203,21 @@ function jass.SetHeroInt(u, newInt, permanent)
 end
 
 --native          GetHeroStr          takes unit whichHero, boolean includeBonuses returns integer
-function jass.GetHeroStr()
+function jass.GetHeroStr(u)
     if u:is_hero() then
         return u:get_str()
     end
 end
 
 --native          GetHeroAgi          takes unit whichHero, boolean includeBonuses returns integer
-function jass.GetHeroAgi()
+function jass.GetHeroAgi(u)
     if u:is_hero() then
         return u:get_agi()
     end
 end
 
 --native          GetHeroInt          takes unit whichHero, boolean includeBonuses returns integer
-function jass.GetHeroInt()
+function jass.GetHeroInt(u)
     if u:is_hero() then
         return u:get_int()
     end

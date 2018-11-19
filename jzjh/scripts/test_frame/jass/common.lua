@@ -1265,6 +1265,7 @@ end
 
 --native          AddHeroXP           takes unit whichHero, integer xpToAdd,   boolean showEyeCandy returns nothing
 function jass.AddHeroXP(h, exp, showEyeCandy)
+    log.info('英雄'.. h:get_name()..'增加经验'..exp)
     if h:is_hero() then
         h:set_exp(h:get_exp() + exp)
         if showEyeCandy then

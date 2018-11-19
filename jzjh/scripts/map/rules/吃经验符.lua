@@ -3,19 +3,12 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/16 12:59
 ---
---经验符
-function oQ()
-    return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1952807024
-end
-function pQ()
-    AddHeroXP(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], 200000, true)
-end
-
 local function init()
     -- 吃经验符
-    kr = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(kr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(kr, Condition(oQ))
-    TriggerAddAction(kr, pQ)
+    et.game:event '单位-捡起物品' (function(self, u, item)
+        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1952807024 then
+            u:get_owner().hero:add_xp(200000)
+        end
+    end)
 end
 init()

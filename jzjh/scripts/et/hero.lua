@@ -181,6 +181,10 @@ function mt:get_owner()
     return self.owner
 end
 
+function mt:add_xp(xp)
+   jass.AddHeroXP(self.handle, xp, true)
+end
+
 function mt:join_part_time(pt)
     self['悟性'] = self['悟性'] + pt['悟性']
     self['福缘'] = self['福缘'] + pt['福缘']

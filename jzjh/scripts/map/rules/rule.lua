@@ -42,10 +42,12 @@ local function init()
     require 'map.rules.攻破城门'
     require 'map.rules.吃经验符'
     require 'map.rules.购买等级'
+
+    require 'map.系统.装备'
+    require 'map.系统.套装'
+    require 'map.系统.镶嵌'
 end
 
 init()
 
-require 'map.系统.装备'
-require 'map.系统.套装'
-require 'map.系统.镶嵌'
+

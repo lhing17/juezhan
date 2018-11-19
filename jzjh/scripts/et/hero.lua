@@ -182,14 +182,14 @@ function mt:get_owner()
 end
 
 function mt:join_part_time(pt)
-    h['悟性'] = h['悟性'] + pt['悟性']
-    h['福缘'] = h['福缘'] + pt['福缘']
-    h['医术'] = h['医术'] + pt['医术']
-    h['根骨'] = h['根骨'] + pt['根骨']
-    h['经脉'] = h['经脉'] + pt['经脉']
-    h['胆魄'] = h['胆魄'] + pt['胆魄']
-    h:get_owner():send_message(pt.hint, 5)
-    h.part_times[pt.name] = {level = 1} -- 1级兼职 5级为宗师
+    self['悟性'] = self['悟性'] + pt['悟性']
+    self['福缘'] = self['福缘'] + pt['福缘']
+    self['医术'] = self['医术'] + pt['医术']
+    self['根骨'] = self['根骨'] + pt['根骨']
+    self['经脉'] = self['经脉'] + pt['经脉']
+    self['胆魄'] = self['胆魄'] + pt['胆魄']
+    self:get_owner():send_message(pt.hint, 5)
+    self.part_times[pt.name] = {level = 1} -- 1级兼职 5级为宗师
 end
 
 function hero.create(jUnit, pick)

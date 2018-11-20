@@ -1280,6 +1280,10 @@ function mt:set_invulnerable(time)
     end)
 end
 
+function mt:get_item_in_slot(i)
+    return jass.UnitItemInSlot(self.handle, i - 1)
+end
+
 function mt:has_item(id)
     if id ~= 0 then
         for i = 0, 5 do
@@ -1291,11 +1295,14 @@ function mt:has_item(id)
     return false
 end
 
-function mt:add_item(id)
-    if type(id) == 'string' then
-        id = base.string2id(id)
+function mt:add_item(item)
+    local it = item
+    if type(item) == 'string' then
+        item = base.string2id(item)
     end
-    local it = jass.CreateItem(id, self:getX(), self:getY())
+    if type(item) == 'number' then
+        it = jass.CreateItem(item, self:getX(), self:getY())
+    end
     jass.UnitAddItem(self.handle, it)
     return it
 end
@@ -1438,12 +1445,23 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local u = unit(jass.GetTriggerUnit())
         local id = jass.GetSpellAbilityId()
-        local target = jass.GetSpellTargetUnit() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
+        local target = jass.GetSpellTargetUnit() or jass.GetSpellTargetItem() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
         u:event_notify('单位-技能生效', u, id, target)
     end)
 
     for i = 1, 16 do
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_SPELL_EFFECT, nil)
+    end
+
+    j_trg = war3.CreateTrigger(function()
+        local u = unit(jass.GetTriggerUnit())
+        local id = jass.GetSpellAbilityId()
+        local target = jass.GetSpellTargetUnit() or jass.GetSpellTargetItem() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
+        u:event_notify('单位-施放技能', u, id, target)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_SPELL_CAST, nil)
     end
 
 

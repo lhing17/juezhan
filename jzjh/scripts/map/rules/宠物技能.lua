@@ -3,45 +3,9 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/15 21:40
 ---
---切换背包
-function Ba()
-    return GetSpellAbilityId() == 1093677134
-end
-function ba()
-    B7 = 1
-    for _ in _loop_() do
-        if B7 > 6 then break end
-        UnitAddItem(b7[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], UnitItemInSlotBJ(C7[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], B7))
-        B7 = B7 + 1
-    end
-    B7 = 1
-    for _ in _loop_() do
-        if B7 > 6 then break end
-        UnitAddItem(C7[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], UnitItemInSlotBJ(GetTriggerUnit(), B7))
-        B7 = B7 + 1
-    end
-    B7 = 1
-    for _ in _loop_() do
-        if B7 > 6 then break end
-        UnitAddItem(GetTriggerUnit(), UnitItemInSlotBJ(b7[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], B7))
-        B7 = B7 + 1
-    end
-end
+
 --鸟的贩卖技能
-function ca()
-    return GetSpellAbilityId() == 1093679433
-end
-function Da()
-    CreateNUnitsAtLoc(1, 1853257068, GetOwningPlayer(GetTriggerUnit()), v7[9], bj_UNIT_FACING)
-    ShowUnitHide(bj_lastCreatedUnit)
-    UnitAddItem(bj_lastCreatedUnit, CreateItem(GetItemTypeId(GetSpellTargetItem()), 0, 0))
-    UnitDropItemTarget(bj_lastCreatedUnit, UnitItemInSlotBJ(bj_lastCreatedUnit, 1), Rs)
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 5.0)
-    RemoveItem(GetSpellTargetItem())
-    PlaySoundOnUnitBJ(Ih, 100, GetTriggerUnit())
-    AddSpecialEffectTargetUnitBJ("overhead", GetTriggerUnit(), "Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl")
-    DestroyEffect(bj_lastCreatedEffect)
-end
+
 --切换物品
 function IsQieHuanItem()
     return GetSpellAbilityId() == 1093677133 and he[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] == false
@@ -54,15 +18,34 @@ end
 
 local function init()
     -- 切换背包
-    rj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(rj, EVENT_PLAYER_UNIT_SPELL_CAST)
-    TriggerAddCondition(rj, Condition(Ba))
-    TriggerAddAction(rj, ba)
+    et.game:event '单位-施放技能' (function(self, u, id, target)
+        if id == 1093677134 then
+            local p = u:get_owner()
+            for i = 1, 6 do
+                b7[p.id]:add_item(C7[p.id]:get_item_in_slot(i))
+            end
+            for i = 1, 6 do
+                C7[p.id]:add_item(u:get_item_in_slot(i))
+            end
+            for i = 1, 6 do
+                u[p.id]:add_item(b7[p.id]:get_item_in_slot(i))
+            end
+        end
+    end)
+
     -- 鸟的贩卖技能
-    sj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(sj, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-    TriggerAddCondition(sj, Condition(ca))
-    TriggerAddAction(sj, Da)
+    et.game:event '单位-技能生效' (function(self, u, id, target)
+        if id == 1093679433 then
+            local p = u:get_owner()
+            local last = p:create_unit(1853257068, et.get_rect_center(Ge))
+            last:show(false)
+            last:add_item(target)
+            jass.UnitDropItemTarget(last.handle, last:get_item_in_slot(1), Rs.handle)
+            PlaySoundOnUnitBJ(Ih, 100, u.handle)
+            jass.DestroyEffect(jass.AddSpecialEffectTarget("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", u.handle, "overhead"))
+        end
+    end)
+
 
     -- 切换物品
     tj = CreateTrigger()

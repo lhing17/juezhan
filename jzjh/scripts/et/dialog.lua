@@ -24,7 +24,7 @@ function dialog.create(player, message, buttons)
     for name in pairs(buttons) do
         local b = jass.DialogAddButton(d.handle, name, 0)
         local trg = war3.CreateTrigger(function()
-            et.event_notify(b, '按钮-被点击', d, player)
+            et.event_notify(b, '对话框-按钮点击', d, player)
         end)
         jass.TriggerRegisterDialogButtonEvent(trg, b)
         d.buttons[name] = b

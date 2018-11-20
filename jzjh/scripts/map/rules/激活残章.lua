@@ -90,7 +90,7 @@ local function add_buttons(u, item)
     h.wuhun_buttons['cancel'] = jass.DialogAddButton(h.wuhun, "取消", 0)
     jass.DialogDisplay(p.handle, h.wuhun, true)
 
-    et.event_register(h.wuhun, '对话框-按钮点击')(function(dialog, p, bt)
+    et.event_register(h.wuhun, '对话框-点击')(function(dialog, p, bt)
         for k, v in pairs(h.wuhun_buttons) do
             if bt == v then
                 if k == 'cancel' then

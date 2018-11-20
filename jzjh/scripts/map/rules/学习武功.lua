@@ -4,6 +4,10 @@
 --- DateTime: 2018/11/15 21:30
 ---
 
+--[[
+去掉了慕容单独学习内功的逻辑
+]]
+
 -- 读取内功的lni文件
 local function init_internal_lni()
     et.lni_loader('internal')
@@ -59,6 +63,15 @@ local function show_fail_hint(h, kf)
     show_one_hint(h, kf, '经脉')
     show_one_hint(h, kf, '悟性')
     show_one_hint(h, kf, '医术')
+end
+
+local function become_elder(p, h, dn, ability_id)
+    p:send_message("|cff00FF66恭喜领悟技能：" .. (jass.GetObjectName(ability_id) or ""))
+    h:add_kongfu(ability_id)
+    force.send_message("|cff00FF66玩家" .. p.id .. "成为" .. dn .. "长老")
+    p:set_name("〓" .. dn .. "长老〓" .. p:get_base_name())
+    u:remove_item(1227895642)
+    d:clear_and_destroy()
 end
 
 local function init()
@@ -118,40 +131,29 @@ local function init()
                 p:send_message("|CFF34FF00你必须携带门派毕业卷才能获得修习资格")
             elseif h.learned_internal then
                 p:send_message("|CFF34FF00你已经修行过了")
-            elseif u:get_ability_level(Y7[p.id]) < 2 then
-                p:send_message("你的" .. (jass.GetAbilityName(Y7[udg_runamen[i]]) or "") .. "|r还没修炼到位")
+            elseif u:get_ability_level(h['门派']['15级技']) < 2 then
+                p:send_message("你的" .. jass.GetAbilityName(h['门派']['15级技']).. "|r还没修炼到位")
             elseif h:get_kongfu_num() > h.kongfu_limit then
                 p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
             elseif h['门派'].name == '自由门派' then
                 p:send_message("自由门派没有内功")
             else
-                local d = et.dialog.create(p, "请选择你要修习的内功", {GetObjectName(Q8[bj_forLoopBIndex]), GetObjectName(P8[bj_forLoopBIndex])})
-                et.event_register(d.buttons[GetObjectName(Q8[bj_forLoopBIndex])], '按钮-被点击')(function(self, dg, pl)
-                    u:add_ability(Q8[id])
-                    p:send_message("|cff00FF66恭喜领悟技能：" .. (GetObjectName(Q8[id]) or ""))
-                    force.send_message("|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-                    p:set_name("〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" ..LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) )
-                    h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
-                    u:remove_item(1227895642)
-                    d:clear_and_destroy()
+                local grad1 = h['门派']['毕业1']
+                local grad2 = h['门派']['毕业2']
+                local dn = h['门派'].name
+                local d = et.dialog.create(p, "请选择你要修习的内功", { jass.GetObjectName(grad1), jass.GetObjectName(grad2) })
+                et.event_register(d.buttons[jass.GetObjectName(grad1)], '对话框-按钮点击')(function(self, dg, pl)
+                    become_elder(p, h, dn, grad1)
                 end)
-                et.event_register(d.buttons[GetObjectName(P8[bj_forLoopBIndex])], '按钮-被点击')(function(self, dg, pl)
-                    if P8[id]==1093678935 then
+                et.event_register(d.buttons[jass.GetObjectName(grad2)], '对话框-按钮点击')(function(self, dg, pl)
+                    if grad2 == 1093678935 then
                         if u:has_ability(1093678935) then
-                            u:set_ability_level(u:get_ability_level(P8[id])+2)
+                            u:set_ability_level(u:get_ability_level(grad2) + 2)
                         else
-                            u:add_ability(P8[id], 2)
+                            u:add_ability(grad2, 2)
                         end
-                    else
-                        u:add_ability(P8[id])
                     end
-
-                    p:send_message("|cff00FF66恭喜领悟技能：" .. (GetObjectName(P8[id]) or ""))
-                    force.send_message("|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-                    p:set_name("〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" ..LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) )
-                    h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
-                    u:remove_item(1227895642)
-                    d:clear_and_destroy()
+                    become_elder(p, h, dn, grad2)
                 end)
             end
         end

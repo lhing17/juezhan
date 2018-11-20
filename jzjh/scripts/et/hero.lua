@@ -191,6 +191,10 @@ function mt:add_xp(xp)
    jass.AddHeroXP(self.handle, xp, true)
 end
 
+function mt:join_denomination(denomination_name)
+    h['门派'] = et.lni.denomination[denomination_name]
+end
+
 function mt:join_part_time(pt)
     self['悟性'] = self['悟性'] + pt['悟性']
     self['福缘'] = self['福缘'] + pt['福缘']
@@ -208,6 +212,14 @@ function mt:get_kongfu_num()
         counter = counter + 1
     end
     return counter
+end
+
+function mt:add_kongfu(ability_id)
+    local u = et.unit(self.handle)
+    if not u:has_ability(ability_id) then
+        u:add_ability(ability_id)
+    end
+    self['武功'][ability_id] = et.kongfu.create(ability_id)
 end
 
 function hero.create(jUnit, pick)
@@ -249,7 +261,7 @@ function hero.create(jUnit, pick)
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()
-        et.event_notify(h.wuhun, '对话框-按钮点击', jass.GetTriggerPlayer(), jass.GetClickedButton())
+        et.event_notify(h.wuhun, '对话框-点击', jass.GetTriggerPlayer(), jass.GetClickedButton())
     end)
     jass.TriggerRegisterDialogEvent(t, h.wuhun)
 

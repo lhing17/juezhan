@@ -13,8 +13,9 @@ function WuMenPai_Action()
     local u = et.unit(jass.GetLeavingUnit())
     local p = et.player(u:get_owner())
     local i = p.id
-    h['门派'] = et.lni.denomination['自由门派']
-    d = h['门派']
+    local h = p.hero
+    h:join_denomination('自由门派')
+    local d = h['门派']
     p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
     p:set_name("〓"..d.name.."〓"..p:get_name())
     u:add_ability(1093678418)
@@ -52,7 +53,7 @@ local function init()
             if et.lni.denomination[GetItemTypeId(GetManipulatedItem())] then
                 local d = et.lni.denomination[GetItemTypeId(GetManipulatedItem())]
                 if not d.permit_ids or not is_in(u.id, d.permit_ids) then
-                    h['门派'] = d
+                    h:join_denomination(GetItemTypeId(GetManipulatedItem()))
                     p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
                     p:set_name("〓"..d.name.."〓"..p:get_name())
                     u:add_ability(1093678418)

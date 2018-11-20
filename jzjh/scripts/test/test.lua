@@ -3,9 +3,9 @@
 --- Created by Administrator.
 --- DateTime: 2018/10/29 10:23
 ---
+a = { [1] = 1 }
+b = { ['level'] = 2}
+print(a[1])
+print(b.level)
 
-
-local clib = require ('clib')
-print(clib.u2g('中国'))
-print(clib.g2u('中国'))
 

@@ -4,290 +4,21 @@
 --- DateTime: 2018/11/15 21:30
 ---
 
-
---内功加成属性
-function NeiGongJiaCheng(i, id, baoji, shxs, jxlw, minjie, shjc)
-    MM9[i] = id
-    udg_jueneibaojilv[i] = baoji
-    udg_jueneishxs[i] = shxs
-    udg_jueneijxlw[i] = jxlw
-    udg_jueneiminjie[i] = minjie
-    udg_jueneishjc[i] = shjc
-end
-function NeiGongJiaChengS()
-    --序号、ID、暴击率、伤害吸收、绝学领悟、内力、伤害加成
-    NeiGongJiaCheng(1, 1093682232, 0.15, 0.2, 5, 30, 1.0)
-    NeiGongJiaCheng(2, 1093679154, 0.08, 0.25, 4, 150, 0.4)
-    NeiGongJiaCheng(3, 1093679155, 0.05, 0.3, 3, 100, 0.3)
-    NeiGongJiaCheng(4, 1093679428, 0.06, 0.4, 4, 120, 0.8)
-    NeiGongJiaCheng(5, 1093679152, 0.12, 0.2, 3, 130, 0.7)
-    NeiGongJiaCheng(6, 1093678936, 0.16, 0.15, 3, 60, 0.5)
-    NeiGongJiaCheng(7, 1093679156, 0.1, 0.1, 2, 80, 0.6)
-    NeiGongJiaCheng(8, 1395666994, 0.2, 0.2, 1, 50, 0.9)
-    NeiGongJiaCheng(9, 1093678927, 0.04, 0, 0, 25, 0.2)
-    NeiGongJiaCheng(10, 1093678928, 0.06, 0, 0, 30, 0.12)
-    NeiGongJiaCheng(11, 1093678929, 0.08, 0, 0, 30, 0.14)
-    NeiGongJiaCheng(12, 1093678930, 0.06, 0, 0, 20, 0.15)
-    NeiGongJiaCheng(13, 1093678931, 0.1, 0, 0, 40, 0.25)
-    NeiGongJiaCheng(14, 1093678932, 0.1, 0, 0, 30, 0.3)
-    NeiGongJiaCheng(15, 1093678933, 0.07, 0, 0, 50, 0.18)
-    NeiGongJiaCheng(16, 1093678935, 0.09, 0, 0, 50, 0.1)
-    NeiGongJiaCheng(17, 1093682254, 0.03, 0, 0, 40, 0.18)
-    NeiGongJiaCheng(18, 1093682226, 0.2, 0, 0, 80, 0.5)
-    NeiGongJiaCheng(19, 1093682230, 0.8, 0, 0, 10, 0.15)
-    NeiGongJiaCheng(20, 1093682228, -0.2, 0, 0, -40, -0.25)
-end
-
---学习门派内功
-function pR()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227895856 -- INLINED!!
-end
-function LearnNeiGong()
-    local b = GetClickedButton()
-    local u = LoadUnitHandle(YDHT, StringHash("门派内功"), 3)
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local id = LoadInteger(YDHT, StringHash("门派内功"), 4)
-    local p = GetOwningPlayer(u)
-    if b == LoadButtonHandle(YDHT, StringHash("门派内功"), 1) then
-        UnitAddAbility(u, Q8[id])
-        UnitMakeAbilityPermanent(u, true, Q8[id])
-        DisplayTextToPlayer(GetOwningPlayer(u), 0, 0, "|cff00FF66恭喜领悟技能：" .. (GetObjectName(Q8[id]) or ""))
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-        SetPlayerName(p, "〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-        L7[i] = 1
-        for _ in _loop_() do
-            if L7[i] > wugongshu[i] then
-                break
-            end
-            if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-            else
-                I7[(i - 1) * 20 + L7[i]] = Q8[id]
-                if true then
-                    break
-                end
-            end
-            L7[i] = L7[i] + 1
-        end
-    elseif b == LoadButtonHandle(YDHT, StringHash("门派内功"), 2) then
-        if P8[id] == 1093678935 then
-            if GetUnitAbilityLevel(u, 1093678935) >= 1 then
-                IncUnitAbilityLevel(u, P8[id])
-            else
-                UnitAddAbility(u, P8[id])
-                L7[i] = 1
-                for _ in _loop_() do
-                    if L7[i] > wugongshu[i] then
-                        break
-                    end
-                    if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-                    else
-                        I7[(i - 1) * 20 + L7[i]] = P8[id]
-                        if true then
-                            break
-                        end
-                    end
-                    L7[i] = L7[i] + 1
-                end
-            end
-            IncUnitAbilityLevel(u, P8[id])
-        else
-            UnitAddAbility(u, P8[id])
-            UnitMakeAbilityPermanent(u, true, P8[id])
-            L7[i] = 1
-            for _ in _loop_() do
-                if L7[i] > wugongshu[i] then
-                    break
-                end
-                if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-                else
-                    I7[(i - 1) * 20 + L7[i]] = P8[id]
-                    if true then
-                        break
-                    end
-                end
-                L7[i] = L7[i] + 1
-            end
-        end
-        DisplayTextToPlayer(GetOwningPlayer(u), 0, 0, "|cff00FF66恭喜领悟技能：" .. (GetObjectName(P8[id]) or ""))
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-        SetPlayerName(p, "〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
+-- 读取内功的lni文件
+local function init_internal_lni()
+    et.lni_loader('internal')
+    for k, v in pairs(et.lni.internal) do
+        v.name = k
     end
-    DialogClear(udg_menpaineigong)
-    FlushChildHashtable(YDHT, StringHash("门派内功"))
-    DialogDestroy(udg_menpaineigong)
-    udg_menpaineigong = nil
-    b = nil
-    u = nil
-    p = nil
-end
-function qR()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
-    local b1 = nil
-    local b2 = nil
-    local t = CreateTrigger()
-    local j = 0
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveInteger(YDHT, id * cx, -1587459251, i)
-    SaveUnitHandle(YDHT, id * cx, -784714656, GetTriggerUnit())
-    if UnitHaveItem(GetTriggerUnit(), 1227895642) == false then
-        DisplayTextToPlayer(Player(-1 + i), 0, 0, "|CFF34FF00你必须携带门派毕业卷才能获得修习资格")
-    else
-        if O8[LoadInteger(YDHT, id * cx, -1587459251)] == 1 then
-            DisplayTextToPlayer(Player(-1 + i), 0, 0, "|CFF34FF00你已经修行过了")
-        else
-            if GetUnitAbilityLevel(udg_hero[i], Y7[udg_runamen[i]]) < 2 then
-                DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 15, "你的" .. (GetAbilityName(Y7[udg_runamen[i]]) or "") .. "|r还没修炼到位")
-            else
-                j = 1
-                for _ in _loop_() do
-                    if j > wugongshu[i] then
-                        break
-                    end
-                    if I7[GetPlayerId(GetOwningPlayer(GetTriggerUnit())) * 20 + j] ~= 1095067243 then
-                        --call DisplayTextToForce(bj_FORCE_ALL_PLAYERS,"j="+I2S(j))
-                        if j == wugongshu[i] then
-                            DisplayTextToPlayer(Player(-1 + i), 0, 0, "|CFF34FF00学习技能已达上限，请先遗忘部分技能")
-                        end
-                    else
-                        O8[LoadInteger(YDHT, id * cx, -1587459251)] = 1
-                        RemoveItem(FetchUnitItem(GetTriggerUnit(), 1227895642))
-                        bj_forLoopBIndex = 1
-                        bj_forLoopBIndexEnd = 20
-                        for _ in _loop_() do
-                            if bj_forLoopBIndex > bj_forLoopBIndexEnd then
-                                break
-                            end
-                            if udg_runamen[LoadInteger(YDHT, id * cx, -1587459251)] == 11 then
-                                DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 15, "自由门派没有内功")
-                                if true then
-                                    break
-                                end
-                            elseif udg_runamen[LoadInteger(YDHT, id * cx, -1587459251)] == 13 then
-                                DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 15, "该门派不在此学习内功")
-                                unitadditembyidswapped(1227895642, GetTriggerUnit())
-                                O8[LoadInteger(YDHT, id * cx, -1587459251)] = 0
-                                if true then
-                                    break
-                                end
-                            else
-                                if udg_runamen[LoadInteger(YDHT, id * cx, -1587459251)] == bj_forLoopBIndex then
-                                    udg_menpaineigong = DialogCreate()
-                                    DialogSetMessage(udg_menpaineigong, "请选择你要修习的内功")
-                                    b1 = DialogAddButtonBJ(udg_menpaineigong, GetObjectName(Q8[bj_forLoopBIndex]))
-                                    b2 = DialogAddButtonBJ(udg_menpaineigong, GetObjectName(P8[bj_forLoopBIndex]))
-                                    SaveButtonHandle(YDHT, StringHash("门派内功"), 1, b1)
-                                    SaveButtonHandle(YDHT, StringHash("门派内功"), 2, b2)
-                                    SaveUnitHandle(YDHT, StringHash("门派内功"), 3, GetTriggerUnit())
-                                    SaveInteger(YDHT, StringHash("门派内功"), 4, bj_forLoopBIndex)
-                                    DialogDisplay(GetOwningPlayer(GetTriggerUnit()), udg_menpaineigong, true)
-                                    TriggerRegisterDialogEvent(t, udg_menpaineigong)
-                                    TriggerAddAction(t, LearnNeiGong)
-                                end
-                            end
-                            bj_forLoopBIndex = bj_forLoopBIndex + 1
-                        end
-                        if true then
-                            break
-                        end
-                    end
-                    j = j + 1
-                end
-            end
+    local temp = {}
+    for k, v in pairs(et.lni.internal) do
+        if v.ability_id then
+            temp[v.ability_id] = v
         end
     end
-    FlushChildHashtable(YDHT, id * cx)
-    b1 = nil
-    b2 = nil
-end
-function IsMuRongNeiGong()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227897158 -- INLINED!!
-end
-function MuRongNeiGong()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local j = 1
-    if udg_runamen[i] ~= 13 then
-        DisplayTextToPlayer(p, 0, 0, "|CFF34FF00你没有拜入姑苏慕容")
-    else
-        if UnitHaveItem(u, 1227895642) == false then
-            DisplayTextToPlayer(p, 0, 0, "|CFF34FF00你必须携带门派毕业卷才能获得修习资格")
-        else
-            if GetUnitAbilityLevel(u, Y7[udg_runamen[i]]) < 2 then
-                DisplayTimedTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, 15, "你的" .. (GetAbilityName(Y7[udg_runamen[i]]) or "") .. "|r还没修炼到位")
-            else
-                if O8[i] == 1 then
-                    DisplayTextToPlayer(p, 0, 0, "|CFF34FF00你已经修行过了")
-                else
-                    j = 1
-                    for _ in _loop_() do
-                        if j > wugongshu[i] then
-                            break
-                        end
-                        if I7[(i - 1) * 20 + j] ~= 1095067243 then
-                            if j == wugongshu[i] then
-                                DisplayTextToPlayer(p, 0, 0, "|CFF34FF00学习技能已达上限，请先遗忘部分技能")
-                            end
-                        else
-                            O8[i] = 1
-                            RemoveItem(FetchUnitItem(u, 1227895642))
-                            if danpo[i] > 20 then
-                                UnitAddAbility(u, P8[13])
-                                UnitMakeAbilityPermanent(u, true, P8[13])
-                                DisplayTextToPlayer(p, 0, 0, "|cff00FF66恭喜领悟技能：" .. (GetObjectName(P8[13]) or ""))
-                                DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-                                SetPlayerName(p, "〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-                                L7[i] = 1
-                                for _ in _loop_() do
-                                    if L7[i] > wugongshu[i] then
-                                        break
-                                    end
-                                    if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-                                    else
-                                        I7[(i - 1) * 20 + L7[i]] = P8[13]
-                                        if true then
-                                            break
-                                        end
-                                    end
-                                    L7[i] = L7[i] + 1
-                                end
-                            else
-                                UnitAddAbility(u, Q8[13])
-                                UnitMakeAbilityPermanent(u, true, Q8[13])
-                                DisplayTextToPlayer(p, 0, 0, "|cff00FF66你还是先掌握" .. (GetObjectName(Q8[13]) or "") .. "吧")
-                                DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
-                                SetPlayerName(p, "〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" .. (LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) or ""))
-                                L7[i] = 1
-                                for _ in _loop_() do
-                                    if L7[i] > wugongshu[i] then
-                                        break
-                                    end
-                                    if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-                                    else
-                                        I7[(i - 1) * 20 + L7[i]] = Q8[13]
-                                        if true then
-                                            break
-                                        end
-                                    end
-                                    L7[i] = L7[i] + 1
-                                end
-                            end
-                            if true then
-                                break
-                            end
-                        end
-                        j = j + 1
-                    end
-                end
-            end
-        end
+    for k, v in pairs(temp) do
+        et.lni.internal[k] = temp[k]
     end
-    u = nil
-    p = nil
 end
 
 --------学习武功系统结束------
@@ -313,7 +44,25 @@ local function learn_bai_sheng(hu, kf)
     p:add_tech(1382576745)
 end
 
+local function show_one_hint(h, kf, attr)
+    if h[attr] < kf.conditions[attr] then
+        h:get_owner():send_message("|CFFFF0033" .. attr .. "缺少：" .. kf.conditions[attr] - h[attr])
+    end
+end
+
+-- 条件不足无法学习的错误提示
+local function show_fail_hint(h, kf)
+    h:get_owner():send_message("|CFFFF0033学习条件不足")
+    show_one_hint(h, kf, '胆魄')
+    show_one_hint(h, kf, '福缘')
+    show_one_hint(h, kf, '根骨')
+    show_one_hint(h, kf, '经脉')
+    show_one_hint(h, kf, '悟性')
+    show_one_hint(h, kf, '医术')
+end
+
 local function init()
+    init_internal_lni()
     et.game:event '单位-使用物品'(function(self, u, item)
         --学习武功
         if kongfu[jass.GetItemTypeId(item)] and u:get_owner().hero then
@@ -333,77 +82,79 @@ local function init()
                         u:add_item(kf.itemid)
                     else
                         hu:add_ability(kf.abilityid)
-                        h['武功'].abilityid = et.kongfu.create(kf.abilityid)
-                        if h['遗忘武功'].abilityid then
-                            h['武功'].abilityid['经验'] = h['遗忘武功'].abilityid['经验']
-                            h['武功'].abilityid['重数'] = h['遗忘武功'].abilityid['重数']
-                            h['遗忘武功'].abilityid = nil
+                        h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
+                        if h['遗忘武功'][kf.abilityid] then
+                            h['武功'][kf.abilityid]['经验'] = h['遗忘武功'][kf.abilityid]['经验']
+                            h['武功'][kf.abilityid]['重数'] = h['遗忘武功'][kf.abilityid]['重数']
+                            h['遗忘武功'][kf.abilityid] = nil
                             force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "想起" .. jass.GetObjectName(kf.abilityid) or '')
                         else
                             force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "习得" .. jass.GetObjectName(kf.abilityid) or '')
                         end
-                        for i = 1, 20 do
-                            if id == MM9[i] then
-                                h['伤害加成'] = h['伤害加成'] + udg_jueneishjc[i]
-                                jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + udg_jueneiminjie[i])
-                                h['暴击率'] = h['暴击率'] + udg_jueneibaojilv[i]
-                                h['绝学领悟'] = h['绝学领悟'] + udg_jueneijxlw[i]
-                                h['伤害吸收'] = h['伤害吸收'] + udg_jueneishxs[i]
-                            end
+                        if et.lni.internal[kf.abilityid] then
+                            local itl = et.lni.internal[kf.abilityid]
+                            h['伤害加成'] = h['伤害加成'] + itl['伤害加成']
+                            jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + itl['内力'])
+                            h['暴击率'] = h['暴击率'] + itl['暴击率']
+                            h['绝学领悟'] = h['绝学领悟'] + itl['绝学领悟']
+                            h['伤害吸收'] = h['伤害吸收'] + itl['伤害吸收']
                         end
                     end
                 end
             else
-                DisplayTextToPlayer(p, 0, 0, "|CFFFF0033学习条件不足")
-                if danpo[i] >= dp1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033胆魄缺少：" .. (I2S(dp1 - danpo[i]) or ""))
-                end
-                if gengu[i] >= gg1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033根骨缺少：" .. (I2S(gg1 - gengu[i]) or ""))
-                end
-                if fuyuan[i] >= fy1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033福缘缺少：" .. (I2S(fy1 - fuyuan[i]) or ""))
-                end
-                if wuxing[i] >= wx1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033悟性缺少：" .. (I2S(wx1 - wuxing[i]) or ""))
-                end
-                if jingmai[i] >= jm1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033经脉缺少：" .. (I2S(jm1 - jingmai[i]) or ""))
-                end
-                if yishu[i] >= ys1 then
-                else
-                    DisplayTextToPlayer(p, 0, 0, "|CFFFF0033医术缺少：" .. (I2S(ys1 - yishu[i]) or ""))
-                end
-                unitadditembyidswapped(GetItemTypeId(it), l__ut)
+
+                u:add_item(kf.itemid)
+                show_fail_hint(h, kf)
             end
         end
     end)
 
+    --学习门派内功
+    et.game:event '单位-捡起物品'(function(self, u, item)
+        local p = u:get_owner()
+        local h = p.hero
+        if u:is_hero() and u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895856 then
+            if not u:has_item(1227895642) then
+                p:send_message("|CFF34FF00你必须携带门派毕业卷才能获得修习资格")
+            elseif h.learned_internal then
+                p:send_message("|CFF34FF00你已经修行过了")
+            elseif u:get_ability_level(Y7[p.id]) < 2 then
+                p:send_message("你的" .. (jass.GetAbilityName(Y7[udg_runamen[i]]) or "") .. "|r还没修炼到位")
+            elseif h:get_kongfu_num() > h.kongfu_limit then
+                p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
+            elseif h['门派'].name == '自由门派' then
+                p:send_message("自由门派没有内功")
+            else
+                local d = et.dialog.create(p, "请选择你要修习的内功", {GetObjectName(Q8[bj_forLoopBIndex]), GetObjectName(P8[bj_forLoopBIndex])})
+                et.event_register(d.buttons[GetObjectName(Q8[bj_forLoopBIndex])], '按钮-被点击')(function(self, dg, pl)
+                    u:add_ability(Q8[id])
+                    p:send_message("|cff00FF66恭喜领悟技能：" .. (GetObjectName(Q8[id]) or ""))
+                    force.send_message("|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
+                    p:set_name("〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" ..LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) )
+                    h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
+                    u:remove_item(1227895642)
+                    d:clear_and_destroy()
+                end)
+                et.event_register(d.buttons[GetObjectName(P8[bj_forLoopBIndex])], '按钮-被点击')(function(self, dg, pl)
+                    if P8[id]==1093678935 then
+                        if u:has_ability(1093678935) then
+                            u:set_ability_level(u:get_ability_level(P8[id])+2)
+                        else
+                            u:add_ability(P8[id], 2)
+                        end
+                    else
+                        u:add_ability(P8[id])
+                    end
 
-    -- 学习武功
-    cj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(cj, EVENT_PLAYER_UNIT_USE_ITEM)
-    TriggerAddCondition(cj, Condition(IsWuGongBook))
-    TriggerAddAction(cj, BookLearnWuGong)
-    -- 初始化内功加成
-    fk = CreateTrigger()
-    TriggerRegisterTimerEventSingle(fk, 0.1)
-    TriggerAddAction(fk, NeiGongJiaChengS)
-
-    -- 学习门派内功
-    br = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(br, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(br, Condition(pR))
-    TriggerAddAction(br, qR)
-    -- 学习慕容派内功
-    br = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(br, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(br, Condition(IsMuRongNeiGong))
-    TriggerAddAction(br, MuRongNeiGong)
+                    p:send_message("|cff00FF66恭喜领悟技能：" .. (GetObjectName(P8[id]) or ""))
+                    force.send_message("|cff00FF66玩家" .. (I2S(1 + GetPlayerId(p)) or "") .. "成为" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老")
+                    p:set_name("〓" .. (udg_menpainame[udg_runamen[i]] or "") .. "长老〓" ..LoadStr(YDHT, GetHandleId(p), GetHandleId(p)) )
+                    h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
+                    u:remove_item(1227895642)
+                    d:clear_and_destroy()
+                end)
+            end
+        end
+    end)
 end
 init()

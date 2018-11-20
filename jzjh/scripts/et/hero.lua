@@ -67,6 +67,9 @@ mt.brother = nil
 -- 是否烧过黄纸
 mt.burned_paper = false
 
+-- 修行过门派内功
+mt.learned_internal = false
+
 -- 最大伤害
 mt.max_damage = 0
 
@@ -250,7 +253,7 @@ function hero.create(jUnit, pick)
     end)
     jass.TriggerRegisterDialogEvent(t, h.wuhun)
 
-    RemoveUnit(pick.handle)
+    jass.RemoveUnit(pick.handle)
     return h
 
 end

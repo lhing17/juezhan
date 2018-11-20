@@ -389,7 +389,6 @@ K8 = _array_(0)
 xiuxing = _array_(0)
 MM8 = _array_(0)
 N8 = _array_(0)
-O8 = _array_(0)
 P8 = _array_(0)
 Q8 = _array_(0)
 R8 = _array_(0)
@@ -2850,7 +2849,6 @@ function main1()
 		xiuxing[i] = 0
 		MM8[i] = 0
 		N8[i] = 0
-		O8[i] = 0
 		Z8[i] = false
 		d9[i] = false
 		e9[i] = false

@@ -1300,6 +1300,10 @@ function mt:add_item(id)
     return it
 end
 
+function mt:remove_item(it)
+    jass.UnitRemoveItem(it)
+end
+
 function mt:update()
 
 end

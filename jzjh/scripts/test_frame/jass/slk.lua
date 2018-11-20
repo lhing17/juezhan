@@ -31,7 +31,7 @@ end
 local function init()
     lni:set_marco('TableSearcher', '$MapPath$table\\')
     lni:set_marco('MapPath', SCRIPT_PATH)
-    --lni_loader('ability')
+    lni_loader('ability')
     lni_loader('buff')
     lni_loader('destructable')
     lni_loader('doodad')
@@ -40,8 +40,10 @@ local function init()
     lni_loader('misc')
     lni_loader('unit')
     file = io.open("F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\generator\\dest.txt")
+    file2 = io.open("F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\generator\\dest2.txt", 'a')
     for line in file:lines() do
-        print(line)
+        print(slk.ability[line].Name)
+        file2:write(line, slk.ability[line].Name, '\n')
     end
 
 

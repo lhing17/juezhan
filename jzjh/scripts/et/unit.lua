@@ -299,7 +299,7 @@ end
 --是否存活
 --是否存活
 function mt:is_alive()
-    return not self.removed and self._is_alive
+    return not self.removed and self._is_alive and self:get_life() > 0
 end
 
 --队伍

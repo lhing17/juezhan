@@ -3,63 +3,35 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/16 12:56
 ---
---------武功效果系统开始------
-function uC()
-    return UnitHasBuffBJ(GetAttacker(), 1110454322)
-end
-function vC()
-    local u = GetAttacker()
-    if GetUnitState(u, UNIT_STATE_LIFE) <= 0.001 * GetUnitState(u, UNIT_STATE_MAX_LIFE) then
-        SetWidgetLife(u, 1.0)
-    else
-        SetWidgetLife(u, GetUnitState(u, UNIT_STATE_LIFE) - 0.001 * GetUnitState(u, UNIT_STATE_MAX_LIFE))
-    end
-    u = nil
-end
-function xC()
-    return UnitHasBuffBJ(GetAttacker(), 1112437615)
-end
-function yC()
-    local u = GetAttacker()
-    if GetUnitState(u, UNIT_STATE_LIFE) <= 0.003 * GetUnitState(u, UNIT_STATE_MAX_LIFE) then
-        SetWidgetLife(u, 1.0)
-    else
-        SetWidgetLife(u, GetUnitState(u, UNIT_STATE_LIFE) - 0.003 * GetUnitState(u, UNIT_STATE_MAX_LIFE))
-    end
-    u = nil
-end
-function AC()
-    return IsUnitAliveBJ(GetFilterUnit()) and (UnitHasBuffBJ(GetFilterUnit(), 1111847784) or UnitHasBuffBJ(GetFilterUnit(), 1110454602) or UnitHasBuffBJ(GetFilterUnit(), 1110454323) or UnitHasBuffBJ(GetFilterUnit(), 1113813609) or UnitHasBuffBJ(GetFilterUnit(), 1110454324) or UnitHasBuffBJ(GetFilterUnit(), 1110454342) or UnitHasBuffBJ(GetFilterUnit(), 1110454343))
-end
+local buff_list = { 1111847784, 1110454602, 1110454323, 1113813609, 1110454324, 1110454342, 1110454343 }
 function aC()
-    local loc = GetUnitLoc(GetEnumUnit())
-    local loc2 = nil
-    if UnitHasBuffBJ(GetEnumUnit(), 1111847784) then
-        if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.001 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-            SetWidgetLife(GetEnumUnit(), 1.0)
+    if v:has_buff(1111847784) then
+        if v:get_life() <= 0.001 * v:get_max_life() then
+            v:set_life(1)
         else
-            SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.001 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
+            v:set_life(v:get_life() - 0.001 * v:get_max_life())
         end
     end
-    if UnitHasBuffBJ(GetEnumUnit(), 1110454602) then
-        if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.003 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-            SetWidgetLife(GetEnumUnit(), 1.0)
+    if v:has_buff(1110454602) then
+        if v:get_life() <= 0.003 * v:get_max_life() then
+            v:set_life(1)
         else
-            SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.003 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
+            v:set_life(v:get_life() - 0.003 * v:get_max_life())
         end
     end
-    if UnitHasBuffBJ(GetEnumUnit(), 1110454323) then
-        if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.002 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-            SetWidgetLife(GetEnumUnit(), 1.0)
+    if v:has_buff(1110454323) then
+        if v:get_life() <= 0.002 * v:get_max_life() then
+            v:set_life(1)
         else
-            SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.002 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
+            v:set_life(v:get_life() - 0.002 * v:get_max_life())
         end
     end
-    if UnitHasBuffBJ(GetEnumUnit(), 1113813609) then
-        loc2 = pu(loc, 256.0, GetRandomReal(0, 360.0))
-        IssuePointOrderByIdLoc(GetEnumUnit(), 851986, loc2)
-        RemoveLocation(loc2)
+    if v:has_buff(1113813609) then
+        local pt = v:get_point() - {math.rad(commonutil.random(0, 360)), 256}
+        v:issue_order(851986, pt)
     end
+
+
     if UnitHasBuffBJ(GetEnumUnit(), 1110454324) then
         if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.003 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
             SetWidgetLife(GetEnumUnit(), 1.0)
@@ -104,14 +76,37 @@ function BC()
     ForGroupBJ(wv(bj_mapInitialPlayableArea, Condition(AC)), aC)
 end
 local function init()
-    pk = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(pk, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(pk, Condition(uC))
-    TriggerAddAction(pk, vC)
-    qk = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(qk, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(qk, Condition(xC))
-    TriggerAddAction(qk, yC)
+    et.game:event '单位-攻击'(function(self, source, target)
+        if source:has_buff(1110454322) then
+            if source:get_life() <= 0.001 * source:get_max_life() then
+                source:set_life(1)
+            else
+                source:set_life(source:get_life() - 0.001 * source:get_max_life())
+            end
+        end
+        if source:has_buff(1112437615) then
+            if source:get_life() <= 0.003 * source:get_max_life() then
+                source:set_life(1)
+            else
+                source:set_life(source:get_life() - 0.003 * source:get_max_life())
+            end
+        end
+    end)
+
+    et.loop(1000, function()
+        local group = et.selector():add_filter(function(u)
+            for _, v in ipairs(buff_list) do
+                if u:has_buff(v) then
+                    return true
+                end
+            end
+            return false
+        end)            :get()
+        for _, v in ipairs(group) do
+
+        end
+    end)
+
     rk = CreateTrigger()
     TriggerRegisterTimerEventPeriodic(rk, 1.0)
     TriggerAddAction(rk, BC)

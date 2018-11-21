@@ -4,59 +4,50 @@
 --- DateTime: 2018/11/16 12:49
 ---
 
---辽国进攻
-function LiaoGuoJinGong_1()
-    local t = GetExpiredTimer()
-    local j = LoadInteger(YDHT, GetHandleId(t), 0)
-    local jmax = 40
-    if j < jmax then
-        CreateNUnitsAtLocFacingLocBJ(1, 1751871081, Player(6), Location(-5600, 100), v7[4])
-        game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
-        IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
-        SaveInteger(YDHT, GetHandleId(t), 0, j + 1)
-    else
-        PauseTimer(t)
-        DestroyTimer(t)
-        FlushChildHashtable(YDHT, GetHandleId(t))
+local function no_lingjiu()
+    for i = 1, 5 do
+        local p = et.player(i)
+        local h = p.hero
+        if h['门派'].name == '灵鹫宫' then
+            return false
+        end
     end
-    t = nil
+    return true
 end
-function LiaoGuoJinGong()
-    local t
-    if Sd[1] ~= 2 and Sd[2] ~= 2 and Sd[3] ~= 2 and Sd[4] ~= 2 and Sd[5] ~= 2 and game.config.mode == 'special' then
-        t = CreateTimer()
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※边境入侵※")
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，辽国派出骑兵前来进攻，请准备防御")
-        TimerStart(t, 2.0, true, LiaoGuoJinGong_1)
-    end
-    t = nil
-end
---灵鹫宫进攻：触发条件，有玩家选择了灵鹫宫
-function LingJiuGongJinGong()
-    if (udg_runamen[1] == 12 or udg_runamen[2] == 12 or udg_runamen[3] == 12 or udg_runamen[4] == 12 or udg_runamen[5] == 12) and game.config.mode == 'special' then
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033激活特殊事件|cFFDDA0DD※灵鹫宫劫※")
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033由于激活特殊事件，灵鹫宫派出高手前来进攻，请准备防御")
-        CreateNUnitsAtLocFacingLocBJ(1, 1852270642, Player(6), Location(1800, -100), v7[4])
-        game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
-        IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
-        CreateNUnitsAtLocFacingLocBJ(1, 1852207984, Player(6), Location(1800, -100), v7[4])
-        game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
-        IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
-        CreateNUnitsAtLocFacingLocBJ(1, 1852663652, Player(6), Location(1800, -100), v7[4])
-        game.variable.attack_creeps[bj_lastCreatedUnit] = et.unit(bj_lastCreatedUnit)
-        IssueTargetOrderById(bj_lastCreatedUnit, 851983, udg_ZhengPaiWL)
-    end
-end
-
 
 local function init()
     -- 特殊事件——辽国进攻
-    t = CreateTrigger()
-    TriggerRegisterTimerEventSingle(t, 2100.0)
-    TriggerAddAction(t, LiaoGuoJinGong)
+    et.wait(2100 * 1000, function()
+        if Sd[1] ~= 2 and Sd[2] ~= 2 and Sd[3] ~= 2 and Sd[4] ~= 2 and Sd[5] ~= 2 and game.config.mode == 'special' then
+            force.send_message("|CFFFF0033激活特殊事件|cFFDDA0DD※边境入侵※")
+            force.send_message("|CFFFF0033由于激活特殊事件，辽国派出骑兵前来进攻，请准备防御")
+            et.timer(2000, 40, function()
+                local last = et.player(7):create_unit(1751871081, et.point(-5600, 100))
+                game.variable.attack_creeps[last] = et.unit(last)
+                last:issue_order(851983, udg_ZhengPaiWL)
+            end)
+        end
+    end)
+
     -- 特殊事件——灵鹫宫进攻
-    t = CreateTrigger()
-    TriggerRegisterTimerEventSingle(t, 3000.0)
-    TriggerAddAction(t, LingJiuGongJinGong)
+    --灵鹫宫进攻：触发条件，有玩家选择了灵鹫宫
+    et.wait(3000 * 1000, function()
+        if no_lingjiu() and game.config.mode == 'special' then
+            force.send_message("|CFFFF0033激活特殊事件|cFFDDA0DD※灵鹫宫劫※")
+            force.send_message("|CFFFF0033由于激活特殊事件，灵鹫宫派出高手前来进攻，请准备防御")
+
+            local last = et.player(7):create_unit(1852270642, et.point(1800, -100))
+            game.variable.attack_creeps[last] = et.unit(last)
+            last:issue_order(851983, udg_ZhengPaiWL)
+
+            last = et.player(7):create_unit(1852207984, et.point(1800, -100))
+            game.variable.attack_creeps[last] = et.unit(last)
+            last:issue_order(851983, udg_ZhengPaiWL)
+
+            last = et.player(7):create_unit(1852663652, et.point(1800, -100))
+            game.variable.attack_creeps[last] = et.unit(last)
+            last:issue_order(851983, udg_ZhengPaiWL)
+        end
+    end)
 end
 init()

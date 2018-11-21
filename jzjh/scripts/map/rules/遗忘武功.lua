@@ -8,6 +8,17 @@ function YiWangJiNeng()
     return GetSpellAbilityId() == 1093678417
 end
 function ForgetAbility()
+
+    local button_list = {}
+    for _, v in pairs(h['武功']) do
+        local id = v.ability_id
+        table.insert(button_list, jass.GetObjectName(id))
+        et.event_register(d.buttons[jass.GetObjectName(id)], '对话框-按钮点击')(function(self, dg, pl)
+            become_elder(p, h, dn, grad1)
+        end)
+    end
+    local d = et.dialog.create(p, "请选择遗忘的武功（遗忘后无法找回）！", button_list)
+
     local u = GetTriggerUnit()
     local p = GetOwningPlayer(u)
     local i = 1 + GetPlayerId(p)
@@ -74,7 +85,9 @@ function Forget(p, num)
     else
         S9 = 1
         for _ in _loop_() do
-            if S9 > 20 then break end
+            if S9 > 20 then
+                break
+            end
             if I7[20 * (i - 1) + num] == MM9[S9] then
                 udg_shanghaijiacheng[i] = udg_shanghaijiacheng[i] - udg_jueneishjc[S9]
                 ModifyHeroStat(1, udg_hero[i], 1, udg_jueneiminjie[S9])
@@ -131,7 +144,7 @@ end
 local function init()
     -- 遗忘武功
 
-    et.game:event '单位-技能生效' (function(self, u, id, target)
+    et.game:event '单位-技能生效'(function(self, u, id, target)
         if id == 1093678417 then
 
         end

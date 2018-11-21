@@ -1,4 +1,7 @@
 local setmetatable = setmetatable
+--鸟的贩卖技能
+
+--切换物品
 local ipairs = ipairs
 local pairs = pairs
 local table_insert = table.insert

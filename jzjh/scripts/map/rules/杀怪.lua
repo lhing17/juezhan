@@ -151,10 +151,12 @@ function ka()
 end
 local function init()
     -- 杀进攻怪及练功房怪
-    gi = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(gi, EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(gi, Condition(ey))
-    TriggerAddAction(gi, KillGuai)
+    et.game:event '单位-杀死单位' (function(self, killer, killed)
+        if ey() then
+            KillGuai()
+        end
+    end)
+
     -- 杀怪加声望
     Aj = CreateTrigger()
     TriggerRegisterPlayerUnitEventSimple(Aj, Player(6), EVENT_PLAYER_UNIT_DEATH)

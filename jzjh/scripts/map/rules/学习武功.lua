@@ -65,6 +65,7 @@ local function show_fail_hint(h, kf)
     show_one_hint(h, kf, '医术')
 end
 
+-- 成为门派的长老
 local function become_elder(p, h, dn, ability_id)
     p:send_message("|cff00FF66恭喜领悟技能：" .. (jass.GetObjectName(ability_id) or ""))
     h:add_kongfu(ability_id)

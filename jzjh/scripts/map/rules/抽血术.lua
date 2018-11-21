@@ -4,20 +4,14 @@
 --- DateTime: 2018/11/16 12:54
 ---
 
---抽血术
-function ChouXie_Condition()
-    return game.variable.attack_creeps[jass.GetAttacker()] and GetPlayerTechCountSimple(1378889777, Player(6)) == 50 and GetTriggerUnit() ~= udg_ZhengPaiWL and GetUnitTypeId(GetTriggerUnit()) ~= 1214409837 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429574 and GetUnitTypeId(GetTriggerUnit()) ~= 1865429575
-end
-function ChouXie_Action()
-    if GetRandomInt(1, 100) <= 20 then
-        SetUnitLifePercentBJ(GetTriggerUnit(), GetUnitLifePercent(GetTriggerUnit()) - 6.0)
-    end
-end
 local function init()
     --抽血术
-    t = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-    TriggerAddCondition(t, Condition(ChouXie_Condition))
-    TriggerAddAction(t, ChouXie_Action)
+    et.game:event '单位-受攻击' (function(self, source, target)
+        if game.variable.attack_creeps[source] and et.player(7):get_tech(1378889777) == 50 and not is_in(target:get_id(), {1214409837,1865429574,1865429575}) and target ~= udg_ZhengPaiWL then
+            if commonutil.random_int(1, 100) <= 20 then
+                target:set_life_percent(target:get_life_percent()- 6)
+            end
+        end
+    end)
 end
 init()

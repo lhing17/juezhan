@@ -4,23 +4,12 @@
 --- DateTime: 2018/11/15 21:40
 ---
 
---鸟的贩卖技能
-
---切换物品
-function IsQieHuanItem()
-    return GetSpellAbilityId() == 1093677133 and he[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))] == false
-end
-function QieHuanItem()
-    UnitAddItem(Vs, UnitItemInSlotBJ(GetTriggerUnit(), 1))
-    UnitAddItem(GetTriggerUnit(), UnitItemInSlotBJ(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], 1))
-    UnitAddItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], UnitItemInSlotBJ(Vs, 1))
-end
 
 local function init()
-    -- 切换背包
     et.game:event '单位-施放技能' (function(self, u, id, target)
+        -- 切换背包
+        local p = u:get_owner()
         if id == 1093677134 then
-            local p = u:get_owner()
             for i = 1, 6 do
                 b7[p.id]:add_item(C7[p.id]:get_item_in_slot(i))
             end
@@ -30,6 +19,14 @@ local function init()
             for i = 1, 6 do
                 u[p.id]:add_item(b7[p.id]:get_item_in_slot(i))
             end
+        end
+
+        -- 切换物品
+        local hu = et.unit(p.hero.handle)
+        if id == 1093677133 and not he[p.id] then
+            Vs:add_item(u:get_item_in_slot(1))
+            u:add_item(hu.get_item_in_slot(1))
+            hu:add_item(Vs:get_item_in_slot(1))
         end
     end)
 
@@ -45,12 +42,5 @@ local function init()
             jass.DestroyEffect(jass.AddSpecialEffectTarget("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", u.handle, "overhead"))
         end
     end)
-
-
-    -- 切换物品
-    tj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(tj, EVENT_PLAYER_UNIT_SPELL_CAST)
-    TriggerAddCondition(tj, Condition(IsQieHuanItem))
-    TriggerAddAction(tj, QieHuanItem)
 end
 init()

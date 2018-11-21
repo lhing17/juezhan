@@ -4,21 +4,15 @@
 --- DateTime: 2018/11/16 12:58
 ---
 
--- 攻破城门
-function cT()
-    return GetUnitTypeId(GetTriggerUnit()) == 1752003700
-end
-function DT()
-    ModifyGateBJ(1, Gt)
-    YDWEPolledWaitNull((0.18 - 0.01 * I2R(et.player.countAlive())) * 2000.0)
-    ModifyGateBJ(0, Gt)
-end
-
 local function init()
     -- 攻破城门
-    Ks = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Ks, EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(Ks, Condition(cT))
-    TriggerAddAction(Ks, DT)
+    et.game:event '单位-死亡' (function(self, killer, killed)
+        if killed:get_id() == 1752003700 then
+            ModifyGateBJ(1, Gt)
+            et.wait(360 - 20 * et.player.countAlive(), function()
+                ModifyGateBJ(0, Gt)
+            end)
+        end
+    end)
 end
 init()

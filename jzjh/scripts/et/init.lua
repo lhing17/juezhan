@@ -16,4 +16,5 @@ require 'et.denomination'
 require 'et.part_time'
 require 'et.famous'
 require 'et.dialog'
+require 'et.tag'
 

@@ -4,77 +4,6 @@
 --- DateTime: 2018/11/16 12:56
 ---
 local buff_list = { 1111847784, 1110454602, 1110454323, 1113813609, 1110454324, 1110454342, 1110454343 }
-function aC()
-    if v:has_buff(1111847784) then
-        if v:get_life() <= 0.001 * v:get_max_life() then
-            v:set_life(1)
-        else
-            v:set_life(v:get_life() - 0.001 * v:get_max_life())
-        end
-    end
-    if v:has_buff(1110454602) then
-        if v:get_life() <= 0.003 * v:get_max_life() then
-            v:set_life(1)
-        else
-            v:set_life(v:get_life() - 0.003 * v:get_max_life())
-        end
-    end
-    if v:has_buff(1110454323) then
-        if v:get_life() <= 0.002 * v:get_max_life() then
-            v:set_life(1)
-        else
-            v:set_life(v:get_life() - 0.002 * v:get_max_life())
-        end
-    end
-    if v:has_buff(1113813609) then
-        local pt = v:get_point() - {math.rad(commonutil.random(0, 360)), 256}
-        v:issue_order(851986, pt)
-    end
-
-
-    if UnitHasBuffBJ(GetEnumUnit(), 1110454324) then
-        if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.003 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-            SetWidgetLife(GetEnumUnit(), 1.0)
-        else
-            SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.003 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
-        end
-    end
-    if UnitHasBuffBJ(GetEnumUnit(), 1110454342) then
-        if ModuloInteger(GetUnitPointValue(GetEnumUnit()), 10) ~= 0 then
-            if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.01 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-                SetWidgetLife(GetEnumUnit(), 1.0)
-            else
-                SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.01 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
-            end
-        else
-            if GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) <= 0.03 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE) then
-                SetWidgetLife(GetEnumUnit(), 1.0)
-            else
-                SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.03 * GetUnitState(GetEnumUnit(), UNIT_STATE_MAX_LIFE))
-            end
-        end
-        CreateTextTagLocBJ("脑神丹效果", loc, 60.0, 12.0, 65.0, 55.0, 42.0, 0)
-        Nw(3.0, bj_lastCreatedTextTag)
-        SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
-    end
-    if UnitHasBuffBJ(GetEnumUnit(), 1110454343) then
-        --if(GetUnitState(GetEnumUnit(),UNIT_STATE_LIFE)<=0.03*GetUnitState(GetEnumUnit(),UNIT_STATE_MAX_LIFE))then
-        --	call SetWidgetLife(GetEnumUnit(),1.)
-        --else
-        SetUnitState(GetEnumUnit(), UNIT_STATE_LIFE, GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) - 0.03 * GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE))
-        --endif
-        CreateTextTagLocBJ("化尸粉效果", loc, 60.0, 12.0, 65.0, 55.0, 42.0, 0)
-        Nw(3.0, bj_lastCreatedTextTag)
-        SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
-    end
-    RemoveLocation(loc)
-    loc = nil
-    loc2 = nil
-end
---每秒钟做一次
-function BC()
-    ForGroupBJ(wv(bj_mapInitialPlayableArea, Condition(AC)), aC)
-end
 local function init()
     et.game:event '单位-攻击'(function(self, source, target)
         if source:has_buff(1110454322) then
@@ -103,12 +32,55 @@ local function init()
             return false
         end)            :get()
         for _, v in ipairs(group) do
-
+            if v:has_buff(1111847784) then
+                if v:get_life() <= 0.001 * v:get_max_life() then
+                    v:set_life(1)
+                else
+                    v:set_life(v:get_life() - 0.001 * v:get_max_life())
+                end
+            end
+            if v:has_buff(1110454602) or v:has_buff(1110454324) then
+                if v:get_life() <= 0.003 * v:get_max_life() then
+                    v:set_life(1)
+                else
+                    v:set_life(v:get_life() - 0.003 * v:get_max_life())
+                end
+            end
+            if v:has_buff(1110454323) then
+                if v:get_life() <= 0.002 * v:get_max_life() then
+                    v:set_life(1)
+                else
+                    v:set_life(v:get_life() - 0.002 * v:get_max_life())
+                end
+            end
+            if v:has_buff(1113813609) then
+                local pt = v:get_point() - { math.rad(commonutil.random(0, 360)), 256 }
+                v:issue_order(851986, pt)
+            end
+            if v:has_buff(1110454342) then
+                if math.fmod(v:get_point_value(), 10) ~= 0 then
+                    if v:get_life() <= 0.01 * v:get_max_life() then
+                        v:set_life(1)
+                    else
+                        v:set_life(v:get_life() - 0.01 * v:get_max_life())
+                    end
+                else
+                    if v:get_life() <= 0.03 * v:get_max_life() then
+                        v:set_life(1)
+                    else
+                        v:set_life(v:get_life() - 0.03 * v:get_max_life())
+                    end
+                end
+            end
+            if v:has_buff(1110454342) then
+                et.tag.create("脑神丹效果", v:get_point(), 12, 60, 65, 55, 42, 0, 3, 100, 90)
+            end
+            if v:has_buff(1110454343) then
+                v:set_life(v:get_life() * 0.97)
+                et.tag.create("化尸粉效果", v:get_point(), 12, 60, 65, 55, 42, 0, 3, 100, 90)
+            end
         end
     end)
 
-    rk = CreateTrigger()
-    TriggerRegisterTimerEventPeriodic(rk, 1.0)
-    TriggerAddAction(rk, BC)
 end
 init()

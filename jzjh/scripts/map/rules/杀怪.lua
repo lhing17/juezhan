@@ -3,174 +3,101 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/15 21:38
 ---
---杀怪(进攻怪及练功房)
-function ey()
-    return IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnit())) and (GetOwningPlayer(GetTriggerUnit()) == Player(6) or GetOwningPlayer(GetTriggerUnit()) == Player(7))
-end
-function KillGuai()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    local i = 1
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    if GetOwningPlayer(GetTriggerUnit()) == Player(7) then
-        if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896391) then
-            T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-            U7 = T7 * (30.0 * (I2R(game.variable.wave + 1) / 1.0))
-            AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
-        else
-            T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-            U7 = T7 * (15.0 * (I2R(game.variable.wave + 1) / 1.0))
-            AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
-        end
-        if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896393) then
-            if GetRandomInt(1, 100) <= 15 then
-                AdjustPlayerStateBJ(1, GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_LUMBER)
-            end
-        end
-        if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896390) then
-            shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = shengwang[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + game.variable.wave // 5
-        end
-        if UnitHaveItem(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], 1227896392) then
-            AddHeroXP(udg_hero[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))], GetUnitLevel(GetTriggerUnit()) * 20, true)
-        end
-    else
-        T7 = GetRandomReal(0.95, 0.95 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))]) / 50.0)
-        U7 = T7 * (25.0 * (I2R(game.variable.wave + 1) / 1.0))
-        AdjustPlayerStateBJ(R2I(U7), GetOwningPlayer(GetKillingUnit()), PLAYER_STATE_RESOURCE_GOLD)
-        if GetUnitPointValue(GetTriggerUnit()) == 102 then
-            i = 1
-            for _ in _loop_() do
-                if i >= 6 then break end
-                shoujiajf[i] = shoujiajf[i] + 15 * (10 - et.player.countAlive()) // 10
-                i = i + 1
-            end
-            ae = ae + (10 + GetPlayerTechCountSimple(1378889777, Player(6)))
-            DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀名门高手，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 15 * (10 - et.player.countAlive()) // 10) or ""))
-            SaveLocationHandle(YDHT, id * cx, 392811314, GetUnitLoc(GetTriggerUnit()))
-            if GetRandomInt(1, 50) <= 5 then
-                createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                if udg_lddsbool[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] then
-                    createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                end
-            end
-            if GetRandomInt(1, 50) <= 2 then
-                createitemloc(1227897138, LoadLocationHandle(YDHT, id * cx, 392811314))
-            else
-                if GetRandomInt(1, 100) <= 10 then
-                    createitemloc(1227896398, LoadLocationHandle(YDHT, id * cx, 392811314))
-                else
-                    if GetRandomInt(1, 90) <= 10 then
-                        createitemloc(1227896395, LoadLocationHandle(YDHT, id * cx, 392811314))
-                    else
-                        if GetRandomInt(1, 80) <= 10 then
-                            createitemloc(1227896397, LoadLocationHandle(YDHT, id * cx, 392811314))
-                        end
-                    end
-                end
-            end
-            RemoveLocation(LoadLocationHandle(YDHT, id * cx, 392811314))
-        else
-            --判断是否为进攻BOSS
-            if GetUnitPointValue(GetTriggerUnit()) == 101 then
-                i = 1
-                for _ in _loop_() do
-                    if i >= 6 then break end
-                    shoujiajf[i] = shoujiajf[i] + 30 * (10 - et.player.countAlive()) // 10
-                    i = i + 1
-                end
-                ae = ae + (10 + GetPlayerTechCountSimple(1378889777, Player(6)))
-                DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "击杀BOSS，每位玩家获得守家积分+" .. (I2S(shoujiajf[i] + 30 * (10 - et.player.countAlive()) // 10) or ""))
-                ae = ae + (30 + GetPlayerTechCountSimple(1378889777, Player(6)))
-                if GetRandomInt(1, 100) <= 50 then
-                    udg_shuxing[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = udg_shuxing[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + 1
-                    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cFF33CC00" .. (GetPlayerName(GetOwningPlayer(GetKillingUnit())) or "") .. "|cFF33CC00击杀了BOSS" .. (GetUnitName(GetTriggerUnit()) or "") .. "|cFF33CC00获得了一个自由属性点")
-                end
-                SaveLocationHandle(YDHT, id * cx, 392811314, GetUnitLoc(GetTriggerUnit()))
-                createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                if udg_lddsbool[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] then
-                    createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                    createitemloc(YaoCao[GetRandomInt(1, 12)], LoadLocationHandle(YDHT, id * cx, 392811314))
-                end
-                RemoveLocation(LoadLocationHandle(YDHT, id * cx, 392811314))
-            else
-                if GetKillingUnit() ~= nil then
-                    shoujiajf[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] = shoujiajf[1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))] + 1
-                end
-            end
-        end
+local function add_reputation(killed)
+    local p = killed:get_owner()
+    local h = p.hero
+    h.reputation = h.reputation + game.variable.wave // 7 + 1
+    if math.fmod(killed:get_point_value(), 10) == 1 then
+        h.reputation = h.reputation + 8
     end
-    FlushChildHashtable(YDHT, id * cx)
-end
-
---杀怪加声望
-function Xa()
-    return GetPlayerController(GetOwningPlayer(GetKillingUnit())) == MAP_CONTROL_USER
-end
-function Ya()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))
-    local x
-    local y
-    shengwang[i] = shengwang[i] + game.variable.wave // 7 + 1
-    if ModuloInteger(GetUnitPointValue(u), 10) == 1 then
-        shengwang[i] = shengwang[i] + 8
-    end
-    if p == Player(6) then
-        zd = zd + GetRandomInt(1, 2)
-        if zd >= 100 then
-            zd = 0
-            x = GetUnitX(u)
-            y = GetUnitY(u)
-            createitem(gudong[GetRandomInt(1, 6 + game.variable.wave // 5)], x, y)
-        end
-    end
-    u = nil
-    p = nil
-end
-function dB()
-    return GetPlayerController(GetOwningPlayer(GetKillingUnit())) == MAP_CONTROL_USER
-end
-function eB()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))
-    shengwang[i] = shengwang[i] + 1
-    if ModuloInteger(GetUnitPointValue(GetTriggerUnit()), 10) == 1 then
-        shengwang[i] = shengwang[i] + 5
-    elseif ModuloInteger(GetUnitPointValue(GetTriggerUnit()), 10) == 2 then
-        shengwang[i] = shengwang[i] + 10
-    end
-end
-function ja()
-    return game.variable.attack_creeps[jass.GetTriggerUnit()]
-end
-function ka()
-    game.variable.attack_creeps[jass.GetTriggerUnit()] = nil
 end
 local function init()
     -- 杀进攻怪及练功房怪
-    et.game:event '单位-杀死单位' (function(self, killer, killed)
-        if ey() then
-            KillGuai()
+    et.game:event '单位-杀死单位'(function(self, killer, killed)
+        if killer:is_enemy(killed) and is_in(killed:get_owner(), { et.player(7), et.player(8), et.player(13) }) then
+            local p = killer:get_owner()
+            local h = p.hero
+            local hu = et(h.handle)
+            if p == et.player(8) then
+                -- 增加金钱
+                local gold = math.floor(commonutil.random(0.95, 0.95 + 0.02 * h['福缘']) * 15 * (game.variable.wave + 1))
+                if hu:has_item(1227896391) then
+                    gold = gold * 2
+                end
+                p:add_gold(gold)
+
+                -- 增加珍稀币
+                if hu:has_item(1227896393) and commonutil.random_int(1, 100) <= 15 then
+                    p:add_lumber(1)
+                end
+
+                -- 增加声望
+                if hu:has_item(1227896390) then
+                    h.reputation = h.reputation + game.variable.wave // 5
+                end
+
+                -- 增加经验
+                if hu:has_item(1227896392) then
+                    hu:add_exp(killed:get_level() * 20, true)
+                end
+            elseif p == et.player(7) then
+                local gold = math.floor(commonutil.random(0.95, 0.95 + 0.02 * h['福缘']) * 25 * (game.variable.wave + 1))
+                p:add_gold(gold)
+                -- 名门
+                if killed:get_point_value() == 102 then
+                    local delta = 15 * (10 - et.player.countAlive()) // 10
+                    for i = 1, 5 do
+                        h.def_point = h.def_point + delta
+                    end
+                    ae = ae + 10 + et.player(7).get_tech(1378889777)
+                    force.send_message("击杀名门高手，每位玩家获得守家积分+" .. delta)
+                    local rand = commonutil.random_int(1, 100)
+                    if rand <= 10 then
+                        jass.CreateItem(YaoCao[commonutil.random_int(1, 12)], killed:getX(), killed:getY())
+                    elseif rand <= 15 then
+                        jass.CreateItem(1227897138, killed:getX(), killed:getY())
+                    elseif rand <= 25 then
+                        jass.CreateItem(1227896398, killed:getX(), killed:getY())
+                    elseif rand <= 35 then
+                        jass.CreateItem(1227896395, killed:getX(), killed:getY())
+                    elseif rand <= 45 then
+                        jass.CreateItem(1227896397, killed:getX(), killed:getY())
+                    end
+
+                    -- 进攻BOSS
+                elseif killed:get_point_value() == 101 then
+                    local delta = 15 * (10 - et.player.countAlive()) // 10
+                    for i = 1, 5 do
+                        h.def_point = h.def_point + delta
+                    end
+                    ae = ae + 40 + et.player(7).get_tech(1378889777)
+                    force.send_message("击杀名门高手，每位玩家获得守家积分+" .. delta)
+                    if commonutil.random_int(1, 100) <= 50 then
+                        h['自由属性'] = h['自由属性'] + 1
+                        force.send_message("|cFF33CC00" .. p:get_name() .. "|cFF33CC00击杀了BOSS" .. killed:get_name() .. "，|cFF33CC00获得了一个自由属性点")
+                        jass.CreateItem(YaoCao[commonutil.random_int(1, 12)], killed:getX(), killed:getY())
+                        jass.CreateItem(YaoCao[commonutil.random_int(1, 12)], killed:getX(), killed:getY())
+                    end
+                else
+                    h.def_point = h.def_point + 1
+                end
+                -- 将死亡单位从单位组移除
+                if game.variable.attack_creeps[killed] then
+                    game.variable.attack_creeps[killed] = nil
+                end
+
+                add_reputation(killed)
+            elseif p == et.player(13) then
+                if p:is_player() then
+                    h.reputation = h.reputation + 1
+                    if math.fmod(killed:get_point_value(), 10) == 1 then
+                        h.reputation = h.reputation + 5
+                    elseif math.fmod(killed:get_point_value(), 10) == 2 then
+                        h.reputation = h.reputation + 10
+                    end
+                end
+            end
         end
     end)
-
-    -- 杀怪加声望
-    Aj = CreateTrigger()
-    TriggerRegisterPlayerUnitEventSimple(Aj, Player(6), EVENT_PLAYER_UNIT_DEATH)
-    TriggerRegisterPlayerUnitEventSimple(Aj, Player(7), EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(Aj, Condition(Xa))
-    TriggerAddAction(Aj, Ya)
-    aj = CreateTrigger()
-    TriggerRegisterPlayerUnitEventSimple(aj, Player(12), EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(aj, Condition(dB))
-    TriggerAddAction(aj, eB)
-    -- 将死亡单位从单位组移除
-    mj = CreateTrigger()
-    TriggerRegisterPlayerUnitEventSimple(mj, Player(6), EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(mj, Condition(ja))
-    TriggerAddAction(mj, ka)
 end
 init()

@@ -599,6 +599,11 @@ function mt:get_level()
     return jass.GetUnitLevel(self.handle)
 end
 
+-- 增加经验
+function mt:add_exp(exp, flag)
+    jass.AddHeroXP(self.handle, exp, flag)
+end
+
 --技能(War3)
 --添加技能
 --	技能id

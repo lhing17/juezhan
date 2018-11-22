@@ -1,4 +1,3 @@
-
 require 'util.lua-util'
 require 'util.war3-util'
 
@@ -11,3 +10,5 @@ end
 function commonutil.random_int(m, n)
     return jass.GetRandomInt(m, n)
 end
+
+

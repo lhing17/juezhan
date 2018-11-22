@@ -6,12 +6,8 @@ local log = require('jass.log')
 
 function KeyInput(p, s)
 	log.debug('执行KeyInput函数，参数为：', p, s)
-	local it = nil
-	local i = p.id
-	local j = 0
-	local loc = nil
-	local str = nil
-	local shanghai = _array_(0.0)
+	local h = p.hero
+	local hu = et.unit(h.handle)
 	if s == "+" then
 		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:getCameraField('CAMERA_FIELD_TARGET_DISTANCE') + 200, 1)
 	end
@@ -19,21 +15,26 @@ function KeyInput(p, s)
 		p:setCameraField('CAMERA_FIELD_TARGET_DISTANCE', p:getCameraField('CAMERA_FIELD_TARGET_DISTANCE') - 200, 1)
 	end
 	if s == "hg" then
-		SetUnitPosition(udg_hero[i], -1174, -678)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -1174, -678, 0)
+		local x, y = game.point.town_portal:get()
+		hu:set_point(x, y)
+		p:set_camera(game.point.town_portal)
 	end
 	if s == "q" then
-		SetUnitPosition(udg_hero[i], -869, 796)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -869, 796, 0)
+		local x, y = game.point.front_portal:get()
+		hu:set_point(x, y)
+		p:set_camera(game.point.front_portal)
 	end
 	if s == "3" then
-		SetUnitPosition(udg_hero[i], -869, -2000)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), -869, -2000, 0)
+		local x, y = game.point.back_portal:get()
+		hu:set_point(x, y)
+		p:set_camera(game.point.back_portal)
 	end
 	if s == "4" then
-		SetUnitPosition(udg_hero[i], 10692, -14847)
-		PanCameraToTimedForPlayer(GetTriggerPlayer(), 10692, -14847, 0)
+		local x, y = game.point.prison_center:get()
+		hu:set_point(x, y)
+		p:set_camera(game.point.prison_center)
 	end
+    -- FIXME
 	if SubStringBJ(s, 1, 2) == "wq" then
 		if UnitHaveItem(udg_hero[i], 1227899464) == false then
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000当前未装备自制武器")
@@ -43,19 +44,14 @@ function KeyInput(p, s)
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000自制武器已更名为" .. (SubStringBJ(s, 3, 40) or ""))
 		end
 	end
-	--if s == "randreal" then
-	--	call BJDebugMsg(R2S(GetGeoNormRandomReal(1., 3.)))
-	--	call BJDebugMsg(R2S(GetGeoNormRandomReal(1., 3.)))
-	--	call BJDebugMsg(R2S(GetGeoNormRandomReal(1., 3.)))
-	--	call BJDebugMsg(R2S(GetGeoNormRandomReal(1., 3.)))
-	--	call BJDebugMsg(R2S(GetGeoNormRandomReal(1., 3.)))
-	--endif
+    -- FIXME
 	if SubStringBJ(s, 1, 2) == "tx" then
 		if S2I(SubStringBJ(s, 3, 4)) >= 1 and S2I(SubStringBJ(s, 3, 4)) <= 10 then
 			s__ZiZhiWuGong_texiao[zizhiwugong[i]] = S2I(SubStringBJ(s, 3, 4))
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000自创武功已更改为第" .. (SubStringBJ(s, 3, 40) or "") .. "种特效")
 		end
 	end
+	-- FIXME
 	if SubStringBJ(s, 1, 2) == "wg" then
 		if GetUnitAbilityLevel(udg_hero[i], 1093677878) == 0 then
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000当前无自创武功")
@@ -64,6 +60,7 @@ function KeyInput(p, s)
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000自创武功已更名为" .. (SubStringBJ(s, 3, 40) or ""))
 		end
 	end
+	-- FIXME
 	if s == "ckwg" then
 		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000剩余自创武功点：" .. (I2S(wuxuedian[i]) or ""))
 		if GetUnitAbilityLevel(udg_hero[i], 1093677878) == 0 then
@@ -80,6 +77,7 @@ function KeyInput(p, s)
 			end
 		end
 	end
+	-- FIXME
 	if s == "ckwq" then
 		if UnitHaveItem(udg_hero[i], 1227899464) == false then
 			DisplayTextToPlayer(p, 0, 0, "|cFFFF0000当前未装备自制武器")
@@ -98,8 +96,9 @@ function KeyInput(p, s)
 			DisplayTextToPlayer(p, 0, 0, "|cFF9933FF伤害回复：" .. (I2S(R2I(LoadReal(YDHT, GetHandleId(it), StringHash("伤害回复")))) or "") .. " 杀怪回复：" .. (I2S(R2I(LoadReal(YDHT, GetHandleId(it), StringHash("杀怪回复")))) or "") .. " 生命回复：" .. (I2S(R2I(LoadReal(YDHT, GetHandleId(it), StringHash("生命回复")))) or "") .. " 法力回复：" .. (I2S(R2I(LoadReal(YDHT, GetHandleId(it), StringHash("法力回复")))) or ""))
 		end
 	end
+    -- FIXME
 	if s == "ckjn" then
-		DisplayTextToPlayer(p, 0, 0, "|cFFFF0000人物性格：你学武资质" .. (XingGeA(udg_xinggeA[i]) or "") .. "，态度" .. (XingGeB(udg_xinggeB[i]) or ""))
+		p:send_message("|cFFFF0000人物性格：你学武资质"..game.config.char_a[h.char_a].."，态度"..game.config.char_b[h.char_b])
 		DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
 		j = 1
 		for _ in _loop_() do
@@ -110,12 +109,12 @@ function KeyInput(p, s)
 		DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
 	end
 	if s == "ckhf" then
-		DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
-		DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF杀怪回复：" .. (I2S(R2I(shaguaihufui[i])) or ""))
-		DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF伤害回复：" .. (I2S(R2I(shanghaihuifu[i])) or ""))
-		DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF生命回复：" .. (I2S(R2I(shengminghuifu[i])) or ""))
-		DisplayTextToPlayer(p, 0, 0, "|cFF00FFFF法力回复：" .. (I2S(R2I(falihuifu[i])) or ""))
-		DisplayTextToPlayer(p, 0, 0, "|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
+		p:send_message("|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
+		p:send_message("|cFF00FFFF杀怪回复：" .. h['杀怪回复'])
+		p:send_message("|cFF00FFFF伤害回复：" .. h['伤害回复'])
+		p:send_message("|cFF00FFFF生命回复：" .. h['生命回复'])
+		p:send_message("|cFF00FFFF法力回复：" .. h['法力回复'])
+		p:send_message("|cFFcc99ff〓〓〓〓〓〓〓〓〓〓〓")
 	end
 	if s == "ck" then
 		j = 1
@@ -536,13 +535,9 @@ function KeyInput(p, s)
 		CreateNUnitsAtLocFacingLocBJ(1, u7[7], Player(6), v7[6], v7[4])
 	elseif s == "ChuBoss8" then
 		CreateNUnitsAtLocFacingLocBJ(1, u7[8], Player(6), v7[6], v7[4])
-	elseif s == "ChuLiaoGuo" then
-		LiaoGuoJinGong()
-	elseif s == "ChuLingJiu" then
-		LingJiuGongJinGong()
 	end
 end
 
-et.game:event '玩家-聊天' (function(self, player, str)
-	KeyInput(player, str)
+et.game:event '玩家-聊天' (function(self, p, str)
+	KeyInput(p, str)
 end)

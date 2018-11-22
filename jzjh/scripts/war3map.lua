@@ -1162,14 +1162,6 @@ function AddCharacterBBuff(u, characterB)
 	SetPlayerAbilityAvailableBJ(false, 1093678647, GetOwningPlayer(u))
 	SetUnitAbilityLevel(u, 1093678649, characterB)
 end
-function XingGeA(xingge)
-	local character = {"愚钝", "笨拙", "平平", "聪明", "聪慧"}
-	return character[xingge]
-end
-function XingGeB(xingge)
-	local character = {"浮躁", "轻浮", "耐心", "稳重", "沉稳"}
-	return character[xingge]	
-end
 --副本倒计时
 function FBdaojishi()
 	local p = GetTriggerPlayer()

@@ -8,6 +8,8 @@ game = game or {}
 game.config = {
     pawn = true, -- 是否刷怪
     mode = 'normal', -- 游戏模型 normal-普通 special-特殊事件 survive-生存 fast-快速
+    char_a = { "愚钝", "笨拙", "平平", "聪明", "聪慧" },
+    char_b = { "浮躁", "轻浮", "耐心", "稳重", "沉稳" },
 }
 
 

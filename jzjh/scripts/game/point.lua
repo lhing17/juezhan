@@ -7,5 +7,8 @@
 game = game or {}
 game.point = {
     release = et.point(-910, 750), -- 从监狱释放的地点
-
+    town_portal = et.point(-1174, -678), -- 回城点
+    front_portal = et.point(-869, 796), -- 前方回城点
+    back_portal = et.point(-869, -2000), -- 后方回城点
+    prison_center = et.point(10692, -14847) -- 4指令进入监狱的中心点
 }

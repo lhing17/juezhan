@@ -7,3 +7,7 @@
 local s = 'abc'
 print(s:sub(1, 2))
 
+
+local t = {}
+print(#t)
+

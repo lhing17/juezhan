@@ -3,19 +3,13 @@
 --- Created by Administrator.
 --- DateTime: 2018/11/15 21:36
 ---
---试玩模式
-function BeforeAttack()
-    return hd == false
-end
-function SetShiWan()
-    game.config.pawn = false
-    DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFF00FF00玩家一选择了试玩模式，怪物不会进攻主城，大家可以尽情的去体验玩法了")
-end
 local function init()
     -- 开启试玩模式
-    oi = CreateTrigger()
-    TriggerRegisterPlayerChatEvent(oi, Player(0), "sw", true)
-    TriggerAddCondition(oi, Condition(BeforeAttack))
-    TriggerAddAction(oi, SetShiWan)
+    et.player(1):event '玩家-聊天'(function(self, p, s)
+        if s == 'sw' and not hd then
+            game.config.pawn = false
+            force.send_message("|CFF00FF00玩家一选择了试玩模式，怪物不会进攻主城，大家可以尽情的去体验玩法了")
+        end
+    end)
 end
 init()

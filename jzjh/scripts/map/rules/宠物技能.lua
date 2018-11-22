@@ -23,7 +23,7 @@ local function init()
 
         -- 切换物品
         local hu = et.unit(p.hero.handle)
-        if id == 1093677133 and not he[p.id] then
+        if id == 1093677133 and hu:is_alive() then
             Vs:add_item(u:get_item_in_slot(1))
             u:add_item(hu.get_item_in_slot(1))
             hu:add_item(Vs:get_item_in_slot(1))

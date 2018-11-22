@@ -3,35 +3,26 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/16 12:59
 ---
---购买等级
-function rQ()
-    return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetItemTypeId(GetManipulatedItem()) == 1227896154
-end
-function sQ()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    if GetUnitLevel(udg_hero[i]) >= 100 then
-        AdjustPlayerStateBJ(10000, p, PLAYER_STATE_RESOURCE_GOLD)
-        DisplayTimedTextToPlayer(p, 0, 0, 15, "|cFFFFCC00等级高于100无法购买等级")
-    else
-        if Ce[i] == 5 then
-            AdjustPlayerStateBJ(10000, p, PLAYER_STATE_RESOURCE_GOLD)
-            DisplayTimedTextToPlayer(p, 0, 0, 15, "|cFFFFCC00选择该副职无法购买等级")
-        else
-            SetHeroLevel(udg_hero[i], GetUnitLevel(udg_hero[i]) + 1, true)
-        end
-    end
-    u = nil
-    p = nil
-end
-
 
 local function init()
     -- 购买等级
-    mr = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(mr, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(mr, Condition(rQ))
-    TriggerAddAction(mr, sQ)
+    et.game:event '单位-捡起物品'(function(self, u, item)
+        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227896154 then
+            local p = u:get_owner()
+            local h = p.hero
+            local hu = et.unit(h.handle)
+            if hu:get_level() >= 100 then
+                p:add_gold(10000)
+                p:send_message("|cFFFFCC00等级高于100无法购买等级")
+            else
+                if Ce[p.id] == 5 then
+                    p:add_gold(10000)
+                    p:send_message("|cFFFFCC00选择该副职无法购买等级")
+                else
+                    hu:set_level(hu:get_level() + 1)
+                end
+            end
+        end
+    end)
 end
 init()

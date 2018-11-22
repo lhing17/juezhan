@@ -10,30 +10,6 @@ function Ex()
 end
 
 function PlayerDeath()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    if ge[i] then
-        StartTimerBJ(udg_revivetimer[i], false, 7.0)
-    else
-        StartTimerBJ(udg_revivetimer[i], false, 15.0)
-    end
-    TimerDialogDisplayForPlayerBJ(true, bj_lastCreatedTimerDialog, p)
-    CreateTimerDialogBJ(bj_lastStartedTimer, "复活倒计时:")
-    R7[i] = bj_lastCreatedTimerDialog
-    he[i] = true
-    N8[i] = 0
-    GroupRemoveUnit(k9, u)
-    GroupRemoveUnit(j9, u)
-    GroupRemoveUnit(s9, u)
-    GroupRemoveUnit(r9, u)
-    if UnitHaveItem(u, 1227895379) or UnitHaveItem(u, 1227895373) or UnitHaveItem(u, 1227895377) or UnitHaveItem(u, 1227895378) or UnitHaveItem(u, 1227895376) then
-        if Ce[i] ~= 3 then
-            DisplayTextToPlayer(p, 0, 0, "|cFFff0000养武消失了")
-        end
-    end
-    u = nil
-    p = nil
 end
 --五个玩家复活
 function PlayerReviveA()
@@ -159,10 +135,23 @@ end
 
 local function init()
     -- 玩家英雄阵亡
-    Th = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Th, EVENT_PLAYER_UNIT_DEATH)
-    TriggerAddCondition(Th, Condition(Ex))
-    TriggerAddAction(Th, PlayerDeath)
+    et.game:event '单位-死亡'(function(self, killer, killed)
+        if killed:is_hero() and killed:get_owner():is_player() then
+            local p = killed:get_owner()
+            local revive_time = ge[p.id] and 7 or 15
+            et.timerdialog(revive_time, "复活倒计时:")
+            GroupRemoveUnit(k9, killed.handle)
+            GroupRemoveUnit(j9, killed.handle)
+            GroupRemoveUnit(s9, killed.handle)
+            GroupRemoveUnit(r9, killed.handle)
+            N8[p.id] = 0
+            if u:has_item(1227895379) or u:has_item(1227895373) or UnitHaveItem(u, 1227895377) or UnitHaveItem(u, 1227895378) or UnitHaveItem(u, 1227895376) then
+                if Ce[i] ~= 3 then
+                    DisplayTextToPlayer(p, 0, 0, "|cFFff0000养武消失了")
+                end
+            end
+        end
+    end)
     -- 玩家英雄复活
     Uh = CreateTrigger()
     TriggerRegisterTimerExpireEvent(Uh, udg_revivetimer[1])

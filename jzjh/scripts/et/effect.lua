@@ -27,6 +27,13 @@ function mt:destroy()
     jass.DestroyEffect(self.handle)
 end
 
+function effect.add_to_unit(model_name, unit, attach_point)
+    local e = setmetatable({}, effect)
+    e.handle = jass.AddSpecialEffectTarget(model_name, unit.handle, attach_point)
+    effect[e.handle] = e
+    return e.handle
+end
+
 function effect.add_to_point(model_name, where)
     local e = setmetatable({}, effect)
     e.handle = jass.AddSpecialEffect(model_name, where[1], where[2])

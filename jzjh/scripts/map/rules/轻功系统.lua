@@ -4,58 +4,30 @@
 --- DateTime: 2018/11/15 21:34
 ---
 --------轻功系统------//
-function Trig_ttConditions()
-    return GetSpellAbilityId() == 1093677653 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) == true
-end
-function qinggongxiaoshi()
-    local tm = GetExpiredTimer()
-    local u = LoadUnitHandle(YDHT, GetHandleId(tm), 0)
-    DestroyEffect(udg_JTX[GetPlayerId(GetOwningPlayer(u)) + 1])
-    PauseTimer(tm)
-    DestroyTimer(tm)
-    u = nil
-    tm = nil
-end
-function Trig_ttActions()
-    local d1 = GetUnitLoc(GetTriggerUnit())
-    local d2 = GetSpellTargetLoc()
-    local agi = I2R(GetHeroAgi(GetTriggerUnit(), false))
-    local l__jd = AngleBetweenPoints(d1, d2)
-    local distance = 500 + I2R(GetHeroStr(GetTriggerUnit(), false)) / 3
-    local velocity = 48.027 * Pow(agi, 0.3131)
-    local lasttime = 5.0
-    local tm = CreateTimer()
-    if velocity > 1000 then
-        velocity = 1000
-    end
-    if distance > 2000 then
-        distance = 2000
-    end
-    SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("轻功distance"), distance)
-    if distance > DistanceBetweenPoints(d1, d2) then
-        distance = DistanceBetweenPoints(d1, d2)
-    end
-    lasttime = distance / velocity
-    SaveReal(YDHT, GetHandleId(GetTriggerUnit()), StringHash("轻功velocity"), velocity)
-    SaveUnitHandle(YDHT, GetHandleId(tm), 0, GetTriggerUnit())
-    SetUnitFacing(GetTriggerUnit(), l__jd)
-    DestroyEffect(AddSpecialEffectTargetUnitBJ("origin", GetTriggerUnit(), "Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile.mdl"))
-    udg_JTX[GetPlayerId(GetOwningPlayer(GetTriggerUnit())) + 1] = AddSpecialEffectTarget("Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile.mdl", GetTriggerUnit(), "origin")
-    SetUnitAnimation(GetTriggerUnit(), "walk")
-    YDWEJumpTimer(GetTriggerUnit(), l__jd, distance, lasttime, 0.03, 100)
-    TimerStart(tm, lasttime, false, qinggongxiaoshi)
-    RemoveLocation(d1)
-    RemoveLocation(d2)
-    d1 = nil
-    d2 = nil
-    tm = nil
-end
-
 local function init()
     -- 轻功系统
-    t = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-    TriggerAddCondition(t, Condition(Trig_ttConditions))
-    TriggerAddAction(t, Trig_ttActions)
+    et.game:event '单位-技能生效'(function(self, u, id, target)
+        if id == 1093677653 and u:is_hero() then
+            local p1 = u:get_point()
+            local p2 = target
+            local agi = jass.GetHeroAgi(u.handle, false)
+            local angle = p1 / p2
+            local distance = 500 + jass.GetHeroStr(u.handle, false) / 3
+            local velocity = 48.027 * agi ^ 0.3131
+            velocity = velocity >= 1000 and 1000 or velocity
+            distance = distance >= 2000 and 2000 or distance
+            distance = p1 * p2
+            local last_time = distance / velocity
+            u:set_facing(angle)
+            local eff = et.effect.add_to_unit("Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile.mdl", u, 'origin')
+            u:set_animation('walk')
+            YDWEJumpTimer(u.handle, angle, distance, last_time, 0.03, 100)
+            et.wait(last_time * 1000, function()
+                eff:destory()
+            end)
+
+        end
+
+    end)
 end
 init()

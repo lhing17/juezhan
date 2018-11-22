@@ -518,7 +518,6 @@ de = false
 ee = _array_()
 shoujiajf = _array_(0)
 ge = _array_(false)
-he = _array_(false)
 je = _array_()
 ke = _array_()
 me = _array_()
@@ -2292,8 +2291,8 @@ function Zw()
 	AdjustPlayerStateBJ(10, Player(2), PLAYER_STATE_RESOURCE_LUMBER)
 	AdjustPlayerStateBJ(10, Player(3), PLAYER_STATE_RESOURCE_LUMBER)
 	AdjustPlayerStateBJ(10, Player(4), PLAYER_STATE_RESOURCE_LUMBER)
-	ChooseMoShi()
-	print("选择模式")
+	select_game_mode()
+	log.debug("选择模式")
 	TaoHuaDaoKaiFang()
 	for i = 0, 4 do
 		if GetPlayerController(Player(i)) == MAP_CONTROL_USER and GetPlayerSlotState(Player(i)) == PLAYER_SLOT_STATE_PLAYING then
@@ -2911,7 +2910,6 @@ function main1()
 		jiuazi[i] = 0
 		shoujiajf[i] = 0
 		ge[i] = false
-		he[i] = false
 		je[i] = DialogCreate()
 		te[i] = 0
 		Ce[i] = 0
@@ -2921,7 +2919,6 @@ function main1()
 		i = i + 1
 	end
 	--set udg_menpaineigong=DialogCreate()
-	udg_index = DialogCreate()
 	udg_shanghaidanweizu = CreateGroup()
 	i = 0
 	for _ in _loop_() do

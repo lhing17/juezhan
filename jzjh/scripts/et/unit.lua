@@ -1323,7 +1323,7 @@ function mt:add_item(item)
 end
 
 function mt:remove_item(it)
-    jass.UnitRemoveItem(it)
+    jass.UnitRemoveItem(self.handle, it)
 end
 
 function mt:update()

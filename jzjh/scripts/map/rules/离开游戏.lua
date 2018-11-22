@@ -3,27 +3,19 @@
 --- Created by Administrator.
 --- DateTime: 2018/10/29 0029 20:48
 ---
-
---玩家离开
-function Xx()
-    for i = 1, 6 do
-        UnitRemoveItemSwapped(UnitItemInSlot(GetEnumUnit(), i - 1), GetEnumUnit())
-    end
-    RemoveUnit(GetEnumUnit())
-end
-
-function PlayerLeave()
-    ForGroupBJ(AddPlayerUnitIntoGroup(GetTriggerPlayer(), nil), Xx)
-    yv(bj_lastCreatedMultiboard, 4, 1 + GetPlayerId(GetTriggerPlayer()) + 2, 100.0, 20.0, 100.0, 0)
-    DuoMianBan(bj_lastCreatedMultiboard, 5, (1 + GetPlayerId(GetTriggerPlayer())) * 4 - 2, "离开")
-end
 -- 玩家离开游戏
 local function init()
-    et.game:event '玩家-离开'(function()
-        PlayerLeave()
+    et.game:event '玩家-离开'(function(self, p)
+        local group = et.selector():of_player(p)
+        for _, v in pairs(group) do
+            for i = 1, 6 do
+                v:remove_item(v:get_item_in_slot(i))
+            end
+            v:remove()
+        end
+        yv(bj_lastCreatedMultiboard, 4, 1 + GetPlayerId(GetTriggerPlayer()) + 2, 100.0, 20.0, 100.0, 0)
+        DuoMianBan(bj_lastCreatedMultiboard, 5, (1 + GetPlayerId(p.handle)) * 4 - 2, "离开")
     end)
-
-
 end
 
 init()

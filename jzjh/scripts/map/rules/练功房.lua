@@ -4,58 +4,52 @@
 --- DateTime: 2018/10/31 16:36
 ---
 
---练功房刷怪
-function na()
-    return GetOwningPlayer(GetFilterUnit()) == Player(7) and IsUnitAliveBJ(GetFilterUnit())
-end
-function qa()
-    if CountUnitsInGroup(wv(Ie, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[1], bj_UNIT_FACING)
-    end
-    if CountUnitsInGroup(wv(Re, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[10], bj_UNIT_FACING)
-    end
-    if CountUnitsInGroup(wv(le, Condition(na))) <= 3 then
-        CreateNUnitsAtLoc(12, y7[IMinBJ(IMaxBJ(game.variable.wave, 1), 28)], Player(7), v7[2], bj_UNIT_FACING)
-    end
-end
 
-local room = {}
-room[1227895350]={
-    name = '练功房二',
-    point = {4750, -3650},
+local point_list = {
+    et.point(3730, -4690),
+    et.point(4750, -3650),
+    et.point(5920, -4750),
 }
-room[1227895351]={
-    name = '练功房三',
-    point = {5920, -4750},
-}
-room[1227895361]={
-    name = '练功房一',
-    point = {3730, -4690},
+local room = {
+    [1227895350] = {
+        name = '练功房二',
+        point = point_list[2],
+    },
+    [1227895351] = {
+        name = '练功房三',
+        point = point_list[3],
+    },
+    [1227895361] = {
+        name = '练功房一',
+        point = point_list[1],
+    },
 }
 
 local function init()
     -- 练功房刷怪
-    et.loop(6000, function (t)
-
+    et.loop(6000, function(t)
+        local wave = math.min(math.max(game.variable.wave, 28), 1)
+        for _, v in ipairs(point_list) do
+            local group = et.selector():in_range(v, 550):of_player(et.player(8)):get()
+            if #group <= 3 then
+                for i = 1, 12 do
+                    et.player(8):create_unit(y7[wave], v)
+                end
+            end
+        end
     end)
 
-    nj = CreateTrigger()
-    TriggerRegisterTimerEventPeriodic(nj, 6.0)
-    TriggerAddAction(nj, qa)
-
     -- 进入练功房
-    et.game:event '单位-捡起物品' (function(self, u, item)
+    et.game:event '单位-捡起物品'(function(self, u, item)
         if u:is_hero() and u:get_owner():is_player() then
             local r = room[jass.GetItemTypeId(item)]
             if r then
                 local p = u:get_owner()
-                p:send_message("|cFFFFCC00进入少林寺"..r.name)
+                p:send_message("|cFFFFCC00进入少林寺" .. r.name)
                 u:set_point(r.point)
                 p:set_camera(r.point)
             end
         end
-        
     end)
 end
 init()

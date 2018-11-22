@@ -2922,7 +2922,6 @@ function main1()
 	end
 	--set udg_menpaineigong=DialogCreate()
 	udg_index = DialogCreate()
-	udg_nan = DialogCreate()
 	udg_shanghaidanweizu = CreateGroup()
 	i = 0
 	for _ in _loop_() do

@@ -3,9 +3,7 @@
 --- Created by Administrator.
 --- DateTime: 2018/10/29 10:23
 ---
-a = { [1] = 1 }
-b = { ['level'] = 2}
-print(a[1])
-print(b.level)
 
+local s = 'abc'
+print(s:sub(1, 2))
 

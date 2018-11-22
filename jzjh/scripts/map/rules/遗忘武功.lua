@@ -4,164 +4,78 @@
 --- DateTime: 2018/11/15 21:35
 ---
 --遗忘武功
-function YiWangJiNeng()
-    return GetSpellAbilityId() == 1093678417
+local function do_forget(p, id)
+    local h = p.hero
+    local hu = et.unit(h.handle)
+    if id == 1093677902 and hu:has_buff(1112504171) then
+        p:send_message("|CFFFF9933" .. jass.GetObjectName(id) .. "施展期间不能遗忘！！！")
+    else
+        if et.lni.internal[id] then
+            local itl = et.lni.internal[id]
+            h['伤害加成'] = h['伤害加成'] - itl['伤害加成']
+            jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) - itl['内力'])
+            h['暴击率'] = h['暴击率'] - itl['暴击率']
+            h['绝学领悟'] = h['绝学领悟'] - itl['绝学领悟']
+            h['伤害吸收'] = h['伤害吸收'] - itl['伤害吸收']
+        end
+        p:send_message("|CFFFF9933成功遗忘技能：" .. jass.GetObjectName(id))
+        hu:remove_ability(id)
+        if id == 1093677904 then
+            hu:remove_ability(1093677901)
+        end
+        if id == 1093677908 then
+            hu:remove_ability(1093682242)
+        end
+        -- TODO 替换掉udg_zhemei
+        if id == 1093677634 then
+            udg_zhemei[p.id] = 0
+        end
+        if id == 1095067243 then
+            hu:remove_item()
+        end
+        jass.RemoveItem(h['伴侣']:fetch_item(1227896395))
+    end
 end
-function ForgetAbility()
 
+-- 鸟的'遗忘技能'技能
+--   param u 玩家的鸟
+local function forget_ability(u)
+    local p = u:get_owner()
+    local h = p.hero
     local button_list = {}
-    for _, v in pairs(h['武功']) do
-        local id = v.ability_id
-        table.insert(button_list, jass.GetObjectName(id))
-        et.event_register(d.buttons[jass.GetObjectName(id)], '对话框-按钮点击')(function(self, dg, pl)
-            become_elder(p, h, dn, grad1)
-        end)
-    end
-    local d = et.dialog.create(p, "请选择遗忘的武功（遗忘后无法找回）！", button_list)
+    if u:has_item(1227896395) or h.forgetable then
+        -- 生成按钮清单
+        for _, v in pairs(h['武功']) do
+            local id = v.ability_id
+            table.insert(button_list, jass.GetObjectName(id))
+        end
+        table.insert(button_list, '取消')
+        local d = et.dialog.create(p, "请选择遗忘的武功（遗忘后无法找回）！", button_list)
 
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local j = 1
-    if UnitHaveItem(u, 1227896395) or udg_yiwang[i] == true then
-        DialogSetMessage(K7[i], "请选择遗忘的武功（遗忘后无法找回）！")
-        if I7[(i - 1) * 20 + 1] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 1]))
-            S4[i] = bj_lastCreatedButton
+        -- 向按钮注册事件
+        for _, v in pairs(h['武功']) do
+            local id = v.ability_id
+            et.event_register(d.buttons[jass.GetObjectName(id)], '对话框-按钮点击')(function(self, dg, pl)
+                do_forget(p, id)
+                d:clear_and_destroy()
+            end)
         end
-        if I7[(i - 1) * 20 + 2] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 2]))
-            T4[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 3] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 3]))
-            U4[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 4] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 4]))
-            V4[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 5] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 5]))
-            W4[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 6] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 6]))
-            X4[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 7] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 7]))
-            J7[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 8] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 8]))
-            J78[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 9] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 9]))
-            J79[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 10] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 10]))
-            J710[i] = bj_lastCreatedButton
-        end
-        if I7[(i - 1) * 20 + 11] ~= 1095067243 then
-            DialogAddButtonBJ(K7[i], GetObjectName(I7[(i - 1) * 20 + 11]))
-            J711[i] = bj_lastCreatedButton
-        end
-        DialogAddButtonBJ(K7[i], "取消")
-        l7[i] = bj_lastCreatedButton
-        DialogDisplay(p, K7[i], true)
+        et.event_register(d.buttons['取消'], '对话框-按钮点击')(function(self, dg, pl)
+            d:clear_and_destroy()
+        end)
+
+
     else
-        DisplayTimedTextToPlayer(p, 0, 0, 30, "|cffff0000遗忘武功需要消耗道具遗忘之石！")
+        p:send_message("|cffff0000遗忘武功需要消耗道具遗忘之石！")
     end
-    u = nil
-    p = nil
-end
-function Forget(p, num)
-    local i = 1 + GetPlayerId(p)
-    if I7[(i - 1) * 20 + num] == 1093677902 and UnitHasBuffBJ(udg_hero[i], 1112504171) then
-        DisplayTimedTextToPlayer(p, 0, 0, 10.0, "|CFFFF9933" .. (GetObjectName(I7[(i - 1) * 20 + num]) or "") .. "施展期间不能遗忘！！！")
-    else
-        S9 = 1
-        for _ in _loop_() do
-            if S9 > 20 then
-                break
-            end
-            if I7[20 * (i - 1) + num] == MM9[S9] then
-                udg_shanghaijiacheng[i] = udg_shanghaijiacheng[i] - udg_jueneishjc[S9]
-                ModifyHeroStat(1, udg_hero[i], 1, udg_jueneiminjie[S9])
-                juexuelingwu[i] = juexuelingwu[i] - udg_jueneijxlw[S9]
-                udg_baojilv[i] = udg_baojilv[i] - udg_jueneibaojilv[S9]
-                udg_shanghaixishou[i] = udg_shanghaixishou[i] - udg_jueneishxs[S9]
-            end
-            S9 = S9 + 1
-        end
-        DisplayTimedTextToPlayer(p, 0, 0, 10.0, "|CFFFF9933成功遗忘技能：" .. (GetObjectName(I7[(i - 1) * 20 + num]) or ""))
-        UnitRemoveAbility(udg_hero[i], I7[20 * (i - 1) + num])
-        if I7[(i - 1) * 20 + num] == 1093677904 then
-            UnitRemoveAbility(udg_hero[i], 1093677901)
-        end
-        if I7[(i - 1) * 20 + num] == 1093677908 then
-            UnitRemoveAbility(udg_hero[i], 1093682242)
-        end
-        if I7[20 * (i - 1) + num] == 1093677634 then
-            udg_zhemei[i] = 0
-        end
-        I7[20 * (i - 1) + num] = 1095067243
-        RemoveItem(FetchUnitItem(P4[i], 1227896395))
-    end
-end
-function jB()
-    local p = GetTriggerPlayer()
-    local i = 1 + GetPlayerId(p)
-    if GetClickedButton() == S4[i] then
-        Forget(p, 1)
-    elseif GetClickedButton() == T4[i] then
-        Forget(p, 2)
-    elseif GetClickedButton() == U4[i] then
-        Forget(p, 3)
-    elseif GetClickedButton() == V4[i] then
-        Forget(p, 4)
-    elseif GetClickedButton() == W4[i] then
-        Forget(p, 5)
-    elseif GetClickedButton() == X4[i] then
-        Forget(p, 6)
-    elseif GetClickedButton() == J7[i] then
-        Forget(p, 7)
-    elseif GetClickedButton() == J78[i] then
-        Forget(p, 8)
-    elseif GetClickedButton() == J79[i] then
-        Forget(p, 9)
-    elseif GetClickedButton() == J710[i] then
-        Forget(p, 10)
-    elseif GetClickedButton() == J711[i] then
-        Forget(p, 11)
-    end
-    DialogClear(K7[i])
-    p = nil
 end
 local function init()
     -- 遗忘武功
 
     et.game:event '单位-技能生效'(function(self, u, id, target)
         if id == 1093678417 then
-
+            forget_ability(u)
         end
     end)
-
-    Bj = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(Bj, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-    TriggerAddCondition(Bj, Condition(YiWangJiNeng))
-    TriggerAddAction(Bj, ForgetAbility)
-
-    -- 选择遗忘的武功
-    bj = CreateTrigger()
-    TriggerRegisterDialogEvent(bj, K7[1])
-    TriggerRegisterDialogEvent(bj, K7[2])
-    TriggerRegisterDialogEvent(bj, K7[3])
-    TriggerRegisterDialogEvent(bj, K7[4])
-    TriggerRegisterDialogEvent(bj, K7[5])
-    TriggerAddAction(bj, jB)
 end
 init()

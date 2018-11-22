@@ -1289,6 +1289,16 @@ function mt:get_item_in_slot(i)
     return jass.UnitItemInSlot(self.handle, i - 1)
 end
 
+function mt:fetch_item(id)
+    for i = 1, 6 do
+        local it = self:get_item_in_slot(i)
+        if jass.GetItemTypeId(it) == id then
+            return it
+        end
+    end
+    return nil
+end
+
 function mt:has_item(id)
     if id ~= 0 then
         for i = 0, 5 do

@@ -215,7 +215,7 @@ function do_pawn()
     end
     -- 特殊事件模式第5波再次选择难度
     if game.variable.wave == 5 and game.config.mode == 'special' then
-        ChooseNanDu()
+        choose_difficulty()
     end
 
     force.send_message("|CFFFF0033邪教势力：第" .. game.variable.wave .. "波")
@@ -272,7 +272,7 @@ local function init()
         et.wait(120 * 1000, function()
             force.send_message("|cFFDDA0DD西域邪教开始了进攻正派武林，玩家务必要确保正派武林不被摧毁，否则游戏失败|r")
             if game.config.mode == 'special' then
-                ChooseNanDu()
+                choose_difficulty()
             end
             do_pawn()
         end)

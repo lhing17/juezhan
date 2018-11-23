@@ -290,6 +290,15 @@ local function init()
             p:send_message("|CFF00FF4C守家积分+10")
         end
     end)
+
+    et.game:event '玩家-聊天'(function(self, p, s)
+        if s:sub(1, 9) == 'test_boss' then
+            local num = assert(tonumber(s:sub(10, 10)))
+            if u7[num] then
+                et.player(7):create_unit(u7[num], game.point.mid_pawn)
+            end
+        end
+    end)
 end
 
 init()

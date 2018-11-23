@@ -10,5 +10,8 @@ game.point = {
     town_portal = et.point(-1174, -678), -- 回城点
     front_portal = et.point(-869, 796), -- 前方回城点
     back_portal = et.point(-869, -2000), -- 后方回城点
-    prison_center = et.point(10692, -14847) -- 4指令进入监狱的中心点
+    prison_center = et.point(10692, -14847), -- 4指令进入监狱的中心点
+    front_dest = et.point(-784, -368), -- 前方进攻目的地
+    back_dest = et.point(-704, -1200), -- 后方进攻目的地
+    mid_pawn = et.point(-752, 5312) -- 中间刷怪点
 }

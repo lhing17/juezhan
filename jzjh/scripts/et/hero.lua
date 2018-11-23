@@ -82,8 +82,12 @@ mt.wuhun = nil
 -- 最大武功数
 mt.kufong_limit = 11
 
+mt.practice = 0 -- 修行/历练
+
+mt.practice_eff = 1 -- 历练系数，影响伤害
+
 function hero:__tostring()
-    return '英雄handle:'..tostring(self.handle)..'owner:'..tostring(self.owner)
+    return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
 
 function hero.init_pick_table()
@@ -188,7 +192,7 @@ function mt:get_owner()
 end
 
 function mt:add_xp(xp)
-   jass.AddHeroXP(self.handle, xp, true)
+    jass.AddHeroXP(self.handle, xp, true)
 end
 
 function mt:join_denomination(denomination_name)
@@ -203,7 +207,7 @@ function mt:join_part_time(pt)
     self['经脉'] = self['经脉'] + pt['经脉']
     self['胆魄'] = self['胆魄'] + pt['胆魄']
     self:get_owner():send_message(pt.hint, 5)
-    self.part_times[pt.name] = {level = 1} -- 1级兼职 5级为宗师
+    self.part_times[pt.name] = { level = 1 } -- 1级兼职 5级为宗师
 end
 
 function mt:get_kongfu_num()
@@ -256,8 +260,6 @@ function hero.create(jUnit, pick)
 
     -- 副职
     h.part_times = {}
-
-
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

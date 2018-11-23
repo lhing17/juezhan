@@ -234,3 +234,54 @@ function JianYi_Trigger()
 	TriggerAddAction(t, ZhuanHuaJY)
 	t = nil
 end
+--转化剑意
+function TransferJY()
+	local p = GetTriggerPlayer()
+	local i = 1 + GetPlayerId(p)
+	if xd[i] == 0 then
+		DisplayTimedTextToPlayer(p, 0, 0, 30, "|cffff0000英雄，你的剑意不够哦")
+	else
+		if yd[i] == 1 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了悟性")
+		elseif yd[i] == 2 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了根骨")
+		elseif yd[i] == 3 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了胆魄")
+		elseif yd[i] == 4 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了医术")
+		elseif yd[i] == 5 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了福缘")
+		elseif yd[i] == 6 then
+			DisplayTextToPlayer(p, 0, 0, "|cff00ff00当前已将" .. (I2S(xd[i]) or "") .. "点剑意转化成了经脉")
+		end
+		if GetPlayerState(p, PLAYER_STATE_RESOURCE_LUMBER) < 5 then
+			DisplayTimedTextToPlayer(p, 0, 0, 30, "|cffff0000转化剑意需要至少5个黄金")
+		else
+			DialogSetMessage(v8[i], "你拥有" .. (I2S(xd[i]) or "") .. "点剑意，请选择要转化的属性")
+			DialogAddButtonBJ(v8[i], "根骨")
+			w8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "悟性")
+			y8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "福缘")
+			z8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "胆魄")
+			A8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "医术")
+			a8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "经脉")
+			x8[i] = bj_lastCreatedButton
+			DialogAddButtonBJ(v8[i], "取消")
+			B8[i] = bj_lastCreatedButton
+			DialogDisplay(p, v8[i], true)
+			Ad[i] = true
+		end
+	end
+end
+local function init()
+	et.game:event '玩家-聊天' (function(self, p, s)
+		if s=='jy' then
+			TransferJY()
+		end
+	end)
+end
+init()

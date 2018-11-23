@@ -86,6 +86,12 @@ mt.practice = 0 -- 修行/历练
 
 mt.practice_eff = 1 -- 历练系数，影响伤害
 
+mt.pellet = 0 -- 服用丹药数
+
+mt.max_pellet = 10
+
+mt.revive_time = 15
+
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end

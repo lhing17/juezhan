@@ -10,7 +10,7 @@ local function init()
     et.game:event '单位-死亡'(function(self, killer, killed)
         if killed:is_hero() and killed:get_owner():is_player() then
             local p = killed:get_owner()
-            local revive_time = ge[p.id] and 7 or 15
+            local revive_time = p.hero.revive_time
             et.timerdialog(revive_time, "复活倒计时:")
             GroupRemoveUnit(k9, killed.handle)
             GroupRemoveUnit(j9, killed.handle)

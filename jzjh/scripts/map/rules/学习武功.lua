@@ -134,7 +134,7 @@ local function init()
                 p:send_message("|CFF34FF00你已经修行过了")
             elseif u:get_ability_level(h['门派']['15级技']) < 2 then
                 p:send_message("你的" .. jass.GetAbilityName(h['门派']['15级技']).. "|r还没修炼到位")
-            elseif h:get_kongfu_num() > h.kongfu_limit then
+            elseif h:get_kongfu_num() >= h.kongfu_limit then
                 p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
             elseif h['门派'].name == '自由门派' then
                 p:send_message("自由门派没有内功")

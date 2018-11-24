@@ -199,72 +199,79 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
     if id == 1093679448 then
         local group = et.selector():in_range(target, 800):is_enemy(u)
         for _, v in pairs(group) do
-
+            dummy_issue_order { target = v,
+                                player = u:get_owner(),
+                                unit_id = 1697656880,
+                                ability_id = 1093679450,
+                                order_id = 852075,
+                                lifetime = 2 }
         end
+    end
+
+    --三尸脑神丹
+    if id == 1093681456 then
+        local group = et.selector():in_range(target, 600):is_enemy(u)
+        for _, v in pairs(group) do
+            dummy_issue_order { target = v,
+                                player = u:get_owner(),
+                                unit_id = 1697656880,
+                                ability_id = 1093681457,
+                                order_id = 852189,
+                                lifetime = 2 }
+        end
+    end
+
+    --七星海棠
+    if id == 1093681459 then
+        et.wait(300, function()
+            target:set_life(0.7 * target:get_life())
+        end)
+    end
+
+    --传功丹
+    if id == 1093679447 then
+        local buttons = {}
+        local ho = target:get_owner().hero
+        for _, v in pairs(ho['武功']) do
+            table.insert(buttons, jass.GetObjectName(v.ability_id))
+        end
+        table.insert('取消')
+        local d = et.dialog.create(u:get_owner(), "请选择想被传授的武功", buttons)
+        for _, v in pairs(ho['武功']) do
+            et.event_register(d.buttons[jass.GetObjectName(v.ability_id)], '对话框-按钮点击')(function(self, dg, pl)
+                d:clear_and_destroy()
+                local h = u:get_owner().hero
+                if h:get_kongfu_num() >= h.kongfu_limit then
+                    p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
+                    u:add_item(1227896625)
+                else
+                    if h['武功'][v.ability_id] then
+                        p:send_message("|CFFFF0033你已经学会这种武功了")
+                        u:add_item(1227896625)
+                    end
+                    h:add_ability(v.ability_id)
+                    h['武功'][v.ability_id] = et.kongfu.create(v.ability_id)
+                    h['武功'][v.ability_id]['经验'] = h['遗忘武功'][v.ability_id]['经验']
+                    h['武功'][v.ability_id]['重数'] = h['遗忘武功'][v.ability_id]['重数']
+                    force.send_message("|CFFFF0033传闻" .. u:get_owner():get_name() .. "向" .. target:get_owner():get_name() .. "虚心求教，成功的学会了" .. jass.GetObjectName(v.ability_id))
+                    if et.lni.internal[kf.abilityid] then
+                        local itl = et.lni.internal[kf.abilityid]
+                        h['伤害加成'] = h['伤害加成'] + itl['伤害加成']
+                        jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + itl['内力'])
+                        h['暴击率'] = h['暴击率'] + itl['暴击率']
+                        h['绝学领悟'] = h['绝学领悟'] + itl['绝学领悟']
+                        h['伤害吸收'] = h['伤害吸收'] + itl['伤害吸收']
+                    end
+                end
+            end)
+        end
+        et.event_register(d.buttons['取消'], '对话框-按钮点击')(function(self, dg, pl)
+            u:add_item(1227896625)
+            d:clear_and_destroy()
+        end)
     end
 end)
 
-function tP()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function uP()
-    local id = GetHandleId(GetTriggeringTrigger())
-    SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443, GetEnumUnit())
-    SaveLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901, GetUnitLoc(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443)))
-    CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)), LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901), bj_UNIT_FACING)
-    UnitAddAbility(bj_lastCreatedUnit, 1093679450)
-    IssueTargetOrderById(bj_lastCreatedUnit, 852075, LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443))
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-    ShowUnitHide(bj_lastCreatedUnit)
-    RemoveLocation(LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901))
-end
-function vP()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveLocationHandle(YDHT, id * cx, 1585647951, GetSpellTargetLoc())
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-    ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(800.0, LoadLocationHandle(YDHT, id * cx, 1585647951), Condition(tP)), uP)
-    FlushChildHashtable(YDHT, id * cx)
-end
---三尸脑神丹
-function xP()
-    return GetSpellAbilityId() == 1093681456
-end
-function yP()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function zP()
-    local id = GetHandleId(GetTriggeringTrigger())
-    SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443, GetEnumUnit())
-    SaveLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901, GetUnitLoc(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443)))
-    CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)), LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901), bj_UNIT_FACING)
-    UnitAddAbility(bj_lastCreatedUnit, 1093681457)
-    IssueTargetOrderById(bj_lastCreatedUnit, 852189, LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -655065443))
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-    ShowUnitHide(bj_lastCreatedUnit)
-    RemoveLocation(LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 612156901))
-end
-function AP()
-    local loc = GetSpellTargetLoc()
-    ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(600.0, loc, Condition(yP)), zP)
-    RemoveLocation(loc)
-    loc = nil
-end
---七星海棠
-function BP()
-    return GetSpellAbilityId() == 1093681459
-end
-function bP()
-    local u = GetSpellTargetUnit()
-    YDWEPolledWaitNull(0.3)
-    SetWidgetLife(u, 0.7 * GetUnitState(u, UNIT_STATE_LIFE))
-    u = nil
-end
 ---------各种丹药结束-------//
 ------------炼丹系统开始----------//
 function isLianDanItem(it)
@@ -466,145 +473,4 @@ function ElixirSystem_Trigger()
     TriggerAddAction(t, FP)
     t = nil
 end
---传功丹
-function nP()
-    return GetSpellAbilityId() == 1093679447
-end
-function oP()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local l__ut = GetSpellTargetUnit()
-    local j = GetPlayerId(GetOwningPlayer(l__ut))
-    DialogSetMessage(je[1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))], "请选择想被传授的武功")
-    te[i] = j
-    if I7[j * 20 + 1] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 1]))
-        ke[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 2] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 2]))
-        ne[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 3] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 3]))
-        oe[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 4] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 4]))
-        pe[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 5] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 5]))
-        qe[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 6] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 6]))
-        me[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 7] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 7]))
-        re[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 8] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 8]))
-        rre[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 9] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 9]))
-        re9[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 10] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 10]))
-        re10[i] = bj_lastCreatedButton
-    end
-    if I7[j * 20 + 11] ~= 1095067243 then
-        DialogAddButtonBJ(je[i], GetObjectName(I7[j * 20 + 11]))
-        re11[i] = bj_lastCreatedButton
-    end
-    DialogAddButtonBJ(je[i], "取消")
-    se[i] = bj_lastCreatedButton
-    DialogDisplay(p, je[i], true)
-    u = nil
-    p = nil
-    l__ut = nil
-end
-function QiuJiao(p, num)
-    local i = 1 + GetPlayerId(p)
-    L7[i] = 1
-    for _ in _loop_() do
-        if L7[i] > wugongshu[i] then
-            break
-        end
-        if I7[(i - 1) * 20 + L7[i]] ~= 1095067243 then
-            if L7[i] == wugongshu[i] then
-                unitadditembyidswapped(1227896625, P4[i])
-                DisplayTextToPlayer(p, 0, 0, "|CFFFF0033学习技能已达上限，请先遗忘部分技能")
-                if true then
-                    break
-                end
-            end
-        else
-            if I7[(i - 1) * 20 + 1] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 2] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 3] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 4] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 5] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 6] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 7] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 8] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 9] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 10] ~= I7[te[i] * 20 + num] and I7[(i - 1) * 20 + 11] ~= I7[te[i] * 20 + num] then
-                UnitAddAbility(udg_hero[i], I7[te[i] * 20 + num])
-                UnitMakeAbilityPermanent(udg_hero[i], true, I7[te[i] * 20 + num])
-                I7[(i - 1) * 20 + L7[i]] = I7[te[i] * 20 + num]
-                DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|CFFFF0033传闻" .. (GetPlayerName(p) or "") .. "向" .. (GetPlayerName(Player(-1 + (te[i] + 1))) or "") .. "虚心求教，成功的学会了" .. (GetObjectName(I7[te[i] * 20 + num]) or ""))
-                S9 = 1
-                for _ in _loop_() do
-                    if S9 > 20 then
-                        break
-                    end
-                    if I7[te[i] * 20 + num] == MM9[S9] then
-                        udg_shanghaijiacheng[i] = udg_shanghaijiacheng[i] + udg_jueneishjc[S9]
-                        ModifyHeroStat(1, udg_hero[i], 0, udg_jueneiminjie[S9])
-                        udg_baojilv[i] = udg_baojilv[i] + udg_jueneibaojilv[S9]
-                        juexuelingwu[i] = juexuelingwu[i] + udg_jueneijxlw[S9]
-                        udg_shanghaixishou[i] = udg_shanghaixishou[i] + udg_jueneishxs[S9]
-                    end
-                    S9 = S9 + 1
-                end
-                if true then
-                    break
-                end
-            else
-                DisplayTextToPlayer(p, 0, 0, "|CFFFF0033你已经学会这种武功了")
-                unitadditembyidswapped(1227896625, P4[i])
-                if true then
-                    break
-                end
-            end
-        end
-        L7[i] = L7[i] + 1
-    end
-end
-function qP()
-    local i = 1 + GetPlayerId(GetTriggerPlayer())
-    local p = GetTriggerPlayer()
-    if GetClickedButton() == ke[i] then
-        QiuJiao(p, 1)
-    elseif GetClickedButton() == ne[i] then
-        QiuJiao(p, 2)
-    elseif GetClickedButton() == oe[i] then
-        QiuJiao(p, 3)
-    elseif GetClickedButton() == pe[i] then
-        QiuJiao(p, 4)
-    elseif GetClickedButton() == qe[i] then
-        QiuJiao(p, 5)
-    elseif GetClickedButton() == me[i] then
-        QiuJiao(p, 6)
-    elseif GetClickedButton() == re[i] then
-        QiuJiao(p, 7)
-    elseif GetClickedButton() == rre[i] then
-        QiuJiao(p, 8)
-    elseif GetClickedButton() == re9[i] then
-        QiuJiao(p, 9)
-    elseif GetClickedButton() == re10[i] then
-        QiuJiao(p, 10)
-    elseif GetClickedButton() == re11[i] then
-        QiuJiao(p, 11)
-    elseif GetClickedButton() == se[i] then
-        unitadditembyidswapped(1227896625, P4[i])
-    end
-    DialogClear(je[i])
-end
+

@@ -24,13 +24,13 @@ function IsCertainWuGong(u, uc, id)
     return GetRandomReal(0.0, 100) < 15 + fuyuan[1 + GetPlayerId(GetOwningPlayer(u))] / 5 and GetUnitAbilityLevel(u, id) >= 1 and IsUnitEnemy(uc, GetOwningPlayer(u))
 end
 
---- @param tab table @{target=?, player=?, unit_id=?, ability_id=?, ability_level=?, lifetime=number}
+--- @param tab table @{target=unit, player=player, unit_id=number, ability_id=number, ability_level=number, order_id=number, lifetime=number}
 function dummy_issue_order(tab)
     local point = tab.target:get_point()
     local last = tab.player:create_unit(tab.unit_id, point)
     last:show(false)
     last:add_ability(tab.ability_id, tab.ability_level or 1)
-    last:issue_order(tab.target)
+    last:issue_order(tab.order_id, tab.target)
     last:set_lifetime(tab.lifetime)
 end
 

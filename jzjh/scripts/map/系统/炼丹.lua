@@ -197,7 +197,10 @@ end)
 et.game:event '单位-技能生效'(function(self, u, id, target)
     --十香软筋散
     if id == 1093679448 then
+        local group = et.selector():in_range(target, 800):is_enemy(u)
+        for _, v in pairs(group) do
 
+        end
     end
 end)
 

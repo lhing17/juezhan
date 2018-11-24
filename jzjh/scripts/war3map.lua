@@ -2028,29 +2028,6 @@ function createTimerDialog(t, title)
 	return bj_lastCreatedTimerDialog
 end
 
-function maJiaUseAbilityAtEnemysLoc(owner, unitId, abilityId, orderId, target, lifeTime)
-	local loc = GetUnitLoc(target)
-	CreateNUnitsAtLoc(1, unitId, GetOwningPlayer(owner), loc, bj_UNIT_FACING)
-	ShowUnitHide(bj_lastCreatedUnit)
-	UnitAddAbility(bj_lastCreatedUnit, abilityId)
-	IssueTargetOrderById(bj_lastCreatedUnit, orderId, target)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, lifeTime)
-	RemoveLocation(loc)
-	loc = nil
-end
-
-function maJiaUseLeveldAbilityAtTargetLoc(owner, unitId, abilityId, ablilityLevel, orderId, target, lifeTime)
-	local loc = GetUnitLoc(target)
-	CreateNUnitsAtLoc(1, unitId, GetOwningPlayer(owner), loc, bj_UNIT_FACING)
-	ShowUnitHide(bj_lastCreatedUnit)
-	UnitAddAbility(bj_lastCreatedUnit, abilityId)
-	SetUnitAbilityLevel(bj_lastCreatedUnit, abilityId, ablilityLevel)
-	IssueTargetOrderById(bj_lastCreatedUnit, orderId, target)
-	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, lifeTime)
-	RemoveLocation(loc)
-	loc = nil
-end
-
 function PassiveWuGongCondition(playerControllingUnit, enemy, abilityId)
 	return GetUnitAbilityLevel(playerControllingUnit, abilityId) >= 1 and IsUnitEnemy(enemy, GetOwningPlayer(playerControllingUnit))
 end

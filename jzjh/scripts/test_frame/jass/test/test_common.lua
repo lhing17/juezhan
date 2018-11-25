@@ -9,7 +9,7 @@ local player = require 'jass.type.player'
 
 local function test_CreateUnit()
     print(player(1))
-    u = jass.CreateUnit(player(1), 12345, 100, 100, 270)
+    local u = jass.CreateUnit(player(1), 12345, 100, 100, 270)
     print(u)
 end
 

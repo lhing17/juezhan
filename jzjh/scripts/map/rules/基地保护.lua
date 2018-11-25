@@ -14,7 +14,7 @@ local function init()
         if target == udg_ZhengPaiWL then
             if target:get_life_percent() <= 25 and not udg_yunyangxianshen then
                 udg_yunyangxianshen = true
-                u = et.player[6]:create_unit(1214409837, target:get_point() + { 0, 200 }, 90)
+                local u = et.player[6]:create_unit(1214409837, target:get_point() + { 0, 200 }, 90)
                 force.send_message("|cFFFF6600基地严重受创，云杨现身相助")
                 u:set_lifetime(20.0)
                 target:add_ability(1098282348)

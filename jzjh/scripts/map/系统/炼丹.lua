@@ -1,5 +1,3 @@
-
-
 ---------各种丹药开始-------//
 -- 服用属性丹
 local pellet_map = {
@@ -12,7 +10,6 @@ local pellet_map = {
 }
 
 local attr_list = { '医术', '悟性', '根骨', '福缘', '经脉', '胆魄', '取消', }
-
 
 local function calculate_yin_yang(h)
     local hu = et.unit(h.handle)
@@ -28,7 +25,6 @@ local function calculate_yin_yang(h)
     end
     return yin, yang
 end
-
 
 function init_herbs()
     YaoCao = { 1227896646, --车前草
@@ -50,13 +46,11 @@ function init_herbs()
     et.lni_loader('herb')
     et.extend_lni(et.lni.herb)
 
-    et.game:event '单位-使用物品'(function(self, u, item)
+    local function use_attribute_pellet(u, item)
         local p = u:get_owner()
         local h = p.hero
         local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
         local max_pellet = h.max_pellet + addition
-
-        -- 属性丹
         if u:get_owner():is_player() and pellet_map[jass.GetItemTypeId(item)] then
             local attr = pellet_map[jass.GetItemTypeId(item)]
             if h.pellet < max_pellet then
@@ -71,6 +65,16 @@ function init_herbs()
                 p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
             end
         end
+    end
+
+    et.game:event '单位-使用物品'(function(self, u, item)
+        local p = u:get_owner()
+        local h = p.hero
+        local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
+        local max_pellet = h.max_pellet + addition
+
+        -- 属性丹
+        use_attribute_pellet(u, item)
 
         -- 乾坤丹
         if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895371 then
@@ -310,7 +314,6 @@ function init_herbs()
             end)
         end
     end)
-
 
     et.game:event '单位-捡起物品'(function(self, u, item)
         local id = jass.GetItemTypeId(item)

@@ -2272,21 +2272,7 @@ function InitBosses()
 	Ae[27] = 1227896910
 	Ae[28] = 1227896912
 end
-function InitHerbs()
-	YaoCao = {1227896646,
-		1227896647,
-		1227896645,
-		1227896630,
-		1227896631,
-		1227896632,
-		1227896633,
-		1227896642,
-		1227896641,
-		1227896643,
-		1227896644,
-		1227896648,
-	}
-end
+
 function InitEquipments()
 	--衣服清单
 	ZhuangBei = {
@@ -2548,7 +2534,6 @@ function InitGlobalVariables()
 	--初始化名门
 --	require 'et.名门'
 	InitBosses() --初始化BOSS
-	InitHerbs() --初始化草药
 	InitEquipments() --初始化装备
 	InitDenominationSkills() --初始化门派武功
 	InitSkillBooks() --初始化武功书

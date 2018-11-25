@@ -18,3 +18,18 @@ function et.lni_loader(name)
 	et.lni[name] = lni:packager(name, storm.load)
 	log.info('读取lni文件'..name)
 end
+
+function et.extend_lni(tab)
+	for k, v in pairs(tab) do
+        v.name = k
+    end
+    local temp = {}
+    for k, v in pairs(tab) do
+        if v.item_id then
+            temp[v.item_id] = v
+        end
+    end
+    for k, v in pairs(temp) do
+        tab[k] = temp[k]
+    end
+end

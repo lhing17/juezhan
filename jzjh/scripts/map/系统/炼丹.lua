@@ -1,5 +1,3 @@
-
-
 ---------各种丹药开始-------//
 -- 服用属性丹
 local pellet_map = {
@@ -12,7 +10,6 @@ local pellet_map = {
 }
 
 local attr_list = { '医术', '悟性', '根骨', '福缘', '经脉', '胆魄', '取消', }
-
 
 local function calculate_yin_yang(h)
     local hu = et.unit(h.handle)
@@ -29,8 +26,132 @@ local function calculate_yin_yang(h)
     return yin, yang
 end
 
+local function check_use_attribute_pellet(u, item)
+    local p = u:get_owner()
+    local h = p.hero
+    local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
+    local max_pellet = h.max_pellet + addition
+    if u:get_owner():is_player() and pellet_map[jass.GetItemTypeId(item)] then
+        local attr = pellet_map[jass.GetItemTypeId(item)]
+        if h.pellet < max_pellet then
+            h.pellet = h.pellet + 1
+            PlaySoundOnUnitBJ(Eh, 100, u.handle)
+            p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. attr .. "+1|r")
+            p:send_message("|cFFFFCC00当前" .. attr .. "为：|r|cFF99FFCC" .. h[attr])
+            p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+        else
+            u:add_item(jass.GetItemTypeId(item))
+            PlaySoundOnUnitBJ(Gh, 100, u.handle)
+            p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
+        end
+    end
+end
 
-function init_herbs()
+local function check_use_qiankun_pellet(u, item)
+    local p = u:get_owner()
+    local h = p.hero
+    local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
+    local max_pellet = h.max_pellet + addition
+    if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895371 then
+        if h.pellet < max_pellet then
+            local d = et.dialog.create(p, "请选择要减1的属性", attr_list)
+            for _, v in pairs(attr_list) do
+                et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
+                    if v == '取消' then
+                        d:clear_and_destroy()
+                        u:add_item(1227895371)
+                    else
+                        h[v] = h[v] - 1
+                        d:clear_and_destroy()
+                        local dd = et.dialog.create(pl, '请选择要加3的属性', attr_list)
+                        for _, v1 in pairs(attr_list) do
+                            et.event_register(dd.buttons[v1], '对话框-按钮点击')(function(self, dg1, pl1)
+                                if v == '取消' then
+                                    h[v] = h[v] + 1
+                                    dd:clear_and_destroy()
+                                    u:add_item(1227895371)
+                                else
+                                    h[v1] = h[v1] + 3
+                                    PlaySoundOnUnitBJ(Eh, 100, u.handle)
+                                    h.pellet = h.pellet + 1
+                                    p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "-1，" .. v1 .. "+3|r")
+                                    p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+                                    dd:clear_and_destroy()
+                                end
+                            end)
+                        end
+                    end
+                end)
+            end
+        else
+            u:add_item(jass.GetItemTypeId(item))
+            PlaySoundOnUnitBJ(Gh, 100, u.handle)
+            p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
+        end
+    end
+end
+
+local function check_use_yijin_pellet(u, item)
+    local p = u:get_owner()
+    local h = p.hero
+    local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
+    local max_pellet = h.max_pellet + addition
+    if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895372 then
+        local num = commonutil.random_int(1, 3)
+        local attr = attr_list[commonutil.random_int(1, 6)]
+        if h.pellet < max_pellet then
+            h[attr] = h[attr] + num
+            p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. attr .. "+" .. num .. "|r")
+            p:send_message("|cFFFFCC00当前" .. attr .. "为：|r|cFF99FFCC" .. h[attr])
+            h.pellet = h.pellet + 1
+            PlaySoundOnUnitBJ(Eh, 100, u.handle)
+            p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+        else
+            u:add_item(jass.GetItemTypeId(item))
+            PlaySoundOnUnitBJ(Gh, 100, u.handle)
+            p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
+        end
+    end
+end
+
+local function check_use_tuotai_pellet(u, item)
+    local p = u:get_owner()
+    local h = p.hero
+    local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
+    local max_pellet = h.max_pellet + addition
+
+    if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895374 then
+        if h.pellet < max_pellet then
+            local d = et.dialog.create(p, "请选择要+6的属性", attr_list)
+            for _, v in pairs(attr_list) do
+                et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
+                    if v == '取消' then
+                        d:clear_and_destroy()
+                        u:add_item(1227895371)
+                    else
+                        h[v] = h[v] + 7
+                        h['医术'] = h['医术'] - 1
+                        h['悟性'] = h['悟性'] - 1
+                        h['根骨'] = h['根骨'] - 1
+                        h['福缘'] = h['福缘'] - 1
+                        h['经脉'] = h['经脉'] - 1
+                        h['胆魄'] = h['胆魄'] - 1
+                        d:clear_and_destroy()
+                        p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "+6，其他属性-1|r")
+                        h.pellet = h.pellet + 1
+                        PlaySoundOnUnitBJ(Eh, 100, u.handle)
+                        p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+                    end
+                end)
+            end
+        else
+            u:add_item(jass.GetItemTypeId(item))
+            PlaySoundOnUnitBJ(Gh, 100, u.handle)
+            p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
+        end
+    end
+end
+local function init_herbs()
     YaoCao = { 1227896646, --车前草
                1227896647, --过路黄
                1227896645, --金钱草
@@ -53,113 +174,18 @@ function init_herbs()
     et.game:event '单位-使用物品'(function(self, u, item)
         local p = u:get_owner()
         local h = p.hero
-        local addition = h.part_times['炼丹师'] and h.part_times['炼丹师'].level or 0
-        local max_pellet = h.max_pellet + addition
 
         -- 属性丹
-        if u:get_owner():is_player() and pellet_map[jass.GetItemTypeId(item)] then
-            local attr = pellet_map[jass.GetItemTypeId(item)]
-            if h.pellet < max_pellet then
-                h.pellet = h.pellet + 1
-                PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. attr .. "+1|r")
-                p:send_message("|cFFFFCC00当前" .. attr .. "为：|r|cFF99FFCC" .. h[attr])
-                p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
-            else
-                u:add_item(jass.GetItemTypeId(item))
-                PlaySoundOnUnitBJ(Gh, 100, u.handle)
-                p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
-            end
-        end
+        check_use_attribute_pellet(u, item)
 
         -- 乾坤丹
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895371 then
-            if h.pellet < max_pellet then
-                local d = et.dialog.create(p, "请选择要减1的属性", attr_list)
-                for _, v in pairs(attr_list) do
-                    et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
-                        if v == '取消' then
-                            d:clear_and_destroy()
-                            u:add_item(1227895371)
-                        else
-                            h[v] = h[v] - 1
-                            d:clear_and_destroy()
-                            local dd = et.dialog.create(pl, '请选择要加3的属性', attr_list)
-                            for _, v1 in pairs(attr_list) do
-                                et.event_register(dd.buttons[v1], '对话框-按钮点击')(function(self, dg1, pl1)
-                                    if v == '取消' then
-                                        h[v] = h[v] + 1
-                                        dd:clear_and_destroy()
-                                        u:add_item(1227895371)
-                                    else
-                                        h[v1] = h[v1] + 3
-                                        PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                                        h.pellet = h.pellet + 1
-                                        p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "-1，" .. v1 .. "+3|r")
-                                        p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
-                                        dd:clear_and_destroy()
-                                    end
-                                end)
-                            end
-                        end
-                    end)
-                end
-            else
-                u:add_item(jass.GetItemTypeId(item))
-                PlaySoundOnUnitBJ(Gh, 100, u.handle)
-                p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
-            end
-        end
+        check_use_qiankun_pellet(u, item)
 
         -- 易筋洗髓丹
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895372 then
-            local num = commonutil.random_int(1, 3)
-            local attr = attr_list[commonutil.random_int(1, 6)]
-            if h.pellet < max_pellet then
-                h[attr] = h[attr] + num
-                p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. attr .. "+" .. num .. "|r")
-                p:send_message("|cFFFFCC00当前" .. attr .. "为：|r|cFF99FFCC" .. h[attr])
-                h.pellet = h.pellet + 1
-                PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
-            else
-                u:add_item(jass.GetItemTypeId(item))
-                PlaySoundOnUnitBJ(Gh, 100, u.handle)
-                p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
-            end
-        end
+        check_use_yijin_pellet(u, item)
 
         -- 脱胎换骨丹
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895374 then
-            if h.pellet < max_pellet then
-                local d = et.dialog.create(p, "请选择要+6的属性", attr_list)
-                for _, v in pairs(attr_list) do
-                    et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
-                        if v == '取消' then
-                            d:clear_and_destroy()
-                            u:add_item(1227895371)
-                        else
-                            h[v] = h[v] + 7
-                            h['医术'] = h['医术'] - 1
-                            h['悟性'] = h['悟性'] - 1
-                            h['根骨'] = h['根骨'] - 1
-                            h['福缘'] = h['福缘'] - 1
-                            h['经脉'] = h['经脉'] - 1
-                            h['胆魄'] = h['胆魄'] - 1
-                            d:clear_and_destroy()
-                            p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "+6，其他属性-1|r")
-                            h.pellet = h.pellet + 1
-                            PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                            p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
-                        end
-                    end)
-                end
-            else
-                u:add_item(jass.GetItemTypeId(item))
-                PlaySoundOnUnitBJ(Gh, 100, u.handle)
-                p:send_message("|cFFFFCC00你在本次游戏里已经达到了使用属性丹上限，无法再使用本类道具")
-            end
-        end
+        check_use_tuotai_pellet(u, item)
 
         -- CHG 2018/11/23 取消地下丹药的限制
         --黑玉断续膏
@@ -311,7 +337,6 @@ function init_herbs()
         end
     end)
 
-
     et.game:event '单位-捡起物品'(function(self, u, item)
         local id = jass.GetItemTypeId(item)
         local p = u:get_owner()
@@ -336,7 +361,7 @@ function init_herbs()
                     local lack = yin_lack + yang_lack
                     p:send_message("|cff00ff33阴性缺" .. yin_lack .. "，炼制成功率降低了" .. (yin_lack * 5) .. "%")
                     p:send_message("|cff00ff33阳性缺" .. yang_lack .. "，炼制成功率降低了" .. (yang_lack * 5) .. "%")
-                    if h.part_times['炼丹师'] and h.part_times['炼丹师'].level == 10 then
+                    if h.part_times['炼丹师'] and h.part_times['炼丹师'].level == 5 then
                         lack = lack - 4
                         p:send_message("|cff00ff33由于你是炼丹大师，炼制成功率提高20%")
                     end

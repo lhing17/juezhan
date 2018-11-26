@@ -1,4 +1,5 @@
 jass = require 'jass.common'
+local bag = require 'util.collection.bag'
 
 local hero = {}
 
@@ -91,6 +92,8 @@ mt.pellet = 0 -- 服用丹药数
 mt.max_pellet = 10
 
 mt.revive_time = 15
+
+mt.sword_sense = 0 -- 剑意
 
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
@@ -214,6 +217,9 @@ function mt:join_part_time(pt)
     self['胆魄'] = self['胆魄'] + pt['胆魄']
     self:get_owner():send_message(pt.hint, 5)
     self.part_times[pt.name] = { level = 1 } -- 1级兼职 5级为宗师
+    if pt.name == '炼丹师' then
+        self.herb_bag = bag:new()
+    end
 end
 
 function mt:get_kongfu_num()

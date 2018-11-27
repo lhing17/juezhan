@@ -11,4 +11,9 @@ local function get_center_point(tab)
     print(x, ',', y)
 end
 
-get_center_point{ -1056.0, 5024.0, -448.0, 5600.0 }
+get_center_point { -1056.0, 5024.0, -448.0, 5600.0 }
+
+local function test()
+    local tab = { a = 2, b=3}
+end
+test()

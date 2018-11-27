@@ -208,6 +208,16 @@ function mt:join_denomination(denomination_name)
     h['门派'] = et.lni.denomination[denomination_name]
 end
 
+function mt:add_all_attr(n)
+    n = n or 1
+    self['悟性'] = self['悟性'] + n
+    self['福缘'] = self['福缘'] + n
+    self['医术'] = self['医术'] + n
+    self['根骨'] = self['根骨'] + n
+    self['经脉'] = self['经脉'] + n
+    self['胆魄'] = self['胆魄'] + n
+end
+
 function mt:join_part_time(pt)
     self['悟性'] = self['悟性'] + pt['悟性']
     self['福缘'] = self['福缘'] + pt['福缘']
@@ -272,6 +282,9 @@ function hero.create(jUnit, pick)
 
     -- 副职
     h.part_times = {}
+
+    -- 历练任务
+    h.practice_tasks = {}
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

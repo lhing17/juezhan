@@ -1233,7 +1233,7 @@ function player.__index:create_unit(id, where, face)
     end
 
     ignore_flag = true
-    local handle = jass.CreateUnit(self.handle, j_id, x, y, face or 0)
+    local handle = jass.CreateUnit(self.handle, j_id, x, y, face or 270)
     dbg.handle_ref(handle)
     ignore_flag = false
     local u = unit.init_unit(handle, self)

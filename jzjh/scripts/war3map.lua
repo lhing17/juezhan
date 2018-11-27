@@ -2214,17 +2214,17 @@ function Zw()
     AddSpecialEffectTargetUnitBJ("overhead", Ts, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", Ft, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", Ss, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", vt, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", ot, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", nt, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", QIAO_FENG, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", YELV_QI, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", GUO_JING, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", Et, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", ct, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", zt, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", Ct, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", ut, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", QIU_CHUJI, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", xt, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", yt, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", Dt, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", LONG_YE, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", At, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", Bt, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", gg_unit_N007_0055, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
@@ -3195,7 +3195,7 @@ end
 -- Trigger: QinLongKongHe
 --===========================================================================
 function Trig_QinLongKongHeConditions()
-    return GetSpellAbilityId() == 1093677910 and GetSpellTargetUnit() ~= gg_unit_N008_0054
+    return GetSpellAbilityId() == 1093677910 and GetSpellTargetUnit() ~= DOU_ZHAI
 end
 function Trig_QinLongKongHeActions()
     if GetSpellTargetUnit() == GetTriggerUnit() then

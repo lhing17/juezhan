@@ -8,12 +8,12 @@
 require 'war3.id'
 local function convert(str)
     return str:gsub('(%d%d%d%d%d%d%d%d%d%d)', function(s)
-        return "'" ..  base.id2string(s) .. "'"
+        return "base.string2id('" ..  base.id2string(s) .. "')"
     end)
 end
 
 local function modify_pratice()
-    local file = io.open('F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\lni\\table\\practice.ini', 'r')
+    local file = io.open('F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\map\\static\\units.lua', 'r')
     local dest = io.open('dest.ini', 'w+')
     for line in file:lines() do
         print(convert(line))

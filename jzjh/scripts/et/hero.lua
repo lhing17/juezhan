@@ -101,11 +101,11 @@ end
 
 function hero.init_pick_table()
     local pick_table = {}
-    pick_table[Ls] = {
+    pick_table[RUO_DIE] = {
         ['name'] = '若蝶',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n',
         ['select_hint'] = '|CFFCCFF00若蝶|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+5 福缘+2 医术+3\n|r\n',
-        ['handle'] = Ls,
+        ['handle'] = RUO_DIE,
         ['悟性'] = 5,
         ['福缘'] = 2,
         ['医术'] = 3,
@@ -113,11 +113,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 0,
     }
-    pick_table[Ns] = {
+    pick_table[LANG_YUN] = {
         ['name'] = '潇侠',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00潇侠|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n',
         ['select_hint'] = '|CFFCCFF00潇侠|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r\n',
-        ['handle'] = Ns,
+        ['handle'] = LANG_YUN,
         ['悟性'] = 2,
         ['根骨'] = 2,
         ['胆魄'] = 1,
@@ -126,11 +126,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(2, 4),
         gender = 1,
     }
-    pick_table[Qs] = {
+    pick_table[XIAO_XIA] = {
         ['name'] = '莫言',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00莫言|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r\n',
-        ['handle'] = Qs,
+        ['handle'] = XIAO_XIA,
         ['悟性'] = 2,
         ['胆魄'] = 5,
         ['经脉'] = 1,
@@ -139,11 +139,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(1, 3),
         gender = 0,
     }
-    pick_table[Os] = {
+    pick_table[MO_YAN] = {
         ['name'] = '浪云',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00浪云|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00浪云|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+3 经脉+5 医术+2\n|r\n',
-        ['handle'] = Os,
+        ['handle'] = MO_YAN,
         ['根骨'] = 3,
         ['经脉'] = 5,
         ['医术'] = 2,
@@ -151,11 +151,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(2, 4),
         gender = 1,
     }
-    pick_table[Ps] = {
+    pick_table[MO_JUN] = {
         ['name'] = '魔君',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00魔君|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙|r\n\n',
         ['select_hint'] = '|CFFCCFF00魔君|r\n可加入门派：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r\n',
-        ['handle'] = Ps,
+        ['handle'] = MO_JUN,
         ['根骨'] = 5,
         ['胆魄'] = 2,
         ['经脉'] = 3,
@@ -163,11 +163,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 1,
     }
-    pick_table[LanXin] = {
+    pick_table[LAN_XIN] = {
         ['name'] = '兰馨',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00兰馨|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
-        ['handle'] = LanXin,
+        ['handle'] = LAN_XIN,
         ['悟性'] = 3,
         ['根骨'] = 3,
         ['胆魄'] = 3,
@@ -178,11 +178,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 0,
     }
-    pick_table[XuanJin] = {
+    pick_table[JIN_XUAN] = {
         ['name'] = '瑾轩',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00瑾轩|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
-        ['handle'] = XuanJin,
+        ['handle'] = JIN_XUAN,
         ['悟性'] = 3,
         ['根骨'] = 3,
         ['胆魄'] = 3,

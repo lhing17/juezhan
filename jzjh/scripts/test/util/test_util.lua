@@ -10,8 +10,8 @@ local timer = require 'jass.type.timer'
 local test_util = {}
 
 function test_util.player1_select_hero()
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
     return et.player(1).hero
 end
 

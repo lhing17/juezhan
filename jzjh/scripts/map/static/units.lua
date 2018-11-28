@@ -736,7 +736,7 @@ local function create_task_npc_passive()
     local p = PLAYER_PASSIVE
     p:create_unit('o021', 10788.7, 2432.2, 90.18) --郭靖
     QIU_CHUJI = p:create_unit('o00D', -5498.1, -3020.3, 60.353) --丘处机
-    MA_Yp:create_unit('o00E', -5054.2, -3013.2, 129.225) --马钰
+    MA_YU = p:create_unit('o00E', -5054.2, -3013.2, 129.225) --马钰
     GUO_JING = p:create_unit('o00A', -2053.7, -339.5, 181.33) --郭靖
     YELV_QI = p:create_unit('o00B', 347.5, -3809.3, 20.701) --耶律齐
     DAMO = p:create_unit('o00I', 3414.3, -699.1, 185.39) --达摩祖师
@@ -755,8 +755,8 @@ end
 -- 中立被动
 local function CreateNeutralPassive()
     local p = PLAYER_PASSIVE
-    gg_unit_nvl2_0005 = p:create_unit('nvl2', -12666.8, -12668.0, 270.0) --耶律楚材
-    gg_unit_N007_0055 = p:create_unit('N007', 463.2, -595.1, 135.0) --随风而逝de风
+    YELV_CHUCAI = p:create_unit('nvl2', -12666.8, -12668.0, 270.0) --耶律楚材
+    FENG_SHU = p:create_unit('N007', 463.2, -595.1, 135.0) --随风而逝de风
     gg_unit_n00E_0066 = p:create_unit('n00E', 14666.0, 1079.2, 89.34) --中毒的洪七公|n|cFFFFCC33类别：BOSS
     p:create_unit('o02C', -11675.7, -12657.2, 270.0) --|cff00ff00大辽金匠|r
     p:create_unit('hbsh', 8756.7, 2231.1, 159.134) --冯衡之船
@@ -794,13 +794,13 @@ local function CreateNeutralPassive()
     p:create_unit('ncop', -12352.0, 13248.0, 270.0) -- 能量圈
     p:create_unit('ncop', -10048.0, 5312.0, 270.0) -- 能量圈
     p:create_unit('ncop', -10624.0, 4800.0, 270.0) -- 能量圈
-    Ns = p:create_unit('O004', 1963.8, -4044.6, 226.742) --浪云
-    Os = p:create_unit('O003', 1655.0, -3879.3, 271.975) --莫言
-    Ps = p:create_unit('O000', 1877.0, -4346.3, 184.495) --魔君
-    Qs = p:create_unit('O001', 1387.8, -4122.2, 342.869) --潇侠
-    Ls = p:create_unit('O002', 1488.4, -4404.3, 48.963) --若蝶
-    LanXin = p:create_unit('O023', 1720, -4430.3, 229) --兰馨
-    XuanJin = p:create_unit('O02J', 1450, -3900, 256) --瑾轩
+    LANG_YUN = p:create_unit('O004', 1963.8, -4044.6, 226.742) --浪云
+    MO_YAN = p:create_unit('O003', 1655.0, -3879.3, 271.975) --莫言
+    MO_JUN = p:create_unit('O000', 1877.0, -4346.3, 184.495) --魔君
+    XIAO_XIA = p:create_unit('O001', 1387.8, -4122.2, 342.869) --潇侠
+    RUO_DIE = p:create_unit('O002', 1488.4, -4404.3, 48.963) --若蝶
+    LAN_XIN = p:create_unit('O023', 1720, -4430.3, 229) --兰馨
+    JIN_XUAN = p:create_unit('O02J', 1450, -3900, 256) --瑾轩
     vipbanlv[1] = CreateUnit(Player(0), base.string2id('n00G'), 1860, -4140, 254.7) --我是赞助者|n
     vipbanlv[2] = CreateUnit(Player(1), base.string2id('n00G'), 1860, -4140, 254.7) --我是赞助者|n
     vipbanlv[3] = CreateUnit(Player(2), base.string2id('n00G'), 1860, -4140, 254.7) --我是赞助者|n
@@ -808,7 +808,7 @@ local function CreateNeutralPassive()
     vipbanlv[5] = CreateUnit(Player(4), base.string2id('n00G'), 1860, -4140, 254.7) --我是赞助者|n
     Rs = p:create_unit('o005', 1620, -4050, 255) --天下门派
 
-    Ts = p:create_unit('o007', 1939.6, -2738.2, 217.84) --店小二
+    WAITER = p:create_unit('o007', 1939.6, -2738.2, 217.84) --店小二
     ft = p:create_unit('o006', -5503.8, 5213.9, 156.857) --物品栏
     gt = p:create_unit('o006', -5538.1, 5186.3, 209.428) --物品栏
     ht = p:create_unit('o006', -5425.9, 5155.9, 280.391) --物品栏
@@ -822,7 +822,7 @@ local function CreateNeutralPassive()
     Vs = p:create_unit('o006', -5467.9, 5207.8, 242.388) --物品栏
     p:create_unit('hhdl', -2092.9, -2759.4, 336.13) -- 无人之马
     p:create_unit('hhdl', -2095.1, -2894.8, 344.957) -- 无人之马
-    Ss = p:create_unit('o008', -1689.9, -2919.2, 272.018) --林远图
+    LIN_YUANTU = p:create_unit('o008', -1689.9, -2919.2, 272.018) --林远图
     p:create_unit('o00F', -5514.0, -2567.8, 315.259) --郝大通
     p:create_unit('o00G', 2900.8, -6110.5, 233.25) --慕容复
     p:create_unit('o00H', 3065.6, -415.5, 260.325) --少林弟子
@@ -836,33 +836,33 @@ local function CreateNeutralPassive()
 
     --set u=CreateUnit(p,base.string2id('o00N'),503.2,467.8,218.898) --丹药店
     xt = p:create_unit('o00P', 5741.1, -877.8, 224.9) --戒律院主持
-    yt = p:create_unit('o00R', -3452.7, 153.4, 251.26) --黄蓉
+    HUANG_RONG = p:create_unit('o00R', -3452.7, 153.4, 251.26) --黄蓉
     p:create_unit('o00S', 4045.8, -2255.6, 181.936) --虚竹
     p:create_unit('o01Q', 3070.6, -1542.5, 268.656) --少林高僧之江湖内功
     p:create_unit('o00U', -14635.1, -8394.7, 327.01) --小龙女
-    zt = p:create_unit('o00V', -12182.9, -5939.8, 148.96) --公孙绿萼
+    GONGSUN_LUE = p:create_unit('o00V', -12182.9, -5939.8, 148.96) --公孙绿萼
     p:create_unit('o01S', 3343.6, -2375.3, 5.029) --少林高僧之绝学
     p:create_unit('o01T', 3322.4, -2730.6, 11.064) --少林高僧之绝内
     p:create_unit('o01R', 2649.6, -1514.4, 277.06) --少林高僧之江湖武功
     p:create_unit('o01P', -134.4, 372.9, 106.56) --名门挑战
-    At = p:create_unit('o00W', -1174.4, 11346.6, 274.031) --灭绝师太
-    Bt = p:create_unit('o00Y', 4580.0, 419.0, 179.83) --王重阳
+    MIE_JUE = p:create_unit('o00W', -1174.4, 11346.6, 274.031) --灭绝师太
+    WANG_CHONGYANG = p:create_unit('o00Y', 4580.0, 419.0, 179.83) --王重阳
     p:create_unit('o018', 598.6, -2015.8, 94.58) --宝石商人
     p:create_unit('o019', -2081.6, -1962.8, 24.21) --石破天
     p:create_unit('o01A', -4242.4, -492.4, 63.2) --索额图
-    Ct = p:create_unit('o010', -129.2, -2927.6, 277.91) --鲁有脚
+    LU_YOUJIAO = p:create_unit('o010', -129.2, -2927.6, 277.91) --鲁有脚
     p:create_unit('o011', 670.9, -1270.5, 175.947) --古董商人
-    ct = p:create_unit('o012', -11366.8, 10882.4, 86.53) --胡斐
+    HU_FEI = p:create_unit('o012', -11366.8, 10882.4, 86.53) --胡斐
     p:create_unit('o013', -10757.5, -9392.7, 335.57) --独孤求败20岁前
     p:create_unit('o014', -10267.3, -9397.0, 236.63) --独孤求败20~30岁
     p:create_unit('o015', -10757.4, -8828.2, 287.56) --独孤求败30~40岁
     p:create_unit('o016', -10344.1, -8824.9, 251.35) --独孤求败40~60岁
     p:create_unit('o017', -10584.5, -8441.9, 294.94) --独孤求败60岁之后
     LONG_YE = p:create_unit('o01B', -10140.6, 719.9, 154.876) --龙爷
-    Et = p:create_unit('o01C', -9636.7, -400.7, 28.58) --完颜萍
-    Ft = p:create_unit('o01H', -8902.4, -26.0, 141.62) --苗人凤
-    p:create_unit('o01J', -2032.3, -1442.2, 179.83) --平一指
-    ShowUnitHide(gg_unit_nvl2_0005.handle)
+    WANYAN_PING = p:create_unit('o01C', -9636.7, -400.7, 28.58) --完颜萍
+    MIAO_RENFENG = p:create_unit('o01H', -8902.4, -26.0, 141.62) --苗人凤
+    PING_YIZHI = p:create_unit('o01J', -2032.3, -1442.2, 179.83) --平一指
+    ShowUnitHide(YELV_CHUCAI.handle)
 end
 
 function unit_creation.init()

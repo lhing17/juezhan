@@ -17,7 +17,7 @@ local function init()
     local is_testing = false
     -- 伤害测试
     et.game:event '单位-捡起物品'(function(self, u, item)
-        if GetItemTypeId(GetManipulatedItem()) == 1227899447 then
+        if item:get_id() == 1227899447 then
             is_testing = true
             test_damage = 0
             force.send_message(test_creep:get_name())

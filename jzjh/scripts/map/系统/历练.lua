@@ -24,7 +24,7 @@ local function init()
 
     -- 从商店购买任务物品
     et.game:event '单位-捡起物品'(function(self, u, item)
-        local id = jass.GetItemTypeId(item)
+        local id = item:get_id()
         if et.lni.pratice[id] and u:is_hero() then
             local pr = et.lni.pratice[id]
             local p = u:get_owner()

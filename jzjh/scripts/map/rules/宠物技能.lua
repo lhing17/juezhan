@@ -37,7 +37,7 @@ local function init()
             local last = p:create_unit(1853257068, et.get_rect_center(rect_born))
             last:show(false)
             last:add_item(target)
-            jass.UnitDropItemTarget(last.handle, last:get_item_in_slot(1), Rs.handle)
+            jass.UnitDropItemTarget(last.handle, last:get_item_in_slot(1).handle, Rs.handle)
             PlaySoundOnUnitBJ(Ih, 100, u.handle)
             jass.DestroyEffect(jass.AddSpecialEffectTarget("Abilities\\Spells\\Items\\ResourceItems\\ResourceEffectTarget.mdl", u.handle, "overhead"))
         end

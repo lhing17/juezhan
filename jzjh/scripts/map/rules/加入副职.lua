@@ -9,7 +9,7 @@ local function init()
     et.game:event '单位-捡起物品'(function(self, u, item)
         local p = u:get_owner()
         local h = p.hero
-        local pt = et.part_time[jass.GetItemTypeId(item)]
+        local pt = et.part_time[item:get_id()]
         if p:is_player() and pt then
             if is_empty(h.part_times) then
                 -- 不符合性别要求

@@ -280,7 +280,7 @@ local function init()
 
     -- 停怪
     et.game:event '单位-捡起物品'(function(self, u, item)
-        if jass.GetItemTypeId(item) == 1227894853 then
+        if item:get_id() == 1227894853 then
             local p = u:get_owner()
             local h = p.hero
             game.variable.stop_time = game.variable.stop_time + 1

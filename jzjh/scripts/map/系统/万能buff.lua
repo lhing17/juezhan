@@ -1,3 +1,4 @@
+
 local buffs = {
     { ability_id = 1093678903, order_id = 852111, name = "内伤" },
     { ability_id = 1093678905, order_id = 852668, name = "走火入魔" },
@@ -16,8 +17,17 @@ local buffs = {
 }
 
 --- @param dest unit
---- @param num number
+--- @param num (number or string)
 function et.unit.__index:apply_buff(dest, num)
+    -- 如果num是buff名，寻找相应的下标
+    if type(num) == 'string' then
+        for i, v in ipairs(buffs) do
+            if v.name == num then
+                num = i
+            end
+        end
+        assert(type(num) == 'number', 'num的类型不正确')
+    end
     local p = self:get_owner()
     local last = p:create_unit(1697656880, dest:get_point())
     last:show(false)
@@ -32,5 +42,5 @@ end
 --- @param dest j_unit
 --- @param num number
 function WanBuff(source, dest, num)
-    et.unit(source):apply_buff(et.unit(dest), num)
+    et.unit.j_unit(source):apply_buff(et.unit(dest), num)
 end

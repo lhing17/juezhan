@@ -111,31 +111,31 @@ end
 
 local function init()
     et.game:event '单位-使用物品'(function(self, u, item)
-        local r = residual[jass.GetItemTypeId(item)]
+        local r = residual[item:get_id()]
         local p = u:get_owner()
         local h = p.hero
         local i = p.id
         if r then
             if not u:has_ability(r.kongfu) then
                 p:send_message("|CFFFF0033你尚未学会该武功，无法激活隐藏招式")
-                u:add_item(jass.GetItemTypeId(item))
+                u:add_item(item:get_id())
             else
                 if is_in(r.kongfu, h.activated) then
                     p:send_message("|CFFFF0033你之前已经激活过了")
-                    u:add_item(jass.GetItemTypeId(item))
+                    u:add_item(item:get_id())
                 else
                     if h['绝学领悟'] >= r.point and u:has_all_abilities(r.requires) then
                         table.insert(h.activated, r.kongfu)
                         p:send_message("|CFF00ff33恭喜激活了" .. r.name)
                     else
                         p:send_message("|CFFFF0033条件不足，激活失败")
-                        u:add_item(jass.GetItemTypeId(item))
+                        u:add_item(item:get_id())
                     end
                 end
 
             end
         end
-        if jass.GetItemTypeId(item) == 1227897169 then
+        if item:get_id() == 1227897169 then
             if (not De[i] and not Ee[i]) then
                 p:send_message("|CFFFF0033未集齐决战套装或江湖套装，激活失败")
             else

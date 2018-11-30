@@ -97,7 +97,7 @@ local function init()
     et.game:event '单位-捡起物品' (function(self, u, item)
         local p = u:get_owner()
         local h = p.hero
-        local te = teleport[jass.GetItemTypeId(item)]
+        local te = teleport[item:get_id()]
         if u:is_hero() and p:is_player() and te then
             print(u:get_level())
             if u:get_level() < te.level then
@@ -113,7 +113,7 @@ local function init()
                 end
             end
         end
-        local po = post[jass.GetItemTypeId(item)]
+        local po = post[item:get_id()]
         if u:is_hero() and p:is_player() and po then
             u:set_point(po.point)
             p:set_camera(po.point)

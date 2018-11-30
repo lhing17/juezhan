@@ -25,7 +25,7 @@ end
 local function init()
     -- FIXME 使用武学精要（目前有BUG）
     et.game:event '单位-使用物品'(function(self, u, item)
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227899219 then
+        if u:get_owner():is_player() and item:get_id() == 1227899219 then
             WuXueJingYao(u)
         end
     end)

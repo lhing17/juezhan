@@ -6,12 +6,14 @@ local hero = {}
 setmetatable(hero, hero)
 et.hero = hero
 
+--- @class hero
 local mt = {}
 hero.__index = mt
 
 mt.type = 'hero'
 
 -- 存储jass的unit对象
+--- @type j_unit
 mt.handle = 0
 
 -- 守家积分
@@ -94,6 +96,9 @@ mt.max_pellet = 10
 mt.revive_time = 15
 
 mt.sword_sense = 0 -- 剑意
+
+--- @type table<string, table<string, number>>
+mt.part_times = nil
 
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)

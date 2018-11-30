@@ -1,10 +1,10 @@
 --globals from UniMissileSystem3D:
 LIBRARY_UniMissileSystem3D = true
-UniMissileSystem3D__SP = _array_(0.0)
+local m_space = {}
 UniMissileSystem3D__RA = _array_(0.0)
 UniMissileSystem3D__DM = _array_(0.0)
 UniMissileSystem3D__DI = _array_(0.0)
-UniMissileSystem3D__AN = _array_(0.0)
+local m_angle = {}
 UniMissileSystem3D__ANZ = _array_(0.0)
 UniMissileSystem3D__HE = _array_(0.0)
 UniMissileSystem3D__HEMax = _array_(0.0)
@@ -18,21 +18,21 @@ UniMissileSystem3D__HP = _array_(0.0)
 UniMissileSystem3D__OF = _array_(0.0)
 UniMissileSystem3D__OS = _array_(0.0)
 UniMissileSystem3D__TIM = _array_(0.0)
-UniMissileSystem3D__LT = _array_(0.0)
+local m_fly_time = {}
 local m_altitude = {}
 UniMissileSystem3D__RI = _array_(0.0)
 UniMissileSystem3D__R01 = _array_(0.0)
 UniMissileSystem3D__R02 = _array_(0.0)
 local m_gravity = _array_(0.0)
-UniMissileSystem3D__LOC = _array_(0.0)
+local m_loc = {}
 local m_height = {}
-local m_missle = _array_()
-UniMissileSystem3D__MT = _array_()
+local m_missle = {}
+local m_target = {}
 UniMissileSystem3D__DamageUnit = nil
 UniMissileSystem3D__EF = _array_()
 UniMissileSystem3D__EFL = _array_()
 UniMissileSystem3D__ACC = _array_(0.0)
-UniMissileSystem3D__MaxS = _array_(0.0)
+local m_max_speed = {}
 UniMissileSystem3D__SPX = _array_(0.0)
 UniMissileSystem3D__SPY = _array_(0.0)
 UniMissileSystem3D__LastX = _array_(0.0)
@@ -41,8 +41,7 @@ UniMissileSystem3D__MKs = _array_(0.0)
 UniMissileSystem3D__IN = _array_(0)
 local top = -1
 local TIME_OUT = 0.03
-UniMissileSystem3D__DamageGroup = nil
-UniMissileSystem3D__TIMr = nil
+local m_damage_group
 local hero_pos
 UniMissileSystem3D__MLoc = _array_()
 UniMissileSystem3D__LastOwner = _array_()
@@ -85,17 +84,17 @@ local function m_register(missile)
     jass.SetUnitAnimationByIndex(missile, 90)
 end
 -- 将i从栈中移除，使用栈顶元素补充i
-function UniMissileSystem3D__MPop(i)
+local function m_pop(i)
     if GetUnitState(m_missle[i], UNIT_STATE_LIFE) > 0.4 then
         KillUnit(m_missle[i])
     end
     DestroyEffect(UniMissileSystem3D__EFL[i])
     m_missle[i] = m_missle[top]
-    UniMissileSystem3D__SP[i] = UniMissileSystem3D__SP[top]
+    m_space[i] = m_space[top]
     UniMissileSystem3D__RA[i] = UniMissileSystem3D__RA[top]
     UniMissileSystem3D__DM[i] = UniMissileSystem3D__DM[top]
     UniMissileSystem3D__DI[i] = UniMissileSystem3D__DI[top]
-    UniMissileSystem3D__AN[i] = UniMissileSystem3D__AN[top]
+    m_angle[i] = m_angle[top]
     UniMissileSystem3D__HE[i] = UniMissileSystem3D__HE[top]
     UniMissileSystem3D__HEMax[i] = UniMissileSystem3D__HEMax[top]
     UniMissileSystem3D__US[i] = UniMissileSystem3D__US[top]
@@ -105,19 +104,19 @@ function UniMissileSystem3D__MPop(i)
     UniMissileSystem3D__EFL[i] = UniMissileSystem3D__EFL[top]
     UniMissileSystem3D__SH[i] = UniMissileSystem3D__SH[top]
     m_gravity[i] = m_gravity[top]
-    UniMissileSystem3D__LOC[i] = UniMissileSystem3D__LOC[top]
+    m_loc[i] = m_loc[top]
     UniMissileSystem3D__TIM[i] = UniMissileSystem3D__TIM[top]
-    UniMissileSystem3D__LT[i] = UniMissileSystem3D__LT[top]
+    m_fly_time[i] = m_fly_time[top]
     m_altitude[i] = m_altitude[top]
     UniMissileSystem3D__RI[i] = UniMissileSystem3D__RI[top]
     UniMissileSystem3D__R01[i] = UniMissileSystem3D__R01[top]
     UniMissileSystem3D__R02[i] = UniMissileSystem3D__R02[top]
-    UniMissileSystem3D__MT[i] = UniMissileSystem3D__MT[top]
+    m_target[i] = m_target[top]
     m_height[i] = m_height[top]
     UniMissileSystem3D__OS[i] = UniMissileSystem3D__OS[top]
     UniMissileSystem3D__OF[i] = UniMissileSystem3D__OF[top]
     UniMissileSystem3D__ACC[i] = UniMissileSystem3D__ACC[top]
-    UniMissileSystem3D__MaxS[i] = UniMissileSystem3D__MaxS[top]
+    m_max_speed[i] = m_max_speed[top]
     UniMissileSystem3D__MKs[i] = UniMissileSystem3D__MKs[top]
     UniMissileSystem3D__SPX[i] = UniMissileSystem3D__SPX[top]
     UniMissileSystem3D__SPY[i] = UniMissileSystem3D__SPY[top]
@@ -126,7 +125,7 @@ function UniMissileSystem3D__MPop(i)
     UniMissileSystem3D__IN[i] = UniMissileSystem3D__IN[top]
     UniMissileSystem3D__LastOwner[i] = UniMissileSystem3D__LastOwner[top]
     m_missle[top] = nil
-    UniMissileSystem3D__MT[top] = nil
+    m_target[top] = nil
     top = top - 1
 end
 -- 判断是否越界
@@ -135,67 +134,60 @@ local function m_limit(x, y)
     return x > map_max_x or x < map_min_x or y > map_max_y or y < map_min_y
 end
 -- 弹幕循环
-function UniMissileSystem3D__MLoop()
-    local i = top
-    local x = _array_(0.0)
-    local y = _array_(0.0)
-    local zLoc = _array_(0.0)
+local function m_loop()
+    local x = {}
+    local y = {}
+    local z = {}
     local h = 0.0
     local ang = 0.0
-    local height = 0.0
     local lastheight = 0.0
     local addxy = 0.0
     local addz = 0.0
     local anglez = 0.0
     local tanZ = 0.0
-    local addh = 0.0
-    local udis = 0.0
     local targetheight = 0.0
     local aniI = 0
-    if MissileTimerPause == true then
+    if MissileTimerPause then
         return
     end
-    for _ in _loop_() do
-        if i < 0 then
-            break
-        end
-        addh = 0.0
-        udis = 0.0
-        x[1] = GetUnitX(m_missle[i])
-        y[1] = GetUnitY(m_missle[i])
-        height = GetUnitFlyHeight(m_missle[i])
+    for i = top, 0, -1 do
+        local addh = 0.0
+        local udis = 0.0
+        x[1] = jass.GetUnitX(m_missle[i])
+        y[1] = jass.GetUnitY(m_missle[i])
+        local height = jass.GetUnitFlyHeight(m_missle[i])
         if UniMissileSystem3D__DI[i] <= 0.0 or GetUnitState(m_missle[i], UNIT_STATE_LIFE) < 0.4 or height <= 0.1 or UniMissileSystem3D__HP[i] <= 0.0 or m_limit(x[1], y[1]) == true or height >= 9999.1 then
-            UniMissileSystem3D__MPop(i)
+            m_pop(i)
         else
-            if UniMissileSystem3D__MT[i] ~= nil then
-                UniMissileSystem3D__AN[i] = get_angle(x[1], GetUnitX(UniMissileSystem3D__MT[i]), y[1], GetUnitY(UniMissileSystem3D__MT[i]))
-                ang = UniMissileSystem3D__AN[i] * bj_DEGTORAD
+            if m_target[i] ~= nil then
+                m_angle[i] = get_angle(x[1], jass.GetUnitX(m_target[i]), y[1], jass.GetUnitY(m_target[i]))
+                ang = math.rad(m_angle[i])
                 if UniMissileSystem3D__IN[i] == 0 then
-                    UniMissileSystem3D__SPX[i] = UniMissileSystem3D__SP[i] * Cos(ang)
-                    UniMissileSystem3D__SPY[i] = UniMissileSystem3D__SP[i] * Sin(ang)
+                    UniMissileSystem3D__SPX[i] = m_space[i] * Cos(ang)
+                    UniMissileSystem3D__SPY[i] = m_space[i] * Sin(ang)
                 else
                     ang = ang + UniMissileSystem3D__OF[i]
                     UniMissileSystem3D__SPX[i] = UniMissileSystem3D__SPX[i] * UniMissileSystem3D__MKs[i] + UniMissileSystem3D__ACC[i] * Cos(ang)
                     UniMissileSystem3D__SPY[i] = UniMissileSystem3D__SPY[i] * UniMissileSystem3D__MKs[i] + UniMissileSystem3D__ACC[i] * Sin(ang)
                 end
-                if IsUnitType(UniMissileSystem3D__MT[i], UNIT_TYPE_DEAD) == true then
-                    UniMissileSystem3D__MT[i] = nil
+                if IsUnitType(m_target[i], UNIT_TYPE_DEAD) == true then
+                    m_target[i] = nil
                 end
-                udis = get_unit_distance(UniMissileSystem3D__MT[i], m_missle[i]) / 100.0
+                udis = get_unit_distance(m_target[i], m_missle[i]) / 100.0
                 if udis == 0.0 then
                     udis = 0.01
                 end
-                targetheight = GetUnitFlyHeight(UniMissileSystem3D__MT[i])
+                targetheight = GetUnitFlyHeight(m_target[i])
                 if RAbsBJ(height - targetheight) > UniMissileSystem3D__RA[i] then
                     if targetheight > height then
-                        addh = RAbsBJ(UniMissileSystem3D__SP[i]) / udis
+                        addh = RAbsBJ(m_space[i]) / udis
                         if addh + height > targetheight then
                             addh = addh / 10.0
                             SetUnitFlyHeight(m_missle[i], targetheight, 0.0)
                             height = targetheight
                         end
                     elseif targetheight < height then
-                        addh = RAbsBJ(UniMissileSystem3D__SP[i]) * -1.0 / udis
+                        addh = RAbsBJ(m_space[i]) * -1.0 / udis
                         if addh + height < targetheight then
                             SetUnitFlyHeight(m_missle[i], targetheight, 0.0)
                             height = targetheight
@@ -203,16 +195,16 @@ function UniMissileSystem3D__MLoop()
                     end
                 end
             else
-                ang = UniMissileSystem3D__AN[i] * bj_DEGTORAD
-                UniMissileSystem3D__SPX[i] = UniMissileSystem3D__SP[i] * Cos(ang)
-                UniMissileSystem3D__SPY[i] = UniMissileSystem3D__SP[i] * Sin(ang)
-                if UniMissileSystem3D__LOC[i] == 0.0 then
-                    UniMissileSystem3D__SP[i] = UniMissileSystem3D__SP[i] + UniMissileSystem3D__ACC[i]
+                ang = m_angle[i] * bj_DEGTORAD
+                UniMissileSystem3D__SPX[i] = m_space[i] * Cos(ang)
+                UniMissileSystem3D__SPY[i] = m_space[i] * Sin(ang)
+                if m_loc[i] == 0.0 then
+                    m_space[i] = m_space[i] + UniMissileSystem3D__ACC[i]
                 else
-                    if UniMissileSystem3D__SP[i] <= UniMissileSystem3D__MaxS[i] then
-                        UniMissileSystem3D__SP[i] = UniMissileSystem3D__SP[i] + UniMissileSystem3D__ACC[i]
+                    if m_space[i] <= m_max_speed[i] then
+                        m_space[i] = m_space[i] + UniMissileSystem3D__ACC[i]
                     else
-                        UniMissileSystem3D__SP[i] = UniMissileSystem3D__MaxS[i]
+                        m_space[i] = m_max_speed[i]
                     end
                 end
             end
@@ -220,45 +212,45 @@ function UniMissileSystem3D__MLoop()
             y[2] = y[1] + UniMissileSystem3D__SPY[i]
             UniMissileSystem3D__MLoc[1] = Location(x[1], y[1])
             UniMissileSystem3D__MLoc[2] = Location(x[2], y[2])
-            zLoc[1] = GetLocationZ(UniMissileSystem3D__MLoc[1])
-            zLoc[2] = GetLocationZ(UniMissileSystem3D__MLoc[2])
+            z[1] = GetLocationZ(UniMissileSystem3D__MLoc[1])
+            z[2] = GetLocationZ(UniMissileSystem3D__MLoc[2])
             SetUnitX(m_missle[i], x[2])
             SetUnitY(m_missle[i], y[2])
             UniMissileSystem3D__LastX[i] = x[2]
             UniMissileSystem3D__LastY[i] = y[2]
             addxy = get_distance(x[2], x[1], y[2], y[1])
-            SetUnitFacing(m_missle[i], UniMissileSystem3D__AN[i])
-            GroupEnumUnitsInRange(UniMissileSystem3D__DamageGroup, x[2], y[2], UniMissileSystem3D__RA[i], nil)
+            SetUnitFacing(m_missle[i], m_angle[i])
+            GroupEnumUnitsInRange(m_damage_group, x[2], y[2], UniMissileSystem3D__RA[i], nil)
             for _ in _loop_() do
-                UniMissileSystem3D__DamageUnit = FirstOfGroup(UniMissileSystem3D__DamageGroup)
-                if GetUnitState(UniMissileSystem3D__DamageUnit, UNIT_STATE_LIFE) > 0.4 and (UniMissileSystem3D__MT[i] == UniMissileSystem3D__DamageUnit or IsUnitEnemy(UniMissileSystem3D__DamageUnit, GetOwningPlayer(m_missle[i]))) then
+                UniMissileSystem3D__DamageUnit = FirstOfGroup(m_damage_group)
+                if GetUnitState(UniMissileSystem3D__DamageUnit, UNIT_STATE_LIFE) > 0.4 and (m_target[i] == UniMissileSystem3D__DamageUnit or IsUnitEnemy(UniMissileSystem3D__DamageUnit, GetOwningPlayer(m_missle[i]))) then
                     if RAbsBJ(height - GetUnitFlyHeight(UniMissileSystem3D__DamageUnit)) <= UniMissileSystem3D__RA[i] then
                         UnitDamageTarget(m_missle[i], UniMissileSystem3D__DamageUnit, UniMissileSystem3D__DM[i], true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
                         UniMissileSystem3D__HP[i] = UniMissileSystem3D__HP[i] - 1.0
                         UniMissileSystem3D__DM[i] = UniMissileSystem3D__DM[i] * 0.5
                     end
                 end
-                GroupRemoveUnit(UniMissileSystem3D__DamageGroup, UniMissileSystem3D__DamageUnit)
+                GroupRemoveUnit(m_damage_group, UniMissileSystem3D__DamageUnit)
                 if UniMissileSystem3D__DamageUnit == nil then
                     break
                 end
             end
-            GroupClear(UniMissileSystem3D__DamageGroup)
+            GroupClear(m_damage_group)
             UniMissileSystem3D__TIM[i] = UniMissileSystem3D__TIM[i] + TIME_OUT
             if m_gravity[i] == 0.0 then
-                h = 0.11 + m_altitude[i] - zLoc[2]
+                h = 0.11 + m_altitude[i] - z[2]
             end
-            if UniMissileSystem3D__LOC[i] == 0.0 then
+            if m_loc[i] == 0.0 then
                 if m_gravity[i] == 0.0 then
                 else
-                    h = UniMissileSystem3D__HEMax[i] - UniMissileSystem3D__R01[i] * (UniMissileSystem3D__TIM[i] - UniMissileSystem3D__LT[i] / 2) * (UniMissileSystem3D__TIM[i] - UniMissileSystem3D__LT[i] / 2) + UniMissileSystem3D__TIM[i] * UniMissileSystem3D__R02[i] + m_altitude[i] - zLoc[2]
+                    h = UniMissileSystem3D__HEMax[i] - UniMissileSystem3D__R01[i] * (UniMissileSystem3D__TIM[i] - m_fly_time[i] / 2) * (UniMissileSystem3D__TIM[i] - m_fly_time[i] / 2) + UniMissileSystem3D__TIM[i] * UniMissileSystem3D__R02[i] + m_altitude[i] - z[2]
                 end
             else
                 UniMissileSystem3D__US[i] = UniMissileSystem3D__US[i] - m_gravity[i]
             end
             lastheight = height
-            UniMissileSystem3D__HE[i] = UniMissileSystem3D__HE[i] * UniMissileSystem3D__LOC[i] + UniMissileSystem3D__SH[i] + UniMissileSystem3D__US[i] * UniMissileSystem3D__LOC[i] + h * (1 - UniMissileSystem3D__LOC[i]) + addh
-            height = UniMissileSystem3D__HE[i] - zLoc[2] * UniMissileSystem3D__LOC[i]
+            UniMissileSystem3D__HE[i] = UniMissileSystem3D__HE[i] * m_loc[i] + UniMissileSystem3D__SH[i] + UniMissileSystem3D__US[i] * m_loc[i] + h * (1 - m_loc[i]) + addh
+            height = UniMissileSystem3D__HE[i] - z[2] * m_loc[i]
             SetUnitFlyHeight(m_missle[i], height, 0.0)
             addz = height - lastheight
             if addxy == 0.0 then
@@ -274,12 +266,11 @@ function UniMissileSystem3D__MLoop()
                 aniI = 181
             end
             SetUnitAnimationByIndex(m_missle[i], aniI)
-            UniMissileSystem3D__DI[i] = UniMissileSystem3D__DI[i] - UniMissileSystem3D__SP[i] * UniMissileSystem3D__LOC[i]
+            UniMissileSystem3D__DI[i] = UniMissileSystem3D__DI[i] - m_space[i] * m_loc[i]
             UniMissileSystem3D__US[i] = UniMissileSystem3D__US[i] - m_gravity[i]
             RemoveLocation(UniMissileSystem3D__MLoc[1])
             RemoveLocation(UniMissileSystem3D__MLoc[2])
         end
-        i = i - 1
     end
 end
 -- 弹幕发射
@@ -312,7 +303,7 @@ function missile_cast(tab)
     end
     top = top + 1
     i = top
-    hero_pos = {jass.GetUnitX(tab.caster), jass.GetUnitY(tab.caster)}
+    hero_pos = { jass.GetUnitX(tab.caster), jass.GetUnitY(tab.caster) }
 
     -- 设置默认值
     tab.originspeed = tab.originspeed or 0.01
@@ -325,11 +316,11 @@ function missile_cast(tab)
         y = tab.pos[2]
         ang = get_angle(GetUnitX(caster), x, GetUnitY(caster), y)
         dis = get_distance(x, GetUnitX(caster), y, GetUnitY(caster))
-        UniMissileSystem3D__LOC[i] = 0.0
+        m_loc[i] = 0.0
     else
         ang = tab.angle
         dis = tab.distance
-        UniMissileSystem3D__LOC[i] = 1.0
+        m_loc[i] = 1.0
     end
     -- 重力
     m_gravity[i] = tab.gravity and 0.4 or 0.0
@@ -338,77 +329,76 @@ function missile_cast(tab)
     m_height[i] = jass.GetUnitFlyHeight(tab.caster) + tab.height
     -- 考虑地形
     m_altitude[i] = jass.GetLocationZ(hero_pos) + m_height[i]
+
     if tab.originspeed == tab.maxspeed then
         speed = tab.originspeed
         tab.accel = 0.0
         inertia = false
-        UniMissileSystem3D__LT[i] = dis / speed
+        m_fly_time[i] = dis / speed
     else
         inertia = true
-        UniMissileSystem3D__LT[i] = get_accelerated_time(dis, originspeed, accel)
+        m_fly_time[i] = get_accelerated_time(dis, originspeed, accel)
     end
-    UniMissileSystem3D__SP[i] = originspeed * TIME_OUT
-    UniMissileSystem3D__MaxS[i] = maxspeed
-    UniMissileSystem3D__RI[i] = (GetLocationZ(pos) - m_altitude[i]) / dis
+    m_space[i] = tab.originspeed * TIME_OUT
+    m_max_speed[i] = tab.maxspeed
+    UniMissileSystem3D__RI[i] = (jass.GetLocationZ(tab.pos) - m_altitude[i]) / dis
     UniMissileSystem3D__TIM[i] = 0
     UniMissileSystem3D__IN[i] = 0
-    if target ~= nil then
-        if GetUnitState(target, UNIT_STATE_LIFE) > 0.4 then
-            UniMissileSystem3D__MT[i] = target
-            if inertia == true then
-                UniMissileSystem3D__OS[i] = originspeed * TIME_OUT
+    if tab.target ~= nil then
+        if jass.GetUnitState(target, UNIT_STATE_LIFE) > 0.4 then
+            m_target[i] = tab.target
+            if inertia then
+                UniMissileSystem3D__OS[i] = tab.originspeed * TIME_OUT
                 UniMissileSystem3D__OF[i] = Deg2Rad(50)
                 UniMissileSystem3D__SPX[i] = UniMissileSystem3D__OS[i] * Cos(ang)
                 UniMissileSystem3D__SPY[i] = UniMissileSystem3D__OS[i] * Sin(ang)
-                UniMissileSystem3D__MKs[i] = 1 - accel * TIME_OUT / maxspeed
+                UniMissileSystem3D__MKs[i] = 1 - tab.accel * TIME_OUT / tab.maxspeed
             end
         end
     end
-    UniMissileSystem3D__ACC[i] = accel * TIME_OUT * TIME_OUT
-    if inertia == true then
+    UniMissileSystem3D__ACC[i] = tab.accel * TIME_OUT * TIME_OUT
+    if inertia then
         UniMissileSystem3D__IN[i] = 1
     end
-    UniMissileSystem3D__RA[i] = range
-    UniMissileSystem3D__DM[i] = damage
-    UniMissileSystem3D__AN[i] = ang
-    UniMissileSystem3D__ARC[i] = arc
-    UniMissileSystem3D__MaxS[i] = maxspeed * TIME_OUT
-    if arc ~= 0.0 then
+    UniMissileSystem3D__RA[i] = tab.range
+    UniMissileSystem3D__DM[i] = tab.damage
+    m_angle[i] = ang
+    UniMissileSystem3D__ARC[i] = tab.arc
+    m_max_speed[i] = maxspeed * TIME_OUT
+    if tab.arc ~= 0.0 then
         UniMissileSystem3D__HEMax[i] = dis * UniMissileSystem3D__ARC[i]
     else
         UniMissileSystem3D__HEMax[i] = height
     end
     if GetLocationX(pos) == GetLocationX(hero_pos) and GetLocationY(pos) == GetLocationY(hero_pos) then
         UniMissileSystem3D__ANZ[i] = AtanBJ(arc)
-        UniMissileSystem3D__US[i] = arc * UniMissileSystem3D__SP[i]
-        UniMissileSystem3D__DI[i] = distance
+        UniMissileSystem3D__US[i] = tab.arc * m_space[i]
+        UniMissileSystem3D__DI[i] = tab.distance
     else
         UniMissileSystem3D__US[i] = 0
         UniMissileSystem3D__DI[i] = dis
     end
     SetUnitX(m_missle[i], GetLocationX(hero_pos))
     SetUnitY(m_missle[i], GetLocationY(hero_pos))
-    SetUnitOwner(m_missle[i], GetOwningPlayer(caster), true)
-    SetUnitFacing(m_missle[i], UniMissileSystem3D__AN[i])
+    SetUnitOwner(m_missle[i], GetOwningPlayer(tab.caster), true)
+    SetUnitFacing(m_missle[i], m_angle[i])
     UniMissileSystem3D__HE[i] = m_height[i] + GetLocationZ(hero_pos) + 0.11
-    UniMissileSystem3D__SH[i] = 0 * speed
-    UniMissileSystem3D__LastX[i] = 0.0
-    UniMissileSystem3D__LastY[i] = 0.0
-    UniMissileSystem3D__R01[i] = UniMissileSystem3D__HEMax[i] / UniMissileSystem3D__LT[i] / UniMissileSystem3D__LT[i] * 4
-    UniMissileSystem3D__R02[i] = UniMissileSystem3D__SP[i] * UniMissileSystem3D__RI[i] / TIME_OUT
-    UniMissileSystem3D__HP[i] = l__hp
-    UniMissileSystem3D__DM[i] = damage
-    UniMissileSystem3D__EF[i] = Effect
+    UniMissileSystem3D__SH[i] = 0
+    UniMissileSystem3D__LastX[i] = 0
+    UniMissileSystem3D__LastY[i] = 0
+    UniMissileSystem3D__R01[i] = UniMissileSystem3D__HEMax[i] / m_fly_time[i] / m_fly_time[i] * 4
+    UniMissileSystem3D__R02[i] = m_space[i] * UniMissileSystem3D__RI[i] / TIME_OUT
+    UniMissileSystem3D__HP[i] = tab.hp
+    UniMissileSystem3D__DM[i] = tab.damage
+    UniMissileSystem3D__EF[i] = tab.effect
     SetUnitFlyHeight(m_missle[i], UniMissileSystem3D__HE[i] - GetLocationZ(hero_pos), 0.0)
     UniMissileSystem3D__EFL[i] = AddSpecialEffectTarget(UniMissileSystem3D__EF[i], m_missle[i], "chest")
-    UniMissileSystem3D__LastOwner[i] = GetOwningPlayer(caster)
-    RemoveLocation(hero_pos)
+    UniMissileSystem3D__LastOwner[i] = jass.GetOwningPlayer(tab.caster)
     hero_pos = nil
 end
 local function init()
-    UniMissileSystem3D__DamageGroup = CreateGroup()
-    UniMissileSystem3D__TIMr = CreateTimer()
-    TimerStart(UniMissileSystem3D__TIMr, TIME_OUT, true, UniMissileSystem3D__MLoop)
+    m_damage_group = CreateGroup()
+    jass.TimerStart(jass.CreateTimer(), TIME_OUT, true, m_loop)
 end
 init()
 --library UniMissileSystem3D ends

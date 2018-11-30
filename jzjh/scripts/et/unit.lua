@@ -17,6 +17,7 @@ function unit:__tostring()
 end
 
 --结构
+--- @class unit
 local mt = {}
 unit.__index = mt
 
@@ -325,6 +326,7 @@ end
 mt._last_point = nil
 
 --获取位置
+--- @return point
 function mt:get_point()
     if self._dummy_point then
         return self._dummy_point
@@ -413,6 +415,10 @@ end
 
 --高度
 mt.high = 0
+
+function mt:get_fly_height()
+    return jass.GetUnitFlyHeight(self.handle)
+end
 
 --获取高度
 --	[是否是绝对高度(地面高度+飞行高度)]

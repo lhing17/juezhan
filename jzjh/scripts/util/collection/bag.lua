@@ -4,6 +4,7 @@
 --- DateTime: 2018/11/26 9:00
 ---
 
+--- @class bag
 local bag = {}
 
 function bag:new()
@@ -14,12 +15,12 @@ function bag:new()
 end
 
 function bag:insert(element)
-    bag[element] = (bag[element] or 0) + 1
+    self[element] = (self[element] or 0) + 1
 end
 
 function bag:remove(element)
-    local count = bag[element]
-    bag[element] = (count and count > 1) and count - 1 or nil
+    local count = self[element]
+    self[element] = (count and count > 1) and count - 1 or nil
 end
 
 return bag

@@ -6,6 +6,7 @@
 -- 玩家离开游戏
 local function init()
     et.game:event '玩家-离开'(function(self, p)
+        --- @type table<number, unit>
         local group = et.selector():of_player(p)
         for _, v in pairs(group) do
             for i = 1, 6 do

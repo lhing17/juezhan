@@ -1494,7 +1494,7 @@ function EnterFB(u, goldnum, rt0, rt1, rt2, FBNum, FBName)
 	qylocs[1] = gf
 	qylocs[2] = hf
 	qylocs[3] = jf
-	qylocs[4] = self
+	qylocs[4] = sel
 	qylocs[5] = mf
 	qylocs[6] = nf
 	qylocs[7] = Af

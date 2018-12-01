@@ -7,7 +7,7 @@
 local function init()
     -- 购买等级
     et.game:event '单位-捡起物品'(function(self, u, item)
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227896154 then
+        if u:get_owner():is_player() and item:get_id() == 1227896154 then
             local p = u:get_owner()
             local h = p.hero
             local hu = et.unit(h.handle)

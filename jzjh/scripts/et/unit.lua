@@ -17,7 +17,9 @@ function unit:__tostring()
 end
 
 --结构
+--- @class unit
 local mt = {}
+
 unit.__index = mt
 
 --类型
@@ -325,6 +327,7 @@ end
 mt._last_point = nil
 
 --获取位置
+--- @return point
 function mt:get_point()
     if self._dummy_point then
         return self._dummy_point
@@ -413,6 +416,10 @@ end
 
 --高度
 mt.high = 0
+
+function mt:get_fly_height()
+    return jass.GetUnitFlyHeight(self.handle)
+end
 
 --获取高度
 --	[是否是绝对高度(地面高度+飞行高度)]
@@ -1079,6 +1086,7 @@ function mt:set_lifetime(time)
 end
 
 --转换handle为单位
+--- @return unit
 function unit.j_unit(handle)
     if not handle or handle == 0 then
         return
@@ -1093,6 +1101,7 @@ function unit.j_unit(handle)
     return u
 end
 
+--- @return unit
 function unit:__call(handle)
     return self.j_unit(handle)
 end
@@ -1233,7 +1242,7 @@ function player.__index:create_unit(id, where, face)
     end
 
     ignore_flag = true
-    local handle = jass.CreateUnit(self.handle, j_id, x, y, face or 0)
+    local handle = jass.CreateUnit(self.handle, j_id, x, y, face or 270)
     dbg.handle_ref(handle)
     ignore_flag = false
     local u = unit.init_unit(handle, self)
@@ -1285,24 +1294,30 @@ function mt:set_invulnerable(time)
     end)
 end
 
+--- @param i number 第几格物品，从1开始
+--- @return item
 function mt:get_item_in_slot(i)
-    return jass.UnitItemInSlot(self.handle, i - 1)
+    return et.item:get(jass.UnitItemInSlot(self.handle, i - 1))
 end
 
+--- @param id number 物品ID
+--- @return item
 function mt:fetch_item(id)
     for i = 1, 6 do
         local it = self:get_item_in_slot(i)
-        if jass.GetItemTypeId(it) == id then
+        if it:get_id() == id then
             return it
         end
     end
     return nil
 end
 
+--- @param id number 物品ID
+--- @return boolean
 function mt:has_item(id)
     if id ~= 0 then
-        for i = 0, 5 do
-            if jass.UnitItemInSlot(self.handle, i) and jass.GetItemTypeId(jass.UnitItemInSlot(self.handle, i)) == id then
+        for i = 1, 6 do
+            if self:get_item_in_slot(i) and self:get_item_in_slot(i):get_id() == id then
                 return true
             end
         end
@@ -1310,20 +1325,23 @@ function mt:has_item(id)
     return false
 end
 
+--- @param item item|string|number
+--- @return item
 function mt:add_item(item)
     local it = item
     if type(item) == 'string' then
         item = base.string2id(item)
     end
     if type(item) == 'number' then
-        it = jass.CreateItem(item, self:getX(), self:getY())
+        it = et.item:new(item, self:getX(), self:getY())
     end
-    jass.UnitAddItem(self.handle, it)
+    jass.UnitAddItem(self.handle, it.handle)
     return it
 end
 
+--- @param item
 function mt:remove_item(it)
-    jass.UnitRemoveItem(self.handle, it)
+    jass.UnitRemoveItem(self.handle, it.handle)
 end
 
 function mt:update()
@@ -1438,7 +1456,7 @@ function unit.register_jass_triggers()
     end
 
     j_trg = war3.CreateTrigger(function()
-        local item = jass.GetManipulatedItem()
+        local item = et.item:get(jass.GetManipulatedItem())
         local u = unit(jass.GetTriggerUnit())
         u:event_notify('单位-捡起物品', u, item)
     end)
@@ -1448,7 +1466,7 @@ function unit.register_jass_triggers()
     end
 
     j_trg = war3.CreateTrigger(function()
-        local item = jass.GetManipulatedItem()
+        local item = et.item:get(jass.GetManipulatedItem())
         local u = unit(jass.GetTriggerUnit())
         u:event_notify('单位-使用物品', u, item)
     end)

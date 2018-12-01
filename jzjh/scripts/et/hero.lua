@@ -1,16 +1,19 @@
 jass = require 'jass.common'
+local bag = require 'util.collection.bag'
 
 local hero = {}
 
 setmetatable(hero, hero)
 et.hero = hero
 
+--- @class hero
 local mt = {}
 hero.__index = mt
 
 mt.type = 'hero'
 
 -- 存储jass的unit对象
+--- @type j_unit
 mt.handle = 0
 
 -- 守家积分
@@ -92,17 +95,22 @@ mt.max_pellet = 10
 
 mt.revive_time = 15
 
+mt.sword_sense = 0 -- 剑意
+
+--- @type table<string, table<string, number>>
+mt.part_times = nil
+
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
 
 function hero.init_pick_table()
     local pick_table = {}
-    pick_table[Ls] = {
+    pick_table[RUO_DIE] = {
         ['name'] = '若蝶',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n',
         ['select_hint'] = '|CFFCCFF00若蝶|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+5 福缘+2 医术+3\n|r\n',
-        ['handle'] = Ls,
+        ['handle'] = RUO_DIE,
         ['悟性'] = 5,
         ['福缘'] = 2,
         ['医术'] = 3,
@@ -110,11 +118,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 0,
     }
-    pick_table[Ns] = {
+    pick_table[LANG_YUN] = {
         ['name'] = '潇侠',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00潇侠|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n',
         ['select_hint'] = '|CFFCCFF00潇侠|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r\n',
-        ['handle'] = Ns,
+        ['handle'] = LANG_YUN,
         ['悟性'] = 2,
         ['根骨'] = 2,
         ['胆魄'] = 1,
@@ -123,11 +131,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(2, 4),
         gender = 1,
     }
-    pick_table[Qs] = {
+    pick_table[XIAO_XIA] = {
         ['name'] = '莫言',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00莫言|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r\n',
-        ['handle'] = Qs,
+        ['handle'] = XIAO_XIA,
         ['悟性'] = 2,
         ['胆魄'] = 5,
         ['经脉'] = 1,
@@ -136,11 +144,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(1, 3),
         gender = 0,
     }
-    pick_table[Os] = {
+    pick_table[MO_YAN] = {
         ['name'] = '浪云',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00浪云|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00浪云|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+3 经脉+5 医术+2\n|r\n',
-        ['handle'] = Os,
+        ['handle'] = MO_YAN,
         ['根骨'] = 3,
         ['经脉'] = 5,
         ['医术'] = 2,
@@ -148,11 +156,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(2, 4),
         gender = 1,
     }
-    pick_table[Ps] = {
+    pick_table[MO_JUN] = {
         ['name'] = '魔君',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00魔君|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙|r\n\n',
         ['select_hint'] = '|CFFCCFF00魔君|r\n可加入门派：\n|CFF00FFCC少林 华山 全真 血刀 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+5 经脉+3 胆魄+2\n|r\n',
-        ['handle'] = Ps,
+        ['handle'] = MO_JUN,
         ['根骨'] = 5,
         ['胆魄'] = 2,
         ['经脉'] = 3,
@@ -160,11 +168,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 1,
     }
-    pick_table[LanXin] = {
+    pick_table[LAN_XIN] = {
         ['name'] = '兰馨',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00兰馨|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00兰馨|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
-        ['handle'] = LanXin,
+        ['handle'] = LAN_XIN,
         ['悟性'] = 3,
         ['根骨'] = 3,
         ['胆魄'] = 3,
@@ -175,11 +183,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 0,
     }
-    pick_table[XuanJin] = {
+    pick_table[JIN_XUAN] = {
         ['name'] = '瑾轩',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00瑾轩|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC全部门派|r\n\n',
         ['select_hint'] = '|CFFCCFF00瑾轩|r\n可加入门派：\n|CFF00FFCC全部门派|r\n基础全属性+9\n额外属性\n|cFF00FF00全属性+3\n|r\n',
-        ['handle'] = XuanJin,
+        ['handle'] = JIN_XUAN,
         ['悟性'] = 3,
         ['根骨'] = 3,
         ['胆魄'] = 3,
@@ -205,6 +213,16 @@ function mt:join_denomination(denomination_name)
     h['门派'] = et.lni.denomination[denomination_name]
 end
 
+function mt:add_all_attr(n)
+    n = n or 1
+    self['悟性'] = self['悟性'] + n
+    self['福缘'] = self['福缘'] + n
+    self['医术'] = self['医术'] + n
+    self['根骨'] = self['根骨'] + n
+    self['经脉'] = self['经脉'] + n
+    self['胆魄'] = self['胆魄'] + n
+end
+
 function mt:join_part_time(pt)
     self['悟性'] = self['悟性'] + pt['悟性']
     self['福缘'] = self['福缘'] + pt['福缘']
@@ -214,6 +232,9 @@ function mt:join_part_time(pt)
     self['胆魄'] = self['胆魄'] + pt['胆魄']
     self:get_owner():send_message(pt.hint, 5)
     self.part_times[pt.name] = { level = 1 } -- 1级兼职 5级为宗师
+    if pt.name == '炼丹师' then
+        self.herb_bag = bag:new()
+    end
 end
 
 function mt:get_kongfu_num()
@@ -266,6 +287,9 @@ function hero.create(jUnit, pick)
 
     -- 副职
     h.part_times = {}
+
+    -- 历练任务
+    h.practice_tasks = {}
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

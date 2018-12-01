@@ -1,41 +1,46 @@
-function WanBuff_1(buffnum, num, uc, id, orderid, l__ut, s)
-	local u
-	local p
-	local loc
-	if buffnum == num then
-		p = GetOwningPlayer(uc)
-		loc = GetUnitLoc(l__ut)
-		CreateNUnitsAtLoc(1, 1697656880, p, loc, bj_UNIT_FACING)
-		u = bj_lastCreatedUnit
-		ShowUnitHide(u)
-		UnitAddAbility(u, id)
-		if num == 12 or num == 14 then
-			IncUnitAbilityLevel(u, id)
-		end
-		IssueTargetOrderById(u, orderid, l__ut)
-		UnitApplyTimedLife(u, 1112045413, 2.0)
-		CreateTextTagLocBJ(s, loc, 60.0, 12.0, 65.0, 55.0, 42.0, 0)
-		Nw(3.0, bj_lastCreatedTextTag)
-		SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
-		RemoveLocation(loc)
-	end
-	loc = nil
-	p = nil
-	u = nil
+
+local buffs = {
+    { ability_id = 1093678903, order_id = 852111, name = "内伤" },
+    { ability_id = 1093678905, order_id = 852668, name = "走火入魔" },
+    { ability_id = 1093678901, order_id = 852527, name = "流血" },
+    { ability_id = 1093678665, order_id = 852189, name = "混乱" },
+    { ability_id = 1093681498, order_id = 852075, name = "昏迷" },
+    { ability_id = 1093678902, order_id = 852075, name = "重伤" },
+    { ability_id = 1093678904, order_id = 852527, name = "血流不止" },
+    { ability_id = 1093681497, order_id = 852190, name = "麻痹" },
+    { ability_id = 1093677369, order_id = 852149, name = "破防" },
+    { ability_id = 1093678414, order_id = 852190, name = "神经错乱" },
+    { ability_id = 1093678412, order_id = 852095, name = "封穴" },
+    { ability_id = 1093678412, order_id = 852095, name = "穴位全封" },
+    { ability_id = 1093678900, order_id = 852527, name = "中毒" },
+    { ability_id = 1093678900, order_id = 852527, name = "深度中毒" },
+}
+
+--- @param dest unit
+--- @param num (number or string)
+function et.unit.__index:apply_buff(dest, num)
+    -- 如果num是buff名，寻找相应的下标
+    if type(num) == 'string' then
+        for i, v in ipairs(buffs) do
+            if v.name == num then
+                num = i
+            end
+        end
+        assert(type(num) == 'number', 'num的类型不正确')
+    end
+    local p = self:get_owner()
+    local last = p:create_unit(1697656880, dest:get_point())
+    last:show(false)
+    local level = is_in(num, { 12, 14 }) and 2 or 1
+    last:add_ability(buffs[num].ability_id, level)
+    last:issue_order(buffs[num].order_id, dest)
+    last:set_lifetime(2)
+    tag.create(buffs[num].name, dest:get_point(), 12, 60, 65, 55, 42, 0, 3, 100, 90)
 end
-function WanBuff(u, l__ut, buffnum)
-	WanBuff_1(buffnum, 1, u, 1093678903, 852111, l__ut, "内伤")
-	WanBuff_1(buffnum, 2, u, 1093678905, 852668, l__ut, "走火入魔")
-	WanBuff_1(buffnum, 3, u, 1093678901, 852527, l__ut, "流血")
-	WanBuff_1(buffnum, 4, u, 1093678665, 852189, l__ut, "混乱")
-	WanBuff_1(buffnum, 5, u, 1093681498, 852075, l__ut, "昏迷")
-	WanBuff_1(buffnum, 6, u, 1093678902, 852075, l__ut, "重伤")
-	WanBuff_1(buffnum, 7, u, 1093678904, 852527, l__ut, "血流不止")
-	WanBuff_1(buffnum, 8, u, 1093681497, 852190, l__ut, "麻痹")
-	WanBuff_1(buffnum, 9, u, 1093677369, 852149, l__ut, "破防")
-	WanBuff_1(buffnum, 10, u, 1093678414, 852190, l__ut, "神经错乱")
-	WanBuff_1(buffnum, 11, u, 1093678412, 852095, l__ut, "封穴")
-	WanBuff_1(buffnum, 12, u, 1093678412, 852095, l__ut, "穴位全封")
-	WanBuff_1(buffnum, 13, u, 1093678900, 852527, l__ut, "中毒")
-	WanBuff_1(buffnum, 14, u, 1093678900, 852527, l__ut, "深度中毒")
+
+--- @param source j_unit
+--- @param dest j_unit
+--- @param num number
+function WanBuff(source, dest, num)
+    et.unit.j_unit(source):apply_buff(et.unit(dest), num)
 end

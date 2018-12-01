@@ -1,5 +1,6 @@
 local lni = require 'lni.lni-loader'
 local storm = require 'jass.storm'
+require 'war3.id'
 
 et.lni = {}
 
@@ -26,6 +27,9 @@ function et.extend_lni(tab)
     local temp = {}
     for k, v in pairs(tab) do
         if v.item_id then
+            if type(v.item_id) then
+                v.item_id = base.string2id(v.item_id)
+            end
             temp[v.item_id] = v
         end
     end

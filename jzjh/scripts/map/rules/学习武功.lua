@@ -79,9 +79,9 @@ local function init()
     init_internal_lni()
     et.game:event '单位-使用物品'(function(self, u, item)
         --学习武功
-        if kongfu[jass.GetItemTypeId(item)] and u:get_owner().hero then
+        if kongfu[item:get_id()] and u:get_owner().hero then
             LearnJiNeng(u.handle, item)
-            local kf = kongfu[jass.GetItemTypeId(item)]
+            local kf = kongfu[item:get_id()]
             local p = u:get_owner()
             local h = p.hero
             local hu = h.handle
@@ -127,7 +127,7 @@ local function init()
     et.game:event '单位-捡起物品'(function(self, u, item)
         local p = u:get_owner()
         local h = p.hero
-        if u:is_hero() and u:get_owner():is_player() and jass.GetItemTypeId(item) == 1227895856 then
+        if u:is_hero() and u:get_owner():is_player() and item:get_id() == 1227895856 then
             if not u:has_item(1227895642) then
                 p:send_message("|CFF34FF00你必须携带门派毕业卷才能获得修习资格")
             elseif h.learned_internal then

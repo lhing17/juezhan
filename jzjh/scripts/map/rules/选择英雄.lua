@@ -1,13 +1,13 @@
 
 
 local function init()
-    local pick_list = {Ls, Ns, Qs, Os, Ps, LanXin, XuanJin}
+    local pick_list = {RUO_DIE, LANG_YUN, XIAO_XIA, MO_YAN, MO_JUN, LAN_XIN, JIN_XUAN}
     --选择英雄
     et.game:event '玩家-选择单位'(function(trg, p, u)
         if not p.hero and is_in(u, pick_list) then
             local i = p.id
             if p.selecting and p.selecting == u then
-                pt = et.get_rect_random(Ge)
+                pt = et.get_rect_random(rect_born)
                 last_unit = p:create_unit(GetUnitTypeId(u.handle), pt)
                 p:set_camera(pt)
                 et.hero.create(last_unit.handle, pick_table[u])

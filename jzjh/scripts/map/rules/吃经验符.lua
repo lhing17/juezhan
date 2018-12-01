@@ -6,7 +6,7 @@
 local function init()
     -- 吃经验符
     et.game:event '单位-捡起物品' (function(self, u, item)
-        if u:get_owner():is_player() and jass.GetItemTypeId(item) == 1952807024 then
+        if u:get_owner():is_player() and item:get_id() == 1952807024 then
             u:get_owner().hero:add_xp(200000)
         end
     end)

@@ -10,8 +10,8 @@ local trigger_util = require 'jass.util.trigger_util'
 local item = require 'jass.type.item'
 
 local function test_teleport()
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LanXin.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
     local it = item.create(1227896148, 0, 0)
     et.player(1).hero.handle.hero = true
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, et.player(1).hero.handle, { manipulated_item = it })

@@ -13,6 +13,7 @@ function point:__tostring()
 end
 
 --结构
+--- @class point
 local mt = {}
 point.__index = mt
 

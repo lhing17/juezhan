@@ -41,37 +41,18 @@ local function init()
     lni_loader('misc')
     lni_loader('unit')
 
-    YaoCao = { 'I07L',
-               'I07N',
-               'I07I',
-               'I07P',
-               'I07Q',
-               'I07R',
-               'I07K',
-               'I05K',
-               'I07J',
-               'I07M',
-               'I07O',
-    }
-    for i, v in ipairs(YaoCao) do
-        print(slk.item[YaoCao[i]].Name)
+    local file = io.open('F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\map\\static\\units.lua', 'r')
+    local dest = io.open('dest.ini', 'w+')
+    for line in file:lines() do
+        if line:find("'%w%w%w%w'") then
+            local start, _end, str = line:find("'(%w%w%w%w)'")
+            -- print(slk.unit[str].Name)
+            dest:write(line, '--' .. (slk.unit[str].Name or slk.unit[slk.unit[str]._parent].Name or ''), '\n')
+        else
+            dest:write(line, '\n')
+        end
+
     end
-
-    --file = io.open("f:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\generator\\dest.txt")
-    --file2 = io.open("f:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\generator\\dest2.txt", 'a')
-    --for line in file:lines() do
-    --    print(slk.ability[line].name)
-    --    file2:write(line, slk.ability[line].name, '\n')
-    --end
-
-
-    --for k, v in pairs(slk.unit) do
-    --    print(k, v)
-    --    for k1, v1 in pairs(v) do
-    --        print('\t', k1, v1)
-    --    end
-    --end
-    --lni_loader('upgrade')
 
 end
 init()

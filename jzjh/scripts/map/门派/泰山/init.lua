@@ -260,7 +260,7 @@ function KuaiHuoSanJian()
 			if j >= jmax then break end
 			angle = GetUnitFacing(caster) + 360 // jmax * j + GetRandomReal(-90, 90)
 			missile = CreateUnit(GetOwningPlayer(caster), 1747988557, GetUnitX(caster), GetUnitY(caster), angle) --弹幕单位
-			MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, l__hp, Effect, gravity)
+			missile_cast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, l__hp, Effect, gravity)
 			j = j + 1
 		end
 	--call MissileCast(caster, missile, originspeed, maxspeed, accel, angle, distance, arc, range, damage, loc, target, height, hp, Effect, gravity)

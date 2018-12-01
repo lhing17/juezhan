@@ -52,7 +52,7 @@ local function init()
     et.game:event '单位-捡起物品'(function(self, u, item)
         local l = { 1227896399, 1227899184, 1227896403, 1227896404, 1227896402, 1227896405, 1227896400, 1227896401, }
         -- 积分换物品
-        if u:get_owner():is_player() and is_in(jass.GetItemTypeId(item), l) then
+        if u:get_owner():is_player() and is_in(item:get_id(), l) then
             point_exchange(u, item, 1227896399, 20, 300)
             point_exchange(u, item, 1227899184, 50, 1227895892)
             point_exchange(u, item, 1227896403, 200, YaoCao[GetRandomInt(1, 12)])
@@ -64,7 +64,7 @@ local function init()
         end
         -- 声望换物品
         l = { 1227899215, 1227899216, 1227899217, 1227899218, }
-        if u:get_owner():is_player() and is_in(jass.GetItemTypeId(item), l) then
+        if u:get_owner():is_player() and is_in(item:get_id(), l) then
             reputation_exchange(u, item, 1227899215, 200, 1227896395)
             reputation_exchange(u, item, 1227899216, 4000, 1227896919)
             reputation_exchange(u, item, 1227899217, 2000, 1227899219)

@@ -24,9 +24,9 @@ local function init()
             end
             -- 玩家英雄复活
             et.wait(revive_time * 1000, function()
-                Q4 = GetRectCenter(He)
+                Q4 = GetRectCenter(rect_reborn)
                 jass.ReviveHeroLoc(killed.handle, Q4, true)
-                p:set_camera(et.get_rect_center(He))
+                p:set_camera(et.get_rect_center(rect_reborn))
                 RemoveLocation(Q4)
                 he[p.id] = false
                 local hu = et.unit(p.hero.handle)

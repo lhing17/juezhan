@@ -963,11 +963,7 @@ function Equipment_Trigger()
 
 	require 'map.系统.养武'
 
-	--镶嵌宝石系统
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(kA))
-	TriggerAddAction(t, mA)
+
 	t = nil
 
 end

@@ -8,6 +8,7 @@ local common_util = require 'jass.util.common_util'
 local itemtype = require 'jass.type.itemtype'
 local item = {}
 
+--- @class j_item
 local mt = {}
 item.__index = mt
 item.all_items = {}

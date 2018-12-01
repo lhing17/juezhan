@@ -1389,7 +1389,7 @@ function sL()
 	AdjustPlayerStateBJ(30000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
 	AdjustPlayerStateBJ(20, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER)
 	DisplayTextToPlayer(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251)), 0, 0, "|CFF34FF00完成任务江湖声望+150，并获得金钱+30000、稀有币+20、绝学领悟力+1")
-	ShowUnitShow(gg_unit_nvl2_0005)
+	ShowUnitShow(YELV_CHUCAI)
 	FlushChildHashtable(YDHT, id * cx)
 end
 

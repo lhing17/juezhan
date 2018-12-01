@@ -42,7 +42,7 @@ local function init()
     -- 进入练功房
     et.game:event '单位-捡起物品'(function(self, u, item)
         if u:is_hero() and u:get_owner():is_player() then
-            local r = room[jass.GetItemTypeId(item)]
+            local r = room[item:get_id()]
             if r then
                 local p = u:get_owner()
                 p:send_message("|cFFFFCC00进入少林寺" .. r.name)

@@ -12,6 +12,7 @@ local unit = {}
 unit.all_units = {}
 unit.removed_units = {}
 
+--- @class j_unit
 local mt = {}
 unit.__index = mt
 

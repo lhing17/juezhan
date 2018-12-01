@@ -12,7 +12,7 @@ local brother_queue = {}
 local function init()
     -- 买黄纸
     et.game:event '单位-捡起物品'(function(self, u, item)
-        if jass.GetItemTypeId(item) == 1227894832 then
+        if item:get_id() == 1227894832 then
             u:add_item(1227896153)
             u:add_item(1227896153)
         end
@@ -20,7 +20,7 @@ local function init()
 
     -- 烧黄纸
     et.game:event '单位-使用物品'(function(self, u, item)
-        if jass.GetItemTypeId(item) == 1227896153 then
+        if item:get_id() == 1227896153 then
             local p = u:get_owner()
             local h = p.hero
             if h.burned_paper then

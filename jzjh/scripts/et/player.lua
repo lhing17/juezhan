@@ -12,6 +12,7 @@ function player:__tostring()
 end
 
 -- __index元方法对应的表
+--- @class player
 local mt = {}
 player.__index = mt
 
@@ -23,6 +24,9 @@ mt.handle = 0
 
 -- id
 mt.id = 0
+
+--- @type hero
+mt.hero = nil
 
 -- 获取玩家id
 function mt:get()

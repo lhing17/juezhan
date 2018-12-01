@@ -475,20 +475,32 @@ function mt:set_facing(angle, instant)
     end
 end
 
+function mt:get_mana()
+    return jass.GetUnitState(self.handle, jass.UNIT_STATE_MANA)
+end
+
+function mt:get_max_mana()
+    return jass.GetUnitState(self.handle, jass.UNIT_STATE_MAX_MANA)
+end
+
+function mt:set_mana(mana)
+    jass.SetUnitState(self.handle, jass.UNIT_STATE_MANA, mana)
+end
+
 function mt:get_max_life()
-    return jass.GetUnitState(self.handle, UNIT_STATE_MAX_LIFE)
+    return jass.GetUnitState(self.handle, jass.UNIT_STATE_MAX_LIFE)
 end
 
 function mt:get_life()
-    return jass.GetUnitState(self.handle, UNIT_STATE_LIFE)
+    return jass.GetUnitState(self.handle, jass.UNIT_STATE_LIFE)
 end
 
 function mt:set_life(life)
-    jass.SetUnitState(self.handle, UNIT_STATE_LIFE, life)
+    jass.SetUnitState(self.handle, jass.UNIT_STATE_LIFE, life)
 end
 
 function mt:get_life_percent()
-    return jass.GetUnitState(self.handle, UNIT_STATE_LIFE) / jass.GetUnitState(self.handle, UNIT_STATE_MAX_LIFE) * 100
+    return jass.GetUnitState(self.handle, jass.UNIT_STATE_LIFE) / jass.GetUnitState(self.handle, jass.UNIT_STATE_MAX_LIFE) * 100
 end
 
 function mt:set_life_percent(percent)
@@ -1292,6 +1304,36 @@ function mt:set_invulnerable(time)
     et.wait(time, function()
         jass.SetUnitInvulnerable(self.handle, false)
     end)
+end
+
+--- @return number
+function mt:get_str()
+    return jass.GetHeroStr(self.handle, true)
+end
+
+--- @param str number
+function mt:set_str(str)
+    jass.SetHeroStr(self.handle, str, true)
+end
+
+--- @return number
+function mt:get_agi()
+    return jass.GetHeroAgi(self.handle, true)
+end
+
+--- @param agi number
+function mt:set_agi(agi)
+    jass.SetHeroAgi(self.handle, agi, true)
+end
+
+--- @return number
+function mt:get_int()
+    return jass.GetHeroInt(self.handle, true)
+end
+
+--- @param int number
+function mt:set_int(int)
+    jass.SetHeroInt(self.handle, int, true)
 end
 
 --- @param i number 第几格物品，从1开始

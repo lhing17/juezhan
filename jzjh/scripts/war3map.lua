@@ -48,21 +48,7 @@ YDWEBase__AbilityCastingOverEventQueue = _array_()
 YDWEBase__AbilityCastingOverEventType = _array_(0)
 YDWEBase__AbilityCastingOverEventNumber = 0
 --endglobals from YDWEBase
---globals from YDWEGeneralBounsSystem:
-LIBRARY_YDWEGeneralBounsSystem = true
-YDWEGeneralBounsSystem__ABILITY_COUNT = _array_(0)
-YDWEGeneralBounsSystem__ABILITY_NUM = _array_(0)
-YDWEGeneralBounsSystem__BonusAbilitys = _array_(0)
-YDWEGeneralBounsSystem__PowersOf2 = _array_(0)
-YDWEGeneralBounsSystem__PRELOAD_DUMMY_UNIT = 1752196449
-YDWEGeneralBounsSystem__YDWEBONUS_MyChar = _array_(0)
-YDWEGeneralBounsSystem__PRELOAD_ABILITYS = true
-YDWEGeneralBounsSystem__BONUS_TYPES = 4
-YDWEGeneralBounsSystem__MaxBonus = _array_(0)
-YDWEGeneralBounsSystem__MinBonus = _array_(0)
-YDWEGeneralBounsSystem__Units = _array_()
-YDWEGeneralBounsSystem__UnitCount = 0
---endglobals from YDWEGeneralBounsSystem
+
 YDWELogarithm__base = _array_(0.0)
 YDWESync__m_mutex_state = false
 YDWETriggerEvent__DamageEventQueue = _array_()

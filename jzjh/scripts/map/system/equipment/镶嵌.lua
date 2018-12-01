@@ -7,6 +7,8 @@ local jewel = {
     [1227896142] = '医术' }
 
 local function init()
+    ---@param u unit
+    ---@param it item
     et.game:event '单位-捡起物品'(function(self, u, it)
         --- @type player
         local p = u:get_owner()

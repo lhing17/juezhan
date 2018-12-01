@@ -919,6 +919,8 @@ end
 
 local function init()
 
+
+
 	local t = CreateTrigger()
 	--鸟拿东西显示附加属性
 	t = CreateTrigger()

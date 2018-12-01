@@ -249,3 +249,4 @@ function SmeltingWeaponSystem()
 	TriggerAddAction(t, YeLianWuQi)
 	t = nil
 end
+

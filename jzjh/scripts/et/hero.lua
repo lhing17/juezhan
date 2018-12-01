@@ -223,6 +223,43 @@ function mt:add_all_attr(n)
     self['胆魄'] = self['胆魄'] + n
 end
 
+
+--- 增加悟性
+--- @param num number
+function mt:add_perception(num)
+    self['悟性'] = self['悟性'] + num
+end
+
+--- 增加根骨
+--- @param num number
+function mt:add_constitution(num)
+    self['根骨'] = self['根骨'] + num
+end
+
+--- 增加医术
+--- @param num number
+function mt:add_healing_skill(num)
+    self['医术'] = self['医术'] + num
+end
+
+--- 增加胆魄
+--- @param num number
+function mt:add_courage(num)
+    self['胆魄'] = self['胆魄'] + num
+end
+
+--- 增加福缘
+--- @param num number
+function mt:add_luck(num)
+    self['福缘'] = self['福缘'] + num
+end
+
+--- 增加经脉
+--- @param num number
+function mt:add_channel(num)
+    self['经脉'] = self['经脉'] + num
+end
+
 function mt:join_part_time(pt)
     self['悟性'] = self['悟性'] + pt['悟性']
     self['福缘'] = self['福缘'] + pt['福缘']

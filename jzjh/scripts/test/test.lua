@@ -15,5 +15,6 @@ get_center_point { -1056.0, 5024.0, -448.0, 5600.0 }
 
 local function test()
     print(base.string2id('I0A1'))
+    print(base.id2string(1093681741))
 end
 test()

@@ -33,7 +33,6 @@ local function init()
     require 'map.rules.伴侣系统'
     require 'map.rules.整理物品'
     require 'map.rules.选择模式'
-    require 'map.rules.装备打孔'
     require 'map.rules.特殊事件'
     require 'map.rules.BOSS技能'
     require 'map.rules.预约名门'
@@ -43,9 +42,6 @@ local function init()
     require 'map.rules.吃经验符'
     require 'map.rules.购买等级'
 
-    require 'map.系统.装备'
-    require 'map.系统.套装'
-    require 'map.系统.镶嵌'
 end
 
 init()

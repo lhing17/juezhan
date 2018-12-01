@@ -917,7 +917,7 @@ function ItemChongFu()
 	p = nil
 end
 
-function Equipment_Trigger()
+local function init()
 
 	local t = CreateTrigger()
 	--鸟拿东西显示附加属性
@@ -950,20 +950,9 @@ function Equipment_Trigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	TriggerAddCondition(t, Condition(Mz))
 	TriggerAddAction(t, ItemChongFu)
-	--集齐套装
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-	TriggerAddCondition(t, Condition(Pz))
-	TriggerAddAction(t, Qz)
-	--失去套装
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
-	TriggerAddCondition(t, Condition(Sz))
-	TriggerAddAction(t, Tz)
+
 
 	require 'map.系统.养武'
-
-
 	t = nil
-
 end
+init()

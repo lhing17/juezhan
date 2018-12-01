@@ -20,8 +20,13 @@ item.y = 0
 --- @type unit
 item.owner = nil
 
---- @type table<number>
+--- @type table<number> 镶嵌宝石列表
 item.imbeds = nil
+
+item.hole = 0
+
+--- 物品类型 枚举值：{herb, weapon, clothes, helmet, shoe, accessory, deputy}
+item.type = ''
 
 --- @param item_id 物品id
 --- @param x 创建位置x
@@ -34,6 +39,7 @@ function item:new(item_id, x, y)
     it.x = x or 0
     it.y = y or 0
     it.id = item_id
+    self:set_type()
     self[it.handle] = it
     return it
 end
@@ -52,11 +58,68 @@ function item:get(j_item)
     self.__index = self
     it.handle = j_item
     it.id = jass.GetItemTypeId(j_item)
+    self:set_type()
     self[j_item] = it
     return it
 end
 
 --- @return number 物品类型ID
 function item:get_id()
-    return jass.GetItemTypeId(item.handle)
+    return self.id
+end
+
+--- 设置物品的种类
+function item:set_type()
+    local j_type = jass.GetUnitType(self.handle)
+    if j_type == jass.ITEM_TYPE_ARTIFACT then
+        self.type = 'weapon'
+    elseif j_type == jass.ITEM_TYPE_PURCHASABLE then
+        self.type = 'clothes'
+    elseif j_type == jass.ITEM_TYPE_CHARGED then
+        if et.lni.helmet[self.id] then
+            self.type = 'helmet'
+        elseif et.lni.shoe[self.id] then
+            self.type = 'shoe'
+        elseif et.lni.deputy[self.id] then
+            self.type = 'deputy'
+        elseif et.lni.accessory[self.id] then
+            self.type = 'accessory'
+        end
+    elseif et.lni.herb[self.id] then
+        self.type = 'herb'
+    end
+end
+
+--- @return string
+function item:get_type()
+    return self.type
+end
+
+
+--- @return number
+function item:get_hole()
+    return self.hole
+end
+
+--- 增加孔的数量
+function item:add_hole()
+    self.hole = self.hole + 1
+end
+
+--- 获取剩余孔的数量
+--- @return number
+function item:get_remained_hole()
+    return self.hole - #self.imbeds
+end
+
+--- 镶嵌宝石
+--- @param string
+function item:embed(jewel)
+    table.insert(self.imbeds, jewel)
+end
+
+--- 判断物品是否为装备
+--- @return boolean
+function item:is_equipment()
+    return is_in(self.type, { 'weapon', 'clothes', 'helmet', 'shoe', 'accessory', 'deputy' })
 end

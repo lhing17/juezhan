@@ -2949,7 +2949,9 @@ function main2()
     require 'map.rules.rule' -- 游戏逻辑触发器
 
     GameDetail_Trigger() -- 游戏细节处理
-    Equipment_Trigger() --装备属性触发器
+    require 'map.系统.套装'
+    require 'map.系统.镶嵌'
+    require 'map.系统.装备' --装备属性触发器
     MenPai_Trigger() --门派触发器
     ZiZhi_Trigger() --自制武器触发器
     ZhenFa_Trigger() --阵法触发器

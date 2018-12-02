@@ -113,7 +113,15 @@ function Cuns()
 	et.lni_loader('helmet')	
 	et.lni_loader('shoe')	
 	et.lni_loader('accessory')	
-	et.lni_loader('deputy')	
+	et.lni_loader('deputy')
+	et.lni.equipment = {}
+	table.add_all(et.lni.equipment, et.lni.weapon)
+	table.add_all(et.lni.equipment, et.lni.clothes)
+	table.add_all(et.lni.equipment, et.lni.helmet)
+	table.add_all(et.lni.equipment, et.lni.shoe)
+	table.add_all(et.lni.equipment, et.lni.accessory)
+	table.add_all(et.lni.equipment, et.lni.deputy)
+	et.extend_lni(et.lni.equipment)
 end
 
 Cuns()

@@ -1,10 +1,11 @@
+--- 镶嵌系统
 local jewel = {
-    [1227896146] = '胆魄',
-    [1227896145] = '福缘',
-    [1227896141] = '根骨',
-    [1227896143] = '经脉',
-    [1227896144] = '悟性',
-    [1227896142] = '医术' }
+    [1227896146] = courage,
+    [1227896145] = luck,
+    [1227896141] = constitution,
+    [1227896143] = channel,
+    [1227896144] = perception,
+    [1227896142] = healing_skill }
 
 local function init()
     ---@param u unit
@@ -24,7 +25,7 @@ local function init()
                 p:add_gold(20000)
                 return
             end
-            it:embed(jewel[it:get_id()])
+            it:embed(h, jewel[it:get_id()])
         end
     end)
 

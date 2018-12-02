@@ -108,6 +108,45 @@ local suits = {
         luck = 3,
         healing_skill = 3,
         channel = 3,
+    },
+    ['青龙套装'] = {
+        hint = "|cFFFF6600集齐青龙套装：|r\n|cFFcc99ff――――――――――\n|cFF00FFFF招式伤害+200\n绝学领悟力+1\n暴击率+4%\n攻击速度+50%\n攻击+1000\n根骨+2\n悟性+1\n",
+        trick_damage = 200,
+        unique_perception = 1,
+        critical_rate = 4,
+        attack_speed = 50,
+        attack = 1000,
+        constitution = 2,
+        perception = 1,
+    },
+    ['朱雀套装'] = {
+        hint = "|cFFFF6600集齐朱雀套装：\n|cFFcc99ff――――――――――\n|cFF00FFFF内力+150\n绝学领悟力+1\n暴击伤害+50%\n杀怪回复+1000\n法术回复+10\n医术+1\n经脉+2\n",
+        internal = 150,
+        unique_perception = 1,
+        critical_damage = 50,
+        kill_regen = 1000,
+        mana_regen = 10,
+        healing_skill = 1,
+        channel = 2,
+    },
+    ['玄武套装'] = {
+        hint = "|cFFFF6600集齐玄武套装：\n |cFFcc99ff――――――――――\n 招式伤害+150\n 绝学领悟力+1\n 气血+30000\n 气血回复+600\n 防御+200\n 悟性+2\n 胆魄+1\n",
+        trick_damage = 150,
+        unique_perception = 1,
+        max_life = 30000,
+        life_regen = 600,
+        armor = 200,
+        perception = 2,
+        courage = 1,
+    },
+    ['白虎套装'] = {
+        hint = "|cFFFF6600集齐白虎套装：\n|cFFcc99ff――――――――――\n 内力+200\n 绝学领悟力+2\n 真实伤害+100\n 移动速度最大化\n 福缘+2\n 胆魄+1\n",
+        internal = 200,
+        unique_perception = 2,
+        real_damage = 100,
+        speed = 522,
+        luck = 2,
+        courage = 1,
     }
 }
 
@@ -116,12 +155,42 @@ local function init()
     --- @param u unit
     --- @param it item
     et.game:event '单位-捡起物品'(function(self, u, it)
-        -- 套装物品等级
-        if not is_in(it:get_level(), { 3, 6 }) then
-            return
-        end
         local p = u:get_owner()
         local h = p.hero
+        -- 四圣套装
+        if u:is_hero() and it:get_special() and is_in(it:get_special(), { 'dragon', 'tiger', 'phoenix', 'turtle' }) then
+            local counter = {}
+            for i = 1, 6 do
+                local m = u:get_item_in_slot(i)
+                if m:get_special() then
+                    counter[m:get_special()] = (counter[m:get_special()] or 0) + 1
+                end
+            end
+
+            local suit_name
+            if it:get_special() == 'dragon' then
+                suit_name = '青龙套装'
+            elseif it:get_special() == 'tiger' then
+                suit_name = '白虎套装'
+            elseif it:get_special() == 'phoenix' then
+                suit_name = '朱雀套装'
+            elseif it:get_special() == 'turtule' then
+                suit_name = '玄武套装'
+            end
+            if suit_name and counter[it:get_special()] >= 3 and not h.suits:contains(suit_name) then
+                p:send_message(suits[suit_name].hint)
+                h:add_bonus(suits[suit_name], 0)
+                h.suits:insert(suit_name)
+            else
+                p:send_message("|cFF33ffff获得" .. suit_name .. "套件，已收集到" .. counter[it:get_special()] .. "件")
+            end
+
+        end
+
+        -- 套装物品等级
+        if not is_in(it:get_level(), { 3, 6 }) or not u:is_hero() then
+            return
+        end
         for k, v in pairs(suits) do
             local flag = true
             for _, id in ipairs(v.items) do
@@ -140,7 +209,32 @@ local function init()
     --- @param u unit
     --- @param it item
     et.game:event '单位-扔下物品'(function(self, u, it)
-        if not is_in(it:get_level(), { 3, 6 }) then
+        -- 四圣套装
+        if u:is_hero() and it:get_special() and is_in(it:get_special(), { 'dragon', 'tiger', 'phoenix', 'turtle' }) then
+            local counter = {}
+            for i = 1, 6 do
+                local m = u:get_item_in_slot(i)
+                if m:get_special() then
+                    counter[m:get_special()] = (counter[m:get_special()] or 0) + 1
+                end
+            end
+            local suit_name
+            if it:get_special() == 'dragon' then
+                suit_name = '青龙套装'
+            elseif it:get_special() == 'tiger' then
+                suit_name = '白虎套装'
+            elseif it:get_special() == 'phoenix' then
+                suit_name = '朱雀套装'
+            elseif it:get_special() == 'turtule' then
+                suit_name = '玄武套装'
+            end
+            if suit_name and counter[it:get_special()] and h.suits:contains(suit_name) then
+                p:send_message("|cffff00ff失去" .. suit_name .. "属性|R")
+                h:add_bonus(suits[suit_name], 1)
+                h.suits:remove(suit_name)
+            end
+        end
+        if not is_in(it:get_level(), { 3, 6 }) or not u:is_hero() then
             return
         end
         local p = u:get_owner()

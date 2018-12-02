@@ -99,7 +99,7 @@ mt.revive_time = 15
 
 mt.sword_sense = 0 -- 剑意
 
---- @type table<string, table<string, number>>
+--- @type table
 mt.part_times = nil
 
 --- @type set 套装
@@ -363,6 +363,9 @@ function mt:add_bonus(bonus_table, mode)
     -- FIXME 万能属性系统没有攻速和移速
     if bonus_table.attack_speed then
         hu:add_bonus('attack_speed', fun(0, bonus_table.attack_speed))
+    end
+    if bonus_table.attack then
+        hu:add_bonus('attack', fun(0, bonus_table.attack))
     end
     if bonus_table.armor then
         hu:add_bonus('armor', fun(0, bonus_table.armor))

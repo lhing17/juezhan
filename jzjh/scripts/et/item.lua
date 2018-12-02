@@ -28,6 +28,12 @@ item.hole = 0
 --- 物品类型 枚举值：{herb, weapon, clothes, helmet, shoe, accessory, deputy}
 item.type = ''
 
+--- @type table 附加属性
+item.bonus_table = nil
+
+--- 四圣属性 枚举值 {dragon, tiger, phoenix, turtle}
+item.special = nil
+
 --- @param item_id 物品id
 --- @param x 创建位置x
 --- @param y 创建位置y
@@ -39,9 +45,20 @@ function item:new(item_id, x, y)
     it.x = x or 0
     it.y = y or 0
     it.id = item_id
+    it.bonus_table = {}
     self:set_type()
     self[it.handle] = it
     return it
+end
+
+--- @return string 物品四圣的特殊属性
+function item:get_special()
+    return self.special
+end
+
+--- @param holy string 四圣属性
+function item:set_special(holy)
+    self.special = holy
 end
 
 --- 根据jass.item获取et.item对象
@@ -58,6 +75,7 @@ function item:get(j_item)
     self.__index = self
     it.handle = j_item
     it.id = jass.GetItemTypeId(j_item)
+    it.bonus_table = it.bonus_table or {}
     self:set_type()
     self[j_item] = it
     return it
@@ -95,7 +113,6 @@ function item:get_type()
     return self.type
 end
 
-
 --- @return number
 function item:get_hole()
     return self.hole
@@ -113,9 +130,15 @@ function item:get_remained_hole()
 end
 
 --- 镶嵌宝石
---- @param string
-function item:embed(jewel)
-    table.insert(self.imbeds, jewel)
+--- @param h  hero 镶嵌宝石的英雄
+--- @param bonus_type string 宝石奖励类型
+function item:embed(h, bonus_type)
+    table.insert(self.imbeds, bonus_type)
+    local num = 1
+    if h.part_times['锻造师'] then
+        num = num + h.part_times['锻造师'].level
+    end
+    item.bonus_table[bonus_type] = (item.bonus_table[bonus_type] or 0) + num
 end
 
 --- 判断物品是否为装备
@@ -128,4 +151,9 @@ end
 --- @return number
 function item:get_level()
     return jass.GetItemLevel(self.handle)
+end
+
+--- @return table 物品奖励（附加属性）列表
+function item:get_bonus_table()
+    return self.bonus_table
 end

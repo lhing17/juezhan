@@ -3,3 +3,8 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/12/1 0001 10:30
 ---
+
+log.info('加载装备系统')
+require('map.system.equipment.imbed')
+require('map.system.equipment.pickup_and_drop')
+require('map.system.equipment.suits')

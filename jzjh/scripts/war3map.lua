@@ -17,9 +17,7 @@ MaxSpeed___MIN_SPEED = 500.0
 -- 测试最大为500刚出头，与522还有些差距
 --endglobals from MaxSpeed
 
---globals from WuQiQiHeSystem:
-LIBRARY_WuQiQiHeSystem = true
---endglobals from WuQiQiHeSystem
+
 --globals from YDTriggerSaveLoadSystem:
 LIBRARY_YDTriggerSaveLoadSystem = true
 YDHT = nil
@@ -1010,7 +1008,7 @@ function h__SetUnitMoveSpeed(a0, a1)
 end
 
 require 'util.maxspeed'
-require 'map.系统.武器'
+
 require 'map.系统.弹幕'
 --重写创造物品的函数
 function createitemloc(id, loc)

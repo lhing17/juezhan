@@ -6,12 +6,14 @@
 
 local function init()
     -- 加入副职
+    --- @param u unit
+    --- @param item item
     et.game:event '单位-捡起物品'(function(self, u, item)
         local p = u:get_owner()
         local h = p.hero
         local pt = et.part_time[item:get_id()]
         if p:is_player() and pt then
-            if is_empty(h.part_times) then
+            if h.part_times:is_empty() then
                 -- 不符合性别要求
                 if pt.gender_require and h.gender ~= pt.gender_require then
                     p:send_message(pt.fail_hint, 5)

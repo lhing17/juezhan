@@ -71,6 +71,7 @@ mt.proc = 1
 mt.class = ''
 
 --获得所有者
+--- @return player
 function mt:get_owner()
     return self.owner
 end

@@ -1,5 +1,7 @@
 jass = require 'jass.common'
+
 local bag = require 'util.collection.bag'
+local set = require 'util.collection.set'
 
 local hero = {}
 
@@ -83,7 +85,7 @@ mt.activated = nil
 mt.wuhun = nil
 
 -- 最大武功数
-mt.kufong_limit = 11
+mt.kongfu_limit = 11
 
 mt.practice = 0 -- 修行/历练
 
@@ -99,6 +101,9 @@ mt.sword_sense = 0 -- 剑意
 
 --- @type table<string, table<string, number>>
 mt.part_times = nil
+
+--- @type set 套装
+mt.suits = nil
 
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
@@ -223,7 +228,6 @@ function mt:add_all_attr(n)
     self['胆魄'] = self['胆魄'] + n
 end
 
-
 --- 增加悟性
 --- @param num number
 function mt:add_perception(num)
@@ -290,6 +294,93 @@ function mt:add_kongfu(ability_id)
     self['武功'][ability_id] = et.kongfu.create(ability_id)
 end
 
+--- @param mode number 0增加 1减少
+--- @param bonus_table { trick_damage:number, internal:number, real_damage:number, critical_rate:number, critical_damage: number, kill_regen:number, constitution:number, courage:number, perception:number, luck:number, healing_skill:number, channel:number, max_mana:number, mana_regen:number, max_life:number, life_regen:number, attack_speed:number, armor:number, unique_perception:number, damage_regen:number, damage_addition:number, damage_absorb:number }
+function mt:add_bonus(bonus_table, mode)
+    --- @type unit
+    local hu = et.unit(h.handle)
+    mode = mode or 0
+    local fun
+    if mode == 0 then
+        fun = function(a, b)
+            return a + b
+        end
+    elseif mode == 1 then
+        fun = function(a, b)
+            return a - b
+        end
+    else
+        return
+    end
+    if bonus_table.trick_damage then
+        hu:set_str(fun(hu:get_str(), bonus_table.trick_damage))
+    end
+    if bonus_table.internal then
+        hu:set_agi(fun(hu:get_agi()), bonus_table.internal)
+    end
+    if bonus_table.real_damage then
+        hu:set_int(fun(hu:get_int()), bonus_table.real_damage)
+    end
+    if bonus_table.critical_rate then
+        self['暴击率'] = fun(self['暴击率'], bonus_table.critical_rate)
+    end
+    if bonus_table.critical_damage then
+        self['暴击伤害'] = fun(self['暴击伤害'], bonus_table.critical_damage)
+    end
+    if bonus_table.kill_regen then
+        self['伤害回复'] = fun(self['伤害回复'], bonus_table.kill_regen)
+    end
+    if bonus_table.constitution then
+        self['根骨'] = fun(self['根骨'], bonus_table.constitution)
+    end
+    if bonus_table.perception then
+        self['悟性'] = fun(self['悟性'], bonus_table.perception)
+    end
+    if bonus_table.healing_skill then
+        self['医术'] = fun(self['医术'], bonus_table.healing_skill)
+    end
+    if bonus_table.courage then
+        self['胆魄'] = fun(self['胆魄'], bonus_table.courage)
+    end
+    if bonus_table.channel then
+        self['经脉'] = fun(self['经脉'], bonus_table.channel)
+    end
+    if bonus_table.luck then
+        self['福缘'] = fun(self['福缘'], bonus_table.luck)
+    end
+    if bonus_table.max_mana then
+        hu:set_max_state('mana', fun(hu:get_max_mana(), bonus_table.max_mana))
+    end
+    if bonus_table.mana_regen then
+        self['法力回复'] = fun(self['法力回复'], bonus_table.mana_regen)
+    end
+    if bonus_table.max_life then
+        hu:set_max_state('life', fun(hu:get_max_life(), bonus_table.max_life))
+    end
+    if bonus_table.life_regen then
+        self['生命回复'] = fun(self['生命回复'], bonus_table.life_regen)
+    end
+    -- FIXME 万能属性系统没有攻速和移速
+    if bonus_table.attack_speed then
+        hu:add_bonus('attack_speed', fun(0, bonus_table.attack_speed))
+    end
+    if bonus_table.armor then
+        hu:add_bonus('armor', fun(0, bonus_table.armor))
+    end
+    if bonus_table.unique_perception then
+        self['绝学领悟'] = fun(self['绝学领悟'], bonus_table.unique_perception)
+    end
+    if bonus_table.damage_regen then
+        self['伤害回复'] = fun(self['伤害回复'] + damage_regen)
+    end
+    if bonus_table.damage_addition then
+        self['伤害加成'] = fun(self['伤害加成'], bonus_table.damage_addition)
+    end
+    if bonus_table.damage_absorb then
+        self['伤害吸收'] = fun(self['伤害吸收'], bonus_table.damage_absorb)
+    end
+end
+
 function hero.create(jUnit, pick)
     local h = {}
     setmetatable(h, hero)
@@ -327,6 +418,9 @@ function hero.create(jUnit, pick)
 
     -- 历练任务
     h.practice_tasks = {}
+
+    -- 套装
+    h.suits = set:new()
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

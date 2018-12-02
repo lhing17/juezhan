@@ -123,3 +123,9 @@ end
 function item:is_equipment()
     return is_in(self.type, { 'weapon', 'clothes', 'helmet', 'shoe', 'accessory', 'deputy' })
 end
+
+--- 获取物品的等级
+--- @return number
+function item:get_level()
+    return jass.GetItemLevel(self.handle)
+end

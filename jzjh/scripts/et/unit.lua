@@ -32,6 +32,7 @@ mt.unit_type = 'unit'
 mt.handle = 0
 
 --所有者
+--- @type player
 mt.owner = nil
 
 --存活
@@ -1515,6 +1516,16 @@ function unit.register_jass_triggers()
 
     for i = 1, 16 do
         jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_USE_ITEM, nil)
+    end
+
+    j_trg = war3.CreateTrigger(function()
+        local item = et.item:get(jass.GetManipulatedItem())
+        local u = unit(jass.GetTriggerUnit())
+        u:event_notify('单位-扔下物品', u, item)
+    end)
+
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerUnitEvent(j_trg, player[i].handle, jass.EVENT_PLAYER_UNIT_DROP_ITEM, nil)
     end
 
     j_trg = war3.CreateTrigger(function()

@@ -25,15 +25,8 @@ YDLOC = nil
 --endglobals from YDTriggerSaveLoadSystem
 --globals from YDWEBase:
 LIBRARY_YDWEBase = true
---ȫ�ֹ�ϣ�� 
 bj_AllString = ".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 --全局系统变量
-bj_lastAbilityCastingUnit = nil
-bj_lastAbilityTargetUnit = nil
-bj_lastPoolAbstractedUnit = nil
-bj_lastCreatedUnitPool = nil
-bj_lastPoolAbstractedItem = nil
-bj_lastCreatedItemPool = nil
 bj_lastSetAttackType = ATTACK_TYPE_NORMAL
 bj_lastSetDamageType = DAMAGE_TYPE_NORMAL
 bj_lastSetWeaponType = WEAPON_TYPE_WHOKNOWS
@@ -492,8 +485,6 @@ Wt = _array_(0.0)
 Xt = _array_(0.0)
 Yt = _array_(0.0)
 Zt = _array_(0.0)
-fu = 0.0
-gu = 0.0
 vipbanlv = _array_()
 --JASSHelper struct globals:
 si__ModSpeed = 1
@@ -611,432 +602,18 @@ st__YDWETimerPattern__Thread_onDestroy = _array_()
 st___prototype16 = _array_()
 
 require 'util.dzapi'
-
-
---Generated method caller for ShopWeapon.onDestroy
-function sc__ShopWeapon_onDestroy(this)
-    s__ShopWeapon_min_xiuxing[this] = 0
-    s__ShopWeapon_id[this] = 0
-end
-
---Generated method caller for ShopWeapon.PickUpWeapon
-function sc__ShopWeapon_PickUpWeapon(this, u, it)
-    f__arg_this = this
-    f__arg_unit1 = u
-    f__arg_item1 = it
-    TriggerEvaluate(st__ShopWeapon_PickUpWeapon)
-end
-
---Generated allocator of ShopWeapon
-function s__ShopWeapon__allocate()
-    local this = si__ShopWeapon_F
-    if this ~= 0 then
-        si__ShopWeapon_F = si__ShopWeapon_V[this]
-    else
-        si__ShopWeapon_I = si__ShopWeapon_I + 1
-        this = si__ShopWeapon_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    s__ShopWeapon_zhuanshu[this] = false
-    si__ShopWeapon_V[this] = -1
-    return this
-end
-
---Generated destructor of ShopWeapon
-function sc__ShopWeapon_deallocate(this)
-    if this == nil then
-        return
-    elseif si__ShopWeapon_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__ShopWeapon_onDestroy)
-    si__ShopWeapon_V[this] = si__ShopWeapon_F
-    si__ShopWeapon_F = this
-end
-
---Generated method caller for ZiZhiWuGong.create
-function sc__ZiZhiWuGong_create(xishu, range, texiao, dapeishu, scrate)
-    f__arg_integer1 = xishu
-    f__arg_integer2 = range
-    f__arg_integer3 = texiao
-    f__arg_integer4 = dapeishu
-    f__arg_integer5 = scrate
-    TriggerEvaluate(st__ZiZhiWuGong_create)
-    return f__result_integer
-end
-
---Generated method caller for ZiZhiWuGong.onDestroy
-function sc__ZiZhiWuGong_onDestroy(this)
-    s__ZiZhiWuGong_xishu[this] = 0
-    s__ZiZhiWuGong_range[this] = 0
-    s__ZiZhiWuGong_texiao[this] = 0
-    s__ZiZhiWuGong_dapeishu[this] = 0
-    s__ZiZhiWuGong_scrate[this] = 0
-end
-
---Generated allocator of ZiZhiWuGong
-function s__ZiZhiWuGong__allocate()
-    local this = si__ZiZhiWuGong_F
-    if this ~= 0 then
-        si__ZiZhiWuGong_F = si__ZiZhiWuGong_V[this]
-    else
-        si__ZiZhiWuGong_I = si__ZiZhiWuGong_I + 1
-        this = si__ZiZhiWuGong_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    s__ZiZhiWuGong_name[this] = "自创武功"
-    si__ZiZhiWuGong_V[this] = -1
-    return this
-end
-
---Generated destructor of ZiZhiWuGong
-function sc__ZiZhiWuGong_deallocate(this)
-    if this == nil then
-        return
-    elseif si__ZiZhiWuGong_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__ZiZhiWuGong_onDestroy)
-    si__ZiZhiWuGong_V[this] = si__ZiZhiWuGong_F
-    si__ZiZhiWuGong_F = this
-end
-
---Generated method caller for DaPei.onDestroy
-function sc__DaPei_onDestroy(this)
-    s__DaPei_wugongid[this] = 0
-    s__DaPei_dapeixiaoguo[this] = 0
-    s__DaPei_shxishu[this] = 0
-end
-
---Generated method caller for DaPei.XiaoGuoShuoMing
-function sc__DaPei_XiaoGuoShuoMing(this)
-    local s = ""
-    s = (s or "") .. "+" .. (GetAbilityName(s__DaPei_wugongid[this]) or "") .. "："
-    if s__DaPei_dapeixiaoguo[this] ~= 2 then
-        s = (s or "") .. "伤害+" .. (I2S(R2I(s__DaPei_r[this] * 100)) or "") .. "%"
-    else
-        if R2I(s__DaPei_r[this]) == 1 then
-            s = (s or "") .. "几率造成内伤"
-        elseif R2I(s__DaPei_r[this]) == 2 then
-            s = (s or "") .. "几率造成走火入魔"
-        elseif R2I(s__DaPei_r[this]) == 3 then
-            s = (s or "") .. "几率造成流血"
-        elseif R2I(s__DaPei_r[this]) == 4 then
-            s = (s or "") .. "几率造成混乱"
-        elseif R2I(s__DaPei_r[this]) == 5 then
-            s = (s or "") .. "几率造成昏迷"
-        elseif R2I(s__DaPei_r[this]) == 6 then
-            s = (s or "") .. "几率造成重伤"
-        elseif R2I(s__DaPei_r[this]) == 7 then
-            s = (s or "") .. "几率造成血流不止"
-        elseif R2I(s__DaPei_r[this]) == 8 then
-            s = (s or "") .. "几率造成麻痹"
-        elseif R2I(s__DaPei_r[this]) == 9 then
-            s = (s or "") .. "几率造成破防"
-        elseif R2I(s__DaPei_r[this]) == 10 then
-            s = (s or "") .. "几率造成神经错乱"
-        elseif R2I(s__DaPei_r[this]) == 11 then
-            s = (s or "") .. "几率造成封穴"
-        elseif R2I(s__DaPei_r[this]) == 12 then
-            s = (s or "") .. "几率造成穴位全封"
-        elseif R2I(s__DaPei_r[this]) == 13 then
-            s = (s or "") .. "几率造成中毒"
-        end
-    end
-    return s
-end
-
---Generated allocator of DaPei
-function s__DaPei__allocate()
-    local this = si__DaPei_F
-    if this ~= 0 then
-        si__DaPei_F = si__DaPei_V[this]
-    else
-        si__DaPei_I = si__DaPei_I + 1
-        this = si__DaPei_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    s__DaPei_shxishu[this] = 0.0
-    si__DaPei_V[this] = -1
-    return this
-end
-
---Generated destructor of DaPei
-function sc__DaPei_deallocate(this)
-    if this == nil then
-        return
-    elseif si__DaPei_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__DaPei_onDestroy)
-    si__DaPei_V[this] = si__DaPei_F
-    si__DaPei_F = this
-end
-
---Generated method caller for YDWEStringFormula__Inventory.onDestroy
-function sc__YDWEStringFormula__Inventory_onDestroy(this)
-    f__arg_this = this
-    TriggerEvaluate(st__YDWEStringFormula__Inventory_onDestroy[2])
-end
-
---Generated allocator of YDWEStringFormula__Inventory
-function s__YDWEStringFormula__Inventory__allocate()
-    local this = si__YDWEStringFormula__Inventory_F
-    if this ~= 0 then
-        si__YDWEStringFormula__Inventory_F = si__YDWEStringFormula__Inventory_V[this]
-    else
-        si__YDWEStringFormula__Inventory_I = si__YDWEStringFormula__Inventory_I + 1
-        this = si__YDWEStringFormula__Inventory_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    si__YDWEStringFormula__Inventory_type[this] = 2
-    si__YDWEStringFormula__Inventory_V[this] = -1
-    return this
-end
-
---Generated destructor of YDWEStringFormula__Inventory
-function sc__YDWEStringFormula__Inventory_deallocate(this)
-    if this == nil then
-        return
-    elseif si__YDWEStringFormula__Inventory_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__YDWEStringFormula__Inventory_onDestroy[si__YDWEStringFormula__Inventory_type[this]])
-    si__YDWEStringFormula__Inventory_V[this] = si__YDWEStringFormula__Inventory_F
-    si__YDWEStringFormula__Inventory_F = this
-end
-
---Generated allocator of YDWEStringFormula__StringTable
-function s__YDWEStringFormula__StringTable__allocate()
-    local this = s__YDWEStringFormula__Inventory__allocate()
-    local kthis
-    if this == 0 then
-        return 0
-    end
-    si__YDWEStringFormula__Inventory_type[this] = 3
-    kthis = this
-
-    return this
-end
-
-
---Generated method caller for YDWETimerPattern__Thread.onDestroy
-function sc__YDWETimerPattern__Thread_onDestroy(this)
-    f__arg_this = this
-    TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[10])
-end
-
---Generated allocator of YDWETimerPattern__Thread
-function s__YDWETimerPattern__Thread__allocate()
-    local this = si__YDWETimerPattern__Thread_F
-    if this ~= 0 then
-        si__YDWETimerPattern__Thread_F = si__YDWETimerPattern__Thread_V[this]
-    else
-        si__YDWETimerPattern__Thread_I = si__YDWETimerPattern__Thread_I + 1
-        this = si__YDWETimerPattern__Thread_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    si__YDWETimerPattern__Thread_type[this] = 10
-    si__YDWETimerPattern__Thread_V[this] = -1
-    return this
-end
-
---Generated destructor of YDWETimerPattern__Thread
-function sc__YDWETimerPattern__Thread_deallocate(this)
-    if this == nil then
-        return
-    elseif si__YDWETimerPattern__Thread_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[si__YDWETimerPattern__Thread_type[this]])
-    si__YDWETimerPattern__Thread_V[this] = si__YDWETimerPattern__Thread_F
-    si__YDWETimerPattern__Thread_F = this
-end
-
---Generated allocator of YDWETimerPattern__YDVector3
-function s__YDWETimerPattern__YDVector3__allocate()
-    local this = si__YDWETimerPattern__YDVector3_F
-    if this ~= 0 then
-        si__YDWETimerPattern__YDVector3_F = si__YDWETimerPattern__YDVector3_V[this]
-    else
-        si__YDWETimerPattern__YDVector3_I = si__YDWETimerPattern__YDVector3_I + 1
-        this = si__YDWETimerPattern__YDVector3_I
-    end
-    if this > 8190 then
-        return 0
-    end
-
-    si__YDWETimerPattern__YDVector3_V[this] = -1
-    return this
-end
-
---Generated destructor of YDWETimerPattern__YDVector3
-function s__YDWETimerPattern__YDVector3_deallocate(this)
-    if this == nil then
-        return
-    elseif si__YDWETimerPattern__YDVector3_V[this] ~= -1 then
-        return
-    end
-    si__YDWETimerPattern__YDVector3_V[this] = si__YDWETimerPattern__YDVector3_F
-    si__YDWETimerPattern__YDVector3_F = this
-end
-
---Generated method caller for YDWEStringFormula__Sorting.onDestroy
-function sc__YDWEStringFormula__Sorting_onDestroy(this)
-    local i = 0
-    for _ in _loop_() do
-        if i == s___YDWEStringFormula__Sorting_stack_size then
-            break
-        end
-        s___YDWEStringFormula__Sorting_stack[s__YDWEStringFormula__Sorting_stack[this] + i] = 0
-        s___YDWEStringFormula__Sorting_count[s__YDWEStringFormula__Sorting_count[this] + i] = 0
-        i = i + 1
-    end
-    s__YDWEStringFormula__Sorting_char[this] = ""
-end
-
---Generated allocator of YDWEStringFormula__Sorting
-function s__YDWEStringFormula__Sorting__allocate()
-    local this = si__YDWEStringFormula__Sorting_F
-    if this ~= 0 then
-        si__YDWEStringFormula__Sorting_F = si__YDWEStringFormula__Sorting_V[this]
-    else
-        si__YDWEStringFormula__Sorting_I = si__YDWEStringFormula__Sorting_I + 1
-        this = si__YDWEStringFormula__Sorting_I
-    end
-    if this > 1022 then
-        return 0
-    end
-    s__YDWEStringFormula__Sorting_stack[this] = (this - 1) * 8
-    s__YDWEStringFormula__Sorting_count[this] = (this - 1) * 8
-    s__YDWEStringFormula__Sorting_total[this] = 7
-    si__YDWEStringFormula__Sorting_V[this] = -1
-    return this
-end
-
---Generated destructor of YDWEStringFormula__Sorting
-function sc__YDWEStringFormula__Sorting_deallocate(this)
-    if this == nil then
-        return
-    elseif si__YDWEStringFormula__Sorting_V[this] ~= -1 then
-        return
-    end
-    f__arg_this = this
-    TriggerEvaluate(st__YDWEStringFormula__Sorting_onDestroy)
-    si__YDWEStringFormula__Sorting_V[this] = si__YDWEStringFormula__Sorting_F
-    si__YDWEStringFormula__Sorting_F = this
-end
-
---Generated allocator of YDWETimerPattern__Deceleration
-function s__YDWETimerPattern__Deceleration__allocate()
-    local this = s__YDWETimerPattern__Thread__allocate()
-    local kthis
-    if this == 0 then
-        return 0
-    end
-    si__YDWETimerPattern__Thread_type[this] = 13
-    kthis = this
-
-    return this
-end
-
-
---Generated allocator of YDWETimerPattern__Parabola
-function s__YDWETimerPattern__Parabola__allocate()
-    local this = s__YDWETimerPattern__Thread__allocate()
-    local kthis
-    if this == 0 then
-        return 0
-    end
-    si__YDWETimerPattern__Thread_type[this] = 11
-    kthis = this
-
-    return this
-end
-
-
---Generated allocator of YDWETimerPattern__Linear
-function s__YDWETimerPattern__Linear__allocate()
-    local this = s__YDWETimerPattern__Thread__allocate()
-    local kthis
-    if this == 0 then
-        return 0
-    end
-    si__YDWETimerPattern__Thread_type[this] = 12
-    kthis = this
-
-    return this
-end
-
-function sc___prototype16_execute(i, a1, a2)
-    f__arg_unit1 = a1
-    f__arg_real1 = a2
-
-    TriggerExecute(st___prototype16[i])
-end
-function sc___prototype16_evaluate(i, a1, a2)
-    f__arg_unit1 = a1
-    f__arg_real1 = a2
-
-    TriggerEvaluate(st___prototype16[i])
-
-end
-function h__SetUnitMoveSpeed(a0, a1)
-    --hook: SetUnitMoveSpeedEx
-    sc___prototype16_evaluate(1, a0, a1)
-    SetUnitMoveSpeed(a0, a1)
-end
-
 require 'util.maxspeed'
-
 require 'map.系统.弹幕'
+
 --重写创造物品的函数
 function createitemloc(id, loc)
-    local it = nil
-    it = CreateItemLoc(id, loc)
-    if GetItemType(it) == ITEM_TYPE_ARTIFACT then
-        SaveInteger(YDHT, GetHandleId(it), 0, WeaponNaiJiu(it))
-    end
-    it = nil
-    return bj_lastCreatedItem
+    return et.item:new(id, jass.GetLocationX(loc), jass.GetLocationY(loc))
 end
 function createitem(id, x, y)
-    local it = nil
-    it = CreateItem(id, x, y)
-    if GetItemType(it) == ITEM_TYPE_ARTIFACT then
-        SaveInteger(YDHT, GetHandleId(it), 0, WeaponNaiJiu(it))
-    end
-    it = nil
-    return bj_lastCreatedItem
+    return et.item:new(id, x, y)
 end
 function unitadditembyidswapped(itemId, whichHero)
-    local it = nil
-    it = UnitAddItemByIdSwapped(itemId, whichHero)
-    if GetItemType(it) == ITEM_TYPE_ARTIFACT then
-        SaveInteger(YDHT, GetHandleId(it), 0, WeaponNaiJiu(it))
-    end
-    it = nil
-    return bj_lastCreatedItem
+    return et.unit(whichHero):add_item(itemId)
 end
 
 require 'util.ydwe'
@@ -1092,17 +669,6 @@ function AddCharacterBBuff(u, characterB)
     UnitAddAbilityBJ(1093678647, u)
     SetPlayerAbilityAvailableBJ(false, 1093678647, GetOwningPlayer(u))
     SetUnitAbilityLevel(u, 1093678649, characterB)
-end
---副本倒计时
-function FBdaojishi()
-    local p = GetTriggerPlayer()
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00331号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[1]))) or "") .. "秒")
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00332号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[2]))) or "") .. "秒")
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00333号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[3]))) or "") .. "秒")
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00334号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[4]))) or "") .. "秒")
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00335号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[5]))) or "") .. "秒")
-    DisplayTimedTextToPlayer(p, 0, 0, 30, "|cFFFF00336号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[6]))) or "") .. "秒")
-    p = nil
 end
 --伴侣属性
 function BanLvShuXing()
@@ -1272,8 +838,8 @@ function YaoXing()
     DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 10.0, "|cff00ff33总药性（阳）：" .. (I2S(yang) or ""))
 end
 function GetGeoNormRandomReal(r1, r2)
-    local rr1 = YDWELogarithm__Log2(r1 * 1.0) * 0.30103 -- INLINED!!
-    local rr2 = YDWELogarithm__Log2(r2 * 1.0) * 0.30103 -- INLINED!!
+    local rr1 = math.log(r1 * 1.0, 2) * 0.30103 -- INLINED!!
+    local rr2 = math.log(r2 * 1.0, 2) * 0.30103 -- INLINED!!
     local rr3 = GetRandomReal(rr1, rr2)
     local rr4 = GetRandomReal(rr1, rr2)
     local rr5 = GetRandomReal(rr1, rr2)
@@ -1292,22 +858,20 @@ function pu(loc, r1, r2)
     return Location(GetLocationX(loc) + r1 * Cos(r2 * bj_DEGTORAD), GetLocationY(loc) + r1 * Sin(r2 * bj_DEGTORAD))
 end
 function tu()
-    local dx = GetDestructableX(GetFilterDestructable()) - fu
-    local dy = GetDestructableY(GetFilterDestructable()) - gu
+    local dx = GetDestructableX(GetFilterDestructable())
+    local dy = GetDestructableY(GetFilterDestructable())
     return dx * dx + dy * dy <= bj_enumDestructableRadius
 end
 function uu(vu, wu)
-    local g = nil
+    local g
     bj_stockPickedItemType = vu
     bj_stockPickedItemLevel = wu
     g = CreateGroup()
-    GroupEnumUnitsOfType(g, "marketplace", ju)
+    GroupEnumUnitsOfType(g, "marketplace", nil)
     ForGroup(g, UpdateEachStockBuildingEnum)
     DestroyGroup(g)
-    g = nil
 end
 function xu()
-    local pickedItemId
     local yu
     local zu = 0
     local Au = 0
@@ -1351,9 +915,6 @@ function au()
     xu()
     TimerStart(bj_stockUpdateTimer, bj_STOCK_RESTOCK_INTERVAL, true, xu)
 end
-function bu()
-    return true
-end
 function Eu()
     local Fu = Kt
     if Fu ~= 0 then
@@ -1388,9 +949,6 @@ function Gu(Fu)
     Mt[Fu] = Kt
     Kt = Fu
 end
-function Hu()
-    YDHT = InitHashtable()
-end
 function Nu(Ou, cu)
     local i = 0
     for _ in _loop_() do
@@ -1405,30 +963,6 @@ function Nu(Ou, cu)
         end
         i = i + 1
     end
-end
-function Pu()
-    DisplayTimedTextToPlayer(GetTriggerPlayer(), 0, 0, 30, "|cFF1E90FF当前编辑器版本为： |r|cFF00FF00YDWE 1.24.5.1710")
-    return false
-end
-function Qu()
-    local t = CreateTrigger()
-    local i = 0
-    for _ in _loop_() do
-        if i == 12 then
-            break
-        end
-        TriggerRegisterPlayerChatEvent(t, Player(i), "YDWE Version", true)
-        i = i + 1
-    end
-    TriggerAddCondition(t, Condition(Pu))
-    t = nil
-end
-function SetCamera()
-    I = GetCameraBoundMinX() - GetCameraMargin(CAMERA_MARGIN_LEFT)
-    J = GetCameraBoundMinY() - GetCameraMargin(CAMERA_MARGIN_BOTTOM)
-    H = GetCameraBoundMaxX() + GetCameraMargin(CAMERA_MARGIN_RIGHT)
-    l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
-    Qu()
 end
 require 'map.系统.万能属性'
 function kv()
@@ -1993,7 +1527,7 @@ end
 
 require 'map.rules.伤害公式'
 require 'map.rules.武功升重'
-require 'map.系统.万能buff'
+require 'map.system.lib.general_buff'
 --封装CreateTimerDialog方法并使对话框自动显示
 function createTimerDialog(t, title)
     CreateTimerDialogBJ(t, title)
@@ -2542,7 +2076,6 @@ function main1()
     local wu
 
     pick_table = et.hero.init_pick_table()
-    ju = Filter(bu)
 
     udg_baolv[1] = 20
     udg_baolv[2] = 25
@@ -2656,8 +2189,11 @@ function main1()
     TriggerRegisterPlayerUnitEvent(bj_stockItemPurchased, Player(15), EVENT_PLAYER_UNIT_SELL_ITEM, nil)
     TriggerAddAction(bj_stockItemPurchased, RemovePurchasedItem)
     DetectGameStarted()
-    ExecuteFunc("Hu")
-    ExecuteFunc("SetCamera")
+    YDHT = InitHashtable()
+    I = GetCameraBoundMinX() - GetCameraMargin(CAMERA_MARGIN_LEFT)
+    J = GetCameraBoundMinY() - GetCameraMargin(CAMERA_MARGIN_BOTTOM)
+    H = GetCameraBoundMaxX() + GetCameraMargin(CAMERA_MARGIN_RIGHT)
+    l = GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
     ExecuteFunc("mv")
     ExecuteFunc("Pw")
     i = 0
@@ -3144,7 +2680,7 @@ function Trig_QinLongKongHeActions()
     else
     end
     if GetUnitAbilityLevel(GetTriggerUnit(), 1093681989) ~= 0 and IsUnitAlly(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit())) == false then
-        WanBuff(GetTriggerUnit(), GetSpellTargetUnit(), 11)
+        general_buff(GetTriggerUnit(), GetSpellTargetUnit(), 11)
     else
     end
 end

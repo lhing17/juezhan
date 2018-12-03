@@ -120,6 +120,24 @@ end
 function SetUnitMoveSpeedEx(u, speed)
 	s__ModSpeed_setSpeed(u, speed)
 end
+function sc___prototype16_execute(i, a1, a2)
+	f__arg_unit1 = a1
+	f__arg_real1 = a2
+
+	TriggerExecute(st___prototype16[i])
+end
+function sc___prototype16_evaluate(i, a1, a2)
+	f__arg_unit1 = a1
+	f__arg_real1 = a2
+
+	TriggerEvaluate(st___prototype16[i])
+
+end
+function h__SetUnitMoveSpeed(a0, a1)
+	--hook: SetUnitMoveSpeedEx
+	sc___prototype16_evaluate(1, a0, a1)
+	SetUnitMoveSpeed(a0, a1)
+end
 --processed hook:      hook SetUnitMoveSpeed SetUnitMoveSpeedEx
 
 --library MaxSpeed ends

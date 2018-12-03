@@ -417,7 +417,13 @@ function KeyInput(p, s)
         SetCameraFieldForPlayer(GetTriggerPlayer(), CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0)
     end
     if s == "fb" then
-        FBdaojishi()
+        local pl = GetTriggerPlayer()
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00331号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[1]))) or "") .. "秒")
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00332号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[2]))) or "") .. "秒")
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00333号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[3]))) or "") .. "秒")
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00334号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[4]))) or "") .. "秒")
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00335号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[5]))) or "") .. "秒")
+        DisplayTimedTextToPlayer(pl, 0, 0, 30, "|cFFFF00336号副本重置倒计时：|cFF33FFFF" .. (I2S(R2I(TimerGetRemaining(Hd[6]))) or "") .. "秒")
     end
     if s == "bl" then
         BanLvShuXing()

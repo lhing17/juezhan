@@ -12,7 +12,7 @@ function YingZhaoShangHai()
 	local shanghai = LoadReal(YDHT, GetHandleId(t), 2)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093677367) >= 1 and GetRandomInt(1, 5) == 1 then
-		WanBuff(u, uc, 7)
+		general_buff(u, uc, 7)
 	end
 	PauseTimer(t)
 	DestroyTimer(t)
@@ -147,7 +147,7 @@ function FuYiZong_2_Action()
 	local u = LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0)
 	local uc = GetEnumUnit()
 	if GetRandomInt(1, 50) == 1 then
-		WanBuff(u, uc, 12)
+		general_buff(u, uc, 12)
 	end
 	u = nil
 	uc = nil
@@ -317,7 +317,7 @@ function ShiZiHou_Action()
 	knock_back(uc, Atan2(GetUnitY(uc) - GetUnitY(u), GetUnitX(uc) - GetUnitX(u)), GetRandomReal(320.0, 720.0) + 80 * GetUnitAbilityLevel(u, 1093677872) - dist, 1.0, 0.05, "Abilities\\Weapons\\AncientProtectorMissile\\AncientProtectorMissile.mdl", 0)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093682254) >= 1 and GetRandomInt(1, 3) == 2 then
-		WanBuff(u, uc, 9)
+		general_buff(u, uc, 9)
 	end
 	u = nil
 	uc = nil

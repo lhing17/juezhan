@@ -395,7 +395,7 @@ function SanHua_Action()
 		shxishu = shxishu + 0.7
 	end
 	if GetUnitAbilityLevel(u, 1093678913) >= 1 then
-		WanBuff(u, uc, 5)
+		general_buff(u, uc, 5)
 	end
 	shanghai = ShangHaiGongShi(u, uc, 250, 180, shxishu, 1093682245)
 	if IsUnitEnemy(uc, GetOwningPlayer(u)) then

@@ -173,7 +173,7 @@ function y3()
 	local shxishu = 1.0
 	local shanghai = 0.0
 	if GetUnitAbilityLevel(u, 1093678913) ~= 0 and GetRandomReal(0.0, 100.0) <= 30.0 and UnitHasBuffBJ(uc, 1110454344) == false then
-		WanBuff(u, uc, 5)
+		general_buff(u, uc, 5)
 	end
 	if GetUnitAbilityLevel(u, 1093678926) ~= 0 and GetUnitAbilityLevel(u, 1093679161) ~= 0 and GetRandomReal(0.0, 100.0) <= 20.0 then
 		DestroyEffect(AddSpecialEffectLocBJ(loc2, "Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl"))
@@ -266,10 +266,10 @@ function a3()
 	shanghai = ShangHaiGongShi(u, uc, 100, 100, shxishu, 1093681747)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1111844210) == false then
-		WanBuff(u, uc, 8)
+		general_buff(u, uc, 8)
 	end
 	if GetUnitAbilityLevel(u, 1093678932) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454344) == false then
-		WanBuff(u, uc, 5)
+		general_buff(u, uc, 5)
 	end
 	RemoveLocation(loc)
 	WuGongShengChong(u, 1093681747, 300.0)
@@ -297,7 +297,7 @@ function C3()
 		shxishu = shxishu * 1.8
 	end
 	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetUnitAbilityLevel(u, 1093678668) ~= 0 and UnitHasBuffBJ(uc, 1110454324) == false and GetRandomReal(0.0, 100.0) <= 3.0 then
-		WanBuff(u, uc, 7)
+		general_buff(u, uc, 7)
 	end
 	WuGongShengChong(u, 1093681748, 3500.0)
 	YDWEPolledWaitNull(0.1)

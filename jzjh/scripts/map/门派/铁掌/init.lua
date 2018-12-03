@@ -14,12 +14,12 @@ function TieSha_Action()
 	end
 	if (GetUnitAbilityLevel(GetAttacker(), 1093678672) >= 1 or GetUnitAbilityLevel(GetAttacker(), 1093682227) >= 1) and GetRandomInt(1, 100) <= 30 then
 		if UnitHasBuffBJ(GetEnumUnit(), 1111847784) == false and UnitHasBuffBJ(GetEnumUnit(), 1110454602) == false then
-			WanBuff(GetAttacker(), GetEnumUnit(), 13)
+			general_buff(GetAttacker(), GetEnumUnit(), 13)
 		end
 	end
 	if GetUnitAbilityLevel(GetAttacker(), 1093678926) >= 1 and UnitHasBuffBJ(GetEnumUnit(), 1111847784) and GetRandomInt(1, 100) <= 30 then
 		if UnitHasBuffBJ(GetEnumUnit(), 1110454602) == false then
-			WanBuff(GetAttacker(), GetEnumUnit(), 14)
+			general_buff(GetAttacker(), GetEnumUnit(), 14)
 		end
 	end
 	PassiveWuGongEffectAndDamage(GetAttacker(), GetEnumUnit(), "Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", 7.2, 8.9, shxishu, 1093678681)
@@ -64,7 +64,7 @@ function DuSheMove()
 			--造成伤害 伤害单位个数加1
 			PassiveWuGongEffectAndDamage(u, l__ut, "Abilities\\Spells\\Human\\Invisibility\\InvisibilityTarget.mdl", 15, 15, shxishu, 1093678682)
 			if (UnitHasBuffBJ(l__ut, 1111847784) or UnitHasBuffBJ(l__ut, 1110454602)) and GetUnitAbilityLevel(u, 1093678931) >= 1 then
-				WanBuff(u, l__ut, 7)
+				general_buff(u, l__ut, 7)
 			end
 			SaveInteger(YDHT, GetHandleId(t), 5, counter + 1)
 			--获取下一个伤害目标
@@ -133,14 +133,14 @@ function TongBeiQuan()
 		WuGongShengChong(u, 1093678896, 800)
 		if UnitHasBuffBJ(l__ut, 1111847784) then --已中毒则使之中毒加深
 			SaveReal(YDHT, GetHandleId(l__ut), StringHash("TongBei"), 0.0)
-			WanBuff(u, l__ut, 14)
+			general_buff(u, l__ut, 14)
 		elseif UnitHasBuffBJ(l__ut, 1110454602) then --已深度中毒则造成额外伤害
 			SaveReal(YDHT, GetHandleId(l__ut), StringHash("TongBei"), LoadReal(YDHT, GetHandleId(l__ut), StringHash("TongBei")) + coefficient)
 			shxishu = shxishu + LoadReal(YDHT, GetHandleId(l__ut), StringHash("TongBei"))
 			FontFloat("+" .. (I2S(R2I(shxishu)) or ""), loc, 60.0, 14, 100.0, 100.0, 0.0, 0, 2.0)
 		else --未中毒则使之中毒
 			SaveReal(YDHT, GetHandleId(l__ut), StringHash("TongBei"), 0.0)
-			WanBuff(u, l__ut, 13)
+			general_buff(u, l__ut, 13)
 		end
 		PassiveWuGongEffectAndDamage(u, l__ut, "Abilities\\Spells\\NightElf\\EntanglingRoots\\EntanglingRootsTarget.mdl", 75, 75, shxishu, 1093678896)
 	end

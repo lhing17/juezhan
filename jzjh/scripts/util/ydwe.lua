@@ -13,6 +13,208 @@ end
 --===========================================================================
 --Return bug
 --===========================================================================
+--Generated method caller for YDWEStringFormula__Inventory.onDestroy
+function sc__YDWEStringFormula__Inventory_onDestroy(this)
+	f__arg_this = this
+	TriggerEvaluate(st__YDWEStringFormula__Inventory_onDestroy[2])
+end
+
+--Generated allocator of YDWEStringFormula__Inventory
+function s__YDWEStringFormula__Inventory__allocate()
+	local this = si__YDWEStringFormula__Inventory_F
+	if this ~= 0 then
+		si__YDWEStringFormula__Inventory_F = si__YDWEStringFormula__Inventory_V[this]
+	else
+		si__YDWEStringFormula__Inventory_I = si__YDWEStringFormula__Inventory_I + 1
+		this = si__YDWEStringFormula__Inventory_I
+	end
+	if this > 8190 then
+		return 0
+	end
+
+	si__YDWEStringFormula__Inventory_type[this] = 2
+	si__YDWEStringFormula__Inventory_V[this] = -1
+	return this
+end
+
+--Generated destructor of YDWEStringFormula__Inventory
+function sc__YDWEStringFormula__Inventory_deallocate(this)
+	if this == nil then
+		return
+	elseif si__YDWEStringFormula__Inventory_V[this] ~= -1 then
+		return
+	end
+	f__arg_this = this
+	TriggerEvaluate(st__YDWEStringFormula__Inventory_onDestroy[si__YDWEStringFormula__Inventory_type[this]])
+	si__YDWEStringFormula__Inventory_V[this] = si__YDWEStringFormula__Inventory_F
+	si__YDWEStringFormula__Inventory_F = this
+end
+
+--Generated allocator of YDWEStringFormula__StringTable
+function s__YDWEStringFormula__StringTable__allocate()
+	local this = s__YDWEStringFormula__Inventory__allocate()
+	local kthis
+	if this == 0 then
+		return 0
+	end
+	si__YDWEStringFormula__Inventory_type[this] = 3
+	kthis = this
+
+	return this
+end
+
+
+--Generated method caller for YDWETimerPattern__Thread.onDestroy
+function sc__YDWETimerPattern__Thread_onDestroy(this)
+	f__arg_this = this
+	TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[10])
+end
+
+--Generated allocator of YDWETimerPattern__Thread
+function s__YDWETimerPattern__Thread__allocate()
+	local this = si__YDWETimerPattern__Thread_F
+	if this ~= 0 then
+		si__YDWETimerPattern__Thread_F = si__YDWETimerPattern__Thread_V[this]
+	else
+		si__YDWETimerPattern__Thread_I = si__YDWETimerPattern__Thread_I + 1
+		this = si__YDWETimerPattern__Thread_I
+	end
+	if this > 8190 then
+		return 0
+	end
+
+	si__YDWETimerPattern__Thread_type[this] = 10
+	si__YDWETimerPattern__Thread_V[this] = -1
+	return this
+end
+
+--Generated destructor of YDWETimerPattern__Thread
+function sc__YDWETimerPattern__Thread_deallocate(this)
+	if this == nil then
+		return
+	elseif si__YDWETimerPattern__Thread_V[this] ~= -1 then
+		return
+	end
+	f__arg_this = this
+	TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[si__YDWETimerPattern__Thread_type[this]])
+	si__YDWETimerPattern__Thread_V[this] = si__YDWETimerPattern__Thread_F
+	si__YDWETimerPattern__Thread_F = this
+end
+
+--Generated allocator of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3__allocate()
+	local this = si__YDWETimerPattern__YDVector3_F
+	if this ~= 0 then
+		si__YDWETimerPattern__YDVector3_F = si__YDWETimerPattern__YDVector3_V[this]
+	else
+		si__YDWETimerPattern__YDVector3_I = si__YDWETimerPattern__YDVector3_I + 1
+		this = si__YDWETimerPattern__YDVector3_I
+	end
+	if this > 8190 then
+		return 0
+	end
+
+	si__YDWETimerPattern__YDVector3_V[this] = -1
+	return this
+end
+
+--Generated destructor of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3_deallocate(this)
+	if this == nil then
+		return
+	elseif si__YDWETimerPattern__YDVector3_V[this] ~= -1 then
+		return
+	end
+	si__YDWETimerPattern__YDVector3_V[this] = si__YDWETimerPattern__YDVector3_F
+	si__YDWETimerPattern__YDVector3_F = this
+end
+
+--Generated method caller for YDWEStringFormula__Sorting.onDestroy
+function sc__YDWEStringFormula__Sorting_onDestroy(this)
+	local i = 0
+	for _ in _loop_() do
+		if i == s___YDWEStringFormula__Sorting_stack_size then
+			break
+		end
+		s___YDWEStringFormula__Sorting_stack[s__YDWEStringFormula__Sorting_stack[this] + i] = 0
+		s___YDWEStringFormula__Sorting_count[s__YDWEStringFormula__Sorting_count[this] + i] = 0
+		i = i + 1
+	end
+	s__YDWEStringFormula__Sorting_char[this] = ""
+end
+
+--Generated allocator of YDWEStringFormula__Sorting
+function s__YDWEStringFormula__Sorting__allocate()
+	local this = si__YDWEStringFormula__Sorting_F
+	if this ~= 0 then
+		si__YDWEStringFormula__Sorting_F = si__YDWEStringFormula__Sorting_V[this]
+	else
+		si__YDWEStringFormula__Sorting_I = si__YDWEStringFormula__Sorting_I + 1
+		this = si__YDWEStringFormula__Sorting_I
+	end
+	if this > 1022 then
+		return 0
+	end
+	s__YDWEStringFormula__Sorting_stack[this] = (this - 1) * 8
+	s__YDWEStringFormula__Sorting_count[this] = (this - 1) * 8
+	s__YDWEStringFormula__Sorting_total[this] = 7
+	si__YDWEStringFormula__Sorting_V[this] = -1
+	return this
+end
+
+--Generated destructor of YDWEStringFormula__Sorting
+function sc__YDWEStringFormula__Sorting_deallocate(this)
+	if this == nil then
+		return
+	elseif si__YDWEStringFormula__Sorting_V[this] ~= -1 then
+		return
+	end
+	f__arg_this = this
+	TriggerEvaluate(st__YDWEStringFormula__Sorting_onDestroy)
+	si__YDWEStringFormula__Sorting_V[this] = si__YDWEStringFormula__Sorting_F
+	si__YDWEStringFormula__Sorting_F = this
+end
+
+--Generated allocator of YDWETimerPattern__Deceleration
+function s__YDWETimerPattern__Deceleration__allocate()
+	local this = s__YDWETimerPattern__Thread__allocate()
+	local kthis
+	if this == 0 then
+		return 0
+	end
+	si__YDWETimerPattern__Thread_type[this] = 13
+	kthis = this
+
+	return this
+end
+
+
+--Generated allocator of YDWETimerPattern__Parabola
+function s__YDWETimerPattern__Parabola__allocate()
+	local this = s__YDWETimerPattern__Thread__allocate()
+	local kthis
+	if this == 0 then
+		return 0
+	end
+	si__YDWETimerPattern__Thread_type[this] = 11
+	kthis = this
+
+	return this
+end
+
+
+--Generated allocator of YDWETimerPattern__Linear
+function s__YDWETimerPattern__Linear__allocate()
+	local this = s__YDWETimerPattern__Thread__allocate()
+	local kthis
+	if this == 0 then
+		return 0
+	end
+	si__YDWETimerPattern__Thread_type[this] = 12
+	kthis = this
+
+	return this
+end
 function YDWEH2I(h)
 	return GetHandleId(h)
 end

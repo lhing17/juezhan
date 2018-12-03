@@ -65,7 +65,7 @@ function WuXiangShangHai()
 	shanghai = ShangHaiGongShi(u, uc, 14.0, 19.0, shxishu, 1093677904)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678672) >= 1 and GetRandomInt(1, 100) <= 8 then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	u = nil
 	uc = nil

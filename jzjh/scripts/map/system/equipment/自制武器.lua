@@ -1,6 +1,50 @@
 --===================================================
 --决战江湖1.4之大辽金匠
 --===================================================
+--Generated method caller for ShopWeapon.onDestroy
+function sc__ShopWeapon_onDestroy(this)
+	s__ShopWeapon_min_xiuxing[this] = 0
+	s__ShopWeapon_id[this] = 0
+end
+
+--Generated method caller for ShopWeapon.PickUpWeapon
+function sc__ShopWeapon_PickUpWeapon(this, u, it)
+	f__arg_this = this
+	f__arg_unit1 = u
+	f__arg_item1 = it
+	TriggerEvaluate(st__ShopWeapon_PickUpWeapon)
+end
+
+--Generated allocator of ShopWeapon
+function s__ShopWeapon__allocate()
+	local this = si__ShopWeapon_F
+	if this ~= 0 then
+		si__ShopWeapon_F = si__ShopWeapon_V[this]
+	else
+		si__ShopWeapon_I = si__ShopWeapon_I + 1
+		this = si__ShopWeapon_I
+	end
+	if this > 8190 then
+		return 0
+	end
+
+	s__ShopWeapon_zhuanshu[this] = false
+	si__ShopWeapon_V[this] = -1
+	return this
+end
+
+--Generated destructor of ShopWeapon
+function sc__ShopWeapon_deallocate(this)
+	if this == nil then
+		return
+	elseif si__ShopWeapon_V[this] ~= -1 then
+		return
+	end
+	f__arg_this = this
+	TriggerEvaluate(st__ShopWeapon_onDestroy)
+	si__ShopWeapon_V[this] = si__ShopWeapon_F
+	si__ShopWeapon_F = this
+end
 --购买商店武器
 function RemoveWeapon()
 	local t = GetExpiredTimer()

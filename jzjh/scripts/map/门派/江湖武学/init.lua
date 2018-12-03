@@ -86,10 +86,10 @@ function TanZhiShangHai()
 	shanghai = ShangHaiGongShi(u, uc, 30.8, 30.8, shxishu, 1093678664)
 	WuGongShangHai(u, uc, shanghai)
 	if danpo[i] >= 23 and GetRandomReal(0.0, 100.0) <= 30.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	if GetUnitAbilityLevel(u, 1093679152) ~= 0 and UnitHasBuffBJ(uc, 1113813609) == false then
-		WanBuff(u, uc, 4)
+		general_buff(u, uc, 4)
 	end
 	if GetUnitAbilityLevel(u, 1395666994) ~= 0 then
 		DestroyEffect(AddSpecialEffectLocBJ(loc2, "war3mapImported\\PsiWave.mdx"))
@@ -618,7 +618,7 @@ function JF()
 		end
 	end
 	if gengu[1 + GetPlayerId(GetOwningPlayer(u))] >= 30 and IsUnitType(GetEventDamageSource(), UNIT_TYPE_HERO) ~= nil then -- INLINED!!
-		WanBuff(u, uc, 12)
+		general_buff(u, uc, 12)
 	end
 	RemoveLocation(loc)
 	u = nil
@@ -652,13 +652,13 @@ function MF()
 	shanghai = ShangHaiGongShi(u, uc, 75, 75, shxishu, 1093678897)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678669) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1110454323) == false then
-		WanBuff(u, uc, 3)
+		general_buff(u, uc, 3)
 	end
 	if GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1113813609) == false then
-		WanBuff(u, uc, 4)
+		general_buff(u, uc, 4)
 	end
 	if GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1110454324) == false then
-		WanBuff(u, uc, 7)
+		general_buff(u, uc, 7)
 	end
 	if GetUnitAbilityLevel(u, 1093678930) ~= 0 then
 		SetWidgetLife(u, GetUnitState(u, UNIT_STATE_LIFE) + shanghai * 0.02)
@@ -691,25 +691,25 @@ function QF()
 	shanghai = ShangHaiGongShi(u, uc, 12.0, 16.0, shxishu, 1093678925)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetRandomReal(0.0, 100.0) <= 5.0 and UnitHasBuffBJ(uc, 1110454322) == false then
-		WanBuff(u, uc, 1)
+		general_buff(u, uc, 1)
 	end
 	if GetUnitAbilityLevel(u, 1093678919) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1111844210) == false then
-		WanBuff(u, uc, 8)
+		general_buff(u, uc, 8)
 	end
 	if GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1111847784) == false then
-		WanBuff(u, uc, 13)
+		general_buff(u, uc, 13)
 	end
 	if GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454323) == false then
-		WanBuff(u, uc, 3)
+		general_buff(u, uc, 3)
 	end
 	if GetUnitAbilityLevel(u, 1093678933) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1113813609) == false then
-		WanBuff(u, uc, 4)
+		general_buff(u, uc, 4)
 	end
 	if GetUnitAbilityLevel(u, 1395666994) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454326) == false then
-		WanBuff(u, uc, 6)
+		general_buff(u, uc, 6)
 	end
 	if GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	RemoveLocation(loc)
 	u = nil
@@ -810,7 +810,7 @@ function KongMing_Action()
 	WuGongShangHai(u, uc, shanghai)
 	DestroyEffect(AddSpecialEffectTarget("Units\\NightElf\\Wisp\\WispExplode.mdl", uc, "overhead"))
 	if GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1113813609) == false then
-		WanBuff(u, uc, 4)
+		general_buff(u, uc, 4)
 	end
 	RemoveLocation(loc)
 	loc = nil
@@ -896,15 +896,15 @@ function BiHai_Action()
 	Nw(1.5, bj_lastCreatedTextTag)
 	SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
 	if i == 1 then
-		WanBuff(u, uc, 1)
+		general_buff(u, uc, 1)
 	elseif i == 2 then
-		WanBuff(u, uc, 9)
+		general_buff(u, uc, 9)
 	elseif i == 3 then
 		shanghai = ShangHaiGongShi(u, uc, 20, 30, shxishu, 1093677368)
 		WuGongShangHai(u, uc, shanghai)
 		DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Items\\AIil\\AIilTarget.mdl"))
 	elseif i == 4 then
-		WanBuff(u, uc, 4)
+		general_buff(u, uc, 4)
 	elseif i == 5 then
 		if UnitHasBuffBJ(u, 1110454361) == false then
 			bihai[1 + GetPlayerId(GetOwningPlayer(u))] = 1

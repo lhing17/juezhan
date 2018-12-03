@@ -307,7 +307,7 @@ function FoMie_Action()
 	loc = Location(hisX - perc * dist * Cos(angle), hisY - perc * dist * Sin(angle))
 	SetUnitPositionLoc(uc, loc)
 	if dist < 300 then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	RemoveLocation(loc)
 	u = nil

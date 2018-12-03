@@ -70,10 +70,10 @@ function eD()
 	shanghai = ShangHaiGongShi(u, uc, 60, 120, shxishu, 1093679187)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetRandomInt(1, 100) <= 30 and UnitHasBuffBJ(uc, 1111844210) == false then
-		WanBuff(u, uc, 8)
+		general_buff(u, uc, 8)
 	end
 	if GetUnitAbilityLevel(u, 1093678669) ~= 0 and GetRandomInt(1, 100) <= 30 and UnitHasBuffBJ(uc, 1110454323) == false then
-		WanBuff(u, uc, 3)
+		general_buff(u, uc, 3)
 	end
 	RemoveLocation(loc)
 	WuGongShengChong(u, 1093679187, 500.0)
@@ -106,10 +106,10 @@ function iD()
 	shanghai = ShangHaiGongShi(u, uc, 150.0, 150.0, shxishu, 1093679186)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678668) ~= 0 and GetRandomInt(1, 100) <= 50 and UnitHasBuffBJ(uc, 1110454322) == false then
-		WanBuff(u, uc, 1)
+		general_buff(u, uc, 1)
 	end
 	if GetUnitAbilityLevel(u, 1093678925) ~= 0 and GetRandomInt(1, 100) <= 50 and UnitHasBuffBJ(uc, 1112896364) == false then
-		WanBuff(u, uc, 5)
+		general_buff(u, uc, 5)
 	end
 	RemoveLocation(loc)
 	loc = nil
@@ -297,13 +297,13 @@ function yD()
 	return GetUnitAbilityLevel(GetAttacker(), 1093678897) ~= 0 and GetUnitAbilityLevel(GetAttacker(), 1093679185) ~= 0 and GetRandomInt(1, 30) <= 3
 end
 function zD()
-	WanBuff(GetAttacker(), GetTriggerUnit(), 6)
+	general_buff(GetAttacker(), GetTriggerUnit(), 6)
 end
 function aD()
 	return GetUnitAbilityLevel(GetTriggerUnit(), 1093682254) ~= 0 and GetUnitAbilityLevel(GetTriggerUnit(), 1093679185) ~= 0 and GetRandomInt(1, 20) <= 2
 end
 function BD()
-	WanBuff(GetTriggerUnit(), GetAttacker(), 1)
+	general_buff(GetTriggerUnit(), GetAttacker(), 1)
 end
 --混沌一气
 function CD()
@@ -329,7 +329,7 @@ function ED()
 	return GetUnitAbilityLevel(GetAttacker(), 1093679190) ~= 0 and GetUnitAbilityLevel(GetAttacker(), 1093678930) ~= 0 and GetUnitAbilityLevel(GetAttacker(), 1093678935) ~= 0 and GetRandomInt(1, 100) <= 10
 end
 function FD()
-	WanBuff(GetAttacker(), GetTriggerUnit(), 2)
+	general_buff(GetAttacker(), GetTriggerUnit(), 2)
 end
 function HD()
 	return GetUnitAbilityLevel(GetTriggerUnit(), 1093679190) ~= 0 and GetSpellAbilityId() ~= 1093678418 and GetSpellAbilityId() ~= 1093679190 and GetSpellAbilityId() ~= 1093679192 and GetSpellAbilityId() ~= 1095329889

@@ -25,7 +25,7 @@ function FE()
 				end
 				DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl"))
 				if GetUnitAbilityLevel(u, 1093678925) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-					WanBuff(u, uc, 11)
+					general_buff(u, uc, 11)
 				end
 				shanghai = ShangHaiGongShi(u, uc, 28.0, 28.0, shxishu, 1093679429)
 				WuGongShangHai(u, uc, shanghai)
@@ -45,7 +45,7 @@ function FE()
 				end
 				DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl"))
 				if GetUnitAbilityLevel(u, 1093678925) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-					WanBuff(u, uc, 11)
+					general_buff(u, uc, 11)
 				end
 				shanghai = ShangHaiGongShi(u, uc, 28.0, 28.0, shxishu, 1093679429)
 				WuGongShangHai(u, uc, shanghai)
@@ -64,7 +64,7 @@ function FE()
 		end
 		DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl"))
 		if GetUnitAbilityLevel(u, 1093678925) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-			WanBuff(u, uc, 11)
+			general_buff(u, uc, 11)
 		end
 		shanghai = ShangHaiGongShi(udg_hero[i], uc, 15, 15, shxishu, 1093679429)
 		WuGongShangHai(udg_hero[i], uc, shanghai)
@@ -185,10 +185,10 @@ function SE()
 	shanghai = ShangHaiGongShi(u, uc, 22.0, 46.0, shxishu, 1093679437)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678672) ~= 0 and UnitHasBuffBJ(uc, 1110454328) == false and GetRandomReal(0.0, 100.0) <= 40.0 then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	if GetUnitAbilityLevel(u, 1093678925) ~= 0 and UnitHasBuffBJ(uc, 1110454326) == false and GetRandomReal(0.0, 100.0) <= 40.0 then
-		WanBuff(u, uc, 6)
+		general_buff(u, uc, 6)
 	end
 	RemoveLocation(loc)
 	u = nil

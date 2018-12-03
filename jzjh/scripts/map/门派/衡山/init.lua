@@ -36,7 +36,7 @@ function TianZhu_Action()
 	shanghai = ShangHaiGongShi(u, l__ut, 25, 6, shxishu, 1093678157)
 	WuGongShangHai(u, l__ut, shanghai)
 	if GetUnitAbilityLevel(u, 1093678918) >= 1 then
-		WanBuff(u, l__ut, 2)
+		general_buff(u, l__ut, 2)
 	end
 	p = nil
 	u = nil
@@ -157,7 +157,7 @@ function HeXiangJianFa()
 		shxishu = shxishu * 2
 	end
 	if GetUnitAbilityLevel(u, 1093678930) >= 1 then
-		WanBuff(u, uc, 12)
+		general_buff(u, uc, 12)
 	end
 	shanghai = ShangHaiGongShi(u, uc, 300, 100, shxishu, 1093678158)
 	WuGongShangHai(u, uc, shanghai)
@@ -277,7 +277,7 @@ function YanHuiJianFa()
 	shanghai = ShangHaiGongShi(u, uc, 200.0, 80.0, shxishu, 1093678162)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678928) >= 1 then
-		WanBuff(u, uc, 7)
+		general_buff(u, uc, 7)
 	end
 	if GetRandomReal(0.0, 100.0) <= 15 + fuyuan[i] // 5 + GetUnitAbilityLevel(u, 1093678933) * 21 then
 		CreateNUnitsAtLoc(1, 1697656880, p, loc, bj_UNIT_FACING)

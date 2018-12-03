@@ -18,7 +18,7 @@ function JiaChuanMaJia_1()
 	shanghai = ShangHaiGongShi(u, uc, 12.0, 18.0, shxishu, 1093677643)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093677654) >= 1 and GetRandomInt(1, 100) <= 15 + fuyuan[i] // 5 then
-		WanBuff(u, uc, 6)
+		general_buff(u, uc, 6)
 	end
 	RemoveLocation(loc)
 	u = nil
@@ -104,9 +104,9 @@ function XiuZhongZhi()
 	shanghai = ShangHaiGongShi(u, uc, 40.0, 60.0, shxishu, 1093681987)
 	if GetRandomInt(1, 100) <= 15 + fuyuan[i] // 6 + GetUnitAbilityLevel(u, 1093681987) * 2 then
 		if GetUnitAbilityLevel(u, 1093678672) >= 1 then
-			WanBuff(u, uc, 12)
+			general_buff(u, uc, 12)
 		else
-			WanBuff(u, uc, 11)
+			general_buff(u, uc, 11)
 		end
 		WuGongShangHai(u, uc, shanghai)
 		WuGongShengChong(u, 1093681987, 600)
@@ -277,7 +277,7 @@ function XingYiBeiDong()
 		WuGongShangHai(u, uc, shanghai)
 	end
 	if GetUnitAbilityLevel(u, 1093678897) >= 1 then
-		WanBuff(u, uc, 1)
+		general_buff(u, uc, 1)
 	end
 	RemoveLocation(loc)
 	u = nil

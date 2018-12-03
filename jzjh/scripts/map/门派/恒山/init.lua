@@ -153,7 +153,7 @@ function TianShanZhang()
 			SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
 		end
 		if GetUnitAbilityLevel(u, 1093677619) ~= 0 then
-			WanBuff(u, uc, 9)
+			general_buff(u, uc, 9)
 		end
 		RemoveLocation(loc2)
 	end

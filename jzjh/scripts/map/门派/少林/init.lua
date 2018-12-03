@@ -131,9 +131,9 @@ function ac()
 	end
 	if gengu[1 + GetPlayerId(GetOwningPlayer(u))] >= 20 and UnitHasBuffBJ(uc, 1110454328) == false then
 		if GetUnitAbilityLevel(u, 1093678672) ~= 0 then
-			WanBuff(u, uc, 12)
+			general_buff(u, uc, 12)
 		else
-			WanBuff(u, uc, 11)
+			general_buff(u, uc, 11)
 		end
 	end
 	-- 悟性超过20时50%概率斩杀低于20%血的怪物
@@ -143,7 +143,7 @@ function ac()
 		FontFloat("斩杀", loc2, 60.0, 16.0, 65.0, 55.0, 42.0, 0, 3.0)
 	end
 	if GetUnitAbilityLevel(u, 1093678930) ~= 0 and GetUnitAbilityLevel(u, 1093678928) ~= 0 and UnitHasBuffBJ(uc, 1113813619) == false then
-		WanBuff(u, uc, 10)
+		general_buff(u, uc, 10)
 	end
 	RemoveLocation(loc)
 	RemoveLocation(loc2)

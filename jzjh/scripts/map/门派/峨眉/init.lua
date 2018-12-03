@@ -23,7 +23,7 @@ function SiXiang2()
 	shanghai = ShangHaiGongShi(udg_sixiangdanwei, GetEnumUnit(), 12, 20, shxishu, 1093681975)
 	WuGongShangHai(udg_sixiangdanwei, GetEnumUnit(), shanghai)
 	if GetUnitAbilityLevel(udg_sixiangdanwei, 1093681974) >= 1 and GetRandomReal(1.0, 100.0) <= 27 then
-		WanBuff(udg_sixiangdanwei, GetEnumUnit(), 11)
+		general_buff(udg_sixiangdanwei, GetEnumUnit(), 11)
 	end
 	p = nil
 end

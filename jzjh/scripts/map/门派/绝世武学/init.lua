@@ -176,7 +176,7 @@ function wG()
 	shanghai = ShangHaiGongShi(u, uc, 33.0, 33.0, shxishu, 1093678919)
 	WuGongShangHai(u, uc, shanghai)
 	if GetRandomInt(1, 50) >= 20 and UnitHasBuffBJ(uc, 1110454328) == false then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	RemoveLocation(loc)
 	u = nil

@@ -84,10 +84,10 @@ function XinZheMeiShou_Action()
 	ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(range, loc, Condition(ZheMei_Condition)), ZheMei_Action)
 	WuGongShengChong(u, 1093677634, 450.0)
 	if GetUnitAbilityLevel(u, 1093677640) >= 1 and GetRandomInt(1, 4) == 1 then
-		WanBuff(u, uc, 2)
+		general_buff(u, uc, 2)
 	end
 	if GetUnitAbilityLevel(u, 1093678926) >= 1 and GetRandomInt(1, 4) == 1 then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	RemoveLocation(loc)
 end
@@ -392,10 +392,10 @@ function LiuYangMaJia()
 	shanghai = ShangHaiGongShi(u, uc, 84, 48, shxishu, 1093677640)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678925) >= 1 then
-		WanBuff(u, uc, 2)
+		general_buff(u, uc, 2)
 	end
 	if GetUnitAbilityLevel(u, 1093679154) >= 1 then
-		WanBuff(u, uc, 6)
+		general_buff(u, uc, 6)
 	end
 	u = nil
 	uc = nil

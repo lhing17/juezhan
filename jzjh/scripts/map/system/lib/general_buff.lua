@@ -41,6 +41,6 @@ end
 --- @param source j_unit
 --- @param dest j_unit
 --- @param num number
-function WanBuff(source, dest, num)
+function general_buff(source, dest, num)
     et.unit.j_unit(source):apply_buff(et.unit(dest), num)
 end

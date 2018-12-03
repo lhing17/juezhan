@@ -32,10 +32,10 @@ function ZiXuJuDing()
 	shanghai = ShangHaiGongShi(u, uc, 24, 40, shxishu, 1093678167)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678666) ~= 0 and GetRandomInt(1, 100) <= 30 and UnitHasBuffBJ(uc, 1111844210) == false then --加连城走火入魔
-		WanBuff(u, uc, 2)
+		general_buff(u, uc, 2)
 	end
 	if GetUnitAbilityLevel(u, 1093678166) ~= 0 and GetRandomInt(1, 100) <= 30 and UnitHasBuffBJ(uc, 1110454323) == false then --加夫妻神经错乱
-		WanBuff(u, uc, 10)
+		general_buff(u, uc, 10)
 	end
 	if GetUnitAbilityLevel(u, 1395666994) ~= 0 and GetRandomInt(1, 100) <= 25 and IsUnitAliveBJ(uc) then --加龙象几率连环爆裂
 		YDWEPolledWaitNull(0.15)
@@ -200,9 +200,9 @@ function LuDaBaLiuYun()
 	local u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
 	local l__ut = LoadUnitHandle(YDHT, GetHandleId(t), 1)
 	if GetUnitAbilityLevel(u, 1093678668) ~= 0 then --加化骨穴位全封
-		WanBuff(u, l__ut, 12)
+		general_buff(u, l__ut, 12)
 	else
-		WanBuff(u, l__ut, 11)
+		general_buff(u, l__ut, 11)
 	end
 	FlushChildHashtable(YDHT, GetHandleId(t))
 	DestroyTimer(t)
@@ -309,9 +309,9 @@ function DiQingXiangLongSH()
 	local shxishu = 1
 	local shanghai = 0.0
 	if GetUnitAbilityLevel(u, 1093678925) ~= 0 then --加七伤拳
-		WanBuff(u, l__ut, GetRandomInt(1, 13))
+		general_buff(u, l__ut, GetRandomInt(1, 13))
 	else
-		WanBuff(u, l__ut, 9)
+		general_buff(u, l__ut, 9)
 	end
 	if GetUnitAbilityLevel(u, 1093677908) ~= 0 then --加须弥山掌
 		shxishu = shxishu + 1.2
@@ -565,7 +565,7 @@ function Trig_ciZhenSaoSheFunc007Conditions()
 			shanghai = ShangHaiGongShi(u, l__ut, 15, 18, shxishu, 1093678391)
 			WuGongShangHai(u, l__ut, shanghai)
 			if GetUnitAbilityLevel(u, 1093677900) ~= 0 then --加寒冰真气昏迷
-				WanBuff(u, l__ut, 5)
+				general_buff(u, l__ut, 5)
 			end
 			if GetUnitAbilityLevel(u, 1093678935) ~= 0 then --加乾坤
 				shxishu = shxishu + 0.6

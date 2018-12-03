@@ -101,7 +101,7 @@ function CuiJian_Action()
 	shanghai = ShangHaiGongShi(u, uc, 30.0, 30.0, shxishu, 1093682225)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678926) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-		WanBuff(u, uc, 11)
+		general_buff(u, uc, 11)
 	end
 	RemoveLocation(loc)
 	loc = nil
@@ -133,10 +133,10 @@ function JiuYin_Action()
 				shxishu = shxishu * 20
 			end
 			if GetUnitAbilityLevel(u, 1093682226) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1113813609) == false then
-				WanBuff(u, uc, 4)
+				general_buff(u, uc, 4)
 			end
 			if GetUnitAbilityLevel(u, 1093682230) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1110454324) == false then
-				WanBuff(u, uc, 7)
+				general_buff(u, uc, 7)
 			end
 			shanghai = ShangHaiGongShi(u, uc, 80, 64, shxishu, 1093682227)
 			AddSpecialEffectTargetUnitBJ("overhead", GetTriggerUnit(), "Abilities\\Spells\\Items\\OrbDarkness\\OrbDarkness.mdl")

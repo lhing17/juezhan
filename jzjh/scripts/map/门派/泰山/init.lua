@@ -30,9 +30,9 @@ function QiXingLuo_Action()
 		WuGongShangHai(u, l__ut, shanghai)
 		if GetUnitAbilityLevel(u, 1093678930) >= 1 then -- +吸星大法
 			if GetRandomInt(0, 100) <= 50 then
-				WanBuff(u, l__ut, 4) --混乱
+				general_buff(u, l__ut, 4) --混乱
 			else
-				WanBuff(u, l__ut, 11) --封穴
+				general_buff(u, l__ut, 11) --封穴
 			end
 		end
 		DestroyGroup(g)
@@ -186,27 +186,27 @@ function WuDaFuJian_Action()
 	if i <= 20 then
 		PassiveWuGongEffectAndDamage(u, l__ut, modelName1, 20, 100, shxishu, 1093679175)
 		if GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 1093678933) >= 1 then
-			WanBuff(u, l__ut, 4)
+			general_buff(u, l__ut, 4)
 		end
 	elseif i <= 40 then
 		PassiveWuGongEffectAndDamage(u, l__ut, modelName2, 40, 80, shxishu, 1093679175)
 		if GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 1093678933) >= 1 then
-			WanBuff(u, l__ut, 5)
+			general_buff(u, l__ut, 5)
 		end
 	elseif i <= 60 then
 		PassiveWuGongEffectAndDamage(u, l__ut, modelName3, 60, 60, shxishu, 1093679175)
 		if GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 1093678933) >= 1 then
-			WanBuff(u, l__ut, 3)
+			general_buff(u, l__ut, 3)
 		end
 	elseif i <= 80 then
 		PassiveWuGongEffectAndDamage(u, l__ut, modelName4, 80, 40, shxishu, 1093679175)
 		if GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 1093678933) >= 1 then
-			WanBuff(u, l__ut, 13)
+			general_buff(u, l__ut, 13)
 		end
 	else
 		PassiveWuGongEffectAndDamage(u, l__ut, modelName5, 100, 20, shxishu, 1093679175)
 		if GetRandomInt(0, 100) < 20 and GetUnitAbilityLevel(u, 1093678933) >= 1 then
-			WanBuff(u, l__ut, 9)
+			general_buff(u, l__ut, 9)
 		end
 	end
 

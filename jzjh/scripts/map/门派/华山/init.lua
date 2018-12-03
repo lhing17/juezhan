@@ -17,10 +17,10 @@ function QD()
 	end
 	DestroyEffect(AddSpecialEffectLocBJ(loc, "war3mapImported\\Mjolnir.mdx"))
 	if GetUnitAbilityLevel(u, 1093678930) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1113813619) == false then
-		WanBuff(u, uc, 10)
+		general_buff(u, uc, 10)
 	end
 	if GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454324) == false then
-		WanBuff(u, uc, 7)
+		general_buff(u, uc, 7)
 	end
 	shanghai = ShangHaiGongShi(u, uc, 44, 50, shxishu, 1093679191)
 	WuGongShangHai(u, uc, shanghai)
@@ -49,10 +49,10 @@ function TD()
 	shanghai = ShangHaiGongShi(u, uc, 7.0, 9.0, shxishu, 1093679192)
 	WuGongShangHai(u, uc, shanghai)
 	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetRandomInt(1, 100) <= 20 and UnitHasBuffBJ(uc, 1113813619) == false then
-		WanBuff(u, uc, 10)
+		general_buff(u, uc, 10)
 	end
 	if GetUnitAbilityLevel(u, 1093678931) ~= 0 and GetRandomInt(1, 100) <= 20 and UnitHasBuffBJ(uc, 1112437615) == false then
-		WanBuff(u, uc, 2)
+		general_buff(u, uc, 2)
 	end
 	RemoveLocation(loc)
 	WuGongShengChong(u, 1093679192, 36000.0)
@@ -140,7 +140,7 @@ function arc_Actions2()
 		shanghai = ShangHaiGongShi(u, uc, 10, 8, shxishu, 1093677879)
 		WuGongShangHai(u, uc, shanghai)
 		if GetRandomPercentageBJ() <= 20 and GetUnitAbilityLevel(u, 1093678928) >= 1 then
-			WanBuff(u, uc, 12)
+			general_buff(u, uc, 12)
 		end
 		RemoveUnit(l__ut)
 		PauseTimer(t)
@@ -190,7 +190,7 @@ function arc_Actions3()
 		shanghai = ShangHaiGongShi(u, uc, 10, 8, shxishu, 1093677879)
 		WuGongShangHai(u, uc, shanghai)
 		if GetRandomPercentageBJ() <= 20 and GetUnitAbilityLevel(u, 1093678928) >= 1 then
-			WanBuff(u, uc, 12)
+			general_buff(u, uc, 12)
 		end
 		UnitDamageTarget(u, uc, I2R(GetHeroStr(u, false)), true, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS)
 		RemoveUnit(l__ut)

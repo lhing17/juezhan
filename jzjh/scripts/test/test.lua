@@ -39,6 +39,7 @@ local id_list = {
     ['1227897156'] = 6, }
 local function test()
     print(base.string2id('I0A1'))
+    print(base.id2string(1848651824))
     for k, v in pairs(id_list) do
         print(base.id2string(k), v)
     end

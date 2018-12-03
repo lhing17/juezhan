@@ -1,147 +1,147 @@
-nativeº¯ÊıÁĞ±í£º
+nativeå‡½æ•°åˆ—è¡¨ï¼š
 
 //hardware
 
-//»ñÈ¡Êó±êÔÚÓÎÏ·ÄÚµÄ×ø±êX
+//è·å–é¼ æ ‡åœ¨æ¸¸æˆå†…çš„åæ ‡X
 native DzGetMouseTerrainX takes nothing returns real
 
-//»ñÈ¡Êó±êÔÚÓÎÏ·ÄÚµÄ×ø±êY
+//è·å–é¼ æ ‡åœ¨æ¸¸æˆå†…çš„åæ ‡Y
 native DzGetMouseTerrainY takes nothing returns real
 
-//»ñÈ¡Êó±êÔÚÓÎÏ·ÄÚµÄ×ø±êZ
+//è·å–é¼ æ ‡åœ¨æ¸¸æˆå†…çš„åæ ‡Z
 native DzGetMouseTerrainZ takes nothing returns real
 
-//Êó±êÊÇ·ñÔÚÓÎÏ·ÄÚ
+//é¼ æ ‡æ˜¯å¦åœ¨æ¸¸æˆå†…
 native DzIsMouseOverUI takes nothing returns boolean
 
-//»ñÈ¡Êó±êÆÁÄ»×ø±êX
+//è·å–é¼ æ ‡å±å¹•åæ ‡X
 native DzGetMouseX takes nothing returns integer
 
-//»ñÈ¡Êó±êÆÁÄ»×ø±êY
+//è·å–é¼ æ ‡å±å¹•åæ ‡Y
 native DzGetMouseY takes nothing returns integer
 
-//»ñÈ¡Êó±êÓÎÏ·´°¿Ú×ø±êX
+//è·å–é¼ æ ‡æ¸¸æˆçª—å£åæ ‡X
 native DzGetMouseXRelative takes nothing returns integer
 
-//»ñÈ¡Êó±êÓÎÏ·´°¿Ú×ø±êY
+//è·å–é¼ æ ‡æ¸¸æˆçª—å£åæ ‡Y
 native DzGetMouseYRelative takes nothing returns integer
 
-//ÉèÖÃÊó±êÎ»ÖÃ
+//è®¾ç½®é¼ æ ‡ä½ç½®
 native DzSetMousePos takes integer x, integer y returns nothing
 
-//×¢²áÊó±êµã»÷´¥·¢£¨syncÎªtrueÊ±£¬µ÷ÓÃTriggerExecute¡£ÎªfalseÊ±£¬Ö±½ÓÔËĞĞactionº¯Êı£¬¿ÉÒÔÒì²½²»µôÏß£¬actionÀï²»ÒªÓĞÍ¬²½²Ù×÷£©
+//æ³¨å†Œé¼ æ ‡ç‚¹å‡»è§¦å‘ï¼ˆsyncä¸ºtrueæ—¶ï¼Œè°ƒç”¨TriggerExecuteã€‚ä¸ºfalseæ—¶ï¼Œç›´æ¥è¿è¡Œactionå‡½æ•°ï¼Œå¯ä»¥å¼‚æ­¥ä¸æ‰çº¿ï¼Œactioné‡Œä¸è¦æœ‰åŒæ­¥æ“ä½œï¼‰
 native DzTriggerRegisterMouseEvent takes trigger trig, integer btn, integer status, boolean sync, string func returns nothing
 
-//×¢²á¼üÅÌµã»÷´¥·¢
+//æ³¨å†Œé”®ç›˜ç‚¹å‡»è§¦å‘
 native DzTriggerRegisterKeyEvent takes trigger trig, integer key, integer status, boolean sync, string func returns nothing
 
-//×¢²áÊó±ê¹öÂÖ´¥·¢
+//æ³¨å†Œé¼ æ ‡æ»šè½®è§¦å‘
 native DzTriggerRegisterMouseWheelEvent takes trigger trig, boolean sync, string func returns nothing
 
-//×¢²áÊó±êÒÆ¶¯´¥·¢
+//æ³¨å†Œé¼ æ ‡ç§»åŠ¨è§¦å‘
 native DzTriggerRegisterMouseMoveEvent takes trigger trig, boolean sync, string func returns nothing
 
-//»ñÈ¡´¥·¢Æ÷µÄ°´¼üÂë
+//è·å–è§¦å‘å™¨çš„æŒ‰é”®ç 
 native DzGetTriggerKey takes nothing returns integer
 
-//»ñÈ¡¹öÂÖdelta
+//è·å–æ»šè½®delta
 native DzGetWheelDelta takes nothing returns integer
 
-//ÅĞ¶Ï°´¼üÊÇ·ñ°´ÏÂ
+//åˆ¤æ–­æŒ‰é”®æ˜¯å¦æŒ‰ä¸‹
 native DzIsKeyDown takes integer iKey returns boolean
 
-//»ñÈ¡´¥·¢keyµÄÍæ¼Ò
+//è·å–è§¦å‘keyçš„ç©å®¶
 native DzGetTriggerKeyPlayer takes nothing returns player
 
-//»ñÈ¡war3´°¿Ú¿í¶È
+//è·å–war3çª—å£å®½åº¦
 native DzGetWindowWidth takes nothing returns integer
 
-//»ñÈ¡war3´°¿Ú¸ß¶È
+//è·å–war3çª—å£é«˜åº¦
 native DzGetWindowHeight takes nothing returns integer
 
-//»ñÈ¡war3´°¿ÚX×ø±ê
+//è·å–war3çª—å£Xåæ ‡
 native DzGetWindowX takes nothing returns integer
 
-//»ñÈ¡war3´°¿ÚY×ø±ê
+//è·å–war3çª—å£Yåæ ‡
 native DzGetWindowY takes nothing returns integer
 
-//×¢²áwar3´°¿Ú´óĞ¡±ä»¯ÊÂ¼ş
+//æ³¨å†Œwar3çª—å£å¤§å°å˜åŒ–äº‹ä»¶
 native DzTriggerRegisterWindowResizeEvent takes trigger trig, boolean sync, string func returns nothing
 
-//ÅĞ¶Ï´°¿ÚÊÇ·ñ¼¤»î
+//åˆ¤æ–­çª—å£æ˜¯å¦æ¿€æ´»
 native DzIsWindowActive takes nothing returns boolean
 
 //plus
 
-//ÉèÖÃ¿É´İ»ÙÎïÎ»ÖÃ
+//è®¾ç½®å¯æ‘§æ¯ç‰©ä½ç½®
 native DzDestructablePosition takes destructable d, real x, real y returns nothing
 
-//ÉèÖÃµ¥Î»Î»ÖÃ-±¾µØµ÷ÓÃ
+//è®¾ç½®å•ä½ä½ç½®-æœ¬åœ°è°ƒç”¨
 native DzSetUnitPosition takes unit whichUnit, real x, real y returns nothing
 
-//Òì²½Ö´ĞĞº¯Êı
+//å¼‚æ­¥æ‰§è¡Œå‡½æ•°
 native DzExecuteFunc takes string funcName returns nothing
 
-//È¡Êó±êÖ¸ÏòµÄunit
+//å–é¼ æ ‡æŒ‡å‘çš„unit
 native DzGetUnitUnderMouse takes nothing returns unit
 
-//ÉèÖÃunitµÄÌùÍ¼
+//è®¾ç½®unitçš„è´´å›¾
 native DzSetUnitTexture takes unit whichUnit, string path, integer texId returns nothing
 
 //packet
 
-//×¢²áÊı¾İÍ¬²½trigger
+//æ³¨å†Œæ•°æ®åŒæ­¥trigger
 native DzTriggerRegisterSyncData takes trigger trig, string prefix, boolean server returns nothing
 
-//Í¬²½ÓÎÏ·Êı¾İ
+//åŒæ­¥æ¸¸æˆæ•°æ®
 native DzSyncData takes string prefix, string data returns nothing
 
-//»ñÈ¡Í¬²½µÄÊı¾İ
+//è·å–åŒæ­¥çš„æ•°æ®
 native DzGetTriggerSyncData takes nothing returns string
 
-//»ñÈ¡Í¬²½Êı¾İµÄÍæ¼Ò
+//è·å–åŒæ­¥æ•°æ®çš„ç©å®¶
 native DzGetTriggerSyncPlayer takes nothing returns player
 
 //gui
 
-/////////////////////////////// Ô­ÉúUIĞŞ¸Ä
-//Òş²Ø½çÃæÔªËØ
+/////////////////////////////// åŸç”ŸUIä¿®æ”¹
+//éšè—ç•Œé¢å…ƒç´ 
 native DzFrameHideInterface takes nothing returns nothing
 
-//ĞŞ¸ÄÓÎÏ·ÊÀ½ç´°¿ÚÎ»ÖÃ
+//ä¿®æ”¹æ¸¸æˆä¸–ç•Œçª—å£ä½ç½®
 native DzFrameEditBlackBorders takes real upperHeight, real bottomHeight returns nothing
 
-//Í·Ïñ
+//å¤´åƒ
 native DzFrameGetPortrait takes nothing returns integer
 
-//Ğ¡µØÍ¼
+//å°åœ°å›¾
 native DzFrameGetMinimap takes nothing returns integer
 
-//¼¼ÄÜ°´Å¥
+//æŠ€èƒ½æŒ‰é’®
 native DzFrameGetCommandBarButton takes integer row, integer column returns integer
 
-//Ó¢ĞÛ°´Å¥
+//è‹±é›„æŒ‰é’®
 native DzFrameGetHeroBarButton takes integer buttonId returns integer
 
-//Ó¢ĞÛÑªÌõ
+//è‹±é›„è¡€æ¡
 native DzFrameGetHeroHPBar takes integer buttonId returns integer
 
-//Ó¢ĞÛÀ¶Ìõ
+//è‹±é›„è“æ¡
 native DzFrameGetHeroManaBar takes integer buttonId returns integer
 
-//µÀ¾ß°´Å¥
+//é“å…·æŒ‰é’®
 native DzFrameGetItemBarButton takes integer buttonId returns integer
 
-//Ğ¡µØÍ¼°´Å¥
+//å°åœ°å›¾æŒ‰é’®
 native DzFrameGetMinimapButton takes integer buttonId returns integer
 
-//×óÉÏ²Ëµ¥°´Å¥
+//å·¦ä¸Šèœå•æŒ‰é’®
 native DzFrameGetUpperButtonBarButton takes integer buttonId returns integer
 
-//Êó±êÌáÊ¾
+//é¼ æ ‡æç¤º
 native DzFrameGetTooltip takes nothing returns integer
 
-//ÁÄÌìĞÅÏ¢
+//èŠå¤©ä¿¡æ¯
 native DzFrameGetChatMessage takes nothing returns integer
 
 //unit message
@@ -150,147 +150,147 @@ native DzFrameGetUnitMessage takes nothing returns integer
 //top message
 native DzFrameGetTopMessage takes nothing returns integer
 
-//»ñÈ¡game ui
+//è·å–game ui
 native DzGetGameUI takes nothing returns integer
 
-/////////////////////////////// ×Ô¶¨ÒåUI
-//È¡rgbaÉ«Öµ
+/////////////////////////////// è‡ªå®šä¹‰UI
+//å–rgbaè‰²å€¼
 native DzGetColor takes integer r, integer g, integer b, integer a returns integer
 
-//ÉèÖÃ½çÃæ¸üĞÂ»Øµ÷£¨·ÇÍ¬²½£©
+//è®¾ç½®ç•Œé¢æ›´æ–°å›è°ƒï¼ˆéåŒæ­¥ï¼‰
 native DzFrameSetUpdateCallback takes string func returns nothing
 
-//ÏÔÊ¾/Òş²ØFrame
+//æ˜¾ç¤º/éšè—Frame
 native DzFrameShow takes integer frame, boolean enable returns nothing
 
-//´´½¨frame
+//åˆ›å»ºframe
 native DzCreateFrame takes string frame, integer parent, integer id returns integer
 
-//´´½¨SimpleFrame
+//åˆ›å»ºSimpleFrame
 native DzCreateSimpleFrame takes string frame, integer parent, integer id returns integer
 
-//Ïú»Ùframe
+//é”€æ¯frame
 native DzDestroyFrame takes integer frame returns nothing
 
-//¼ÓÔØtoc
+//åŠ è½½toc
 native DzLoadToc takes string fileName returns nothing
 
-//ÉèÖÃframeÏà¶ÔÎ»ÖÃ
+//è®¾ç½®frameç›¸å¯¹ä½ç½®
 native DzFrameSetPoint takes integer frame, integer point, integer relativeFrame, integer relativePoint, real x, real y returns nothing
 
-//ÉèÖÃframe¾ø¶ÔÎ»ÖÃ
+//è®¾ç½®frameç»å¯¹ä½ç½®
 native DzFrameSetAbsolutePoint takes integer frame, integer point, real x, real y returns nothing
 
-//Çå¿ÕframeÃªµã
+//æ¸…ç©ºframeé”šç‚¹
 native DzFrameClearAllPoints takes integer frame returns nothing
 
-//ÉèÖÃframe½ûÓÃ/ÆôÓÃ
+//è®¾ç½®frameç¦ç”¨/å¯ç”¨
 native DzFrameSetEnable takes integer name, boolean enable returns nothing
 
-//×¢²áUIÊÂ¼ş»Øµ÷
+//æ³¨å†ŒUIäº‹ä»¶å›è°ƒ
 native DzFrameSetScript takes integer frame, integer eventId, string func, boolean sync returns nothing
 
-//»ñÈ¡´¥·¢uiµÄÍæ¼Ò
+//è·å–è§¦å‘uiçš„ç©å®¶
 native DzGetTriggerUIEventPlayer takes nothing returns player
 
-//²éÕÒframe
+//æŸ¥æ‰¾frame
 native DzFrameFindByName takes string name, integer id returns integer
 
-//²éÕÒSimpleFrame
+//æŸ¥æ‰¾SimpleFrame
 native DzSimpleFrameFindByName takes string name, integer id returns integer
 
-//²éÕÒString
+//æŸ¥æ‰¾String
 native DzSimpleFontStringFindByName takes string name, integer id returns integer
 
-//²éÕÒTexture
+//æŸ¥æ‰¾Texture
 native DzSimpleTextureFindByName takes string name, integer id returns integer
 
-//µã»÷frame
+//ç‚¹å‡»frame
 native DzClickFrame takes integer frame returns nothing
 
-//×Ô¶¨ÒåÆÁÄ»±ÈÀı
+//è‡ªå®šä¹‰å±å¹•æ¯”ä¾‹
 native DzSetCustomFovFix takes real value returns nothing
 
-//Ê¹ÓÃ¿íÆÁÄ£Ê½
+//ä½¿ç”¨å®½å±æ¨¡å¼
 native DzEnableWideScreen takes boolean enable returns nothing
 
-//ÉèÖÃÎÄ×Ö£¨Ö§³ÖEditBox, TextFrame, TextArea, SimpleFontString¡¢GlueEditBoxWar3¡¢SlashChatBox¡¢TimerTextFrame¡¢TextButtonFrame¡¢GlueTextButton£©
+//è®¾ç½®æ–‡å­—ï¼ˆæ”¯æŒEditBox, TextFrame, TextArea, SimpleFontStringã€GlueEditBoxWar3ã€SlashChatBoxã€TimerTextFrameã€TextButtonFrameã€GlueTextButtonï¼‰
 native DzFrameSetText takes integer frame, string text returns nothing
 
-//»ñÈ¡ÎÄ×Ö£¨Ö§³ÖEditBox, TextFrame, TextArea, SimpleFontString£©
+//è·å–æ–‡å­—ï¼ˆæ”¯æŒEditBox, TextFrame, TextArea, SimpleFontStringï¼‰
 native DzFrameGetText takes integer frame returns string
 
-//ÉèÖÃ×ÖÊıÏŞÖÆ£¨Ö§³ÖEditBox£©
+//è®¾ç½®å­—æ•°é™åˆ¶ï¼ˆæ”¯æŒEditBoxï¼‰
 native DzFrameSetTextSizeLimit takes integer frame, integer size returns nothing
 
-//»ñÈ¡×ÖÊıÏŞÖÆ£¨Ö§³ÖEditBox£©
+//è·å–å­—æ•°é™åˆ¶ï¼ˆæ”¯æŒEditBoxï¼‰
 native DzFrameGetTextSizeLimit takes integer frame returns integer
 
-//ÉèÖÃÎÄ×ÖÑÕÉ«£¨Ö§³ÖTextFrame, EditBox£©
+//è®¾ç½®æ–‡å­—é¢œè‰²ï¼ˆæ”¯æŒTextFrame, EditBoxï¼‰
 native DzFrameSetTextColor takes integer frame, integer color returns nothing
 
-//»ñÈ¡Êó±êËùÔÚÎ»ÖÃµÄui¿Ø¼şÖ¸Õë
+//è·å–é¼ æ ‡æ‰€åœ¨ä½ç½®çš„uiæ§ä»¶æŒ‡é’ˆ
 native DzGetMouseFocus takes nothing returns integer
 
-//ÉèÖÃËùÓĞÃªµãµ½Ä¿±êframeÉÏ
+//è®¾ç½®æ‰€æœ‰é”šç‚¹åˆ°ç›®æ ‡frameä¸Š
 native DzFrameSetAllPoints takes integer frame, integer relativeFrame returns boolean
 
-//ÉèÖÃ½¹µã
+//è®¾ç½®ç„¦ç‚¹
 native DzFrameSetFocus takes integer frame, boolean enable returns boolean
 
-//ÉèÖÃÄ£ĞÍ£¨Ö§³ÖSprite¡¢Model¡¢StatusBar£©
+//è®¾ç½®æ¨¡å‹ï¼ˆæ”¯æŒSpriteã€Modelã€StatusBarï¼‰
 native DzFrameSetModel takes integer frame, string modelFile, integer modelType, integer flag returns nothing
 
-//»ñÈ¡¿Ø¼şÊÇ·ñÆôÓÃ
+//è·å–æ§ä»¶æ˜¯å¦å¯ç”¨
 native DzFrameGetEnable takes integer frame returns boolean
 
-//ÉèÖÃÍ¸Ã÷¶È£¨0-255£©
+//è®¾ç½®é€æ˜åº¦ï¼ˆ0-255ï¼‰
 native DzFrameSetAlpha takes integer frame, integer alpha returns nothing
 
-//»ñÈ¡Í¸Ã÷¶È
+//è·å–é€æ˜åº¦
 native DzFrameGetAlpha takes integer frame returns integer
 
-//ÉèÖÃ¶¯»­
+//è®¾ç½®åŠ¨ç”»
 native DzFrameSetAnimate takes integer frame, integer animId, boolean autocast returns nothing
 
-//ÉèÖÃ¶¯»­½ø¶È£¨autocastÎªfalseÊÇ¿ÉÓÃ£©
+//è®¾ç½®åŠ¨ç”»è¿›åº¦ï¼ˆautocastä¸ºfalseæ˜¯å¯ç”¨ï¼‰
 native DzFrameSetAnimateOffset takes integer frame, real offset returns nothing
 
-//ÉèÖÃtexture£¨Ö§³ÖBackdrop¡¢SimpleStatusBar£©
+//è®¾ç½®textureï¼ˆæ”¯æŒBackdropã€SimpleStatusBarï¼‰
 native DzFrameSetTexture takes integer frame, string texture, integer flag returns nothing
 
-//ÉèÖÃËõ·Å
+//è®¾ç½®ç¼©æ”¾
 native DzFrameSetScale takes integer frame, real scale returns nothing
 
-//ÉèÖÃtooltip
+//è®¾ç½®tooltip
 native DzFrameSetTooltip takes integer frame, integer tooltip returns nothing
 
-//Êó±êÏŞÖÆÔÚuiÄÚ
+//é¼ æ ‡é™åˆ¶åœ¨uiå†…
 native DzFrameCageMouse takes integer frame, boolean enable returns nothing
 
-//»ñÈ¡µ±Ç°Öµ£¨Ö§³ÖSlider¡¢SimpleStatusBar¡¢StatusBar£©
+//è·å–å½“å‰å€¼ï¼ˆæ”¯æŒSliderã€SimpleStatusBarã€StatusBarï¼‰
 native DzFrameGetValue takes integer frame returns real
 
-//ÉèÖÃ×î´ó×îĞ¡Öµ£¨Ö§³ÖSlider¡¢SimpleStatusBar¡¢StatusBar£©
+//è®¾ç½®æœ€å¤§æœ€å°å€¼ï¼ˆæ”¯æŒSliderã€SimpleStatusBarã€StatusBarï¼‰
 native DzFrameSetMinMaxValue takes integer frame, real minValue, real maxValue returns nothing
 
-//ÉèÖÃStepÖµ£¨Ö§³ÖSlider£©
+//è®¾ç½®Stepå€¼ï¼ˆæ”¯æŒSliderï¼‰
 native DzFrameSetStepValue takes integer frame, real step returns nothing
 
-//ÉèÖÃµ±Ç°Öµ£¨Ö§³ÖSlider¡¢SimpleStatusBar¡¢StatusBar£©
+//è®¾ç½®å½“å‰å€¼ï¼ˆæ”¯æŒSliderã€SimpleStatusBarã€StatusBarï¼‰
 native DzFrameSetValue takes integer frame, real value returns nothing
 
-//ÉèÖÃframe´óĞ¡
+//è®¾ç½®frameå¤§å°
 native DzFrameSetSize takes integer frame, real w, real h returns nothing
 
-//¸ù¾İtag´´½¨frame
+//æ ¹æ®tagåˆ›å»ºframe
 native DzCreateFrameByTagName takes string frameType, string name, integer parent, string template, integer id returns integer
 
-//ÉèÖÃÑÕÉ«£¨Ö§³ÖSimpleStatusBar£©
+//è®¾ç½®é¢œè‰²ï¼ˆæ”¯æŒSimpleStatusBarï¼‰
 native DzFrameSetVertexColor takes integer frame, integer color returns nothing
 
 /*
-DzFrameSetPoint achor¶¨Òå£¬´Ó0¿ªÊ¼
+DzFrameSetPoint achorå®šä¹‰ï¼Œä»0å¼€å§‹
 enum class AnchorPoint
 {
     TOPLEFT = 0,
@@ -304,7 +304,7 @@ enum class AnchorPoint
     BOTTOMRIGHT = 8,
 };
 
-DzFrameSetScript  ×¢²áuiÊÂ¼şµÄÊÂ¼şID
+DzFrameSetScript  æ³¨å†Œuiäº‹ä»¶çš„äº‹ä»¶ID
 enum class CFrameEvents
 {
     NONE = 0,
@@ -364,3 +364,10 @@ native EXGetAbilityDataInteger takes ability abil, integer level, integer data_t
 native EXSetAbilityDataInteger takes ability abil, integer level, integer data_type, integer value returns boolean
 native EXGetAbilityDataString  takes ability abil, integer level, integer data_type returns string
 native EXSetAbilityDataString  takes ability abil, integer level, integer data_type, string value returns boolean
+
+native EXSetAbilityAEmeDataA takes ability abil, integer unitid returns boolean
+
+native EXGetItemDataString takes integer itemcode, integer data_type returns string
+native EXSetItemDataString takes integer itemcode, integer data_type, string value returns boolean
+native EXGetBuffDataString takes integer buffcode, integer data_type returns string
+native EXSetBuffDataString takes integer buffcode, integer data_type, string value returns boolean

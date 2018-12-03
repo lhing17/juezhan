@@ -105,6 +105,9 @@ mt.part_times = nil
 --- @type set 套装
 mt.suits = nil
 
+--- @type item 养武
+mt.growable = nil
+
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
@@ -292,6 +295,11 @@ function mt:add_kongfu(ability_id)
         u:add_ability(ability_id)
     end
     self['武功'][ability_id] = et.kongfu.create(ability_id)
+end
+
+--- @param growable item 养武
+function mt:set_growable(growable)
+    self.growable = growable
 end
 
 --- @param mode number 0增加 1减少

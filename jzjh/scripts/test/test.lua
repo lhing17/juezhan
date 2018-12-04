@@ -37,10 +37,17 @@ local id_list = {
     ['1227897154'] = 6,
     ['1227897155'] = 6,
     ['1227897156'] = 6, }
+
+local function id2string(...)
+    for i, v in ipairs({ ... }) do
+        print(base.id2string(v))
+    end
+end
+
 local function test()
-    print(base.string2id('I0A1'))
-    print(base.id2string(1227895127))
-    print(base.id2string(1227895369))
+    id2string(1227895603, 1227895627)
+
+
     --for k, v in pairs(id_list) do
     --    print(base.id2string(k), v)
     --end

@@ -5,3 +5,34 @@
 ---
 
 log.info('加载副本系统')
+
+require 'map.system.instance.instance_one'
+require 'map.system.instance.instance_two'
+
+--- @param unit_id number|table 单位ID列表
+--- @param ... table
+function drop_item(unit_id, ...)
+    if type(unit_id) == 'number' then
+        unit_id = {unit_id}
+    end
+    --- @param killer unit
+    --- @param killed unit
+    et.game:event '单位-死亡'(function(self, killer, killed)
+        if is_in(killed:get_type_id(), unit_id) then
+            local args = { ... }
+            local x, y = killed:get_point():get()
+            for _, drop_table in pairs(args) do
+                local rand = commonutil.random(0, 100)
+                local accumulate = 0
+                for id, possibility in pairs(drop_table) do
+                    if accumulate + rand < possibility then
+                        et.item:new(id, x, y)
+                        break
+                    else
+                        accumulate = accumulate + possibility
+                    end
+                end
+            end
+        end
+    end)
+end

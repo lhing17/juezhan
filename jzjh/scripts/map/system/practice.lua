@@ -18,8 +18,7 @@ function et.hero.__index:init_pratice_task(pr)
 end
 
 local function init()
-
-
+    log.info('加载历练系统')
     -- 从商店购买任务物品
     et.game:event '单位-捡起物品'(function(self, u, item)
         local id = item:get_id()

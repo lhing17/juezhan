@@ -46,29 +46,40 @@ function main()
     --- 键盘输入系统
     require 'map.system.keyinput'
 
-    --- 存储装备属性
-    require 'map.static.attrs'
+    --- 装备系统
+    require 'map.system.equipment.init'
 
-    et.wait(10, function()
-        select_game_mode()
-        TaoHuaDaoKaiFang()
-    end)
+    --- 副本系统 普通副本、桃花岛
 
+
+    --- 历练系统
+    require 'map.system.practice'
+
+    --- 挑战系统 挑战BOSS、四圣兽
+    --- 任务系统
+
+    --- 炼丹系统
+    require 'map.system.pellet'
+
+
+    --- 优先级靠后的系统
+    --- 古董系统
     --- 合成物品系统
     --- 存档积分系统
     --- 兰馨换装系统
-    --- 古董系统
+
 
     --- 加载游戏逻辑
     require 'map.rules.rule' -- 游戏逻辑触发器
 
+    --- 加载武功的逻辑
 
     log.info('main函数执行完毕')
 end
 
 function config()
     require 'game.init' -- 游戏配置
-    SetMapName("决战江湖"..game.config.version.."正式版")
+    SetMapName("决战江湖" .. game.config.version .. "正式版")
     SetMapDescription("决战江湖，等你来战")
     SetPlayers(9)
     SetTeams(9)

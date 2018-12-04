@@ -16,7 +16,7 @@ local function allocate_attr(h, which_attr, s)
     h:get_owner():send_message("|cFFFF0000分配" .. num .. "点" .. which_attr .. "，剩余自由属性点：" .. h['自由属性'])
 end
 
-function KeyInput(p, s)
+local function keyboard_input(p, s)
     log.debug('执行KeyInput函数，参数为：', p, s)
     local h = p.hero
     local hu = et.unit(h.handle)
@@ -468,6 +468,12 @@ function KeyInput(p, s)
     end
 end
 
-et.game:event '玩家-聊天'(function(self, p, str)
-    KeyInput(p, str)
-end)
+local function init()
+    log.info('加载键盘输入系统')
+    et.game:event '玩家-聊天'(function(self, p, str)
+        keyboard_input(p, str)
+    end)
+end
+init()
+
+

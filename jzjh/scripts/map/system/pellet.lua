@@ -153,7 +153,8 @@ local function check_use_tuotai_pellet(u, item)
         end
     end
 end
-local function init_herbs()
+local function init()
+    log.info('加载炼丹系统')
     YaoCao = { 1227896646, --车前草
                1227896647, --过路黄
                1227896645, --金钱草
@@ -375,5 +376,5 @@ local function init_herbs()
     end)
 
 end
-init_herbs() --初始化草药
+init() --初始化草药
 

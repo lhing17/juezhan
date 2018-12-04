@@ -147,6 +147,7 @@ function HongQiGong_Action()
 end
 --------桃花岛系统结束------//
 function TaoHuaDao_Trigger()
+
 	local t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
 	TriggerAddCondition(t, Condition(IsTaoHua))

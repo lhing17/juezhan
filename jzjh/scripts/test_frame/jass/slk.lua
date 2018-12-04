@@ -101,10 +101,10 @@ local function init()
     }
 
 
-    local dest = io.open('dest.ini', 'w+')
-    for _, v in ipairs(item_ids) do
-        print(slk.item[v].Name)
-    end
+    --local dest = io.open('dest.ini', 'w+')
+    --for _, v in ipairs(item_ids) do
+    --    print(slk.item[v].Name)
+    --end
 
 end
 init()

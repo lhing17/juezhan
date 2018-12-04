@@ -4,7 +4,7 @@
 --- DateTime: 2018/11/16 12:46
 ---
 
---主机选择模式
+--- 主机选择模式 第五波还有一次选择模式的时间
 function select_game_mode()
     local button_map = {
         ["|cFF00CC00普通模式"] = 'normal',
@@ -22,3 +22,7 @@ function select_game_mode()
         end)
     end
 end
+
+et.wait(2000, function()
+    select_game_mode()
+end)

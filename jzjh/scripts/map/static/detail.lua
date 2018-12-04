@@ -49,7 +49,7 @@ function ForceAttackersAttackBasement()
         v:issue_order(851983, et.point(jass.GetLocationX(v7[4]), jass.GetLocationY(v7[4])))
     end
 end
-function GameDetail_Trigger()
+local function init()
     local t = CreateTrigger()
     --用移动模拟攻击、巡逻模拟移动 对地面
     TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
@@ -78,3 +78,5 @@ function GameDetail_Trigger()
     TriggerAddAction(t, Optimize)
     t = nil
 end
+
+init()

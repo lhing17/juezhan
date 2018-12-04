@@ -144,8 +144,8 @@ local function init()
     TriggerAddAction(t, HeCheng_Actions)
 
     -- 为合成的物品补属性
-    t = CreateTrigger()
-    YDWESyStemItemCombineRegistTrigger(t)
-    TriggerAddAction(t, WuPinHeCheng)
+    --t = CreateTrigger()
+    --YDWESyStemItemCombineRegistTrigger(t)
+    --TriggerAddAction(t, WuPinHeCheng)
 end
 init()

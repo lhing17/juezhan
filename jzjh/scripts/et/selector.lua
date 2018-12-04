@@ -17,6 +17,7 @@ local GroupRemoveUnit = jass.GroupRemoveUnit
 local et_unit = et.unit
 
 local mt = {}
+--- @class selector
 local api = {}
 mt.__index = api
 
@@ -91,6 +92,8 @@ function api:is_not(u)
 end
 
 -- 属于某个玩家
+--- @param p player
+--- @return selector
 function api:of_player(p)
     return self:add_filter(function(dest)
         return dest:get_owner() == p
@@ -298,6 +301,7 @@ function api:select(select_unit)
     end
 end
 
+--- @return table<number, unit>
 function api:get()
     local units = {}
     self:select(function(u)
@@ -322,6 +326,7 @@ function api:random()
     end
 end
 
+--- @return selector
 function et.selector()
     return setmetatable({ filters = {} }, mt)
 end

@@ -286,4 +286,4 @@ local function init()
     end)
     JianYi_Trigger()
 end
-init()
+--init()

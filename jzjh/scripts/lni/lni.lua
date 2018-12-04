@@ -1,7 +1,8 @@
 local lni = require 'lni.lni-loader'
 local storm = require 'jass.storm'
-require 'war3.id'
+require 'util.id'
 
+et = et or {}
 et.lni = {}
 
 lni:set_marco('TableSearcher', '$MapPath$lni\\table\\')

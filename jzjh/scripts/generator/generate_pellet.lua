@@ -6,7 +6,7 @@
 
 -- 生成伴侣的ini文件
 
-require('war3.id')
+require('util.id')
 
 -- 字符串分割
 local function split(str, p)

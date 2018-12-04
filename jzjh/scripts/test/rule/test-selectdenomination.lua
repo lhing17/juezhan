@@ -7,7 +7,7 @@
 require 'test.test-main'
 local trigger_util = require 'jass.util.trigger_util'
 local item = require 'jass.type.item'
-require 'war3.id'
+require 'util.id'
 
 --@Tested
 local function test_selectdenomination()

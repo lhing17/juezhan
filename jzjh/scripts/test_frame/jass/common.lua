@@ -1755,7 +1755,7 @@ end
 
 --native SetPlayerState   takes player whichPlayer, playerstate whichPlayerState, integer value returns nothing
 function jass.SetPlayerState(p, whichPlayerState, value)
-    log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. value)
+    log.info(p:get_name() .. '的属性' .. whichPlayerState.name .. '设置为：' .. tostring(value))
     p:set_state(whichPlayerState, value)
 
 end
@@ -3110,6 +3110,8 @@ function jass.GetItemLevel(it)
     return it:get_level()
 end
 --native          GetItemType     takes item whichItem returns itemtype
+--- @param it j_item
+--- @return string
 function jass.GetItemType(it)
     return it:get_type()
 end
@@ -4361,6 +4363,12 @@ end
 --native SetTerrainPathable           takes real x, real y, pathingtype t, boolean flag returns nothing
 function jass.SetTerrainPathable(x, y, t, flag)
 
+end
+
+--native RemoveGuardPosition  takes unit hUnit                                returns nothing
+--- @param unit j_unit
+function jass.RemoveGuardPosition(unit)
+    --log.info('忽略单位'..tostring(unit)..'的警戒点')
 end
 
 return jass

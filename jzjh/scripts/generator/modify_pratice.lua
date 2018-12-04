@@ -5,7 +5,7 @@
 ---
 
 
-require 'war3.id'
+require 'util.id'
 local function convert(str)
     return str:gsub('(%d%d%d%d%d%d%d%d%d%d)', function(s)
         return "base.string2id('" ..  base.id2string(s) .. "')"

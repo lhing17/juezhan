@@ -1231,11 +1231,17 @@ function unit.init_unit(handle, p)
 end
 
 
+--- @type player
+local player_mt = player.__index
 --创建单位(以玩家为参照)
 --	单位id
 --	位置
 --	[朝向]
-function player.__index:create_unit(id, where, face)
+--- @param id number|string
+--- @param where unit|point
+--- @param face number|nil
+--- @return unit
+function player_mt:create_unit(id, where, face)
     if et.lni.unit then
         local data = et.lni.unit[id]
         if data then

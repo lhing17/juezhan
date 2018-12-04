@@ -1,3 +1,4 @@
+local japi = require 'jass.japi'
 DzAPI_Map_SaveServerValue = japi.DzAPI_Map_SaveServerValue
 DzAPI_Map_GetServerValue = japi.DzAPI_Map_GetServerValue
 DzAPI_Map_Ladder_SetStat = japi.DzAPI_Map_Ladder_SetStat

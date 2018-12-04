@@ -50,7 +50,7 @@ function item:new(item_id, x, y)
     it.id = item_id
     it.bonus_table = {}
     it.data = {}
-    self:set_type()
+    it:set_type()
     self[it.handle] = it
     return it
 end
@@ -98,7 +98,7 @@ function item:set_type(tp)
         self.type = tp
         return
     end
-    local j_type = jass.GetUnitType(self.handle)
+    local j_type = jass.GetItemType(self.handle)
     if j_type == jass.ITEM_TYPE_ARTIFACT then
         self.type = 'weapon'
     elseif j_type == jass.ITEM_TYPE_PURCHASABLE then
@@ -113,7 +113,7 @@ function item:set_type(tp)
         elseif et.lni.accessory[self.id] then
             self.type = 'accessory'
         end
-    elseif et.lni.herb[self.id] then
+    elseif et.lni.herb and et.lni.herb[self.id] then
         self.type = 'herb'
     end
 end

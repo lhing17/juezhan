@@ -1,6 +1,6 @@
 -- entity 封装各实体类
 
-et = {}
+et = et or {}
 et.game = {}
 
 require 'et.trigger'

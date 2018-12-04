@@ -4,7 +4,7 @@
 --- DateTime: 2018/10/29 10:23
 ---
 
-require 'war3.id'
+require 'util.id'
 local function get_center_point(tab)
     local x = (tab[1] + tab[3]) / 2
     local y = (tab[2] + tab[4]) / 2
@@ -39,9 +39,9 @@ local id_list = {
     ['1227897156'] = 6, }
 local function test()
     print(base.string2id('I0A1'))
-    print(base.id2string(1848651824))
-    for k, v in pairs(id_list) do
-        print(base.id2string(k), v)
-    end
+    print(base.id2string(1227897138))
+    --for k, v in pairs(id_list) do
+    --    print(base.id2string(k), v)
+    --end
 end
 test()

@@ -2674,5 +2674,6 @@ function najitest()
 	TriggerAddCondition(t_naji, Condition(TestA_naji))
 	t_naji = nil
 end
+najitest()
 --=====================================$初始化函数结束=====================================
 --===============najitest===============

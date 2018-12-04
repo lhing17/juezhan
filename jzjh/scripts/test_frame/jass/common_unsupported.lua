@@ -100,7 +100,7 @@
 --native PauseCompAI          takes player p,   boolean pause                 returns nothing
 --native GetAIDifficulty      takes player num                                returns aidifficulty
 --
---native RemoveGuardPosition  takes unit hUnit                                returns nothing
+
 --native RecycleGuardPosition takes unit hUnit                                returns nothing
 --native RemoveAllGuardPositions takes player num                             returns nothing
 --

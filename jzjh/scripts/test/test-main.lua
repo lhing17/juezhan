@@ -9,8 +9,6 @@
 local config = require 'test_frame.jass.config'
 local SCRIPT_PATH = config.SCRIPT_PATH
 
-
-
 package.path = package.path .. ';'..SCRIPT_PATH..'?.lua'
 package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\?.lua'
 package.path = package.path .. ';'..SCRIPT_PATH..'scripts\\test_frame\\?.lua'

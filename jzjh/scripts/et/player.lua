@@ -2,8 +2,11 @@ local jass = require 'jass.common'
 local dbg = require 'jass.debug'
 require 'war3.api'
 
+--- @type table<number, player>
 local player = {}
 setmetatable(player, player)
+
+
 et.player = player
 
 -- 表player的toString()方法
@@ -189,7 +192,6 @@ function mt:add_gold(gold)
     self:set_gold(self:get_gold() + gold)
 end
 
-
 function mt:get_lumber()
     return jass.GetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_LUMBER)
 end
@@ -201,6 +203,17 @@ end
 function mt:add_lumber(lumber)
     self:set_lumber(self:get_lumber() + lumber)
 end
+
+--- @param food number
+function mt:set_food(food)
+    jass.SetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_FOOD_CAP, food)
+end
+
+--- @return number
+function mt:get_food()
+    return jass.GetPlayerState(self.handle, jass.PLAYER_STATE_RESOURCE_FOOD_CAP)
+end
+
 --获取镜头属性
 --	镜头属性
 function mt:getCameraField(key)

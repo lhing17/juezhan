@@ -333,12 +333,12 @@ function AllocateWuXueDian()
 				s__ZiZhiWuGong_dapeishu[zizhiwugong[i]] = s__ZiZhiWuGong_dapeishu[zizhiwugong[i]] + 1
 				DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00游坦之：|r |cFF99FFCC分配一点至武学搭配|r\n")
 				if GetRandomInt(1, 10) <= 7 then
-					dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(1, 18)].abilityid, GetRandomInt(1, 2))
+					dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kungfu[GetRandomInt(1, 18)].abilityid, GetRandomInt(1, 2))
 				else
 					if GetRandomInt(1, 3) <= 2 then
-						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(19, 28)].abilityid, 3)
+						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kungfu[GetRandomInt(19, 28)].abilityid, 3)
 					else
-						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kongfu[GetRandomInt(29, 41)].abilityid, 4)
+						dapei[i * 20 + s__ZiZhiWuGong_dapeishu[zizhiwugong[i]]] = s__DaPei_create(kungfu[GetRandomInt(29, 41)].abilityid, 4)
 					end
 				end
 			end

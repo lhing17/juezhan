@@ -26,7 +26,6 @@ function main()
     require 'map.system.lib.general_buff'
 
     --- 组件初始化
-    et.denomination.create()
     et.part_time.init()
     et.unit.init()
 

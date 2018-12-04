@@ -23,24 +23,6 @@ mt['福缘'] = 0
 mt['经脉'] = 0
 mt['自由属性'] = 0
 
-function denomination.create()
-    et.lni_loader('denomination')
-    for k, v in pairs(et.lni.denomination) do
-        v.name = k
-    end
-    local temp = {}
-    for k, v in pairs(et.lni.denomination) do
-        if v.item_id then
-            temp[v.item_id] = v
-        end
-    end
-    for k, v in pairs(temp) do
-        et.lni.denomination[k] = temp[k]
-    end
-    for k, v in pairs(et.lni.denomination) do
-        setmetatable(v, denomination)
-    end
-end
 
 return denomination
 

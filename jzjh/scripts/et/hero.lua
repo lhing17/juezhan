@@ -294,7 +294,7 @@ function mt:add_kongfu(ability_id)
     if not u:has_ability(ability_id) then
         u:add_ability(ability_id)
     end
-    self['武功'][ability_id] = et.kongfu.create(ability_id)
+    self['武功'][ability_id] = et.kungfu.create(ability_id)
 end
 
 --- @param growable item 养武

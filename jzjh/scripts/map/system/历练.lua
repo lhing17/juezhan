@@ -18,9 +18,7 @@ function et.hero.__index:init_pratice_task(pr)
 end
 
 local function init()
-    -- 从lni中将pratice数据读出
-    et.lni_loader('pratice')
-    et.extend_lni(et.lni.pratice)
+
 
     -- 从商店购买任务物品
     et.game:event '单位-捡起物品'(function(self, u, item)

@@ -64,12 +64,12 @@ function HeroLevel()
                     udg_shuxing[i] = udg_shuxing[i] + 5
                     DisplayTextToPlayer(p, 0, 0, "|cff00FF66自由门派3级奖励5点自由属性点及随机武功秘籍一本、小概率获得奇武秘籍一本")
                     if GetRandomInt(1, 100) <= 10 then
-                        unitadditembyidswapped(kongfu[GetRandomInt(42, 46)].itemid, u)
+                        unitadditembyidswapped(kungfu[GetRandomInt(42, 46)].itemid, u)
                     end
                     if GetRandomInt(1, 100) <= 99 then
-                        unitadditembyidswapped(kongfu[GetRandomInt(19, 36)].itemid, u)
+                        unitadditembyidswapped(kungfu[GetRandomInt(19, 36)].itemid, u)
                     else
-                        unitadditembyidswapped(kongfu[GetRandomInt(1, 18)].itemid, u)
+                        unitadditembyidswapped(kungfu[GetRandomInt(1, 18)].itemid, u)
                     end
                     --set S9=1
                     --           	loop

@@ -41,17 +41,69 @@ local function init()
     lni_loader('misc')
     lni_loader('unit')
 
-    local file = io.open('F:\\personal\\heroaltar\\juezhan\\jzjh\\scripts\\map\\static\\units.lua', 'r')
-    local dest = io.open('dest.ini', 'w+')
-    for line in file:lines() do
-        if line:find("'%w%w%w%w'") then
-            local start, _end, str = line:find("'(%w%w%w%w)'")
-            -- print(slk.unit[str].Name)
-            dest:write(line, '--' .. (slk.unit[str].Name or slk.unit[slk.unit[str]._parent].Name or ''), '\n')
-        else
-            dest:write(line, '\n')
-        end
+    local item_ids = {
+        'I03J',
+        'I03H',
+        'I02V',
+        'I02U',
+        'I03G',
+        'I02Z',
+        'I02X',
+        'I03I',
+        'I02Y',
+        'I03K',
+        'I03D',
+        'I03L',
+        'I030',
+        'I031',
+        'I03E',
+        'I033',
+        'I02W',
+        'I03F',
+        'I039',
+        'I034',
+        'I038',
+        'I037',
+        'I03B',
+        'I032',
+        'I035',
+        'I036',
+        'I03C',
+        'I03A',
+        'I03S',
+        'I03O',
+        'I03T',
+        'I03Q',
+        'I03M',
+        'I03P',
+        'I03U',
+        'I03R',
+        'I09G',
+        'I09H',
+        'I09I',
+        'I09J',
+        'I09K',
+        'I0C2',
+        'I0C3',
+        'I0C4',
+        'I0C5',
+        'I0C6',
+        'I0C8',
+        'I0C9',
+        'I0CA',
+        'I0CB',
+        'I0CC',
+        'I0CD',
+        'I0CJ',
+        'I0CT',
+        'I0CU',
+        'I0CV',
+    }
 
+
+    local dest = io.open('dest.ini', 'w+')
+    for _, v in ipairs(item_ids) do
+        print(slk.item[v].Name)
     end
 
 end

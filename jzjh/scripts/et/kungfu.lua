@@ -4,14 +4,14 @@
 --- DateTime: 2018/10/27 0027 19:28
 ---
 
-local kongfu = {}
+local kungfu = {}
 
-setmetatable(kongfu, kongfu)
-et.kongfu = kongfu
+setmetatable(kungfu, kungfu)
+et.kungfu = kungfu
 
 local mt = {}
 
-kongfu.__index = mt
+kungfu.__index = mt
 
 mt.type = '3级技' -- 门派3、8、15、毕业1、毕业2，江湖、绝世
 
@@ -29,8 +29,8 @@ mt.hero = hero
 
 mt.hint = '/'
 
-function kongfu.create(ability_id)
-    local kf = setmetatable({}, kongfu)
+function kungfu.create(ability_id)
+    local kf = setmetatable({}, kungfu)
     kf.ability_id = ability_id
     return kf
 end

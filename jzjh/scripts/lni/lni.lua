@@ -28,10 +28,22 @@ function et.extend_lni(tab)
     local temp = {}
     for k, v in pairs(tab) do
         if v.item_id then
-            if type(v.item_id) then
+            if type(v.item_id) == 'string' then
                 v.item_id = base.string2id(v.item_id)
             end
             temp[v.item_id] = v
+        end
+        if v.ability_id then
+            if type(v.ability_id) == 'string' then
+                v.ability_id = base.string2id(v.ability_id)
+            end
+            temp[v.ability_id] = v
+        end
+        if v.unit_id then
+            if type(v.unit_id) == 'string' then
+                v.unit_id = base.string2id(v.unit_id)
+            end
+            temp[v.unit_id] = v
         end
     end
     for k, v in pairs(temp) do

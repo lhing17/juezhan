@@ -8,22 +8,7 @@
 去掉了慕容单独学习内功的逻辑
 ]]
 
--- 读取内功的lni文件
-local function init_internal_lni()
-    et.lni_loader('internal')
-    for k, v in pairs(et.lni.internal) do
-        v.name = k
-    end
-    local temp = {}
-    for k, v in pairs(et.lni.internal) do
-        if v.ability_id then
-            temp[v.ability_id] = v
-        end
-    end
-    for k, v in pairs(temp) do
-        et.lni.internal[k] = temp[k]
-    end
-end
+
 
 --------学习武功系统结束------
 local function meet_conditions(h, kf)
@@ -76,12 +61,11 @@ local function become_elder(p, h, dn, ability_id)
 end
 
 local function init()
-    init_internal_lni()
     et.game:event '单位-使用物品'(function(self, u, item)
         --学习武功
-        if kongfu[item:get_id()] and u:get_owner().hero then
+        if kungfu[item:get_id()] and u:get_owner().hero then
             LearnJiNeng(u.handle, item)
-            local kf = kongfu[item:get_id()]
+            local kf = kungfu[item:get_id()]
             local p = u:get_owner()
             local h = p.hero
             local hu = h.handle
@@ -96,7 +80,7 @@ local function init()
                         u:add_item(kf.itemid)
                     else
                         hu:add_ability(kf.abilityid)
-                        h['武功'][kf.abilityid] = et.kongfu.create(kf.abilityid)
+                        h['武功'][kf.abilityid] = et.kungfu.create(kf.abilityid)
                         if h['遗忘武功'][kf.abilityid] then
                             h['武功'][kf.abilityid]['经验'] = h['遗忘武功'][kf.abilityid]['经验']
                             h['武功'][kf.abilityid]['重数'] = h['遗忘武功'][kf.abilityid]['重数']

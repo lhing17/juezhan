@@ -8,12 +8,26 @@ log.info('加载副本系统')
 
 require 'map.system.instance.instance_one'
 require 'map.system.instance.instance_two'
+require 'map.system.instance.instance_three'
+require 'map.system.instance.instance_four'
+require 'map.system.instance.instance_five'
+require 'map.system.instance.instance_six'
+require 'map.system.instance.instance_wild'
+
+--- 绝学的set
+outstanding_kungfus = set:new { 1227895609, 1227895604, 1227895608, 1227895607, 1227895618, 1227895602, 1227895605, 1227895606, 1227895619, 1227895617, }
+
+--- 绝内的set
+outstanding_internals = set:new { 1227895635, 1227895629, 1227895637, 1227895634, 1227895632, 1227895633, 1227895631, 1227895636 }
+
+--- 残章的set
+remnant_chapters = set:new { 1227896373, 1227896369, 1227896374, 1227896372, 1227896375, 1227896370, 1227896377, 1227896368, 1227896376, 1227896371, 1227899735, }
 
 --- @param unit_id number|table 单位ID列表
---- @param ... table
+--- @param ... table<number|table, number>
 function drop_item(unit_id, ...)
     if type(unit_id) == 'number' then
-        unit_id = {unit_id}
+        unit_id = { unit_id }
     end
     --- @param killer unit
     --- @param killed unit
@@ -26,7 +40,13 @@ function drop_item(unit_id, ...)
                 local accumulate = 0
                 for id, possibility in pairs(drop_table) do
                     if accumulate + rand < possibility then
-                        et.item:new(id, x, y)
+                        if type(id) == 'number' then
+                            et.item:new(id, x, y)
+                        else
+                            --- @type set
+                            local set = id
+                            et.item:create(set:random(), x, y)
+                        end
                         break
                     else
                         accumulate = accumulate + possibility

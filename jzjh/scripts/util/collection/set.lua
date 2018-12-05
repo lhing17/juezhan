@@ -7,10 +7,17 @@
 ---- @class set
 local set = {}
 
-function set:new()
+--- @param list table<number, V>
+--- @return set
+function set:new(list)
     local s = {}
     setmetatable(s, self)
     self.__index = self
+    if list then
+        for i, v in pairs(list) do
+            s[v] = true
+        end
+    end
     return s
 end
 
@@ -20,6 +27,21 @@ end
 
 function set:remove(element)
     self[element] = nil
+end
+
+--- 返回set中一个随机元素
+--- @return any
+function set:random()
+    require 'util.common-util'
+    local keys = table.keys(self)
+    local rand = math.random(1, #keys)
+    local i = 1
+    for k, _ in pairs(self) do
+        if i == rand then
+            return k
+        end
+        i = i + 1
+    end
 end
 
 --- @return boolean

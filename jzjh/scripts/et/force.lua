@@ -12,7 +12,7 @@ function force.send_message(text, time)
     end
 end
 
-function force.pingMinimap(x, y, time, red, green, blue, flag)
+function force.ping_minimap(x, y, time, red, green, blue, flag)
     for i = 1, 16 do
         et.player[i]:pingMinimap(x, y, time, red, green, blue, flag)
     end

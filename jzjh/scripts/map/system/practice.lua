@@ -43,7 +43,7 @@ local function init()
             if h.pratice < pr.requirements.pratice then
                 p:send_message("|cFFFF0000你必须先完成历练" .. pr.requirements.pratice .. "任务")
                 local x, y = et.get_rect_center(pr.regions.ping):get()
-                force.pingMinimap(x, y, 5)
+                force.ping_minimap(x, y, 5)
                 return
             end
 

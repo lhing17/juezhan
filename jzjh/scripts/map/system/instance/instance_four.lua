@@ -21,3 +21,22 @@ drop_item(1852335728, { [1227895372] = 5, [1227897153] = 95 })
 --- {长须老鬼}：{烈火衣、霓云手套、追月手、云海链}
 drop_item(1852996194, { [1227895092] = 25, [1227895093] = 25, [1227894874] = 25, [1227895088] = 25 })
 
+--- 有玩家进入副本4
+enter_instance_listener {
+    num = 4,
+    item_id = 1227895881,
+    name = '绝情谷',
+    gold = 3000,
+    practice = 3,
+    practice_point = et.point(-3472.0, 64.0),
+    enter_point = et.point(-15168.0, -6464.0),
+    mystery_point = et.point(-14816.0, -4848.0),
+    mystery_set = set:new { 1852140642, 1852335728, 1852663666, },
+    rare_drop_set = set:new { 1227895859, 1227895858, 1227895092, },
+    npc_set = set:new { 1865429076, 1865429558 },
+    npc_point_set = set:new {
+        et.point(-13040.0, -2032.0),
+    },
+}
+
+

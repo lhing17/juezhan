@@ -7,6 +7,7 @@
 local common_util = require 'jass.util.common_util'
 local rect = {}
 
+--- @class j_rect
 local mt = {}
 rect.__index = mt
 

@@ -30,5 +30,22 @@ drop_item(1970169187, { [1227895622] = 50, [1227895601] = 50 })
 --- {熊}：{根骨丹、医术丹}
 drop_item(1852207724, { [1227895363] = 6 }, { [1227895375] = 6 })
 
+--- 有玩家进入副本3
+enter_instance_listener {
+    num = 3,
+    item_id = 1227895875,
+    name = '塞北',
+    gold = 1000,
+    practice = 2,
+    practice_point = et.point(5680.0, -912.0),
+    enter_point = et.point(-15200.0, 10976.0),
+    mystery_point = et.point(-13248.0, 14752.0),
+    mystery_set = set:new { 1701672039, 1702061422, 1970169187, },
+    rare_drop_set = set:new { 1227895379, 1227895380, 1227895857, },
+    npc_set = set:new { 1865429073 },
+    npc_point_set = set:new {
+        et.point(-15008.0, 14816.0),
+    },
+}
 
 

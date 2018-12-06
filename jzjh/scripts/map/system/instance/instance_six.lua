@@ -15,3 +15,19 @@ drop_item(1852142199, { [1227895873] = 50, [1227894851] = 50 })
 
 --- {东方不败}：{屠龙刀、倚天剑、六合纵横、绿扳指、魔影炎掌}
 drop_item(1969976430, { [1227894852] = 20, [1227894850] = 20, [1227894854] = 20, [1227894860] = 20, [1227894856] = 20 })
+
+--- 有玩家进入副本6
+enter_instance_listener {
+    num = 6,
+    item_id = 1227896140,
+    name = '黑木崖',
+    gold = 10000,
+    practice = 5,
+    practice_point = et.point(4416.0, 416.0),
+    enter_point = et.point(7296.0, 11984.0),
+    mystery_point = et.point(7264.0, 14656.0),
+    mystery_set = set:new { 1852142199, 1851942252, 1751672179, },
+    rare_drop_set = set:new { 1227894859, 1227894861 },
+    npc_set = set:new { },
+    npc_point_set = set:new { },
+}

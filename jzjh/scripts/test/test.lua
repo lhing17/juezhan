@@ -45,10 +45,11 @@ local function id2string(...)
 end
 
 local function test()
-    id2string(1227899716,1227896922,1227897136)
+    id2string(1227899716, 1227896922, 1227897136)
 
     --for k, v in pairs(id_list) do
     --    print(base.id2string(k), v)
     --end
+    print(get_center_point { -13568.0, 2272.0, -13440.0, 2400.0})
 end
 test()

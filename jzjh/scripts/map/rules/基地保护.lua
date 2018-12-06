@@ -22,7 +22,7 @@ local function init()
                     target:remove_ability(1098282348)
                 end)
             end
-            force.pingMinimap(target:getX(), target:getY())
+            force.ping_minimap(target:getX(), target:getY())
             if math.random() >= 0.95 then
                 force.send_message("|CFFCCFF00正派武林受到攻击，请赶紧回防")
             end

@@ -29,6 +29,10 @@ function set:remove(element)
     self[element] = nil
 end
 
+function set:is_empty()
+    return next(self) == nil
+end
+
 --- 返回set中一个随机元素
 --- @return any
 function set:random()

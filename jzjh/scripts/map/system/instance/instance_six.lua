@@ -3,6 +3,8 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/12/5 9:50
 ---
+--- FB6 黑木崖
+local set = require 'util.collection.set'
 
 --- {令狐冲}：{踏风冰手、踏风靴}
 drop_item(1751672179, { [1227894857] = 50, [1227894862] = 50 })
@@ -32,9 +34,12 @@ enter_instance_listener {
     npc_point_set = set:new { },
 }
 
-if et.rect.j_rect(rect_instance_six):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
-    if instance_info[6].rare_drop_id then
-        local x, y = killed:get_point():get()
-        et.item:new(instance_info[6].rare_drop_id, x, y)
+--- 稀有掉落
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if et.rect.j_rect(rect_instance_six):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
+        if instance_info[6].rare_drop_id then
+            local x, y = killed:get_point():get()
+            et.item:new(instance_info[6].rare_drop_id, x, y)
+        end
     end
-end
+end)

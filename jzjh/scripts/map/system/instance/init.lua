@@ -6,13 +6,8 @@
 
 log.info('加载副本系统')
 
-require 'map.system.instance.instance_one'
-require 'map.system.instance.instance_two'
-require 'map.system.instance.instance_three'
-require 'map.system.instance.instance_four'
-require 'map.system.instance.instance_five'
-require 'map.system.instance.instance_six'
-require 'map.system.instance.instance_wild'
+local set = require 'util.collection.set'
+
 
 --- 江湖武功的set
 wild_kungfus = set:new { 1227895626, 1227895624, 1227895623, 1227895627, 1227895628, 1227895621, 1227895603, 1227895622 }
@@ -35,11 +30,11 @@ function drop_item(unit_id, ...)
     if type(unit_id) == 'number' then
         unit_id = { unit_id }
     end
+    local args = { ... }
     --- @param killer unit
     --- @param killed unit
     et.game:event '单位-死亡'(function(self, killer, killed)
         if is_in(killed:get_type_id(), unit_id) then
-            local args = { ... }
             local x, y = killed:get_point():get()
             for _, drop_table in pairs(args) do
                 local rand = commonutil.random(0, 100)
@@ -190,3 +185,11 @@ function jump_in_maze(from, to)
     end)
 end
 
+
+require 'map.system.instance.instance_one'
+require 'map.system.instance.instance_two'
+require 'map.system.instance.instance_three'
+require 'map.system.instance.instance_four'
+require 'map.system.instance.instance_five'
+require 'map.system.instance.instance_six'
+require 'map.system.instance.instance_wild'

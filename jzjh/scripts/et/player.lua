@@ -272,14 +272,13 @@ function player.create(id, jPlayer)
 end
 
 local function register_new_player_trigger(event, event_name)
-    for i = 1, 16 do
-        jass.TriggerRegisterPlayerEvent(t, player[i].handle, event)
-    end
-
-    t = war3.CreateTrigger(function()
+    local t = war3.CreateTrigger(function()
         local p = et.player(jass.GetTriggerPlayer())
         p:event_notify(event_name, p)
     end)
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerEvent(t, player[i].handle, event)
+    end
 end
 
 --一些常用事件

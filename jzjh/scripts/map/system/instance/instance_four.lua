@@ -5,6 +5,7 @@
 ---
 
 --- FB4 绝情谷+绝情谷谷底
+local set = require 'util.collection.set'
 
 --- {南海神尼}：{九阴真经·易筋锻骨篇}
 drop_item({ 1852140642 }, { [1227897161] = 100 })

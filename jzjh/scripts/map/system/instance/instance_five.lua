@@ -5,6 +5,7 @@
 ---
 
 --- FB5 逍遥宫
+local set = require 'util.collection.set'
 
 --- {李秋水}：{抗魔护符、云灭护符}
 drop_item(1852270642, { [1227894870] = 50, [1227894869] = 50 })
@@ -40,12 +41,14 @@ enter_instance_listener {
 }
 
 --- 稀有掉落
-if et.rect.j_rect(rect_instance_five):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
-    if instance_info[5].rare_drop_id then
-        local x, y = killed:get_point():get()
-        et.item:new(instance_info[5].rare_drop_id, x, y)
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if et.rect.j_rect(rect_instance_five):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
+        if instance_info[5].rare_drop_id then
+            local x, y = killed:get_point():get()
+            et.item:new(instance_info[5].rare_drop_id, x, y)
+        end
     end
-end
+end)
 
 local pet_set = set:new { 1227895865, 1227895864, 1227895863, 1227895862, }
 --- 探索琅环玉洞

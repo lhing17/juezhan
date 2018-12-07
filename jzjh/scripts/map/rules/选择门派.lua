@@ -79,7 +79,7 @@ local function init()
     end)
     -- 自由门派
     Mh = CreateTrigger()
-    YDWETriggerRegisterLeaveRectSimpleNull(Mh, udg_xuanmenpai)
+    YDWETriggerRegisterLeaveRectSimpleNull(Mh, udg_xuanmenpai.handle)
     TriggerAddCondition(Mh, Condition(WuMenPai_Condition))
     TriggerAddAction(Mh, WuMenPai_Action)
 end

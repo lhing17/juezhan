@@ -58,13 +58,13 @@ local function init()
     SetSoundParamsFromLabel(Ih, "ReceiveGold")
     SetSoundDuration(Ih, 589)
 
-    we = AddWeatherEffect(df, 1464820599)
+    we = AddWeatherEffect(rect_instance_border, 1464820599)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(of, 1178886760)
+    we = AddWeatherEffect(rect_instance_one, 1178886760)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(xf, 1464755063)
+    we = AddWeatherEffect(rect_instance_two, 1464755063)
     EnableWeatherEffect(we, true)
 
     we = AddWeatherEffect(Df, 1178886760)
@@ -75,7 +75,7 @@ local function init()
     we = AddWeatherEffect(Ef, 1380018290)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(Nf, 1464755063)
+    we = AddWeatherEffect(rect_instance_three, 1464755063)
     EnableWeatherEffect(we, true)
 
     we = AddWeatherEffect(Rf, 1464822903)
@@ -91,11 +91,11 @@ local function init()
     EnableWeatherEffect(we, true)
 
     --- 副本5
-    we = AddWeatherEffect(Mg, 1397647475)
+    we = AddWeatherEffect(rect_instance_five, 1397647475)
     EnableWeatherEffect(we, true)
 
     --- 副本6
-    we = AddWeatherEffect(Yg, 1296393331)
+    we = AddWeatherEffect(rect_instance_six, 1296393331)
     EnableWeatherEffect(we, true)
 
 

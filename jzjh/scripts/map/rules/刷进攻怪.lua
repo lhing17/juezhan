@@ -10,7 +10,7 @@ local function pawn_attack_creep(id, from, to_rect)
     local p = et.player(7)
     local last = p:create_unit(id, et.point(jass.GetLocationX(from), jass.GetLocationY(from)))
     game.variable.attack_creeps[last.handle] = last
-    last:issue_order(851983, et.get_rect_center(to_rect))
+    last:issue_order(851983, to_rect:get_center())
     return last
 end
 

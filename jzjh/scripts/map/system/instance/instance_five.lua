@@ -33,9 +33,39 @@ enter_instance_listener {
     mystery_point = et.point(4896.0, 14112.0),
     mystery_set = set:new { 1853058166, 1853055597, },
     rare_drop_set = set:new { 1227894865, 1227894867, 1227894866, },
-    npc_set = set:new {1865429080 },
+    npc_set = set:new { 1865429080 },
     npc_point_set = set:new {
-        et.point(3968.0	,	12864.0),
+        et.point(3968.0, 12864.0),
     },
 }
+
+--- 稀有掉落
+if et.rect.j_rect(rect_instance_five):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
+    if instance_info[5].rare_drop_id then
+        local x, y = killed:get_point():get()
+        et.item:new(instance_info[5].rare_drop_id, x, y)
+    end
+end
+
+local pet_set = set:new { 1227895865, 1227895864, 1227895863, 1227895862, }
+--- 探索琅环玉洞
+--- @param u unit
+--- @param it item
+et.game:event '单位-捡起物品'(function(self, u, it)
+    if it:get_id() == 1227895895 then
+        local p = u:get_owner()
+        if not u:is_hero() then
+            p:add_gold(30000)
+            p:send_message("|CFFFF0000只能有主角亲自探索")
+        else
+            if commonutil.random(0, 100) <= 50 then
+                p:send_message("|CFFFF0000经过一番探索，竟然什么都没有得到，看来你的诚意还不够哦~")
+            else
+                local pet_id = pet_set:random()
+                u:add_item(pet_id)
+                force.send_message(p:get_name() .. "在探索琅环玉洞时，无意中竟然得到了" .. jass.GetObjectName(pet_id))
+            end
+        end
+    end
+end)
 

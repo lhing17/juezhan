@@ -1111,14 +1111,14 @@ function IK()
 	local loc = nil
 	if GetItemTypeId(GetManipulatedItem()) == 1227896132 then
 		if rd[i] == 0 then
-			loc = GetRectCenter(Nf)
+			loc = GetRectCenter(rect_instance_three)
 			rd[i] = 1
 			PlaySoundOnUnitBJ(bh, 100, u)
 			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00胡斐：|r |cFF99FFCC这一代时常有熊出没，能搞点熊皮来的话应该可以卖个好价钱|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F30只熊|r\n")
 			PingMinimapLocForForce(ov(p), loc, 5.0)
 			RemoveLocation(loc)
 		elseif rd[i] == 1 then
-			loc = GetRectCenter(Nf)
+			loc = GetRectCenter(rect_instance_three)
 			DisplayTextToPlayer(p, 0, 0, "|cFFFFCC00胡斐：|r |cFF99FFCC这一代时常有熊出没，能搞点熊皮来的话应该可以卖个好价钱|r\n|cFFFFCC00提示：|r |cFF99FFCC杀死|cFFADFF2F30只熊|r\n")
 			PingMinimapLocForForce(ov(p), loc, 5.0)
 			RemoveLocation(loc)
@@ -1185,7 +1185,7 @@ function TK()
 	SaveInteger(YDHT, id * cx, -1587459251, 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())))
 	SaveUnitHandle(YDHT, id * cx, -784714656, GetTriggerUnit())
 	if z9[LoadInteger(YDHT, id * cx, -1587459251)] == 0 then
-		SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(Gg))
+		SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(rect_instance_four))
 		z9[LoadInteger(YDHT, id * cx, -1587459251)] = 1
 		PlaySoundOnUnitBJ(bh, 100, LoadUnitHandle(YDHT, id * cx, -784714656))
 		DisplayTextToPlayer(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251)), 0, 0, "|cFFFFCC00公孙绿萼：|r |cFF99FFCC杨过中了情花剧毒，你能替我想想办法救救他吗|r\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本中的|cFFADFF2F断肠草|r\n")
@@ -1193,7 +1193,7 @@ function TK()
 		RemoveLocation(LoadLocationHandle(YDHT, id * cx, 1585647951))
 	else
 		if z9[LoadInteger(YDHT, id * cx, -1587459251)] == 1 then
-			SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(Gg))
+			SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(rect_instance_four))
 			DisplayTextToPlayer(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251)), 0, 0, "|cFFFFCC00你已经接下任务了\n|cFFFFCC00提示：|r |cFF99FFCC采集绝情谷副本的|cFFADFF2F断肠草|r\n")
 			PingMinimapLocForForce(ov(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251))), LoadLocationHandle(YDHT, id * cx, 1585647951), 5.0)
 			RemoveLocation(LoadLocationHandle(YDHT, id * cx, 1585647951))
@@ -1217,7 +1217,7 @@ function WK()
 	SaveInteger(YDHT, id, -807506826, cx)
 	SaveInteger(YDHT, id, -320330265, cx)
 	SaveInteger(YDHT, id * cx, -1587459251, 0)
-	EnumItemsInRectBJ(Gg, VK)
+	EnumItemsInRectBJ(rect_instance_four, VK)
 	FlushChildHashtable(YDHT, id * cx)
 end
 --断肠草
@@ -1405,7 +1405,7 @@ function vL()
 	SaveInteger(YDHT, id * cx, -1587459251, 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())))
 	SaveUnitHandle(YDHT, id * cx, -784714656, GetTriggerUnit())
 	if Td[LoadInteger(YDHT, id * cx, -1587459251)] == 0 then
-		SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(xg))
+		SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(rect_maze_from_11))
 		Td[LoadInteger(YDHT, id * cx, -1587459251)] = 1
 		PlaySoundOnUnitBJ(bh, 100, LoadUnitHandle(YDHT, id * cx, -784714656))
 		DisplayTextToPlayer(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251)), 0, 0, "|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
@@ -1413,7 +1413,7 @@ function vL()
 		RemoveLocation(LoadLocationHandle(YDHT, id * cx, 1585647951))
 	else
 		if Td[LoadInteger(YDHT, id * cx, -1587459251)] == 1 then
-			SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(xg))
+			SaveLocationHandle(YDHT, id * cx, 1585647951, GetRectCenter(rect_maze_from_11))
 			DisplayTextToPlayer(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251)), 0, 0, "|cFFFFCC00苗人凤：|r |cFF99FFCC很多武林恶势力犯事之后都躲到了高昌迷宫里|r\n|cFFFFCC00提示：|r |cFF99FFCC分别杀死|cFFADFF2F10个门派叛徒和武林恶徒|r\n")
 			PingMinimapLocForForce(ov(Player(-1 + LoadInteger(YDHT, id * cx, -1587459251))), LoadLocationHandle(YDHT, id * cx, 1585647951), 5.0)
 			RemoveLocation(LoadLocationHandle(YDHT, id * cx, 1585647951))

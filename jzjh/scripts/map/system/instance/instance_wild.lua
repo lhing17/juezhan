@@ -45,4 +45,149 @@ drop_item(1852207203, { [1227896920] = 33, [1227896922] = 33, [1227897136] = 34 
 ---门派叛徒和武林恶徒
 
 --- 边境掉落
+local border_drop_set = set:new { 1227896396, 1227896397, 1227896395, 1227895379 }
+local border_drop_id
+et.loop(500 * 1000, function()
+    border_drop_id = border_drop_set:random()
+    force.send_message("|cFFFFCC33边境刷新掉落：|cFF33FFFF" .. jass.GetObjectName(border_drop_id) or "")
+end)
 
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if rect_instance_border:contains_unit(killer) and commonutil.random(0, 100) <= 5 then
+        if border_drop_id then
+            local x, y = killed:get_point():get()
+            et.item:new(border_drop_id, x, y)
+        end
+    end
+end)
+
+--- 进入古墓
+--- @param u unit 进入区域的单位
+--- @param r rect 单位进入的区域
+et.game:event '单位-进入区域'(function(self, u, r)
+    if not u:is_hero() or not u:get_owner():is_player() or r ~= rect_tomb_start then
+        return
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    if h.reputation < 800 or h['福缘'] < 15 then
+        p:send_message("|cffff0000进入古墓条件：\n福缘15，江湖声望800")
+        return
+    end
+    u:set_point(rect_tomb_start:get_center())
+    p:set_camera(rect_tomb_start:get_center())
+end)
+
+jump_in_maze(rect_tomb_from_1, rect_tomb_to_1)
+jump_in_maze(rect_tomb_from_2, rect_tomb_to_2)
+jump_in_maze(rect_tomb_from_3, rect_tomb_to_3)
+jump_in_maze(rect_tomb_from_4, rect_tomb_to_4)
+jump_in_maze(rect_tomb_from_5, rect_tomb_to_5)
+jump_in_maze(rect_tomb_from_6, rect_tomb_to_6)
+jump_in_maze(rect_tomb_from_7, rect_tomb_to_7)
+
+--- 高昌迷宫
+--- @param u unit
+--- @param it item
+et.game:event '单位-捡起物品'(function(self, u, it)
+    if it:get_id() ~= 1227895876 then
+        return
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    if not u:is_hero() then
+        p:send_message("|cFFFFCC00只能由主角亲自前往")
+        return
+    end
+    if h.reputation < 2000 or h['福缘'] < 18 then
+        p:send_message("|cffff0000进入高昌迷宫条件：\n福缘18，江湖声望2000")
+        return
+    end
+    u:set_point(rect_maze_start:get_center())
+    p:set_camera(rect_maze_start:get_center())
+    p:send_message("|cFFADFF2F进入高昌迷宫")
+end)
+
+jump_in_maze(rect_maze_from_1, rect_maze_to_1)
+jump_in_maze(rect_maze_from_2, rect_maze_to_2)
+jump_in_maze(rect_maze_from_3, rect_maze_to_3)
+jump_in_maze(rect_maze_from_4, rect_maze_to_4)
+jump_in_maze(rect_maze_from_5, rect_maze_to_5)
+jump_in_maze(rect_maze_from_6, rect_maze_to_6)
+jump_in_maze(rect_maze_from_7, rect_maze_to_7)
+jump_in_maze(rect_maze_from_8, rect_maze_to_8)
+jump_in_maze(rect_maze_from_9, rect_maze_to_9)
+jump_in_maze(rect_maze_from_10, rect_maze_to_8)
+jump_in_maze(rect_maze_from_11, rect_maze_to_9)
+jump_in_maze(rect_maze_from_12, rect_maze_to_6)
+
+et.game:event '单位-捡起物品'(function(self, u, it)
+    if it:get_id() ~= 1227895880 then
+        return
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    if not u:is_hero() then
+        p:send_message("|cFFFFCC00只能由主角亲自前往")
+        p:add_gold(20000)
+        return
+    end
+    if h.practice < 3 then
+        p:send_message("|cFFFF0000你尚未完成历练3之勇闯十恶不赦岛任务")
+        p:add_gold(20000)
+    end
+    u:set_point(rect_depository_start:get_center())
+    p:set_camera(rect_depository_start:get_center())
+    p:send_message("|cFFADFF2F进入藏经阁")
+end)
+
+
+--- 梦回前朝
+--- @param u unit
+--- @param it item
+et.game:event '单位-捡起物品' (function(self, u, it)
+    if not it:get_id() == 1227896133 then
+        return
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    if not u:is_hero() then
+        p:send_message("|cFFFFCC00只能由主角亲自前往")
+        p:add_gold(40000)
+        return
+    end
+    if h.reputation < 5500 or h.practice < 5 then
+        p:send_message("|cffff0000进入梦回前朝条件：\n历练5，江湖声望5500")
+        p:add_gold(40000)
+        return
+    end
+    u:set_point(rect_former_dynasty_start:get_center())
+    p:set_camera(rect_former_dynasty_start:get_center())
+    p:send_message("|cFFADFF2F回到了前朝")
+
+end)
+
+--- 一品居
+--- @param u unit
+--- @param it item
+et.game:event '单位-捡起物品' (function(self, u, it)
+    if not it:get_id() == 1227897137 then
+        return
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    if not u:is_hero() then
+        p:send_message("|cFFFFCC00只能由主角亲自前往")
+        p:add_gold(50000)
+        return
+    end
+    if not u:has_item(1227897138) or h.practice < 6 then
+        p:send_message("|cffff0000进入一品居条件：\n历练6，携带一品居请帖")
+        p:add_gold(50000)
+        return
+    end
+    u:set_point(rect_best_residence_start:get_center())
+    p:set_camera(rect_best_residence_start:get_center())
+    p:send_message("|cFFADFF2F进入一品居")
+    u:remove_item(u:fetch_item(1227897138))
+end)

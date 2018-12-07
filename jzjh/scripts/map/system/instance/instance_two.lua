@@ -46,3 +46,24 @@ enter_instance_listener {
         et.point(-13008.0, 5920.0),
     },
 }
+
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if et.rect.j_rect(rect_instance_two):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
+        if instance_info[2].rare_drop_id then
+            local x, y = killed:get_point():get()
+            et.item:new(instance_info[2].rare_drop_id, x, y)
+        end
+    end
+end)
+
+--- @param source unit 被接近的单位
+--- @param approach unit 接近的单位
+et.game:event '单位-被接近'(function(self, source, approach)
+    if source:get_type_id() == base.string2id('o00C') and approach:is_hero() then
+        approach:get_owner():dummy_use_ability(1697656880, approach:get_point(), 1093677875, 852164, nil, 3)
+    end
+    if source:get_type_id() == base.string2id('o00O') and approach:is_hero() then
+        approach:get_owner():dummy_use_ability(1697656880, approach:get_point(), 1093678673, 852066, nil, 3)
+    end
+end)
+

@@ -50,7 +50,7 @@ function main()
     require 'map.system.equipment.init'
 
     --- 副本系统 普通副本、桃花岛
-
+    require 'map.system.instance.init'
 
     --- 历练系统
     require 'map.system.practice'

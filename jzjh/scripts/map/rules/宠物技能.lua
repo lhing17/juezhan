@@ -34,7 +34,7 @@ local function init()
     et.game:event '单位-技能生效' (function(self, u, id, target)
         if id == 1093679433 then
             local p = u:get_owner()
-            local last = p:create_unit(1853257068, et.get_rect_center(rect_born))
+            local last = p:create_unit(1853257068, rect_born:get_center())
             last:show(false)
             last:add_item(target)
             jass.UnitDropItemTarget(last.handle, last:get_item_in_slot(1).handle, Rs.handle)

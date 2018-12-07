@@ -31,3 +31,10 @@ enter_instance_listener {
     npc_set = set:new { },
     npc_point_set = set:new { },
 }
+
+if et.rect.j_rect(rect_instance_six):contains_unit(killer) and commonutil.random(0, 100) <= 2 then
+    if instance_info[6].rare_drop_id then
+        local x, y = killed:get_point():get()
+        et.item:new(instance_info[6].rare_drop_id, x, y)
+    end
+end

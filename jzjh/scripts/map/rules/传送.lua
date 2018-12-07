@@ -106,7 +106,7 @@ local function init()
                 if h.reputation < te.reputation then
                     p:send_message("|cFFFF0000江湖声望不足"..te.reputation.."无法传送")
                 else
-                    local pos = et.get_rect_center(te.rect)
+                    local pos = te.rect:get_center()
                     u:set_point(pos)
                     p:set_camera(pos)
                     p:send_message("|cff66ff33进入"..te.name)

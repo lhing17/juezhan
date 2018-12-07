@@ -120,6 +120,7 @@ local function load_unusual_npc(num, npc_set, npc_point_set)
         instance_info[num].unusual_npc = '无'
     else
         local last = et.player[16]:create_unit(npc_set:random(), npc_point_set:random())
+        last:add_approach_listener()
         force.send_message("|cFFFFCC33载入奇缘NPC：|cFF33FFFF" .. last:get_name(), 30)
         instance_info[num].unusual_npc = last:get_name()
     end
@@ -172,6 +173,20 @@ function enter_instance_listener(instance)
         end
         u:set_point(instance.enter_point)
         p:set_camera(u:get_point())
+    end)
+end
+
+--- @param from rect 从哪个区域跳转
+--- @param to rect 跳转到的区域
+function jump_in_maze(from, to)
+    et.game:event '单位-进入区域'(function(self, u, r)
+        if not u:is_hero() then
+            return
+        end
+        if r == from then
+            u:set_point(to:get_center())
+            u:get_owner():set_camera(to:get_center())
+        end
     end)
 end
 

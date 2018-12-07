@@ -221,6 +221,22 @@ function mt:getCameraField(key)
 end
 
 
+--- 在目标处创造一个马甲单位，并向目标单位施放技能
+--- @param unit_id number 马甲单位ID
+--- @param pos point 马甲单位出生地点
+--- @param ability_id number 马甲单位施放的技能
+--- @param order_id number 技能的order id
+--- @param target unit 技能的目标单位
+--- @param lifetime number 马甲存活时间
+function mt:dummy_use_ability(unit_id, pos, ability_id, order_id, target, lifetime)
+    local dummy = self:create_unit(unit_id, pos)
+    dummy:show(false)
+    dummy:add_ability(ability_id)
+    dummy:issue_order(order_id, target)
+    dummy:set_lifetime(lifetime)
+end
+
+
 -- 直接作为方法调用，获取玩家
 function player:__call(i)
     return player[i]
@@ -255,6 +271,17 @@ function player.create(id, jPlayer)
     return p
 end
 
+local function register_new_player_trigger(event, event_name)
+    for i = 1, 16 do
+        jass.TriggerRegisterPlayerEvent(t, player[i].handle, event)
+    end
+
+    t = war3.CreateTrigger(function()
+        local p = et.player(jass.GetTriggerPlayer())
+        p:event_notify(event_name, p)
+    end)
+end
+
 --一些常用事件
 function player.regist_jass_triggers()
     --玩家聊天事件
@@ -280,15 +307,11 @@ function player.regist_jass_triggers()
         jass.TriggerRegisterPlayerEvent(t, player[i].handle, jass.EVENT_PLAYER_LEAVE)
     end
 
-    t = war3.CreateTrigger(function()
-        local p = et.player(jass.GetTriggerPlayer())
-        p:event_notify('玩家-按下ESC', p)
-    end)
-
-    for i = 1, 16 do
-        jass.TriggerRegisterPlayerEvent(t, player[i].handle, EVENT_PLAYER_END_CINEMATIC)
-    end
-
+    register_new_player_trigger(jass.EVENT_PLAYER_END_CINEMATIC, '玩家-按下ESC')
+    register_new_player_trigger(jass.EVENT_PLAYER_ARROW_LEFT_DOWN, '玩家-按下左键')
+    register_new_player_trigger(jass.EVENT_PLAYER_ARROW_RIGHT_DOWN, '玩家-按下右键')
+    register_new_player_trigger(jass.EVENT_PLAYER_ARROW_DOWN_DOWN, '玩家-按下下键')
+    register_new_player_trigger(jass.EVENT_PLAYER_ARROW_UP_DOWN, '玩家-按下上键')
 
 end
 

@@ -48,4 +48,13 @@ enter_instance_listener {
     },
 }
 
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if et.rect.j_rect(rect_instance_three):contains_unit(killer) and commonutil.random(0, 100) <= 5 then
+        if instance_info[3].rare_drop_id then
+            local x, y = killed:get_point():get()
+            et.item:new(instance_info[3].rare_drop_id, x, y)
+        end
+    end
+end)
+
 

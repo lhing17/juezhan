@@ -157,7 +157,7 @@ local function keyboard_input(p, s)
         end
     end
     if s == "1" and GetUnitAbilityLevel(udg_hero[i], 1093678935) > 0 and IsUnitAliveBJ(udg_hero[i]) then
-        if RectContainsUnit(lh_r, udg_hero[i]) then
+        if RectContainsUnit(rect_peach_blossom_island, udg_hero[i]) then
             DisplayTextToPlayer(p, 0, 0, "桃花岛不能创建飞行点")
         else
             RemoveUnit(J9[i])
@@ -181,7 +181,7 @@ local function keyboard_input(p, s)
         end
     end
     if s == "11" and GetUnitAbilityLevel(udg_hero[i], 1093678935) > 1 and IsUnitAliveBJ(udg_hero[i]) then
-        if RectContainsUnit(lh_r, udg_hero[i]) then
+        if RectContainsUnit(rect_peach_blossom_island, udg_hero[i]) then
             DisplayTextToPlayer(p, 0, 0, "桃花岛不能创建飞行点")
         else
             RemoveUnit(qiankun2hao[i])
@@ -205,7 +205,7 @@ local function keyboard_input(p, s)
         end
     end
     if s == "111" and GetUnitAbilityLevel(udg_hero[i], 1093678935) > 2 and IsUnitAliveBJ(udg_hero[i]) then
-        if RectContainsUnit(lh_r, udg_hero[i]) then
+        if RectContainsUnit(rect_peach_blossom_island, udg_hero[i]) then
             DisplayTextToPlayer(p, 0, 0, "桃花岛不能创建飞行点")
         else
             RemoveUnit(qiankun3hao[i])

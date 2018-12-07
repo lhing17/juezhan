@@ -87,7 +87,7 @@ function TaoHuaGun()
 	local u = GetKillingUnit()
 	--call BJDebugMsg("出现了么A")
 	--set lh_r=Rect(8800,-4500,14300,4500)
-	if RectContainsUnit(lh_r, u) then
+	if RectContainsUnit(rect_peach_blossom_island, u) then
 		--call BJDebugMsg("出现了么B")
 		if GetUnitTypeId(GetTriggerUnit()) == 1865429553 or GetUnitTypeId(GetTriggerUnit()) == 1865429554 or GetUnitTypeId(GetTriggerUnit()) == 1853320818 or GetUnitTypeId(GetTriggerUnit()) == 1869050475 or GetUnitTypeId(GetTriggerUnit()) == 1853058150 or GetUnitTypeId(GetTriggerUnit()) == 1848651841 or GetUnitTypeId(GetTriggerUnit()) == 1848651844 then
 			SetUnitPosition(u, -1174, -678)
@@ -128,7 +128,7 @@ function TaoHua_Action()
 	UnitAddAbility(GetTriggerUnit(), 1093678155)
 end
 function OuYangFeng_Condition()
-	return RectContainsUnit(lh_r, GetTriggerUnit()) and GetUnitTypeId(GetTriggerUnit()) == 1853058150 and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker())) and (UnitHasBuffBJ(GetTriggerUnit(), 1113813609) or UnitHasBuffBJ(GetTriggerUnit(), 1113813619) or UnitHasBuffBJ(GetTriggerUnit(), 1112437615))
+	return RectContainsUnit(rect_peach_blossom_island, GetTriggerUnit()) and GetUnitTypeId(GetTriggerUnit()) == 1853058150 and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker())) and (UnitHasBuffBJ(GetTriggerUnit(), 1113813609) or UnitHasBuffBJ(GetTriggerUnit(), 1113813619) or UnitHasBuffBJ(GetTriggerUnit(), 1112437615))
 end
 function OuYangFeng_Action()
 	local loc = GetUnitLoc(GetTriggerUnit())
@@ -138,7 +138,7 @@ function OuYangFeng_Action()
 	loc = nil
 end
 function HongQiGong_Condition()
-	return RectContainsUnit(lh_r, GetTriggerUnit()) and GetUnitTypeId(GetTriggerUnit()) == 1853320818 and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker())) and (UnitHasBuffBJ(GetTriggerUnit(), 1111847784) or UnitHasBuffBJ(GetTriggerUnit(), 1112109154) or UnitHasBuffBJ(GetTriggerUnit(), 1112109156))
+	return RectContainsUnit(rect_peach_blossom_island, GetTriggerUnit()) and GetUnitTypeId(GetTriggerUnit()) == 1853320818 and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker())) and (UnitHasBuffBJ(GetTriggerUnit(), 1111847784) or UnitHasBuffBJ(GetTriggerUnit(), 1112109154) or UnitHasBuffBJ(GetTriggerUnit(), 1112109156))
 end
 function HongQiGong_Action()
 	KillUnit(GetTriggerUnit())

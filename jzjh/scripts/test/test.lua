@@ -45,7 +45,7 @@ local function id2string(...)
 end
 
 local function test()
-    id2string(1093678673, 1227896922, 1227897136)
+    id2string(1848651844, 1227896922, 1227897136)
 
     --for k, v in pairs(id_list) do
     --    print(base.id2string(k), v)

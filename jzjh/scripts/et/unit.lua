@@ -318,8 +318,8 @@ function mt:is_ally(dest)
     return self:get_team() == dest:get_team()
 end
 
---是否是敌人
---	对象
+--- 是否是敌人
+--- @param dest unit 目标单位
 function mt:is_enemy(dest)
     return self:get_team() ~= dest:get_team()
 end
@@ -1051,6 +1051,9 @@ function mt:is_visible(dest)
 end
 
 function mt:show(flag)
+    if flag == nil then
+        flag = true
+    end
     jass.ShowUnit(self.handle, flag)
 end
 

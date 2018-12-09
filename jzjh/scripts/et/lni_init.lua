@@ -54,5 +54,8 @@ local function init()
     --- 读取草药信息
     et.lni_loader('herb')
     et.extend_lni(et.lni.herb)
+
+    --- 读取任务信息
+    et.lni_loader('task')
 end
 init()

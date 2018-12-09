@@ -56,7 +56,9 @@ function main()
     require 'map.system.practice'
 
     --- 挑战系统 挑战BOSS、四圣兽
+
     --- 任务系统
+    require 'map.system.task.init'
 
     --- 炼丹系统
     require 'map.system.pellet'

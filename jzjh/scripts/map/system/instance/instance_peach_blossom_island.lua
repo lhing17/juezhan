@@ -8,7 +8,7 @@ local island_open_flag = false
 
 --- @param u unit
 --- @param it item
-et.game:event '单位-捡起物品' (function(self, u, it)
+et.game:event '单位-捡起物品'(function(self, u, it)
     if it:get_id() == 1227897171 then
         local p = u:get_owner()
         if not island_open_flag then
@@ -70,12 +70,12 @@ local island_drop = {
 
 --- @param killer unit
 --- @param killed unit
-et.game:event '单位-死亡' (function(self, killer, killed)
+et.game:event '单位-死亡'(function(self, killer, killed)
     if rect_peach_blossom_island:contains_unit(killer) then
         if island_drop[killed:get_id()] then
             killer:set_point(-1174, -678)
             killer:get_owner():set_camera(-1174, -678)
-            force.send_message( "|cFFFFCC00有玩家杀死了" .. killed:get_name() .. "，离开桃花岛")
+            force.send_message("|cFFFFCC00有玩家杀死了" .. killed:get_name() .. "，离开桃花岛")
             if commonutil.random(0, 100) <= 30 then
                 killer:add_item(island_drop[killed:get_id()])
             end
@@ -83,3 +83,28 @@ et.game:event '单位-死亡' (function(self, killer, killed)
     end
 end)
 
+--- @param source unit
+--- @param target unit
+et.game:event '单位-受攻击'(function(self, source, target)
+    if island_drop[target:get_id()] and target:get_owner() == et.player(16) then
+        target:set_owner(et.player(13))
+        target:add_ability(1093678934)
+        target:add_ability(1093678153)
+        target:add_ability(1093678155)
+    end
+    --- 失心疯的欧阳锋
+    if target:get_type_id() == 1853058150 and target:is_enemy(source) and rect_peach_blossom_island:contains_unit(source)
+            and (target:has_buff(1113813609) or target:has_buff(1112437615) or target:has_buff(1113813619)) then
+        target:get_owner():create_unit(1848651844, target:get_point())
+        target:remove()
+        force.send_message("|cFFFFCC00欧阳锋已经失心疯了")
+    end
+    --- 中毒的洪七公
+    if target:get_type_id() == 1853320818 and target:is_enemy(source) and rect_peach_blossom_island:contains_unit(source)
+            and (target:has_buff(1111847784) or target:has_buff(1112109154) or target:has_buff(1112109156)) then
+        target:remove()
+        gg_unit_n00E_0066:show(true)
+        force.send_message("|cFFFFCC00洪七公已中毒，现正在某处疗伤")
+    end
+
+end)

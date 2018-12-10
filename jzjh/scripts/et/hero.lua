@@ -108,6 +108,11 @@ mt.suits = nil
 --- @type item 养武
 mt.growable = nil
 
+--- @type set 正在进行的任务
+mt.ongoing_tasks = {}
+
+--- @type bag 已经完成的任务
+mt.done_tasks = {}
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
@@ -429,6 +434,12 @@ function hero.create(jUnit, pick)
 
     -- 历练任务
     h.practice_tasks = {}
+
+    --- 正在进行的任务
+    h.ongoing_tasks = set:new()
+
+    --- 已经完成的任务
+    h.done_tasks = bag:new()
 
     -- 套装
     h.suits = set:new()

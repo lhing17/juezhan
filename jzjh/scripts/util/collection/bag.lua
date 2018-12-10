@@ -23,4 +23,10 @@ function bag:remove(element)
     self[element] = (count and count > 1) and count - 1 or nil
 end
 
+--- 获取某个元素的数量
+--- @return number
+function bag:count(element)
+    return self[element] or 0
+end
+
 return bag

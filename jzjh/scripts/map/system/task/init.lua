@@ -9,15 +9,72 @@ require 'util.collection.set'
 
 log.info('加载任务系统')
 
-function accept_task() end
-
---- 新手任务
-newbee_task_set = set:new { '杀野狼', '少林练功房', '拜访郭靖' }
+--- @param u unit
+--- @param combined {name_set:set, limit:number, complete_hint:string}
+function exceed_limit(u, combined)
+    if not combined.limit then
+        return false
+    end
+    local p = u:get_owner()
+    local h = p.hero
+    local count = 0
+    for task_name, _ in pairs(combined.name_set) do
+        count = count + h.done_tasks:count(task_name)
+    end
+    return count >= combined.limit
+end
 
 --- @param u unit
---- @param it item
-et.game:event '单位-捡起物品'(function(self, u, it)
-    if it:get_id() == 1227895349 and u:is_hero() then
-
+--- @param name string
+function accept_task(u, name)
+    local task = et.lni.task[name]
+    local p = u:get_owner()
+    local h = p.hero
+    PlaySoundOnUnitBJ(bh, 100, u.handle)
+    p:send_message(task.hints.start)
+    for _, v in ipairs(task.ping) do
+        local x, y = v:get_center():get()
+        force.ping_minimap(x, y, 5)
     end
-end)
+    h.ongoing_tasks:insert(name)
+end
+
+--- @param u unit
+--- @param name string
+function show_ongoing_hint(u, name)
+    local task = et.lni.task[name]
+    local p = u:get_owner()
+    p:send_message(task.hints.ongoing or task.hints.start)
+    for _, v in ipairs(task.ping) do
+        local x, y = v:get_center():get()
+        force.ping_minimap(x, y, 5)
+    end
+end
+
+--- 判断任务状态并根据状态执行相应操作
+--- @param u unit
+--- @param combined {name_set:set, limit:number, complete_hint:string}
+function evaluate_task(u, combined)
+    local p = u:get_owner()
+    local h = p.hero
+    --- 超出次数限制
+    if exceed_limit(u, combined) then
+        p:send_message(combined.complete_hint)
+        return
+    end
+    local ongoing_flag = false
+    local ongoing_task
+    for task_name, _ in pairs(combined.name_set) do
+        if h.ongoing_tasks:contains(task_name) then
+            ongoing_flag = true
+            ongoing_task = task_name
+        end
+    end
+    --- 判断是否有进行中的任务
+    if not ongoing_flag then
+        accept_task(u, combined.name_set:random())
+    else
+        show_ongoing_hint(u, ongoing_task)
+    end
+end
+

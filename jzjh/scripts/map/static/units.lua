@@ -729,6 +729,7 @@ local function create_first_pioneer()
     p:create_unit('hfoo', et.point(12516.3, -11048.0), 270.0) --辽国第一先锋|n|cFFFFCC33类别：BOSS
 end
 local function create_task_npc_passive()
+    --- @type player
     local p = PLAYER_PASSIVE
     p:create_unit('o021', et.point(10788.7, 2432.2), 90.18) --郭靖
     QIU_CHUJI = p:create_unit('o00D', et.point(-5498.1, -3020.3), 60.353) --丘处机
@@ -824,7 +825,7 @@ local function CreateNeutralPassive()
     p:create_unit('hhdl', et.point(-2095.1, -2894.8), 344.957) -- 无人之马
     LIN_YUANTU = p:create_unit('o008', et.point(-1689.9, -2919.2), 272.018) --林远图
     p:create_unit('o00F', et.point(-5514.0, -2567.8), 315.259) --郝大通
-    p:create_unit('o00G', et.point(2900.8, -6110.5), 233.25) --慕容复
+    MURONG_FU = p:create_unit('o00G', et.point(2900.8, -6110.5), 233.25) --慕容复
     p:create_unit('o00H', et.point(3065.6, -415.5), 260.325) --少林弟子
     p:create_unit('o00H', et.point(2800.7, -432.4), 260.325) --少林弟子
     p:create_unit('o00H', et.point(2554.3, -442.0), 260.325) --少林弟子

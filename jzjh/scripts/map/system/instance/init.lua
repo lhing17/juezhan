@@ -45,8 +45,8 @@ function drop_item(unit_id, ...)
                             et.item:new(id, x, y)
                         else
                             --- @type set
-                            local set = id
-                            et.item:create(set:random(), x, y)
+                            local id_set = id
+                            et.item:create(id_set:random(), x, y)
                         end
                         break
                     else

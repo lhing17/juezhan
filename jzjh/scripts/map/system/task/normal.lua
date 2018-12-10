@@ -7,7 +7,6 @@
 
 combined_task = {
     newbee = {
-
         name_set = set:new { '杀野狼', '少林练功房', '拜访郭靖' },
         limit = 1,
         complete_hint = "|cFFFFCC00店小二：|r |cFF99FFCC你已经完成新手任务了",
@@ -75,6 +74,7 @@ task_map = {
     [1227896389] = 'pioneer',
 },
 
+--- 接取任务
 --- @param u unit
 --- @param it item
 et.game:event '单位-捡起物品'(function(self, u, it)
@@ -85,3 +85,102 @@ et.game:event '单位-捡起物品'(function(self, u, it)
         evaluate_task(u, combined_task[task_map[it:get_id()]])
     end
 end)
+
+----------------------------------------------------------
+--- 拜访类任务
+----------------------------------------------------------
+
+local visit_awards = {
+    ['拜访郭靖'] = {
+        show_hint = true,
+        exp = 100,
+        reputation = 10,
+        items = { { [1227895348] = 85, [1227899720] = 15 }, }
+    },
+    ['送信郭靖'] = {
+        show_hint = true,
+        exp = 100,
+        reputation = 15,
+        items = { { [1227896631] = 80 }, }
+    },
+    ['送信黄蓉'] = {
+        show_hint = true,
+        exp = 100,
+        reputation = 15,
+        items = { { [1227896631] = 80 }, }
+    },
+    ['送信达摩祖师'] = {
+        show_hint = true,
+        exp = 100,
+        reputation = 15,
+        items = { { [1227896631] = 80 }, }
+    },
+    ['押镖丘处机'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 25,
+    },
+    ['押镖慕容复'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 25,
+    },
+    ['押镖达摩祖师'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 25,
+    },
+    ['押镖乔峰'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 25,
+    },
+}
+
+local visit_map = {
+    [GUO_JING] = { '拜访郭靖', '送信郭靖' },
+    [HUANG_RONG] = { '送信黄蓉' },
+    [DAMO] = { '送信达摩祖师', '押镖达摩祖师' },
+    [QIU_CHUJI] = { '押镖丘处机' },
+    [MURONG_FU] = { '押镖慕容复' },
+    [QIAO_FENG] = { '押镖乔峰' },
+}
+
+--- 为NPC增加接近的监听器
+GUO_JING:add_approach_listener()
+HUANG_RONG:add_approach_listener()
+DAMO:add_approach_listener()
+QIU_CHUJI:add_approach_listener()
+MURONG_FU:add_approach_listener()
+QIAO_FENG:add_approach_listener()
+
+--- 检查任务是否完成
+--- @param name_list table<number, string>
+local function check_complete_visit_task(u, name_list)
+    local p = u:get_owner()
+    local h = p.hero
+    for _, task_name in ipairs(name_list) do
+        if h.ongoing_tasks:contains(task_name) then
+            PlaySoundOnUnitBJ(Hh, 100, approach.handle)
+            h:add_awards(visit_awards[task_name])
+            h.ongoing_tasks:remove(task_name)
+            h.done_tasks:insert(task_name)
+        end
+    end
+end
+
+---
+--- @param source unit 被接近的单位
+--- @param approach unit 接近的单位
+et.game:event '单位-被接近'(function(self, source, approach)
+    if not approach:is_hero() then
+        return
+    end
+    if visit_map[source] then
+        check_complete_visit_task(approach, visit_map[source])
+    end
+end)
+
+----------------------------------------------------------
+--- 拜访类任务
+----------------------------------------------------------

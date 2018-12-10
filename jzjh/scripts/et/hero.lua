@@ -214,12 +214,16 @@ function hero.init_pick_table()
     return pick_table
 end
 
+--- @return player
 function mt:get_owner()
     return self.owner
 end
 
-function mt:add_xp(xp)
-    jass.AddHeroXP(self.handle, xp, true)
+function mt:add_xp(xp, eye_candy)
+    if eye_candy == nil then
+        eye_candy = true
+    end
+    jass.AddHeroXP(self.handle, xp)
 end
 
 function mt:join_denomination(denomination_name)
@@ -305,6 +309,60 @@ end
 --- @param growable item 养武
 function mt:set_growable(growable)
     self.growable = growable
+end
+
+--- @return unit
+function mt:get_unit()
+    return et.unit(self.handle)
+end
+
+--- 任务奖励
+--- @param awards {show_hint:boolean, exp:number, reputation:number, items:table<number, table>}
+function mt:add_awards(awards)
+    if awards.exp then
+        self:add_xp(awards.exp)
+    end
+    if awards.reputation then
+        self.reputation = self.reputation + awards.reputation
+    end
+    local drop_list = {}
+    if awards.items then
+        for _, drop_table in pairs(awards.items) do
+            local rand = commonutil.random(0, 100)
+            local accumulate = 0
+            for id, possibility in pairs(drop_table) do
+                if accumulate + rand < possibility then
+                    if type(id) == 'number' then
+                        self:get_unit():add_item(id)
+                        table.insert(drop_list, id)
+                    else
+                        --- @type set
+                        local id_set = id
+                        local result_id = id_set:random()
+                        self:get_unit():add_item(result_id)
+                        table.insert(drop_list, result_id)
+                    end
+                    break
+                else
+                    accumulate = accumulate + possibility
+                end
+            end
+        end
+    end
+    if awards.show_hint then
+        local hint = "|CFF34FF00完成任务获得"
+        if awards.exp then
+            hint = hint .. '经验+' .. awards.exp .. "、"
+        end
+        if awards.reputation then
+            hint = hint .. '江湖声望+' .. awards.exp .. "、"
+        end
+        for _, v in ipairs(drop_list) do
+            hint = hint .. jass.GetObjectName(v) .. "、"
+        end
+        self:get_owner():send_message(hint.sub(1, hint:len() - 1))
+    end
+
 end
 
 --- @param mode number 0增加 1减少

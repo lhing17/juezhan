@@ -182,5 +182,118 @@ et.game:event '单位-被接近'(function(self, source, approach)
 end)
 
 ----------------------------------------------------------
---- 拜访类任务
+--- 杀怪类任务
+----------------------------------------------------------
+local killing_awards = {
+    ['杀野狼'] = {
+        show_hint = true,
+        exp = 100,
+        reputation = 10,
+        items = { { [1227895348] = 85, [1227899720] = 15 }, }
+    },
+    ['杀哑仆'] = {
+        show_hint = true,
+        items = { { [1227897174] = 100 }, }
+    },
+    ['上山打猎'] = {
+        show_hint = true,
+        exp = 150,
+        reputation = 50,
+        items = { { [1227896391] = 100 }, { [1227895347] = 50, [1227895346] = 50 } },
+    },
+    ['击杀豺狼'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 25,
+    },
+    ['击杀蝎子王'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 30,
+    },
+    ['击杀进攻怪'] = {
+        show_hint = true,
+        exp = 300,
+        reputation = 30,
+    },
+    ['击杀野熊'] = {
+        show_hint = true,
+        reputation = 150,
+        items = { { [1227895372] = 100 }, }
+    },
+    ['高昌迷宫'] = {
+        show_hint = true,
+        reputation = 200,
+        items = { { [1227896390] = 50, [remnant_chapters] = 50 }, }
+    },
+    ['辽国第一先锋'] = {
+        show_hint = true,
+        reputation = 250,
+        items = { { [1227896395] = 33, [1227896398] = 33, [1227896393] = 34 }, { [1227896395] = 16, [1227896398] = 17, [1227896393] = 17 } }
+    }
+}
+
+--- @param killer unit 杀怪的单位
+--- @param killed unit 被杀的怪物
+local function check_complete_killing_task(killer, killed)
+    local p = killer:get_owner()
+    local h = p.hero
+
+    --- 单独处理击杀进攻怪的任务
+    if killed:get_owner() == et.player[7] and h.ongoing_tasks:contains('击杀进攻怪') then
+        local task_name = '击杀进攻怪'
+        h.task_kill_counter:insert('attacker')
+        if h.task_kill_counter:count('attacker') > et.lni.task[task_name].creeps.attacker then
+            PlaySoundOnUnitBJ(Hh, 100, killer.handle)
+            h:add_awards(killing_awards[task_name])
+            h.ongoing_tasks:remove(task_name)
+            h.done_tasks:insert(task_name)
+            h.task_kill_counter:set_count(k, 0)
+        else
+            p:send_message('西域邪教:' .. h.task_kill_counter:count('attacker') .. '/' .. et.lni.task[task_name].creeps.attacker)
+        end
+    end
+    for task_name, task in pairs(et.lni.task) do
+        if task.creeps and is_in(killed:get_id(), table.keys(task.creeps))
+                and h.ongoing_tasks:contains(task_name) then
+            h.task_kill_counter:insert(killed:get_id())
+            local flag = true
+            for k, v in pairs(task.creeps) do
+                if h.task_kill_counter:count(k) < v then
+                    flag = false
+                end
+            end
+            if flag then
+                PlaySoundOnUnitBJ(Hh, 100, killer.handle)
+                h:add_awards(killing_awards[task_name])
+                h.ongoing_tasks:remove(task_name)
+                h.done_tasks:insert(task_name)
+                for k, v in pairs(task.creeps) do
+                    h.task_kill_counter:set_count(k, 0)
+                end
+            else
+                for k, v in pairs(task.creeps) do
+                    p:send_message(jass.GetObjectName(k) .. ':' .. h.task_kill_counter:count(k) .. '/' .. task.creeps[k])
+                end
+            end
+        end
+    end
+end
+
+--- @param killer unit 杀怪的单位
+--- @param killed unit 被杀的怪物
+et.game:event '单位-死亡'(function(self, killer, killed)
+    local p = killer:get_owner()
+    local h = p.hero
+    check_complete_killing_task(killer, killed)
+end)
+
+
+----------------------------------------------------------
+--- 护送类任务
+----------------------------------------------------------
+
+
+----------------------------------------------------------
+--- 旅行类任务
 ----------------------------------------------------------

@@ -58,5 +58,6 @@ local function test()
     ----    print(base.id2string(k), v)
     ----end
     --print(get_center_point { -13568.0, 2272.0, -13440.0, 2400.0})
+    print(tostring(true and 0 or nil))
 end
 test()

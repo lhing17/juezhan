@@ -111,6 +111,9 @@ mt.growable = nil
 --- @type set 正在进行的任务
 mt.ongoing_tasks = {}
 
+--- @type bag 任务杀怪计数器
+mt.task_kill_counter = {}
+
 --- @type bag 已经完成的任务
 mt.done_tasks = {}
 function hero:__tostring()
@@ -495,6 +498,9 @@ function hero.create(jUnit, pick)
 
     --- 正在进行的任务
     h.ongoing_tasks = set:new()
+
+    --- 任务杀怪计数器
+    h.task_kill_counter = bag:new()
 
     --- 已经完成的任务
     h.done_tasks = bag:new()

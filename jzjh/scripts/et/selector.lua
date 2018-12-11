@@ -46,8 +46,9 @@ function api:add_filter(f)
 end
 
 --圆形范围
---	圆心
---	半径
+--- @param p point 圆心
+--- @param r number 半径
+--- @return selector
 function api:in_range(p, r)
     self.filter_in = 0
     self.center = p

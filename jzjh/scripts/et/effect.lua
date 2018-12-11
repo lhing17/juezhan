@@ -12,6 +12,7 @@ local effect = {}
 et.effect = effect
 setmetatable(effect, effect)
 
+--- @class effect
 local mt = {}
 effect.__index = mt
 
@@ -27,16 +28,23 @@ function mt:destroy()
     jass.DestroyEffect(self.handle)
 end
 
+--- @param model_name  string
+--- @param unit unit
+--- @param attach_point string
+--- @return effect
 function effect.add_to_unit(model_name, unit, attach_point)
     local e = setmetatable({}, effect)
     e.handle = jass.AddSpecialEffectTarget(model_name, unit.handle, attach_point)
     effect[e.handle] = e
-    return e.handle
+    return e
 end
 
+--- @param model_name string
+--- @param where point
+--- @return effect
 function effect.add_to_point(model_name, where)
     local e = setmetatable({}, effect)
     e.handle = jass.AddSpecialEffect(model_name, where[1], where[2])
     effect[e.handle] = e
-    return e.handle
+    return e
 end

@@ -359,10 +359,7 @@ function Sc()
 end
 ----------少林结束--------//
 function ShaoLin_Trigger()
-	local t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-	TriggerAddCondition(t, Condition(IsWeiTuo))
-	TriggerAddAction(t, WeiTuoGun)
+
 
 	t = CreateTrigger()
 	YDWESyStemAnyUnitDamagedRegistTrigger(t)

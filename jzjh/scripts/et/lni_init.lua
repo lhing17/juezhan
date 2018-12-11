@@ -36,8 +36,8 @@ local function init()
     et.extend_lni(et.lni.partner)
 
     --- 初始化历练信息
-    et.lni_loader('pratice')
-    et.extend_lni(et.lni.pratice)
+    et.lni_loader('practice')
+    et.extend_lni(et.lni.practice)
 
     --- 读取内功的lni文件
     et.lni_loader('internal')

@@ -131,6 +131,7 @@ end
 --- @param id number
 --- @param x number
 --- @param y number
+--- @return j_item
 function item.create(id, x, y)
     local it = setmetatable({}, item)
     it.handle_id = common_util.generate_handle_id()

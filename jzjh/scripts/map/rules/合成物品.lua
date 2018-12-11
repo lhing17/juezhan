@@ -138,10 +138,10 @@ function WuPinHeCheng()
 end
 local function init()
     -- 合成物品
-    local t = CreateTrigger()
-    TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    TriggerAddCondition(t, Condition(HeCheng_Conditions))
-    TriggerAddAction(t, HeCheng_Actions)
+    --local t = CreateTrigger()
+    --TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+    --TriggerAddCondition(t, Condition(HeCheng_Conditions))
+    --TriggerAddAction(t, HeCheng_Actions)
 
     -- 为合成的物品补属性
     --t = CreateTrigger()

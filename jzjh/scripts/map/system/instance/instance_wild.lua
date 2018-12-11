@@ -147,7 +147,7 @@ end)
 --- @param u unit
 --- @param it item
 et.game:event '单位-捡起物品' (function(self, u, it)
-    if not it:get_id() == 1227896133 then
+    if it:get_id() ~= 1227896133 then
         return
     end
     local p = u:get_owner()
@@ -172,7 +172,7 @@ end)
 --- @param u unit
 --- @param it item
 et.game:event '单位-捡起物品' (function(self, u, it)
-    if not it:get_id() == 1227897137 then
+    if it:get_id() ~= 1227897137 then
         return
     end
     local p = u:get_owner()

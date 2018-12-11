@@ -81,7 +81,7 @@ function item:get(j_item)
     it.id = jass.GetItemTypeId(j_item)
     it.bonus_table = it.bonus_table or {}
     it.data = it.data or {}
-    self:set_type()
+    it:set_type()
     self[j_item] = it
     return it
 end

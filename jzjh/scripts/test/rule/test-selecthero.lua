@@ -11,8 +11,8 @@ local trigger_util = require 'jass.util.trigger_util'
 
 --@Tested
 local function test_selecthero()
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
-    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, LAN_XIN.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, XIAO_XIA.handle)
+    trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, XIAO_XIA.handle)
     trigger_util.trig_player_unit_event(et.player(1).handle, jass.EVENT_PLAYER_UNIT_SELECTED, Rs.handle)
 end
 test_selecthero()

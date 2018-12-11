@@ -16,8 +16,8 @@ function WuMenPai_Action()
     local h = p.hero
     h:join_denomination('自由门派')
     local d = h['门派']
-    p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
-    p:set_name("〓"..d.name.."〓"..p:get_name())
+    p:send_message("|CFFff9933恭喜加入〓" .. d.name .. "〓，请在NPC郭靖处选择副职|r")
+    p:set_name("〓" .. d.name .. "〓" .. p:get_name())
     u:add_ability(1093678418)
     p:send_message("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
     AddCharacterABuff(p.hero.handle, udg_xinggeA[i])
@@ -38,28 +38,41 @@ function WuMenPai_Action()
     h['自由属性'] = h['自由属性'] + d['自由属性']
 
 end
+--A项和B项性格
+local function AddCharacterABuff(u, characterA)
+    UnitAddAbilityBJ(1093678646, u)
+    SetPlayerAbilityAvailableBJ(false, 1093678646, GetOwningPlayer(u))
+    SetUnitAbilityLevel(u, 1093678648, characterA)
+end
+local function AddCharacterBBuff(u, characterB)
+    UnitAddAbilityBJ(1093678647, u)
+    SetPlayerAbilityAvailableBJ(false, 1093678647, GetOwningPlayer(u))
+    SetUnitAbilityLevel(u, 1093678649, characterB)
+end
 
 local function init()
     -- 加入门派
-    et.game:event '单位-捡起物品' (function(self, u, item)
+    --- @param u unit
+    --- @param item item
+    et.game:event '单位-捡起物品'(function(self, u, item)
         if u:is_hero() and is_in(GetItemTypeId(GetManipulatedItem()), { 1227894833, 1227894834, 1227894835, 1227894836, 1227894837, 1227894838, 1227894839, 1227894840, 1227894841, 1227897157, 1227894849, 1227897166, 1227899186, 1227899723, 1227899736 }) then
             local p = u:get_owner()
             local h = p.hero
-            if udg_runamen[p.id] ~= 0 then
+            if h['门派'] then
                 p:send_message("|CFFff0000你已经加过门派了|r")
                 return
             end
 
-            if et.lni.denomination[GetItemTypeId(GetManipulatedItem())] then
-                local d = et.lni.denomination[GetItemTypeId(GetManipulatedItem())]
+            if et.lni.denomination[item:get_id()] then
+                local d = et.lni.denomination[item:get_id()]
                 if not d.permit_ids or not is_in(u.id, d.permit_ids) then
-                    h:join_denomination(GetItemTypeId(GetManipulatedItem()))
-                    p:send_message("|CFFff9933恭喜加入〓"..d.name.."〓，请在NPC郭靖处选择副职|r")
-                    p:set_name("〓"..d.name.."〓"..p:get_name())
+                    h:join_denomination(item:get_id())
+                    p:send_message("|CFFff9933恭喜加入〓" .. d.name .. "〓，请在NPC郭靖处选择副职|r")
+                    p:set_name("〓" .. d.name .. "〓" .. p:get_name())
                     u:add_ability(1093678418)
                     p:send_message("|CFFff9933获得武功：凌波微步（可以在主城和传送石之间任意传送了）\n获得新手大礼包（可以在背包中打开获得惊喜哦）")
-                    AddCharacterABuff(p.hero.handle, udg_xinggeA[p.id])
-                    AddCharacterBBuff(p.hero.handle, udg_xinggeB[p.id])
+                    AddCharacterABuff(h.handle, h.char_a)
+                    AddCharacterBBuff(h.handle, h.char_b)
                     u:remove_ability(1098282348)
                     u:set_point(rect_reborn:get_random())
                     p:set_camera(u:get_point())

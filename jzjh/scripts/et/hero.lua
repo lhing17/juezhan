@@ -134,11 +134,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(3, 5),
         gender = 0,
     }
-    pick_table[LANG_YUN] = {
+    pick_table[XIAO_XIA] = {
         ['name'] = '潇侠',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00潇侠|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n',
         ['select_hint'] = '|CFFCCFF00潇侠|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 全真 峨眉 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+2 悟性+2 福缘+5 胆魄+1\n|r\n',
-        ['handle'] = LANG_YUN,
+        ['handle'] = XIAO_XIA,
         ['悟性'] = 2,
         ['根骨'] = 2,
         ['胆魄'] = 1,
@@ -147,11 +147,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(2, 4),
         gender = 1,
     }
-    pick_table[XIAO_XIA] = {
+    pick_table[MO_YAN] = {
         ['name'] = '莫言',
-        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00若蝶|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
+        ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00莫言|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC古墓 丐帮 全真 恒山 峨眉 武当 星宿 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00莫言|r\n可加入门派：\n|CFF00FFCC古墓 丐帮 华山 血刀 恒山 峨眉 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00悟性+2 经脉+1 胆魄+5 医术+2\n|r\n',
-        ['handle'] = XIAO_XIA,
+        ['handle'] = MO_YAN,
         ['悟性'] = 2,
         ['胆魄'] = 5,
         ['经脉'] = 1,
@@ -160,11 +160,11 @@ function hero.init_pick_table()
         ['char_b'] = GetRandomInt(1, 3),
         gender = 0,
     }
-    pick_table[MO_YAN] = {
+    pick_table[LANG_YUN] = {
         ['name'] = '浪云',
         ['pick_hint'] = '恭喜获得英雄：|CFFCCFF00浪云|r\n请选择下列门派后开启江湖之旅：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n\n',
         ['select_hint'] = '|CFFCCFF00浪云|r\n可加入门派：\n|CFF00FFCC少林 古墓 丐帮 华山 血刀 武当 灵鹫宫 姑苏慕容 明教 神龙教|r\n基础全属性+9\n额外属性\n|cFF00FF00根骨+3 经脉+5 医术+2\n|r\n',
-        ['handle'] = MO_YAN,
+        ['handle'] = LANG_YUN,
         ['根骨'] = 3,
         ['经脉'] = 5,
         ['医术'] = 2,
@@ -230,7 +230,7 @@ function mt:add_xp(xp, eye_candy)
 end
 
 function mt:join_denomination(denomination_name)
-    h['门派'] = et.lni.denomination[denomination_name]
+    self['门派'] = et.lni.denomination[denomination_name]
 end
 
 function mt:add_all_attr(n)
@@ -471,12 +471,12 @@ function hero.create(jUnit, pick)
     h.unit = et.unit(h.handle)
 
     p:send_message(pick.pick_hint)
-    h['悟性'] = h['悟性'] + pick['悟性']
-    h['福缘'] = h['福缘'] + pick['福缘']
-    h['医术'] = h['医术'] + pick['医术']
-    h['根骨'] = h['根骨'] + pick['根骨']
-    h['经脉'] = h['经脉'] + pick['经脉']
-    h['胆魄'] = h['胆魄'] + pick['胆魄']
+    h['悟性'] = h['悟性'] + (pick['悟性'] or 0)
+    h['福缘'] = h['福缘'] + (pick['福缘'] or 0)
+    h['医术'] = h['医术'] + (pick['医术'] or 0)
+    h['根骨'] = h['根骨'] + (pick['根骨'] or 0)
+    h['经脉'] = h['经脉'] + (pick['经脉'] or 0)
+    h['胆魄'] = h['胆魄'] + (pick['胆魄'] or 0)
     h.char_a = pick.char_a
     h.char_b = pick.char_b
 

@@ -3113,6 +3113,7 @@ end
 --- @param it j_item
 --- @return string
 function jass.GetItemType(it)
+    print(it)
     return it:get_type()
 end
 

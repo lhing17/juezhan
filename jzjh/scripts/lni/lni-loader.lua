@@ -28,7 +28,7 @@ end
 local function dostring(file, ln, str, env)
     local fun = load(str, '=[' .. file .. ':' .. ln .. ']', 't', env)
     if not pcall(fun) then
-        str = str:gsub('(%d+)%s=%s(%d+%.?%d*),', '[%1] = %2,')
+        str = str:gsub('(%d+)%s=%s(%d+%.?%d*)', '[%1] = %2')
         assert(load(str, '=[' .. file .. ':' .. ln .. ']', 't', env))()
     end
 end

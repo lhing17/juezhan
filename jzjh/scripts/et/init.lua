@@ -19,4 +19,5 @@ require 'et.famous'
 require 'et.dialog'
 require 'et.tag'
 require 'et.lni_init'
+require 'et.effect'
 

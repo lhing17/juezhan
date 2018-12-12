@@ -29,6 +29,7 @@ mt.type = 'unit'
 mt.unit_type = 'unit'
 
 --句柄
+--- @type j_unit
 mt.handle = 0
 
 --所有者
@@ -703,7 +704,7 @@ function mt:has_all_abilities(...)
 end
 
 --获取技能等级
---	技能id
+--- @param ability_id number|string 技能id
 function mt:get_ability_level(ability_id)
     if type(ability_id) == 'string' then
         ability_id = base.string2id(ability_id)
@@ -1357,7 +1358,7 @@ end
 function mt:fetch_item(id)
     for i = 1, 6 do
         local it = self:get_item_in_slot(i)
-        if it:get_id() == id then
+        if it and it:get_id() == id then
             return it
         end
     end
@@ -1391,8 +1392,14 @@ function mt:add_item(item)
     return it
 end
 
---- @param item
+--- @param it item|number|string
 function mt:remove_item(it)
+    if type(it) == 'string' then
+        it = base.string2id(it)
+    end
+    if type(it) == 'number' then
+        it = self:fetch_item(it)
+    end
     jass.UnitRemoveItem(self.handle, it.handle)
 end
 

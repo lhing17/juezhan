@@ -78,6 +78,8 @@ local pathingtype = require 'jass.type.pathingtype'
 local orderid = require 'jass.util.order_id'
 local base = require 'jass.util.id'
 
+local slk = require 'jass.slk'
+
 -- 状态类，优先初始化
 playerstate.init()
 playerslotstate.init()
@@ -833,8 +835,14 @@ end
 --        // Looks up the "name" field for any object (unit, item, ability)
 --constant native GetObjectName               takes integer objectId          returns string
 function jass.GetObjectName(objectId)
-    -- TODO
-    return "名字"
+    if not objectId then
+        return nil
+    end
+    local str = base.id2string(objectId)
+    local name = slk.item[str] and slk.item[str].Name or ''
+    name = slk.unit[str] and slk.unit[str].Name or ''
+    name = slk.ability[str] and slk.ability[str].Name or ''
+    return name
 end
 
 -- 游戏设置参数
@@ -1265,7 +1273,7 @@ end
 
 --native          AddHeroXP           takes unit whichHero, integer xpToAdd,   boolean showEyeCandy returns nothing
 function jass.AddHeroXP(h, exp, showEyeCandy)
-    log.info('英雄'.. h:get_name()..'增加经验'..exp)
+    log.info('英雄' .. h:get_name() .. '增加经验' .. exp)
     if h:is_hero() then
         h:set_exp(h:get_exp() + exp)
         if showEyeCandy then
@@ -1331,6 +1339,8 @@ function jass.SelectHeroSkill(h, abilcode)
 end
 
 --native          GetUnitAbilityLevel takes unit whichUnit, integer abilcode returns integer
+--- @param u j_unit
+--- @param abilcode number
 function jass.GetUnitAbilityLevel(u, abilcode)
     return u:get_ability_level(abilcode)
 end
@@ -1417,6 +1427,11 @@ end
 --native          UnitAddItemById         takes unit whichUnit, integer itemId returns item
 --native          UnitAddItemToSlotById   takes unit whichUnit, integer itemId, integer itemSlot returns boolean
 --native          UnitRemoveItem          takes unit whichUnit, item whichItem returns nothing
+--- @param u j_unit
+--- @param it j_item
+function jass.UnitRemoveItem(u, it)
+    u:remove_item(it)
+end
 --native          UnitRemoveItemFromSlot  takes unit whichUnit, integer itemSlot returns item
 --native          UnitHasItem             takes unit whichUnit, item whichItem returns boolean
 function jass.UnitHasItem(u, it)
@@ -1424,6 +1439,8 @@ function jass.UnitHasItem(u, it)
 end
 
 --native          UnitItemInSlot          takes unit whichUnit, integer itemSlot returns item
+--- @param u j_unit
+--- @param i number
 function jass.UnitItemInSlot(u, i)
     return u:get_item_in_slot(i)
 end

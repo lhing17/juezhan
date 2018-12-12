@@ -99,6 +99,9 @@ mt.point_value = 100
 
 mt.sleeping = false
 
+--- @type table<number, j_item>
+mt.items = nil
+
 function mt:wakeup()
     self.sleeping = false
 end
@@ -342,6 +345,16 @@ function mt:add_item(it)
     end
     table.insert(self.items, it)
     return true
+end
+
+--- @param it j_item
+function mt:remove_item(it)
+    for i = 1, 6 do
+        if self.items[i] == it then
+            self.items[i] = nil
+            return
+        end
+    end
 end
 
 function mt:remove_ability(abilityId)

@@ -7,6 +7,7 @@
 local dialog = {}
 et.dialog = dialog
 
+--- @class dialog
 local mt = {}
 dialog.__index = mt
 

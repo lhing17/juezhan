@@ -18,6 +18,10 @@ mt.hotkey = 'Y'
 mt.is_quit = false
 mt.do_score_screen = false
 
+function button:__tostring()
+    return '对话框按钮：'..self.text
+end
+
 function button.create(text, hotkey, is_quit, do_score_screen)
     local b = setmetatable({}, button)
     b.handle_id = common_util.generate_handle_id()
@@ -27,7 +31,6 @@ function button.create(text, hotkey, is_quit, do_score_screen)
     b.do_score_screen = do_score_screen
     button.all_buttons[b.handle_id] = b
     return b
-
 end
 
 return button

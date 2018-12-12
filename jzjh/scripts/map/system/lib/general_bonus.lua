@@ -70,6 +70,7 @@ function unit:set_bonus(type, value)
         self:clear_bonus(type)
         return false
     end
+    print(type, value)
     if value > MAX_BONUS[type] or value <= 0 then
         return false
     end
@@ -86,17 +87,21 @@ function unit:set_bonus(type, value)
     end
     for i = #bonus_abilities[type] - 2, 0, -1 do
         if value >= 2 ^ i then
-            u:add_ability(bonus_abilities[i + 1])
+            self:add_ability(bonus_abilities[i + 1])
             value = value - 2 ^ i
         else
-            u:remove_ability(bonus_abilities[i + 1])
+            self:remove_ability(bonus_abilities[i + 1])
         end
     end
     return true
 end
 
 function unit:get_bonus(type)
-    return self.bonus[type]
+    if self.bonus then
+        return self.bonus[type] or 0
+    end
+    return 0
+
 end
 
 function unit:add_max_state(type, value)
@@ -112,7 +117,7 @@ function unit:add_max_state(type, value)
 end
 
 function unit:add_bonus(type, value)
-    return self:set_bonus(self:get_bonus(type) + value)
+    return self:set_bonus(type, self:get_bonus(type) + value)
 end
 
 

@@ -49,7 +49,7 @@ function part_time.init()
         ['福缘'] = 5,
         hint = '|cffffff00恭喜成为寻宝师，获得福缘+5',
     }, part_time)
-    part_time[1227899190] = setmetatable({
+    part_time[1227899191] = setmetatable({
         name = '丫鬟',
         ['悟性'] = 1,
         ['根骨'] = 1,
@@ -61,7 +61,7 @@ function part_time.init()
         gender_require = 0,
         fail_hint = '|cffffff00男性角色不可加入该副职',
     }, part_time)
-    part_time[1227899190] = setmetatable({
+    part_time[1227899719] = setmetatable({
         name = '精武师',
         ['悟性'] = 1,
         ['根骨'] = 1,
@@ -73,6 +73,7 @@ function part_time.init()
         gender_require = 1,
         fail_hint = '|cffffff00女性角色不可加入该副职',
     }, part_time)
+
 
 
 end

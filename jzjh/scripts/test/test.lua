@@ -43,6 +43,11 @@ local function id2string(...)
         print(base.id2string(v))
     end
 end
+local function string2id(...)
+    for i, v in ipairs({ ... }) do
+        print(base.string2id(v))
+    end
+end
 
 local function test_var(...)
     for i,v in ipairs({...}) do
@@ -52,7 +57,8 @@ end
 
 local function test()
     test_var(1, 2, 3, 3, 5)
-    --id2string(1227897174, 1227896922, 1227897136)
+    id2string(1227896898, 1227896922, 1227897136)
+    string2id('I0A7', 'I0CG')
     --
     ----for k, v in pairs(id_list) do
     ----    print(base.id2string(k), v)

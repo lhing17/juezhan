@@ -36,7 +36,7 @@ function damage_formula(tab)
         return 0, false
     else
         if commonutil.random(0, 100) < (h['暴击率'] or 0) then
-            return (h['暴击伤害'] or 1) * (1 + (h['伤害加成'] or 0)) * base_damage * target_def * random, true
+            return (1 + (h['暴击伤害'] or 0)) * (1 + (h['伤害加成'] or 0)) * base_damage * target_def * random, true
         end
         return (1 + (h['伤害加成'] or 0)) * base_damage * target_def * random, false
     end

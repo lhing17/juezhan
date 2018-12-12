@@ -13,7 +13,7 @@ local function init()
         local h = p.hero
         local pt = et.part_time[item:get_id()]
         if p:is_player() and pt then
-            if h.part_times:is_empty() then
+            if table.is_empty(h.part_times) then
                 -- 不符合性别要求
                 if pt.gender_require and h.gender ~= pt.gender_require then
                     p:send_message(pt.fail_hint, 5)

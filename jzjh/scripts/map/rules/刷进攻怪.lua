@@ -4,13 +4,28 @@
 --- DateTime: 2018/11/14 0014 20:20
 ---
 
+local set = require 'util.collection.set'
+
+local front_pawn_one = et.point(-3040.0, 3712.0)
+local front_pawn_two = et.point(-752.0, 5312.0)
+local front_pawn_three = et.point(1488.0, 3680.0)
+local back_pawn_one = et.point(-720.0, -5072.0)
+local front_attack_point = et.point(-784.0, -368.0)
+local back_attack_point = et.point(-704.0, -1200.0)
+
+local pawn_point_set =  set:new {front_pawn_one, front_pawn_two, front_pawn_three, back_pawn_one}
+
 
 -- 刷一个进攻怪 from 起点的loc to_rect 终点的rect
-local function pawn_attack_creep(id, from, to_rect)
+--- @param id number
+--- @param from point
+--- @param to point
+--- @return unit
+local function pawn_attack_creep(id, from, to)
     local p = et.player(7)
-    local last = p:create_unit(id, et.point(jass.GetLocationX(from), jass.GetLocationY(from)))
+    local last = p:create_unit(id, from)
     game.variable.attack_creeps[last.handle] = last
-    last:issue_order(851983, to_rect:get_center())
+    last:issue_order(851983, to)
     return last
 end
 
@@ -37,18 +52,18 @@ end
 local function front_attack()
     et.timer(3000, 20, function()
         if game.config.mode ~= 'survive' then
-            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[6], Ke)
-            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[7], Ke)
-            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[5], Ke)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_two, front_attack_point)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_three, front_attack_point)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_one, front_attack_point)
             if excessive_level() then
-                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[6], Ke)
-                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[7], Ke)
-                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[5], Ke)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_two, front_attack_point)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_three, front_attack_point)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], front_pawn_one, front_attack_point)
             end
         else
-            pawn_attack_creep(1848651827, v7[6], Ke)
-            pawn_attack_creep(1848651827, v7[7], Ke)
-            pawn_attack_creep(1848651827, v7[5], Ke)
+            pawn_attack_creep(1848651827, front_pawn_two, front_attack_point)
+            pawn_attack_creep(1848651827, front_pawn_three, front_attack_point)
+            pawn_attack_creep(1848651827, front_pawn_one, front_attack_point)
         end
     end)
 end
@@ -59,12 +74,12 @@ local function back_attack()
         et.wait(40 * 1000, function()
             et.timer(2000, 15, function()
                 if game.config.mode ~= 'survive' then
-                    pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], v7[8], Je)
+                    pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], back_pawn_one, back_attack_point)
                     if excessive_level() then
-                        pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], v7[8], Je)
+                        pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], back_pawn_one, back_attack_point)
                     end
                 else
-                    local last = pawn_attack_creep(1848651827, v7[8], Je)
+                    local last = pawn_attack_creep(1848651827, back_pawn_one, back_attack_point)
                     attacker_add_skill(last)
                 end
             end)
@@ -142,14 +157,14 @@ boss_skill_list[1851942003] = {}
 
 local function boss_attack()
     et.wait(80 * 1000, function()
-        local id = u7[game.variable.wave // 4]
+        local id = game.constant.attack_bosses[game.variable.wave // 4]
         if math.fmod(game.variable.wave, 4) == 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
-            pawn_attack_creep(id, v7[8], Je)
+            pawn_attack_creep(id, back_pawn_one, back_attack_point)
             force.send_message("|CFFFF0033邪教趁我方不备，偷偷地派出BOSS从背后杀过来了，请准备防御")
         end
-        if ModuloInteger(game.variable.wave, 4) == 0 and game.variable.wave < 30 and game.config.mode ~= 'survive' then
+        if math.fmod(game.variable.wave, 4) == 0 and game.variable.wave < 30 and game.config.mode ~= 'survive' then
             force.send_message("|CFFFF0033邪教派出BOSS前来进攻，请准备防御")
-            local boss = pawn_attack_creep(id, v7[6], Ke)
+            local boss = pawn_attack_creep(id, front_pawn_two, front_attack_point)
             if boss_skill_list[id] then
                 for _, v in ipairs(boss_skill_list[id]) do
                     boss:add_ability(v, IMinBJ(udg_nandu * 2, 9))
@@ -160,7 +175,7 @@ local function boss_attack()
         elseif math.fmod(game.variable.wave, 4) ~= 0 and game.variable.wave < 28 and game.config.mode ~= 'survive' then
             if excessive_level() then
                 force.send_message("|CFFFF0033由于激活特殊事件，邪教派出BOSS前来进攻，请准备防御")
-                local boss = pawn_attack_creep(id, v7[6], Ke)
+                local boss = pawn_attack_creep(id, front_pawn_two, front_attack_point)
                 udg_boss[game.variable.wave // 4] = boss
                 et.timer(20 * 1000, 5, boss_grow_up)
             end
@@ -192,14 +207,14 @@ local function famous_attack()
                     r2 = 1.52
                 end
                 for i = 1, game.variable.famous_num do
-                    rr3 = r1 ^ game.variable.wave
-                    rr4 = r2 ^ game.variable.wave
-                    rand = jass.GetRandomInt(1, 11)
-                    local famous = pawn_attack_creep(et.famous[rand].id, v7[GetRandomInt(5, 8)], Ke)
+                    local rr3 = r1 ^ game.variable.wave
+                    local rr4 = r2 ^ game.variable.wave
+                    local rand = jass.GetRandomInt(1, 11)
+                    local famous = pawn_attack_creep(et.famous[rand].id, pawn_point_set:random(), front_attack_point)
                     famous:set_level(4 * game.variable.wave)
-                    YDWEGeneralBounsSystemUnitSetBonus(famous.handle, 3, 0, R2I(et.famous[rand]["攻击成长"] * rr3 * 3.3))
-                    YDWEGeneralBounsSystemUnitSetBonus(famous.handle, 2, 0, (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * game.variable.famous_num)
-                    famous:add_item(Ae[game.variable.wave])
+                    famous:add_bonus('attack', math.floor(et.famous[rand]["攻击成长"] * rr3 * 3.3))
+                    famous:add_bonus('armor', (game.variable.wave - 1) * et.famous[rand]["防御成长"] * 9 // 10 * game.variable.famous_num)
+                    famous:add_item(game.constant.wave_life_bonus[game.variable.wave])
                 end
             end
             force.send_message("|CFFFF0033名门高手开始进攻，大家要小心应付了！")
@@ -243,7 +258,7 @@ function do_pawn()
                 jass.StopMusic(false)
                 jass.PlayMusic(game.music.final_bgm)
                 force.send_message("|CFFFF0033西域势力最后BOSS即将发起最后进攻，请作好防守准备")
-                local last = pawn_attack_creep(u7[8], v7[6], Ke)
+                local last = pawn_attack_creep(game.constant.attack_bosses[8], front_pawn_two, front_attack_point)
                 udg_boss[game.variable.wave // 4] = last.handle
                 et.timer(20 * 1000, 5, boss_grow_up)
             else
@@ -294,8 +309,8 @@ local function init()
     et.game:event '玩家-聊天'(function(self, p, s)
         if s:sub(1, 9) == 'test_boss' then
             local num = assert(tonumber(s:sub(10, 10)))
-            if u7[num] then
-                et.player(7):create_unit(u7[num], game.point.mid_pawn)
+            if game.constant.attack_bosses[num] then
+                et.player(7):create_unit(game.constant.attack_bosses[num], game.point.mid_pawn)
             end
         end
     end)

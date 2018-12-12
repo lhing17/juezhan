@@ -239,7 +239,7 @@ k7 = 0
 
 u7 = _array_(0)
 v7 = _array_()
-y7 = _array_(0)
+game.constant.attack_creeps = _array_(0)
 z7 = _array_()
 A7 = _array_()
 B7 = 0
@@ -1632,7 +1632,7 @@ function Zw()
     PlayMusicBJ(game.music.normal_bgm)
     -- 英雄选择列表
 
-    y7 = { 1969711215,
+    game.constant.attack_creeps = { 1969711215,
            1970498413,
            1852798821,
            1851879023,

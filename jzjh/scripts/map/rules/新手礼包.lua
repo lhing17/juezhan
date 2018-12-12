@@ -9,7 +9,7 @@
 local function init()
     -- 新手大礼包
     et.game:event '单位-使用物品'(function(self, u, item)
-        if u:get_owner():is_player() and GetItemTypeId(item) == 1227896394 then
+        if u:get_owner():is_player() and item:get_id() == 1227896394 then
             local rand = commonutil.random(0, 4)
             local p = u:get_owner()
             if rand < 1 then

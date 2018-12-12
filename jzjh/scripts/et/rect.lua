@@ -87,13 +87,13 @@ end
 
 --- @return point
 function mt:get_center()
-    return et.point((min_x + max_x) / 2, (min_y + max_y) / 2)
+    return et.point((self.min_x + self.max_x) / 2, (self.min_y + self.max_y) / 2)
 end
 
 --- @return point
 function mt:get_random()
-    x = math.random(min_x, max_x)
-    y = math.random(min_y, max_y)
+    x = math.random(self.min_x, self.max_x)
+    y = math.random(self.min_y, self.max_y)
     return et.point(x, y)
 end
 

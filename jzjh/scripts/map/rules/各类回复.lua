@@ -24,8 +24,8 @@ local function init()
             local h = p.hero
             if h then
                 local hu = et.unit(h.handle)
-                if p:is_hero() and not h:has_buff(1110454580) then
-                    hu:set_life_percent(hu:get_life_percent() + h['医术'] / 2000 + 10 * hu:get_ability_level(1093682228) + guixihuixie[p.id])
+                if hu:is_hero() and not hu:has_buff(1110454580) then
+                    hu:set_life_percent(hu:get_life_percent() + h['医术'] / 2000 + 10 * hu:get_ability_level(1093682228))
                     if hu:has_item(1227895108) then
                         hu:set_life_percent(hu:get_life_percent() + 6)
                     end

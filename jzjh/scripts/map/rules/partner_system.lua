@@ -24,7 +24,8 @@ local function init()
             PlaySoundOnUnitBJ(Fh, 100, u)
             local new_partner_table = et.lni.partner[item:get_id()]
             local new_parter = u:get_owner():create_unit(new_partner_table.unit_id, u:get_point())
-            zw(new_parter.handle, u, 1.0, 250.0, 1000.0, 1500.0, 75)
+            -- FIXME 伴侣传送
+            --zw(new_parter.handle, u, 1.0, 250.0, 1000.0, 1500.0, 75)
             p:send_message("|cFFFFCC00恭喜你与" .. new_partner_table.name .. "结成伴侣")
             h['伴侣'] = new_parter
             h['悟性'] = h['悟性'] + new_partner_table['悟性']

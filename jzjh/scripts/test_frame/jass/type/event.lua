@@ -10,6 +10,7 @@ local gameevent = require 'jass.type.gameevent'
 local dialogevent = require 'jass.type.dialogevent'
 local event = {}
 
+--- @class j_event
 local mt = {}
 event.__index = mt
 
@@ -42,6 +43,16 @@ function event.create_dialog_event(d)
     e.handle_id = common_util.generate_handle_id()
     e.event_type = 'dialogevent'
     e.event_id = dialogevent[91]
+    e.dialog = d
+    event[e.handle_id] = e
+    return e
+end
+
+function event.create_dialog_button_event(b)
+    local e = setmetatable({}, event)
+    e.handle_id = common_util.generate_handle_id()
+    e.event_type = 'dialogevent'
+    e.event_id = dialogevent[90]
     e.dialog = d
     event[e.handle_id] = e
     return e

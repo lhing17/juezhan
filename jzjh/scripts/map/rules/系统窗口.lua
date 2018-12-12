@@ -3,6 +3,7 @@
 --- Created by G_Seinfeld.
 --- DateTime: 2018/11/15 19:49
 ---
+udg_MaxDamage = {0, 0, 0, 0, 0}
 
 function DuoMianBan(mb, zv, Av, Iv)
     local cv = 0
@@ -213,4 +214,4 @@ local function init()
     TriggerAddCondition(ni, Condition(wy))
     TriggerAddAction(ni, SetMaxDamage)
 end
-init()
+--init()

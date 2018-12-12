@@ -14,7 +14,7 @@ trigger.all_triggers = {}
 -- 正在触发的触发器
 trigger.triggering = nil
 
-
+--- @class j_trigger
 local mt = {}
 trigger.__index = mt
 
@@ -90,6 +90,14 @@ end
 
 function mt:register_dialog_event(d)
     local e = event.create_dialog_event(d)
+    self.registered_events[e.handle_id] = e
+    return e
+end
+
+--- @param b j_button
+--- @return j_event
+function mt:register_dialog_button_event(b)
+    local e = event.create_dialog_button_event(b)
     self.registered_events[e.handle_id] = e
     return e
 end

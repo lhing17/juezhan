@@ -33,7 +33,7 @@ local function init()
     et.game:event '单位-使用物品'(function(self, u, it)
         --- @type player
         local p = u:get_owner()
-        if u:get_owner():is_player() and it.get_id() == 1227896398 then
+        if u:get_owner():is_player() and it:get_id() == 1227896398 then
             --- @type item
             local item = u:get_item_in_slot(1)
             if not item:is_equipment() then

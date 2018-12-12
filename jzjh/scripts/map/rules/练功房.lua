@@ -33,7 +33,7 @@ local function init()
             local group = et.selector():in_range(v, 550):of_player(et.player(8)):get()
             if #group <= 3 then
                 for i = 1, 12 do
-                    et.player(8):create_unit(y7[wave], v)
+                    et.player(8):create_unit(game.constant.attack_creeps[wave], v)
                 end
             end
         end

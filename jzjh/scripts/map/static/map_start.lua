@@ -43,9 +43,8 @@ local function init()
     AddSpecialEffectTargetUnitBJ("overhead", WANG_CHONGYANG, "Objects\\RandomObject\\RandomObject.mdl")
     AddSpecialEffectTargetUnitBJ("overhead", FENG_SHU, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 
-    CreateTextTagUnitBJ("点我加门派后可离开此地", Rs, 0.0, 15.0, 100.0, 100.0, 0.0, 50.0)
-    CreateTextTagLocBJ("决战江湖" .. game.config.version .. "名人榜", GetRectCenter(uh), 100.0, 10, 100, 100, 0.0, 50.0)
-
+    et.tag.create("点我加门派后可离开此地",  Rs:get_point(), 15, 0,100, 100, 0, 50)
+    et.tag.create("决战江湖" .. game.config.version .. "名人榜",  uh:get_center(), 10, 100,100, 100, 0, 50)
     for i = 1, 6 do
         et.player[i]:set_food(50)
         et.player[i]:add_lumber(10)

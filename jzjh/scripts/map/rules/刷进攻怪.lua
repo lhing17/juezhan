@@ -37,13 +37,13 @@ end
 local function front_attack()
     et.timer(3000, 20, function()
         if game.config.mode ~= 'survive' then
-            pawn_attack_creep(y7[game.variable.wave], v7[6], Ke)
-            pawn_attack_creep(y7[game.variable.wave], v7[7], Ke)
-            pawn_attack_creep(y7[game.variable.wave], v7[5], Ke)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[6], Ke)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[7], Ke)
+            pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[5], Ke)
             if excessive_level() then
-                pawn_attack_creep(y7[game.variable.wave], v7[6], Ke)
-                pawn_attack_creep(y7[game.variable.wave], v7[7], Ke)
-                pawn_attack_creep(y7[game.variable.wave], v7[5], Ke)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[6], Ke)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[7], Ke)
+                pawn_attack_creep(game.constant.attack_creeps[game.variable.wave], v7[5], Ke)
             end
         else
             pawn_attack_creep(1848651827, v7[6], Ke)
@@ -59,9 +59,9 @@ local function back_attack()
         et.wait(40 * 1000, function()
             et.timer(2000, 15, function()
                 if game.config.mode ~= 'survive' then
-                    pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
+                    pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], v7[8], Je)
                     if excessive_level() then
-                        pawn_attack_creep(y7[game.variable.wave + 1], v7[8], Je)
+                        pawn_attack_creep(game.constant.attack_creeps[game.variable.wave + 1], v7[8], Je)
                     end
                 else
                     local last = pawn_attack_creep(1848651827, v7[8], Je)

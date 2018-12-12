@@ -63,9 +63,9 @@ end
 local function init()
     et.game:event '单位-使用物品'(function(self, u, item)
         --学习武功
-        if kungfu[item:get_id()] and u:get_owner().hero then
+        if et.lni.kungfu[item:get_id()] and u:get_owner().hero then
             LearnJiNeng(u.handle, item)
-            local kf = kungfu[item:get_id()]
+            local kf = et.lni.kungfu[item:get_id()]
             local p = u:get_owner()
             local h = p.hero
             local hu = h.handle

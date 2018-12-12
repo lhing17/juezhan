@@ -19,9 +19,10 @@ end
 
 function dialog.create(player, message, buttons)
     local d = setmetatable({}, dialog)
-    d.handle = jass.CreateDialog()
+    d.handle = jass.DialogCreate()
+    d.buttons = {}
     jass.DialogSetMessage(d.handle, message)
-    for name in pairs(buttons) do
+    for _, name in pairs(buttons) do
         local b = jass.DialogAddButton(d.handle, name, 0)
         local trg = war3.CreateTrigger(function()
             et.event_notify(b, '对话框-按钮点击', d, player)

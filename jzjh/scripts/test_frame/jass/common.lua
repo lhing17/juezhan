@@ -2514,6 +2514,12 @@ function jass.TriggerRegisterDialogEvent(t, d)
 end
 
 --native TriggerRegisterDialogButtonEvent takes trigger whichTrigger, button whichButton returns event
+--- @param t j_trigger
+--- @param b j_button
+function jass.TriggerRegisterDialogButtonEvent(t, b)
+    t:register_dialog_button_event(b)
+end
+
 --//  EVENT_GAME_STATE_LIMIT
 --constant native GetEventGameState takes nothing returns gamestate
 --native TriggerRegisterGameEvent takes trigger whichTrigger, gameevent whichGameEvent returns event

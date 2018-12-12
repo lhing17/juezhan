@@ -8,3 +8,5 @@ game = game or {}
 require 'game.config'
 require 'game.variable'
 require 'game.music'
+require 'game.point'
+require 'game.constant'

@@ -8,6 +8,7 @@ local common_util = require 'jass.util.common_util'
 local button = {}
 button.all_buttons = {}
 
+--- @class j_button
 local mt = {}
 button.__index = mt
 mt.type = 'button'

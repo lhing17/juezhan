@@ -4,7 +4,7 @@ local function init()
     require 'map.rules.传送'
     require 'map.rules.伤害公式'
     require 'map.rules.伤害测试'
-    require 'map.rules.伴侣系统'
+    require 'map.rules.partner_system'
     require 'map.rules.刷进攻怪'
     require 'map.rules.剑意'
     require 'map.rules.加入副职'

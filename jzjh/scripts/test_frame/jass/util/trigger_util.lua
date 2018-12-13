@@ -393,7 +393,23 @@ end
 function trigger_util.trig_dialog_event(p, db)
     for _, t in pairs(trigger.all_triggers) do
         for _, e in pairs(t.registered_events) do
-            if e.event_id == dialogevent[91] or e.event_id == dialogevent[90] then
+            if e.event_id == dialogevent[91] then
+                trigger.triggering = t
+                trigger.player = p
+                trigger.clicked_button = db
+                trigger.event_id = e.event_id
+                if trigger_util.evaluate(t.conditions) then
+                    trigger_util.execute(t.actions)
+                end
+            end
+        end
+    end
+end
+
+function trigger_util.trig_dialog_button_event(p, db)
+    for _, t in pairs(trigger.all_triggers) do
+        for _, e in pairs(t.registered_events) do
+            if e.event_id == dialogevent[90] and e.button == db then
                 trigger.triggering = t
                 trigger.player = p
                 trigger.clicked_button = db

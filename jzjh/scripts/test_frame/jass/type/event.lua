@@ -53,7 +53,7 @@ function event.create_dialog_button_event(b)
     e.handle_id = common_util.generate_handle_id()
     e.event_type = 'dialogevent'
     e.event_id = dialogevent[90]
-    e.dialog = d
+    e.button = b
     event[e.handle_id] = e
     return e
 end

@@ -27,21 +27,20 @@ local function setup()
     it = item.create(1227895856, 0, 0)
     hu:add_item(1227895642)
     hu:add_ability(1093678411, 2)
-    for k, v in pairs(hu.handle.items) do
-        print(k, v)
-    end
     trigger_util.trig_player_unit_event(p.handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, h.handle, { manipulated_item = item.create(1227894833, 0, 0) })
 end
 
 local function test_learn_kungfu()
     trigger_util.trig_player_unit_event(p.handle, jass.EVENT_PLAYER_UNIT_PICKUP_ITEM, h.handle, { manipulated_item = it })
-    trigger_util.trig_dialog_event(p.handle, button.all_buttons[4294972863])
-end
-
-local function teardown()
     for i, v in pairs(button.all_buttons) do
         print(i, v)
     end
+
+    trigger_util.trig_dialog_button_event(p.handle, button.all_buttons[4294972863])
+end
+
+local function teardown()
+
 end
 
 local function test()

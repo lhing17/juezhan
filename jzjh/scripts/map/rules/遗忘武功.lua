@@ -53,18 +53,18 @@ local function forget_ability(u)
         local d = et.dialog.create(p, "请选择遗忘的武功（遗忘后无法找回）！", button_list)
 
         -- 向按钮注册事件
-        for _, v in pairs(h['武功']) do
-            local id = v.ability_id
-            et.event_register(d.buttons[jass.GetObjectName(id)], '对话框-按钮点击')(function(self, dg, pl)
-                do_forget(p, id)
+        et.game:event '对话框-按钮点击' (function(self, b, dg, pl)
+            for _, v in pairs(h['武功']) do
+                local id = v.ability_id
+                if b == d.buttons[jass.GetObjectName(id)] then
+                    do_forget(p, id)
+                    d:clear_and_destroy()
+                end
+            end
+            if b == d.buttons['取消'] then
                 d:clear_and_destroy()
-            end)
-        end
-        et.event_register(d.buttons['取消'], '对话框-按钮点击')(function(self, dg, pl)
-            d:clear_and_destroy()
+            end
         end)
-
-
     else
         p:send_message("|cffff0000遗忘武功需要消耗道具遗忘之石！")
     end

@@ -14,13 +14,17 @@ function select_game_mode()
     }
     local button_list = table.keys(button_map)
     local d = et.dialog.create(et.player(1), "|cff00FF40主机开始选择游戏模式", button_list)
-    for k, v in pairs(button_map) do
-        et.event_register(d.buttons[k], '对话框-按钮点击', function(self, dg, pl)
-            force.send_message("|cff00FFFF主机选择了"..k)
-            game.config.mode = v
-            dg:clear_and_destroy()
-        end)
-    end
+
+    et.game:event_register '对话框-按钮点击'(function(self, b, dg, pl)
+        for k, v in pairs(button_map) do
+            if b == d.buttons[k] then
+                force.send_message("|cff00FFFF主机选择了" .. k)
+                game.config.mode = v
+                dg:clear_and_destroy()
+            end
+        end
+    end)
+
 end
 
 et.wait(2000, function()

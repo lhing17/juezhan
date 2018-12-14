@@ -57,34 +57,38 @@ local function check_use_qiankun_pellet(u, item)
     if u:get_owner():is_player() and item:get_id() == 1227895371 then
         if h.pellet < max_pellet then
             local d = et.dialog.create(p, "请选择要减1的属性", attr_list)
-            for _, v in pairs(attr_list) do
-                et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
-                    if v == '取消' then
-                        d:clear_and_destroy()
-                        u:add_item(1227895371)
-                    else
-                        h[v] = h[v] - 1
-                        d:clear_and_destroy()
-                        local dd = et.dialog.create(pl, '请选择要加3的属性', attr_list)
-                        for _, v1 in pairs(attr_list) do
-                            et.event_register(dd.buttons[v1], '对话框-按钮点击')(function(self, dg1, pl1)
-                                if v == '取消' then
-                                    h[v] = h[v] + 1
-                                    dd:clear_and_destroy()
-                                    u:add_item(1227895371)
-                                else
-                                    h[v1] = h[v1] + 3
-                                    PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                                    h.pellet = h.pellet + 1
-                                    p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "-1，" .. v1 .. "+3|r")
-                                    p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
-                                    dd:clear_and_destroy()
+            et.game:event '对话框-按钮点击'(function(self, b, dg, pl)
+                for _, v in pairs(attr_list) do
+                    if b == d.buttons[v] then
+                        if v == '取消' then
+                            d:clear_and_destroy()
+                            u:add_item(1227895371)
+                        else
+                            h[v] = h[v] - 1
+                            d:clear_and_destroy()
+                            local dd = et.dialog.create(pl, '请选择要加3的属性', attr_list)
+                            et.game:event '对话框-按钮点击'(function(self, b1, dg1, pl1)
+                                for _, v1 in pairs(attr_list) do
+                                    if b1 == dd.buttons[v1] then
+                                        if v == '取消' then
+                                            h[v] = h[v] + 1
+                                            dd:clear_and_destroy()
+                                            u:add_item(1227895371)
+                                        else
+                                            h[v1] = h[v1] + 3
+                                            PlaySoundOnUnitBJ(Eh, 100, u.handle)
+                                            h.pellet = h.pellet + 1
+                                            p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "-1，" .. v1 .. "+3|r")
+                                            p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+                                            dd:clear_and_destroy()
+                                        end
+                                    end
                                 end
                             end)
                         end
                     end
-                end)
-            end
+                end
+            end)
         else
             u:add_item(item:get_id())
             PlaySoundOnUnitBJ(Gh, 100, u.handle)
@@ -125,27 +129,29 @@ local function check_use_tuotai_pellet(u, item)
     if u:get_owner():is_player() and item:get_id() == 1227895374 then
         if h.pellet < max_pellet then
             local d = et.dialog.create(p, "请选择要+6的属性", attr_list)
-            for _, v in pairs(attr_list) do
-                et.event_register(d.buttons[v], '对话框-按钮点击')(function(self, dg, pl)
-                    if v == '取消' then
-                        d:clear_and_destroy()
-                        u:add_item(1227895371)
-                    else
-                        h[v] = h[v] + 7
-                        h['医术'] = h['医术'] - 1
-                        h['悟性'] = h['悟性'] - 1
-                        h['根骨'] = h['根骨'] - 1
-                        h['福缘'] = h['福缘'] - 1
-                        h['经脉'] = h['经脉'] - 1
-                        h['胆魄'] = h['胆魄'] - 1
-                        d:clear_and_destroy()
-                        p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "+6，其他属性-1|r")
-                        h.pellet = h.pellet + 1
-                        PlaySoundOnUnitBJ(Eh, 100, u.handle)
-                        p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+            et.game:event '对话框-按钮点击' (function(self, b, dg, pl)
+                for _, v in pairs(attr_list) do
+                    if b == d.buttons[v] then
+                        if v == '取消' then
+                            d:clear_and_destroy()
+                            u:add_item(1227895371)
+                        else
+                            h[v] = h[v] + 7
+                            h['医术'] = h['医术'] - 1
+                            h['悟性'] = h['悟性'] - 1
+                            h['根骨'] = h['根骨'] - 1
+                            h['福缘'] = h['福缘'] - 1
+                            h['经脉'] = h['经脉'] - 1
+                            h['胆魄'] = h['胆魄'] - 1
+                            d:clear_and_destroy()
+                            p:send_message("|cFFFFCC00使用成功|r|cFF99FFCC" .. v .. "+6，其他属性-1|r")
+                            h.pellet = h.pellet + 1
+                            PlaySoundOnUnitBJ(Eh, 100, u.handle)
+                            p:send_message("|cFFFFCC00当前已经服用属性丹数量：|r|cFF99FFCC" .. h.pellet .. " / " .. max_pellet)
+                        end
                     end
-                end)
-            end
+                end
+            end)
         else
             u:add_item(item:get_id())
             PlaySoundOnUnitBJ(Gh, 100, u.handle)
@@ -168,7 +174,6 @@ local function init()
                1227896644, --五加皮
                1227896648, --紫花兰
     }
-
 
     et.game:event '单位-使用物品'(function(self, u, item)
         local p = u:get_owner()
@@ -301,37 +306,39 @@ local function init()
             end
             table.insert('取消')
             local d = et.dialog.create(u:get_owner(), "请选择想被传授的武功", buttons)
-            for _, v in pairs(ho['武功']) do
-                et.event_register(d.buttons[jass.GetObjectName(v.ability_id)], '对话框-按钮点击')(function(self, dg, pl)
-                    d:clear_and_destroy()
-                    local h = u:get_owner().hero
-                    if h:get_kongfu_num() >= h.kongfu_limit then
-                        p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
-                        u:add_item(1227896625)
-                    else
-                        if h['武功'][v.ability_id] then
-                            p:send_message("|CFFFF0033你已经学会这种武功了")
+            et.game:event '对话框-按钮点击' (function(self, b, dg, pl)
+                for _, v in pairs(ho['武功']) do
+                    if b == d.buttons[jass.GetObjectName(v.ability_id)] then
+                        d:clear_and_destroy()
+                        local h = u:get_owner().hero
+                        if h:get_kongfu_num() >= h.kongfu_limit then
+                            p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
                             u:add_item(1227896625)
-                        end
-                        h:add_ability(v.ability_id)
-                        h['武功'][v.ability_id] = et.kungfu.create(v.ability_id)
-                        h['武功'][v.ability_id]['经验'] = h['遗忘武功'][v.ability_id]['经验']
-                        h['武功'][v.ability_id]['重数'] = h['遗忘武功'][v.ability_id]['重数']
-                        force.send_message("|CFFFF0033传闻" .. u:get_owner():get_name() .. "向" .. target:get_owner():get_name() .. "虚心求教，成功的学会了" .. jass.GetObjectName(v.ability_id))
-                        if et.lni.internal[kf.abilityid] then
-                            local itl = et.lni.internal[kf.abilityid]
-                            h['伤害加成'] = h['伤害加成'] + itl['伤害加成']
-                            jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + itl['内力'])
-                            h['暴击率'] = h['暴击率'] + itl['暴击率']
-                            h['绝学领悟'] = h['绝学领悟'] + itl['绝学领悟']
-                            h['伤害吸收'] = h['伤害吸收'] + itl['伤害吸收']
+                        else
+                            if h['武功'][v.ability_id] then
+                                p:send_message("|CFFFF0033你已经学会这种武功了")
+                                u:add_item(1227896625)
+                            end
+                            h:add_ability(v.ability_id)
+                            h['武功'][v.ability_id] = et.kungfu.create(v.ability_id)
+                            h['武功'][v.ability_id]['经验'] = h['遗忘武功'][v.ability_id]['经验']
+                            h['武功'][v.ability_id]['重数'] = h['遗忘武功'][v.ability_id]['重数']
+                            force.send_message("|CFFFF0033传闻" .. u:get_owner():get_name() .. "向" .. target:get_owner():get_name() .. "虚心求教，成功的学会了" .. jass.GetObjectName(v.ability_id))
+                            if et.lni.internal[kf.abilityid] then
+                                local itl = et.lni.internal[kf.abilityid]
+                                h['伤害加成'] = h['伤害加成'] + itl['伤害加成']
+                                jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + itl['内力'])
+                                h['暴击率'] = h['暴击率'] + itl['暴击率']
+                                h['绝学领悟'] = h['绝学领悟'] + itl['绝学领悟']
+                                h['伤害吸收'] = h['伤害吸收'] + itl['伤害吸收']
+                            end
                         end
                     end
-                end)
-            end
-            et.event_register(d.buttons['取消'], '对话框-按钮点击')(function(self, dg, pl)
-                u:add_item(1227896625)
-                d:clear_and_destroy()
+                end
+                if b == d.buttons['取消'] then
+                    u:add_item(1227896625)
+                    d:clear_and_destroy()
+                end
             end)
         end
     end)

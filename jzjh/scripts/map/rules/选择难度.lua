@@ -44,16 +44,18 @@ function choose_difficulty()
             ["|cff1fbf00华山论剑"] = 4,
             ["|cFFFF0000决战江湖"] = 5,
         }
-        for k, v in pairs(button_map) do
-            et.event_register(d.buttons[k], '对话框-按钮点击')(function(self, dg, pl)
-                d:clear_and_destroy()
-                force.send_message("|cff00FFFF主机选择了难度" .. k)
-                set_difficulty_and_exp_rate(v)
-                if v == 5 then
-                    force.send_message("|cff00FFFF该模式下进攻怪具有|cFFFF0000抽血术")
+        et.game:event '对话框-按钮点击'(function(self, b, dg, pl)
+            for k, v in pairs(button_map) do
+                if b == d.buttons[k] then
+                    d:clear_and_destroy()
+                    force.send_message("|cff00FFFF主机选择了难度" .. k)
+                    set_difficulty_and_exp_rate(v)
+                    if v == 5 then
+                        force.send_message("|cff00FFFF该模式下进攻怪具有|cFFFF0000抽血术")
+                    end
                 end
-            end)
-        end
+            end
+        end)
     end
 end
 

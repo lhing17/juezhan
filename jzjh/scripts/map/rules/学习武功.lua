@@ -136,18 +136,19 @@ local function init()
                 local grad2 = h['门派']['毕业2']
                 local dn = h['门派'].name
                 local d = et.dialog.create(p, "请选择你要修习的内功", { jass.GetObjectName(grad1), jass.GetObjectName(grad2) })
-                et.event_register(d.buttons[jass.GetObjectName(grad1)], '对话框-按钮点击')(function(self, dg, pl)
-                    become_elder(u, d, dn, grad1)
-                end)
-                et.event_register(d.buttons[jass.GetObjectName(grad2)], '对话框-按钮点击')(function(self, dg, pl)
-                    if grad2 == 1093678935 then
-                        if u:has_ability(1093678935) then
-                            u:set_ability_level(u:get_ability_level(grad2) + 2)
-                        else
-                            u:add_ability(grad2, 2)
+                et.game:event '对话框-按钮点击' (function(self, b, dg, pl)
+                    if b == d.buttons[jass.GetObjectName(grad1)] then
+                        become_elder(u, d, dn, grad1)
+                    elseif b == d.buttons[jass.GetObjectName(grad2)] then
+                        if grad2 == 1093678935 then
+                            if u:has_ability(1093678935) then
+                                u:set_ability_level(u:get_ability_level(grad2) + 2)
+                            else
+                                u:add_ability(grad2, 2)
+                            end
                         end
+                        become_elder(u, d, dn, grad2)
                     end
-                    become_elder(u, d, dn, grad2)
                 end)
             end
         end

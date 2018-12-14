@@ -12,30 +12,39 @@
 
 --------学习武功系统结束------
 local function meet_conditions(h, kf)
-    return h['胆魄'] >= kf.conditions['胆魄']
-            and h['福缘'] >= kf.conditions['福缘']
-            and h['根骨'] >= kf.conditions['根骨']
-            and h['经脉'] >= kf.conditions['经脉']
-            and h['悟性'] >= kf.conditions['悟性']
-            and h['医术'] >= kf.conditions['医术']
+    return h['胆魄'] >= kf.courage
+            and h['福缘'] >= kf.luck
+            and h['根骨'] >= kf.constitution
+            and h['经脉'] >= kf.channel
+            and h['悟性'] >= kf.perception
+            and h['医术'] >= kf.healing_skill
 end
 
+--- @param u unit
+--- @param kf table
 local function already_learned(u, kf)
     u:get_owner():send_message("|CFFFF0033你已经拥有此武功了")
-    u:add_item(kf.itemid)
+    u:add_item(kf.item_id)
 end
 
 -- 学习百胜神拳
 local function learn_bai_sheng(hu, kf)
     local p = hu:get_owner()
-    hu:add_ability(kf.abilityid)
-    force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "习得" .. jass.GetObjectName(kf.abilityid) or '')
+    hu:add_ability(kf.ability_id)
+    force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "习得" .. jass.GetObjectName(kf.ability_id) or '')
     p:add_tech(1382576745)
 end
 
 local function show_one_hint(h, kf, attr)
-    if h[attr] < kf.conditions[attr] then
-        h:get_owner():send_message("|CFFFF0033" .. attr .. "缺少：" .. kf.conditions[attr] - h[attr])
+    local conditions = {}
+    conditions['福缘'] = kf.luck
+    conditions['根骨'] = kf.constitution
+    conditions['经脉'] = kf.channel
+    conditions['悟性'] = kf.perception
+    conditions['医术'] = kf.healing_skill
+    conditions['胆魄'] = kf.courage
+    if h[attr] < conditions[attr] then
+        h:get_owner():send_message("|CFFFF0033" .. attr .. "缺少：" .. conditions[attr] - h[attr])
     end
 end
 
@@ -70,33 +79,32 @@ local function init()
     et.game:event '单位-使用物品'(function(self, u, item)
         --学习武功
         if et.lni.kungfu[item:get_id()] and u:get_owner().hero then
-            LearnJiNeng(u.handle, item)
             local kf = et.lni.kungfu[item:get_id()]
             local p = u:get_owner()
             local h = p.hero
             local hu = h.handle
-            if u:has_ability(kf.abilityid) then
+            if u:has_ability(kf.ability_id) then
                 already_learned(u, kf)
             elseif meet_conditions(h, kf) then
-                if kf.abilityid == 1093677905 then
+                if kf.ability_id == 1093677905 then
                     learn_bai_sheng(hu, hf)
                 else
                     if h:get_kongfu_num() > h.kongfu_limit then
                         p:send_message("|CFFFF0033学习技能已达上限，请先遗忘部分技能")
-                        u:add_item(kf.itemid)
+                        u:add_item(kf.item_id)
                     else
-                        hu:add_ability(kf.abilityid)
-                        h['武功'][kf.abilityid] = et.kungfu.create(kf.abilityid)
-                        if h['遗忘武功'][kf.abilityid] then
-                            h['武功'][kf.abilityid]['经验'] = h['遗忘武功'][kf.abilityid]['经验']
-                            h['武功'][kf.abilityid]['重数'] = h['遗忘武功'][kf.abilityid]['重数']
-                            h['遗忘武功'][kf.abilityid] = nil
-                            force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "想起" .. jass.GetObjectName(kf.abilityid) or '')
+                        hu:add_ability(kf.ability_id)
+                        h['武功'][kf.ability_id] = et.kungfu.create(kf.ability_id)
+                        if h['遗忘武功'][kf.ability_id] then
+                            h['武功'][kf.ability_id]['经验'] = h['遗忘武功'][kf.ability_id]['经验']
+                            h['武功'][kf.ability_id]['重数'] = h['遗忘武功'][kf.ability_id]['重数']
+                            h['遗忘武功'][kf.ability_id] = nil
+                            force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "想起" .. jass.GetObjectName(kf.ability_id) or '')
                         else
-                            force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "习得" .. jass.GetObjectName(kf.abilityid) or '')
+                            force.send_message("|CFFFF0033恭喜" .. p:get_name() .. "习得" .. jass.GetObjectName(kf.ability_id) or '')
                         end
-                        if et.lni.internal[kf.abilityid] then
-                            local itl = et.lni.internal[kf.abilityid]
+                        if et.lni.internal[kf.ability_id] then
+                            local itl = et.lni.internal[kf.ability_id]
                             h['伤害加成'] = h['伤害加成'] + itl['伤害加成']
                             jass.SetHeroAgi(hu, jass.GetHeroAgi(hu) + itl['内力'])
                             h['暴击率'] = h['暴击率'] + itl['暴击率']
@@ -106,8 +114,7 @@ local function init()
                     end
                 end
             else
-
-                u:add_item(kf.itemid)
+                u:add_item(kf.item_id)
                 show_fail_hint(h, kf)
             end
         end

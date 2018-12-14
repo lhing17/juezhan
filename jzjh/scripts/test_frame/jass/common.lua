@@ -1421,6 +1421,8 @@ end
 --native          GetUnitPointValueByType takes integer unitType returns integer
 
 --native          UnitAddItem             takes unit whichUnit, item whichItem returns boolean
+--- @param u j_unit
+--- @param it j_item
 function jass.UnitAddItem(u, it)
     u:add_item(it)
 end
@@ -3136,7 +3138,6 @@ end
 --- @param it j_item
 --- @return string
 function jass.GetItemType(it)
-    print(it)
     return it:get_type()
 end
 

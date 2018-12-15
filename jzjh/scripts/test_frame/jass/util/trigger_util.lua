@@ -197,16 +197,18 @@ function trigger_util.trig_player_unit_event(p, pue, u, tab)
                         trigger.spell_ability_unit = u
                         trigger.spell_ability_id = tab.spell_ability_id
                         trigger.spell_ability = tab.spell_ability
-                        trigger.spell_target_loc = tab.spell_target_loc
-                        trigger.spell_target_x = tab.spell_target_loc:get_x()
-                        trigger.spell_target_y = tab.spell_target_loc:get_y()
-                        if tab.spell_target.type == 'unit' then
+                        trigger.spell_target_loc = tab.spell_target_loc or nil
+                        if trigger.spell_target_loc then
+                            trigger.spell_target_x = tab.spell_target_loc:get_x()
+                            trigger.spell_target_y = tab.spell_target_loc:get_y()
+                        end
+                        if tab.spell_target and tab.spell_target.type == 'unit' then
                             trigger.spell_target_unit = tab.spell_target
                         end
-                        if tab.spell_target.type == 'item' then
+                        if tab.spell_target and tab.spell_target.type == 'item' then
                             trigger.spell_target_item = tab.spell_target
                         end
-                        if tab.spell_target.type == 'destructable' then
+                        if tab.spell_target and tab.spell_target.type == 'destructable' then
                             trigger.spell_target_destructable = tab.spell_target
                         end
                     end

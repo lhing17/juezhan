@@ -50,9 +50,27 @@ function playerunitevent.init()
         'EVENT_PLAYER_UNIT_USE_ITEM',
         'EVENT_PLAYER_UNIT_LOADED',
     }
+    local playerunitevent_names_new = {
+        'EVENT_PLAYER_UNIT_SELL',
+        'EVENT_PLAYER_UNIT_CHANGE_OWNER',
+        'EVENT_PLAYER_UNIT_SELL_ITEM',
+        'EVENT_PLAYER_UNIT_SPELL_CHANNEL',
+        'EVENT_PLAYER_UNIT_SPELL_CAST',
+        'EVENT_PLAYER_UNIT_SPELL_EFFECT',
+        'EVENT_PLAYER_UNIT_SPELL_FINISH',
+        'EVENT_PLAYER_UNIT_SPELL_ENDCAST',
+        'EVENT_PLAYER_UNIT_PAWN_ITEM',
+    }
     for i = 18, #playerunitevent_names + 17 do
         local pl = {}
         pl.name = playerunitevent_names[i - 17]
+        pl.handle_id = common_util.generate_handle_id()
+        setmetatable(pl, playerunitevent)
+        playerunitevent[i] = pl
+    end
+    for i = 269, #playerunitevent_names_new + 268 do
+        local pl = {}
+        pl.name = playerunitevent_names_new[i - 268]
         pl.handle_id = common_util.generate_handle_id()
         setmetatable(pl, playerunitevent)
         playerunitevent[i] = pl

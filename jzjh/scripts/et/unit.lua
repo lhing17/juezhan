@@ -1381,6 +1381,9 @@ end
 --- @param item item|string|number
 --- @return item
 function mt:add_item(item)
+    if not item then
+        return
+    end
     local it = item
     if type(item) == 'string' then
         item = base.string2id(item)
@@ -1559,7 +1562,7 @@ function unit.register_jass_triggers()
     j_trg = war3.CreateTrigger(function()
         local u = unit(jass.GetTriggerUnit())
         local id = jass.GetSpellAbilityId()
-        local target = jass.GetSpellTargetUnit() or jass.GetSpellTargetItem() or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
+        local target = et.unit(jass.GetSpellTargetUnit()) or et.item:get(jass.GetSpellTargetItem()) or et.point(jass.GetSpellTargetX(), jass.GetSpellTargetY())
         u:event_notify('单位-技能生效', u, id, target)
     end)
 

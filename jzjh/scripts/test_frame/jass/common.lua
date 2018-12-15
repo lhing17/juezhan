@@ -1451,6 +1451,13 @@ end
 --native          UnitDropItemPoint       takes unit whichUnit, item whichItem, real x, real y returns boolean
 --native          UnitDropItemSlot        takes unit whichUnit, item whichItem, integer slot returns boolean
 --native          UnitDropItemTarget      takes unit whichUnit, item whichItem, widget target returns boolean
+--- @param u j_unit
+--- @param it j_item
+--- @param target j_unit|j_item
+function jass.UnitDropItemTarget(u, it, target)
+    log.info('单位'..tostring(u)..'向目标'..tostring(target)..'丢下了物品'..tostring(it))
+end
+
 --native          UnitUseItem             takes unit whichUnit, item whichItem returns boolean
 --native          UnitUseItemPoint        takes unit whichUnit, item whichItem, real x, real y returns boolean
 --native          UnitUseItemTarget       takes unit whichUnit, item whichItem, widget target returns boolean
@@ -2377,6 +2384,9 @@ end
 --// This function is asynchronous. The values it returns are not guaranteed synchronous between each player.
 --//  If you attempt to use it in a synchronous manner, it may cause a desync.
 --native GetLocationZ             takes location whichLocation returns real
+function jass.GetLocationZ(location)
+    return 0
+end
 --native IsUnitInRegion               takes region whichRegion, unit whichUnit returns boolean
 --native IsPointInRegion              takes region whichRegion, real x, real y returns boolean
 --native IsLocationInRegion           takes region whichRegion, location whichLocation returns boolean

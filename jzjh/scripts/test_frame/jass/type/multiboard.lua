@@ -9,6 +9,7 @@ local multiboarditem = require 'jass.type.multiboarditem'
 local multiboard = {}
 multiboard.all_multiboards = {}
 
+--- @class j_multiboard
 local mt = {}
 multiboard.__index = mt
 mt.type = 'multiboard'

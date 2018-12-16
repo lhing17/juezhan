@@ -31,11 +31,24 @@ mt.id = 0
 --- @type hero
 mt.hero = nil
 
+--- 玩家最大伤害
+mt.max_damage = 0
+
 -- 获取玩家id
 function mt:get()
     return self.id
 end
 
+--- @return number
+function mt:get_max_damage()
+    return self.max_damage
+end
+
+--- 设置玩家的最大伤害
+--- @param damage number
+function mt:set_max_damage(damage)
+    self.max_damage = damage
+end
 
 --注册事件
 function mt:event(name)

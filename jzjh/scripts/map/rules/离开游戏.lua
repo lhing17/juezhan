@@ -15,7 +15,7 @@ local function init()
             v:remove()
         end
         yv(bj_lastCreatedMultiboard, 4, 1 + GetPlayerId(GetTriggerPlayer()) + 2, 100.0, 20.0, 100.0, 0)
-        DuoMianBan(bj_lastCreatedMultiboard, 5, (1 + GetPlayerId(p.handle)) * 4 - 2, "离开")
+        update_multiboard_item_value(bj_lastCreatedMultiboard, 5, (1 + GetPlayerId(p.handle)) * 4 - 2, "离开")
     end)
 end
 

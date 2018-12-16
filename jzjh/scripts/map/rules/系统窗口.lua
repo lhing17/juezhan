@@ -5,33 +5,19 @@
 ---
 udg_MaxDamage = {0, 0, 0, 0, 0}
 
-function DuoMianBan(mb, zv, Av, Iv)
-    local cv = 0
-    local Dv = 0
-    local Ev = MultiboardGetRowCount(mb)
-    local Fv = MultiboardGetColumnCount(mb)
-    local Gv = nil
-    for _ in _loop_() do
-        cv = cv + 1
-        if cv > Ev then
-            break
-        end
-        if Av == 0 or Av == cv then
-            Dv = 0
-            for _ in _loop_() do
-                Dv = Dv + 1
-                if Dv > Fv then
-                    break
-                end
-                if zv == 0 or zv == Dv then
-                    Gv = MultiboardGetItem(mb, cv - 1, Dv - 1)
-                    MultiboardSetItemValue(Gv, Iv)
-                    MultiboardReleaseItem(Gv)
-                end
-            end
-        end
+--- @param mb j_multiboard
+--- @param column number
+--- @param row number
+--- @param value string
+function update_multiboard_item_value(mb, column, row, value)
+    local row_count = jass.MultiboardGetRowCount(mb)
+    local column_count = jass.MultiboardGetColumnCount(mb)
+    if row > row_count or column > column_count then
+        return
     end
-    Gv = nil
+    board_item = jass.MultiboardGetItem(mb, row - 1, column - 1)
+    jass.MultiboardSetItemValue(board_item, value)
+    jass.MultiboardReleaseItem(board_item)
 end
 
 
@@ -75,143 +61,140 @@ local function init()
         for i = 1, 5 do
             local s = get_num_string(udg_MaxDamage[i])
             MultiboardSetTitleText(bj_lastCreatedMultiboard, "|cFFFFCC33萌萌哒系统窗口")
-            DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
-            DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
+            update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
+            update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
+            update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
+            update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
             if Ce[i] == 1 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
             elseif Ce[i] == 2 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
             elseif Ce[i] == 3 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
             elseif Ce[i] == 4 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
             elseif Ce[i] == 5 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
             elseif Ce[i] == 6 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
             elseif Ce[i] == 7 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
             elseif Ce[i] == 8 then
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
             else
-                DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
             end
             if I7[20 * (i - 1) + 1] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
             end
             if I7[20 * (i - 1) + 2] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
             end
             if I7[20 * (i - 1) + 3] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
             end
             if I7[20 * (i - 1) + 4] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
             end
             if I7[20 * (i - 1) + 5] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
             end
             if I7[20 * (i - 1) + 6] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
             end
             if I7[20 * (i - 1) + 7] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
             end
             if I7[20 * (i - 1) + 8] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
             end
             if I7[20 * (i - 1) + 9] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
             end
             if I7[20 * (i - 1) + 10] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
             end
             if I7[20 * (i - 1) + 11] ~= 1095067243 then
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
             end
         end
         MultiboardDisplay(bj_lastCreatedMultiboard, true)
 
         -- 刷新系统窗口信息
 
-        et.loop(4, function()
+        et.loop(4 * 1000, function()
             for i = 1, 5 do
                 local s = get_num_string(udg_MaxDamage[i])
                 MultiboardSetTitleText(bj_lastCreatedMultiboard, "|cFFFFCC33萌萌哒系统窗口")
-                DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
-                DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
-                DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
-                DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 3, "|c00FF0080" .. (GetPlayerName(Player(i - 1)) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 3, "|c0000FF00" .. "等级：" .. (I2S(GetUnitLevel(udg_hero[i])) or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 3, "|cFF00CCFF" .. (udg_menpainame[udg_runamen[i]] or ""))
+                update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 3, "|cFFFF6600" .. "最高伤害：" .. (s or ""))
                 if Ce[i] == 1 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99炼丹师")
                 elseif Ce[i] == 2 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99锻造师")
                 elseif Ce[i] == 3 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99兵器师")
                 elseif Ce[i] == 4 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99鉴定师")
                 elseif Ce[i] == 5 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99练气师")
                 elseif Ce[i] == 6 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99寻宝师")
                 elseif Ce[i] == 7 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99丫鬟")
                 elseif Ce[i] == 8 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99精武师")
                 else
-                    DuoMianBan(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 5, 4 * i - 3, "|c00FFEE99未选择")
                 end
                 if I7[20 * (i - 1) + 1] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 1]) or ""))
                 end
                 if I7[20 * (i - 1) + 2] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 2]) or ""))
                 end
                 if I7[20 * (i - 1) + 3] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 3]) or ""))
                 end
                 if I7[20 * (i - 1) + 4] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 2, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 4]) or ""))
                 end
                 if I7[20 * (i - 1) + 5] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 5]) or ""))
                 end
                 if I7[20 * (i - 1) + 6] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 6]) or ""))
                 end
                 if I7[20 * (i - 1) + 7] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 7]) or ""))
                 end
                 if I7[20 * (i - 1) + 8] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 4, 4 * i - 1, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 8]) or ""))
                 end
                 if I7[20 * (i - 1) + 9] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 1, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 9]) or ""))
                 end
                 if I7[20 * (i - 1) + 10] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 2, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 10]) or ""))
                 end
                 if I7[20 * (i - 1) + 11] ~= 1095067243 then
-                    DuoMianBan(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
+                    update_multiboard_item_value(bj_lastCreatedMultiboard, 3, 4 * i, "|c0000FF00" .. (GetObjectName(I7[20 * (i - 1) + 11]) or ""))
                 end
             end
         end)
     end)
 
-
-    --最大伤害
-    function wy()
-        return GetPlayerController(GetOwningPlayer(GetTriggerUnit())) ~= MAP_CONTROL_USER and GetEventDamage() > udg_MaxDamage[1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))]
-    end
-    function SetMaxDamage()
-        udg_MaxDamage[1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))] = GetEventDamage()
-    end
-    -- 计算玩家最大伤害
-    ni = CreateTrigger()
-    YDWESyStemAnyUnitDamagedRegistTrigger(ni)
-    TriggerAddCondition(ni, Condition(wy))
-    TriggerAddAction(ni, SetMaxDamage)
+    --- 计算玩家最大伤害
+    --- @param source unit
+    --- @param target unit
+    --- @param damage number
+    et.game:event '单位-受到伤害' (function(self, source, target, damage)
+        if target:get_owner():is_player() or damage < source:get_owner():get_max_damage() then
+            return
+        end
+        source:get_owner():set_max_damage(damage)
+    end)
 end
 --init()

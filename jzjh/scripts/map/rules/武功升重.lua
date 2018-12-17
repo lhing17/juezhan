@@ -1,3 +1,9 @@
+function kungfu_levelup(u, ability_id, speed)
+
+end
+
+
+
 function QiJueCoefficient(u)
 	if UnitHaveItem(u, 1227895114) then
 		return 1

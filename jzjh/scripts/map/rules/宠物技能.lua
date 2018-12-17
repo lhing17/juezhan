@@ -8,6 +8,9 @@ local inventory_list_one = {Us, Zs, Ys, Xs, Ws}
 local inventory_list_two = {ft, gt, ht, jt, kt}
 
 local function init()
+    --- @param u unit
+    --- @param id number
+    --- @param target unit|point|nil
     et.game:event '单位-施放技能' (function(self, u, id, target)
         -- 切换背包
         local p = u:get_owner()

@@ -16,9 +16,11 @@ local buffs = {
     { ability_id = 1093678900, order_id = 852527, name = "深度中毒" },
 }
 
+--- @type unit
+local mt_u = et.unit.__index
 --- @param dest unit
---- @param num (number or string)
-function et.unit.__index:apply_buff(dest, num)
+--- @param num number|string
+function mt_u:apply_buff(dest, num)
     -- 如果num是buff名，寻找相应的下标
     if type(num) == 'string' then
         for i, v in ipairs(buffs) do

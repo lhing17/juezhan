@@ -35,9 +35,9 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
             apply_damage(u, v, ability_damage, critical)
             if h['根骨'] >= 20 and not v:has_buff(1110454328) then
                 if u:has_ability(1093678672) then
-                    general_buff(u, v, 12)
+                    u:apply_buff(v, "穴位全封")
                 else
-                    general_buff(u, v, 11)
+                    u:apply_buff(v, "封穴")
                 end
             end
             -- 悟性超过20时50%概率斩杀低于20%血的怪物
@@ -46,7 +46,7 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
                 et.tag.create("斩杀", v:get_point(), 16, 60, 65, 55, 42, 0, 3)
             end
             if u:has_ability(1093678930) and u:has_ability(1093678928) and not v:has_buff(1113813619) then
-                general_buff(u, v, 10)
+                u:apply_buff(v, "神经错乱")
             end
         end
     end

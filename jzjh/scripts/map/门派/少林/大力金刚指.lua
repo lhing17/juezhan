@@ -46,7 +46,7 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
                 et.tag.create("斩杀", v:get_point(), 16, 60, 65, 55, 42, 0, 3)
             end
             if u:has_ability(1093678930) and u:has_ability(1093678928) and not v:has_buff(1113813619) then
-                general_buff(u, uc, 10)
+                general_buff(u, v, 10)
             end
         end
     end

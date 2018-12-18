@@ -311,7 +311,7 @@ local function init()
                     if b == d.buttons[jass.GetObjectName(v.ability_id)] then
                         d:clear_and_destroy()
                         local h = u:get_owner().hero
-                        if h:get_kongfu_num() >= h.kongfu_limit then
+                        if h:get_kongfu_num() >= h.kungfu_limit then
                             p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
                             u:add_item(1227896625)
                         else

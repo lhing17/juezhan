@@ -85,7 +85,7 @@ mt.activated = nil
 mt.wuhun = nil
 
 -- 最大武功数
-mt.kongfu_limit = 11
+mt.kungfu_limit = 11
 
 mt.practice = 0 -- 修行/历练
 
@@ -116,6 +116,9 @@ mt.task_kill_counter = {}
 
 --- @type bag 已经完成的任务
 mt.done_tasks = {}
+
+--- @type set 技能的特效
+mt.effects = nil
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
@@ -307,6 +310,13 @@ function mt:add_kongfu(ability_id)
         u:add_ability(ability_id)
     end
     self['武功'][ability_id] = et.kungfu.create(ability_id)
+end
+
+--- 英雄单位杀死某单位
+--- @param u unit 被杀死的单位
+function mt:kill_unit(u)
+    u:set_life(1)
+    jass.UnitDamageTarget(h.handle, u.handle, 1000000, true, false, jass.ATTACK_TYPE_MAGIC, jass.DAMAGE_TYPE_NORMAL, jass.WEAPON_TYPE_WHOKNOWS)
 end
 
 --- @param growable item 养武
@@ -505,8 +515,11 @@ function hero.create(jUnit, pick)
     --- 已经完成的任务
     h.done_tasks = bag:new()
 
-    -- 套装
+    --- 套装
     h.suits = set:new()
+
+    --- 技能的特效
+    h.effects = set:new()
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

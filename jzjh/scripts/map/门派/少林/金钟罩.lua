@@ -5,6 +5,17 @@
 ---
 
 --金钟罩
+--- @param u unit
+--- @param id number
+--- @param target nil
+et.game:event '单位-技能生效' (function(self, u, id, target)
+    if id == 1093678415 and u:is_hero() then
+        local p = u:get_owner()
+        local h = p.hero
+
+    end
+end)
+
 function Cc()
     return GetSpellAbilityId() == 1093678415 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
 end

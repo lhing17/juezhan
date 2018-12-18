@@ -71,7 +71,6 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
             lifetime = 6
         }
     end
-    WuGongShengChong(u, 1093677104, 150.0)
 end)
 
 

@@ -21,7 +21,6 @@ local function init()
     require 'map.rules.新手礼包'
     require 'map.rules.杀怪'
     require 'map.rules.查看属性'
-    require 'map.rules.武功升重'
     require 'map.rules.武功效果'
     require 'map.rules.武学精要'
     require 'map.rules.游戏胜负'

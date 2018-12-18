@@ -18,9 +18,9 @@ function tag.create(text, point, size, zOffset, r, g, b, transparency, time, spe
         jass.SetTextTagPermanent(last, false)
         jass.SetTextTagLifespan(last, time)
         jass.SetTextTagFadepoint(last, time)
-        local vel = speed * 0.071 / 128
-        local xvel = vel * math.cos(math.rad(angle))
-        local yvel = vel * math.sin(math.rad(angle))
+        local vel = speed or 0 * 0.071 / 128
+        local xvel = vel * math.cos(math.rad(angle or 0))
+        local yvel = vel * math.sin(math.rad(angle or 0))
         jass.SetTextTagVelocity(last, xvel, yvel)
     end
 

@@ -89,12 +89,11 @@ local function init()
                 if kf.ability_id == 1093677905 then
                     learn_bai_sheng(hu, hf)
                 else
-                    if h:get_kongfu_num() > h.kongfu_limit then
+                    if h:get_kongfu_num() > h.kungfu_limit then
                         p:send_message("|CFFFF0033学习技能已达上限，请先遗忘部分技能")
                         u:add_item(kf.item_id)
                     else
-                        hu:add_ability(kf.ability_id)
-                        h['武功'][kf.ability_id] = et.kungfu.create(kf.ability_id)
+                        h:add_kongfu(kf.ability_id)
                         if h['遗忘武功'][kf.ability_id] then
                             h['武功'][kf.ability_id]['经验'] = h['遗忘武功'][kf.ability_id]['经验']
                             h['武功'][kf.ability_id]['重数'] = h['遗忘武功'][kf.ability_id]['重数']
@@ -133,7 +132,7 @@ local function init()
                 p:send_message("|CFF34FF00你已经修行过了")
             elseif u:get_ability_level(h['门派']['15级技']) < 2 then
                 p:send_message("你的" .. jass.GetObjectName(h['门派']['15级技']) .. "|r还没修炼到位")
-            elseif h:get_kongfu_num() >= h.kongfu_limit then
+            elseif h:get_kongfu_num() >= h.kungfu_limit then
                 p:send_message("|CFF34FF00学习技能已达上限，请先遗忘部分技能")
             elseif h['门派'].name == '自由门派' then
                 p:send_message("自由门派没有内功")

@@ -30,7 +30,6 @@ et.game:event '单位-受攻击'(function(self, source, target)
             if source:has_ability(1093678933) and commonutil.random(0, 100) <= 15 then
                 source:get_owner():dummy_use_ability(1697656880, source:get_point(), 1093681496, 852101, source, 3)
             end
-            WuGongShengChong(source, 1093678407, 1200.0)
         end
     end
 end)

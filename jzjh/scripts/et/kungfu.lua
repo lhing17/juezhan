@@ -36,26 +36,25 @@ function kungfu.create(ability_id)
 end
 
 function mt:level_up()
-    hero = self.hero
-    w1 = math.random(0, self['升重经验'] /60) + 5 + hero['悟性']
-    w2 = 3 + hero.char_a
-    w3 = 5
+    local hero = self.hero
+    local w1 = math.random(0, self['升重经验'] / 60) + 5 + hero['悟性']
+    local w2 = 3 + hero.char_a
+    local w3 = 5
+    self.hint = self['经验'] .. '/' .. self['升重经验'] * self['重数']
     self['经验'] = self['经验'] + math.floor(w1 * w2 * w3)
     if self['经验'] > self['升重经验'] * self['重数'] then
         self['重数'] = self['重数'] + 1
         self['经验'] = 0
-        self.hint = self['经验'] .. '/' .. self['升重经验'] * self['重数']
-        DisplayTextToForce(bj_FORCE_ALL_PLAYERS, "|cff66ff00恭喜玩家" .. hero:get_owner().id .. "领悟了武功：" .. (GetObjectName(id) or "") .. "第" .. self['重数'] .. "重")
+        force.send_message("|cff66ff00恭喜玩家" .. hero:get_owner().id .. "领悟了武功：" .. (jass.GetObjectName(id) or "") .. "第" .. self['重数'] .. "重")
     end
 
 end
 
-
-et.game:event '单位-杀死单位' (function(trg, killer, killed)
+et.game:event '单位-杀死单位'(function(trg, killer, killed)
     local p = killer:get_owner()
     local hero = p.hero
     if hero and hero['武功'] then
-        for kf in hero['武功'] do
+        for _, kf in hero['武功'] do
             if kf['升重方式'] == '杀怪' then
                 kf:level_up()
             end

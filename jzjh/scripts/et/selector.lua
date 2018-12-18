@@ -103,6 +103,8 @@ end
 
 --是敌人
 --	参考单位/玩家
+--- @param u unit
+--- @return selector
 function api:is_enemy(u)
     return self:add_filter(function(dest)
         return dest:is_enemy(u)

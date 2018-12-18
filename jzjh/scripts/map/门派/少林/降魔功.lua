@@ -4,111 +4,76 @@
 --- DateTime: 2018/12/17 14:07
 ---
 
---降魔功
-function lc()
-    return GetUnitAbilityLevel(GetKillingUnit(), 1395666992) ~= 0
-end
-function Jc()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetKillingUnit()))
-    if jingmai[i] >= 25 then
-        F7[i] = F7[i] + 1
-        if F7[i] >= 10 then
-            F7[i] = F7[i] - 10
-            ModifyHeroStat(1, GetKillingUnit(), 0, 1)
+--- 降魔功
+--- @param killer unit
+--- @param killed unit
+et.game:event '单位-死亡'(function(self, killer, killed)
+    if killer:has_ability(1395666992) then
+        local p = killer:get_owner()
+        local h = p.hero
+        h.xiang_mo_value = h.xiang_mo_value or 0 + 1
+        if h.xiang_mo_value >= 10 then
+            h.xiang_mo_value = h.xiang_mo_value - 10
+            killer:set_agi(killer:get_agi() + 1)
         end
     end
-end
-function Lc()
-    return GetUnitAbilityLevel(GetTriggerUnit(), 1395666992) ~= 0
-end
-function Mc()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local loc = GetUnitLoc(u)
-    if GetUnitAbilityLevel(GetTriggerUnit(), 1093678936) ~= 0 then
-        G7[i] = G7[i] + 1
-        if G7[i] >= 10 then
-            G7[i] = G7[i] - 10
-            H7 = 1
-            for _ in _loop_() do
-                if H7 > 18 then break end
-                CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(GetTriggerUnit()), loc, bj_UNIT_FACING)
-                UnitAddAbility(bj_lastCreatedUnit, 1093678416)
-                IssuePointOrderByIdLoc(bj_lastCreatedUnit, 852218, pu(loc, 256, 20.0 * I2R(H7)))
-                ShowUnitHide(bj_lastCreatedUnit)
-                UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-                RemoveLocation(pu(loc, 256, 20.0 * I2R(H7)))
-                H7 = H7 + 1
+end)
+
+--- @param source unit
+--- @param target unit
+et.game:event '单位-受攻击'(function(self, source, target)
+    if target:has_ability(1395666992) then
+        local p = target:get_owner()
+        local h = p.hero
+        --- +神照经
+        if target:has_ability(1093678936) then
+            h.xiang_mo_value2 = h.xiang_mo_value2 or 0 + 1
+            if h.xiang_mo_value2 >= 10 then
+                h.xiang_mo_value2 = h.xiang_mo_value2 - 10
+                for i = 1, 18 do
+                    dummy_issue_order {
+                        target = target:get_point() - { 20 * i, 256 },
+                        player = target:get_owner(),
+                        ability_id = 1093678416,
+                        order_id = 852218,
+                        lifetime = 2
+                    }
+                end
             end
-            RemoveLocation(loc)
         end
     end
-    if GetRandomReal(1, 100) <= 15 + fuyuan[i] // 5 then
-        WuGongShengChong(GetTriggerUnit(), 1395666992, 6000.0)
-    end
-    u = nil
-    p = nil
-    loc = nil
-end
-function Oc()
-    return GetUnitAbilityLevel(GetAttacker(), 1395666992) ~= 0
-end
-function Pc()
-    local u = GetAttacker()
-    local l__ut = GetTriggerUnit()
-    local loc = nil
-    if GetRandomInt(1, 100) <= 2 and GetUnitAbilityLevel(u, 1093678931) ~= 0 and GetUnitAbilityLevel(u, 1093682254) ~= 0 then
-        loc = GetUnitLoc(l__ut)
-        CreateNUnitsAtLoc(1, 1852862002, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-        UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 180.0)
-        RemoveLocation(loc)
-    end
-    if GetUnitAbilityLevel(u, 1395666994) ~= 0 then
-        if GetUnitState(l__ut, UNIT_STATE_LIFE) <= 0.01 * GetUnitState(l__ut, UNIT_STATE_MAX_LIFE) then
-            SetWidgetLife(l__ut, 1.0)
-        else
-            SetWidgetLife(l__ut, GetUnitState(l__ut, UNIT_STATE_LIFE) - 0.01 * GetUnitState(l__ut, UNIT_STATE_MAX_LIFE))
+    if source:has_ability(1395666992) then
+        local p = source:get_owner()
+        local h = p.hero
+        if source:has_ability(1093678931) and source:has_ability(1093682254) and commonutil.random(0, 100) <= 2 then
+            local last = p:create_unit(1852862002, source:get_point())
+            last:set_lifetime(180)
+        end
+        if source:has_ability(1395666994) then
+            if target:get_life() <= 0.01 * target:get_max_life() then
+                target:set_life(1)
+            else
+                target:set_life(target:get_life() - target:get_max_life() * 0.01)
+            end
         end
     end
-    u = nil
-    l__ut = nil
-    loc = nil
-end
-function Rc()
-    return GetEventDamage() == 0.18
-end
-function Sc()
-    local u = udg_hero[1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))]
-    local uc = GetTriggerUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    if UnitHaveItem(u, 1227899212) then
-        shxishu = shxishu * 8
+end)
+
+--- @param source unit
+--- @param target unit
+--- @param damage number
+et.game:event '单位-受到伤害' (function(self, source, target, damage)
+    if damage ~= 0.18 then
+         return
     end
-    shanghai = ShangHaiGongShi(u, uc, 50, 50, shxishu, 1395666992)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
-
-
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-TriggerAddCondition(t, Condition(lc))
-TriggerAddAction(t, Jc)
-
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(Lc))
-TriggerAddAction(t, Mc)
-
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(Oc))
-TriggerAddAction(t, Pc)
-
---t = CreateTrigger()
---YDWESyStemAnyUnitDamagedRegistTrigger(t)
---TriggerAddCondition(t, Condition(Rc))
---TriggerAddAction(t, Sc)
+    local coeff = 1 * (source:has_item(1227899212) and 3 or 1)
+    local ability_damage, critical = damage_formula {
+        source = source,
+        target = target,
+        magic_coeff = 1,
+        physic_coeff = 1,
+        ability_coeff = 50 * coeff,
+        level = source:get_ability_level(1395666992)
+    }
+    apply_damage(source, target, ability_damage, critical)
+end)

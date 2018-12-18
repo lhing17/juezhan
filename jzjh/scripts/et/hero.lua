@@ -117,7 +117,7 @@ mt.task_kill_counter = {}
 --- @type bag 已经完成的任务
 mt.done_tasks = {}
 
---- @type set 技能的特效
+--- @type table 技能的特效
 mt.effects = nil
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
@@ -519,7 +519,7 @@ function hero.create(jUnit, pick)
     h.suits = set:new()
 
     --- 技能的特效
-    h.effects = set:new()
+    h.effects = {}
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

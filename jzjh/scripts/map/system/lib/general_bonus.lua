@@ -116,6 +116,8 @@ function unit:add_max_state(type, value)
     return self:set_max_state(type, value + state)
 end
 
+--- 万能属性系统
+--- @param type string
 function unit:add_bonus(type, value)
     return self:set_bonus(type, self:get_bonus(type) + value)
 end

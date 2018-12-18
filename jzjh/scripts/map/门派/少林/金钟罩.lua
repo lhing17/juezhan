@@ -4,123 +4,83 @@
 --- DateTime: 2018/12/17 14:05
 ---
 
---金钟罩
+--- 金钟罩
 --- @param u unit
 --- @param id number
 --- @param target nil
-et.game:event '单位-技能生效' (function(self, u, id, target)
+et.game:event '单位-技能生效'(function(self, u, id, target)
     if id == 1093678415 and u:is_hero() then
         local p = u:get_owner()
         local h = p.hero
-
+        h.effects['金钟罩']:destroy()
+        u:remove_ability(1110454320)
+        h.jin_zhong_value = 5000 * h['医术'] * u:get_ability_level(1093678415)
+        h.jin_zhong_award = 70 * u:get_ability_level(1093678415)
+        u:add_bonus('armor', h.jin_zhong_award)
+        if h['根骨'] >= 20 then
+            h.jin_zhong_value = h.jin_zhong_value * 2
+        end
+        h.effects['金钟罩'] = et.effect.add_to_unit("chest", u, "war3mapImported\\DefensiveBarrierBig.mdx")
+        p:send_message("|cff00ccff金钟罩效果总值：" .. h.jin_zhong_value)
     end
 end)
 
-function Cc()
-    return GetSpellAbilityId() == 1093678415 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function cc()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    DestroyEffect(E7[i])
-    UnitRemoveAbility(u, 1110454320)
-    D7[i] = 5000.0 * I2R(yishu[i]) * I2R(GetUnitAbilityLevel(u, 1093678415))
-    ce[i] = 70 * GetUnitAbilityLevel(u, 1093678415)
-    YDWEGeneralBounsSystemUnitSetBonus(u, 2, 0, 70 * GetUnitAbilityLevel(u, 1093678415))
-    if gengu[i] >= 20 then
-        D7[i] = D7[i] * 2.0
-    end
-    AddSpecialEffectTargetUnitBJ("chest", u, "war3mapImported\\DefensiveBarrierBig.mdx")
-    DisplayTextToPlayer(GetOwningPlayer(u), 0, 0, "|cff00ccff金钟罩效果总值：" .. (I2S(R2I(D7[i])) or ""))
-    E7[i] = bj_lastCreatedEffect
-    WuGongShengChong(u, 1093678415, 100.0)
-    u = nil
-    p = nil
-end
-function Ec()
-    return UnitHasBuffBJ(GetTriggerUnit(), 1110454320)
-end
-function Fc()
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetTriggerUnit())) and IsUnitAliveBJ(GetFilterUnit())
-end
-function Gc()
-    local u = GetTriggerUnit()
-    local uc = GetEnumUnit()
-    local loc = GetUnitLoc(uc)
-    local shxishu = 1.0
-    local shanghai = 0.0
-    if UnitHaveItem(u, 1227899212) then
-        shxishu = shxishu * 8
-    end
-    AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Undead\\DarkRitual\\DarkRitualTarget.mdl")
-    DestroyEffect(bj_lastCreatedEffect)
-    RemoveLocation(loc)
-    shanghai = ShangHaiGongShi(u, uc, 400, 400, shxishu, 1093678415)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-    loc = nil
-end
-function Hc()
-    local u = GetTriggerUnit()
-    local uc = GetEventDamageSource()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local loc = GetUnitLoc(u)
-    local loc2 = GetUnitLoc(uc)
-    if UnitHaveItem(u, 1227899212) then
-        shxishu = shxishu * 8
-    end
-    if GetEventDamage() <= D7[i] then
-        D7[i] = D7[i] - GetEventDamage()
-        SetWidgetLife(u, GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) + GetEventDamage())
-        --+化功大法
-        if GetUnitAbilityLevel(u, 1093678928) ~= 0 then
-            AddSpecialEffectLocBJ(loc2, "Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl")
-            DestroyEffect(bj_lastCreatedEffect)
-            RemoveLocation(loc2)
-            shanghai = ShangHaiGongShi(u, uc, 20.0, 20.0, shxishu, 1093678415)
-            WuGongShangHai(u, uc, shanghai)
-        end
-    else
-        DestroyEffect(E7[i])
-        YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(), 2, 1, ce[i])
-        --+易筋经
-        if GetUnitAbilityLevel(u, 1093679428) ~= 0 then
-            ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(600.0, loc, Condition(Fc)), Gc)
-        end
-        --+小无相
-        if GetUnitAbilityLevel(u, 1093679155) ~= 0 and GetRandomReal(0, 100.0) >= 70.0 then
-            D7[i] = 2500.0 * I2R(yishu[i]) * I2R(GetUnitAbilityLevel(u, 1093678415))
-            ce[i] = 70 * GetUnitAbilityLevel(u, 1093678415)
-            YDWEGeneralBounsSystemUnitSetBonus(GetTriggerUnit(), 2, 0, 70 * GetUnitAbilityLevel(u, 1093678415))
-            if gengu[1 + GetPlayerId(GetOwningPlayer(u))] >= 20 then
-                D7[i] = D7[i] * 2.0
+--- @param source unit
+--- @param target unit
+--- @param damage number
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if target:has_buff(1110454320) then
+        local p = target:get_owner()
+        local h = p.hero
+        local coeff = u:has_item(1227899212) and 3 or 1
+        if damage < h.jin_zhong_value then
+            target:set_life(target:get_life() + damage)
+            h.jin_zhong_value = h.jin_zhong_value - damage
+            if target:has_ability(1093678928) then
+                et.effect.add_to_point("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", source:get_point()):destroy()
+                local ability_damage, critical = damage_formula {
+                    source = target,
+                    target = source,
+                    magic_coeff = 1,
+                    physic_coeff = 1,
+                    ability_coeff = 20 * coeff,
+                    level = target:get_ability_level(1093678415)
+                }
+                apply_damage(target, source, ability_damage, critical)
             end
-            AddSpecialEffectTargetUnitBJ("chest", GetTriggerUnit(), "war3mapImported\\DefensiveBarrierBig.mdx")
-            DisplayTextToPlayer(p, 0, 0, "|cff00ccff小无相重启金钟罩，效果总值：" .. (I2S(R2I(D7[i])) or ""))
-            E7[i] = bj_lastCreatedEffect
         else
-            UnitRemoveAbility(GetTriggerUnit(), 1110454320)
+            h.effects['金钟罩']:destroy()
+            target:add_bonus('armor', -h.jin_zhong_award)
+            --+易筋经
+            if target:has_ability(1093679428) then
+                local group = et.selector():in_range(target:get_point(), 600):is_enemy(target):get()
+                for _, v in pairs(group) do
+                    et.effect.add_to_point("Abilities\\Spells\\Undead\\DarkRitual\\DarkRitualTarget.mdl", target:get_point()):destroy()
+                    local ability_damage, critical = damage_formula {
+                        source = target,
+                        target = v,
+                        magic_coeff = 1,
+                        physic_coeff = 1,
+                        ability_coeff = 400 * coeff,
+                        level = target:get_ability_level(1093678415)
+                    }
+                    apply_damage(target, v, ability_damage, critical)
+                end
+            end
+            --+小无相
+            if target:has_ability(1093679155) and commonutil.random(0, 100) >= 70 then
+                h.jin_zhong_value = 2500 * h['医术'] * target:get_ability_level(1093678415)
+                h.jin_zhong_award = 70 * u:get_ability_level(1093678415)
+                target:add_bonus('armor', h.jin_zhong_award)
+                if h['根骨'] >= 20 then
+                    h.jin_zhong_value = h.jin_zhong_value * 2
+                end
+                h.effects['金钟罩'] = et.effect.add_to_unit("chest", u, "war3mapImported\\DefensiveBarrierBig.mdx")
+                p:send_message("|cff00ccff金钟罩效果总值：" .. h.jin_zhong_value)
+            else
+                u:remove_ability(1110454320)
+            end
         end
     end
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    p = nil
-    loc = nil
-    loc2 = nil
-end
+end)
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(Cc))
-TriggerAddAction(t, cc)
-
---t = CreateTrigger()
---YDWESyStemAnyUnitDamagedRegistTrigger(t)
---TriggerAddCondition(t, Condition(Ec))
---TriggerAddAction(t, Hc)

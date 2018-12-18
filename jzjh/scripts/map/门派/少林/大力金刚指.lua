@@ -30,9 +30,9 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
                 magic_coeff = 1,
                 physic_coeff = 1,
                 ability_coeff = 200 * coeff * (u:has_ability(1093678931) and 1.5 or 1),
-                level = source:get_ability_level(1093678411)
+                level = u:get_ability_level(1093678411)
             }
-            apply_damage(source, target, ability_damage, critical)
+            apply_damage(u, v, ability_damage, critical)
             if h['根骨'] >= 20 and not v:has_buff(1110454328) then
                 if u:has_ability(1093678672) then
                     general_buff(u, v, 12)

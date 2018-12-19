@@ -4,120 +4,75 @@
 --- DateTime: 2018/12/19 17:02
 ---
 
---弹指神通
-function IsTanZhi()
-    return GetSpellAbilityId() == 1093678664 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function TanZhi_Condition()
-    return IsUnitAliveBJ(GetFilterUnit()) and IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetTriggerUnit()))
-end
-function TanZhiShenTong()
-    local u = GetTriggerUnit()
-    local p = GetOwningPlayer(u)
-    local loc = GetUnitLoc(u)
-    local loc2 = GetUnitLoc(GetSpellTargetUnit())
-    local i = 1 + GetPlayerId(p)
-    if GetUnitAbilityLevel(u, 1093678933) >= 1 then
-        CreateNUnitsAtLoc(1, 1697656880, p, loc, bj_UNIT_FACING)
-        UnitAddAbility(bj_lastCreatedUnit, 1093678664)
-        SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678664, GetUnitAbilityLevel(u, 1093678664))
-        IssueTargetOrderById(bj_lastCreatedUnit, 852119, GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(300, loc2, Condition(TanZhi_Condition))))
-        UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-        ShowUnitHide(bj_lastCreatedUnit)
+--- 弹指神通
+--- @param u unit
+--- @param id number
+--- @param target unit|point|nil
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    --- 弹指神通+双手互搏
+    if id == 1093678664 and u:is_hero() and u:has_ability(1093678933) then
+        local ur = et.selector():in_range(target:get_point(), 300):is_enemy(u):random()
+        dummy_issue_order {
+            target = ur,
+            player = u:get_owner(),
+            ability_id = 1093678664,
+            ability_level = u:get_ability_level(1093678664),
+            order_id = 852119,
+            lifetime = 2
+        }
     end
-    WuGongShengChong(GetTriggerUnit(), 1093678664, 350.0)
-    RemoveLocation(loc)
-    RemoveLocation(loc2)
-    u = nil
-    p = nil
-    loc = nil
-    loc2 = nil
-end
-function IsTanZhiBeiDong()
-    return GetUnitAbilityLevel(GetAttacker(), 1093678664) >= 1 and GetUnitAbilityLevel(GetAttacker(), 1093678931) >= 1
-end
-function TanZhiBeiDong()
-    local u = GetAttacker()
-    local l__ut = GetTriggerUnit()
-    local loc = GetUnitLoc(u)
-    local p = GetOwningPlayer(u)
-    if GetRandomReal(0, 100) <= 8 then
-        CreateNUnitsAtLoc(1, 1697656880, p, loc, bj_UNIT_FACING)
-        UnitAddAbility(bj_lastCreatedUnit, 1093678664)
-        SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678664, GetUnitAbilityLevel(u, 1093678664))
-        IssueTargetOrderById(bj_lastCreatedUnit, 852119, l__ut)
-        UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-        ShowUnitHide(bj_lastCreatedUnit)
-    end
-    RemoveLocation(loc)
-    u = nil
-    l__ut = nil
-    p = nil
-end
-function IsTanZhiShangHai()
-    return GetEventDamage() == 0.21
-end
-function TanZhiShangHai_Conditiom()
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetEventDamageSource())) and IsUnitAliveBJ(GetFilterUnit())
-end
-function TanZhiShangHai_Action()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetEnumUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    shanghai = ShangHaiGongShi(u, uc, 30.8, 30.8, shxishu, 1093678664)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
-function TanZhiShangHai()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    local loc = GetUnitLoc(u)
-    local loc2 = GetUnitLoc(uc)
-    if GetUnitAbilityLevel(u, 1093678672) ~= 0 then
-        shxishu = shxishu + 0.6
-    end
-    if GetUnitAbilityLevel(u, 1093679157) ~= 0 then
-        shxishu = shxishu + 0.7
-    end
-    if GetUnitAbilityLevel(u, 1093679157) ~= 0 and GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetUnitAbilityLevel(u, 1093679152) ~= 0 and GetUnitAbilityLevel(u, 1093679152) ~= 0 and GetUnitAbilityLevel(u, 1395666994) ~= 0 and GetUnitAbilityLevel(u, 1093678933) ~= 0 then
-        shxishu = shxishu * 6 * 2
-    end
-    shanghai = ShangHaiGongShi(u, uc, 30.8, 30.8, shxishu, 1093678664)
-    WuGongShangHai(u, uc, shanghai)
-    if danpo[i] >= 23 and GetRandomReal(0.0, 100.0) <= 30.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-        general_buff(u, uc, 11)
-    end
-    if GetUnitAbilityLevel(u, 1093679152) ~= 0 and UnitHasBuffBJ(uc, 1113813609) == false then
-        general_buff(u, uc, 4)
-    end
-    if GetUnitAbilityLevel(u, 1395666994) ~= 0 then
-        DestroyEffect(AddSpecialEffectLocBJ(loc2, "war3mapImported\\PsiWave.mdx"))
-        ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(100.0, loc2, Condition(TanZhiShangHai_Conditiom)), TanZhiShangHai_Action)
-    end
-    RemoveLocation(loc)
-    RemoveLocation(loc2)
-    u = nil
-    uc = nil
-    loc = nil
-    loc2 = nil
-end
+end)
 
-local t = CreateTrigger()
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(IsTanZhi))
-TriggerAddAction(t, TanZhiShenTong)
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(IsTanZhiBeiDong))
-TriggerAddAction(t, TanZhiBeiDong)
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(IsTanZhiShangHai))
-TriggerAddAction(t, TanZhiShangHai)
+--- 九阴真经·内功 + 弹指 = 被动
+--- @param source unit 攻击来源
+--- @param target unit 被攻击的单位
+et.game:event '单位-受攻击'(function(self, source, target)
+    if source:has_all_abilities(1093678664, 1093678931) and commonutil.random(0, 100) <= 8 then
+        dummy_issue_order {
+            target = target,
+            player = source:get_owner(),
+            ability_id = 1093678664,
+            ability_level = source:get_ability_level(1093678664),
+            order_id = 852119,
+            lifetime = 2,
+        }
+    end
+end)
+
+--- 弹指神通技能伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage ~= 0.21 then
+        return
+    end
+    local coeff = 1
+    coeff = coeff + source:has_ability(1093678672) and 0.6 or 0
+    coeff = coeff + source:has_ability(1093679157) and 0.7 or 0
+    coeff = coeff * (source:has_all_abilities(1093678672, 1093679157, 1093679152, 1395666994, 1093678933, 1093678931) and 12 or 1)
+    local ability_damage, critical = damage_formula {
+        source = source,
+        target = target,
+        magic_coeff = 1,
+        physic_coeff = 1,
+        ability_coeff = 30.8 * coeff,
+        level = source:get_ability_level(1093678664)
+    }
+    apply_damage(source, target, ability_damage, critical)
+    local p = source:get_owner()
+    local h = p.hero
+    if h['胆魄'] >= 23 and commonutil.random(0, 100) <= 30 and not target:has_buff(1110454328) then
+        source:apply_buff(target, "封穴")
+    end
+    if source:has_ability(1093679152) and not target:has_buff(1113813609) then
+        source:apply_buff(target, "混乱")
+    end
+    if source:has_ability(1395666994) then
+        et.effect.add_to_point("war3mapImported\\PsiWave.mdx", target:get_point()):destroy()
+        local group = et.selector():in_range(target:get_point(), 100):is_enemy(source):get()
+        for _, v in pairs(group) do
+            apply_damage(source, target, ability_damage, critical)
+        end
+    end
+end)

@@ -119,6 +119,10 @@ mt.done_tasks = {}
 
 --- @type table 技能的特效
 mt.effects = nil
+
+--- @type set 称号
+mt.titles = nil
+
 function hero:__tostring()
     return '英雄handle:' .. tostring(self.handle) .. 'owner:' .. tostring(self.owner)
 end
@@ -520,6 +524,9 @@ function hero.create(jUnit, pick)
 
     --- 技能的特效
     h.effects = {}
+
+    --- 称号
+    h.titles = set:new()
 
     h.wuhun = jass.DialogCreate()
     local t = war3.CreateTrigger(function()

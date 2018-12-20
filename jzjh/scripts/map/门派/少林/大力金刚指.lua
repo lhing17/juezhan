@@ -19,7 +19,7 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
         local coeff = 1
         coeff = coeff + (u:has_ability(1093678664) and 0.8 or 0)
         coeff = coeff + (u:has_ability(1093682254) and 0.6 or 0)
-        coeff = coeff + ((u:has_ability(1093678930) and u:has_ability(1093678928)) and 1 or 0)
+        coeff = coeff + (u:has_all_abilities(1093678930, 1093678928) and 1 or 0)
         coeff = coeff * (u:has_item(1227899212) and 3 or 1)
         local p = u:get_owner()
         local h = p.hero

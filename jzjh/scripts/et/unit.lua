@@ -682,8 +682,35 @@ function mt:has_buff(buff_id)
     return self:has_ability(buff_id)
 end
 
+--- 拥有其中一种技能
+--- @param ... ... 技能列表
+--- @return boolean
+function mt:has_any_ability(...)
+    local arg = { ... }
+    if arg[1] then
+        if type(arg[1]) == 'table' then
+            for _, v in ipairs(arg(1)) do
+                if self:has_ability(v) then
+                    return true
+                end
+            end
+            return false
+        end
+        for _, v in ipairs(arg) do
+            if self:has_ability(v) then
+                return true
+            end
+        end
+        return false
+    end
+    return false
+end
+
+--- 拥有所有技能
+--- @param ... ... 技能列表
+--- @return boolean
 function mt:has_all_abilities(...)
-    arg = { ... }
+    local arg = { ... }
     if arg[1] then
         if type(arg[1]) == 'table' then
             for _, v in ipairs(arg(1)) do

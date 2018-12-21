@@ -3,114 +3,7 @@
 
 
 
---四门刀法
-function bF()
-	return GetSpellAbilityId() == 1093678669 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function CF()
-	local id = GetHandleId(GetTriggeringTrigger())
-	local cx = LoadInteger(YDHT, id, -807506826)
-	cx = cx + 3
-	SaveInteger(YDHT, id, -807506826, cx)
-	SaveInteger(YDHT, id, -320330265, cx)
-	SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-	SaveInteger(YDHT, id * cx, -708948899, 1093678669)
-	SaveLocationHandle(YDHT, id * cx, -1925439584, GetUnitLoc(GetTriggerUnit()))
-	if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093678920) ~= 0 then
-		H7 = 1
-		for _ in _loop_() do
-			if H7 > 4 then break end
-			SaveLocationHandle(YDHT, id * cx, -860413970, pu(LoadLocationHandle(YDHT, id * cx, -1925439584), 300.0, 90.0 * I2R(H7)))
-			CreateNUnitsAtLoc(1, 1697656883, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-			IssueImmediateOrderById(bj_lastCreatedUnit, 852128)
-			Gw(20.0, bj_lastCreatedUnit)
-			CreateNUnitsAtLoc(1, 1697656884, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-			Gw(20.0, bj_lastCreatedUnit)
-			RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-			H7 = H7 + 1
-		end
-		if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093679158) ~= 0 and GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093678936) ~= 0 then
-			H7 = 1
-			for _ in _loop_() do
-				if H7 > 8 then break end
-				SaveLocationHandle(YDHT, id * cx, -860413970, pu(LoadLocationHandle(YDHT, id * cx, -1925439584), 650.0, 45.0 * I2R(H7)))
-				CreateNUnitsAtLoc(1, 1697656883, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-				IssueImmediateOrderById(bj_lastCreatedUnit, 852128)
-				Gw(20.0, bj_lastCreatedUnit)
-				CreateNUnitsAtLoc(1, 1697656884, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-				Gw(20.0, bj_lastCreatedUnit)
-				RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-				H7 = H7 + 1
-			end
-		end
-		if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093678935) ~= 0 then
-			CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -1925439584), bj_UNIT_FACING)
-			UnitAddAbility(bj_lastCreatedUnit, 1093678670)
-			Gw(20.0, bj_lastCreatedUnit)
-			ShowUnit(bj_lastCreatedUnit, false)
-		end
-	else
-		H7 = 1
-		for _ in _loop_() do
-			if H7 > 4 then break end
-			SaveLocationHandle(YDHT, id * cx, -860413970, pu(LoadLocationHandle(YDHT, id * cx, -1925439584), 300.0, 90.0 * I2R(H7)))
-			CreateNUnitsAtLoc(1, 1697656883, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-			IssueImmediateOrderById(bj_lastCreatedUnit, 852128)
-			Gw(10.0, bj_lastCreatedUnit)
-			CreateNUnitsAtLoc(1, 1697656884, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-			Gw(10.0, bj_lastCreatedUnit)
-			RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-			H7 = H7 + 1
-		end
-		if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093679158) ~= 0 and GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093678936) ~= 0 then
-			H7 = 1
-			for _ in _loop_() do
-				if H7 > 8 then break end
-				SaveLocationHandle(YDHT, id * cx, -860413970, pu(LoadLocationHandle(YDHT, id * cx, -1925439584), 650.0, 45.0 * I2R(H7)))
-				CreateNUnitsAtLoc(1, 1697656883, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-				IssueImmediateOrderById(bj_lastCreatedUnit, 852128)
-				Gw(10.0, bj_lastCreatedUnit)
-				CreateNUnitsAtLoc(1, 1697656884, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -860413970), bj_UNIT_FACING)
-				Gw(10.0, bj_lastCreatedUnit)
-				RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-				H7 = H7 + 1
-			end
-		end
-		if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), 1093678935) ~= 0 then
-			CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -1925439584), bj_UNIT_FACING)
-			UnitAddAbility(bj_lastCreatedUnit, 1093678670)
-			Gw(10.0, bj_lastCreatedUnit)
-			ShowUnit(bj_lastCreatedUnit, false)
-		end
-	end
-	WuGongShengChong(GetTriggerUnit(), 1093678669, 250.0)
-	RemoveLocation(LoadLocationHandle(YDHT, id * cx, -1925439584))
-	YDWELocalVariableEnd()
-	FlushChildHashtable(YDHT, id * cx)
-end
-function DF()
-	return GetEventDamage() == 0.27
-end
-function EF()
-	local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-	local u = udg_hero[i]
-	local uc = GetTriggerUnit()
-	local shxishu = 1.0
-	local shanghai = 0.0
-	if GetUnitAbilityLevel(u, 1093678928) ~= 0 then
-		shxishu = shxishu + 0.6
-	end
-	if GetUnitAbilityLevel(u, 1093679158) ~= 0 and GetUnitAbilityLevel(u, 1093678936) ~= 0 then
-		shxishu = shxishu + 1.5
-	end
-	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetUnitAbilityLevel(u, 1093679158) ~= 0 and GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetUnitAbilityLevel(u, 1093678920) ~= 0 then
-		shxishu = shxishu * 5 * 2
-	end
-	shanghai = ShangHaiGongShi(u, uc, 7.2, 7.2, shxishu, 1093678669)
-	WuGongShangHai(u, uc, shanghai)
-	u = nil
-	uc = nil
-end
+
 --一阳指
 function GF()
 	return GetSpellAbilityId() == 1093678672 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
@@ -512,14 +405,7 @@ function JiangHuWuGong_Trigger()
 
 
 
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	TriggerAddCondition(t, Condition(bF))
-	TriggerAddAction(t, CF)
-	t = CreateTrigger()
-	YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	TriggerAddCondition(t, Condition(DF))
-	TriggerAddAction(t, EF)
+
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	TriggerAddCondition(t, Condition(GF))

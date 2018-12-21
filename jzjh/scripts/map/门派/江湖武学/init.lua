@@ -2,119 +2,7 @@
 
 
 
---化骨绵掌
-function tF()
-	return GetSpellAbilityId() == 1093678668 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function uF()
-	local id = GetHandleId(GetTriggeringTrigger())
-	return UnitHasBuffBJ(GetFilterUnit(), 1114467444) == false and IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))
-end
---化骨搭配
-function HuaGuWuDi()
-	local t = GetExpiredTimer()
-	local u = LoadUnitHandle(YDHT, GetHandleId(t), 0)
-	local j = LoadInteger(YDHT, GetHandleId(t), 1)
-	local jmax = 40
-	if UnitHasBuffBJ(u, 1114467427) and j < jmax then
-		SaveInteger(YDHT, GetHandleId(t), 1, j + 1)
-	else
-		UnitRemoveAbility(u, 1093677139)
-		PauseTimer(t)
-		DestroyTimer(t)
-		FlushChildHashtable(YDHT, GetHandleId(t))
-	end
-	t = nil
-	u = nil
-end
-function yF()
-	local u = GetTriggerUnit()
-	local uc = GetSpellTargetUnit()
-	local l__ut
-	local loc = GetUnitLoc(u)
-	local p = GetOwningPlayer(u)
-	local loc2
-	local t = nil
-	if GetUnitAbilityLevel(u, 1093678929) ~= 0 then
-		loc2 = GetUnitLoc(uc)
-		l__ut = GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(1000.0, loc2, Condition(uF)))
-		CreateNUnitsAtLoc(1, 1697656880, p, loc2, bj_UNIT_FACING)
-		ShowUnitHide(bj_lastCreatedUnit)
-		UnitAddAbility(bj_lastCreatedUnit, 1093678668)
-		SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678668, GetUnitAbilityLevel(u, 1093678668))
-		IssueTargetOrderById(bj_lastCreatedUnit, 852480, l__ut)
-		UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 10.0)
-		RemoveLocation(loc2)
-		loc2 = GetUnitLoc(l__ut)
-		l__ut = GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(1000.0, loc2, Condition(uF)))
-		CreateNUnitsAtLoc(1, 1697656880, p, loc2, bj_UNIT_FACING)
-		ShowUnitHide(bj_lastCreatedUnit)
-		UnitAddAbility(bj_lastCreatedUnit, 1093678668)
-		SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678668, GetUnitAbilityLevel(u, 1093678668))
-		IssueTargetOrderById(bj_lastCreatedUnit, 852480, l__ut)
-		UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 10.0)
-		RemoveLocation(loc2)
-		loc2 = GetUnitLoc(l__ut)
-		l__ut = GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(1000.0, loc2, Condition(uF)))
-		CreateNUnitsAtLoc(1, 1697656880, p, loc2, bj_UNIT_FACING)
-		ShowUnitHide(bj_lastCreatedUnit)
-		UnitAddAbility(bj_lastCreatedUnit, 1093678668)
-		SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678668, GetUnitAbilityLevel(u, 1093678668))
-		IssueTargetOrderById(bj_lastCreatedUnit, 852480, l__ut)
-		UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 10.0)
-		RemoveLocation(loc2)
-		loc2 = GetUnitLoc(l__ut)
-		l__ut = GroupPickRandomUnit(YDWEGetUnitsInRangeOfLocMatchingNull(1000.0, loc2, Condition(uF)))
-		CreateNUnitsAtLoc(1, 1697656880, p, loc2, bj_UNIT_FACING)
-		ShowUnitHide(bj_lastCreatedUnit)
-		UnitAddAbility(bj_lastCreatedUnit, 1093678668)
-		SetUnitAbilityLevel(bj_lastCreatedUnit, 1093678668, GetUnitAbilityLevel(u, 1093678668))
-		IssueTargetOrderById(bj_lastCreatedUnit, 852480, l__ut)
-		UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 10.0)
-		RemoveLocation(loc2)
-	end
-	if GetUnitAbilityLevel(u, 1093678936) ~= 0 then
-		t = CreateTimer()
-		SaveUnitHandle(YDHT, GetHandleId(t), 0, u)
-		UnitAddAbility(u, 1093677139)
-		TimerStart(t, 0.5, true, HuaGuWuDi)
-	end
-	WuGongShengChong(u, 1093678668, 200.0)
-	RemoveLocation(loc)
-	u = nil
-	uc = nil
-	l__ut = nil
-	p = nil
-	loc = nil
-	loc2 = nil
-end
---化骨伤害
-function AF()
-	return GetEventDamage() == 0.26
-end
-function aF()
-	local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-	local u = udg_hero[i]
-	local uc = GetTriggerUnit()
-	local shxishu = 1.0 + jingmai[i] // 20
-	local shanghai = 0.0
-	if GetUnitAbilityLevel(u, 1093678928) ~= 0 then
-		shxishu = shxishu + 0.7
-	end
-	if GetUnitAbilityLevel(u, 1093678919) ~= 0 then
-		shxishu = shxishu + 0.7
-	end
-	if GetUnitAbilityLevel(u, 1093679156) ~= 0 then
-		shxishu = shxishu + 0.8
-	end
-	if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetUnitAbilityLevel(u, 1093678919) ~= 0 and GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetUnitAbilityLevel(u, 1093678929) ~= 0 and GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetUnitAbilityLevel(u, 1093678930) ~= 0 then
-		shxishu = shxishu * 6 * 2
-	end
-	shanghai = ShangHaiGongShi(u, uc, 80.0, 80.0, shxishu, 1093678668)
-	WuGongShangHai(u, uc, shanghai)
-	u = nil
-	uc = nil
-end
+
 --四门刀法
 function bF()
 	return GetSpellAbilityId() == 1093678669 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
@@ -623,14 +511,7 @@ function JiangHuWuGong_Trigger()
 
 
 
-	t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	TriggerAddCondition(t, Condition(tF))
-	TriggerAddAction(t, yF)
-	t = CreateTrigger()
-	YDWESyStemAnyUnitDamagedRegistTrigger(t)
-	TriggerAddCondition(t, Condition(AF))
-	TriggerAddAction(t, aF)
+
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	TriggerAddCondition(t, Condition(bF))

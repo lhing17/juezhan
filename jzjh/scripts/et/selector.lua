@@ -40,6 +40,8 @@ api.is_allow_god = false
 api.is_allow_dead = false
 
 --自定义条件
+--- @param f function 自定义条件
+--- @return selector
 function api:add_filter(f)
     table_insert(self.filters, f)
     return self

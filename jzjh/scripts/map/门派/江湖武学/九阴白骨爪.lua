@@ -4,45 +4,28 @@
 --- DateTime: 2018/12/21 0021 19:02
 ---
 
---九阴白骨爪
-function TF()
-    return GetEventDamage() == 0.35
-end
-function UF()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    if GetUnitAbilityLevel(u, 1093678930) ~= 0 then
-        shxishu = shxishu + 0.5
+--- 九阴白骨爪伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage ~= 0.35 then
+        return
     end
-    if GetUnitAbilityLevel(u, 1093678664) ~= 0 then
-        shxishu = shxishu + 0.6
-    end
-    if GetUnitAbilityLevel(u, 1093679161) ~= 0 then
-        shxishu = shxishu + 0.7
-    end
-    if GetUnitAbilityLevel(u, 1093678931) ~= 0 then
-        shxishu = shxishu + 0.8
-    end
-    if GetUnitAbilityLevel(u, 1093679154) ~= 0 then
-        shxishu = shxishu + 0.6
-    end
-    if udg_whichzhangmen[1 + GetPlayerId(GetOwningPlayer(u))] == 11 then
-        shxishu = shxishu * 20
-    end
-    if GetUnitAbilityLevel(u, 1093678930) ~= 0 and GetUnitAbilityLevel(u, 1093678664) ~= 0 and GetUnitAbilityLevel(u, 1093679161) ~= 0 and GetUnitAbilityLevel(u, 1093678931) ~= 0 and GetUnitAbilityLevel(u, 1093679154) ~= 0 then
-        shxishu = shxishu * 5 * 2
-    end
-    shanghai = ShangHaiGongShi(u, uc, 36, 36, shxishu, 1093678926)
-    WuGongShangHai(u, uc, shanghai)
-    WuGongShengChong(GetEventDamageSource(), 1093678926, 3000.0)
-    u = nil
-    uc = nil
-end
-
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(TF))
-TriggerAddAction(t, UF)
+    local coeff = 1
+    coeff = coeff + (source:has_ability(1093678930) and 0.5 or 0)
+    coeff = coeff + (source:has_ability(1093678664) and 0.6 or 0)
+    coeff = coeff + (source:has_ability(1093679161) and 0.7 or 0)
+    coeff = coeff + (source:has_ability(1093678931) and 0.8 or 0)
+    coeff = coeff + (source:has_ability(1093679154) and 0.6 or 0)
+    coeff = coeff * (source:has_all_abilities(1093678930, 1093678664, 1093679161, 1093678931, 1093679154) and 10 or 1)
+    local ability_damage, critical = damage_formula {
+        source = source,
+        target = target,
+        magic_coeff = 1,
+        physic_coeff = 1,
+        ability_coeff = 36 * coeff,
+        level = source:get_ability_level(1093678926)
+    }
+    apply_damage(source, target, ability_damage, critical)
+end)

@@ -4,50 +4,38 @@
 --- DateTime: 2018/12/21 0021 19:00
 ---
 
---唐诗剑法
-function LF()
-    return GetEventDamage() == 0.31
-end
-function MF()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    local loc = GetUnitLoc(uc)
-    if GetUnitAbilityLevel(u, 1093678666) ~= 0 then
-        shxishu = shxishu + 0.6
+--- 唐诗剑法伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage ~= 0.31 then
+        return
     end
-    if GetUnitAbilityLevel(u, 1093678918) ~= 0 then
-        shxishu = shxishu + 0.8
+    local coeff = 1
+    coeff = coeff + (source:has_ability(1093678666) and 0.6 or 0)
+    coeff = coeff + (source:has_ability(1093678918) and 0.8 or 0)
+    coeff = coeff + (source:has_ability(1093678936) and 1 or 0)
+    coeff = coeff * (source:has_all_abilities(1093678666, 1093678918, 1093678936, 1093678669, 1093678935, 1093679156, 1093678930) and 14 or 1)
+    local ability_damage, critical = damage_formula {
+        source = source,
+        target = target,
+        magic_coeff = 1,
+        physic_coeff = 1,
+        ability_coeff = 75 * coeff,
+        level = source:get_ability_level(1093678897)
+    }
+    apply_damage(source, target, ability_damage, critical)
+    if source:has_ability(1093678669) and commonutil.random(0, 100) <= 5 and not source:has_buff(1110454323) then
+        source:apply_buff(target, "流血")
     end
-    if GetUnitAbilityLevel(u, 1093678936) ~= 0 then
-        shxishu = shxishu + 1.0
+    if source:has_ability(1093678935) and commonutil.random(0, 100) <= 5 and not source:has_buff(1113813609) then
+        source:apply_buff(target, "混乱")
     end
-    if GetUnitAbilityLevel(u, 1093678666) ~= 0 and GetUnitAbilityLevel(u, 1093678918) ~= 0 and GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetUnitAbilityLevel(u, 1093678669) ~= 0 and GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetUnitAbilityLevel(u, 1093678930) ~= 0 then
-        shxishu = shxishu * 7 * 2
+    if source:has_ability(1093679156) and commonutil.random(0, 100) <= 5 and not source:has_buff(1110454324) then
+        source:apply_buff(target, "血流不止")
     end
-    shanghai = ShangHaiGongShi(u, uc, 75, 75, shxishu, 1093678897)
-    WuGongShangHai(u, uc, shanghai)
-    if GetUnitAbilityLevel(u, 1093678669) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1110454323) == false then
-        general_buff(u, uc, 3)
+    if source:has_ability(1093678930) then
+        source:set_life(source:get_life() + ability_damage * 0.02)
     end
-    if GetUnitAbilityLevel(u, 1093678935) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1113813609) == false then
-        general_buff(u, uc, 4)
-    end
-    if GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1110454324) == false then
-        general_buff(u, uc, 7)
-    end
-    if GetUnitAbilityLevel(u, 1093678930) ~= 0 then
-        SetWidgetLife(u, GetUnitState(u, UNIT_STATE_LIFE) + shanghai * 0.02)
-    end
-    WuGongShengChong(GetEventDamageSource(), 1093678897, 950.0)
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-end
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(LF))
-TriggerAddAction(t, MF)
+end)

@@ -4,84 +4,45 @@
 --- DateTime: 2018/12/21 0021 19:03
 ---
 
----------空明拳开始-------//
-function IsKongMing()
-    return GetUnitAbilityLevel(GetAttacker(), 1093677367) >= 1 and GetRandomReal(0.0, 100.0) <= 15.0 + I2R(fuyuan[1 + GetPlayerId(GetOwningPlayer(GetAttacker()))]) / 5.0
-end
-function KongMing_Condition()
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetAttacker())) and IsUnitAliveBJ(GetFilterUnit())
-end
-function KongMing_Action()
-    local u = GetAttacker()
-    local uc = GetEnumUnit()
-    local hujia = GetUnitState(uc, ConvertUnitState(32))
-    local shengming = GetUnitState(uc, UNIT_STATE_MAX_LIFE)
-    local shxishu = 1.0 + shengming / 500000000 + hujia / 2000
-    local shanghai = 0.0
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local loc = GetUnitLoc(uc)
-    if GetUnitAbilityLevel(u, 1093678931) >= 1 then
-        shxishu = shxishu + 0.6
+--- 空明拳
+--- @param source unit 攻击来源
+--- @param target unit 被攻击的单位
+et.game:event '单位-受攻击'(function(self, source, target)
+    if source:has_ability(1093677367) and commonutil.random(0, 100) <= 18 then
+        local group = {}
+        if source:has_ability(1093678933) then
+            group = et.selector():in_range(target:get_point(), 400):is_enemy(source):get()
+        else
+            table.insert(group, target)
+        end
+        local coeff = 1
+        coeff = coeff + (source:has_ability(1093678931) and 0.6 or 0)
+        coeff = coeff + (source:has_ability(1093682225) and 0.8 or 0)
+        coeff = coeff * (source:has_all_abilities(1093678931, 1093682225, 1093678672, 1093678933, 1093677368) and 10 or 1)
+        for _, v in pairs(group) do
+            local ability_damage, critical = damage_formula {
+                source = source,
+                target = v,
+                magic_coeff = 1,
+                physic_coeff = 0.8,
+                ability_coeff = 10 * coeff,
+                level = source:get_ability_level(1093677367)
+            }
+            apply_damage(source, v, ability_damage, critical)
+            et.effect.add_to_unit("Units\\NightElf\\Wisp\\WispExplode.mdl", v, "overhead")
+            if source:has_ability(1093678672) and commonutil.random(0, 100) <= 50 and not v:has_buff(1113813609) then
+                source:apply_buff(v, "混乱")
+            end
+        end
     end
-    if GetUnitAbilityLevel(u, 1093682225) >= 1 then
-        shxishu = shxishu + 0.8
+    --- 空明拳挨打
+    if target:has_all_abilities(1093677367, 1093677368) and target:is_hero() then
+        local h = target:get_owner().hero
+        if h.kong_ming_value and h.kong_ming_value >= 100 then
+            h.kong_ming_value = 0
+            target:add_item(1920168051)
+        else
+            h.kong_ming_value = h.kong_ming_value or 0 + 1
+        end
     end
-    if GetUnitAbilityLevel(u, 1093678931) >= 1 and GetUnitAbilityLevel(u, 1093682225) >= 1 and GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetUnitAbilityLevel(u, 1093678933) ~= 0 and GetUnitAbilityLevel(GetTriggerUnit(), 1093677368) ~= 0 then
-        shxishu = shxishu * 5 * 2
-    end
-    shanghai = ShangHaiGongShi(u, uc, 10, 8, shxishu, 1093677367)
-    WuGongShangHai(u, uc, shanghai)
-    DestroyEffect(AddSpecialEffectTarget("Units\\NightElf\\Wisp\\WispExplode.mdl", uc, "overhead"))
-    if GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetRandomInt(1, 10) < 5 and UnitHasBuffBJ(uc, 1113813609) == false then
-        general_buff(u, uc, 4)
-    end
-    RemoveLocation(loc)
-    loc = nil
-    u = nil
-    uc = nil
-end
-function KongMingQuan()
-    local u = GetAttacker()
-    local uc = GetTriggerUnit()
-    local loc = GetUnitLoc(uc)
-    local p = GetOwningPlayer(u)
-    local i = 1 + GetPlayerId(p)
-    local g = CreateGroup()
-    WuGongShengChong(u, 1093677367, 1200.0)
-    if GetUnitAbilityLevel(u, 1093678933) ~= 0 then
-        GroupEnumUnitsInRangeOfLoc(g, loc, 400, Condition(KongMing_Condition))
-    else
-        GroupAddUnit(g, uc)
-    end
-    ForGroupBJ(g, KongMing_Action)
-    GroupClear(g)
-    DestroyGroup(g)
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-    p = nil
-    g = nil
-end
-function IsKongMingBeiDa()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER and GetUnitAbilityLevel(GetTriggerUnit(), 1093677367) >= 1 and GetUnitAbilityLevel(GetTriggerUnit(), 1093677368) >= 1 -- INLINED!!
-end
-function KongMingBeiDa()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
-    if aidacishu[i] >= 100 then
-        aidacishu[i] = 0
-        unitadditembyidswapped(1920168051, GetTriggerUnit())
-    else
-        aidacishu[i] = aidacishu[i] + 1
-    end
-end
----------空明拳结束-------//
-
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(IsKongMingBeiDa))
-TriggerAddAction(t, KongMingBeiDa)
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(IsKongMing))
-TriggerAddAction(t, KongMingQuan)
+end)

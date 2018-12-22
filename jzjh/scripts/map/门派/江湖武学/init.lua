@@ -9,6 +9,11 @@ require 'map.门派.江湖武学.化骨绵掌'
 require 'map.门派.江湖武学.四门刀法'
 require 'map.门派.江湖武学.弹指神通'
 require 'map.门派.江湖武学.一阳指'
+require 'map.门派.江湖武学.七伤拳'
+require 'map.门派.江湖武学.九阴白骨爪'
+require 'map.门派.江湖武学.唐诗剑法'
+require 'map.门派.江湖武学.连城剑法'
+require 'map.门派.江湖武学.空明拳'
 
 
 

@@ -1336,7 +1336,8 @@ function player.__index:create_dummy(id, where, face)
     return u
 end
 
--- 设置无敌
+--- 设置无敌
+--- @param time number 无敌时间
 function mt:set_invulnerable(time)
     jass.SetUnitInvulnerable(self.handle, true)
     et.wait(time, function()

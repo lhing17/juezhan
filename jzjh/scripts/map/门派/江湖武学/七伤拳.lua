@@ -4,83 +4,52 @@
 --- DateTime: 2018/12/21 0021 19:01
 ---
 
---七伤拳
-function OF()
-    return GetUnitAbilityLevel(GetAttacker(), 1093678925) >= 1 and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetAttacker()))
-end
-function PF()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function QF()
-    local u = GetAttacker()
-    local uc = GetEnumUnit()
-    local loc = GetUnitLoc(uc)
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local shxishu = 1.0
-    local shanghai = 0.0
-    DestroyEffect(AddSpecialEffectLocBJ(loc, "war3mapImported\\PhoenixAttack.mdx"))
-    if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetUnitAbilityLevel(u, 1093678919) ~= 0 and GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetUnitAbilityLevel(u, 1093678933) ~= 0 and GetUnitAbilityLevel(u, 1395666994) ~= 0 and GetUnitAbilityLevel(u, 1093678672) ~= 0 then
-        shxishu = shxishu * 7 * 2
-    end
-    shanghai = ShangHaiGongShi(u, uc, 12.0, 16.0, shxishu, 1093678925)
-    WuGongShangHai(u, uc, shanghai)
-    if GetUnitAbilityLevel(u, 1093678928) ~= 0 and GetRandomReal(0.0, 100.0) <= 5.0 and UnitHasBuffBJ(uc, 1110454322) == false then
-        general_buff(u, uc, 1)
-    end
-    if GetUnitAbilityLevel(u, 1093678919) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1111844210) == false then
-        general_buff(u, uc, 8)
-    end
-    if GetUnitAbilityLevel(u, 1093679156) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1111847784) == false then
-        general_buff(u, uc, 13)
-    end
-    if GetUnitAbilityLevel(u, 1093678936) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454323) == false then
-        general_buff(u, uc, 3)
-    end
-    if GetUnitAbilityLevel(u, 1093678933) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1113813609) == false then
-        general_buff(u, uc, 4)
-    end
-    if GetUnitAbilityLevel(u, 1395666994) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454326) == false then
-        general_buff(u, uc, 6)
-    end
-    if GetUnitAbilityLevel(u, 1093678672) ~= 0 and GetRandomReal(0.0, 100.0) <= 10.0 and UnitHasBuffBJ(uc, 1110454328) == false then
-        general_buff(u, uc, 11)
-    end
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-end
-function RF()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    YDWELocalVariableInitiliation()
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetAttacker())
-    SaveLocationHandle(YDHT, id * cx, -1925439584, GetUnitLoc(GetTriggerUnit()))
-    SaveLocationHandle(YDHT, id * cx, -860413970, GetUnitLoc(GetAttacker()))
-    SaveInteger(YDHT, id * cx, -708948899, 1093678925)
-    SaveReal(YDHT, id * cx, 596788346, 25.0)
-    SaveReal(YDHT, id * cx, 1097940387, 500.0)
-    SaveReal(YDHT, id * cx, -753873030, 3.0 + I2R(GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), LoadInteger(YDHT, id * cx, -708948899))) / 2.0 + I2R(danpo[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * cx, 1505665227)))]) * 0.06)
-    SaveReal(YDHT, id * cx, 426308609, 1.5 + udg_shanghaijiacheng[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * cx, 1505665227)))])
-    SaveReal(YDHT, id * cx, -753873030, LoadReal(YDHT, id * cx, -753873030) * LoadReal(YDHT, id * cx, 426308609))
-    if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), LoadInteger(YDHT, id * cx, -708948899)) == 9 then
-        SaveReal(YDHT, id * cx, -753873030, LoadReal(YDHT, id * cx, -753873030) * 10.0)
-    end
-    if GetRandomReal(0.0, 100.0) <= LoadReal(YDHT, id * cx, 596788346) then
-        ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(LoadReal(YDHT, id * cx, 1097940387), LoadLocationHandle(YDHT, id * cx, -1925439584), Condition(PF)), QF)
-        WuGongShengChong(GetAttacker(), 1093678925, 2000.0)
-    end
-    RemoveLocation(LoadLocationHandle(YDHT, id * cx, -1925439584))
-    RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-    YDWELocalVariableEnd()
-    FlushChildHashtable(YDHT, id * cx)
-end
+--- 七伤拳
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-TriggerAddCondition(t, Condition(OF))
-TriggerAddAction(t, RF)
+--- @param source unit 攻击来源
+--- @param target unit 被攻击的单位
+et.game:event '单位-受攻击'(function(self, source, target)
+    if source:has_ability(1093678925) and source:is_enemy(target) then
+        if commonutil.random(0, 100) <= 25 then
+            local group = et.selector():in_range(target:get_point(), 500):is_enemy(source):get()
+            local coeff = 1
+            if source:has_all_abilities(1093678928, 1093678919, 1093679156, 1093678936, 1093678933, 1395666994, 1093678672) then
+                coeff = coeff * 14
+            end
+            for _, v in pairs(group) do
+                local ability_damage, critical = damage_formula {
+                    source = source,
+                    target = v,
+                    magic_coeff = 1.2,
+                    physic_coeff = 1.6,
+                    ability_coeff = 10 * coeff,
+                    level = source:get_ability_level(1093678925)
+                }
+                et.effect.add_to_point("war3mapImported\\PhoenixAttack.mdx", v:get_point()):destroy()
+                apply_damage(source, v, ability_damage, critical)
+                if source:has_ability(1093678928) and commonutil.random(0, 100) <= 5 and not source:has_buff(1110454322) then
+                    source:apply_buff(v, "内伤")
+                end
+                if source:has_ability(1093678919) and commonutil.random(0, 100) <= 10 and not source:has_buff(1111844210) then
+                    source:apply_buff(v, "麻痹")
+                end
+                if source:has_ability(1093679156) and commonutil.random(0, 100) <= 10 and not source:has_buff(1111847784) then
+                    source:apply_buff(v, "中毒")
+                end
+                if source:has_ability(1093678936) and commonutil.random(0, 100) <= 10 and not source:has_buff(1110454323) then
+                    source:apply_buff(v, "流血")
+                end
+                if source:has_ability(1093678933) and commonutil.random(0, 100) <= 10 and not source:has_buff(1113813609) then
+                    source:apply_buff(v, "混乱")
+                end
+                if source:has_ability(1395666994) and commonutil.random(0, 100) <= 10 and not source:has_buff(1110454326) then
+                    source:apply_buff(v, "重伤")
+                end
+                if source:has_ability(1093678672) and commonutil.random(0, 100) <= 10 and not source:has_buff(1110454328) then
+                    source:apply_buff(v, "封穴")
+                end
+            end
+        end
+    end
+end)
+

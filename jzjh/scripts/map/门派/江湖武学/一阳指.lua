@@ -4,81 +4,60 @@
 --- DateTime: 2018/12/21 0021 19:00
 ---
 
---一阳指
-function GF()
-    return GetSpellAbilityId() == 1093678672 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function HF()
-    local loc = GetUnitLoc(GetTriggerUnit())
-    local loc2 = nil
-    local i = 1
-    if GetUnitAbilityLevel(GetTriggerUnit(), 1093679152) ~= 0 and GetRandomInt(1, 100) <= 40 then
-        SetUnitManaBJ(GetTriggerUnit(), GetUnitState(GetTriggerUnit(), UNIT_STATE_MANA) + 80.0)
-    end
-    WuGongShengChong(GetTriggerUnit(), 1093678672, 250.0)
-    if GetUnitAbilityLevel(GetTriggerUnit(), 1093679428) ~= 0 and GetUnitAbilityLevel(GetTriggerUnit(), 1093679157) ~= 0 then
-        for _ in _loop_() do
-            if i >= 6 then break end
-            loc2 = pu(loc, 200.0, 60.0 * i)
-            CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(GetTriggerUnit()), loc, bj_UNIT_FACING)
-            ShowUnitHide(bj_lastCreatedUnit)
-            UnitAddAbility(bj_lastCreatedUnit, 1093678672)
-            IssuePointOrderByIdLoc(bj_lastCreatedUnit, 852125, loc2)
-            UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-            RemoveLocation(loc2)
-            i = i + 1
+--- 一阳指
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093678672 and u:is_hero() then
+        if u:has_ability(1093679152) and commonutil.random(0, 100) <= 40 then
+            u:set_mana(u:get_mana() + 80)
+        end
+        if u:has_all_abilities(1093679428, 1093679157) then
+            for i = 1, 6 do
+                dummy_issue_order {
+                    target = u:get_point() - { 60 * i, 200 },
+                    player = u:get_owner(),
+                    ability_id = 1093678672,
+                    order_id = 852125,
+                    lifetime = 2,
+                }
+            end
         end
     end
-    RemoveLocation(loc)
-    loc = nil
-    loc2 = nil
-end
---一阳指伤害
-function lF()
-    return GetEventDamage() == 0.29 and IsUnitAliveBJ(GetTriggerUnit())
-end
-function JF()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = 1.0
-    local shanghai = 0.0
-    local loc = GetUnitLoc(uc)
-    local loc2 = nil
-    if GetUnitAbilityLevel(u, 1093678927) ~= 0 then
-        shxishu = shxishu + 0.6
-    end
-    if GetUnitAbilityLevel(u, 1093682254) ~= 0 then
-        shxishu = shxishu + 0.7
-    end
-    if GetUnitAbilityLevel(u, 1093678927) ~= 0 and GetUnitAbilityLevel(u, 1093682254) ~= 0 and GetUnitAbilityLevel(u, 1093678933) ~= 0 and GetUnitAbilityLevel(u, 1093679428) ~= 0 and GetUnitAbilityLevel(u, 1093679157) ~= 0 and GetUnitAbilityLevel(u, 1093679152) ~= 0 then
-        shxishu = shxishu * 6 * 2
-    end
-    shanghai = ShangHaiGongShi(u, uc, 40.0, 40.0, shxishu, 1093678672)
-    WuGongShangHai(u, uc, shanghai)
-    if GetUnitAbilityLevel(u, 1093678933) ~= 0 and IsUnitType(u, UNIT_TYPE_HERO) ~= nil and IsUnitMonster(uc) == false then -- INLINED!!
-        if GetUnitState(uc, UNIT_STATE_LIFE) <= 0.05 * (1.0 * GetUnitState(uc, UNIT_STATE_MAX_LIFE)) then
-            WuDi(uc)
-            SetWidgetLife(uc, 1.0)
-        else
-            SetWidgetLife(uc, GetUnitState(uc, UNIT_STATE_LIFE) - 0.05 * (1.0 * GetUnitState(uc, UNIT_STATE_MAX_LIFE)))
-        end
-    end
-    if gengu[1 + GetPlayerId(GetOwningPlayer(u))] >= 30 and IsUnitType(GetEventDamageSource(), UNIT_TYPE_HERO) ~= nil then -- INLINED!!
-        general_buff(u, uc, 12)
-    end
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-    loc2 = nil
-end
+end)
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(GF))
-TriggerAddAction(t, HF)
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(lF))
-TriggerAddAction(t, JF)
+--- 一阳指伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage ~= 0.29 or not target:is_alive() then
+        return
+    end
+    local coeff = 1
+    coeff = coeff + (source:has_ability(1093678927) and 0.6 or 0)
+    coeff = coeff + (source:has_ability(1093682254) and 0.7 or 0)
+    coeff = coeff * (source:has_all_abilities(1093678927, 1093682254, 1093678933, 1093679428, 1093679157, 1093679152) and 12 or 1)
+    local ability_damage, critical = damage_formula {
+        source = source,
+        target = target,
+        magic_coeff = 1,
+        physic_coeff = 1,
+        ability_coeff = 40 * coeff,
+        level = source:get_ability_level(1093678672)
+    }
+    apply_damage(source, target, ability_damage, critical)
+    if source:has_ability(1093678933) and source:is_hero() then
+        if target:get_life() <= 0.05 * target:get_max_life() then
+            target:set_invulnerable(0)
+            target:set_life(1)
+        else
+            target:set_life(target:get_life() - 0.05 * target:get_max_life())
+        end
+    end
+    local h = source:get_owner().hero
+    if h['根骨'] >= 30 and source:is_hero() then
+        source:apply_buff(target, '穴位全封')
+    end
+end)

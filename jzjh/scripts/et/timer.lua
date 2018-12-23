@@ -100,6 +100,7 @@ end)
 
 
 local mt = {}
+--- @class timer
 local api = {}
 mt.__index = api
 mt.type = 'timer'

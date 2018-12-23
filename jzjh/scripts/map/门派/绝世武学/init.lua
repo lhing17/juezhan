@@ -1,67 +1,5 @@
 --------------绝世武功开始------------
---降龙十八掌
-function WF()
-	return GetSpellAbilityId() == 1093678917 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function XF()
-	local id = GetHandleId(GetTriggeringTrigger())
-	local cx = LoadInteger(YDHT, id, -807506826)
-	cx = cx + 3
-	SaveInteger(YDHT, id, -807506826, cx)
-	SaveInteger(YDHT, id, -320330265, cx)
-	SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-	SaveInteger(YDHT, id * cx, -708948899, 1093678917)
-	GroupAddUnit(j9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-	WuGongShengChong(GetTriggerUnit(), 1093678917, 100.0)
-	YDWEWaitForLocalVariable(29.0)
-	GroupRemoveUnit(j9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-	YDWELocalVariableEnd()
-	FlushChildHashtable(YDHT, id * cx)
-end
-function ZF()
-	return CountUnitsInGroup(j9) > 0
-end
-function dG()
-	local id = GetHandleId(GetTriggeringTrigger())
-	return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function eG()
-	local u = LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), -320330265), 1505665227)
-	local uc = GetEnumUnit()
-	local loc = GetUnitLoc(uc)
-	local i = 1 + GetPlayerId(GetOwningPlayer(u))
-	local shxishu = jueXueXiShu(i)
-	local shanghai = 0.0
-	DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Human\\MarkOfChaos\\MarkOfChaosTarget.mdl"))
-	shanghai = ShangHaiGongShi(u, uc, 60.0, 60.0, shxishu, 1093678917)
-	WuGongShangHai(u, uc, shanghai)
-	RemoveLocation(loc)
-	u = nil
-	uc = nil
-	loc = nil
-end
-function fG()
-	local id = GetHandleId(GetTriggeringTrigger())
-	if IsUnitDeadBJ(GetEnumUnit()) then
-	else
-		SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227, GetEnumUnit())
-		SaveLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584, GetUnitLoc(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))
-		SaveInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899, 1093678917)
-		SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, 3.0 + I2R(juexuelingwu[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))]) + I2R(GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227), LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899))) / 2.0 + I2R(gengu[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))]) * 0.06)
-		SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), 426308609, 10.0 + udg_shanghaijiacheng[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))])
-		SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030) * (LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), 426308609) * 2.5))
-		if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227), LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899)) == 9 then
-			SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030) * 10.0)
-		end
-		ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(700.0, LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584), Condition(dG)), eG)
-		RemoveLocation(LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584))
-		RemoveLocation(LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -860413970))
-		YDWELocalVariableEnd()
-	end
-end
-function gG()
-	ForGroupBJ(j9, fG)
-end
+
 --独孤九剑
 function IsDuGuJiuJian()
 	return GetSpellAbilityId() == 1093678918 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
@@ -1468,14 +1406,7 @@ function jiuYangCanJuanAct()
 end
 --------------绝世武功结束------------
 function JueShiWuGong_Trigger()
-	local t = CreateTrigger()
-	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	TriggerAddCondition(t, Condition(WF))
-	TriggerAddAction(t, XF)
-	t = CreateTrigger()
-	TriggerRegisterTimerEventPeriodic(t, 1.0)
-	TriggerAddCondition(t, Condition(ZF))
-	TriggerAddAction(t, gG)
+
 	t = CreateTrigger()
 	TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	TriggerAddCondition(t, Condition(IsDuGuJiuJian))

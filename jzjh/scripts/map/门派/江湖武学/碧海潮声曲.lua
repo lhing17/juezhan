@@ -4,109 +4,85 @@
 --- DateTime: 2018/12/21 0021 19:04
 ---
 
----------碧海潮生曲开始-------//
-function IsBiHai()
-    return IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil and GetSpellAbilityId() == 1093677368 -- INLINED!!
-end
-function BiHai_Condition()
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetTriggerUnit())) and IsUnitAliveBJ(GetFilterUnit())
-end
-function BiHai_Action()
-    local u = GetTriggerUnit()
-    local uc = GetEnumUnit()
-    local loc = GetUnitLoc(uc)
-    local i = GetRandomInt(1, 5)
-    local j = 5
-    local shxishu = 1.0
-    local shanghai = 0.0
-    local yinlv = _array_()
-    yinlv[1] = "宫!"
-    yinlv[2] = "商!"
-    yinlv[3] = "角!"
-    yinlv[4] = "徵!"
-    yinlv[5] = "羽!"
-    if GetUnitAbilityLevel(u, 1093678664) >= 1 then
-        j = 3
-    end
-    if GetUnitAbilityLevel(u, 1093682227) >= 1 then
-        j = GetRandomInt(2, 5)
-    end
-    if GetUnitAbilityLevel(u, 1093678926) >= 1 then
-        shxishu = shxishu + 1
-    end
-    if GetUnitAbilityLevel(u, 1093678664) >= 1 and GetUnitAbilityLevel(u, 1093682227) >= 1 and GetUnitAbilityLevel(u, 1093678926) >= 1 and GetUnitAbilityLevel(u, 1093679156) >= 1 then
-        shxishu = shxishu * 4 * 2
-    end
-    if UnitHaveItem(u, 1227897156) then
-        shxishu = shxishu * 8
-    end
-    if GetUnitAbilityLevel(u, 1093679156) >= 1 and UnitHasBuffBJ(u, 1110454361) then
-        i = 5
-    end
-    CreateTextTagLocBJ(yinlv[i], loc, 40.0, 14.0, 10.0, 60.0, 30.0, 0)
-    Nw(1.5, bj_lastCreatedTextTag)
-    SetTextTagVelocityBJ(bj_lastCreatedTextTag, 100.0, 90)
-    if i == 1 then
-        general_buff(u, uc, 1)
-    elseif i == 2 then
-        general_buff(u, uc, 9)
-    elseif i == 3 then
-        shanghai = ShangHaiGongShi(u, uc, 20, 30, shxishu, 1093677368)
-        WuGongShangHai(u, uc, shanghai)
-        DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Items\\AIil\\AIilTarget.mdl"))
-    elseif i == 4 then
-        general_buff(u, uc, 4)
-    elseif i == 5 then
-        if UnitHasBuffBJ(u, 1110454361) == false then
-            bihai[1 + GetPlayerId(GetOwningPlayer(u))] = 1
-            CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-            ShowUnitHide(bj_lastCreatedUnit)
-            UnitAddAbility(bj_lastCreatedUnit, 1093677377)
-            IssueTargetOrderById(bj_lastCreatedUnit, 852075, uc)
-            UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-        else
-            bihai[1 + GetPlayerId(GetOwningPlayer(u))] = bihai[1 + GetPlayerId(GetOwningPlayer(u))] + 1
-            UnitRemoveBuffBJ(1110454361, u)
-            CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-            ShowUnitHide(bj_lastCreatedUnit)
-            UnitAddAbility(bj_lastCreatedUnit, 1093677377)
-            IssueTargetOrderById(bj_lastCreatedUnit, 852075, uc)
-            UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
+--- 碧海潮生曲
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093677368 and u:is_hero() then
+        et.effect.add_to_point("Abilities\\Spells\\Human\\Brilliance\\Brilliance.mdl", u:get_point())
+        local group = et.selector():in_range(u:get_point(), 500):is_enemy(u):get()
+        for _, v in pairs(group) do
+            local tones = { "宫!", "商!", "角!", "徵!", "羽!" }
+            local min = 5
+            if u:has_ability(1093678664) then
+                min = 3
+            end
+            if u:has_ability(1093682227) then
+                min = commonutil.random_int(2, 5)
+            end
+            local index = commonutil.random_int(1, 5)
+            local coeff = 1
+            coeff = coeff + (u:has_ability(1093678926) and 1 or 0)
+            coeff = coeff * (u:has_all_abilities(1093678664, 1093682227, 1093678926, 1093679156) or 8 and 1)
+            coeff = coeff * (u:has_item(1227897156) and 3 or 1)
+            if u:has_ability(1093679156) and u:has_buff(1110454361) then
+                index = 5
+            end
+            et.tag.create(tones[index], u:get_point(), 14, 40, 10, 60, 30, 0, 1.5, 100, 90)
+            if index == 1 then
+                u:apply_buff(v, "内伤")
+            end
+            if index == 2 then
+                u:apply_buff(v, "破防")
+            end
+            if index == 3 then
+                local ability_damage, critical = damage_formula {
+                    source = u,
+                    target = v,
+                    magic_coeff = 2,
+                    physic_coeff = 3,
+                    ability_coeff = 10 * coeff,
+                    level = u:get_ability_level(1093677368)
+                }
+                apply_damage(u, v, ability_damage, critical)
+                et.effect.add_to_point("Abilities\\Spells\\Items\\AIil\\AIilTarget.mdl", u:get_point()):destroy()
+            end
+            if index == 4 then
+                u:apply_buff(v, "混乱")
+            end
+            if index == 5 then
+                local h = u:get_owner().hero
+                if not u:has_buff(1110454361) then
+                    h.bi_hai_value = 1
+                else
+                    h.bi_hai_value = h.bi_hai_value + 1
+                    u:remove_ability(1110454361)
+                end
+                dummy_issue_order {
+                    target = v,
+                    player = u:get_owner(),
+                    ability_id = 1093677377,
+                    order_id = 852075,
+                    lifetime = 2,
+                }
+                if h.bi_hai_value >= min then
+                    u:remove_ability(1110454361)
+                    local ability_damage, critical = damage_formula {
+                        source = u,
+                        target = v,
+                        magic_coeff = 1,
+                        physic_coeff = 2,
+                        ability_coeff = 800 * coeff,
+                        level = u:get_ability_level(1093677368)
+                    }
+                    apply_damage(u, v, ability_damage, critical)
+                    et.effect.add_to_point("Abilities\\Spells\\Items\\AIil\\AIilTarget.mdl", u:get_point()):destroy()
+                end
+            end
         end
-        if bihai[1 + GetPlayerId(GetOwningPlayer(u))] >= j then
-            UnitRemoveBuffBJ(1110454361, u)
-            DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Items\\AIil\\AIilTarget.mdl"))
-            shanghai = ShangHaiGongShi(u, uc, 800, 1600, shxishu, 1093677368)
-            WuGongShangHai(u, uc, shanghai)
-        end
     end
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-end
-function BiHaiChaoSheng()
-    local g = CreateGroup()
-    local u = GetTriggerUnit()
-    local loc = GetUnitLoc(u)
-    local sd = CreateSound("Sound\\Music\\mp3Music\\UndeadVictory.mp3", false, false, false, 10, 10, "DefaultEAXON")
-    DestroyEffect(AddSpecialEffectLocBJ(loc, "Abilities\\Spells\\Human\\Brilliance\\Brilliance.mdl"))
-    --call PlaySoundOnUnitBJ(sd,100,u)
-    WuGongShengChong(u, 1093677368, 700.0)
-    GroupEnumUnitsInRangeOfLoc(g, loc, 500, Condition(BiHai_Condition))
-    ForGroupBJ(g, BiHai_Action)
-    GroupClear(g)
-    DestroyGroup(g)
-    RemoveLocation(loc)
-    u = nil
-    g = nil
-    loc = nil
-end
----------碧海潮生曲结束-------//
+end)
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(IsBiHai))
-TriggerAddAction(t, BiHaiChaoSheng)
-t = nil
+
 

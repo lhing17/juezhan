@@ -14,6 +14,7 @@ require 'map.门派.江湖武学.九阴白骨爪'
 require 'map.门派.江湖武学.唐诗剑法'
 require 'map.门派.江湖武学.连城剑法'
 require 'map.门派.江湖武学.空明拳'
+require 'map.门派.江湖武学.碧海潮声曲'
 
 
 

@@ -4,48 +4,34 @@
 --- DateTime: 2018/12/23 0023 21:29
 ---
 
---黯然销魂掌
-function sG()
-    return GetSpellAbilityId() == 1093678919 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function tG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-    SaveInteger(YDHT, id * cx, -708948899, 1093678919)
-    WuGongShengChong(GetTriggerUnit(), 1093678919, 90.0)
-    YDWELocalVariableEnd()
-    FlushChildHashtable(YDHT, id * cx)
-end
-function vG()
-    return GetEventDamage() == 4.21
-end
-function wG()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    local loc = GetUnitLoc(uc)
-    shanghai = ShangHaiGongShi(u, uc, 33.0, 33.0, shxishu, 1093678919)
-    WuGongShangHai(u, uc, shanghai)
-    if GetRandomInt(1, 50) >= 20 and UnitHasBuffBJ(uc, 1110454328) == false then
-        general_buff(u, uc, 11)
-    end
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-end
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093678919 and u:is_hero() then
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(sG))
-TriggerAddAction(t, tG)
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(vG))
-TriggerAddAction(t, wG)
+    end
+end)
+
+--- 黯然销魂掌伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage == 4.21 then
+        local coeff = outstanding_kungfu_coeff(h)
+        local ability_damage, critical = damage_formula {
+            source = source,
+            target = target,
+            magic_coeff = 1,
+            physic_coeff = 1,
+            ability_coeff = 33 * coeff,
+            level = source:get_ability_level(1093678919)
+        }
+        apply_damage(source, target, ability_damage, critical)
+        if commonutil.random(0, 50) >= 20 and not target:has_buff(1110454328) then
+            source:apply_buff(target, "封穴")
+        end
+    end
+end)
+

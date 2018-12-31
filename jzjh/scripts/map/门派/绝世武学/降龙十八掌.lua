@@ -15,7 +15,7 @@ et.game:event '单位-技能生效'(function(self, u, id, target)
             local h = u:get_owner().hero
             for _, v in pairs(group) do
                 et.effect.add_to_point("Abilities\\Spells\\Human\\MarkOfChaos\\MarkOfChaosTarget.mdl", v:get_point())
-                local coeff = (1 + h['绝学领悟']) * (1 + 0.4 * u:get_ability_level('A06S')) * (1 + u:get_ability_level('A0DN'))
+                local coeff = outstanding_kungfu_coeff(h)
                 local ability_damage, critical = damage_formula {
                     source = u,
                     target = v,

@@ -1,6 +1,11 @@
 --------------绝世武功开始------------
 
-
+--- 绝学的系数
+--- @param h hero
+function outstanding_kungfu_coeff(h)
+	local hu = et.unit(h.handle)
+	return (1 + h['绝学领悟']) * (1 + 0.4 * hu:get_ability_level('A06S')) * (1 + hu:get_ability_level('A0DN'))
+end
 
 
 

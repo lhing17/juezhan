@@ -4,79 +4,26 @@
 --- DateTime: 2018/12/23 0023 21:32
 ---
 
---辟邪剑法
-function JG()
-    return GetSpellAbilityId() == 1093678922 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function KG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveInteger(YDHT, id * cx, -1587459251, 1 + GetPlayerId(GetOwningPlayer(GetTriggerUnit())))
-    t9[LoadInteger(YDHT, id * cx, -1587459251)] = GetSpellTargetLoc()
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-    SaveInteger(YDHT, id * cx, -708948899, 1093678922)
-    WuGongShengChong(GetTriggerUnit(), 1093678922, 80.0)
-    GroupAddUnit(s9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-    YDWEWaitForLocalVariable(20.0)
-    GroupRemoveUnit(s9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-    RemoveLocation(t9[LoadInteger(YDHT, id * cx, -1587459251)])
-    YDWELocalVariableEnd()
-    FlushChildHashtable(YDHT, id * cx)
-end
-function MG()
-    return CountUnitsInGroup(s9) > 0
-end
-function NG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function OG()
-    local u = LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), -320330265), 1505665227)
-    local uc = GetEnumUnit()
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    shanghai = ShangHaiGongShi(u, uc, 43, 43, shxishu, 1093678922)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
-function PG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    if IsUnitDeadBJ(GetEnumUnit()) then
-    else
-        SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227, udg_hero[1 + GetPlayerId(GetOwningPlayer(GetEnumUnit()))])
-        SaveLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584, t9[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))])
-        SaveInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899, 1093678922)
-        SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, 1.7 + I2R(juexuelingwu[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))]) + I2R(GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227), LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899))) / 2.0 + I2R(jingmai[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))]) * 0.05)
-        SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), 426308609, 8.5 + udg_shanghaijiacheng[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227)))])
-        SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030) * LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), 426308609))
-        if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227), LoadInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899)) == 9 then
-            SaveReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030, LoadReal(YDHT, id * LoadInteger(YDHT, id, -320330265), -753873030) * 10.0)
-        end
-        ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(600.0, LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584), Condition(NG)), OG)
-        YDWELocalVariableEnd()
+--- 辟邪剑法
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093678922 and u:is_hero() then
+        local h = u:get_owner().hero
+        et.timer(1000, 20, function()
+            local group = et.selector():in_range(u:get_point(), 600):is_enemy(u):get()
+            for _, v in pairs(group) do
+                local ability_damage, critical = damage_formula {
+                    source = u,
+                    target = v,
+                    magic_coeff = 1,
+                    physic_coeff = 1,
+                    ability_coeff = 43 * outstanding_kungfu_coeff(h),
+                    level = u:get_ability_level(1093678922)
+                }
+                apply_damage(u, v, ability_damage, critical)
+            end
+        end)
     end
-end
-function QG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    YDWELocalVariableInitiliation()
-    ForGroupBJ(s9, PG)
-    FlushChildHashtable(YDHT, id * cx)
-end
-
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(JG))
-TriggerAddAction(t, KG)
-t = CreateTrigger()
-TriggerRegisterTimerEventPeriodic(t, 1.0)
-TriggerAddCondition(t, Condition(MG))
-TriggerAddAction(t, QG)
+end)

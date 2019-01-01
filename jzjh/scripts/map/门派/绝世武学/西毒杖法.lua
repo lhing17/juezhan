@@ -4,45 +4,42 @@
 --- DateTime: 2018/12/23 0023 21:33
 ---
 
---西毒杖法
-function e6()
-    return GetSpellAbilityId() == 1093679161 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function f6()
-    local u = GetTriggerUnit()
-    local loc = GetUnitLoc(u)
-    CreateNUnitsAtLoc(1, 1697656909, GetOwningPlayer(u), loc, bj_UNIT_FACING)
-    UnitAddAbility(bj_lastCreatedUnit, 1093679160)
-    IssueImmediateOrderById(bj_lastCreatedUnit, 852183)
-    UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 31.0)
-    RemoveLocation(loc)
-    WuGongShengChong(GetTriggerUnit(), 1093679161, 100.0)
-    u = nil
-    loc = nil
-end
-function h6()
-    return GetEventDamage() == 4.35
-end
-function i6()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    if UnitHaveItem(u, 1227897154) then
-        shxishu = shxishu * 8
+--- 西毒杖法
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093679161 and u:is_hero() then
+        dummy_issue_order {
+            player = u:get_owner(),
+            unit_id = 1697656909,
+            ability_id = 1093679160,
+            order_id = 852183,
+            lifetime = 31,
+            shown = true
+        }
     end
-    shanghai = ShangHaiGongShi(u, uc, 45.0, 45.0, shxishu, 1093679161)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
+end)
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(e6))
-TriggerAddAction(t, f6)
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(h6))
-TriggerAddAction(t, i6)
+--- 西毒杖法伤害
+--- @param source unit 伤害来源
+--- @param target unit 受伤害的单位
+--- @param damage number 伤害的数值
+et.game:event '单位-受到伤害'(function(self, source, target, damage)
+    if damage == 4.35 then
+        local h = source:get_owner().hero
+        local coeff = outstanding_kungfu_coeff(h)
+        if source:has_item(1227897154) then
+            coeff = coeff * 3
+        end
+        local ability_damage, critical = damage_formula {
+            source = source,
+            target = target,
+            magic_coeff = 1,
+            physic_coeff = 1,
+            ability_coeff = 45 * coeff,
+            level = source:get_ability_level(1093679161)
+        }
+        apply_damage(source, target, ability_damage, critical)
+    end
+end)

@@ -4,94 +4,38 @@
 --- DateTime: 2018/12/23 0023 21:33
 ---
 
---胡家刀法
-function SG()
-    return GetSpellAbilityId() == 1093679158
-end
-function TG()
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function UG()
-    local u = LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 1505665227)
-    local uc = GetEnumUnit()
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    shanghai = ShangHaiGongShi(u, uc, 20, 20, shxishu, 1093679158)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
-function VG()
-    if LoadReal(YDHT, GetHandleId(GetExpiredTimer()), -1302744471) >= 500.0 then
-        FlushChildHashtable(YDHT, GetHandleId(GetExpiredTimer()))
-        DestroyTimer(GetExpiredTimer())
-    else
-        SaveReal(YDHT, GetHandleId(GetExpiredTimer()), -1302744471, LoadReal(YDHT, GetHandleId(GetExpiredTimer()), -1302744471) + 10.0)
-        SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 1585647951, pu(GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 1505665227)), GetRandomReal(100.0, 350.0), GetRandomReal(0, 360.0)))
-        CreateNUnitsAtLoc(1, 1697656908, GetOwningPlayer(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 1505665227)), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 1585647951), bj_UNIT_FACING)
-        Gw(2.0, bj_lastCreatedUnit)
-        ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(350.0, LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 1585647951), Condition(TG)), UG)
+--- 胡家刀法
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093679158 and u:is_hero() then
+        for i = 1, 18 do
+            dummy_issue_order {
+                target = u:get_point() - { 20 * i, 256 },
+                player = u:get_owner(),
+                unit_id = 1697656880,
+                ability_id = 1093679159,
+                order_id = 852218,
+                lifetime = 2,
+            }
+        end
+        local h = u:get_owner().hero
+        et.timer(300, 50, function()
+            local last = u:get_owner():create_unit(1697656908, u:get_point() - { commonutil.random(0, 360), commonutil.random(100, 350) })
+            last:set_lifetime(2)
+            local group = et.selector():in_range(last:get_point(), 350):is_enemy(u):get()
+            for _, v in pairs(group) do
+                local ability_damage, critical = damage_formula {
+                    source = u,
+                    target = v,
+                    magic_coeff = 1,
+                    physic_coeff = 1,
+                    ability_coeff = 20 * outstanding_kungfu_coeff(h),
+                    level = u:get_ability_level(1093679158)
+                }
+                apply_damage(u, v, ability_damage, critical)
+            end
+        end)
     end
-end
-function WG()
-    local ky
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-    SaveInteger(YDHT, id * cx, -708948899, 1093679158)
-    SaveReal(YDHT, id * cx, -753873030, 2.0 + I2R(juexuelingwu[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * cx, 1505665227)))]) + I2R(GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), LoadInteger(YDHT, id * cx, -708948899))) / 2.0 + I2R(gengu[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * cx, 1505665227)))]) * 0.07)
-    SaveReal(YDHT, id * cx, 426308609, 8.3 + udg_shanghaijiacheng[1 + GetPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, id * cx, 1505665227)))])
-    SaveReal(YDHT, id * cx, -753873030, LoadReal(YDHT, id * cx, -753873030) * LoadReal(YDHT, id * cx, 426308609))
-    SaveReal(YDHT, id * cx, -753873030, LoadReal(YDHT, id * cx, -753873030) * 1.8)
-    if GetUnitAbilityLevel(LoadUnitHandle(YDHT, id * cx, 1505665227), LoadInteger(YDHT, id * cx, -708948899)) == 9 then
-        SaveReal(YDHT, id * cx, -753873030, LoadReal(YDHT, id * cx, -753873030) * 10.0)
-    end
-    SaveLocationHandle(YDHT, id * cx, -1925439584, GetUnitLoc(LoadUnitHandle(YDHT, id * cx, 1505665227)))
-    WuGongShengChong(GetTriggerUnit(), 1093679158, 100.0)
-    H7 = 1
-    for _ in _loop_() do
-        if H7 > 18 then break end
-        SaveLocationHandle(YDHT, id * cx, -860413970, pu(LoadLocationHandle(YDHT, id * cx, -1925439584), 256, 20.0 * I2R(H7)))
-        CreateNUnitsAtLoc(1, 1697656880, GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDHT, id * cx, -1925439584), bj_UNIT_FACING)
-        ShowUnitHide(bj_lastCreatedUnit)
-        UnitAddAbility(bj_lastCreatedUnit, 1093679159)
-        IssuePointOrderByIdLoc(bj_lastCreatedUnit, 852218, LoadLocationHandle(YDHT, id * cx, -860413970))
-        UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 2.0)
-        RemoveLocation(LoadLocationHandle(YDHT, id * cx, -860413970))
-        H7 = H7 + 1
-    end
-    ky = CreateTimer()
-    SaveUnitHandle(YDHT, GetHandleId(ky), 1505665227, LoadUnitHandle(YDHT, id * cx, 1505665227))
-    SaveReal(YDHT, GetHandleId(ky), -753873030, LoadReal(YDHT, id * cx, -753873030))
-    TimerStart(ky, 0.3, true, VG)
-    FlushChildHashtable(YDHT, id * cx)
-    ky = nil
-end
-function YG()
-    return GetEventDamage() == 4.22
-end
-function ZG()
-    local i = 1 + GetPlayerId(GetOwningPlayer(GetEventDamageSource()))
-    local u = udg_hero[i]
-    local uc = GetTriggerUnit()
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    shanghai = ShangHaiGongShi(u, uc, 16.6, 16.6, shxishu, 1093679158)
-    WuGongShangHai(u, uc, shanghai)
-    u = nil
-    uc = nil
-end
-
---胡家刀法
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(SG))
-TriggerAddAction(t, WG)
-t = CreateTrigger()
-YDWESyStemAnyUnitDamagedRegistTrigger(t)
-TriggerAddCondition(t, Condition(YG))
-TriggerAddAction(t, ZG)
+end)

@@ -10,8 +10,8 @@ function knock_back(u, angle, dist, time, period, model, shanghai)
     TimerStart(t, period, true, function()
         step = step + 1
         if IsTerrainPathable(GetUnitX(u) + vx, GetUnitY(u) + vy, PATHING_TYPE_WALKABILITY) == false then
-            SetUnitX(u, CheckX(GetUnitX(u) + vx))
-            SetUnitY(u, CheckY(GetUnitY(u) + vy))
+            SetUnitX(u, check_x(GetUnitX(u) + vx))
+            SetUnitY(u, check_y(GetUnitY(u) + vy))
             DestroyEffect(AddSpecialEffect(model, GetUnitX(u), GetUnitY(u)))
         end
         if step >= m then
@@ -61,3 +61,52 @@ function maJiaUseLeveldAbilityAtTargetLoc(owner, unitId, abilityId, ablilityLeve
     loc = nil
 end
 
+function check_x(x)
+    local E2 = GetRectMinX(bj_mapInitialPlayableArea) + 50
+    if x < E2 then
+        return E2
+    end
+    E2 = GetRectMaxX(bj_mapInitialPlayableArea) - 50
+    if x > E2 then
+        return E2
+    end
+    return x
+end
+function check_y(y)
+    local E2 = GetRectMinY(bj_mapInitialPlayableArea) + 50
+    if y < E2 then
+        return E2
+    end
+    E2 = GetRectMaxY(bj_mapInitialPlayableArea) - 50
+    if y > E2 then
+        return E2
+    end
+    return y
+end
+--- 转圈函数
+--- @param turning_unit unit 旋转的单位
+--- @param center_unit unit 旋转中心单位
+--- @param delta_angle_degree number 以度为单位的角度增量
+--- @param delta_range number 旋转距离增量
+--- @param delta_height number 旋转高度增量
+--- @param time number 旋转总时间（秒）
+--- @param interval number 刷新间隔（秒）
+function turn_around(turning_unit, center_unit, delta_angle_degree, delta_range, delta_height, time, interval)
+    local count = math.floor(time / interval)
+    local start_point = turning_unit:get_point()
+    local center = center_unit:get_point()
+    local angle = start_point / center
+    local range = start_point * center
+    local height = turning_unit:get_fly_height()
+    local x = 0
+    local y = 0
+    et.timer(interval * 1000, count, function()
+        angle = angle + math.rad(delta_angle_degree)
+        range = range + delta_range
+        height = height + delta_height
+        x = x + range * math.cos(range)
+        y = y + range * math.sin(range)
+        turning_unit:set_point(check_x(x), check_y(y))
+        turning_unit:set_height(height, true, 0)
+    end)
+end

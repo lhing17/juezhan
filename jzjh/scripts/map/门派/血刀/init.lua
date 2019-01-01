@@ -19,8 +19,8 @@ function XueZhan_Action()
 		shxishu = shxishu * 4
 	end
 	shanghai = ShangHaiGongShi(u, uc, 100.0, 200.0, shxishu, 1093681998)
-	SetUnitX(u, CheckX(GetLocationX(loc)))
-	SetUnitY(u, CheckY(GetLocationY(loc)))
+	SetUnitX(u, check_x(GetLocationX(loc)))
+	SetUnitY(u, check_y(GetLocationY(loc)))
 	SetUnitFacing(u, GetUnitFacing(uc) + 180)
 	WuGongShangHai(u, uc, shanghai)
 	--call DestroyEffect( AddSpecialEffectTarget("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl",uc, "origin") )
@@ -107,8 +107,8 @@ function XueDaoZhuan()
 	local u = LoadUnitHandle(YDHT, l__w, 3)
 	if j < 36 then
 		SetUnitFacing(l__ut, face + 30.0)
-		SetUnitX(l__ut, CheckX(GetUnitX(u) + 200 * Sin(Deg2Rad(face))))
-		SetUnitY(l__ut, CheckY(GetUnitY(u) + 200 * Cos(Deg2Rad(face))))
+		SetUnitX(l__ut, check_x(GetUnitX(u) + 200 * Sin(Deg2Rad(face))))
+		SetUnitY(l__ut, check_y(GetUnitY(u) + 200 * Cos(Deg2Rad(face))))
 		SaveReal(YDHT, l__w, 1, face + 30.0)
 		SaveInteger(YDHT, l__w, 2, j + 1)
 	else

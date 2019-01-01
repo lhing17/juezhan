@@ -913,55 +913,9 @@ function au()
     xu()
     TimerStart(bj_stockUpdateTimer, bj_STOCK_RESTOCK_INTERVAL, true, xu)
 end
-function Eu()
-    local Fu = Kt
-    if Fu ~= 0 then
-        Kt = Mt[Fu]
-    else
-        Lt = Lt + 1
-        Fu = Lt
-    end
-    if Fu > 8190 then
-        return 0
-    end
-    Pt[Fu] = nil
-    Qt[Fu] = nil
-    Rt[Fu] = 0.0
-    St[Fu] = 0.0
-    Tt[Fu] = 0.0
-    Ut[Fu] = 0.0
-    Vt[Fu] = 0.0
-    Wt[Fu] = 0.0
-    Xt[Fu] = 0.0
-    Yt[Fu] = 0.0
-    Zt[Fu] = 0
-    Mt[Fu] = -1
-    return Fu
-end
-function Gu(Fu)
-    if Fu == nil then
-        return
-    elseif Mt[Fu] ~= -1 then
-        return
-    end
-    Mt[Fu] = Kt
-    Kt = Fu
-end
-function Nu(Ou, cu)
-    local i = 0
-    for _ in _loop_() do
-        if i >= M then
-            break
-        end
-        if L[i] == cu then
-            w = Ou
-            if K[i] ~= nil and TriggerEvaluate(K[i]) and IsTriggerEnabled(K[i]) then
-                TriggerExecute(K[i])
-            end
-        end
-        i = i + 1
-    end
-end
+
+
+
 require 'map.系统.万能属性'
 function kv()
     local i = 0
@@ -1184,93 +1138,7 @@ function Vv(pv)
     DestroyGroup(g)
     g = nil
 end
-function CheckX(x)
-    local E2 = GetRectMinX(bj_mapInitialPlayableArea) + 50
-    if x < E2 then
-        return E2
-    end
-    E2 = GetRectMaxX(bj_mapInitialPlayableArea) - 50
-    if x > E2 then
-        return E2
-    end
-    return x
-end
-function CheckY(y)
-    local E2 = GetRectMinY(bj_mapInitialPlayableArea) + 50
-    if y < E2 then
-        return E2
-    end
-    E2 = GetRectMaxY(bj_mapInitialPlayableArea) - 50
-    if y > E2 then
-        return E2
-    end
-    return y
-end
-function Wv()
-    local d = 0
-    local x = 0.0
-    local y = 0.0
-    local Xv = 0
-    for _ in _loop_() do
-        if Xv == Ot then
-            break
-        end
-        d = Nt[Xv]
-        if Rt[d] > 0 and GetUnitState(Pt[d], UNIT_STATE_LIFE) > 0 and GetUnitState(Qt[d], UNIT_STATE_LIFE) > 0 then
-            Tt[d] = Tt[d] + 0.01
-            if Tt[d] >= St[d] then
-                Xt[d] = Xt[d] + Ut[d]
-                Yt[d] = Yt[d] + Vt[d]
-                Zt[d] = Zt[d] + Wt[d]
-                x = GetUnitX(Pt[d]) + Yt[d] * Cos(Xt[d])
-                y = GetUnitY(Pt[d]) + Yt[d] * Sin(Xt[d])
-                x = RMinBJ(RMaxBJ(x * 1.0, I), H)
-                y = RMinBJ(RMaxBJ(y * 1.0, J), l)
-                SetUnitX(Qt[d], CheckX(x))
-                SetUnitY(Qt[d], CheckY(y))
-                SetUnitFlyHeight(Qt[d], Zt[d], 0.0)
-                Tt[d] = 0.0
-            end
-            Rt[d] = Rt[d] - 0.01
-        else
-            z = Pt[d]
-            Nu(Qt[d], 10)
-            Pt[d] = nil
-            Qt[d] = nil
-            Gu(d)
-            Ot = Ot - 1
-            Nt[Xv] = Nt[Ot]
-            Xv = Xv - 1
-        end
-        Xv = Xv + 1
-    end
-    if Ot == 0 then
-        PauseTimer(o4)
-    end
-end
---转圈函数
-function Yv(Zv, dw, ew, fw, gw, hw, iw)
-    local d = Eu()
-    local x1 = GetUnitX(dw)
-    local y1 = GetUnitY(dw)
-    local x2 = GetUnitX(Zv)
-    local y2 = GetUnitY(Zv)
-    Pt[d] = dw
-    Qt[d] = Zv
-    Rt[d] = hw
-    St[d] = iw
-    Ut[d] = ew * (3.14159 / 180.0)
-    Vt[d] = fw
-    Wt[d] = gw
-    Xt[d] = Atan2(y2 - y1, x2 - x1)
-    Yt[d] = SquareRoot((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
-    Zt[d] = GetUnitFlyHeight(Qt[d])
-    Nt[Ot] = d
-    Ot = Ot + 1
-    if Ot - 1 == 0 then
-        TimerStart(o4, 0.01, true, Wv)
-    end
-end
+
 function jw(kw)
     SetPlayerState(Player(12), PLAYER_STATE_NO_CREEP_SLEEP, IntegerTertiaryOp(kw, 0, 1))
     if not kw then

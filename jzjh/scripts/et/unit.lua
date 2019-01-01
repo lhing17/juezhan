@@ -437,22 +437,20 @@ end
 --设置高度
 --	高度
 --	[是否是绝对高度]
-function mt:set_high(high, b, change_time)
+function mt:set_height(high, b, change_time)
     if b then
         self.high = high - self:get_point():getZ()
     else
         self.high = high
     end
-    if not self:has_restriction '阿卡林' then
-        jass.SetUnitFlyHeight(self.handle, self.high, change_time or 0)
-    end
+    jass.SetUnitFlyHeight(self.handle, self.high, change_time or 0)
 end
 
 --增加高度
 --	高度
 --	[是否是绝对高度]
 function mt:add_high(high, b)
-    self:set_high(self:get_high(b) + high)
+    self:set_height(self:get_high(b) + high)
 end
 
 --朝向

@@ -71,11 +71,11 @@ function WD()
 	local loc = GetUnitLoc(u)
 	CreateNUnitsAtLoc(1, 1697656882, p, loc, bj_UNIT_FACING)
 	UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 8.0)
-	Yv(bj_lastCreatedUnit, u, 2.0, 1.0, 0.0, 10.0, 0.03)
+	turn_around(bj_lastCreatedUnit, u, 2.0, 1.0, 0.0, 10.0, 0.03)
 	if GetUnitAbilityLevel(u, 1093678666) ~= 0 then
 		CreateNUnitsAtLoc(1, 1697656882, p, loc, bj_UNIT_FACING)
 		UnitApplyTimedLife(bj_lastCreatedUnit, 1112045413, 8.0)
-		Yv(bj_lastCreatedUnit, u, 2.0, 1.0, 0.0, 10.0, 0.03)
+		turn_around(bj_lastCreatedUnit, u, 2.0, 1.0, 0.0, 10.0, 0.03)
 	end
 	WuGongShengChong(u, 1093679193, 250.0)
 	RemoveLocation(loc)

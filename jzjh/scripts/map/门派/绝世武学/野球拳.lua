@@ -4,80 +4,51 @@
 --- DateTime: 2018/12/23 0023 21:31
 ---
 
---野球拳
-function CG()
-    return GetSpellAbilityId() == 1093678921 and IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) ~= nil -- INLINED!!
-end
-function cG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    SaveUnitHandle(YDHT, id * cx, 1505665227, GetTriggerUnit())
-    SaveInteger(YDHT, id * cx, -708948899, 1093678921)
-    CreateNUnitsAtLoc(1, 1697656904, GetOwningPlayer(GetTriggerUnit()), pu(GetUnitLoc(GetTriggerUnit()), 325.0, 0), bj_UNIT_FACING)
-    Yv(bj_lastCreatedUnit, GetTriggerUnit(), 6.0, 0.0, 0, 20.0, 0.03)
-    Gw(20.0, bj_lastCreatedUnit)
-    CreateNUnitsAtLoc(1, 1697656904, GetOwningPlayer(GetTriggerUnit()), pu(GetUnitLoc(GetTriggerUnit()), 325.0, 120.0), bj_UNIT_FACING)
-    Yv(bj_lastCreatedUnit, GetTriggerUnit(), 6.0, 0.0, 0, 20.0, 0.03)
-    Gw(20.0, bj_lastCreatedUnit)
-    CreateNUnitsAtLoc(1, 1697656904, GetOwningPlayer(GetTriggerUnit()), pu(GetUnitLoc(GetTriggerUnit()), 325.0, 240.0), bj_UNIT_FACING)
-    Yv(bj_lastCreatedUnit, GetTriggerUnit(), 6.0, 0.0, 0, 20.0, 0.03)
-    Gw(20.0, bj_lastCreatedUnit)
-    WuGongShengChong(GetTriggerUnit(), 1093678921, 90.0)
-    GroupAddUnit(r9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-    YDWEWaitForLocalVariable(19.0)
-    GroupRemoveUnit(r9, LoadUnitHandle(YDHT, id * cx, 1505665227))
-    YDWELocalVariableEnd()
-    FlushChildHashtable(YDHT, id * cx)
-end
-function EG()
-    return CountUnitsInGroup(r9) > 0
-end
-function FG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    return IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(LoadUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227))) and IsUnitAliveBJ(GetFilterUnit())
-end
-function GG()
-    local u = LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), -320330265), 1505665227)
-    local uc = GetEnumUnit()
-    local loc = GetUnitLoc(uc)
-    local i = 1 + GetPlayerId(GetOwningPlayer(u))
-    local shxishu = jueXueXiShu(i)
-    local shanghai = 0.0
-    DestroyEffect(AddSpecialEffectLocBJ(loc, "war3mapImported\\CrimsonWake.mdx"))
-    shanghai = ShangHaiGongShi(u, uc, 30, 30, shxishu, 1093678921)
-    WuGongShangHai(u, uc, shanghai)
-    RemoveLocation(loc)
-    u = nil
-    uc = nil
-    loc = nil
-end
-function HG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    SaveUnitHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), 1505665227, udg_hero[1 + GetPlayerId(GetOwningPlayer(GetEnumUnit()))])
-    SaveLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584, GetUnitLoc(GetEnumUnit()))
-    SaveInteger(YDHT, id * LoadInteger(YDHT, id, -320330265), -708948899, 1093678921)
-    ForGroupBJ(YDWEGetUnitsInRangeOfLocMatchingNull(650.0, LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584), Condition(FG)), GG)
-    RemoveLocation(LoadLocationHandle(YDHT, id * LoadInteger(YDHT, id, -320330265), -1925439584))
-end
-function IG()
-    local id = GetHandleId(GetTriggeringTrigger())
-    local cx = LoadInteger(YDHT, id, -807506826)
-    cx = cx + 3
-    SaveInteger(YDHT, id, -807506826, cx)
-    SaveInteger(YDHT, id, -320330265, cx)
-    YDWELocalVariableInitiliation()
-    ForGroupBJ(r9, HG)
-    FlushChildHashtable(YDHT, id * cx)
-end
+local set = require('util.collection.set')
 
-t = CreateTrigger()
-TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-TriggerAddCondition(t, Condition(CG))
-TriggerAddAction(t, cG)
-t = CreateTrigger()
-TriggerRegisterTimerEventPeriodic(t, 0.3)
-TriggerAddCondition(t, Condition(EG))
-TriggerAddAction(t, IG)
+local ye_qiu_set = set:new()
+
+--- 野球拳
+--- @param u unit 施法单位
+--- @param id number 技能ID
+--- @param target unit|point|nil 技能目标
+et.game:event '单位-技能生效'(function(self, u, id, target)
+    if id == 1093678921 and u:is_hero() then
+        local function dummy_turn_around(angle)
+            local last = u:get_owner():create_unit(1697656904, u:get_point() - { angle, 325 })
+            last:set_lifetime(20)
+            turn_around(last, u, 6, 0, 0, 20, 0.03)
+        end
+        dummy_turn_around(0)
+        dummy_turn_around(120)
+        dummy_turn_around(240)
+        ye_qiu_set:insert(u)
+        et.wait(2000, function()
+            ye_qiu_set:remove(u)
+        end)
+    end
+end)
+
+--- 野球拳伤害
+et.loop(300, function()
+    if ye_qiu_set:is_empty() then
+        return
+    end
+    for u, _ in pairs(ye_qiu_set) do
+        local group = et.selector():in_range(u:get_point(), 650):is_enemy(u):get()
+        local h = u:get_owner().hero
+        for _, v in pairs(group) do
+            et.effect.add_to_point("war3mapImported\\CrimsonWake.mdx", v:get_point()):destroy()
+            local ability_damage, critical = damage_formula {
+                source = u,
+                target = v,
+                magic_coeff = 1,
+                physic_coeff = 1,
+                ability_coeff = 30 * outstanding_kungfu_coeff(h),
+                level = u:get_ability_level(1093678921)
+            }
+            apply_damage(u, v, ability_damage, critical)
+        end
+    end
+end)
+

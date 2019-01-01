@@ -5,46 +5,49 @@
 ---
 
 local function init()
+    log.info('游戏正式开始')
     jass.FogEnable(false)
     jass.FogMaskEnable(false)
     jass.SetCreepCampFilterState(false)
     --- 地图上怪不睡觉
-    jass.SetPlayerState(jass.Player(12), jass.PLAYER_STATE_NO_CREEP_SLEEP, true)
-    local group = et.selector():of_player(et.player(13)):get()
-    for _, v in pairs(group) do
-        jass.UnitWakeUp(v.handle)
-    end
+    jass.SetPlayerState(jass.Player(12), jass.PLAYER_STATE_NO_CREEP_SLEEP, 0)
+    jass.GroupEnumUnitsOfPlayer(jass.CreateGroup(), jass.Player(12), nil)
+    jass.ForGroup(group, function()
+        jass.UnitWakeUp(jass.GetEnumUnit())
+    end)
+
     SetPlayerAllianceStateBJ(Player(12), Player(6), 3)
     jass.SetPlayerHandicapXP(Player(0), 0.43)
     jass.SetPlayerHandicapXP(Player(1), 0.43)
     jass.SetPlayerHandicapXP(Player(2), 0.43)
     jass.SetPlayerHandicapXP(Player(3), 0.43)
     jass.SetPlayerHandicapXP(Player(4), 0.43)
+
     jass.SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, 1800.0, 0.0)
     jass.PlayMusic(game.music.normal_bgm)
     FENG_SHU:set_life_percent(5)
 
     --- NPC头上加问号和感叹号
-    AddSpecialEffectTargetUnitBJ("overhead", WAITER, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", MIAO_RENFENG, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", LIN_YUANTU, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", QIAO_FENG, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", YELV_QI, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", GUO_JING, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", WANYAN_PING, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", HU_FEI, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", GONGSUN_LUE, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", LU_YOUJIAO, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", QIU_CHUJI, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", xt, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", HUANG_RONG, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", LONG_YE, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", MIE_JUE, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", WANG_CHONGYANG, "Objects\\RandomObject\\RandomObject.mdl")
-    AddSpecialEffectTargetUnitBJ("overhead", FENG_SHU, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", WAITER.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", MIAO_RENFENG.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", LIN_YUANTU.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", QIAO_FENG.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", YELV_QI.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", GUO_JING.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", WANYAN_PING.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", HU_FEI.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", GONGSUN_LUE.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", LU_YOUJIAO.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", QIU_CHUJI.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", xt.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", HUANG_RONG.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", LONG_YE.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", MIE_JUE.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", WANG_CHONGYANG.handle, "Objects\\RandomObject\\RandomObject.mdl")
+    AddSpecialEffectTargetUnitBJ("overhead", FENG_SHU.handle, "Abilities\\Spells\\Other\\TalkToMe\\TalkToMe.mdl")
 
-    et.tag.create("点我加门派后可离开此地",  Rs:get_point(), 15, 0,100, 100, 0, 50)
-    et.tag.create("决战江湖" .. game.config.version .. "名人榜",  uh:get_center(), 10, 100,100, 100, 0, 50)
+    et.tag.create("点我加门派后可离开此地", Rs:get_point(), 15, 0, 100, 100, 0, 50)
+    et.tag.create("决战江湖" .. game.config.version .. "名人榜", uh:get_center(), 10, 100, 100, 100, 0, 50)
     for i = 1, 6 do
         et.player[i]:set_food(50)
         et.player[i]:add_lumber(10)
@@ -53,6 +56,9 @@ local function init()
     et.wait(40 * 1000, function()
         force.send_message("|cfffff000欢迎来到|cffff00de金庸群侠传之决战江湖" .. game.config.version .. "|r", 30)
         force.send_message("|cfffff000游戏初期您可以完成难度为一星到二星的任务来提升角色的能力，游戏前期金钱较匮乏，可以在守家积分商店使用积分兑换金钱，关于游戏的各个系统，请查看F9任务面板，欢迎前往游戏专区论坛jzjhbbs.uuu9.com查看游戏攻略以及提出您的宝贵意见|R", 30)
+
+        log.debug('卡5')
+
         et.wait(40 * 1000, function()
             force.send_message("|cfffff000由于制作和测试时间紧张，如遇游戏里有BUG或不舒适的体验给你带来不愉快，尽情谅解，欢迎前往游戏专区论坛jzjhbbs.uuu9.com提出您的宝贵意见。游戏中的特殊玩法，请到NPC随风而逝de风处查看，在基地右侧|R", 30)
             et.wait(40 * 1000, function()
@@ -62,5 +68,5 @@ local function init()
     end)
 end
 
---- 10毫秒后启动
-et.wait(10, init)
+--- 100毫秒后启动
+et.wait(100, init)

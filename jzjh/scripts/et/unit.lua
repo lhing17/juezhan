@@ -1207,7 +1207,7 @@ local function init_unit(handle, p)
     jass.SetUnitCreepGuard(u.handle, true)
 
     --设置高度
-    u:set_high(u:get_slk('moveHeight', 0))
+    u:set_height(u:get_slk('moveHeight', 0))
 
     if u:get_ability_level 'Aloc' ~= 0 then
         u:set_class '马甲'
@@ -1288,7 +1288,6 @@ function player_mt:create_unit(id, where, face)
     else
         x, y = where:get_point():get()
     end
-
     ignore_flag = true
     local handle = jass.CreateUnit(self.handle, j_id, x, y, face or 270)
     dbg.handle_ref(handle)
@@ -1498,7 +1497,7 @@ function unit.init()
     end)
 
     -- 创建一个dummy,用于使用马甲技能
-    et.dummy = player[16]:create_unit('e003', et.point(0, 0), 0)
+    et.dummy = player[16]:create_unit('e000', et.point(0, 0), 0)
 
     -- 创建幻象
     et.dummy:add_ability 'A01W'

@@ -58,44 +58,44 @@ local function init()
     SetSoundParamsFromLabel(Ih, "ReceiveGold")
     SetSoundDuration(Ih, 589)
 
-    we = AddWeatherEffect(rect_instance_border, 1464820599)
+    we = AddWeatherEffect(rect_instance_border.handle, 1464820599)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(rect_instance_one, 1178886760)
+    we = AddWeatherEffect(rect_instance_one.handle, 1178886760)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(rect_instance_two, 1464755063)
+    we = AddWeatherEffect(rect_instance_two.handle, 1464755063)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(Df, 1178886760)
+    we = AddWeatherEffect(Df.handle, 1178886760)
     EnableWeatherEffect(we, true)
     SetSoundPosition(ah, -8512.0, -3712.0, 0.0)
     RegisterStackedSound(ah, true, 3520.0, 4224.0)
 
-    we = AddWeatherEffect(Ef, 1380018290)
+    we = AddWeatherEffect(Ef.handle, 1380018290)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(rect_instance_three, 1464755063)
+    we = AddWeatherEffect(rect_instance_three.handle, 1464755063)
     EnableWeatherEffect(we, true)
 
-    we = AddWeatherEffect(Rf, 1464822903)
+    we = AddWeatherEffect(Rf.handle, 1464822903)
     EnableWeatherEffect(we, true)
     SetSoundPosition(Bh, 3856.0, 8480.0, 512.0)
     RegisterStackedSound(Bh, true, 4384.0, 4288.0)
 
-    we = AddWeatherEffect(cg, 1296393331)
+    we = AddWeatherEffect(cg.handle, 1296393331)
     EnableWeatherEffect(we, true)
 
     --- 勇闯光明顶
-    we = AddWeatherEffect(Kg, 1280470369)
+    we = AddWeatherEffect(Kg.handle, 1280470369)
     EnableWeatherEffect(we, true)
 
     --- 副本5
-    we = AddWeatherEffect(rect_instance_five, 1397647475)
+    we = AddWeatherEffect(rect_instance_five.handle, 1397647475)
     EnableWeatherEffect(we, true)
 
     --- 副本6
-    we = AddWeatherEffect(rect_instance_six, 1296393331)
+    we = AddWeatherEffect(rect_instance_six.handle, 1296393331)
     EnableWeatherEffect(we, true)
 
 

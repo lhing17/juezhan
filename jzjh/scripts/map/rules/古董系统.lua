@@ -297,4 +297,4 @@ local function init()
     TriggerAddCondition(vs, Condition(CollectGuDong_Conditions))
     TriggerAddAction(vs, CollectGuDong_Actions)
 end
-init()
+--init()

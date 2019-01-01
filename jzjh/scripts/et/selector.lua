@@ -98,6 +98,7 @@ end
 --- @param p player
 --- @return selector
 function api:of_player(p)
+    --- @param dest unit
     return self:add_filter(function(dest)
         return dest:get_owner() == p
     end)

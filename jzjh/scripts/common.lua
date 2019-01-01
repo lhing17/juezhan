@@ -405,7 +405,6 @@ PLAYER_STATE_LUMBER_UPKEEP_RATE = ConvertPlayerState(14)
 --
 PLAYER_STATE_GOLD_GATHERED = ConvertPlayerState(15)
 PLAYER_STATE_LUMBER_GATHERED = ConvertPlayerState(16)
-
 PLAYER_STATE_NO_CREEP_SLEEP = ConvertPlayerState(25)
 
 UNIT_STATE_LIFE = ConvertUnitState(0)

@@ -64,7 +64,7 @@ function rect.j_rect(j_rect)
         rect[j_rect].max_y = jass.GetRectMaxY(j_rect)
         rect[j_rect].handle = j_rect
         local j_trg = war3.CreateTrigger(function()
-            local u = jass.GetEnteringUnit()
+            local u = et.unit(jass.GetEnteringUnit())
             local r = rect[j_rect]
             rect[j_rect]:event_notify('单位-进入区域', u, r)
         end)

@@ -35,7 +35,6 @@ end
 --优化速度加快
 function Optimize()
     Cheat("DooConV")
-    print("优化执行了一次")
 end
 --友方单位A基地
 function IsAttackBasement()
